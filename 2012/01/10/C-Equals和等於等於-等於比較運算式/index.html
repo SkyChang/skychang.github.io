@@ -1,0 +1,751 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="C#," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="這個故事的起源，是在寫一個測試程式，其內容要比較兩個物件的相等，想當然爾，原生的Object.Equals和等於等於是不能使用的，而後，衍生出一堆的問題出來XDD，因為年紀大了，要預防老年癡呆，過了一兩天就忘記的狀況，所以趕快把它紀錄下來。 Ojbect.Equals這個的起源，必須要從Object.Equals講起，我們先看一下Object.Equals反組譯後的內容。 public virtu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C# - Equals和等於等於( 等於比較運算式 )">
+<meta property="og:url" content="http://skychang.github.io/2012/01/10/C-Equals%E5%92%8C%E7%AD%89%E6%96%BC%E7%AD%89%E6%96%BC-%E7%AD%89%E6%96%BC%E6%AF%94%E8%BC%83%E9%81%8B%E7%AE%97%E5%BC%8F/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="這個故事的起源，是在寫一個測試程式，其內容要比較兩個物件的相等，想當然爾，原生的Object.Equals和等於等於是不能使用的，而後，衍生出一堆的問題出來XDD，因為年紀大了，要預防老年癡呆，過了一兩天就忘記的狀況，所以趕快把它紀錄下來。 Ojbect.Equals這個的起源，必須要從Object.Equals講起，我們先看一下Object.Equals反組譯後的內容。 public virtu">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2012-01-10T00:52:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.888Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="C#">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> C# - Equals和等於等於( 等於比較運算式 ) | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                C# - Equals和等於等於( 等於比較運算式 )
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2012-01-10T00:52:00+00:00" content="2012-01-10">
+              2012-01-10
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/01/10/C-Equals%E5%92%8C%E7%AD%89%E6%96%BC%E7%AD%89%E6%96%BC-%E7%AD%89%E6%96%BC%E6%AF%94%E8%BC%83%E9%81%8B%E7%AE%97%E5%BC%8F/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/01/10/C-Equals和等於等於-等於比較運算式/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>這個故事的起源，是在寫一個測試程式，其內容要比較兩個物件的相等，想當然爾，原生的Object.Equals和等於等於是不能使用的，而後，衍生出一堆的問題出來XDD，因為年紀大了，要預防老年癡呆，過了一兩天就忘記的狀況，所以趕快把它紀錄下來。</p>
+<h4 id="Ojbect-Equals"><a href="#Ojbect-Equals" class="headerlink" title="Ojbect.Equals"></a>Ojbect.Equals</h4><p>這個的起源，必須要從Object.Equals講起，我們先看一下Object.Equals反組譯後的內容。</p>
+<pre class="brush: csharp;">public virtual bool Equals(object obj)
+{
+    return RuntimeHelpers.Equals(this, obj);
+}
+</pre>
+
+<p>就是這樣，他只是簡單的呼叫RuntimeHelpers.Equals，而這個方法，其實只是去比較是否為相同的執行個體，簡單的說，如果new了兩個物件，就算內容相同，還是會傳回False，而我們自己撰寫的類別，預設當然也是繼承Object，所以自然而然，也也繼承了Equals這個方法。</p>
+<h4 id="Object-Equals靜態方法"><a href="#Object-Equals靜態方法" class="headerlink" title="Object.Equals靜態方法"></a>Object.Equals靜態方法</h4><p>接下來是Object.Equals的靜態方法，以下是反組譯後的程式碼，最核心的一段是objA.Equals(objB)，簡單的說，他還是去調用了objA的Equals方法。</p>
+<pre class="brush: csharp;">public static bool Equals(object objA, object objB)
+{
+    return ((objA == objB) || (((objA != null) &amp;&amp; (objB != null)) &amp;&amp; objA.Equals(objB)));
+}
+</pre>
+
+<p>所以說Object.Equals靜態方法依舊是使用了自身的Equals。</p>
+<h4 id="等於等於-比較運算子"><a href="#等於等於-比較運算子" class="headerlink" title="等於等於 ( = = ) 比較運算子"></a>等於等於 ( = = ) 比較運算子</h4><p>關於等於的比較運算子，我先引用一下MSDN的一段話。</p>
+<blockquote>
+<p>對於預先定義的實值型別 (Value Type)，等號比較運算子 (==) 在運算元相等時傳回 true；否則傳回 false。 對於 <a href="http://msdn.microsoft.com/zh-tw/library/362314fe.aspx" target="_blank" rel="noopener">string</a> 以外的參考型別，若兩個運算元參考到同一物件，== 會傳回 true。 對於 string 型別，== 會比較字串的值。</p>
+</blockquote>
+<p>這段話的意思是說，如果是int這種Value Type，值相等的時候，就會傳回True，否則會傳回Fase，而參考型別，則必須要指到同一個物件，否則會傳回False，除了string以外，所以簡單的說，int、String等等我們常用的型別，都可以正確的幫我們比較到值，但如果是物件與物件內容的比較，很抱歉，只要它們參照到的是不同位置，就算內容相同，還是會傳回False。</p>
+<h4 id="String-Equals-Object"><a href="#String-Equals-Object" class="headerlink" title="String.Equals(Object)"></a>String.Equals(Object)</h4><p>這個就是Override了Object.Equals的方法，並且判斷傳入進來的型別是否為String，比較重要的是後面那段，第一步它會判斷是否參考到同一個位置( 利用object.ReferenceEquals )，如果是同一個位置，當然不用講，就絕對相同了，但如果是不同位置，他還會利用底層的EqualsHelper方法來看看內容值是否相等。</p>
+<pre class="brush: csharp;">public override bool Equals(object obj)
+{
+    if (this == null)
+    {
+        throw new NullReferenceException();
+    }
+    string strB = obj as string;
+    if (strB == null)
+    {
+        return false;
+    }
+    return (object.ReferenceEquals(this, obj) || EqualsHelper(this, strB));
+}
+</pre>
+
+<p>所以雖然String也繼承於Object，但他複寫了Equals，所以我們可以輕鬆地去比對兩個字串是否相等。</p>
+<h4 id="String-Equals-String"><a href="#String-Equals-String" class="headerlink" title="String.Equals(String)"></a>String.Equals(String)</h4><p>另外一個string.Equals(String)反組譯後如下，基本上和上面的差不多，差別於，這個是直接傳入String並非Object型別。</p>
+<pre class="brush: csharp;">public bool Equals(string value)
+{
+    if (this == null)
+    {
+        throw new NullReferenceException();
+    }
+    if (value == null)
+    {
+        return false;
+    }
+    return (object.ReferenceEquals(this, value) || EqualsHelper(this, value));
+}</pre><pre class="brush: csharp;"></pre>
+
+<p>接下來是String的等於等於。</p>
+<h4 id="String的等於比較運算子"><a href="#String的等於比較運算子" class="headerlink" title="String的等於比較運算子"></a>String的等於比較運算子</h4><p>在String裡面寫了等於比較運算子，寫法如下，使用operator關鍵字來處理，所以我們這邊可以看到，其實String的等於比較運算子，實際上是呼叫String.Equals(String,String)這個靜態方法</p>
+<pre class="brush: csharp;">public static bool operator ==(string a, string b)
+{
+    return Equals(a, b);
+}
+</pre>
+
+<p>接下來我們看一下String的靜態方法。</p>
+<h4 id="String-Equals-String-String"><a href="#String-Equals-String-String" class="headerlink" title="String.Equals(String,String)"></a>String.Equals(String,String)</h4><p>String也有Equals靜態方法，內容如下。</p>
+<pre class="brush: csharp;">public static bool Equals(string a, string b)
+{
+    return ((a == b) || (((a != null) &amp;&amp; (b != null)) &amp;&amp; EqualsHelper(a, b)));
+}
+</pre>
+
+<p>這裡比較奇怪的是a==b這段，原則上如果a和b都是字串了，則應該又會進入string靜態的Equals，但這邊感覺上只是去比對位置是否相等；畢竟程式碼是反組譯出來的，真實程式碼是否這樣子，也不能確定，但可以確定的是，String的等於比較運算式，實際上還是回到了Equals方法裡面，這點MSDN也有提到。</p>
+<h4 id="Int32-Equals-Object"><a href="#Int32-Equals-Object" class="headerlink" title="Int32.Equals(Object)"></a>Int32.Equals(Object)</h4><p>接下來，我們看看Int32的部分，這部分也是Override，沒有甚麼太特別之處。</p>
+<pre class="brush: csharp;">public override bool Equals(object obj)
+{
+    return ((obj is int) &amp;&amp; (this == ((int) obj)));
+}
+</pre>
+
+<p>其次是Int32.Equals(Int32)的部分</p>
+<h4 id="Int32-Equals-Int32"><a href="#Int32-Equals-Int32" class="headerlink" title="Int32.Equals(Int32)"></a>Int32.Equals(Int32)</h4><p>這部分就更簡單，Int32是實質型別，所以也沒有甚麼比對位置或是值的問題。</p>
+<pre class="brush: csharp;">public bool Equals(int obj)
+{
+    return (this == obj);
+}
+</pre>
+
+<p>同樣的Int32是實質型別，所以Int32也沒有復寫等於運算式。</p>
+<h4 id="初步的結論"><a href="#初步的結論" class="headerlink" title="初步的結論"></a>初步的結論</h4><p>所以，到此，我們這邊初步的結論，如果是要比較兩個物件的內容，無論是使用比較運算子(等於等於 == )或是使用Equals，通通都只會比較是否參考到同一個位置，所以只要參考的位置不同，兩個物件的內容就算相同，很不幸的，還是傳回False。</p>
+<p>但如果是int或是strting，無論是使用比較運算子(等於等於 ==)或是使用Equals，都會比較值，只要值不同，就會傳回False。</p>
+<h4 id="複雜的問題"><a href="#複雜的問題" class="headerlink" title="複雜的問題"></a>複雜的問題</h4><p>接下來就是幾個大家常見的複雜問題。</p>
+<pre class="brush: csharp;">object a = 1;
+object b = 1;
+bool value = a == b;
+bool value2 = a.Equals(b);
+</pre>
+
+<p>第一個最常見的應該就是這個了吧，答案第一個value是false，第二個value2是true，那是因為1 這個值已經被<a href="http://msdn.microsoft.com/zh-tw/library/25z57t8s%28v=VS.80%29.aspx" target="_blank" rel="noopener">Boxing</a>起來了存成object型別了，所以當使用等於比較運算式時，就等同於object == object，所以依照上面的理論，除了Int和string以外，除非位置相同，不然都會傳回false，而這邊又因為Boxing的關係，所以它們的位置是不同的。</p>
+<p>關於第二個答案是True的關係，那是因為雖然被包成Object型別，但骨子裏面還是Int32，基於多型的概念，實際上，執行的這個Equals，是執行Int32.Equals(Object)，所以對照上面，就會變成比較值是否相等。</p>
+<p>基本上這個問題是一般大家網路上已經可以常常看到的問題了，接下來是這段。</p>
+<pre class="brush: csharp;">object c = "a";
+object d = "a";
+
+bool valueString = c == d;
+bool valueString2 = c.Equals(d);
+</pre>
+
+<p>答案是兩個都是True!，為什麼呢?這裡隱藏了一個陷阱，如果以剛剛的理論來說，等於比較運算式，非實質型別和String的時候，都會只會比較位置，但這裡的c == d的部分，兩個都是object，所以只會比較位置，理論上，會產生兩個string”a”，且不同位置，所以應該會是false阿，但這裡卻為True!，所以表示位置一樣!?，是的，沒錯，這裡的位置真的一樣，因為CLR存在著一種機制，當它初始化時，它會創建一個內部hash，其中key是我們所要存放的字串，而value是誰引用。當定義一個新的string 時，系統會檢查是否有相同的。如果找不到，就建立一個新的，如果找到就直接引用，所以這邊位置是相同的。</p>
+<p>所以實際上要怎樣做，才會產生兩個字串呢!?我們直接new一個新的字串，這樣他就不會自動幫忙檢查了。</p>
+<pre class="brush: csharp;">object e = new string('a', 1);
+object f = new string('a', 1);
+
+bool valueStrin3 = e == f;
+bool valueString4 = e.Equals(f);
+</pre>
+
+<p>如果是這樣，比對出來的結果，第一個就是False，第二個是True。</p>
+<h4 id="結尾"><a href="#結尾" class="headerlink" title="結尾"></a>結尾</h4><p>其實等於比較運算式在實質型別裡面，是沒有甚麼問題的，因為實際存放的東西，就是實質，例如:1、a這類東西，所以等於比較運算式會去比較兩個記憶體上的實質，其實是沒甚麼問題的，但是如果是參考型別，雖然物件內容可能一樣，但實際上，存放在記憶體的實質，只是個位置，而這兩個物件的位置，一定不一樣，所以等於比較運算式，只會比對出兩個位置不同；在Java的String和C#一樣，都是物件，所以存放在記憶體上的都是位置，但有點不一樣的是，C#有幫忙復寫了等於比較運算式，他裡面實際上會去呼叫String的Equals，所以在C#上使用等於比較運算式，能比較出真正String的值，但Java裡面，就只能使用Equals了。</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://msdn.microsoft.com/zh-tw/library/7wtc81z6.aspx" target="_blank" rel="noopener" title="http://msdn.microsoft.com/zh-tw/library/7wtc81z6.aspx">http://msdn.microsoft.com/zh-tw/library/7wtc81z6.aspx</a></li>
+<li><a href="http://msdn.microsoft.com/zh-tw/library/system.string.equals%28v=VS.100%29.aspx" target="_blank" rel="noopener" title="http://msdn.microsoft.com/zh-tw/library/system.string.equals%28v=VS.100%29.aspx">http://msdn.microsoft.com/zh-tw/library/system.string.equals%28v=VS.100%29.aspx</a></li>
+<li><a href="http://www.dotblogs.com.tw/jimmyyu/archive/2009/08/01/9781.aspx" target="_blank" rel="noopener" title="http://www.dotblogs.com.tw/jimmyyu/archive/2009/08/01/9781.aspx">http://www.dotblogs.com.tw/jimmyyu/archive/2009/08/01/9781.aspx</a></li>
+<li><a href="http://blog.darkthread.net/post-2010-04-16-object-comparison.aspx" target="_blank" rel="noopener" title="http://blog.darkthread.net/post-2010-04-16-object-comparison.aspx">http://blog.darkthread.net/post-2010-04-16-object-comparison.aspx</a></li>
+<li><a href="http://msdn.microsoft.com/zh-tw/library/25z57t8s%28v=VS.80%29.aspx" target="_blank" rel="noopener" title="http://msdn.microsoft.com/zh-tw/library/25z57t8s%28v=VS.80%29.aspx">http://msdn.microsoft.com/zh-tw/library/25z57t8s%28v=VS.80%29.aspx</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag">#C#</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/01/09/ASP-NET-MVC-Helper-Namespace%E9%8C%AF%E8%AA%A4/" rel="next" title="ASP.NET MVC -  Helper Namespace錯誤">
+                <i class="fa fa-chevron-left"></i> ASP.NET MVC -  Helper Namespace錯誤
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/01/12/Hyper-V-RemoteFX-%E8%AE%93%E4%BD%A0%E9%81%A0%E7%AB%AF%E7%99%BB%E5%85%A5%E4%B8%A6%E4%B8%94%E5%9F%B7%E8%A1%8C3D%E9%81%8A%E6%88%B2/" rel="prev" title="Hyper-V - RemoteFX 讓你遠端登入並且執行3D遊戲!">
+                Hyper-V - RemoteFX 讓你遠端登入並且執行3D遊戲! <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Ojbect-Equals"><span class="nav-number">1.</span> <span class="nav-text">Ojbect.Equals</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Object-Equals靜態方法"><span class="nav-number">2.</span> <span class="nav-text">Object.Equals靜態方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#等於等於-比較運算子"><span class="nav-number">3.</span> <span class="nav-text">等於等於 ( &#x3D; &#x3D; ) 比較運算子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#String-Equals-Object"><span class="nav-number">4.</span> <span class="nav-text">String.Equals(Object)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#String-Equals-String"><span class="nav-number">5.</span> <span class="nav-text">String.Equals(String)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#String的等於比較運算子"><span class="nav-number">6.</span> <span class="nav-text">String的等於比較運算子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#String-Equals-String-String"><span class="nav-number">7.</span> <span class="nav-text">String.Equals(String,String)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Int32-Equals-Object"><span class="nav-number">8.</span> <span class="nav-text">Int32.Equals(Object)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Int32-Equals-Int32"><span class="nav-number">9.</span> <span class="nav-text">Int32.Equals(Int32)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初步的結論"><span class="nav-number">10.</span> <span class="nav-text">初步的結論</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#複雜的問題"><span class="nav-number">11.</span> <span class="nav-text">複雜的問題</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#結尾"><span class="nav-number">12.</span> <span class="nav-text">結尾</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">13.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2012/01/10/C-Equals和等於等於-等於比較運算式/';
+      var disqus_title = 'C# - Equals和等於等於( 等於比較運算式 )';
+      var disqus_url = 'http://skychang.github.io/2012/01/10/C-Equals%E5%92%8C%E7%AD%89%E6%96%BC%E7%AD%89%E6%96%BC-%E7%AD%89%E6%96%BC%E6%AF%94%E8%BC%83%E9%81%8B%E7%AE%97%E5%BC%8F/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

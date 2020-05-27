@@ -1,0 +1,711 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="GitHub,Node.js,Hexo," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言上一篇我們看到了怎樣安裝 Hexo，並且了解如何將現有的文章轉入進來，接下來，我們就來看看，如何將原始檔 ( Markdown ) 放到 GitHub 進行版控，並且!!把編譯過 ( 將 Markdown 透過 Hexo 轉成 HTML ) 的 HTML 放到 GitHub 上。 使用 GitHub 當作 Blogger目前 GitHub 有支援個人與專案，一個帳號，可以建立一個個人網站和多個">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo - 版本控制與發佈到 GitHub">
+<meta property="og:url" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="前言上一篇我們看到了怎樣安裝 Hexo，並且了解如何將現有的文章轉入進來，接下來，我們就來看看，如何將原始檔 ( Markdown ) 放到 GitHub 進行版控，並且!!把編譯過 ( 將 Markdown 透過 Hexo 轉成 HTML ) 的 HTML 放到 GitHub 上。 使用 GitHub 當作 Blogger目前 GitHub 有支援個人與專案，一個帳號，可以建立一個個人網站和多個">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/14.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/15.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/16.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/17.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/18.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/19.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/20.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/21.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/22.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/23.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/24.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/25.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/26.png">
+<meta property="article:published_time" content="2015-10-19T22:40:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.912Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="GitHub">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="Hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/14.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Hexo - 版本控制與發佈到 GitHub | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Hexo - 版本控制與發佈到 GitHub
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-10-19T22:40:00+00:00" content="2015-10-19">
+              2015-10-19
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/10/19/Hexo-Source_Control_and_Deploy/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/10/19/Hexo-Source_Control_and_Deploy/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><a href="http://skychang.github.io/2015/10/06/Install-Hexo/">上一篇</a>我們看到了怎樣安裝 Hexo，並且了解如何將現有的文章轉入進來，接下來，我們就來看看，如何將原始檔 ( Markdown ) 放到 GitHub 進行版控，並且!!把編譯過 ( 將 Markdown 透過 Hexo 轉成 HTML ) 的 HTML 放到 GitHub 上。</p>
+<h2 id="使用-GitHub-當作-Blogger"><a href="#使用-GitHub-當作-Blogger" class="headerlink" title="使用 GitHub 當作 Blogger"></a>使用 GitHub 當作 Blogger</h2><p>目前 GitHub 有支援個人與專案，一個帳號，可以建立一個個人網站和多個專案網站。詳細可以參考底下兩篇。<br><a href="http://skychang.github.io/2014/07/31/GitHub-GitHub-Page-for-User/">個人</a><br><a href="http://skychang.github.io/2014/07/31/GitHub-GitHub-Page-for-Project/">專案</a></p>
+<h2 id="為什麼要備份-Source-到-GitHub"><a href="#為什麼要備份-Source-到-GitHub" class="headerlink" title="為什麼要備份 Source 到 GitHub"></a>為什麼要備份 Source 到 GitHub</h2><p>現在是版控的時代了，除了程式碼要版控之外，圖檔要版控，甚至連虛擬機都要版控 ( Docker ) ，那文章勒，文章其實也可以版控，但我們版控的不是 HTML ，而是 Markdown，Markdown 就猶如我們的 Source Code，而 HTML 就如同是編譯過執行程式。</p>
+<p>既然我們選擇使用 GitHub , 那自然就使用 GitHub 進行版控吧!</p>
+<p>( 當然，別忘了先在 GitHub 上開個 Repo 阿!! , 也別忘了要先安裝 git 應用程式喔!! )</p>
+<h2 id="git-初始化與設定"><a href="#git-初始化與設定" class="headerlink" title="git 初始化與設定"></a>git 初始化與設定</h2><p>首先，大家非常不陌生的 <code>git init</code> ，初始化一下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+<p>透過 git init 我們就可以針對此目錄下進行版控。</p>
+<p><img src="14.png" alt=""></p>
+<p>接下來，我們就可以透過底下指令，加入遠端的位置，到時候我們就可以 sync 上去。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin git@github.com:帳號&#x2F;Repo</span><br></pre></td></tr></table></figure>
+
+<p><img src="15.png" alt=""></p>
+<p>當然，如果這樣就成功了，就不會有這篇了，如果此時你直接下 git push ，那會出現權限不足的問題，而這邊，我們透過產生金鑰的方式，這樣就不用每次都需要 key 帳號密碼。</p>
+<p>我們先到 .ssh 的目錄底下去，原則上，看到的應該是空的 ( 只會有 known_hosts ) ，如果有看到 id_rsa.pub 也可以直接拿來用，如果沒看到，我們就來產生一個吧!!</p>
+<p><img src="16.png" alt=""></p>
+<p>我們可以到 program Files\Git\usr\bin 目錄底下，下這個指令，透過這個指令，就可以幫我們產生金鑰。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;你的Email&quot;</span><br></pre></td></tr></table></figure>
+<p>預設金鑰就會產生到 .ssh 底下去。</p>
+<p><img src="17.png" alt=""></p>
+<p>如下圖，我們就可以看到 id_rsa 和 id_rsa.pub 這兩個檔案嚕!!</p>
+<p><img src="18.png" alt=""></p>
+<p>接下來，我們打開 id.rsa.pub ( 用記事本開啟 )，我們把底下的金鑰 copy 下來。</p>
+<p><img src="19.png" alt=""></p>
+<p>然後貼到 GitHub 上去。<br>( 注意，GitHub 可以針對 專案 進行金鑰的設定，如下圖，或是整個帳號，如下下圖，你可以決定你的金鑰的範圍，但是一組金鑰，只能出現在 GitHub 的這個帳號底下一次，也就是說，如果你把金鑰拿去設定 專案 ，那你就不能用同樣的金鑰設定在其他的專案上了 )</p>
+<p><img src="20.png" alt=""></p>
+<p>如果要設定給完整帳號，我們可以從帳號設定的底下進行金鑰的貼上，貼上後，就可以了。</p>
+<p><img src="21.png" alt=""></p>
+<h2 id="推送到-GitHub"><a href="#推送到-GitHub" class="headerlink" title="推送到 GitHub"></a>推送到 GitHub</h2><p>接下來，就是大家熟悉的指令了….</p>
+<p>首先，把網站的 source 全部加入…. ( 這邊不用擔心編譯過後的 HTML 也被加入進去，當我們使用 Hexo init 的時候，預設就會把 public 這個含有 HTML 的目錄給過濾掉了。 )</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
+
+<p><img src="22.png" alt=""></p>
+<p>然後，簽入到本機。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &quot;First&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="23.png" alt=""></p>
+<p>推送到 GitHub。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+
+<p><img src="24.png" alt=""></p>
+<p>到這邊，我們 source 就可以安心地放到 GitHub 進行版控嚕….</p>
+<h2 id="進行佈署"><a href="#進行佈署" class="headerlink" title="進行佈署"></a>進行佈署</h2><p>在開始前，我們要先裝 hexo-deployer-git ，透過這個套件，才能佈署到 GitHub 上。<br>我們可以到我們的 hexo 目錄底下，透過底下指令進行安裝。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<p>接著，我們要開始進行佈署，首先，我們要修改 _config.yml 這個檔案，如下圖。<br>這邊表示我們要使用 git ，並且設定遠端的 repo。<br>如果有分支需求的朋友，可以參考<a href="https://hexo.io/zh-tw/docs/deployment.html" target="_blank" rel="noopener">官網</a>的設定，官網也有許多 FTP 等地佈署方式。</p>
+<p><img src="25.png" alt=""></p>
+<p>然後，我們要先把我們的 Markdown 編譯成 HTML。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br></pre></td></tr></table></figure>
+
+<p>接著，我們只要下底下指令即可，hexo 就會自動的把 HTML 佈署到 github 上了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p><img src="26.png" alt=""></p>
+<p>完工!!</p>
+<h2 id="等等，新文章哩"><a href="#等等，新文章哩" class="headerlink" title="等等，新文章哩!!?"></a>等等，新文章哩!!?</h2><p>是低，下一篇，我們即將針對新文章的撰寫，來和大家講一些小技巧。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="http://serverfault.com/questions/78048/whats-the-difference-between-ip-address-0-0-0-0-and-127-0-0-1#comment63540_78049" target="_blank" rel="noopener">http://serverfault.com/questions/78048/whats-the-difference-between-ip-address-0-0-0-0-and-127-0-0-1#comment63540_78049</a></li>
+<li><a href="http://wsgzao.github.io/post/hexo-guide/" target="_blank" rel="noopener">http://wsgzao.github.io/post/hexo-guide/</a></li>
+<li><a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">https://github.com/iissnan/hexo-theme-next</a></li>
+<li><a href="https://git-scm.com/book/zh-tw/v1/%E4%BC%BA%E6%9C%8D%E5%99%A8%E4%B8%8A%E7%9A%84-Git-%E7%94%9F%E6%88%90-SSH-%E5%85%AC%E9%96%8B%E9%87%91%E9%91%B0" target="_blank" rel="noopener">https://git-scm.com/book/zh-tw/v1/%E4%BC%BA%E6%9C%8D%E5%99%A8%E4%B8%8A%E7%9A%84-Git-%E7%94%9F%E6%88%90-SSH-%E5%85%AC%E9%96%8B%E9%87%91%E9%91%B0</a></li>
+<li><a href="https://gist.github.com/adamjohnson/5682757" target="_blank" rel="noopener">https://gist.github.com/adamjohnson/5682757</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/GitHub/" rel="tag">#GitHub</a>
+          
+            <a href="/tags/Node-js/" rel="tag">#Node.js</a>
+          
+            <a href="/tags/Hexo/" rel="tag">#Hexo</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/06/Hexo-Install_Hexo/" rel="next" title="Hexo - 安裝 Hexo">
+                <i class="fa fa-chevron-left"></i> Hexo - 安裝 Hexo
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/02/JavaScript-Use_Javascript_Fetch/" rel="prev" title="使用 fetch 來進行 Ajax 呼叫">
+                使用 fetch 來進行 Ajax 呼叫 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-GitHub-當作-Blogger"><span class="nav-number">2.</span> <span class="nav-text">使用 GitHub 當作 Blogger</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#為什麼要備份-Source-到-GitHub"><span class="nav-number">3.</span> <span class="nav-text">為什麼要備份 Source 到 GitHub</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git-初始化與設定"><span class="nav-number">4.</span> <span class="nav-text">git 初始化與設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推送到-GitHub"><span class="nav-number">5.</span> <span class="nav-text">推送到 GitHub</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#進行佈署"><span class="nav-number">6.</span> <span class="nav-text">進行佈署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#等等，新文章哩"><span class="nav-number">7.</span> <span class="nav-text">等等，新文章哩!!?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">8.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2015/10/19/Hexo-Source_Control_and_Deploy/';
+      var disqus_title = 'Hexo - 版本控制與發佈到 GitHub';
+      var disqus_url = 'http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

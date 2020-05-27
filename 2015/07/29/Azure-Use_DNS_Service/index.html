@@ -1,0 +1,698 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Azure,DNS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言很久很久以前，有了一個雲端服務，叫做 Azure ，但這個雲端服務在強大，卻還是少了一個關鍵的東西，那就是 DNS Service ，而在今年，這個東西終於出現了!! ( 不過目前還沒有UI介面就是了&#x3D; &#x3D;..)但不管怎樣，有了 DNS Service 後，終於可以把 VM 扔掉了~~ 這篇基本上是照著官方文件進行操作，再補上自己的理解，有興趣的朋友，也可以直接參考原文。 設定 Azure D">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Azure - 使用 Azure DNS Service">
+<meta property="og:url" content="http://skychang.github.io/2015/07/29/Azure-Use_DNS_Service/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="前言很久很久以前，有了一個雲端服務，叫做 Azure ，但這個雲端服務在強大，卻還是少了一個關鍵的東西，那就是 DNS Service ，而在今年，這個東西終於出現了!! ( 不過目前還沒有UI介面就是了&#x3D; &#x3D;..)但不管怎樣，有了 DNS Service 後，終於可以把 VM 扔掉了~~ 這篇基本上是照著官方文件進行操作，再補上自己的理解，有興趣的朋友，也可以直接參考原文。 設定 Azure D">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2015/07/29/Azure-Use_DNS_Service/01.png">
+<meta property="article:published_time" content="2015-07-29T23:40:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.884Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="DNS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2015/07/29/Azure-Use_DNS_Service/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Azure - 使用 Azure DNS Service | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Azure - 使用 Azure DNS Service
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-07-29T23:40:00+00:00" content="2015-07-29">
+              2015-07-29
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/29/Azure-Use_DNS_Service/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/07/29/Azure-Use_DNS_Service/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很久很久以前，有了一個雲端服務，叫做 Azure ，但這個雲端服務在強大，卻還是少了一個關鍵的東西，那就是 DNS Service ，而在今年，這個東西終於出現了!! ( 不過目前還沒有UI介面就是了= =..)<br>但不管怎樣，有了 DNS Service 後，終於可以把 VM 扔掉了~~</p>
+<p>這篇基本上是照著<a href="https://azure.microsoft.com/zh-tw/documentation/articles/dns-getstarted-create-dnszone/" target="_blank" rel="noopener">官方文件</a>進行操作，再補上自己的理解，有興趣的朋友，也可以直接參考原文。</p>
+<h2 id="設定-Azure-DNS-PowerShell"><a href="#設定-Azure-DNS-PowerShell" class="headerlink" title="設定 Azure DNS PowerShell"></a>設定 Azure DNS PowerShell</h2><p>如官方文件一開始，因為我們目前沒有 UI ，所以只能透過 PowerShell 來進行管理，所以首先，我們必須先設定 PowerShell，我們可以先用以下指令切換到 ARM 模式。<br>( ARM 模式 是新一代的 Azure 資源管理方案 )</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Switch-AzureMode -Name AzureResourceManager</span><br></pre></td></tr></table></figure>
+<p>完成後就會如下圖。</p>
+<p><img src="01.png" alt=""></p>
+<p>眼尖的大家，應該會發現，為啥會出現這個警告!!</p>
+<p>The Switch-AzureMode cmdlet is deprecated and will be removed in a future release.</p>
+<p>是的，我們上面的這個指令，微軟預計在 2015年 9月 就會移除!!<br>大家第一個直覺一定是..搞屁阿..那我未來該怎麼辦??<br>有興趣的朋友可以參考<a href="https://github.com/Azure/azure-powershell/issues/428" target="_blank" rel="noopener">這篇</a>，這篇是微軟未來的規劃路線。<br>簡單的說，就是未來不會有 Switch-AzureMode 這個指令了，會變成，以前的 ASM指令，會在前面加上前贅詞，例如 New-AsmVM ，而 ARM 的指令則不變…</p>
+<p>接下來，我們就可以登入帳號。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Add-AzureAccount</span><br></pre></td></tr></table></figure>
+
+<p>會很佛心地跳出一個視窗讓我們輸入帳號密碼~</p>
+<p><a href="02.png"></a></p>
+<p>接著，因為每個帳號可能會有多個訂閱，所以這邊要選擇你要管理的訂閱。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Select-AzureSubscription -SubscriptionName &quot;MySubscription&quot;</span><br></pre></td></tr></table></figure>
+
+<p><a href="03.png"></a></p>
+<p>接著，你可以建立一個新的資源群組，如下指令，資源群組的名稱為 MyAzureResourceGroup，位置在美西。<br>當然你也可以用現有的資源群組，小弟這邊就使用 Study4 的資源群組，所以就不建立新的了。<br>( 資源群組是為了讓你管理 Azure 資源的一個策略群組，你建立的 DNS 並不會被限制在你資源群組的地區，例如下面的資源群組是美西，但你的 DNS 還是可以服務全球。)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">New-AzureResourceGroup -Name MyAzureResourceGroup -location &quot;West US&quot;</span><br></pre></td></tr></table></figure>
+
+<p>Azure DNS 服務目前是由 Microsoft.Network 來提供，所以 Azure 訂用帳戶必須註冊這個 Provider，這樣才能使用 DNS 。<br>( 基本上這個只需要註冊一次即可 )</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Register-AzureProvider -ProviderNamespace Microsoft.Network</span><br></pre></td></tr></table></figure>
+
+<p><a href="04.png"></a></p>
+<p>到這邊， PowerShell 就已經這定完成了!!</p>
+<h2 id="建立-DNS-區域"><a href="#建立-DNS-區域" class="headerlink" title="建立 DNS 區域"></a>建立 DNS 區域</h2><p>接下來，我們就可以掏錢來建立一個 DNS 區域了，我們可以輸入以下指令，建立一個 study4.tw 的區域，並且設定在 study4 的資源群組裡面。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">New-AzureDnsZone -Name study4.tw -ResourceGroupName study4</span><br></pre></td></tr></table></figure>
+
+<p><a href="05.png"></a></p>
+<p>完成之後，我們可以用以下指令來查看，通常建立完成之後，就會有 SOA 與 NS。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-AzureDnsRecordSet -ZoneName study4.tw -ResourceGroupName study4</span><br></pre></td></tr></table></figure>
+
+<p><a href="06.png"></a></p>
+<h2 id="設定父層的委派"><a href="#設定父層的委派" class="headerlink" title="設定父層的委派"></a>設定父層的委派</h2><p>簡單的說，以 Study4.tw 來說，要查到這個網址，會先從根開始查起，接下來會查到 tw 的 dns server，再從 tw Dns Server 查到 Study4.tw 的 DNS Server；我們剛剛已經建立了 Study4.tw 的 DNS Service，接下來，我們就要去父層那邊設定，告訴父層如果你要找 study4.tw ，應該要去哪個地方找相關的資訊。</p>
+<p>我們這邊可以從剛剛下的 Get-AzureDnsRecordSet 指令查到 NS 的資訊，或使用底下的指令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-AzureDnsRecordSet -Name &quot;@&quot; -RecordType NS -zonename &quot;study4.tw&quot; -ResourceGroupName &quot;study4&quot;</span><br></pre></td></tr></table></figure>
+
+<p>裡面就會顯示 Microsoft 提供的節點。</p>
+<p>以小弟這邊來說，就會得到好幾台的節點，例如 :  ns3-02.azure-dns.org</p>
+<p>然後，我們就可以使用 ping 等工具，查到這台的 ip 位置，最後，我們就可以去父層做設定，如下圖，以 pchome 為案例，當然，你必須在 pchome 買網址，才能在 pchome 設定，如果你不是在 pchome 買的，就請到你購買網址的地方進行設定。</p>
+<p><a href="07.png"></a></p>
+<p>完成後，( 最久會需要等 24hr )，我們就可以透過底下指令來進行測試。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nslookup –type&#x3D;SOA study4.tw</span><br></pre></td></tr></table></figure>
+
+<h2 id="設定紀錄"><a href="#設定紀錄" class="headerlink" title="設定紀錄"></a>設定紀錄</h2><p>既然上面都準備好了，我們也可以查到 study4.tw 這個網域要去哪台 DNS Server 查詢了，接下來，我們的目標是希望 <a href="http://www.study4.tw" target="_blank" rel="noopener">www.study4.tw</a> 能對應到某台 web server ，而那台 web server 有獨立的 ip 位置，所以最後的步驟，當然就是要讓 <a href="http://www.study4.tw" target="_blank" rel="noopener">www.study4.tw</a> 能對應到相對的 ip 位置，也就是說，我們要在 DNS Service 上面加上 www ，來讓 DNS Service 能認得我們的 www ip位置，所以我們最後步驟，就把 www 加上去，就完工了!!</p>
+<p>首先，我們可以下以下指令，來建立一個變數。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$rs &#x3D; New-AzureDnsRecordSet -Name &quot;www&quot; -RecordType &quot;A&quot; -ZoneName &quot;study4.tw&quot; -ResourceGroupName &quot;study4&quot; -Ttl 60</span><br></pre></td></tr></table></figure>
+
+<p>接下來，我們就可以 add 剛剛的變數，並且加上對應的 ip 位置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Add-AzureDnsRecordConfig -RecordSet $rs -Ipv4Address 134.170.185.46</span><br></pre></td></tr></table></figure>
+
+<p>完成之後，還要用 set 來通知 Azure DNS 更新。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-AzureDnsRecordSet -RecordSet $rs</span><br></pre></td></tr></table></figure>
+
+<p>最後，我們就可以透過 Get 來查詢，看看是否完成嚕!~</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-AzureDnsRecordSet –Name www –RecordType A -ZoneName study4.tw -ResourceGroupName study4</span><br></pre></td></tr></table></figure>
+
+<p>基本上就這樣，完成嚕!~</p>
+<p>##參考資料</p>
+<ul>
+<li><a href="https://azure.microsoft.com/zh-tw/documentation/articles/dns-getstarted-create-dnszone/" target="_blank" rel="noopener">https://azure.microsoft.com/zh-tw/documentation/articles/dns-getstarted-create-dnszone/</a></li>
+<li><a href="https://github.com/Azure/azure-powershell/issues/428" target="_blank" rel="noopener">https://github.com/Azure/azure-powershell/issues/428</a></li>
+<li><a href="https://msdn.microsoft.com/en-us/library/mt163762.aspx" target="_blank" rel="noopener">https://msdn.microsoft.com/en-us/library/mt163762.aspx</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/DNS/" rel="tag">#DNS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/03/21/2015-%E8%BB%9F%E9%AB%94%E7%A0%94%E7%99%BC%E9%AB%98%E5%B3%B0%E6%9C%83/" rel="next" title="2015 軟體研發高峰會">
+                <i class="fa fa-chevron-left"></i> 2015 軟體研發高峰會
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/30/Azure%E4%B8%8A%E7%9A%84Ubuntu%E8%88%87%E9%81%A0%E7%AB%AF%E6%A1%8C%E9%9D%A2%E7%AE%A1%E7%90%86-VNC/" rel="prev" title="Azure上的Ubuntu與遠端桌面管理 VNC">
+                Azure上的Ubuntu與遠端桌面管理 VNC <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定-Azure-DNS-PowerShell"><span class="nav-number">2.</span> <span class="nav-text">設定 Azure DNS PowerShell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立-DNS-區域"><span class="nav-number">3.</span> <span class="nav-text">建立 DNS 區域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定父層的委派"><span class="nav-number">4.</span> <span class="nav-text">設定父層的委派</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定紀錄"><span class="nav-number">5.</span> <span class="nav-text">設定紀錄</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2015/07/29/Azure-Use_DNS_Service/';
+      var disqus_title = 'Azure - 使用 Azure DNS Service';
+      var disqus_url = 'http://skychang.github.io/2015/07/29/Azure-Use_DNS_Service/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

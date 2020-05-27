@@ -1,0 +1,698 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Windows,Windows Server," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="年底這段時間，果然是最忙的，Blog也超久沒更新，雖然有滿多東西可以寫得，但也一直沒時間寫阿!!，而今天，剛好利用一點小時間，就順便寫一下關於IT的東西，不過我畢竟不是把IT當作主力的XDD，大家就隨意看看吧。 過年大掃除，順便把家裡的舊電腦，裝起Windows Server 2012起來，而且因為搭配Hyper-V，所以就可以虛擬很多台電腦起來玩。 但是雖然很多台電腦，但要管理就會很麻煩，像以前">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Server - 使用Win8管理Windows Server">
+<meta property="og:url" content="http://skychang.github.io/2013/02/15/Windows-Server-%E4%BD%BF%E7%94%A8Win8%E7%AE%A1%E7%90%86Windows-Server/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="年底這段時間，果然是最忙的，Blog也超久沒更新，雖然有滿多東西可以寫得，但也一直沒時間寫阿!!，而今天，剛好利用一點小時間，就順便寫一下關於IT的東西，不過我畢竟不是把IT當作主力的XDD，大家就隨意看看吧。 過年大掃除，順便把家裡的舊電腦，裝起Windows Server 2012起來，而且因為搭配Hyper-V，所以就可以虛擬很多台電腦起來玩。 但是雖然很多台電腦，但要管理就會很麻煩，像以前">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh5.ggpht.com/-axxjTyBZ9jA/UR39CTFiPvI/AAAAAAAAF0E/JLrfonTT4Dk/image_thumb1.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-A3VA8dpKbOU/UR39EikkZfI/AAAAAAAAF0U/xZpMmQKJhd4/image_thumb4.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-mDWY5p7NpDI/UR39GcYPIeI/AAAAAAAAF0k/BFOyJ8IsAH8/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-sNAqRJvLECw/UR39IbQy_KI/AAAAAAAAF00/3K-wKMPPBe8/image_thumb%25255B3%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-zXLq90XZtPg/UR39Jw78UsI/AAAAAAAAF1E/D_Xvi0wshzk/image_thumb%25255B6%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-0MTJsuwOM-w/UR39LFpWKFI/AAAAAAAAF1U/pxuz19y6cUk/image_thumb%25255B8%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-HFuzOU9jYc4/UR39M3dujKI/AAAAAAAAF1k/wS27dtGkK-c/image_thumb%25255B11%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-gT3bkZ6adz8/UR39OvkQTGI/AAAAAAAAF10/ww-WhePsqsQ/image_thumb%25255B13%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-XIoCW0AN2dA/UR39QEPdewI/AAAAAAAAF2E/x_SUybT_hwU/image_thumb%25255B15%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-Rv1othUzQog/UR39R_VwXGI/AAAAAAAAF2U/6dBFysvuBn0/image_thumb%25255B18%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-9U59ucT2CbI/UR39TjadzVI/AAAAAAAAF2k/_uAr5N1Ark4/image_thumb%25255B20%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-jXFKWvKbHaI/UR39WOrwJUI/AAAAAAAAF20/Axfk8-px13Q/image_thumb%25255B22%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-QlLoje1Il9w/UR39XW9ZgVI/AAAAAAAAF3E/JkJC_ZT1yMY/image_thumb%25255B24%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-Ccr4yqTi2mQ/UR39ZFfi5AI/AAAAAAAAF3U/9G3xHrqm6KQ/image_thumb%25255B26%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2013-02-15T17:18:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.031Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Windows">
+<meta property="article:tag" content="Windows Server">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh5.ggpht.com/-axxjTyBZ9jA/UR39CTFiPvI/AAAAAAAAF0E/JLrfonTT4Dk/image_thumb1.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Windows Server - 使用Win8管理Windows Server | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Windows Server - 使用Win8管理Windows Server
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2013-02-15T17:18:00+00:00" content="2013-02-15">
+              2013-02-15
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/02/15/Windows-Server-%E4%BD%BF%E7%94%A8Win8%E7%AE%A1%E7%90%86Windows-Server/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/02/15/Windows-Server-使用Win8管理Windows-Server/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>年底這段時間，果然是最忙的，Blog也超久沒更新，雖然有滿多東西可以寫得，但也一直沒時間寫阿!!，而今天，剛好利用一點小時間，就順便寫一下關於IT的東西，不過我畢竟不是把IT當作主力的XDD，大家就隨意看看吧。</p>
+<p>過年大掃除，順便把家裡的舊電腦，裝起Windows Server 2012起來，而且因為搭配Hyper-V，所以就可以虛擬很多台電腦起來玩。</p>
+<p>但是雖然很多台電腦，但要管理就會很麻煩，像以前，小弟都是一台一台的遠端桌面登進去，所以就會看到一堆遠端桌面的視窗…</p>
+<p>但其實，我們可以使用工具，透過伺服器管理工具，就可以在Windows 8下，輕鬆的管理和查看Server的狀態喔!!</p>
+<p>首先，我們要先去下面那個位置下載，有區分32和64位元版本，就看目前的windows 8是哪個版本就下載哪個版本。</p>
+<p><a href="http://www.microsoft.com/zh-tw/download/details.aspx?id=28972" target="_blank" rel="noopener" title="http://www.microsoft.com/zh-tw/download/details.aspx?id=28972">http://www.microsoft.com/zh-tw/download/details.aspx?id=28972</a></p>
+<p><a href="http://lh3.ggpht.com/-RK0Nt9KX6Vo/UR39BG0BA5I/AAAAAAAAFz8/mFxnbfobQRs/s1600-h/image3.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-axxjTyBZ9jA/UR39CTFiPvI/AAAAAAAAF0E/JLrfonTT4Dk/image_thumb1.png?imgmax=800" alt="image" title="image"></a></p>
+<p>例外，要注意一下，如果之前有安裝過，記得移除，如下是官方的重要事項說明</p>
+<blockquote>
+<p>*<em>重要事項： *</em>在您安裝 Windows 8 的遠端伺服器管理工具之前，請先從電腦移除所有舊版的系統管理工具包或遠端伺服器管理工具，包括較早的發行前版本以及不同語言或地區的工具版本。一次只能在電腦上安裝一份遠端伺服器管理工具。 如果您已經從 Windows 7 升級至 Windows 8，則必須在電腦上安裝 Windows 8 的遠端伺服器管理工具；在您已升級至 Windows 8 的電腦上，已經沒有舊版的遠端伺服器管理工具。 </p>
+</blockquote>
+<p>下載後，雖然說感覺像是新功能，但官方這邊是把他歸類為更新。</p>
+<p><a href="http://lh6.ggpht.com/-s1O0lx4fEOQ/UR39DbCbqhI/AAAAAAAAF0M/2sZrT5ylrNQ/s1600-h/image8.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-A3VA8dpKbOU/UR39EikkZfI/AAAAAAAAF0U/xZpMmQKJhd4/image_thumb4.png?imgmax=800" alt="image" title="image"></a></p>
+<p>安裝完成後，就可以看到系統管理工具和伺服器管理員已經安裝完成了。</p>
+<p><a href="http://lh4.ggpht.com/-yD9B75fIyXc/UR39FuHoHrI/AAAAAAAAF0c/nRaSQrC4H2w/s1600-h/image%25255B4%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-mDWY5p7NpDI/UR39GcYPIeI/AAAAAAAAF0k/BFOyJ8IsAH8/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>系統管理工具如下，都是依些Server的管理工具。</p>
+<p><a href="http://lh6.ggpht.com/-CfXzJIz2KKE/UR39HWfn5EI/AAAAAAAAF0s/2S0PTpLfVZs/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-sNAqRJvLECw/UR39IbQy_KI/AAAAAAAAF00/3K-wKMPPBe8/image_thumb%25255B3%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>而伺服器管理員，就如同Windows Server的管理員一樣，相信對於IT高手的前輩們，這就不太需要介紹了=V=。</p>
+<p><a href="http://lh3.ggpht.com/-x_VesF6p6wc/UR39JCOBAYI/AAAAAAAAF08/HmX7-gsB1v0/s1600-h/image%25255B13%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-zXLq90XZtPg/UR39Jw78UsI/AAAAAAAAF1E/D_Xvi0wshzk/image_thumb%25255B6%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們要把藥管理的伺服器加入到伺服器管理員。</p>
+<p><a href="http://lh3.ggpht.com/-lJ5UXloOuFw/UR39KbOMZPI/AAAAAAAAF1M/unLlZlAR0pc/s1600-h/image%25255B17%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-0MTJsuwOM-w/UR39LFpWKFI/AAAAAAAAF1U/pxuz19y6cUk/image_thumb%25255B8%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>如果有加入ad，那可以選擇第一個，但我們這邊還沒加入ad，所以選擇dns，然後我們可以搜尋框裡面填入主機名稱，或是ip位置，然後尋找到後，再把他加入到右邊。</p>
+<p><a href="http://lh4.ggpht.com/-zxXsJOmYPN0/UR39MHEWOSI/AAAAAAAAF1c/Wo6YKf7yNCA/s1600-h/image%25255B22%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-HFuzOU9jYc4/UR39M3dujKI/AAAAAAAAF1k/wS27dtGkK-c/image_thumb%25255B11%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>加入完成後，馬上就會發生錯誤，錯誤訊息如下( 同下圖 ):</p>
+<blockquote>
+<p>vm - 設定重新整理失敗，且發生下列錯誤: 因為下列錯誤，無法從伺服器抓取中繼資料: WinRM 用戶端無法處理該要求。若驗證配置與 Kerberos 不同，或是用戶端電腦沒有加入網域， 則必須使用 HTTPS 傳輸，或是將目標電腦新增到TrustedHosts組態設定中，請使用winrm.cmd來設定TrustedHosts。請注意，可能不會驗證在TrustedHosts清單中的電腦。您可以執行下列命令，已取得相關的詳細資訊: winrm help config。 </p>
+</blockquote>
+<p>所以接下來，我們要設定winrm，這樣就可以順利管理了。</p>
+<p><a href="http://lh5.ggpht.com/-mfG5o3WqsDU/UR39NvCt1EI/AAAAAAAAF1s/UBLJPuG1-TE/s1600-h/image%25255B26%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-gT3bkZ6adz8/UR39OvkQTGI/AAAAAAAAF10/ww-WhePsqsQ/image_thumb%25255B13%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>根據官網的附註，如下:</p>
+<blockquote>
+<p>如果您是從執行 Windows 7 的電腦管理遠端電腦，則啟動 Windows 遠端管理 (WinRM) 服務可以新增信任的主機。依序按一下 <strong>[開始]</strong>、<strong>[所有程式]</strong>、<strong>[附屬應用程式]</strong>，並在 <strong>[命令提示字元]</strong> 上按一下滑鼠右鍵，再按 <strong>[以系統管理員身分執行]</strong>，以較高的使用者權限開啟命令提示字元工作階段。輸入下列命令，然後按 <strong>Enter</strong>：<strong>net start winrm</strong> <p>對於工作群組對工作群組/網域狀況中的遠端連線，必須將遠端電腦新增到來源電腦上的信任主機清單中。若要這樣做，請以較高的使用者權限開啟 [命令提示字元] 視窗，在來源電腦上執行下列命令。  <p><strong>winrm set winrm/config/client @{TrustedHosts=”RemoteComputerName”}</strong> <p>對於工作群組對工作群組/網域狀況的遠端連線，若使用者不是使用來源電腦內建的系統管理員帳戶登入，則必須設定下列 <strong>WinRM</strong> 登錄機碼，才能從來源電腦進行遠端存取。由於對非 <strong>Administrators</strong> 群組成員的系統管理員帳戶有使用者帳戶控制 (UAC) 限制，因此必須進行此變更。若要變更此登錄機碼，請以較高的使用者權限開啟命令提示字元，在來源電腦上執行下列命令。  <p><strong>reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v LocalAccountTokenFilterPolicy /t REG_DWORD /d 1 /f</strong> <p><strong>WinRM</strong> 預設允許每位使用者對遠端電腦的連線數量上限為五個。若要提高上限，請以較高的使用者權限開啟命令提示字元，在來源電腦上執行下列命令，其中 X 代表您想要允許的連線數量。  <p><strong>winrm s winrm/config/winrs @{MaxShellsPerUser=”X”}</strong> </p>
+</blockquote>
+<p>所以我們要在win 8下，設定winrm，我們可以先輸入winrm get winrm/config/client看看目前的設定。( 別忘了cmd要使用administrator權限來做設定喔!! )</p>
+<p><a href="http://lh6.ggpht.com/-i6hJvr1_SYw/UR39PcPPTZI/AAAAAAAAF18/c8E9frv9iPs/s1600-h/image%25255B30%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-XIoCW0AN2dA/UR39QEPdewI/AAAAAAAAF2E/x_SUybT_hwU/image_thumb%25255B15%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們輸入winrm set winrm/config/client @{TrustedHosts=”vm”}，其中vm的就是要管理的那台server名稱。</p>
+<p><a href="http://lh3.ggpht.com/-p6spSTiQy8k/UR39RFz9GUI/AAAAAAAAF2M/uuf76yjZrVo/s1600-h/image%25255B35%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-Rv1othUzQog/UR39R_VwXGI/AAAAAAAAF2U/6dBFysvuBn0/image_thumb%25255B18%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們重新整理後，會發現，拒絕存取，那是因為，我們沒有遠端那台電腦的帳號與權限。</p>
+<p><a href="http://lh6.ggpht.com/-gQY8amdV2yc/UR39SiM6rTI/AAAAAAAAF2c/46Js6XYRY-Y/s1600-h/image%25255B39%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-9U59ucT2CbI/UR39TjadzVI/AAAAAAAAF2k/_uAr5N1Ark4/image_thumb%25255B20%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>我們選擇管理身分。</p>
+<p><a href="http://lh4.ggpht.com/-TdkOFwAL7bM/UR39VG1yxMI/AAAAAAAAF2s/JzB6h6qt_6o/s1600-h/image%25255B43%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-jXFKWvKbHaI/UR39WOrwJUI/AAAAAAAAF20/Axfk8-px13Q/image_thumb%25255B22%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這邊，就輸入遠端的帳號與密碼。</p>
+<p><a href="http://lh5.ggpht.com/-d41JObXdg2U/UR39WgSdO6I/AAAAAAAAF28/RfmC-jxrp3A/s1600-h/image%25255B47%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-QlLoje1Il9w/UR39XW9ZgVI/AAAAAAAAF3E/JkJC_ZT1yMY/image_thumb%25255B24%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這時候，我們就可以看到，在win 8下，可以順利的進行管理了!!</p>
+<p><a href="http://lh3.ggpht.com/-xuDjR0o2z1s/UR39YPR5ZDI/AAAAAAAAF3M/TfKBSjXeKhc/s1600-h/image%25255B51%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-Ccr4yqTi2mQ/UR39ZFfi5AI/AAAAAAAAF3U/9G3xHrqm6KQ/image_thumb%25255B26%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這樣就完成了!!</p>
+<h4 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h4><p>透過伺服器管理員，我們就可以從win 8輕鬆的管理多台Server，也不用一台一台的遠端桌面過去看狀態，而這邊，比較麻煩的是因為沒加入ad，所以有比較多的步驟要處理，相信如果已經加入ad的電腦，會簡單許多；而這邊，小弟也簡單的獻曝，如果有錯，也請各位前輩多多指教。</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://technet.microsoft.com/zh-tw/library/hh921475.aspx" target="_blank" rel="noopener" title="http://technet.microsoft.com/zh-tw/library/hh921475.aspx">http://technet.microsoft.com/zh-tw/library/hh921475.aspx</a></li>
+<li><a href="http://technet.microsoft.com/zh-tw/library/hh831456.aspx" target="_blank" rel="noopener" title="http://technet.microsoft.com/zh-tw/library/hh831456.aspx">http://technet.microsoft.com/zh-tw/library/hh831456.aspx</a></li>
+<li><a href="http://technet.microsoft.com/zh-tw/library/dd759202.aspx" target="_blank" rel="noopener" title="http://technet.microsoft.com/zh-tw/library/dd759202.aspx">http://technet.microsoft.com/zh-tw/library/dd759202.aspx</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Windows/" rel="tag">#Windows</a>
+          
+            <a href="/tags/Windows-Server/" rel="tag">#Windows Server</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/01/04/ASP-NET-MVC-Area%E5%87%BA%E7%8F%BE%E6%8C%87%E5%AE%9A%E7%9A%84%E7%B5%84%E4%BB%B6%E5%90%8D%E7%A8%B1%E6%88%96%E7%A8%8B%E5%BC%8F%E7%A2%BC%E5%BA%AB%E7%84%A1%E6%95%88%E4%B9%8B%E5%95%8F%E9%A1%8C/" rel="next" title="ASP.NET MVC -  Area出現指定的組件名稱或程式碼庫無效之問題">
+                <i class="fa fa-chevron-left"></i> ASP.NET MVC -  Area出現指定的組件名稱或程式碼庫無效之問題
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/02/17/Windows-Server-%E6%9C%AA%E5%95%9F%E5%8B%95%E6%95%88%E8%83%BD%E8%A8%88%E6%95%B8%E5%99%A8/" rel="prev" title="Windows Server - 未啟動效能計數器">
+                Windows Server - 未啟動效能計數器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#結論"><span class="nav-number">1.</span> <span class="nav-text">結論</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">2.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2013/02/15/Windows-Server-使用Win8管理Windows-Server/';
+      var disqus_title = 'Windows Server - 使用Win8管理Windows Server';
+      var disqus_url = 'http://skychang.github.io/2013/02/15/Windows-Server-%E4%BD%BF%E7%94%A8Win8%E7%AE%A1%E7%90%86Windows-Server/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

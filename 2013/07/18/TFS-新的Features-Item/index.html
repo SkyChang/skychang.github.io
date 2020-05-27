@@ -1,0 +1,650 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Scrum,TFS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="持續來看看TFS的新功能項目之一，如果有再跑Scrum之類的，可能會常常進入到Item的管理介面裡面去，而這次TFS 2013和Team Foundation Service多出了一個Features的Item。 如下圖所示，我們可以看到Features出現在左邊，而我們可以新增一個Features。目前小弟自己的看法，認為Features是在大於Product Backlog層級的Item，例如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TFS - 新的Features Item">
+<meta property="og:url" content="http://skychang.github.io/2013/07/18/TFS-%E6%96%B0%E7%9A%84Features-Item/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="持續來看看TFS的新功能項目之一，如果有再跑Scrum之類的，可能會常常進入到Item的管理介面裡面去，而這次TFS 2013和Team Foundation Service多出了一個Features的Item。 如下圖所示，我們可以看到Features出現在左邊，而我們可以新增一個Features。目前小弟自己的看法，認為Features是在大於Product Backlog層級的Item，例如">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh6.ggpht.com/-3DXFmNSCvJg/UebCedOumvI/AAAAAAAAGyU/zrX9K_Ad4as/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-gDaxXMKdjWI/UebCf62uxWI/AAAAAAAAGyk/t5kZmri4yYM/image_thumb%25255B4%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-iySMxn2xXKo/UebChTQ_zXI/AAAAAAAAGy0/hxZhWI16FOI/image_thumb%25255B6%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-MGDuX_-iZnk/UebCjGGJSMI/AAAAAAAAGzE/t6hkawAJJ7c/image_thumb%25255B8%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-eRgR0UQD0fU/Ueez5_OE9rI/AAAAAAAAG6E/J37vCnUFas4/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2013-07-18T00:13:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.964Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Scrum">
+<meta property="article:tag" content="TFS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh6.ggpht.com/-3DXFmNSCvJg/UebCedOumvI/AAAAAAAAGyU/zrX9K_Ad4as/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> TFS - 新的Features Item | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                TFS - 新的Features Item
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2013-07-18T00:13:00+00:00" content="2013-07-18">
+              2013-07-18
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/07/18/TFS-%E6%96%B0%E7%9A%84Features-Item/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/07/18/TFS-新的Features-Item/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>持續來看看TFS的新功能項目之一，如果有再跑Scrum之類的，可能會常常進入到Item的管理介面裡面去，而這次TFS 2013和Team Foundation Service多出了一個Features的Item。</p>
+<p>如下圖所示，我們可以看到Features出現在左邊，而我們可以新增一個Features。目前小弟自己的看法，認為Features是在大於Product Backlog層級的Item，例如某些產品要那些特色，而這些特色裡面會在包含了Product Backlog的需求，然後再去細分為實作的Sprint Backlog( Task )，這樣分層的好處，就是可以更加得清楚，使用者到底要的是怎樣的東西。</p>
+<p><a href="http://lh4.ggpht.com/-W7qgCXPHcv8/UebCduVLXgI/AAAAAAAAGyM/iN9dLXjIlTw/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-3DXFmNSCvJg/UebCedOumvI/AAAAAAAAGyU/zrX9K_Ad4as/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>而如果真的要建立的話，我們也可以發現，和之前的Product Backlog有所不同，尤其是Target Date這項，我們可以定義一個目標日期；至於為什麼會有這個選項，猜想因該也是為了讓整個專案能更加的關聯住，但小弟目前還沒看到官方提供正式的說明，所以就先不加以猜測了。</p>
+<p><a href="http://lh6.ggpht.com/-buhLEZID_8Q/UebCfLUP86I/AAAAAAAAGyc/drvOATq8wgE/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-gDaxXMKdjWI/UebCf62uxWI/AAAAAAAAGyk/t5kZmri4yYM/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>其次，如果點選了第一張圖箭頭的位置，還可以切換想要關注的觀點；比方說，小弟切換成Features to Backlog items時，我們就可以再從Features前面的加號，新增一個新的Product Backlog…從這邊就可以看到階層的關係。</p>
+<p><a href="http://lh4.ggpht.com/-4LW6b3qP6XE/UebCgo7Tj2I/AAAAAAAAGys/95EQiy0-t24/s1600-h/image%25255B12%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-iySMxn2xXKo/UebChTQ_zXI/AAAAAAAAGy0/hxZhWI16FOI/image_thumb%25255B6%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>最後，我們也發現Backlog Items的選項旁邊多了圖示可以點選，我們點下去之後，就可以看到Product Backlog的階層，老實說，這真的是個很方便的功能。</p>
+<p><a href="http://lh3.ggpht.com/-Nya47XPnI_Y/UebCiF1kbxI/AAAAAAAAGy8/NPY-5bhI5IE/s1600-h/image%25255B16%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-MGDuX_-iZnk/UebCjGGJSMI/AAAAAAAAGzE/t6hkawAJJ7c/image_thumb%25255B8%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>另外，我們也可以從下圖的Mapping功能，開啟右邊的側欄，就可以發現已經建立好的Features，我們也可以直接把Product Backlog拖拉過去，那這樣，就會被歸類到Features底下。</p>
+<p><a href="http://lh3.ggpht.com/-8gKxIf5R028/Ueez4uDJwuI/AAAAAAAAG58/zaVVNEoozww/s1600-h/image%25255B4%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-eRgR0UQD0fU/Ueez5_OE9rI/AAAAAAAAG6E/J37vCnUFas4/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>大致上到這邊。</p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>有些應用官方還沒跳出來解說該如何用( 又或是小弟沒找到，沒時間看QQ )，所以在這邊先稍微介紹一下，未來如果有知道怎樣是官方建議的應用，會在修改此文章，給大家參考，也請大家多見諒。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Scrum/" rel="tag">#Scrum</a>
+          
+            <a href="/tags/TFS/" rel="tag">#TFS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/07/17/TFS-%E5%9C%A8Web%E7%AE%A1%E7%90%86%E4%BB%8B%E9%9D%A2%E7%9A%84Code%E5%A2%9E%E5%8A%A0%E8%AA%AA%E6%98%8E%E8%88%87%E8%A8%8E%E8%AB%96/" rel="next" title="TFS - 在Web管理介面的Code增加說明與討論">
+                <i class="fa fa-chevron-left"></i> TFS - 在Web管理介面的Code增加說明與討論
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/07/18/Visual-Studio-2013%E6%96%B0%E5%8A%9F%E8%83%BD/" rel="prev" title="Visual Studio - 2013新功能">
+                Visual Studio - 2013新功能 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">1.</span> <span class="nav-text">後記</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2013/07/18/TFS-新的Features-Item/';
+      var disqus_title = 'TFS - 新的Features Item';
+      var disqus_url = 'http://skychang.github.io/2013/07/18/TFS-%E6%96%B0%E7%9A%84Features-Item/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

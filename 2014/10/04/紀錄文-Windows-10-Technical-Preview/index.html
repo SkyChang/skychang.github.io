@@ -1,0 +1,673 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Sky的IT碎碎念,Windows," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="年年有大事，這幾天最大的大事，大概就是Windows 10已經可以給大家去做測試與使用這件事吧，所以小弟的年度喇賽紀錄文，就又出現了!! 而這次除了Windows 10的出現，大家最好奇的應該就是9勒!!?.. 而各種陰謀論就在網路上流傳了…例如，  因為win 8.1 已經是等於9了，所以就跳過9… 因為MS最近希望用One代表全新產品..例如OneDrive、XBox One、但因為Windo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="紀錄文 - Windows 10 Technical Preview">
+<meta property="og:url" content="http://skychang.github.io/2014/10/04/%E7%B4%80%E9%8C%84%E6%96%87-Windows-10-Technical-Preview/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="年年有大事，這幾天最大的大事，大概就是Windows 10已經可以給大家去做測試與使用這件事吧，所以小弟的年度喇賽紀錄文，就又出現了!! 而這次除了Windows 10的出現，大家最好奇的應該就是9勒!!?.. 而各種陰謀論就在網路上流傳了…例如，  因為win 8.1 已經是等於9了，所以就跳過9… 因為MS最近希望用One代表全新產品..例如OneDrive、XBox One、但因為Windo">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh4.ggpht.com/-evieLAgkylA/VC-V0GPY3qI/AAAAAAAAKLM/9Vj6UTiyf04/Image.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-HOHo1egv42c/VC-V1sVCfjI/AAAAAAAAKLc/h1Rvd7sF87M/Image.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-IN1jZgtsXgo/VC-V3eVvKzI/AAAAAAAAKLs/_h6IWgYrjDQ/Image.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-8bvgLCsz4lQ/VC-V5IM5ufI/AAAAAAAAKL8/Bkt6jVIsnVE/Image.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-I1U08dym8gY/VC-V7ChyDlI/AAAAAAAAKMM/77cqsnG0Hac/Image.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-3mMkb5nAEzw/VC-V94Pl0xI/AAAAAAAAKMc/VQp1nr3Scvg/Image.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-jOML-puUhf8/VC-V_pNWZ5I/AAAAAAAAKMs/vVqqpoZcmt8/Image.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-k0_kl6D5AcQ/VC-WCKiiQSI/AAAAAAAAKM8/yZthFENuk1k/Image.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-HsUvrtiEeHQ/VC-WD3HN4lI/AAAAAAAAKNM/ux2K8S8vOgs/Image.png?imgmax=800">
+<meta property="article:published_time" content="2014-10-04T14:39:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.079Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Sky的IT碎碎念">
+<meta property="article:tag" content="Windows">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh4.ggpht.com/-evieLAgkylA/VC-V0GPY3qI/AAAAAAAAKLM/9Vj6UTiyf04/Image.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 紀錄文 - Windows 10 Technical Preview | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                紀錄文 - Windows 10 Technical Preview
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2014-10-04T14:39:00+00:00" content="2014-10-04">
+              2014-10-04
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/10/04/%E7%B4%80%E9%8C%84%E6%96%87-Windows-10-Technical-Preview/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/10/04/紀錄文-Windows-10-Technical-Preview/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>年年有大事，這幾天最大的大事，大概就是Windows 10已經可以給大家去做測試與使用這件事吧，所以小弟的年度喇賽紀錄文，就又出現了!!</p>
+<p>而這次除了Windows 10的出現，大家最好奇的應該就是9勒!!?..</p>
+<p>而各種陰謀論就在網路上流傳了…例如，</p>
+<ul>
+<li>因為win 8.1 已經是等於9了，所以就跳過9…</li>
+<li>因為MS最近希望用One代表全新產品..例如OneDrive、XBox One、但因為Windows 1.0已經被大老闆Bill用過了，所以只能去到那個點，變成10…</li>
+<li>但小弟最喜歡的是<a href="http://chinese.engadget.com/2014/10/02/windows-10-9-naming-rumor/" target="_blank" rel="noopener">這篇</a>阿…因為檢查版號的偷懶，win 95 只檢查到9… ( 那98怎麼辦?.. ) </li>
+</ul>
+<p>但不管怎樣，反正就是稱為10嚕…</p>
+<p>另外，這篇基本上就是個紀錄文，讓小弟未來可以回顧一下歷史上的今天，並不會談論有怎樣的新功能 ( 可能會談一點點啦… )，畢竟無論新功能或是一些細節，很多前輩都po過了，小弟就不多說嚕…</p>
+<p>那有興趣下載的朋友，可以到這個<a href="http://windows.microsoft.com/zh-tw/windows/preview" target="_blank" rel="noopener">網址去下載</a>。</p>
+<p>基本上，小弟是把Windows 10 安裝到 Macbook的VM上( 使用 Parallels 10 )，有興趣的朋友可以參考<a href="http://9to5mac.com/2014/10/02/want-to-install-windows-10-on-your-mac-parallels-posts-instructions/" target="_blank" rel="noopener">這篇</a>。</p>
+<p>安裝的過程中，就如同以前Win 8一樣，基本上不太可能會遇到甚麼問題；然後從Win 8開始，就可以綁定Microsoft Account，而這次我們也可以繼續使用Microsoft Account來登入~~</p>
+<p><a href="http://lh6.ggpht.com/-I_HNMvxskhk/VC-Vy3wzHtI/AAAAAAAAKLE/YuEZP_HOIxE/s1600-h/Image.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-evieLAgkylA/VC-V0GPY3qI/AAAAAAAAKLM/9Vj6UTiyf04/Image.png?imgmax=800" alt="螢幕快照 2014-10-04 下午12.54.37" title="螢幕快照 2014-10-04 下午12.54.37"></a></p>
+<p>隨便就可以登入是非常可怕的事情，所以這邊會需要驗證，像小弟可能就使用手機簡訊來驗證，所以這邊要先輸入手機的最後四碼，然後他就會發簡訊來了~~</p>
+<p><a href="http://lh3.ggpht.com/-TzxnQHS1ZQo/VC-V03x4eHI/AAAAAAAAKLU/CpestTsTeLI/s1600-h/Image.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-HOHo1egv42c/VC-V1sVCfjI/AAAAAAAAKLc/h1Rvd7sF87M/Image.png?imgmax=800" alt="螢幕快照 2014-10-04 下午1.06.12" title="螢幕快照 2014-10-04 下午1.06.12"></a></p>
+<p>輸入簡訊上的號碼，就可以繼續，現在簡訊傳送還滿快的~</p>
+<p><a href="http://lh4.ggpht.com/-GPzteWWcLo0/VC-V2ls2XEI/AAAAAAAAKLk/7-p80Bt_Nec/s1600-h/Image.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-IN1jZgtsXgo/VC-V3eVvKzI/AAAAAAAAKLs/_h6IWgYrjDQ/Image.png?imgmax=800" alt="螢幕快照 2014-10-04 下午1.06.45" title="螢幕快照 2014-10-04 下午1.06.45"></a></p>
+<p>接下來，我們可以選擇要重新設定這個PC，或是用之前的設定；我覺得這個做得不錯，現在重灌電腦也越來越簡單了~</p>
+<p><a href="http://lh5.ggpht.com/-8zKaC4WbxwU/VC-V4CRB8nI/AAAAAAAAKL0/qlpt1nyM4M0/s1600-h/Image.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-8bvgLCsz4lQ/VC-V5IM5ufI/AAAAAAAAKL8/Bkt6jVIsnVE/Image.png?imgmax=800" alt="螢幕快照 2014-10-04 下午1.07.20" title="螢幕快照 2014-10-04 下午1.07.20"></a></p>
+<p>進來後，一眼望去的是新版的藍色畫面~~</p>
+<p><a href="http://lh4.ggpht.com/-FyXJNMRbSlQ/VC-V6cbfZtI/AAAAAAAAKME/RPJfHZVxeeA/s1600-h/Image.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-I1U08dym8gY/VC-V7ChyDlI/AAAAAAAAKMM/77cqsnG0Hac/Image.png?imgmax=800" alt="螢幕快照 2014-10-04 下午1.10.48" title="螢幕快照 2014-10-04 下午1.10.48"></a></p>
+<p>然後下一秒，就瞬間變成Win 8.1的黃色了… ( 因為它會抓你之前電腦的設定…但我這邊想用藍色阿XDD )；另外，大家期待的開始列回來了… ( 換小弟不習慣了..QQ )，而且開始列也整合了動態磚，一開始以為會很突兀，但實際上看了一下，覺得整合得還不錯~~也很方便使用。</p>
+<p><a href="http://lh3.ggpht.com/-P7tpVc31eWo/VC-V8nN9PUI/AAAAAAAAKMU/JFkxwFqXr_o/s1600-h/Image.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-3mMkb5nAEzw/VC-V94Pl0xI/AAAAAAAAKMc/VQp1nr3Scvg/Image.png?imgmax=800" alt="螢幕快照 2014-10-04 下午1.11.24" title="螢幕快照 2014-10-04 下午1.11.24"></a></p>
+<p>到這邊，小弟又換回藍色桌布了XDD，其實如果可以的話，建議大家點一下桌面的使用說明，就可以輕鬆看到這次的Win 10有提供怎樣的新功能喔。</p>
+<p><a href="http://lh4.ggpht.com/-nhVYiRQjBo0/VC-V-4XduuI/AAAAAAAAKMk/jZuuUOemy3I/s1600-h/Image.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-jOML-puUhf8/VC-V_pNWZ5I/AAAAAAAAKMs/vVqqpoZcmt8/Image.png?imgmax=800" alt="螢幕快照 2014-10-04 下午1.15.17" title="螢幕快照 2014-10-04 下午1.15.17"></a></p>
+<p>而在說明文件裡面，有一個小弟一直試驗不出來的功能，就是將開始功能表切回原本的Win 8的Style；後來決定直接進入控制台去做設定…設定方法如下；只要去Taskbar and Start Menu Properties裡面把”Use the Start menu instead the Start screen”取消勾選就可以了… ( 但小心，要重登電腦喔… )</p>
+<p><a href="http://lh3.ggpht.com/-SCFoEW6TPgA/VC-WA14Ex6I/AAAAAAAAKM0/gm40CzWkX_U/s1600-h/Image.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-k0_kl6D5AcQ/VC-WCKiiQSI/AAAAAAAAKM8/yZthFENuk1k/Image.png?imgmax=800" alt="螢幕快照 2014-10-04 下午1.35.13" title="螢幕快照 2014-10-04 下午1.35.13"></a></p>
+<p>完成，重新登入之後，就可以看到之前被大家砲轟，但小弟覺得滿好用的Win 8開始列XDD</p>
+<p><a href="http://lh6.ggpht.com/-rzG83yb_ZT0/VC-WC0o3_JI/AAAAAAAAKNE/wnvE9OzBOVo/s1600-h/Image.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-HsUvrtiEeHQ/VC-WD3HN4lI/AAAAAAAAKNM/ux2K8S8vOgs/Image.png?imgmax=800" alt="螢幕快照 2014-10-04 下午1.33.43" title="螢幕快照 2014-10-04 下午1.33.43"></a></p>
+<p>當然，其他還有一些功能，例如類似Mac、Linux的Task View，可以幫我們Group工作項目等等新功能，大家有機會都可以玩玩看喔。</p>
+<p>那喇賽文就先到這邊嚕~~</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Sky%E7%9A%84IT%E7%A2%8E%E7%A2%8E%E5%BF%B5/" rel="tag">#Sky的IT碎碎念</a>
+          
+            <a href="/tags/Windows/" rel="tag">#Windows</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/09/15/ASP-NET-MVC-%E7%9C%9F%E6%AD%A3%E7%9A%84Web%E5%89%8D%E7%AB%AF%E5%A5%97%E4%BB%B6%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7Bower/" rel="next" title="ASP.NET MVC -  真正的Web前端套件管理工具Bower">
+                <i class="fa fa-chevron-left"></i> ASP.NET MVC -  真正的Web前端套件管理工具Bower
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/11/02/Visual-Studio-%E5%BB%BA%E7%BD%AE%E7%9A%84%E6%99%82%E5%80%99%E8%87%AA%E5%8B%95%E7%94%A2%E7%94%9FNuGet-Package/" rel="prev" title="Visual Studio - 建置的時候自動產生NuGet Package">
+                Visual Studio - 建置的時候自動產生NuGet Package <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2014/10/04/紀錄文-Windows-10-Technical-Preview/';
+      var disqus_title = '紀錄文 - Windows 10 Technical Preview';
+      var disqus_url = 'http://skychang.github.io/2014/10/04/%E7%B4%80%E9%8C%84%E6%96%87-Windows-10-Technical-Preview/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

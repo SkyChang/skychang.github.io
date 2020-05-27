@@ -1,0 +1,689 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Visual Studio,ASP.NET MVC,NuGet," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="此回介紹ASP.NET MVC的一個重大功能，self host與publish。 從MVC 5開始，ASP.NET MVC就開始計畫與實作傳說中的OWIN，OWIN的全名就是Open Web Interface for .Net；我們思索一下，從以前開始，ASP.NET都必須要掛載在IIS之上，而ASP.NET也從以前至今，都必須相依於system.web等等的Lib；換言之，沒有IIS，ASP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET MVC - ASP.NET MVC vNext ( MVC 6) 發佈與self host">
+<meta property="og:url" content="http://skychang.github.io/2014/06/20/ASP-NET-MVC-ASP-NET-MVC-vNext-MVC-6-%E7%99%BC%E4%BD%88%E8%88%87self-host/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="此回介紹ASP.NET MVC的一個重大功能，self host與publish。 從MVC 5開始，ASP.NET MVC就開始計畫與實作傳說中的OWIN，OWIN的全名就是Open Web Interface for .Net；我們思索一下，從以前開始，ASP.NET都必須要掛載在IIS之上，而ASP.NET也從以前至今，都必須相依於system.web等等的Lib；換言之，沒有IIS，ASP">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh5.ggpht.com/-gdMy-t7cLGU/U6SxHUT_YyI/AAAAAAAAJYI/HneWyiPwIoY/image_thumb16.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-f61USlRskDk/U6SxJSqpSfI/AAAAAAAAJYY/BAG9gF_aGSc/image_thumb21.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-eqon58cWxCE/U6SxLPccBBI/AAAAAAAAJYo/n_M0ue7-uNs/image_thumb6.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-pGWduqJGuGo/U6SxMwQCDKI/AAAAAAAAJY4/JVNC2jXkVls/image_thumb8.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-Iyu12B2q_x8/U6SxOgDB3SI/AAAAAAAAJZI/PucmeRZXWfM/image_thumb11.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-xmJkNyUd8_o/U6SxQZawkeI/AAAAAAAAJZY/NQcJHb0RN_I/image_thumb14.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-YSYJvX-e2zU/U6SxSqr3RJI/AAAAAAAAJZo/TYMVuhk4uqI/image_thumb19.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-KASl8dNAHRQ/U6SxVuVZpQI/AAAAAAAAJZ4/ObRHDLaBu_w/image_thumb22.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-CUkw6XJW7Yg/U6SxYh06YII/AAAAAAAAJaI/9a45l9QbxtQ/image_thumb2.png?imgmax=800">
+<meta property="article:published_time" content="2014-06-20T18:07:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.832Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta property="article:tag" content="NuGet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh5.ggpht.com/-gdMy-t7cLGU/U6SxHUT_YyI/AAAAAAAAJYI/HneWyiPwIoY/image_thumb16.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ASP.NET MVC - ASP.NET MVC vNext ( MVC 6) 發佈與self host | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ASP.NET MVC - ASP.NET MVC vNext ( MVC 6) 發佈與self host
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2014-06-20T18:07:00+00:00" content="2014-06-20">
+              2014-06-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/06/20/ASP-NET-MVC-ASP-NET-MVC-vNext-MVC-6-%E7%99%BC%E4%BD%88%E8%88%87self-host/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/06/20/ASP-NET-MVC-ASP-NET-MVC-vNext-MVC-6-發佈與self-host/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>此回介紹ASP.NET MVC的一個重大功能，self host與publish。</p>
+<p>從MVC 5開始，ASP.NET MVC就開始計畫與實作傳說中的OWIN，OWIN的全名就是<a href="http://owin.org/" target="_blank" rel="noopener">Open Web Interface for .Net</a>；我們思索一下，從以前開始，ASP.NET都必須要掛載在IIS之上，而ASP.NET也從以前至今，都必須相依於system.web等等的Lib；換言之，沒有IIS，ASP.NET也就等於死翹翹…</p>
+<p>而這個混亂的時代下，就出現了OWIN這種東西，將原本的相依性，透過定義好一個一個的介面，來達到未來抽換的一個目的。</p>
+<p>好啦，講白一點，就是可以不用IIS就可以讓ASP.NET運作啦!!而所謂的self host，就是用命令模式的方式，讓程式在那邊監聽瀏覽器等的請求，而不用IIS啦!!</p>
+<p>而到了新版的ASP.NET MVC這功能就更加強大了，所以第四回合，就來體驗一下吧!!</p>
+<p>首先，我們要先透過NuGet載入一個監聽器，也就是底下的Microsoft.AspNet.Server.WebListener這個字串，當然我們要在project.json底下去新增… ( UI介面的趕快出來吧… )；完成之後，我們再加上下面這段Commands，這個Commands可以定義要用哪個port監聽等等之類的命令列參數。</p>
+<p><a href="http://lh6.ggpht.com/-dvATPeszWKw/U6SxGJ9JvsI/AAAAAAAAJYA/E9yMIQFGJhI/s1600-h/image28.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-gdMy-t7cLGU/U6SxHUT_YyI/AAAAAAAAJYI/HneWyiPwIoY/image_thumb16.png?imgmax=800" alt="image" title="image"></a></p>
+<p>全部的json config如下，有需要的人就直接copy吧~</p>
+<pre class="brush: js;">{
+    "dependencies": {
+        "Helios": "0.1-alpha-*",
+        "Microsoft.AspNet.Mvc": "0.1-alpha-*",
+        "Microsoft.AspNet.Server.WebListener": "0.1-alpha-*"
+    },
+    "commands": { /* Change the port number when you are self hosting this application */ 
+        "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5000"
+    },
+    "configurations": {
+        "net45": {},
+        "k10": { }
+    }
+}
+</pre>
+
+<p>完成後，我們就可以在命令列下使用k web這個指令來將常駐run起來 ( <a href="http://blog.sanc.idv.tw/2014/05/aspnet-mvc-kvm.html" target="_blank" rel="noopener">可以參考KVM那篇</a> )。</p>
+<p>( PS 因為我們Commands底下是”web” : xxxxx，所以用k web，如果是其他的字，例如”web8080” : xxx 那就要輸入k web8080，換言之，我們可以定義多個，來達到不同的目的。 )</p>
+<p>好self host KVM那篇已經試驗過了，接下來我們看一下佈署。</p>
+<p>基本上佈署的設定和之前沒啥兩樣。</p>
+<p><a href="http://lh3.ggpht.com/-HsLJPsX-H6Q/U6SxIZlVRaI/AAAAAAAAJYQ/S8pEP56PKUs/s1600-h/image4.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-f61USlRskDk/U6SxJSqpSfI/AAAAAAAAJYY/BAG9gF_aGSc/image_thumb21.png?imgmax=800" alt="image" title="image"></a></p>
+<p>但我們這邊準備要把WEB丟到USB ( 假設要丟到USB…實際上我是把他傳到另外一台電腦上面去RUN )，所以這邊選擇要佈署到File System。</p>
+<p><a href="http://lh4.ggpht.com/-_tzmZcwxqJA/U6SxKNyDSaI/AAAAAAAAJYg/iRWTyYPMRh4/s1600-h/image10.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-eqon58cWxCE/U6SxLPccBBI/AAAAAAAAJYo/n_M0ue7-uNs/image_thumb6.png?imgmax=800" alt="image" title="image"></a></p>
+<p>就…打一下Customer Profile名稱…</p>
+<p><a href="http://lh5.ggpht.com/-v29-k5lLpA8/U6SxMNzcLVI/AAAAAAAAJYw/yjOhPZIizBs/s1600-h/image14.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-pGWduqJGuGo/U6SxMwQCDKI/AAAAAAAAJY4/JVNC2jXkVls/image_thumb8.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後選擇目錄。</p>
+<p><a href="http://lh3.ggpht.com/-hKBLfb0ywB4/U6SxN0CfodI/AAAAAAAAJZA/QSRXlzzqf60/s1600-h/image19.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-Iyu12B2q_x8/U6SxOgDB3SI/AAAAAAAAJZI/PucmeRZXWfM/image_thumb11.png?imgmax=800" alt="image" title="image"></a></p>
+<p>完成後，其實可以發現，現在多了一個web.cmd這個檔案了；另外，大家可能會覺得…為啥有一堆MVC的Code…那是因為我們上一篇有把MVC的Source Code加入進來。</p>
+<p>當然，這個這樣是不安全的，但大家也不用擔心啦，離整個發表，還有一年的時間(2015年)，我們先體驗過程就好了~~</p>
+<p><a href="http://lh4.ggpht.com/-WRBTJQ8HOtk/U6SxPV_uy0I/AAAAAAAAJZQ/Xwmtv99hwU8/s1600-h/image24.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-xmJkNyUd8_o/U6SxQZawkeI/AAAAAAAAJZY/NQcJHb0RN_I/image_thumb14.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這時候，我們執行web.cmd，就可以得到如下圖的結果。</p>
+<p><a href="http://lh4.ggpht.com/-0KDSZYhVhhA/U6SxRV8KPYI/AAAAAAAAJZg/LmkSXb5Psfw/s1600-h/image33.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-YSYJvX-e2zU/U6SxSqr3RJI/AAAAAAAAJZo/TYMVuhk4uqI/image_thumb19.png?imgmax=800" alt="image" title="image"></a></p>
+<p>另外，如果copy到另外一台電腦，也不用做甚麼事情，就可以順利run了 ( 我的筆電上是沒有裝KVM的，但也是一樣可以跑得很開心~~ )</p>
+<p><a href="http://lh3.ggpht.com/-PsUDzZ0QSH0/U6SxUFO2XJI/AAAAAAAAJZw/L5bVDH-1XXg/s1600-h/image38.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-KASl8dNAHRQ/U6SxVuVZpQI/AAAAAAAAJZ4/ObRHDLaBu_w/image_thumb22.png?imgmax=800" alt="image" title="image"></a></p>
+<p>當然，能RUN起來的秘密，其實就是他把所有需要的東西，全部都放到Package裡面去了。( 當然，要run的電腦上還是要裝.Net Framework啦…不然空有dll，沒有環境可以Run，當然還是不行；而這次透過這方式，可以讓Server端不用安裝一堆Package，而變成動態下載，也因此，我們不用再去找相對應的版本對應包，更加的方便了!!</p>
+<p><a href="http://lh5.ggpht.com/-cnWpXgHAl-8/U6SxXRvrTdI/AAAAAAAAJaA/mhzAsHYoNbQ/s1600-h/image51.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-CUkw6XJW7Yg/U6SxYh06YII/AAAAAAAAJaI/9a45l9QbxtQ/image_thumb2.png?imgmax=800" alt="image" title="image"></a></p>
+<p>大致上就這樣!!以後網頁也可以帶著走了喔!!</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+            <a href="/tags/NuGet/" rel="tag">#NuGet</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/06/10/ASP-NET-MVC-ASP-NET-MVC-vNext-MVC-6-%E5%8F%83%E8%80%83%E5%85%B6%E4%BB%96%E5%B0%88%E6%A1%88/" rel="next" title="ASP.NET MVC - ASP.NET MVC vNext ( MVC 6 ) 參考其他專案">
+                <i class="fa fa-chevron-left"></i> ASP.NET MVC - ASP.NET MVC vNext ( MVC 6 ) 參考其他專案
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/06/20/ASP-NET-MVC-ASP-NET-MVC-vNext-MVC-6-Core-CLR-and-NET-Core-Framework/" rel="prev" title="ASP.NET MVC -  ASP.NET MVC vNext ( MVC 6 ) Core CLR and .NET Core Framework">
+                ASP.NET MVC -  ASP.NET MVC vNext ( MVC 6 ) Core CLR and .NET Core Framework <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2014/06/20/ASP-NET-MVC-ASP-NET-MVC-vNext-MVC-6-發佈與self-host/';
+      var disqus_title = 'ASP.NET MVC - ASP.NET MVC vNext ( MVC 6) 發佈與self host';
+      var disqus_url = 'http://skychang.github.io/2014/06/20/ASP-NET-MVC-ASP-NET-MVC-vNext-MVC-6-%E7%99%BC%E4%BD%88%E8%88%87self-host/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

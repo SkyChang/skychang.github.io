@@ -1,0 +1,714 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ASP.NET MVC,Azure,Redis," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="在Open Source裡面，Redis其實算是非常紅的NOSQL資料庫，尤其是他的速度非常快(因為都存在Memory裡面)，所以大家通常都會把Redis當作Cache使用。 ( 這裡有簡體的Redis 設計與實踐手冊，有興趣的朋友可以看看，小弟是還沒空看就是了… ) 而近年來，不斷改變形象的MS，現在Azure上，也幫我們實作了以Redis為核心的Cache，讓我們可以不用建立，立馬可以使用!!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Azure - Redis Cache">
+<meta property="og:url" content="http://skychang.github.io/2014/08/24/Azure-Redis-Cache/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="在Open Source裡面，Redis其實算是非常紅的NOSQL資料庫，尤其是他的速度非常快(因為都存在Memory裡面)，所以大家通常都會把Redis當作Cache使用。 ( 這裡有簡體的Redis 設計與實踐手冊，有興趣的朋友可以看看，小弟是還沒空看就是了… ) 而近年來，不斷改變形象的MS，現在Azure上，也幫我們實作了以Redis為核心的Cache，讓我們可以不用建立，立馬可以使用!!">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh3.ggpht.com/-GX9SkOTE5Eg/U_mnJrvPQuI/AAAAAAAAJsg/ncTHzEcPud0/image_thumb%25255B3%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-s1M3kqdVzi8/U_mnL2R8SNI/AAAAAAAAJsw/MH-eAftQmd8/image_thumb%25255B18%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-rjOpiCuCs3o/U_mnOcWPZ1I/AAAAAAAAJtA/VoE45iTx_Js/image_thumb%25255B25%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-axzsMb-zcgk/U_mnRE9L1uI/AAAAAAAAJtQ/_G0M_9N6oVg/image_thumb%25255B14%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2014-08-24T16:50:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.880Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="Redis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh3.ggpht.com/-GX9SkOTE5Eg/U_mnJrvPQuI/AAAAAAAAJsg/ncTHzEcPud0/image_thumb%25255B3%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Azure - Redis Cache | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Azure - Redis Cache
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2014-08-24T16:50:00+00:00" content="2014-08-24">
+              2014-08-24
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/08/24/Azure-Redis-Cache/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/08/24/Azure-Redis-Cache/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在Open Source裡面，<a href="http://redis.io/" target="_blank" rel="noopener">Redis</a>其實算是非常紅的NOSQL資料庫，尤其是他的速度非常快(因為都存在Memory裡面)，所以大家通常都會把Redis當作Cache使用。</p>
+<p>( 這裡有簡體的<a href="http://redisbook1e-gallery.readthedocs.org/en/latest/?utm_content=buffer98244&amp;utm_medium=social&amp;utm_source=facebook.com&amp;utm_campaign=buffer" target="_blank" rel="noopener">Redis 設計與實踐手冊</a>，有興趣的朋友可以看看，小弟是還沒空看就是了… )</p>
+<p>而近年來，不斷改變形象的MS，現在Azure上，也幫我們實作了以Redis為核心的Cache，讓我們可以不用建立，立馬可以使用!!</p>
+<p>除此之外，官方的<a href="http://blogs.technet.com/b/azuretw/archive/2014/08/09/azure-cache.aspx" target="_blank" rel="noopener">Blog文章</a>也指出，”<strong>微軟公司建議 Azure 用戶所有的新開發的應用系統，未來皆採用 Azure Redis Cache</strong>“，所以可以看的出來Redis Cache已經取代了原先的Cache機制了…</p>
+<p>另外，這邊也有”早期”的Redis Cache vs AppFabric的效能<a href="http://siliconangle.com/blog/2012/02/27/redis-on-windows-vs-microsofts-appfabric/" target="_blank" rel="noopener">比較資訊</a>，不過這種資訊參考參考就好，畢竟時代不斷的進步~</p>
+<p>那接下來這篇，我們就來介紹一下Azure上的Redis Cache。</p>
+<h3 id="Create-a-cache"><a href="#Create-a-cache" class="headerlink" title="Create a cache"></a>Create a cache</h3><p>首先，我們當然是要建立Redis Cache，而在寫這篇文章的時候，還是Prieview，所以要用於正式環境的朋友，要注意一下喔!<del>要啟用Redis Cache，必須於新版的Azure Portal上，才可以看見，所以大家記得切換到新版的Portal上喔!</del></p>
+<p>要建立很簡單，只要選擇Redis Cache就可以了。</p>
+<p><a href="http://lh3.ggpht.com/-5j192SElHvA/U_mnH02qxJI/AAAAAAAAJsY/iSTHWNWUygE/s1600-h/image%25255B5%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-GX9SkOTE5Eg/U_mnJrvPQuI/AAAAAAAAJsg/ncTHzEcPud0/image_thumb%25255B3%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後我們要輸入一下DNS的位置；然後依據你想要使用的大小，選擇方案，基本上目前Redis Cache有兩種方案，一種是Basic，一種是Standard；Basic比較便宜，但是不保證SLA 99.95，而Standard基本上都有SLA 99.95 ( 詳細資訊可以參考官網 )。</p>
+<p>另外，如果不滿1G，通常都會和別人共用，所以如果想獨享，那就要選1G以上方案 ( 好像在講手機4G行動方案的感覺= =|| )</p>
+<p>接下來要選擇Resource Group、要使用的帳號、和地區。</p>
+<p><a href="http://lh4.ggpht.com/-CCjPudbPvkM/U_mnKrjYGoI/AAAAAAAAJso/PNckQjl1OEI/s1600-h/image%25255B28%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-s1M3kqdVzi8/U_mnL2R8SNI/AAAAAAAAJsw/MH-eAftQmd8/image_thumb%25255B18%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>完成之後，就可以等他建立完成；完成之後，我們就可以從下圖的位置取得密碼等資訊。</p>
+<p><a href="http://lh6.ggpht.com/-x8cgTRuLIfI/U_mnNaw3wNI/AAAAAAAAJs4/i9iej-k-rkk/s1600-h/image%25255B42%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-rjOpiCuCs3o/U_mnOcWPZ1I/AAAAAAAAJtA/VoE45iTx_Js/image_thumb%25255B25%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>到這邊，就建立完成了!!</p>
+<h3 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h3><p>應用程式這邊，則要使用第三方套件，才能對Redis Cache進行操作；我們可以使用NuGet打”StackExchange.Redis”取得，如下圖。而這邊，兩個套件選擇其中一個就可以；如果你喜歡Strong-Name，那可以選擇第二個。( 關於Strong-Name，有興趣的朋友可以Google )，另外，要注意的是目前這個Lib只支援.Net Framework 4以上版本。</p>
+<p><a href="http://lh3.ggpht.com/-VXekrRdKzkw/U_mnP6IuZbI/AAAAAAAAJtI/KioNhINlqeY/s1600-h/image%25255B22%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-axzsMb-zcgk/U_mnRE9L1uI/AAAAAAAAJtQ/_G0M_9N6oVg/image_thumb%25255B14%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來就是寫Code了!!~，基本上我們這邊會有三個簡單的Demo；首先我們會使用ConnectionMultiplexer.Connect來設定連線字串；如果不想要SSL，可以把SSL設為False；而後面的Password就是我們上面所看到的Key。</p>
+<p>另外，官方網站有特別提到，ConnectionMultiplexer.Connect只需要設定一次，就可以給你的這個應用程式使用，如果設定多次，可能會有效能下降的疑慮。接下來，我們可以使用connection.GetDatabase()來取得IDatabase的實體，到時候我們就可以使用這個Object來操作Redis Cache。</p>
+<p>我們要存放資料很簡單，只需要下cache.StringSet(“Key1”, “value”);，而不需要在下啥SaveChange等指令…；Redis裡面存的是Key、Value，而這個Value基本上是文字；但我們也可以把二進位元碼存、C# Object存進去；只是要稍微轉換一下就是了。</p>
+<p>要取出來也很簡單；我們可以用StringGet(“Key1”)來把資料放到MVC的ViewData裡面；而如果裡面沒有東西，則會回傳Null，所以透過此機制，我們可以很簡單的實作出Cache-Aside Pattern ( 如Demo-2 )</p>
+<p>最後，如果有需要，也可以設定過期時間，如Demo-3。</p>
+<pre class="brush: csharp;">using StackExchange.Redis;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace RedisCacheDemo.Controllers
+{
+    public class HomeController : Controller
+    {
+        // GET: Home
+        public ActionResult Index()
+        {
+            //設定連線字串
+            ConnectionMultiplexer connection = 
+                ConnectionMultiplexer.Connect(
+                "skyrediscache.redis.cache.windows.net,ssl=true,password=....");
+
+            IDatabase cache = connection.GetDatabase();
+
+            //Demo-1 存放簡單的形態到Cache
+            cache.StringSet("key1", "value");
+            cache.StringSet("key2", 25);
+
+            //取得資料
+            ViewData["key1"] = cache.StringGet("key1");
+            ViewData["key2"] = (int)cache.StringGet("key2");
+
+            //Demo-2 Cache-Aside Pattern
+            string value = cache.StringGet("key1");
+            if (value == null)
+            {
+                //如果找不到資料，就從資料庫取得
+                value = GetValueFromDataSource();
+
+                cache.StringSet("key1", value);
+            }
+
+            //Demo-3 指定時間
+            cache.StringSet("key1", "value1", TimeSpan.FromMinutes(90));
+
+            return View();
+        }
+    }
+}
+</pre>
+
+<p>基本上這部份的操作就是這樣，還滿簡單的；下一篇，我們來看看，如何將Session存放到Redis Cache裡面去。</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://redis.io/" target="_blank" rel="noopener" title="http://redis.io/">http://redis.io/</a><li><a href="http://redisbook1e-gallery.readthedocs.org/en/latest/?utm_content=buffer98244&amp;utm_medium=social&amp;utm_source=facebook.com&amp;utm_campaign=buffer" target="_blank" rel="noopener" title="http://redisbook1e-gallery.readthedocs.org/en/latest/?utm_content=buffer98244&amp;utm_medium=social&amp;utm_source=facebook.com&amp;utm_campaign=buffer">http://redisbook1e-gallery.readthedocs.org/en/latest/?utm_content=buffer98244&amp;utm_medium=social&amp;utm_source=facebook.com&amp;utm_campaign=buffer</a><li><a href="http://blogs.technet.com/b/azuretw/archive/2014/08/09/azure-cache.aspx" target="_blank" rel="noopener" title="http://blogs.technet.com/b/azuretw/archive/2014/08/09/azure-cache.aspx">http://blogs.technet.com/b/azuretw/archive/2014/08/09/azure-cache.aspx</a><li><a href="http://azure.microsoft.com/zh-tw/documentation/articles/cache-dotnet-how-to-use-azure-redis-cache/" target="_blank" rel="noopener" title="http://azure.microsoft.com/zh-tw/documentation/articles/cache-dotnet-how-to-use-azure-redis-cache/">http://azure.microsoft.com/zh-tw/documentation/articles/cache-dotnet-how-to-use-azure-redis-cache/</a><li><a href="http://msdn.microsoft.com/en-us/library/dn589799.aspx" target="_blank" rel="noopener" title="http://msdn.microsoft.com/en-us/library/dn589799.aspx">http://msdn.microsoft.com/en-us/library/dn589799.aspx</a><li><a href="http://msdn.microsoft.com/en-us/library/dn690523.aspx" target="_blank" rel="noopener" title="http://msdn.microsoft.com/en-us/library/dn690523.aspx">http://msdn.microsoft.com/en-us/library/dn690523.aspx</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/Redis/" rel="tag">#Redis</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/08/21/Entity-Framework-%E7%82%BA%E4%BB%80%E9%BA%BC%E4%BF%AE%E6%94%B9%E7%9A%84%E8%B3%87%E6%96%99%E4%B8%8D%E7%94%A8Attach/" rel="next" title="Entity Framework -  為什麼修改的資料不用Attach">
+                <i class="fa fa-chevron-left"></i> Entity Framework -  為什麼修改的資料不用Attach
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/08/24/Azure-%E5%84%B2%E5%AD%98Session%E5%88%B0Redis-Cache/" rel="prev" title="Azure - 儲存Session到Redis Cache">
+                Azure - 儲存Session到Redis Cache <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-cache"><span class="nav-number">1.</span> <span class="nav-text">Create a cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Application"><span class="nav-number">2.</span> <span class="nav-text">Application</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">2.1.</span> <span class="nav-text">參考資料</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2014/08/24/Azure-Redis-Cache/';
+      var disqus_title = 'Azure - Redis Cache';
+      var disqus_url = 'http://skychang.github.io/2014/08/24/Azure-Redis-Cache/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,644 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Sky的IT碎碎念,Study4," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="4&#x2F;1更新很感謝大家今天熱情的參與與討論，本次活動已經順利圓滿落幕了!，也很感謝Cat姊借到這個安靜又舒適的場地，還有今天所有的工作人員熱情的參與，才能讓這次活動順利的完成，讓小弟無後顧之憂! 今天第一場是由小弟談Cloud，然後講到Windows Azure，到最後的SQL Azure，本來是預計全部重心都放在SQL Azure的，但後來發現報名的人，各行課業都有，所以調整了一下課程內容，讓寫程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第七次Study4 點課幫 SQL Server技術分享會 12-0331 活動開始!!">
+<meta property="og:url" content="http://skychang.github.io/2012/03/16/%E7%AC%AC%E4%B8%83%E6%AC%A1Study4-%E9%BB%9E%E8%AA%B2%E5%B9%AB-SQL-Server%E6%8A%80%E8%A1%93%E5%88%86%E4%BA%AB%E6%9C%83-12-0331-%E6%B4%BB%E5%8B%95%E9%96%8B%E5%A7%8B/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="4&#x2F;1更新很感謝大家今天熱情的參與與討論，本次活動已經順利圓滿落幕了!，也很感謝Cat姊借到這個安靜又舒適的場地，還有今天所有的工作人員熱情的參與，才能讓這次活動順利的完成，讓小弟無後顧之憂! 今天第一場是由小弟談Cloud，然後講到Windows Azure，到最後的SQL Azure，本來是預計全部重心都放在SQL Azure的，但後來發現報名的人，各行課業都有，所以調整了一下課程內容，讓寫程">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2012-03-16T19:54:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.079Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Sky的IT碎碎念">
+<meta property="article:tag" content="Study4">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 第七次Study4 點課幫 SQL Server技術分享會 12-0331 活動開始!! | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                第七次Study4 點課幫 SQL Server技術分享會 12-0331 活動開始!!
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2012-03-16T19:54:00+00:00" content="2012-03-16">
+              2012-03-16
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/03/16/%E7%AC%AC%E4%B8%83%E6%AC%A1Study4-%E9%BB%9E%E8%AA%B2%E5%B9%AB-SQL-Server%E6%8A%80%E8%A1%93%E5%88%86%E4%BA%AB%E6%9C%83-12-0331-%E6%B4%BB%E5%8B%95%E9%96%8B%E5%A7%8B/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/03/16/第七次Study4-點課幫-SQL-Server技術分享會-12-0331-活動開始/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="4-1更新"><a href="#4-1更新" class="headerlink" title="4/1更新"></a>4/1更新</h4><p>很感謝大家今天熱情的參與與討論，本次活動已經順利圓滿落幕了!，也很感謝Cat姊借到這個安靜又舒適的場地，還有今天所有的工作人員熱情的參與，才能讓這次活動順利的完成，讓小弟無後顧之憂!</p>
+<p>今天第一場是由小弟談Cloud，然後講到Windows Azure，到最後的SQL Azure，本來是預計全部重心都放在SQL Azure的，但後來發現報名的人，各行課業都有，所以調整了一下課程內容，讓寫程式的，看程式的，不寫程式也不看程式的人，都能得到想要的東西；而整個過程也主要偏向概念為主，所以投影片的內容反而是空空一片XDD，都是現場講居多，另外也怕現場過於煩悶，所以也加了許多Ruddy老師幾年前所使用的梗XDD，然後再加上自己編的一些笑話，老實說，效果比想像中的好，也希望大家除了聽笑話之餘，也能學到許多東西=W=</p>
+<p>第二場是由神人級的James大來主講，James大準備了這次的課程，整整花了30hr準備投影片，看了11場美國的SQL Server 2012發表會，整合了無數多的資料，據說，因為時間限制，所以刪除了2/3，其實小弟一聽就明白，還要準備拍續集就對了啦XDD，所以這場真的是物超所值，不但從2005開始講起，讓大家了解歷史的演進，更由淺入深( 深到超級深= = )，來讓整個課程緊湊而不會泛於空洞，而整個過程下來，更由James大的笑話帶動，讓整個內容不過於沉悶，所以未來還有續集，也請大家把握機會，多多參與喔!!</p>
+<h4 id="投影片下載"><a href="#投影片下載" class="headerlink" title="投影片下載"></a>投影片下載</h4><p>如果沒有收到Mail而看到連結的人，請不要訝異，是小弟先把投影片放上來，因為會員資料那邊還沒整理完畢，所以通知的Mail還沒有寄發，如果一個月後，都沒有收到任何的Mail，可以與小弟聯絡，因為可能是Mail Key錯等問題，謝謝。</p>
+<p><a href="https://skydrive.live.com/redir.aspx?cid=7b3b0423dee872ad&amp;resid=7B3B0423DEE872AD!430&amp;parid=7B3B0423DEE872AD!427" target="_blank" rel="noopener">Windows Azure 和 SQL Azure</a></p>
+<p><a href="http://tinyurl.com/James20120331" target="_blank" rel="noopener">從SQL 2005到SQL 2012</a></p>
+<h4 id="第七次活動展開"><a href="#第七次活動展開" class="headerlink" title="第七次活動展開!"></a>第七次活動展開!</h4><p>不知道大家最近有沒有注意到一件事情，今年來最大的盛事之一，就是SQL Server 2012即將發售了!，相信大家一定會有許多的疑惑，到底新的SQL Server 2012帶給我們怎樣的東西，所以在SQL Server發售之際，我們特別請到SQL Server高手James，來替我們中部地區的朋友們，搶鮮講解這次SQL Server 2012帶來怎樣的改變!</p>
+<p>另一個議題是近年來火熱的議題，也就是雲端，既然談到了SQL Server，那我們也來看看，SQL Azure ( 雲端版本的SQL Server )，並且來初次的體驗一下。</p>
+<p>此外，這次因場地的因素，人數有所限制，請盡早報名喔!</p>
+<h4 id="Study4-點課幫-SQL-Server技術分享會-12-03131"><a href="#Study4-點課幫-SQL-Server技術分享會-12-03131" class="headerlink" title="Study4 點課幫 SQL Server技術分享會 12-03131"></a>Study4 點課幫 SQL Server技術分享會 12-03131</h4><p>每人有最低消費120元，可以兌換餐飲<br> <p>時間 : 2012 03/31 (六) 12:30 進場，13:00 ~ 17:00<br>地點 : 美村路一段264號 -&nbsp; 米諾亞早餐店<br>課程大綱：  </p>
+<ol>
+<li>SQL Azure 初次體驗 – Sky  <li>SQL Server 2012 新功能探討 – James<iframe height="350" marginheight="0" src="http://maps.google.com.tw/maps?f=q&amp;source=s_q&amp;hl=zh-TW&amp;geocode=&amp;q=403%E5%8F%B0%E7%81%A3%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%8D%80%E7%BE%8E%E6%9D%91%E8%B7%AF%E4%B8%80%E6%AE%B5264%E8%99%9F&amp;aq=&amp;sll=23.63446,120.970459&amp;sspn=5.302423,9.876709&amp;brcurrent=3,0x34693d755856554f:0xcec89cf7727b09a5,0,0x346917dff97922ef:0x87523ee47ea6447f&amp;ie=UTF8&amp;hq=&amp;hnear=403%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%8D%80%E7%BE%8E%E6%9D%91%E8%B7%AF%E4%B8%80%E6%AE%B5264%E8%99%9F&amp;ll=24.147529,120.661498&amp;spn=0.005159,0.009645&amp;t=m&amp;z=14&amp;output=embed" frameborder="0" width="425" marginwidth="0" scrolling="no"></iframe><br><small><a href="http://maps.google.com.tw/maps?f=q&amp;source=embed&amp;hl=zh-TW&amp;geocode=&amp;q=403%E5%8F%B0%E7%81%A3%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%8D%80%E7%BE%8E%E6%9D%91%E8%B7%AF%E4%B8%80%E6%AE%B5264%E8%99%9F&amp;aq=&amp;sll=23.63446,120.970459&amp;sspn=5.302423,9.876709&amp;brcurrent=3,0x34693d755856554f:0xcec89cf7727b09a5,0,0x346917dff97922ef:0x87523ee47ea6447f&amp;ie=UTF8&amp;hq=&amp;hnear=403%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%A5%BF%E5%8D%80%E7%BE%8E%E6%9D%91%E8%B7%AF%E4%B8%80%E6%AE%B5264%E8%99%9F&amp;ll=24.147529,120.661498&amp;spn=0.005159,0.009645&amp;t=m&amp;z=14" target="_blank" rel="noopener">檢視較大的地圖</a></small></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Sky%E7%9A%84IT%E7%A2%8E%E7%A2%8E%E5%BF%B5/" rel="tag">#Sky的IT碎碎念</a>
+          
+            <a href="/tags/Study4/" rel="tag">#Study4</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/03/12/Visual-Studio-Visual-Studio-11-Beta-%E4%BD%BF%E7%94%A8%E6%84%9F/" rel="next" title="Visual Studio -  Visual Studio 11 Beta 使用感">
+                <i class="fa fa-chevron-left"></i> Visual Studio -  Visual Studio 11 Beta 使用感
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/03/18/Prism-%E7%AC%AC%E4%B8%80%E5%80%8B-%E8%B6%85%E7%B0%A1%E5%96%AEPrism%E7%AF%84%E4%BE%8B/" rel="prev" title="Prism -  第一個!超簡單Prism範例">
+                Prism -  第一個!超簡單Prism範例 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1更新"><span class="nav-number">1.</span> <span class="nav-text">4&#x2F;1更新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#投影片下載"><span class="nav-number">2.</span> <span class="nav-text">投影片下載</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第七次活動展開"><span class="nav-number">3.</span> <span class="nav-text">第七次活動展開!</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Study4-點課幫-SQL-Server技術分享會-12-03131"><span class="nav-number">4.</span> <span class="nav-text">Study4 點課幫 SQL Server技術分享會 12-03131</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2012/03/16/第七次Study4-點課幫-SQL-Server技術分享會-12-0331-活動開始/';
+      var disqus_title = '第七次Study4 點課幫 SQL Server技術分享會 12-0331 活動開始!!';
+      var disqus_url = 'http://skychang.github.io/2012/03/16/%E7%AC%AC%E4%B8%83%E6%AC%A1Study4-%E9%BB%9E%E8%AA%B2%E5%B9%AB-SQL-Server%E6%8A%80%E8%A1%93%E5%88%86%E4%BA%AB%E6%9C%83-12-0331-%E6%B4%BB%E5%8B%95%E9%96%8B%E5%A7%8B/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

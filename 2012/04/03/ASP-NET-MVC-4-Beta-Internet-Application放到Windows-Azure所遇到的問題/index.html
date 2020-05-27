@@ -1,0 +1,654 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ASP.NET MVC,Azure," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近將開始寫Study4的網站，而因為沒有強大設計人力的支援下，想說先利用ASP.NET MVC預設的Internet Application樣板來修改，在編輯時期，Local模擬後，都沒有甚麼問題，於是就很放心的佈署上去了!然後就出現下面這個畫面。  這個畫面是ASP.NET MVC Internet Application預設的錯誤畫面，當有錯誤的時候，會導到這頁，代表著有錯誤，而這邊，我們就">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET MVC 4 Beta - Internet Application放到Windows Azure所遇到的問題">
+<meta property="og:url" content="http://skychang.github.io/2012/04/03/ASP-NET-MVC-4-Beta-Internet-Application%E6%94%BE%E5%88%B0Windows-Azure%E6%89%80%E9%81%87%E5%88%B0%E7%9A%84%E5%95%8F%E9%A1%8C/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="最近將開始寫Study4的網站，而因為沒有強大設計人力的支援下，想說先利用ASP.NET MVC預設的Internet Application樣板來修改，在編輯時期，Local模擬後，都沒有甚麼問題，於是就很放心的佈署上去了!然後就出現下面這個畫面。  這個畫面是ASP.NET MVC Internet Application預設的錯誤畫面，當有錯誤的時候，會導到這頁，代表著有錯誤，而這邊，我們就">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh6.ggpht.com/-sXUnvdn9rF4/T3pbQQTGCsI/AAAAAAAAB6Y/Q9ta4eWFykA/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-NJOB1FixDrI/T3pbS8sYBGI/AAAAAAAAB6o/1S4p6HRGfcg/image_thumb%25255B5%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-OXkopCKaB3k/T3pbVbcl9dI/AAAAAAAAB64/n8oLWUyYRvs/image_thumb%25255B7%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-Fb3SJZ_ci1Y/T3pbXyVdVsI/AAAAAAAAB7I/siOmj_ar-1A/image_thumb%25255B8%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-Tvvb7em6pvU/T3pbZ77JZRI/AAAAAAAAB7Y/DdALkaJ51g0/image_thumb%25255B9%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-bRU30JsuKIE/T3pbc9ZfbhI/AAAAAAAAB7o/M1honhhipck/image_thumb%25255B13%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2012-04-03T01:06:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.832Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta property="article:tag" content="Azure">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh6.ggpht.com/-sXUnvdn9rF4/T3pbQQTGCsI/AAAAAAAAB6Y/Q9ta4eWFykA/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ASP.NET MVC 4 Beta - Internet Application放到Windows Azure所遇到的問題 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ASP.NET MVC 4 Beta - Internet Application放到Windows Azure所遇到的問題
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2012-04-03T01:06:00+00:00" content="2012-04-03">
+              2012-04-03
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/04/03/ASP-NET-MVC-4-Beta-Internet-Application%E6%94%BE%E5%88%B0Windows-Azure%E6%89%80%E9%81%87%E5%88%B0%E7%9A%84%E5%95%8F%E9%A1%8C/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/04/03/ASP-NET-MVC-4-Beta-Internet-Application放到Windows-Azure所遇到的問題/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近將開始寫Study4的網站，而因為沒有強大設計人力的支援下，想說先利用ASP.NET MVC預設的Internet Application樣板來修改，在編輯時期，Local模擬後，都沒有甚麼問題，於是就很放心的佈署上去了!然後就出現下面這個畫面。</p>
+<p><a href="http://lh6.ggpht.com/-L42NlyFY6-I/T3pbObyacLI/AAAAAAAAB6Q/zaXeHKfEDrM/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-sXUnvdn9rF4/T3pbQQTGCsI/AAAAAAAAB6Y/Q9ta4eWFykA/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這個畫面是ASP.NET MVC Internet Application預設的錯誤畫面，當有錯誤的時候，會導到這頁，代表著有錯誤，而這邊，我們就利用<a href="http://blog.sanc.idv.tw/2012/04/windows-azure-intellitrace.html" target="_blank" rel="noopener">這篇</a>所教的IntelliTrace的方式，來看看錯在哪邊，我們可以發現解析的時候發生錯誤，但老實說，還是找不到錯在哪邊…<a href="http://lh6.ggpht.com/-g8MbtID-MPI/T3pbRrL92dI/AAAAAAAAB6c/pQ3VsaW-FaI/s1600-h/image%25255B11%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-NJOB1FixDrI/T3pbS8sYBGI/AAAAAAAAB6o/1S4p6HRGfcg/image_thumb%25255B5%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>後來心一橫，直接把Error.cshtml 更名掉，並在Web.Config加上CustomErrors Mode =”off”，讓畫面顯示錯誤報告，如下圖，看到這，大家應該就恍然大悟了吧，沒錯，就是檔案存檔的編碼有問題!!</p>
+<p><a href="http://lh5.ggpht.com/-ruUl3R-mmYI/T3pbULHSXlI/AAAAAAAAB6w/u0yMP_AqwEE/s1600-h/image%25255B15%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-OXkopCKaB3k/T3pbVbcl9dI/AAAAAAAAB64/n8oLWUyYRvs/image_thumb%25255B7%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>於是我使用NotePad++打開Index.cshtml檔案，發現是ANSI編碼!</p>
+<p><a href="http://lh5.ggpht.com/--QbsxnOX1_0/T3pbWgCMDlI/AAAAAAAAB68/hm_cg0u4Y24/s1600-h/image%25255B18%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-Fb3SJZ_ci1Y/T3pbXyVdVsI/AAAAAAAAB7I/siOmj_ar-1A/image_thumb%25255B8%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>但如果是其他檔案的話，卻是UTF-8。</p>
+<p><a href="http://lh3.ggpht.com/-rxQnF8nupxY/T3pbY8nJkaI/AAAAAAAAB7Q/eskKM_XGrjg/s1600-h/image%25255B21%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-Tvvb7em6pvU/T3pbZ77JZRI/AAAAAAAAB7Y/DdALkaJ51g0/image_thumb%25255B9%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>小弟發現，_Layout.cshtml和index.cshtml是ANSI編碼，其他的檔案就是UTF-8編碼，而在本機上測試的時候，是不會有任何問題的，但如果發布到Windows Azure，就會出現  &gt; System.Web.HttpParseException，訊息為”¦” is not valid at the start of a code block.&nbsp; Only identifiers, keywords, comments, “(“ and “{“ are valid. <p>其次，也會連帶的出現以下的例外訊息。</p>
+<blockquote>
+<p>Microsoft.CSharp.RuntimeBinder.RuntimeBinderException 訊息為 System.Dynamic.DynamicObject’ does not contain a definition for ‘Message’ </p>
+</blockquote>
+<p>所以解決辦法，就是利用NotePad++的編碼，並選擇轉換至UTF-8碼格式，就可以了。</p>
+<p><a href="http://lh6.ggpht.com/-FUxG9rgumIc/T3pba3Us3_I/AAAAAAAAB7g/qUFTyZ5yIDQ/s1600-h/image%25255B29%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-bRU30JsuKIE/T3pbc9ZfbhI/AAAAAAAAB7o/M1honhhipck/image_thumb%25255B13%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>老實說，不知道這屬不屬於ASP.NET MVC 4 Beta的Bug，我後來有開ASP.NET MVC 3的專案來看，存檔的內容也是UTF-8，並非ANSI，畢竟對於英文語系的使用者來說，這是完全沒有甚麼影響的，但如果是我們亞洲語系的使用者，可能就會造成不便，所以這部份小弟在回報看看，希望正式版能改善=V=。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/04/02/Windows-Azure-%E4%BD%BF%E7%94%A8Visual-Studio%E7%99%BC%E8%A1%8CWindows-Azure%E7%A8%8B%E5%BC%8F/" rel="next" title="Windows Azure - 使用Visual Studio發行Windows Azure程式">
+                <i class="fa fa-chevron-left"></i> Windows Azure - 使用Visual Studio發行Windows Azure程式
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/04/03/Windows-Azure-%E9%96%8B%E5%95%9F%E9%9B%B2%E4%B8%8A%E7%9A%84IntelliTrace%EF%BC%8C%E4%BB%A5%E5%88%A9%E5%81%B5%E9%8C%AF/" rel="prev" title="Windows Azure -  開啟雲上的IntelliTrace，以利偵錯!">
+                Windows Azure -  開啟雲上的IntelliTrace，以利偵錯! <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">1.</span> <span class="nav-text">後記</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2012/04/03/ASP-NET-MVC-4-Beta-Internet-Application放到Windows-Azure所遇到的問題/';
+      var disqus_title = 'ASP.NET MVC 4 Beta - Internet Application放到Windows Azure所遇到的問題';
+      var disqus_url = 'http://skychang.github.io/2012/04/03/ASP-NET-MVC-4-Beta-Internet-Application%E6%94%BE%E5%88%B0Windows-Azure%E6%89%80%E9%81%87%E5%88%B0%E7%9A%84%E5%95%8F%E9%A1%8C/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

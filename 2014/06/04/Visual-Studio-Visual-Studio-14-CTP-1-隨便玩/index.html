@@ -1,0 +1,681 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Visual Studio,ASP.NET MVC," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="今天早上一上班，就看到Eric哥在FB Po的訊息，原來是Visual Studio 14 CTP 1已經公布了!! ( 這裡的14不是代表2014…是代表版號… )，所以當下，就立刻去Azure開了一下VM，並且下載，裝起來… 警告 : 這是CTP 1版本，所以未來改變的幅度還是有非常大的可能，其次，官方也提出，這還有許多已知的問題，就算人品再好的勇者…也不要拿去正式環境搞自己&#x3D;V&#x3D;。 下載完後">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Visual Studio - Visual Studio 14 CTP 1 隨便玩">
+<meta property="og:url" content="http://skychang.github.io/2014/06/04/Visual-Studio-Visual-Studio-14-CTP-1-%E9%9A%A8%E4%BE%BF%E7%8E%A9/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="今天早上一上班，就看到Eric哥在FB Po的訊息，原來是Visual Studio 14 CTP 1已經公布了!! ( 這裡的14不是代表2014…是代表版號… )，所以當下，就立刻去Azure開了一下VM，並且下載，裝起來… 警告 : 這是CTP 1版本，所以未來改變的幅度還是有非常大的可能，其次，官方也提出，這還有許多已知的問題，就算人品再好的勇者…也不要拿去正式環境搞自己&#x3D;V&#x3D;。 下載完後">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh4.ggpht.com/-4-0vIFBZ6zo/U46ygsvPawI/AAAAAAAAI-4/xCwuNiCTJlY/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-ssYgnovhnek/U46yjbiZI9I/AAAAAAAAI_I/kHVFaw1atIg/image_thumb%25255B4%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-HpjToeorQ9U/U46yl9fL9qI/AAAAAAAAI_Y/iPMZehGkhEA/image_thumb%25255B7%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-fCoBKEm-zho/U46yoG7_elI/AAAAAAAAI_o/cygy6P_xxAY/image_thumb%25255B10%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-f4aiZgYrHHI/U46yqxhB0xI/AAAAAAAAI_4/HL5VFblzLAc/image_thumb%25255B13%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-7zWrDARmZz8/U46ytsWRhjI/AAAAAAAAJAI/b-RS7lsdjQM/image_thumb%25255B16%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-0y2bqm76c-A/U46yvRl-arI/AAAAAAAAJAY/7qMOZb6VOGY/image_thumb%25255B19%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-M1yz6bP8OWI/U46yxcJKscI/AAAAAAAAJAo/E6EuvFzOtCQ/image_thumb%25255B22%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-XmOGRTsyiXU/U46yzP0zsLI/AAAAAAAAJA4/fk6YO142e2M/image_thumb%25255B25%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-CKBu_OLX9mY/U46y1AVB9JI/AAAAAAAAJBE/1XVhUidTcxo/image_thumb%25255B40%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-zCzaRMN-9Tw/U46y3dEfuVI/AAAAAAAAJBY/hJoEVWHbRtU/image_thumb%25255B28%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-lcXlNzAa56Y/U46y5ovw5yI/AAAAAAAAJBo/9t5B1-bZVkc/image_thumb%25255B31%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-W75zcV56N_4/U46y7maULaI/AAAAAAAAJB4/T28wYP56ycE/image_thumb%25255B34%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-SKcoSZtVSt0/U46y9gHTUbI/AAAAAAAAJCI/4rAlhuSS6H4/image_thumb%25255B37%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2014-06-04T13:47:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.019Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh4.ggpht.com/-4-0vIFBZ6zo/U46ygsvPawI/AAAAAAAAI-4/xCwuNiCTJlY/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Visual Studio - Visual Studio 14 CTP 1 隨便玩 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Visual Studio - Visual Studio 14 CTP 1 隨便玩
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2014-06-04T13:47:00+00:00" content="2014-06-04">
+              2014-06-04
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/06/04/Visual-Studio-Visual-Studio-14-CTP-1-%E9%9A%A8%E4%BE%BF%E7%8E%A9/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/06/04/Visual-Studio-Visual-Studio-14-CTP-1-隨便玩/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>今天早上一上班，就看到Eric哥在FB Po的訊息，原來是Visual Studio 14 CTP 1已經公布了!! ( 這裡的14不是代表2014…是代表版號… )，所以當下，就立刻去Azure開了一下VM，並且下載，裝起來…</p>
+<p>警告 : 這是CTP 1版本，所以未來改變的幅度還是有非常大的可能，其次，官方也提出，這還有許多已知的問題，就算人品再好的勇者…也不要拿去正式環境搞自己=V=。</p>
+<p>下載完後，依照慣例，就截圖幾張安裝畫面吧，也當作是留個紀念與紀錄…</p>
+<p><a href="http://lh4.ggpht.com/-FDEDhkahHMw/U46yfPr1t-I/AAAAAAAAI-w/CSkerFi2lh4/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-4-0vIFBZ6zo/U46ygsvPawI/AAAAAAAAI-4/xCwuNiCTJlY/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>Win App 和Win Phone不是小弟的專長，就直接省略XDD ( 預設也沒勾選 )</p>
+<p><a href="http://lh6.ggpht.com/-Ri3euu5K8_4/U46yiN9rpHI/AAAAAAAAI_A/Z34-zJw_f4k/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-ssYgnovhnek/U46yjbiZI9I/AAAAAAAAI_I/kHVFaw1atIg/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後就進行很久的安裝，可能是公司網路問題，或是太多人下載XDDD，其實裝的滿慢的…</p>
+<p><a href="http://lh5.ggpht.com/--BDe_5qJgNQ/U46ykvh4WXI/AAAAAAAAI_Q/Wim5X9Ye-vM/s1600-h/image%25255B13%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-HpjToeorQ9U/U46yl9fL9qI/AAAAAAAAI_Y/iPMZehGkhEA/image_thumb%25255B7%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>到這邊就完成了…</p>
+<p><a href="http://lh5.ggpht.com/-0A8eCQZQ8cU/U46ynKpKL5I/AAAAAAAAI_g/gfjvebgOnZw/s1600-h/image%25255B18%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-fCoBKEm-zho/U46yoG7_elI/AAAAAAAAI_o/cygy6P_xxAY/image_thumb%25255B10%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>同2013一樣，可以登入進去，但小弟心臟比較小顆，就先不登入了…抖抖…</p>
+<p><a href="http://lh3.ggpht.com/-D-Jmca7bi1g/U46yp4JtXOI/AAAAAAAAI_w/6dWK7-RabUM/s1600-h/image%25255B23%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-f4aiZgYrHHI/U46yqxhB0xI/AAAAAAAAI_4/HL5VFblzLAc/image_thumb%25255B13%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後選擇佈景與環境，小弟當然是選擇黑暗的色調…</p>
+<p><a href="http://lh5.ggpht.com/-jIVEEJwNAPs/U46ysVLZRPI/AAAAAAAAJAA/JKmhwBiTI1w/s1600-h/image%25255B28%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-7zWrDARmZz8/U46ytsWRhjI/AAAAAAAAJAI/b-RS7lsdjQM/image_thumb%25255B16%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>結果進去不是黑色的…這算是一個Bug嗎XDD，不過CTP 1嘛，不要要求太多了…</p>
+<p><a href="http://lh5.ggpht.com/-Pvm6EyMYZB4/U46yum3k78I/AAAAAAAAJAQ/PIXzkahAB4A/s1600-h/image%25255B33%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-0y2bqm76c-A/U46yvRl-arI/AAAAAAAAJAY/7qMOZb6VOGY/image_thumb%25255B19%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>自己改成黑色後，就來建立一下ASP.NET MVC的專案吧，這次的VS 14 已經把ASP.NET vNext放上去了 ( 也就是MVC 6 )</p>
+<p><a href="http://lh3.ggpht.com/-k9ZaBnmm8Tk/U46ywZNvlrI/AAAAAAAAJAg/S2dwiWdZ8Ro/s1600-h/image%25255B38%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-M1yz6bP8OWI/U46yxcJKscI/AAAAAAAAJAo/E6EuvFzOtCQ/image_thumb%25255B22%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>可以從左邊看到新的專案結構…其實也不能講新的專案結構…反正就是原本的csproj消失了…連web.config也消失了… ( 畢竟為了和iis脫鉤… )</p>
+<p><a href="http://lh3.ggpht.com/-2ND18XipvuY/U46yyX5DTdI/AAAAAAAAJAw/Noq4DeT-UYU/s1600-h/image%25255B43%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-XmOGRTsyiXU/U46yzP0zsLI/AAAAAAAAJA4/fk6YO142e2M/image_thumb%25255B25%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>取而代之的是kproj和project.json、config.json，這個未來文章再來談，但是sln檔沒改變就是了…</p>
+<p><a href="http://lh4.ggpht.com/-nOpGQ1SI7Uw/U46y0Ict0QI/AAAAAAAAJA8/gI1M5a8B56s/s1600-h/image%25255B68%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-CKBu_OLX9mY/U46y1AVB9JI/AAAAAAAAJBE/1XVhUidTcxo/image_thumb%25255B40%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>如果Run起來，在bin的目錄下會多一個AspNetLoader.dll。</p>
+<p><a href="http://lh3.ggpht.com/-l7hihA49zEE/U46y2TZTPUI/AAAAAAAAJBQ/-CHVFNOEfQo/s1600-h/image%25255B48%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-zCzaRMN-9Tw/U46y3dEfuVI/AAAAAAAAJBY/hJoEVWHbRtU/image_thumb%25255B28%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>Bin的Debug目錄也沒以前一堆東西了。</p>
+<p><a href="http://lh6.ggpht.com/-ITVnVjtuMco/U46y4uyRRPI/AAAAAAAAJBg/xTY-2eTI3p8/s1600-h/image%25255B53%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-lcXlNzAa56Y/U46y5ovw5yI/AAAAAAAAJBo/9t5B1-bZVkc/image_thumb%25255B31%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>因為這次Visual Studio 14 使用了新的.NET Compiler Platform 叫做”Roslyn” ( 羅斯林= =? )，而且很威的，你可以不用每次按編譯，只要存檔重新刷新瀏覽器，他就會自動幫你編譯。</p>
+<p>另外，IDE上也稍微有一些好玩的東西… ( 但其實也不稀奇就是了… )，如下圖，當那行錯誤的時候，停在那行的時候，會出現一個飛利浦(電燈泡)，他會給我們一些建議…而比較好的地方是，我們可以看到產生後的結果…這點倒是還不錯…</p>
+<p><a href="http://lh3.ggpht.com/-P1gqyVbIb8Q/U46y6slKhGI/AAAAAAAAJBw/wFD7PAzZ7dQ/s1600-h/image%25255B58%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-W75zcV56N_4/U46y7maULaI/AAAAAAAAJB4/T28wYP56ycE/image_thumb%25255B34%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>重構的話，也是有相同效果~</p>
+<p><a href="http://lh5.ggpht.com/-geYd7lOG6Nw/U46y8teMnHI/AAAAAAAAJCA/90oxV-Hlxvg/s1600-h/image%25255B63%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-SKcoSZtVSt0/U46y9gHTUbI/AAAAAAAAJCI/4rAlhuSS6H4/image_thumb%25255B37%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>基本上就先玩到這樣，未來有看到新東西，再慢慢補上吧XDDD</p>
+<h4 id="參考網址"><a href="#參考網址" class="headerlink" title="參考網址"></a>參考網址</h4><ul>
+<li><a href="http://blogs.msdn.com/b/somasegar/archive/2014/06/03/first-preview-of-visual-studio-quot-14-quot-available-now.aspx" target="_blank" rel="noopener" title="http://blogs.msdn.com/b/somasegar/archive/2014/06/03/first-preview-of-visual-studio-quot-14-quot-available-now.aspx">http://blogs.msdn.com/b/somasegar/archive/2014/06/03/first-preview-of-visual-studio-quot-14-quot-available-now.aspx</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/06/04/Azure-Azure-File/" rel="next" title="Azure -  Azure File">
+                <i class="fa fa-chevron-left"></i> Azure -  Azure File
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/06/05/ASP-NET-MVC-ASP-NET-MVC-vNext-MVC-6-%E5%88%9D%E9%AB%94%E9%A9%97/" rel="prev" title="ASP.NET MVC - ASP.NET MVC vNext ( MVC 6 ) 初體驗">
+                ASP.NET MVC - ASP.NET MVC vNext ( MVC 6 ) 初體驗 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#參考網址"><span class="nav-number">1.</span> <span class="nav-text">參考網址</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2014/06/04/Visual-Studio-Visual-Studio-14-CTP-1-隨便玩/';
+      var disqus_title = 'Visual Studio - Visual Studio 14 CTP 1 隨便玩';
+      var disqus_url = 'http://skychang.github.io/2014/06/04/Visual-Studio-Visual-Studio-14-CTP-1-%E9%9A%A8%E4%BE%BF%E7%8E%A9/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

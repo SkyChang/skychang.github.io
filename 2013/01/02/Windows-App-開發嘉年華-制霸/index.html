@@ -1,0 +1,657 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Sky的IT碎碎念," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="去年年底，最大的盛事，除了讓人失望的芥末日和歡喜的跨年外，大概就是這場熬夜熬到死，吃東西吃到撐死，除Bug除到煩死但卻High到翻天的36hr不斷電，不眠不休的Windows App 開發嘉年華的活動了；當然，小弟也有幸的，充當著年輕小伙子，跑去吃吃喝喝，喔，不是，去開發Windows App…當然，一堆人丟臉，比只有一個人丟臉來的好…Orz…所以也順便拖好朋友Terry和Shadow下水XDD…">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows App 開發嘉年華!制霸!">
+<meta property="og:url" content="http://skychang.github.io/2013/01/02/Windows-App-%E9%96%8B%E7%99%BC%E5%98%89%E5%B9%B4%E8%8F%AF-%E5%88%B6%E9%9C%B8/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="去年年底，最大的盛事，除了讓人失望的芥末日和歡喜的跨年外，大概就是這場熬夜熬到死，吃東西吃到撐死，除Bug除到煩死但卻High到翻天的36hr不斷電，不眠不休的Windows App 開發嘉年華的活動了；當然，小弟也有幸的，充當著年輕小伙子，跑去吃吃喝喝，喔，不是，去開發Windows App…當然，一堆人丟臉，比只有一個人丟臉來的好…Orz…所以也順便拖好朋友Terry和Shadow下水XDD…">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh4.ggpht.com/-QtOTNzT9nd8/UORS5WMWi1I/AAAAAAAAFoY/2Hq1WTO-iP8/IMG_1357_thumb%25255B4%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-JzFrL1eeUW0/UORS7d_MIAI/AAAAAAAAFoo/mJkHU_SiAEE/IMG_1358_thumb%25255B3%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-hNlSk3OkhRk/UORS-BYmhWI/AAAAAAAAFo8/f3j9UepF-hg/IMG_1360_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-Wp-q13Xu6-A/UORS_7CUt1I/AAAAAAAAFpI/v-y6Qz7aZNg/IMG_1361_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-TXOc65lvafM/UORTCMVhDVI/AAAAAAAAFpY/e2yuGY5GUSU/IMG_1363_thumb%25255B4%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-39LDBXnnJDg/UORTD51TCjI/AAAAAAAAFpo/4PtqLM3DVZ0/IMG_1362_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-8fHbuM6Nv3M/UORTF2a0AiI/AAAAAAAAFp8/K-uUA0bn9jo/IMG_1364_thumb%25255B2%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-e9cfHY6Drq0/UORTIyHZglI/AAAAAAAAFqI/tP3Ry8dulgk/IMG_1366_thumb%25255B3%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-HRodvuFANWI/UORTK-t6-iI/AAAAAAAAFqc/2ffs8jB9PW0/IMG_1368_thumb%25255B2%25255D.jpg?imgmax=800">
+<meta property="article:published_time" content="2013-01-02T23:33:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.027Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Sky的IT碎碎念">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh4.ggpht.com/-QtOTNzT9nd8/UORS5WMWi1I/AAAAAAAAFoY/2Hq1WTO-iP8/IMG_1357_thumb%25255B4%25255D.jpg?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Windows App 開發嘉年華!制霸! | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Windows App 開發嘉年華!制霸!
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2013-01-02T23:33:00+00:00" content="2013-01-02">
+              2013-01-02
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/01/02/Windows-App-%E9%96%8B%E7%99%BC%E5%98%89%E5%B9%B4%E8%8F%AF-%E5%88%B6%E9%9C%B8/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/01/02/Windows-App-開發嘉年華-制霸/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>去年年底，最大的盛事，除了讓人失望的芥末日和歡喜的跨年外，大概就是這場熬夜熬到死，吃東西吃到撐死，除Bug除到煩死但卻High到翻天的36hr不斷電，不眠不休的Windows App 開發嘉年華的活動了；當然，小弟也有幸的，充當著年輕小伙子，跑去吃吃喝喝，喔，不是，去開發Windows App…當然，一堆人丟臉，比只有一個人丟臉來的好…Orz…所以也順便拖好朋友<a href="http://www.dotblogs.com.tw/terrychuang/" target="_blank" rel="noopener">Terry</a>和<a href="http://www.dotblogs.com.tw/shadow/" target="_blank" rel="noopener">Shadow</a>下水XDD…</p>
+<p>當天將近300位高手，本來想好好地拍拍照，但畢竟當天是去Coding的，不是去玩樂的 ( 不想被某人扁 )，所以還是認真的去參加比賽XDD；不過事實證明，就算認真，也打不過其他高手…Orz… ( 早知道還是去吃吃喝喝好了= =… )</p>
+<p>第一天早上，主要在設定一些東西，我們隊選了一個食物區前面的位置，當然，不為了甚麼，就是要搶得到食物!!</p>
+<p>而一直到晚上前，其實也沒有多大的變化，我們隊友反正就是拼命寫Code…只是我比較不一樣，我竟然一整天都在搞設計QQ…看著別組有專門的設計人員，而我竟然在搞設計QQ…我是Developer耶!!</p>
+<p>結果兩天的循環，就是設計、XAML、Code、JavaScrip、HTML、設計…無止境的循環…而<a href="http://www.dotblogs.com.tw/terrychuang/" target="_blank" rel="noopener">Terry哥</a>處理著人生第一次的圖片設計 ( 結果到比賽結束，<a href="http://www.dotblogs.com.tw/terrychuang/" target="_blank" rel="noopener">Terry哥</a>依舊脫離不了圖片的魔手，無論是設計、寫Code都和圖片有關XDD )，而<a href="http://www.dotblogs.com.tw/shadow/" target="_blank" rel="noopener">Shadow</a>則幫忙處理地圖定位，錄音，和整個系統整合。</p>
+<p>到了第一天晚上，大概撐不下去的就撐不下去了，繼續努力的人，還是繼續努力，雖然當天外面下著雨，不過裡面還好，不會很寒冷，而且燈火通明，所以( 讓人想睡也睡不著!? )讓人會很想努力的寫Code!! ( 到了凌晨，我終於寫到C#….脫離萬惡的Blend… )</p>
+<p><a href="http://lh4.ggpht.com/-OwBzxo4CSqU/UORS4RJaCXI/AAAAAAAAFoU/ExN8SLImkxg/s1600-h/IMG_1357%25255B7%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-QtOTNzT9nd8/UORS5WMWi1I/AAAAAAAAFoY/2Hq1WTO-iP8/IMG_1357_thumb%25255B4%25255D.jpg?imgmax=800" alt="IMG_1357" title="IMG_1357"></a><a href="http://lh4.ggpht.com/-clfLfz6UYMQ/UORS6E6DVyI/AAAAAAAAFok/VqVUS8THKQk/s1600-h/IMG_1358%25255B6%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-JzFrL1eeUW0/UORS7d_MIAI/AAAAAAAAFoo/mJkHU_SiAEE/IMG_1358_thumb%25255B3%25255D.jpg?imgmax=800" alt="IMG_1358" title="IMG_1358"></a></p>
+<p>小弟也利用am 4:00左右，到處走走晃晃，稍微休息一下 ( 而且好像也是這個時間點，被記者大哥偷拍…結果上了報= =，當然，上報是沒差，但可不可以不要拍到我禿頭!! (翻) )；然後消夜是統一肉燥麵；但其實比較想吃雜醬麵說…這時候也發現，幾乎每個隊伍，都有帶設計人員，這時我是否應該很自豪地說，我就是設計人員呢!?</p>
+<p><a href="http://lh6.ggpht.com/--YmmWT0z5Ro/UORS8zpyrrI/AAAAAAAAFo0/gyva9eJtI7A/s1600-h/IMG_1360%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-hNlSk3OkhRk/UORS-BYmhWI/AAAAAAAAFo8/f3j9UepF-hg/IMG_1360_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_1360" title="IMG_1360"></a><a href="http://lh5.ggpht.com/-CfbAFFbTqcg/UORS_DkcCmI/AAAAAAAAFpA/gq2cLmTqWa0/s1600-h/IMG_1361%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-Wp-q13Xu6-A/UORS_7CUt1I/AAAAAAAAFpI/v-y6Qz7aZNg/IMG_1361_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_1361" title="IMG_1361"></a></p>
+<p>第二天早上，是豐富的早餐，但當時，我已經不行了…只能看著隊友，吃吃喝喝…不過還是有喝一大杯豆漿…XDD</p>
+<p><a href="http://lh6.ggpht.com/-ULRRaD2vClw/UORTA1R-nbI/AAAAAAAAFpU/0IK0b6t54H8/s1600-h/IMG_1363%25255B7%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-TXOc65lvafM/UORTCMVhDVI/AAAAAAAAFpY/e2yuGY5GUSU/IMG_1363_thumb%25255B4%25255D.jpg?imgmax=800" alt="IMG_1363" title="IMG_1363"></a><a href="http://lh3.ggpht.com/-XbPpCmMxeKk/UORTDAt6vII/AAAAAAAAFpg/lFAyT1Nff9s/s1600-h/IMG_1362%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-39LDBXnnJDg/UORTD51TCjI/AAAAAAAAFpo/4PtqLM3DVZ0/IMG_1362_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_1362" title="IMG_1362"></a></p>
+<p>第二天開始，大家就準備著最後衝刺!!，當然，這時候小弟又抽空跑出來溜搭一下，如下圖，大家可以發現，其實人真的不少，而且大家的作品幾乎都差不多了，甚至有3D的遊戲，超高的創意，還有很多高手QQ…</p>
+<p><a href="http://lh3.ggpht.com/-wg4YzPxtz1A/UORTE8RfhEI/AAAAAAAAFpw/N9YiDtNexz8/s1600-h/IMG_1364%25255B5%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-8fHbuM6Nv3M/UORTF2a0AiI/AAAAAAAAFp8/K-uUA0bn9jo/IMG_1364_thumb%25255B2%25255D.jpg?imgmax=800" alt="IMG_1364" title="IMG_1364"></a></p>
+<p>而最後，在台上測試機器的時候，又順便偷拍一張，畢竟站上台上的機會也不多，趕快偷拍一下；而右下角，是我們這次的編號，也由此可以證明，非常吉利的數字，也不一定能帶來勝利XDD，平常的磨練還是最重要的…</p>
+<p><a href="http://lh5.ggpht.com/-3aVqMF287jg/UORTH0g9UFI/AAAAAAAAFqA/YFucxXZv9eE/s1600-h/IMG_1366%25255B6%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-e9cfHY6Drq0/UORTIyHZglI/AAAAAAAAFqI/tP3Ry8dulgk/IMG_1366_thumb%25255B3%25255D.jpg?imgmax=800" alt="IMG_1366" title="IMG_1366"></a><a href="http://lh3.ggpht.com/-Y2Tmd5IY0Sg/UORTKIFmhGI/AAAAAAAAFqQ/CR0IdN3S2FM/s1600-h/IMG_1368%25255B5%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-HRodvuFANWI/UORTK-t6-iI/AAAAAAAAFqc/2ffs8jB9PW0/IMG_1368_thumb%25255B2%25255D.jpg?imgmax=800" alt="IMG_1368" title="IMG_1368"></a></p>
+<p>最後，上台開始Demo，結果整個過程哩哩拉拉= =…這塊就不想提了 ( 泣 )；但從最後的結果來看，就算2min沒講完，其實只要讓評審覺得不錯，還是可以得獎的；我們反而太注意時間，再加上台上一些無聊的梗，反而造成大失敗… ( 雖然，好好報告，也不會成功到哪裡去= =… )，而這次也碰到很多業界的同伴來參加，所以在開發上，也不會那麼的無聊寂寞了XDD ( 雖然大家都是埋頭苦幹 )，但不管怎樣，也因為有這個活動，才讓小弟有機會去接觸到Windows 8的開發，在某個意義上，也算不錯啦…</p>
+<p>最後的感想，相信這個活動一定也還有很多需要改進的地方，畢竟那麼大型的開發活動，這應該也是第一次舉辦，所以相信未來一定會更好；而這次也很感謝Eric哥的活動邀約，我們學到的東西，也非常的多；也希望這次沒有參加道的朋友，下次可以組隊來玩玩看；當然，能拿到冠軍是很不錯，但這中間的過程，絕對就像海賊王的航海一樣，收穫覺得會比你想像的多喔!!也很謝謝被我拖下水的夥伴喔!!~</p>
+<p>結論…人果然是需要被激，才會引發出潛能的…</p>
+<p>( 話說，比完後，我幾乎整整睡了兩天啊!!<del>~</del>我的跨年假!! )</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Sky%E7%9A%84IT%E7%A2%8E%E7%A2%8E%E5%BF%B5/" rel="tag">#Sky的IT碎碎念</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/01/02/%E5%86%8D%E8%A6%8B%E4%BA%862012-and-%E8%B3%80-%E7%AA%81%E7%A0%B4%E5%8D%81%E8%90%AC%E4%BA%BA%E5%A4%A7%E9%97%9C/" rel="next" title="再見了2012 and 賀!突破十萬人大關">
+                <i class="fa fa-chevron-left"></i> 再見了2012 and 賀!突破十萬人大關
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/01/03/Win-Phone-%E4%BD%BF%E7%94%A8Mac%E9%96%8B%E7%99%BCWin-Phone-8%E6%87%89%E7%94%A8%E7%A8%8B%E5%BC%8F/" rel="prev" title="Win Phone - 使用Mac開發Win Phone 8應用程式">
+                Win Phone - 使用Mac開發Win Phone 8應用程式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2013/01/02/Windows-App-開發嘉年華-制霸/';
+      var disqus_title = 'Windows App 開發嘉年華!制霸!';
+      var disqus_url = 'http://skychang.github.io/2013/01/02/Windows-App-%E9%96%8B%E7%99%BC%E5%98%89%E5%B9%B4%E8%8F%AF-%E5%88%B6%E9%9C%B8/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

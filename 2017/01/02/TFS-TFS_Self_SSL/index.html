@@ -1,0 +1,708 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="TFS,Windows Server,SSL," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="注意事項此版本為 TFS 2017 .!! 重要，基本上使用自簽憑證還是會有風險，所以在正式環境底下，還是建議使用正式的憑證。!! 注意，這邊只實作 TFS ，如果有需要和 SharePoint、Repoet Service 整合，請參考底下的 MSDN 連結 前言在 TFS 2017 安裝的時候就已經可以使用精靈來完成自簽憑證與 SSL 提供對外的服務，而如果已經裝完後哩?那又該怎麼辦哩，所以這">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TFS - 使用自簽憑證與 SSL 對外提供網站服務">
+<meta property="og:url" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="注意事項此版本為 TFS 2017 .!! 重要，基本上使用自簽憑證還是會有風險，所以在正式環境底下，還是建議使用正式的憑證。!! 注意，這邊只實作 TFS ，如果有需要和 SharePoint、Repoet Service 整合，請參考底下的 MSDN 連結 前言在 TFS 2017 安裝的時候就已經可以使用精靈來完成自簽憑證與 SSL 提供對外的服務，而如果已經裝完後哩?那又該怎麼辦哩，所以這">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/0001.png">
+<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/0002.png">
+<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/0003.png">
+<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/0004.png">
+<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/01.png">
+<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/02.png">
+<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/03.png">
+<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/04.png">
+<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/05.png">
+<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/06.png">
+<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/07.png">
+<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/08.png">
+<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/09.png">
+<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/10.png">
+<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/11.png">
+<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/12.png">
+<meta property="article:published_time" content="2017-01-02T22:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.956Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="TFS">
+<meta property="article:tag" content="Windows Server">
+<meta property="article:tag" content="SSL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/0001.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> TFS - 使用自簽憑證與 SSL 對外提供網站服務 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                TFS - 使用自簽憑證與 SSL 對外提供網站服務
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-01-02T22:00:00+00:00" content="2017-01-02">
+              2017-01-02
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/01/02/TFS-TFS_Self_SSL/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/01/02/TFS-TFS_Self_SSL/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="注意事項"><a href="#注意事項" class="headerlink" title="注意事項"></a>注意事項</h2><p>此版本為 TFS 2017 .<br>!! 重要，基本上使用自簽憑證還是會有風險，所以在正式環境底下，還是建議使用正式的憑證。<br>!! 注意，這邊只實作 TFS ，如果有需要和 SharePoint、Repoet Service 整合，請參考底下的 MSDN 連結</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 TFS 2017 安裝的時候就已經可以使用精靈來完成自簽憑證與 SSL 提供對外的服務，<br>而如果已經裝完後哩?<br>那又該怎麼辦哩，所以這篇我們來看看，如何在安裝完後，還能使用自簽憑證與 SSL 提供對外服務。</p>
+<h2 id="開始之前"><a href="#開始之前" class="headerlink" title="開始之前"></a>開始之前</h2><p>因為這次會圍繞在憑證上，所以我們必須先知道如何快速地看到我們有哪些憑證，<br>甚至是管理憑證。</p>
+<p>首先，我們可以透過搜尋工具，搜尋 MMC 。</p>
+<p><img src="0001.png" alt=""></p>
+<p>接著，我們可以執行 新增/移除嵌入式管理單元</p>
+<p><img src="0002.png" alt=""></p>
+<p>然後我們選擇憑證，並按下新增。</p>
+<p><img src="0003.png" alt=""></p>
+<p>接下來，按下一步就可以了，完成後，就可以看到目前這台電腦上的所有憑證。</p>
+<p><img src="0004.png" alt=""></p>
+<h2 id="建立憑證"><a href="#建立憑證" class="headerlink" title="建立憑證"></a>建立憑證</h2><p>竟然要使用 SSL，自然就要使用憑證嚕，所以我們要先建立憑證。</p>
+<p>這邊使用 makecert.exe 來建立，通常這個會在底下路徑，<br>C:\Program Files (x86)\Windows Kits\10\bin\x86<br>如果沒有的話，就要去安裝 Windows Kits。</p>
+<p>如果懶得去找 Windows Kits，或是不想裝那麼大一包，也可以直接將 makecert.exe<br>copy 到 server 上執行。</p>
+<p>基本上，我們只需要下以下命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">makecert -r -pe -n &quot;CN&#x3D;對外網址&quot; -b 01&#x2F;01&#x2F;2016 -e 01&#x2F;01&#x2F;2020 -sky exchange -a sha256 -len 2048 -ss root  -sr localMachine</span><br></pre></td></tr></table></figure>
+
+<p>-n 後面要接上對外網址，不然到時候瀏覽器會出現警告，<br>而 ss 後面代表要放到 受信任的根憑證授權單位<br>sr 代表是放到 本機電腦；可以參考下圖</p>
+<p><img src="01.png" alt=""></p>
+<p>接下來，我們稍微挑整一下憑證的用途。</p>
+<p><img src="02.png" alt=""></p>
+<p>因為只需要提供驗證，所以勾底下的就可以了，<br>另外，易記名稱記得要 Key，到時候 IIS 上的顯示，就是會顯示這邊。</p>
+<p><img src="03.png" alt=""></p>
+<h2 id="IIS-使用憑證"><a href="#IIS-使用憑證" class="headerlink" title="IIS 使用憑證"></a>IIS 使用憑證</h2><p>當有了憑證後，我們就可以讓 IIS 使用此憑證。</p>
+<p><img src="04.png" alt=""></p>
+<p>接下來，我們就將此憑證匯入，在這邊匯入的是剛剛我們建立的憑證，副檔名為 .pfx<br>如果找不到 .pfx 的話，也可以從憑證管理員的地方進行匯出。( 不是下圖的地方匯出喔! )</p>
+<p><img src="05.png" alt=""></p>
+<p>接下來，我們就要把站台與憑證繫結。</p>
+<p><img src="06.png" alt=""></p>
+<p>最後，在這邊把 https 加上。</p>
+<p><img src="07.png" alt=""></p>
+<p>接下來，回到 TFS 的 設定畫面，我們就可以變更公用 URL，<br>而這邊要注意，有可能因為 Windows Server 預設的安全機制，造成驗證失敗。</p>
+<p><img src="08.png" alt=""></p>
+<p>關於驗證失敗，可以參考底下三篇</p>
+<ul>
+<li><a href="http://blog.darkthread.net/post-2016-04-16-check-auth-method-of-browser.aspx" target="_blank" rel="noopener">http://blog.darkthread.net/post-2016-04-16-check-auth-method-of-browser.aspx</a></li>
+<li><a href="https://support.microsoft.com/en-us/kb/896861" target="_blank" rel="noopener">https://support.microsoft.com/en-us/kb/896861</a></li>
+<li><a href="http://blog.darkthread.net/post-2016-05-18-use-cust-name-logon-local-iis.aspx" target="_blank" rel="noopener">http://blog.darkthread.net/post-2016-05-18-use-cust-name-logon-local-iis.aspx</a></li>
+</ul>
+<p>或是於底下的註冊碼進行修改。</p>
+<p><img src="09.png" alt=""></p>
+<h2 id="匯出憑證提供給其他電腦"><a href="#匯出憑證提供給其他電腦" class="headerlink" title="匯出憑證提供給其他電腦"></a>匯出憑證提供給其他電腦</h2><p>接下來，我們要把一開始放到根信任憑證授權單位的憑證，進行匯出，並且到時候這個會提供給 Client 使用；<br>這邊，我們只要選擇之前的那個憑證，並且按下滑鼠右鍵，就可以從選單裡面找到匯出，<br>之後，於跳出的視窗中，選擇不要匯出私密金鑰，並且選擇 .P7B 格式，最<br>後步驟則是選擇要匯出到哪個位置 ( 因為步驟滿簡單的，小弟就不截圖了 )</p>
+<p><img src="10.png" alt=""></p>
+<p>接著，將匯出的憑證，用盡各種手段，複製到 Client 的機器上；這次我們就要在 Client  上打開 mmc ；<br>接著在 受信任的根憑證授權單位底下，按滑鼠右鍵，選擇匯入。</p>
+<p><img src="11.png" alt=""></p>
+<p>這樣就完成了!!</p>
+<p><img src="12.png" alt=""></p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>其實過程還滿簡單的，不過這邊的設定僅 TFS 那台 Server 而已，<br>如果要連到 SharePoint 或是 ReportService ，會變得麻煩許多，<br>另外如果額外有 Build Server，也別忘記要把憑證匯進去喔~</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://www.visualstudio.com/zh-tw/docs/setup-admin/websitesettings" target="_blank" rel="noopener">https://www.visualstudio.com/zh-tw/docs/setup-admin/websitesettings</a></li>
+<li><a href="https://msdn.microsoft.com/en-us/library/aa833872(v=vs.140).aspx" target="_blank" rel="noopener">https://msdn.microsoft.com/en-us/library/aa833872(v=vs.140).aspx</a></li>
+<li><a href="http://blogs.uuu.com.tw/Articles/post/2013/02/06/%E4%BD%BF%E7%94%A8X509%E6%86%91%E8%AD%89%E5%8A%A0%E8%A7%A3%E5%AF%86.aspx" target="_blank" rel="noopener">http://blogs.uuu.com.tw/Articles/post/2013/02/06/%E4%BD%BF%E7%94%A8X509%E6%86%91%E8%AD%89%E5%8A%A0%E8%A7%A3%E5%AF%86.aspx</a></li>
+<li><a href="https://msdn.microsoft.com/zh-tw/library/bfsktky3(v=vs.90).aspx" target="_blank" rel="noopener">https://msdn.microsoft.com/zh-tw/library/bfsktky3(v=vs.90).aspx</a></li>
+<li><a href="http://vmiv.blogspot.tw/2016/03/makecertexessliis10.html" target="_blank" rel="noopener">http://vmiv.blogspot.tw/2016/03/makecertexessliis10.html</a></li>
+<li><a href="https://msdn.microsoft.com/library/windows/desktop/aa386968.aspx" target="_blank" rel="noopener">https://msdn.microsoft.com/library/windows/desktop/aa386968.aspx</a></li>
+<li><a href="https://msdn.microsoft.com/zh-tw/library/ms733813(v=vs.110).aspx" target="_blank" rel="noopener">https://msdn.microsoft.com/zh-tw/library/ms733813(v=vs.110).aspx</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/TFS/" rel="tag">#TFS</a>
+          
+            <a href="/tags/Windows-Server/" rel="tag">#Windows Server</a>
+          
+            <a href="/tags/SSL/" rel="tag">#SSL</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/01/Hexo-Use_Travis_CI_Auto_Deploy_Blog/" rel="next" title="Hexo - 使用 Travis CI 自動佈署 Blog">
+                <i class="fa fa-chevron-left"></i> Hexo - 使用 Travis CI 自動佈署 Blog
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/06/Docker-Docker_for_Windows_10_First/" rel="prev" title="Docker - Docker for Windows 10 入門篇">
+                Docker - Docker for Windows 10 入門篇 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#注意事項"><span class="nav-number">1.</span> <span class="nav-text">注意事項</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#開始之前"><span class="nav-number">3.</span> <span class="nav-text">開始之前</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立憑證"><span class="nav-number">4.</span> <span class="nav-text">建立憑證</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IIS-使用憑證"><span class="nav-number">5.</span> <span class="nav-text">IIS 使用憑證</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#匯出憑證提供給其他電腦"><span class="nav-number">6.</span> <span class="nav-text">匯出憑證提供給其他電腦</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">7.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">8.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2017/01/02/TFS-TFS_Self_SSL/';
+      var disqus_title = 'TFS - 使用自簽憑證與 SSL 對外提供網站服務';
+      var disqus_url = 'http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,868 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ASP.NET MVC,Azure,Active Directory," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="持續努力，現在進入第三篇了!!，第三篇我們先以完成為目標，所以小弟先不在這邊講Code的內容了，這部份未來再補上。  TenantDbContext.cs的內容為: using System; using System.Data.Entity;  namespace WebApplication2.Models {     public class TenantDbContext : DbCont">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Azure - 實作Azure上的AD與MVC進行驗證 - Azure設定篇 ( 三 )">
+<meta property="og:url" content="http://skychang.github.io/2014/09/03/Azure-%E5%AF%A6%E4%BD%9CAzure%E4%B8%8A%E7%9A%84AD%E8%88%87MVC%E9%80%B2%E8%A1%8C%E9%A9%97%E8%AD%89-Azure%E8%A8%AD%E5%AE%9A%E7%AF%87-%E4%B8%89/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="持續努力，現在進入第三篇了!!，第三篇我們先以完成為目標，所以小弟先不在這邊講Code的內容了，這部份未來再補上。  TenantDbContext.cs的內容為: using System; using System.Data.Entity;  namespace WebApplication2.Models {     public class TenantDbContext : DbCont">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh5.ggpht.com/-oH5HQ7LlkS4/VAXvO_hYg-I/AAAAAAAAJ2s/ev-lbDJJ4TA/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-9qptRC00Epw/VAXvRT96EsI/AAAAAAAAJ28/ZpEvAS7Ub08/image_thumb%25255B3%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-wn8GoVuVObo/VAXvUSMTmmI/AAAAAAAAJ3M/60vRK3liJgc/image_thumb%25255B5%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-2b58EjCQrGU/VAXvXXoqA7I/AAAAAAAAJ3c/W0ejljRtZUU/image_thumb%25255B6%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-wXtzzNZat2A/VAXvZUfcXrI/AAAAAAAAJ3s/1R0H3_Ovfng/image_thumb%25255B9%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2014-09-03T00:25:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.888Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="Active Directory">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh5.ggpht.com/-oH5HQ7LlkS4/VAXvO_hYg-I/AAAAAAAAJ2s/ev-lbDJJ4TA/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Azure - 實作Azure上的AD與MVC進行驗證 - Azure設定篇 ( 三 ) | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Azure - 實作Azure上的AD與MVC進行驗證 - Azure設定篇 ( 三 )
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2014-09-03T00:25:00+00:00" content="2014-09-03">
+              2014-09-03
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/09/03/Azure-%E5%AF%A6%E4%BD%9CAzure%E4%B8%8A%E7%9A%84AD%E8%88%87MVC%E9%80%B2%E8%A1%8C%E9%A9%97%E8%AD%89-Azure%E8%A8%AD%E5%AE%9A%E7%AF%87-%E4%B8%89/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/09/03/Azure-實作Azure上的AD與MVC進行驗證-Azure設定篇-三/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>持續努力，現在進入第三篇了!!，第三篇我們先以完成為目標，所以小弟先不在這邊講Code的內容了，這部份未來再補上。</p>
+<p><a href="http://lh4.ggpht.com/-ax5U2J9U6iA/VAXvNkYkIeI/AAAAAAAAJ2k/3b_Y9nICA6I/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-oH5HQ7LlkS4/VAXvO_hYg-I/AAAAAAAAJ2s/ev-lbDJJ4TA/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>TenantDbContext.cs的內容為:</p>
+<pre class="brush: csharp;">using System;
+using System.Data.Entity;
+
+namespace WebApplication2.Models
+{
+    public class TenantDbContext : DbContext
+    {
+        public TenantDbContext()
+            : base("DefaultConnection")
+        {
+        }
+
+        public DbSet&lt;IssuingAuthorityKey&gt; IssuingAuthorityKeys { get; set; }
+
+        public DbSet&lt;Tenant&gt; Tenants { get; set; }
+    }
+}
+</pre>
+
+<p>TenantRegistrationModels.cs的內容為:</p>
+<pre class="brush: csharp;">using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace WebApplication2.Models
+{
+    public class IssuingAuthorityKey
+    {
+        public string Id { get; set; }
+    }
+
+    public class Tenant
+    {
+        public string Id { get; set; }
+    }
+}
+</pre>
+
+<p>接著，我們要建立一個Utils的目錄，然後建立一個DatabaseIssuerNameRegistry.cs檔案。</p>
+<p><a href="http://lh4.ggpht.com/-Au2XxMZc6wk/VAXvP_-fCqI/AAAAAAAAJ20/my8IKm49VnI/s1600-h/image%25255B7%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-9qptRC00Epw/VAXvRT96EsI/AAAAAAAAJ28/ZpEvAS7Ub08/image_thumb%25255B3%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>DatabaseIssuerNameRegistry.cs的內容為:</p>
+<pre class="brush: csharp;">using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Web;
+using System.Web.Hosting;
+using System.Xml.Linq;
+using WebApplication2.Models;
+
+namespace WebApplication2.Utils
+{
+    public class DatabaseIssuerNameRegistry : ValidatingIssuerNameRegistry
+    {
+        public static bool ContainsTenant(string tenantId)
+        {
+            using (TenantDbContext context = new TenantDbContext())
+            {
+                return context.Tenants
+                    .Where(tenant =&gt; tenant.Id == tenantId)
+                    .Any();
+            }
+        }
+
+        public static bool ContainsKey(string thumbprint)
+        {
+            using (TenantDbContext context = new TenantDbContext())
+            {
+                return context.IssuingAuthorityKeys
+                    .Where(key =&gt; key.Id == thumbprint)
+                    .Any();
+            }
+        }
+
+        public static void RefreshKeys(string metadataLocation)
+        {
+            IssuingAuthority issuingAuthority = ValidatingIssuerNameRegistry.GetIssuingAuthority(metadataLocation);
+
+            bool newKeys = false;
+            bool refreshTenant = false;
+            foreach (string thumbprint in issuingAuthority.Thumbprints)
+            {
+                if (!ContainsKey(thumbprint))
+                {
+                    newKeys = true;
+                    refreshTenant = true;
+                    break;
+                }
+            }
+
+            foreach (string issuer in issuingAuthority.Issuers)
+            {
+                if (!ContainsTenant(GetIssuerId(issuer)))
+                {
+                    refreshTenant = true;
+                    break;
+                }
+            }
+
+            if (newKeys || refreshTenant)
+            {
+                using (TenantDbContext context = new TenantDbContext())
+                {
+                    if (newKeys)
+                    {
+                        context.IssuingAuthorityKeys.RemoveRange(context.IssuingAuthorityKeys);
+                        foreach (string thumbprint in issuingAuthority.Thumbprints)
+                        {
+                            context.IssuingAuthorityKeys.Add(new IssuingAuthorityKey { Id = thumbprint });
+                        }
+                    }
+
+                    if (refreshTenant)
+                    {
+                        foreach (string issuer in issuingAuthority.Issuers)
+                        {
+                            string issuerId = GetIssuerId(issuer);
+                            if (!ContainsTenant(issuerId))
+                            {
+                                context.Tenants.Add(new Tenant { Id = issuerId });
+                            }
+                        }
+                    }
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        private static string GetIssuerId(string issuer)
+        {
+            return issuer.TrimEnd('/').Split('/').Last();
+        }
+
+        protected override bool IsThumbprintValid(string thumbprint, string issuer)
+        {
+            return ContainsTenant(GetIssuerId(issuer))
+                &amp;&amp; ContainsKey(thumbprint);
+        }
+    }
+}
+</pre>
+
+<p>接下來，我們要在App_Start底下新增IdentityConfig.cs檔案。</p>
+<p><a href="http://lh4.ggpht.com/-Y5N_9-vQlTU/VAXvTEFehCI/AAAAAAAAJ3E/Fa_SQFHWkkU/s1600-h/image%25255B11%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-wn8GoVuVObo/VAXvUSMTmmI/AAAAAAAAJ3M/60vRK3liJgc/image_thumb%25255B5%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>IdentityConfig.cs的內容為:</p>
+<pre class="brush: csharp;">using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.IdentityModel.Claims;
+using System.IdentityModel.Services;
+using System.Linq;
+using System.Web.Helpers;
+using WebApplication2.Utils;
+
+namespace WebApplication2
+{
+    // 如需 ASP.NET Identity 的詳細資訊，請造訪 http://go.microsoft.com/fwlink/?LinkId=301863
+    public static class IdentityConfig
+    {
+        public static string AudienceUri { get; private set; }
+        public static string Realm { get; private set; }
+
+        public static void ConfigureIdentity()
+        {
+            RefreshValidationSettings();
+            // 設定應用程式領域
+            Realm = ConfigurationManager.AppSettings["ida:realm"];
+
+            // 設定應用程式 audienceUri
+            AudienceUri = ConfigurationManager.AppSettings["ida:AudienceUri"];
+            if (!String.IsNullOrEmpty(AudienceUri))
+            {
+                UpdateAudienceUri();
+            }
+
+            AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Name;
+        }
+
+        public static void RefreshValidationSettings()
+        {
+            string metadataLocation = ConfigurationManager.AppSettings["ida:FederationMetadataLocation"];
+            DatabaseIssuerNameRegistry.RefreshKeys(metadataLocation);
+        }
+
+        public static void UpdateAudienceUri()
+        {
+            int count = FederatedAuthentication.FederationConfiguration.IdentityConfiguration
+                .AudienceRestriction.AllowedAudienceUris.Count(
+                    uri =&gt; String.Equals(uri.OriginalString, AudienceUri, StringComparison.OrdinalIgnoreCase));
+            if (count == 0)
+            {
+                FederatedAuthentication.FederationConfiguration.IdentityConfiguration
+                    .AudienceRestriction.AllowedAudienceUris.Add(new Uri(IdentityConfig.AudienceUri));
+            }
+        }
+    }
+}
+
+接下來，我們要在Global.asax裡面加入註冊使用上面的IdentityConfig。</pre>
+
+<p><a href="http://lh5.ggpht.com/-fH7rpCUFQJY/VAXvVQE-mII/AAAAAAAAJ3U/n_P7_IXxcSU/s1600-h/image%25255B14%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-2b58EjCQrGU/VAXvXXoqA7I/AAAAAAAAJ3c/W0ejljRtZUU/image_thumb%25255B6%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>加入IdentityConfig.ConfigureIdentity();</p>
+<pre class="brush: xml;">void Application_Start(object sender, EventArgs e)
+{
+    // 應用程式啟動時執行的程式碼
+    AreaRegistration.RegisterAllAreas();
+    IdentityConfig.ConfigureIdentity();
+    GlobalConfiguration.Configure(WebApiConfig.Register);
+    RouteConfig.RegisterRoutes(RouteTable.Routes);            
+}
+</pre>
+
+<p>最後，我們有用到DB，所以還是要補一下連線字串；這邊小弟我是使用LocalDB，大家也可以建立自己想要的DB位置。</p>
+<pre class="brush: xml;">  &lt;connectionStrings&gt;
+    &lt;add name="DefaultConnection" connectionString="Data Source=(LocalDb)\v11.0;AttachDbFilename=|DataDirectory|\aspnet-WebApplication1-20140901114034.mdf;Initial Catalog=aspnet-WebApplication1-20140901114034;Integrated Security=True" providerName="System.Data.SqlClient" /&gt;
+  &lt;/connectionStrings&gt;
+</pre>
+
+<p>完成之後，你會發現，使用HTTPS時，就會要求先使用Azure來登入帳號了~~</p>
+<p><a href="http://lh6.ggpht.com/-tZ9u2YYVqnk/VAXvYEhQx2I/AAAAAAAAJ3k/rIElgji2L2g/s1600-h/image%25255B19%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-wXtzzNZat2A/VAXvZUfcXrI/AAAAAAAAJ3s/1R0H3_Ovfng/image_thumb%25255B9%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>以上!!</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://geeks.ms/blogs/lmanez/archive/2014/06/10/adding-windows-azure-active-directory-to-an-existing-asp-net-app.aspx" target="_blank" rel="noopener" title="http://geeks.ms/blogs/lmanez/archive/2014/06/10/adding-windows-azure-active-directory-to-an-existing-asp-net-app.aspx">http://geeks.ms/blogs/lmanez/archive/2014/06/10/adding-windows-azure-active-directory-to-an-existing-asp-net-app.aspx</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/Active-Directory/" rel="tag">#Active Directory</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/09/02/Azure-%E5%AF%A6%E4%BD%9CAzure%E4%B8%8A%E7%9A%84AD%E8%88%87MVC%E9%80%B2%E8%A1%8C%E9%A9%97%E8%AD%89-Azure%E8%A8%AD%E5%AE%9A%E7%AF%87-%E4%BA%8C/" rel="next" title="Azure - 實作Azure上的AD與MVC進行驗證 - Azure設定篇 ( 二 )">
+                <i class="fa fa-chevron-left"></i> Azure - 實作Azure上的AD與MVC進行驗證 - Azure設定篇 ( 二 )
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/09/12/Visual-Studio-%E5%AE%89%E8%A3%9DNode-js-Tools/" rel="prev" title="Visual Studio - 安裝Node.js Tools">
+                Visual Studio - 安裝Node.js Tools <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">1.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2014/09/03/Azure-實作Azure上的AD與MVC進行驗證-Azure設定篇-三/';
+      var disqus_title = 'Azure - 實作Azure上的AD與MVC進行驗證 - Azure設定篇 ( 三 )';
+      var disqus_url = 'http://skychang.github.io/2014/09/03/Azure-%E5%AF%A6%E4%BD%9CAzure%E4%B8%8A%E7%9A%84AD%E8%88%87MVC%E9%80%B2%E8%A1%8C%E9%A9%97%E8%AD%89-Azure%E8%A8%AD%E5%AE%9A%E7%AF%87-%E4%B8%89/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,654 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Azure," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="這篇也是補完之前沒寫的，其實Terry哥也已經寫過同樣的一篇了，但為了小弟我自己查詢方便，所以就花一點點時間，將這篇給補完。 我們在使用Windows Azure Web Site的時候，可以透過很多種方式進行部署，例如TFS、Visual Studio，但是對於一般的ASP、或是PHP等使用者，可能會覺得使用FTP比較方便，或是有其他的ID，可能會要求使用FTP的方式自動來上傳；所以今天，我們就">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Azure -  使用FTP上傳檔案到Web Sites並取得MySQL帳號與密碼">
+<meta property="og:url" content="http://skychang.github.io/2012/09/25/Windows-Azure-%E4%BD%BF%E7%94%A8FTP%E4%B8%8A%E5%82%B3%E6%AA%94%E6%A1%88%E5%88%B0Web-Sites%E4%B8%A6%E5%8F%96%E5%BE%97MySQL%E5%B8%B3%E8%99%9F%E8%88%87%E5%AF%86%E7%A2%BC/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="這篇也是補完之前沒寫的，其實Terry哥也已經寫過同樣的一篇了，但為了小弟我自己查詢方便，所以就花一點點時間，將這篇給補完。 我們在使用Windows Azure Web Site的時候，可以透過很多種方式進行部署，例如TFS、Visual Studio，但是對於一般的ASP、或是PHP等使用者，可能會覺得使用FTP比較方便，或是有其他的ID，可能會要求使用FTP的方式自動來上傳；所以今天，我們就">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh5.ggpht.com/-zNlyfTeNiwc/UGGNwrLVgJI/AAAAAAAAE-o/1lEoG1dzhbc/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-2uUSMowYGgg/UGGNyjEoUNI/AAAAAAAAE-0/IB73BIu8DD4/image_thumb%25255B3%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-Wke3QuQZjUM/UGGN0nbCK2I/AAAAAAAAE_I/-S8fX4pMAg0/image_thumb%25255B6%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-c2LPpaCCjJY/UGGN3O3gvUI/AAAAAAAAE_Y/Eqmu7r7SqAs/image_thumb%25255B9%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-_Mw1gFigFMQ/UGGN5TEJVWI/AAAAAAAAE_o/5nDkVFgcPT8/image_thumb%25255B12%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-JR3YI3JhYhs/UGGN7qtAKQI/AAAAAAAAE_0/GAnKGOg1T7Q/image_thumb%25255B15%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-iItddmYKcN4/UGGN9eZzX9I/AAAAAAAAFAI/ijOyDRFGvSo/image_thumb%25255B18%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2012-09-25T18:56:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.027Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Azure">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh5.ggpht.com/-zNlyfTeNiwc/UGGNwrLVgJI/AAAAAAAAE-o/1lEoG1dzhbc/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Windows Azure -  使用FTP上傳檔案到Web Sites並取得MySQL帳號與密碼 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Windows Azure -  使用FTP上傳檔案到Web Sites並取得MySQL帳號與密碼
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2012-09-25T18:56:00+00:00" content="2012-09-25">
+              2012-09-25
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/09/25/Windows-Azure-%E4%BD%BF%E7%94%A8FTP%E4%B8%8A%E5%82%B3%E6%AA%94%E6%A1%88%E5%88%B0Web-Sites%E4%B8%A6%E5%8F%96%E5%BE%97MySQL%E5%B8%B3%E8%99%9F%E8%88%87%E5%AF%86%E7%A2%BC/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/09/25/Windows-Azure-使用FTP上傳檔案到Web-Sites並取得MySQL帳號與密碼/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>這篇也是補完之前沒寫的，其實<a href="http://www.dotblogs.com.tw/terrychuang/archive/2012/09/03/74565.aspx" target="_blank" rel="noopener">Terry哥</a>也已經寫過同樣的一篇了，但為了小弟我自己查詢方便，所以就花一點點時間，將這篇給補完。</p>
+<p>我們在使用Windows Azure Web Site的時候，可以透過很多種方式進行部署，例如TFS、Visual Studio，但是對於一般的ASP、或是PHP等使用者，可能會覺得使用FTP比較方便，或是有其他的ID，可能會要求使用FTP的方式自動來上傳；所以今天，我們就來看看，超簡單!使用FTP來上傳檔案到Web Sites。</p>
+<p>下圖，是今天準備要拿來Demo的網站，裡面主要是放PHPBB這個Open Source Application ( 因為有人反映，小弟我每次都拿Word Press做Demo XDD，所以這次換成PHPBB… )，但真正的重點是右下角的Download Publish Profile這個按鈕，其實所有的帳號密碼都藏在這個裡面。</p>
+<p><a href="http://lh5.ggpht.com/-F-8y3CXmhQk/UGGNvwlcCJI/AAAAAAAAE-g/Ejl8Yq_rj-E/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-zNlyfTeNiwc/UGGNwrLVgJI/AAAAAAAAE-o/1lEoG1dzhbc/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>按下去後，會需要下載，我們可以直接使用記事本開啟。</p>
+<p><a href="http://lh6.ggpht.com/-sNmz6j5EPp0/UGGNx0LdyMI/AAAAAAAAE-w/J9nIIrpFrP4/s1600-h/image%25255B7%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-2uUSMowYGgg/UGGNyjEoUNI/AAAAAAAAE-0/IB73BIu8DD4/image_thumb%25255B3%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>我們可以使用userName來搜尋關鍵字，就可以找到ID，而旁邊的就是Password，但要注意，用userName搜尋，可能會找到兩個ID，要找到有斜線的那一個，如下圖，ftpdemo$ftpdemo才是真正的FTP登入用ID。</p>
+<p><a href="http://lh5.ggpht.com/-Yry8Mk-zO0Q/UGGNzgYpmbI/AAAAAAAAE_A/brAwCMeb_9w/s1600-h/image%25255B12%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-Wke3QuQZjUM/UGGN0nbCK2I/AAAAAAAAE_I/-S8fX4pMAg0/image_thumb%25255B6%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們只要把在Windows Azure管理介面的FTP HOSTNAME複製，貼到檔案總管( 或是其他FTP工具 )，然後再把剛剛找到的ID和Password貼上去就可以了。( 當然，底下的圖，Password只有一個v…當然不可能那麼短，那是因為斷行的關係… )</p>
+<p><a href="http://lh5.ggpht.com/-dIZOpCbsMSE/UGGN1m69pNI/AAAAAAAAE_Q/Go3JF2_PG4M/s1600-h/image%25255B17%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-c2LPpaCCjJY/UGGN3O3gvUI/AAAAAAAAE_Y/Eqmu7r7SqAs/image_thumb%25255B9%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>登入之後，我們可以看到兩個資料夾…LogFiles是存放WebSite Log用的，其實這邊Log的目錄，就和尚圖FTP HostName連結下的Diagnostic Logs位置一樣，而Site目錄，在點進去的wwwroot就是存放著網頁的目錄。</p>
+<p><a href="http://lh3.ggpht.com/-889pkpTt_ag/UGGN4NuRmzI/AAAAAAAAE_g/ROoADKQihm8/s1600-h/image%25255B22%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-_Mw1gFigFMQ/UGGN5TEJVWI/AAAAAAAAE_o/5nDkVFgcPT8/image_thumb%25255B12%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>如下圖，存放著PHPBB的檔案。</p>
+<p><a href="http://lh3.ggpht.com/-eIgzGex6boA/UGGN6Y-greI/AAAAAAAAE_w/f5GgjhXjdFk/s1600-h/image%25255B27%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-JR3YI3JhYhs/UGGN7qtAKQI/AAAAAAAAE_0/GAnKGOg1T7Q/image_thumb%25255B15%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>同場加映，如果今天要管理MySQL資料庫，也可以從這邊得到帳號密碼。</p>
+<p><a href="http://lh6.ggpht.com/-nt23d02vQ8k/UGGN8uESoWI/AAAAAAAAE_8/kQwY6olVfZk/s1600-h/image%25255B32%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-iItddmYKcN4/UGGN9eZzX9I/AAAAAAAAFAI/ijOyDRFGvSo/image_thumb%25255B18%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>就是這樣簡單!!但不知道門路的人，還真的會找不到&gt;”&lt;…</p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>這部分相信未來會持續改進，畢竟目前也還在Preview階段，大家就先將就著用吧=v=</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/09/25/Visual-Studio-%E5%9C%A8Visual-Studio%E4%BD%BF%E7%94%A8Adobe%E5%85%8D%E8%B2%BB%E7%9A%84Source-Code-Pro%E5%AD%97%E5%9E%8B/" rel="next" title="Visual Studio - 在Visual Studio使用Adobe免費的Source Code Pro字型">
+                <i class="fa fa-chevron-left"></i> Visual Studio - 在Visual Studio使用Adobe免費的Source Code Pro字型
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/10/09/Windows-Azure-%E5%88%AA%E9%99%A4Windows-Azure%E4%B8%8A%E7%9A%84VM-10%E6%9C%88%E6%96%B0%E5%8A%9F%E8%83%BD/" rel="prev" title="Windows Azure - 刪除Windows Azure上的VM (10月新功能)">
+                Windows Azure - 刪除Windows Azure上的VM (10月新功能) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">1.</span> <span class="nav-text">後記</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2012/09/25/Windows-Azure-使用FTP上傳檔案到Web-Sites並取得MySQL帳號與密碼/';
+      var disqus_title = 'Windows Azure -  使用FTP上傳檔案到Web Sites並取得MySQL帳號與密碼';
+      var disqus_url = 'http://skychang.github.io/2012/09/25/Windows-Azure-%E4%BD%BF%E7%94%A8FTP%E4%B8%8A%E5%82%B3%E6%AA%94%E6%A1%88%E5%88%B0Web-Sites%E4%B8%A6%E5%8F%96%E5%BE%97MySQL%E5%B8%B3%E8%99%9F%E8%88%87%E5%AF%86%E7%A2%BC/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

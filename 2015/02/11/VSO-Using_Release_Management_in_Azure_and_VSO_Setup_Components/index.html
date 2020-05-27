@@ -1,0 +1,681 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Azure,VSO,Release Management," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言完成了Release Management環境的設定後，接下來我們要進行Release Management元件的設定，那甚麼是元件? 元件首先，我們回憶一下，我們前面將PowerShell放到專案裡面去，當VSO將Build出來的檔案Build好後，Release Management要抓取Build出來的檔案 ( Build的檔案會放到VSO上，而非直接放到目標的Server上 )，並且透">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online 元件與範本設定篇">
+<meta property="og:url" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Components/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="前言完成了Release Management環境的設定後，接下來我們要進行Release Management元件的設定，那甚麼是元件? 元件首先，我們回憶一下，我們前面將PowerShell放到專案裡面去，當VSO將Build出來的檔案Build好後，Release Management要抓取Build出來的檔案 ( Build的檔案會放到VSO上，而非直接放到目標的Server上 )，並且透">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Components/01.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Components/02.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Components/03.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Components/04.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Components/05.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Components/06.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Components/07.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Components/08.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Components/09.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Components/10.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Components/11.png">
+<meta property="article:published_time" content="2015-02-11T23:10:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.976Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="VSO">
+<meta property="article:tag" content="Release Management">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Components/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online 元件與範本設定篇 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online 元件與範本設定篇
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-02-11T23:10:00+00:00" content="2015-02-11">
+              2015-02-11
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Components/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Components/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>完成了Release Management環境的設定後，接下來我們要進行Release Management元件的設定，那甚麼是元件?</p>
+<h2 id="元件"><a href="#元件" class="headerlink" title="元件"></a>元件</h2><p>首先，我們回憶一下，我們前面將PowerShell放到專案裡面去，當VSO將Build出來的檔案Build好後，Release Management要抓取Build出來的檔案 ( Build的檔案會放到VSO上，而非直接放到目標的Server上 )，並且透過內建的PowerShell複製到目標VM去。( 內建的PowerShell並不是我們上一章節準備的PowerShell )</p>
+<p>所以，這個章節，要做的一件事情，就是告訴Release Management，要把那些東西複製到目標Server，而這一個一個的東西，就被稱為元件。 </p>
+<h2 id="設定元件"><a href="#設定元件" class="headerlink" title="設定元件"></a>設定元件</h2><p>所以，我們要先進入”設定應用程式” =&gt; “元件”，並且新增”新的vNext”。</p>
+<p><img src="01.png" alt=""></p>
+<p>接下來，我們給這個元件一個名稱，這個元件的來源，會是在_PublishedWebsites\Study4.UI.Web\Deploy\的目錄下；這邊要注意一下，其中的Study4.UI.Web，是你之前專案的專案名稱；而這邊這個元件，就是將我們上一章節準備的PowerShell準備拷貝到目標Server去。</p>
+<p><img src="02.png" alt=""></p>
+<p>接下來，要設定另外一個元件，目標位置是_PublishedWebsites\Study4.UI.Web\這個元件的用意，就是將網站所有的檔案，拷貝到目標Server上。</p>
+<p>當然，大家可能會覺得，我的PowerShell原本就是放在整個網站下面阿，那為什麼還要分為兩個元件，其實設定一個元件也是ok的，但這邊主要是為凸顯效果，所以才多設定一個元件。</p>
+<p><img src="03.png" alt=""></p>
+<h2 id="設定發行範本"><a href="#設定發行範本" class="headerlink" title="設定發行範本"></a>設定發行範本</h2><p>接下來，我們要設定新的”vNext發行範本”。</p>
+<p><img src="04.png" alt=""></p>
+<p>進入後，我們就可以選擇發行路徑、組件定義等等，這些都是之前我們設定過的。</p>
+<p><img src="05.png" alt=""></p>
+<p>另外，如果這邊勾選的話，未來如果直接從VSO Build，會自動觸發Release Management。</p>
+<p><img src="06.png" alt=""></p>
+<p>接下來，我們就可以進入發行範本的設定，如下圖，其實他就是一個WF；而在開始設定之前，我們要先把元件加入，如下圖。</p>
+<p><img src="07.png" alt=""></p>
+<p>然後把我們剛剛設定好的元件連結進來。</p>
+<p><img src="08.png" alt=""></p>
+<p>接下來，我們要開始設定流程，這個流程會有三個步驟，第一個步驟如下圖。<br>主要目的是安裝Modules，也就是xWebAdministrator這個Modules，透過這一個步驟，並且呼叫InstallModules.ps1，就會將此Module安裝到PowerShell底下的Module目錄；而透過xWebAdministrator，我們就可以另用它來將檔案佈署到IIS上。</p>
+<p>另外，需要特別注意，下圖的部分，有一個地方截圖截不到，下面還有一個SkipCaCheck的欄位，這個欄位要填true；另外，UserName一定要加上.\ 來代表本機，不然會認不得帳號；密碼就是當初建立Azure VM的密碼。</p>
+<p><img src="09.png" alt=""></p>
+<p>第二步驟要做的就是將Web網站的檔案拷貝到IIS的指定目錄。</p>
+<p>另外，需要特別注意，下圖的部分，同樣的有一個地方截圖截不到，下面還有一個SkipCaCheck的欄位，這個欄位要填true；另外，還有另外兩個屬性要記得填。</p>
+<p><img src="10.png" alt=""></p>
+<p>第三個步驟是設定IIS的權限，需要注意的項目和上面一樣，SkipCaCheck同樣要填true，最下面也還有新的欄位要填寫。</p>
+<p><img src="11.png" alt=""></p>
+<p>存檔完成後，範本就設定完成了</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://gallery.technet.microsoft.com/scriptcenter/xWebAdministration-Module-3c8bb6be" target="_blank" rel="noopener">https://gallery.technet.microsoft.com/scriptcenter/xWebAdministration-Module-3c8bb6be</a></li>
+<li><a href="http://www.visualstudio.com/get-started/manage-your-release-vs" target="_blank" rel="noopener">http://www.visualstudio.com/get-started/manage-your-release-vs</a></li>
+<li><a href="http://www.visualstudio.com/get-started/deploy-with-agents-vs" target="_blank" rel="noopener">http://www.visualstudio.com/get-started/deploy-with-agents-vs</a></li>
+<li><a href="http://blogs.msdn.com/b/visualstudioalm/archive/2014/11/11/using-release-management-vso-service-to-manage-releases.aspx" target="_blank" rel="noopener">http://blogs.msdn.com/b/visualstudioalm/archive/2014/11/11/using-release-management-vso-service-to-manage-releases.aspx</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/VSO/" rel="tag">#VSO</a>
+          
+            <a href="/tags/Release-Management/" rel="tag">#Release Management</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Build/" rel="next" title="VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online PS 與組建設定篇">
+                <i class="fa fa-chevron-left"></i> VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online PS 與組建設定篇
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Deploy/" rel="prev" title="VSO - 使用Release Management 搭配 Azure 和 Visual Studio Online 佈署篇">
+                VSO - 使用Release Management 搭配 Azure 和 Visual Studio Online 佈署篇 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#元件"><span class="nav-number">2.</span> <span class="nav-text">元件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定元件"><span class="nav-number">3.</span> <span class="nav-text">設定元件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定發行範本"><span class="nav-number">4.</span> <span class="nav-text">設定發行範本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">5.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Components/';
+      var disqus_title = 'VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online 元件與範本設定篇';
+      var disqus_url = 'http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Components/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

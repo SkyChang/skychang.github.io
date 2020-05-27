@@ -1,0 +1,678 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Visual Studio,Entity Framework,SQL Server,Tools," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="2012&#x2F;11&#x2F;2 更新 現在，如果是要進行本地端的資料庫程式開發，建議大家可以使用LocalDB，關於LocalDB的文章可以參考Terry哥的這篇。 至從SQL Server Compact 4.0出現了以後，SQL Server Compact開始支援ASP.NET Web的開發，也可以輕易地在Visual Studio去做管理的動作，而不需要再裝SQL Server Express，甚至是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL Server Compact 的好夥伴 SQL Server Compact Toolbox">
+<meta property="og:url" content="http://skychang.github.io/2011/09/28/SQL-Server-Compact-%E7%9A%84%E5%A5%BD%E5%A4%A5%E4%BC%B4-SQL-Server-Compact-Toolbox/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="2012&#x2F;11&#x2F;2 更新 現在，如果是要進行本地端的資料庫程式開發，建議大家可以使用LocalDB，關於LocalDB的文章可以參考Terry哥的這篇。 至從SQL Server Compact 4.0出現了以後，SQL Server Compact開始支援ASP.NET Web的開發，也可以輕易地在Visual Studio去做管理的動作，而不需要再裝SQL Server Express，甚至是">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh5.ggpht.com/-nxGzAik0228/ToPtgAG5A5I/AAAAAAAAArs/-zm_E5dVyOE/image_thumb%25255B3%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-YeblqLg1gvY/ToPtirssizI/AAAAAAAAAr0/cFmgNpAcFD8/image_thumb%25255B6%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-Wrh04MJea1U/ToPtjvSCYkI/AAAAAAAAAr8/jBrDOCFWkXA/image_thumb%25255B8%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-8ooy_hAPCj4/ToPtleJIesI/AAAAAAAAAsE/ogMq6KPT26I/image_thumb%25255B10%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-MJvMxrCI4Lg/ToPtmw7ziCI/AAAAAAAAAsM/PkOP5xu8ems/image_thumb%25255B15%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-UNTQrG174fw/ToPtoWTTrTI/AAAAAAAAAsU/a6xEp5NE-ZA/image_thumb%25255B18%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-qbjjd-r3ozc/ToPtp7QnN5I/AAAAAAAAAsc/6dEHw9u4-oI/image_thumb%25255B21%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-0IyEOLIZwfs/ToPtrsOD1SI/AAAAAAAAAsk/Euu4QLvMwX0/image_thumb%25255B25%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-qUMtm7e6FHY/ToPttXYmQZI/AAAAAAAAAss/tokYEKEDJhI/image_thumb%25255B28%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-qbhDcg4g0Es/ToPtvY9T98I/AAAAAAAAAs0/6dRJA_lvxEY/image_thumb%25255B31%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-sH4s463Po-w/ToPtxw06VhI/AAAAAAAAAs8/9hpF24oSXfs/image_thumb%25255B34%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2011-09-28T23:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.956Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="Entity Framework">
+<meta property="article:tag" content="SQL Server">
+<meta property="article:tag" content="Tools">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh5.ggpht.com/-nxGzAik0228/ToPtgAG5A5I/AAAAAAAAArs/-zm_E5dVyOE/image_thumb%25255B3%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> SQL Server Compact 的好夥伴 SQL Server Compact Toolbox | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                SQL Server Compact 的好夥伴 SQL Server Compact Toolbox
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2011-09-28T23:00:00+00:00" content="2011-09-28">
+              2011-09-28
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2011/09/28/SQL-Server-Compact-%E7%9A%84%E5%A5%BD%E5%A4%A5%E4%BC%B4-SQL-Server-Compact-Toolbox/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/09/28/SQL-Server-Compact-的好夥伴-SQL-Server-Compact-Toolbox/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><font color="#ff0000">2012/11/2 更新 現在，如果是要進行本地端的資料庫程式開發，建議大家可以使用LocalDB，關於LocalDB的文章可以參考</font><a href="http://www.dotblogs.com.tw/terrychuang/archive/2012/08/10/73956.aspx" target="_blank" rel="noopener">Terry哥的這篇</a><font color="#ff0000">。</font></p>
+<p>至從SQL Server Compact 4.0出現了以後，SQL Server Compact開始支援ASP.NET Web的開發，也可以輕易地在Visual Studio去做管理的動作，而不需要再裝SQL Server Express，甚至是SQL Server；如還沒安裝，可以<a href="http://blog.sanc.idv.tw/2011/09/sql-server-compact.html" target="_blank" rel="noopener">參考這篇</a>。</p>
+<p>但原本的Visual Studio內建的管理還是有限，所以這邊推薦一個Visual Studio的外掛，讓你管理起SQL Server Compact更加方便。</p>
+<h4 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h4><p>我們可以從Visual Studio裡面的工具選項，然後選擴充管理員。</p>
+<p><a href="http://lh6.ggpht.com/-rf3qg8pAdD8/ToPtfasZm3I/AAAAAAAAAro/vAqAm9Wj-6g/s1600-h/image%25255B7%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-nxGzAik0228/ToPtgAG5A5I/AAAAAAAAArs/-zm_E5dVyOE/image_thumb%25255B3%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後第一步選擇左邊的線上圖庫，然後於右邊的框框打上Compact，接下來，並可以找到SQL Server Compact Toolbox，安裝完成後需要重新啟動Visual Studio。</p>
+<p><a href="http://lh3.ggpht.com/-7DHo1_GATzw/ToPthfUeDSI/AAAAAAAAArw/koY6Rz7bOho/s1600-h/image%25255B12%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-YeblqLg1gvY/ToPtirssizI/AAAAAAAAAr0/cFmgNpAcFD8/image_thumb%25255B6%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>重開後，我們可以從伺服器總管的地方看到新圖示，這就是SQL Server Compact Toolbox。</p>
+<p><a href="http://lh6.ggpht.com/-zOnUXrIq3GQ/ToPtjDF-rXI/AAAAAAAAAr4/OV_t5Bz0Csk/s1600-h/image%25255B16%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-Wrh04MJea1U/ToPtjvSCYkI/AAAAAAAAAr8/jBrDOCFWkXA/image_thumb%25255B8%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>以下就是SQL Server Compact Toolbox的管理介面。</p>
+<p><a href="http://lh6.ggpht.com/-v9L2x7DZ8YM/ToPtkb2xIpI/AAAAAAAAAsA/p4PGOECXHjY/s1600-h/image%25255B20%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-8ooy_hAPCj4/ToPtleJIesI/AAAAAAAAAsE/ogMq6KPT26I/image_thumb%25255B10%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h4 id="將SQL-Server上的資料轉到SQL-Server-Compact"><a href="#將SQL-Server上的資料轉到SQL-Server-Compact" class="headerlink" title="將SQL Server上的資料轉到SQL Server Compact"></a>將SQL Server上的資料轉到SQL Server Compact</h4><p>假設今天我們已經在SQL Server上面寫了一些Table，想要把他轉移過來，就可以選擇此選項，此選項會連到SQL Server，並輸出給SQL Server Compact 專用的SQL檔案，最後再由SQL Server Compact Toolbox 的 SQL Editor工具來執行。</p>
+<p><a href="http://lh6.ggpht.com/-X40gtCgDbsE/ToPtl0_TT7I/AAAAAAAAAsI/y8LN3grtols/s1600-h/image%25255B29%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-MJvMxrCI4Lg/ToPtmw7ziCI/AAAAAAAAAsM/PkOP5xu8ems/image_thumb%25255B15%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>打開後，就是很常見的連線視窗，設定完後，就可以輸出。</p>
+<p><a href="http://lh4.ggpht.com/-lxRbKKf9CQQ/ToPtnvMi0lI/AAAAAAAAAsQ/AeEcGA0LcCk/s1600-h/image%25255B34%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-UNTQrG174fw/ToPtoWTTrTI/AAAAAAAAAsU/a6xEp5NE-ZA/image_thumb%25255B18%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>選擇目的地。</p>
+<p><a href="http://lh3.ggpht.com/-6S8yxcARCIg/ToPtpAEPJ2I/AAAAAAAAAsY/T69t7_qdmUo/s1600-h/image%25255B39%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-qbjjd-r3ozc/ToPtp7QnN5I/AAAAAAAAAsc/6dEHw9u4-oI/image_thumb%25255B21%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們打開Open SQL Editor。</p>
+<p><a href="http://lh5.ggpht.com/-qGyKWnlTLeQ/ToPtqs7L6qI/AAAAAAAAAsg/lRCm_rKjNxs/s1600-h/image%25255B45%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-0IyEOLIZwfs/ToPtrsOD1SI/AAAAAAAAAsk/Euu4QLvMwX0/image_thumb%25255B25%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，使用Opne打開剛剛存的檔案，選取後，會在下面出現SQL語法，然後我們按下Execute來執行。</p>
+<p><a href="http://lh4.ggpht.com/-czxgjxd4tn0/ToPtsuxW4CI/AAAAAAAAAso/edIYiLxr4-I/s1600-h/image%25255B50%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-qUMtm7e6FHY/ToPttXYmQZI/AAAAAAAAAss/tokYEKEDJhI/image_thumb%25255B28%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>完成後，我們就可以發現北風資料庫的資料全部都匯進來了。</p>
+<p><a href="http://lh3.ggpht.com/-s7ChozCX5jA/ToPtuIuHdDI/AAAAAAAAAsw/n6kxHDPSa8s/s1600-h/image%25255B55%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-qbhDcg4g0Es/ToPtvY9T98I/AAAAAAAAAs0/6dRJA_lvxEY/image_thumb%25255B31%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>其實他還有許多功能，例如將目前的SQL Server Compact匯出成SQL給其他的SQL Server使用，或是直接將此SQL Server Compact的db轉成Entity Data Model至專案。</p>
+<p><a href="http://lh4.ggpht.com/-sF8stf_eBQE/ToPtwCl8gfI/AAAAAAAAAs4/B1Y2h-hmLRw/s1600-h/image%25255B60%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-sH4s463Po-w/ToPtxw06VhI/AAAAAAAAAs8/9hpF24oSXfs/image_thumb%25255B34%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h4 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h4><p>這個工具彌補了原本Visual Studio的不足，讓我們來使用SQL Server Compact更加的方便，在這裡推薦給大家。</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ol>
+<li><a href="http://sqlcetoolbox.codeplex.com/" target="_blank" rel="noopener" title="http://sqlcetoolbox.codeplex.com/">http://sqlcetoolbox.codeplex.com/</a></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
+          
+            <a href="/tags/Entity-Framework/" rel="tag">#Entity Framework</a>
+          
+            <a href="/tags/SQL-Server/" rel="tag">#SQL Server</a>
+          
+            <a href="/tags/Tools/" rel="tag">#Tools</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/09/28/%E9%96%8B%E7%99%BC%E7%A8%8B%E5%BC%8F%E7%9A%84%E5%A5%BD%E5%A4%A5%E4%BC%B4SQL-Server-Compact/" rel="next" title="開發程式的好夥伴SQL Server Compact">
+                <i class="fa fa-chevron-left"></i> 開發程式的好夥伴SQL Server Compact
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011/10/03/%E9%96%8B%E7%99%BC%E4%BA%BA%E6%87%89%E8%A9%B2%E5%AD%B8%E7%9A%84%EF%BC%8C%E7%94%A8Visual-Studio%E9%96%8B%E7%99%BCSQL-SQL-Server-Data-Tools-%E5%BF%AB%E7%85%A7%E5%8A%9F%E8%83%BD/" rel="prev" title="開發人應該學的，用Visual Studio開發SQL( SQL Server Data Tools ) - 快照功能">
+                開發人應該學的，用Visual Studio開發SQL( SQL Server Data Tools ) - 快照功能 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#安裝"><span class="nav-number">1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#將SQL-Server上的資料轉到SQL-Server-Compact"><span class="nav-number">2.</span> <span class="nav-text">將SQL Server上的資料轉到SQL Server Compact</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他"><span class="nav-number">3.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#總結"><span class="nav-number">4.</span> <span class="nav-text">總結</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">5.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2011/09/28/SQL-Server-Compact-的好夥伴-SQL-Server-Compact-Toolbox/';
+      var disqus_title = 'SQL Server Compact 的好夥伴 SQL Server Compact Toolbox';
+      var disqus_url = 'http://skychang.github.io/2011/09/28/SQL-Server-Compact-%E7%9A%84%E5%A5%BD%E5%A4%A5%E4%BC%B4-SQL-Server-Compact-Toolbox/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

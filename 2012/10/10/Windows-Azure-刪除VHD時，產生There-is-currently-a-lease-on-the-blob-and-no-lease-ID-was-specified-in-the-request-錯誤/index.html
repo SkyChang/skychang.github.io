@@ -1,0 +1,646 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="SkyChang,Sky,天空的垃圾場" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="好，前篇介紹了刪除VHD的一些問題，但老實說，還是沒有辦法解決小弟我目前碰到的問題XDD ( 所以上一篇是做爽的… )，但也因為上一篇的經驗，得到了一些啟示，我先來把問題列出來吧。 其實是，昨天在將做VM轉Image的練習，當作完刪除Disk後，準備要刪除Blob裡面的VHD，卻出現這個錯誤  There is currently a lease on the blob and no lease">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Azure - 刪除VHD時，產生There is currently a lease on the blob and no lease ID was specified in the request 錯誤">
+<meta property="og:url" content="http://skychang.github.io/2012/10/10/Windows-Azure-%E5%88%AA%E9%99%A4VHD%E6%99%82%EF%BC%8C%E7%94%A2%E7%94%9FThere-is-currently-a-lease-on-the-blob-and-no-lease-ID-was-specified-in-the-request-%E9%8C%AF%E8%AA%A4/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="好，前篇介紹了刪除VHD的一些問題，但老實說，還是沒有辦法解決小弟我目前碰到的問題XDD ( 所以上一篇是做爽的… )，但也因為上一篇的經驗，得到了一些啟示，我先來把問題列出來吧。 其實是，昨天在將做VM轉Image的練習，當作完刪除Disk後，準備要刪除Blob裡面的VHD，卻出現這個錯誤  There is currently a lease on the blob and no lease">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh3.ggpht.com/-gpJycl7Z-FQ/UHRNfBAi-vI/AAAAAAAAFEA/RrE2I7zk6gk/image_thumb%25255B1%25255D_thumb.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/--fwq9rJJMAA/UHRNhnk3EeI/AAAAAAAAFEM/CG9PxHNn3Ic/image_thumb%25255B4%25255D_thumb.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-eQjrO7fgbqg/UHRNkK-JdEI/AAAAAAAAFEg/_L7OTJU_Lsk/image_thumb%25255B5%25255D_thumb.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-2mGpoBoHaEw/UHRNl9EBMxI/AAAAAAAAFEw/-NXNBb2Lsq4/image_thumb%25255B2%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2012-10-10T00:15:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.027Z">
+<meta property="article:author" content="Sky Chang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh3.ggpht.com/-gpJycl7Z-FQ/UHRNfBAi-vI/AAAAAAAAFEA/RrE2I7zk6gk/image_thumb%25255B1%25255D_thumb.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Windows Azure - 刪除VHD時，產生There is currently a lease on the blob and no lease ID was specified in the request 錯誤 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Windows Azure - 刪除VHD時，產生There is currently a lease on the blob and no lease ID was specified in the request 錯誤
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2012-10-10T00:15:00+00:00" content="2012-10-10">
+              2012-10-10
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/10/10/Windows-Azure-%E5%88%AA%E9%99%A4VHD%E6%99%82%EF%BC%8C%E7%94%A2%E7%94%9FThere-is-currently-a-lease-on-the-blob-and-no-lease-ID-was-specified-in-the-request-%E9%8C%AF%E8%AA%A4/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/10/10/Windows-Azure-刪除VHD時，產生There-is-currently-a-lease-on-the-blob-and-no-lease-ID-was-specified-in-the-request-錯誤/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>好，前篇介紹了<a href="http://blog.sanc.idv.tw/2012/10/windows-azure-diskvma-lease-conflict.html" target="_blank" rel="noopener">刪除VHD</a>的一些問題，但老實說，還是沒有辦法解決小弟我目前碰到的問題XDD ( 所以上一篇是做爽的… )，但也因為上一篇的經驗，得到了一些啟示，我先來把問題列出來吧。</p>
+<p>其實是，昨天在將做VM轉Image的練習，當作完刪除Disk後，準備要刪除Blob裡面的VHD，卻出現這個錯誤</p>
+<blockquote>
+<p>There is currently a lease on the blob and no lease ID was specified in the request </p>
+</blockquote>
+<p>[<img src="http://lh3.ggpht.com/-gpJycl7Z-FQ/UHRNfBAi-vI/AAAAAAAAFEA/RrE2I7zk6gk/image_thumb%25255B1%25255D_thumb.png?imgmax=800" alt="image_thumb[1]" title="image_thumb[1]">](<a href="http://lh6.ggpht.com/-T0eY9FoWk4k/UHRNeJ8ZxoI/AAAAAAAAFD4/FhHg7_9AMaM/s1600-h/image_thumb%25255B1%25255D%25255B2%25255D.png" target="_blank" rel="noopener">http://lh6.ggpht.com/-T0eY9FoWk4k/UHRNeJ8ZxoI/AAAAAAAAFD4/FhHg7_9AMaM/s1600-h/image_thumb%25255B1%25255D%25255B2%25255D.png</a>)</p>
+<p>從字面上來解釋，就是這個Blob的ID還在被使用中，所以無法刪除；而這個時候，第一個當然就是會想到VM裡面的Image或是Disk，但是進去看，都是空空的= =… ( 如果Image或是Disk，又或是VM有掛載的話，通常只要移除就可以順利解決問題了，但這邊是很不幸的，完全沒掛載的狀況下…還是不能刪除 )</p>
+<p>[<img src="http://lh6.ggpht.com/--fwq9rJJMAA/UHRNhnk3EeI/AAAAAAAAFEM/CG9PxHNn3Ic/image_thumb%25255B4%25255D_thumb.png?imgmax=800" alt="image_thumb[4]" title="image_thumb[4]">](<a href="http://lh4.ggpht.com/-meiXSiqOvpg/UHRNgETT_EI/AAAAAAAAFEI/2ZR9PzOn5yQ/s1600-h/image_thumb%25255B4%25255D%25255B2%25255D.png" target="_blank" rel="noopener">http://lh4.ggpht.com/-meiXSiqOvpg/UHRNgETT_EI/AAAAAAAAFEI/2ZR9PzOn5yQ/s1600-h/image_thumb%25255B4%25255D%25255B2%25255D.png</a>)</p>
+<p>Disk裡面一樣找不到。</p>
+<p>[<img src="http://lh6.ggpht.com/-eQjrO7fgbqg/UHRNkK-JdEI/AAAAAAAAFEg/_L7OTJU_Lsk/image_thumb%25255B5%25255D_thumb.png?imgmax=800" alt="image_thumb[5]" title="image_thumb[5]">](<a href="http://lh6.ggpht.com/-40vBi_2oZqg/UHRNi4S-XII/AAAAAAAAFEY/mDr4JgAhTTo/s1600-h/image_thumb%25255B5%25255D%25255B2%25255D.png" target="_blank" rel="noopener">http://lh6.ggpht.com/-40vBi_2oZqg/UHRNi4S-XII/AAAAAAAAFEY/mDr4JgAhTTo/s1600-h/image_thumb%25255B5%25255D%25255B2%25255D.png</a>)</p>
+<p>本來想說，這種問題，大概只有官方那邊能解決，正打算用中文信和印度工程師溝通的時候，剛好翻到<a href="http://social.msdn.microsoft.com/Forums/pl-PL/WAVirtualMachinesforWindows/thread/cc9bacfc-2c11-4010-b535-f1b0a141d317" target="_blank" rel="noopener">MSDN</a>有解決的方式，但做完發現，恩，官方的狀況，和我的狀況是不同的XDDD，但還是給了我一盞明燈，沒錯，就還是要使用Windows Azure PowerShell來處理，如果不知道Windows Azure PowerShell的人，或是不知道如何設定的人，可以參考一下<a href="http://blog.sanc.idv.tw/2012/10/windows-azure-diskvma-lease-conflict.html" target="_blank" rel="noopener">上一篇</a>。</p>
+<p>好，那到底該如何解決這個問題呢?，其實如果管理畫面看不到，那我們就使用Windows Azure Powshell來處理吧!!</p>
+<p>其實我們只要下Remove-AzureVMImage –ImageNmae image的名稱 就可以順利刪除了，如下圖；刪除之後，就可以回到Windows Azure管理介面進行刪除Blob的處理了。</p>
+<p><a href="http://lh6.ggpht.com/-DOnzb4ol69k/UHRNkyDuxwI/AAAAAAAAFEk/YPgpQHH6BVY/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-2mGpoBoHaEw/UHRNl9EBMxI/AAAAAAAAFEw/-NXNBb2Lsq4/image_thumb%25255B2%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>喔，如果你忘記當初Image的名稱，還可以使用Get-AzureVMImage來取得目前Image的名稱!!</p>
+<p>沒錯就是這麼簡單…</p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>其實從這次體會到Windows Azure Powshell的強大，未來有機會再持續研究看看吧!</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="https://www.windowsazure.com/en-us/manage/linux/how-to-guides/powershell-cmdlets/" target="_blank" rel="noopener" title="https://www.windowsazure.com/en-us/manage/linux/how-to-guides/powershell-cmdlets/">https://www.windowsazure.com/en-us/manage/linux/how-to-guides/powershell-cmdlets/</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/10/10/Windows-Azure-%E9%8C%AF%E8%AA%A4-%E7%95%B6%E4%BD%BF%E7%94%A8%E7%8F%BE%E6%9C%89%E7%9A%84Disk%E4%BE%86%E5%BB%BA%E7%AB%8B%E6%96%B0VM%E6%99%82%E7%94%A2%E7%94%9FA-lease-conflict-occurred-with-the-blob/" rel="next" title="Windows Azure - 錯誤!! 當使用現有的Disk來建立新VM時產生A lease conflict occurred with the blob">
+                <i class="fa fa-chevron-left"></i> Windows Azure - 錯誤!! 當使用現有的Disk來建立新VM時產生A lease conflict occurred with the blob
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/10/23/GitHub-GitHub%E5%88%9D%E9%AB%94%E9%A9%97/" rel="prev" title="GitHub - GitHub初體驗">
+                GitHub - GitHub初體驗 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">1.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">2.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2012/10/10/Windows-Azure-刪除VHD時，產生There-is-currently-a-lease-on-the-blob-and-no-lease-ID-was-specified-in-the-request-錯誤/';
+      var disqus_title = 'Windows Azure - 刪除VHD時，產生There is currently a lease on the blob and no lease ID was specified in the request 錯誤';
+      var disqus_url = 'http://skychang.github.io/2012/10/10/Windows-Azure-%E5%88%AA%E9%99%A4VHD%E6%99%82%EF%BC%8C%E7%94%A2%E7%94%9FThere-is-currently-a-lease-on-the-blob-and-no-lease-ID-was-specified-in-the-request-%E9%8C%AF%E8%AA%A4/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

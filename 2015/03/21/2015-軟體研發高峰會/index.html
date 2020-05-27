@@ -1,0 +1,758 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Sky的IT碎碎念,Scrum,Visual Studio," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="從Visual Studio 2005開始，這套軟體就活在小弟的電腦裡面，雖然當時還不是很會用…(抖抖)，但因為學校上課的關係，就讓他一直存活者。 而到了Visual Studio 2010，Visual Studio整個煥然一新，更是讓人覺得Visual Studio進入了另外了一個里程碑!!而這個時期，也正是小弟第一次來台北參加恩師Ruddy老師與百敬老師的研討會 ( 當時一整個覺得百敬老師外">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2015 軟體研發高峰會">
+<meta property="og:url" content="http://skychang.github.io/2015/03/21/2015-%E8%BB%9F%E9%AB%94%E7%A0%94%E7%99%BC%E9%AB%98%E5%B3%B0%E6%9C%83/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="從Visual Studio 2005開始，這套軟體就活在小弟的電腦裡面，雖然當時還不是很會用…(抖抖)，但因為學校上課的關係，就讓他一直存活者。 而到了Visual Studio 2010，Visual Studio整個煥然一新，更是讓人覺得Visual Studio進入了另外了一個里程碑!!而這個時期，也正是小弟第一次來台北參加恩師Ruddy老師與百敬老師的研討會 ( 當時一整個覺得百敬老師外">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh5.ggpht.com/-h9iuiezXvTw/VQ2JMFNT0PI/AAAAAAAAKXU/d4pqlqQMbsY/IMG_2871_thumb%25255B5%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-YeE0cFW9q1s/VQ2JNwPG9LI/AAAAAAAAKXk/tEHme8OU554/IMG_2872_thumb%25255B4%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-avzjqtD71jI/VQ2JPcBdbpI/AAAAAAAAKX0/TyB7T_V4n8s/IMG_2873_thumb%25255B5%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-O7yg4s7TpPM/VQ2JRLPUGCI/AAAAAAAAKYE/QuClGt_07JM/IMG_2874_thumb%25255B10%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-C8XjvMDPMv0/VQ2JTGGnXwI/AAAAAAAAKYU/zsZLQQuIzCA/IMG_2875_thumb%25255B5%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-XeUhY86eXgc/VQ2JUpQ3oZI/AAAAAAAAKYk/MwIa_F8-ohc/IMG_2876_thumb%25255B4%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-EDFKrS8RjYo/VQ2JWUJXwsI/AAAAAAAAKY0/PGMvo4UlkPE/IMG_2877_thumb%25255B3%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-wzQOibmDhqk/VQ2JYgkpL8I/AAAAAAAAKZE/2MM7Z81Nv-8/IMG_2880_thumb%25255B4%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-QQNqohRFq14/VQ2JaQybCNI/AAAAAAAAKZU/LlC14EF-GrA/IMG_2881_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-We3BNGVXZEI/VQ2JcU6EI1I/AAAAAAAAKZk/rAj1pszoF4c/IMG_2882_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-Zqsnj7aT6IE/VQ2Jd0HLCkI/AAAAAAAAKZ0/fIaU93Cm8x4/IMG_2883_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-4lwYf3leSHw/VQ2Jf9RKVgI/AAAAAAAAKaE/s2f_V8SO21g/IMG_2884_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-woVfYMwNa8A/VQ2JiKHU-5I/AAAAAAAAKaU/CgCUcpAX88U/IMG_2885_thumb%25255B3%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-IF7XdDjFfAI/VQ2JkGefGjI/AAAAAAAAKak/3ihA1nkqTXM/IMG_2886_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-0Z7N9mNmbTg/VQ2JmthN6II/AAAAAAAAKa0/UBXmsrL3GwM/IMG_2887_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-Oll5YPmsAkk/VQ2JoA4Vs9I/AAAAAAAAKbE/ZtGceR5EQmU/IMG_2888_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-edFmoCGgsQE/VQ2JqQwxf-I/AAAAAAAAKbU/UNuG3nrnrk4/IMG_2890_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-AARGOtIszT0/VQ2JsSBQ2NI/AAAAAAAAKbk/sVvO1WGPhG4/IMG_2891_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-TPc1ftqJSGA/VQ2JuGS5OHI/AAAAAAAAKb0/kI82mD1d2KA/IMG_2892_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-uzfvF7_ukRw/VQ2Jvl6d_QI/AAAAAAAAKcE/Y1AC0d_AQEY/IMG_2893_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-Sqgm8QaG4tw/VQ2JxS6TzYI/AAAAAAAAKcU/41DPrDoHHxo/IMG_2894_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-l5xRE8mnovs/VQ2JzU1iWwI/AAAAAAAAKck/Nnqdrd6JuK4/IMG_2895_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-r5k7oQeiRaw/VQ2J0qOVDII/AAAAAAAAKc0/FIdhtQuf1pQ/IMG_2900_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-EdaeLD5b78g/VQ2J2VXF5QI/AAAAAAAAKdE/ZTb9_aGREis/IMG_2902_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-qBKg1IXEU2g/VQ2J4k_XNhI/AAAAAAAAKdU/CVdGb7x64j8/IMG_2903_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-lE94DmyJwRo/VQ2J6OG4fOI/AAAAAAAAKdk/ER3Lv76Kw6E/IMG_2905_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-KT4d-Qac2NQ/VQ2J75uJ0DI/AAAAAAAAKd0/xR0jtKcDtpc/IMG_2906_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-UoxwrgCju6c/VQ2J99ibdhI/AAAAAAAAKeE/focDwre5WBI/IMG_2907_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-3883mMDnolU/VQ2J_jCvFiI/AAAAAAAAKeU/FuM5k1YyF4g/IMG_2909_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-bPp4M1QHl_Q/VQ2KBjKBo6I/AAAAAAAAKek/b-1hQ-xm6tY/IMG_2911_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-5MVO-duWdUY/VQ2KDFt2CwI/AAAAAAAAKe0/o7T4l0KuRkU/IMG_2916_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-jRV1cBcrWDc/VQ2KE9Ye8HI/AAAAAAAAKfE/ozeWxf3l7u4/IMG_2917_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-ojGrFizySTY/VQ2KHBLg4qI/AAAAAAAAKfU/3f8xa0-Uddk/IMG_2928_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-XWOwfVL1Mkc/VQ2KI7--ZYI/AAAAAAAAKfk/G6K2hKhLZMI/IMG_2929_thumb%25255B1%25255D.jpg?imgmax=800">
+<meta property="article:published_time" content="2015-03-21T23:11:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.808Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Sky的IT碎碎念">
+<meta property="article:tag" content="Scrum">
+<meta property="article:tag" content="Visual Studio">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh5.ggpht.com/-h9iuiezXvTw/VQ2JMFNT0PI/AAAAAAAAKXU/d4pqlqQMbsY/IMG_2871_thumb%25255B5%25255D.jpg?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 2015 軟體研發高峰會 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                2015 軟體研發高峰會
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-03-21T23:11:00+00:00" content="2015-03-21">
+              2015-03-21
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/03/21/2015-%E8%BB%9F%E9%AB%94%E7%A0%94%E7%99%BC%E9%AB%98%E5%B3%B0%E6%9C%83/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/03/21/2015-軟體研發高峰會/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>從Visual Studio 2005開始，這套軟體就活在小弟的電腦裡面，雖然當時還不是很會用…(抖抖)，但因為學校上課的關係，就讓他一直存活者。</p>
+<p>而到了Visual Studio 2010，Visual Studio整個煥然一新，更是讓人覺得Visual Studio進入了另外了一個里程碑!!而這個時期，也正是小弟第一次來台北參加恩師Ruddy老師與百敬老師的研討會 ( 當時一整個覺得百敬老師外表像流氓一樣..但內心實際上根本就是個活佛…… )，而直到現在，Visual Studio也準備進入2015了，歷經了10年的時間，看著Visual Studio的版號，就等同看著自己的成長阿…</p>
+<p>阿，廢話那麼多，那這場軟體高峰會為什麼會吸引小弟去哩??又為何講古講了一堆Visual Studio勒!?因為這場Microsoft請到了 <strong>全球資深副總裁 潘正磊女士 Julia</strong> ，大家會想說他是誰!?他就是鼎鼎大名的Visual Studio Team的超高級長官!! 有多高級哩??..連 C#之父Anders Hejlsberg都是他底下的人…( 現在Scrum的創辦人之一Ken Schwaber，應該也是在他底下，只是這次沒有證實… ) 所以，大家這樣應該就可以猜到，他底下負責的產品，就是Visual Studio、.Net、TFS、Visual Studio Online、TypeScript!!</p>
+<p>既然那麼重量級的人物出現，小弟我又怎麼可能不去晃晃哩!!?</p>
+<p>這次是舉辦在高級的寒舍艾麗裡面，時間還沒到，其實就已經有很多人開始報到了~~</p>
+<p><a href="http://lh3.ggpht.com/-jQ8Q-02btpI/VQ2JLLMxB7I/AAAAAAAAKXM/qc6SsO7DcnQ/s1600-h/IMG_2871%25255B8%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-h9iuiezXvTw/VQ2JMFNT0PI/AAAAAAAAKXU/d4pqlqQMbsY/IMG_2871_thumb%25255B5%25255D.jpg?imgmax=800" alt="IMG_2871" title="IMG_2871"></a></p>
+<p>這次的會場其實非常漂亮=v=，我們也可以看到DX Team的團隊已經在準備了。</p>
+<p><a href="http://lh4.ggpht.com/-C6PF2xXKO2o/VQ2JM1srXpI/AAAAAAAAKXc/UzEwgqzhglQ/s1600-h/IMG_2872%25255B7%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-YeE0cFW9q1s/VQ2JNwPG9LI/AAAAAAAAKXk/tEHme8OU554/IMG_2872_thumb%25255B4%25255D.jpg?imgmax=800" alt="IMG_2872" title="IMG_2872"></a></p>
+<p>這次當然還是由我們台灣區偉大的Dann哥來負責主持與總指揮啦XDD，快要開始前，Dann哥已經躍躍欲試了XDD。</p>
+<p><a href="http://lh5.ggpht.com/-FEIS_GjDYIA/VQ2JOt4hSnI/AAAAAAAAKXs/1QoN_VCv1QI/s1600-h/IMG_2873%25255B8%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-avzjqtD71jI/VQ2JPcBdbpI/AAAAAAAAKX0/TyB7T_V4n8s/IMG_2873_thumb%25255B5%25255D.jpg?imgmax=800" alt="IMG_2873" title="IMG_2873"></a></p>
+<p>正式開始!!，當然就是由Dann哥主持啦!!</p>
+<p><a href="http://lh6.ggpht.com/-80NBjlNS4dg/VQ2JQUh3moI/AAAAAAAAKX8/-YiNsBp0Jf8/s1600-h/IMG_2874%25255B13%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-O7yg4s7TpPM/VQ2JRLPUGCI/AAAAAAAAKYE/QuClGt_07JM/IMG_2874_thumb%25255B10%25255D.jpg?imgmax=800" alt="IMG_2874" title="IMG_2874"></a></p>
+<p>接下來，有那麼大的人物來台灣，當然就是由<strong>台灣區的微軟總經理 紹光華</strong> 開場嚕。</p>
+<p><a href="http://lh6.ggpht.com/-O3cUNl0a-SA/VQ2JRy_9nqI/AAAAAAAAKYM/QUYmGraWDdk/s1600-h/IMG_2875%25255B8%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-C8XjvMDPMv0/VQ2JTGGnXwI/AAAAAAAAKYU/zsZLQQuIzCA/IMG_2875_thumb%25255B5%25255D.jpg?imgmax=800" alt="IMG_2875" title="IMG_2875"></a></p>
+<p>總經理首先針對微軟的政策，特別述說了Mobile-first與Cloud-first，所以可以看出，行動與雲端依然是微軟主要的策略。</p>
+<p><a href="http://lh6.ggpht.com/-du8GHkaipHA/VQ2JT9wBFgI/AAAAAAAAKYc/s7CNckSlDLw/s1600-h/IMG_2876%25255B10%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-XeUhY86eXgc/VQ2JUpQ3oZI/AAAAAAAAKYk/MwIa_F8-ohc/IMG_2876_thumb%25255B4%25255D.jpg?imgmax=800" alt="IMG_2876" title="IMG_2876"></a></p>
+<p>接下來，提到了MS的開宗始祖Bill Gates，在1975年說的那句名言，而40年後的今天，現任的微軟執行長Satya Nadella，也依據雲，提出了相同的論點。</p>
+<p><a href="http://lh4.ggpht.com/-CKvQT_OONNA/VQ2JVfHJoXI/AAAAAAAAKYs/BYh_xXCXMzA/s1600-h/IMG_2877%25255B6%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-EDFKrS8RjYo/VQ2JWUJXwsI/AAAAAAAAKY0/PGMvo4UlkPE/IMG_2877_thumb%25255B3%25255D.jpg?imgmax=800" alt="IMG_2877" title="IMG_2877"></a></p>
+<p>接下來的重頭戲，就是Julia上台了!!~基本上他是中國人，所以全程是用中文來講，完全不用擔心聽不懂，在開頭的自我介紹中，Julia說他從Visual Studio第一版，就開始參與，而且是裡面的開發工程師，所以可以看出，她也有深厚的技術實力；也可以看到微軟的制度，就算是高層的總裁，技術實力也依樣的深厚。</p>
+<p><a href="http://lh6.ggpht.com/-lcLudoqdPI4/VQ2JXpD2yQI/AAAAAAAAKY8/uArDHUhDIQE/s1600-h/IMG_2880%25255B7%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-wzQOibmDhqk/VQ2JYgkpL8I/AAAAAAAAKZE/2MM7Z81Nv-8/IMG_2880_thumb%25255B4%25255D.jpg?imgmax=800" alt="IMG_2880" title="IMG_2880"></a></p>
+<p>Julia一開始就提到，微軟未來的三大方向，就是更開發，更創新和更加的敏捷，而對於她來說每一個企業，都是一個軟件公司，因為每家企業，未來都會持續的開發屬於自己的系統，也因此未來軟體的開發會極為重要；另外因為雲端和手持裝置的崛起，流量可能會是以前的百倍，而透過Mobile與Cloud來收集資料與分析，更是未來的趨勢。</p>
+<p><a href="http://lh5.ggpht.com/-35zkxlPJEoU/VQ2JZtZtXzI/AAAAAAAAKZM/ez4Om5C_rkw/s1600-h/IMG_2881%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-QQNqohRFq14/VQ2JaQybCNI/AAAAAAAAKZU/LlC14EF-GrA/IMG_2881_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2881" title="IMG_2881"></a></p>
+<p>更開放的部分，微軟用更開放的態度，和其他公司合作，例如在Azure上面放上Oracle的VM，甚至是最近的大新聞，Google的AngularJS 2.0 將使用TypeScript、又或是在iOS裝置上提供Office等等，這些都是以前微軟沒有做到的事情；而如今，連.Net都Open Source了!!</p>
+<p><a href="http://lh5.ggpht.com/-Fl8oHl8VxjE/VQ2Jbd5-dZI/AAAAAAAAKZc/xMNQrWXoenY/s1600-h/IMG_2882%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-We3BNGVXZEI/VQ2JcU6EI1I/AAAAAAAAKZk/rAj1pszoF4c/IMG_2882_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2882" title="IMG_2882"></a></p>
+<p>更創新的部分，則提供更多的方案，來讓不同的使用者滿足，例如Visual Studio 2015就開始內建使用JavaScript的Cordova來建立Mobile，但可能還是有很多人使用C#阿，所以也提供了以C#為基底的Xamarin；當然，使用C++的朋友們，也有提供以C++為主的跨平台方案~ ( 這次的Office轉移，就是使用C++的跨平台方案 )。</p>
+<p>其次，雲端的開發上，提供了新版的.Net Core，讓Web Site的開發更小；而透過雲端的應用Load Test也更方便測試。</p>
+<p>處此之外，在生產力方面，也持續的讓C++ 速度的提升等等，效能的提升，讓大家能更加的感受到改進。</p>
+<p>最終，Julia提出了她的願景，就是希望幫助每一個開發人員，無論你是哪個平台，哪個語言。</p>
+<p><a href="http://lh4.ggpht.com/-eGZ0p_uCusg/VQ2JdOJuqBI/AAAAAAAAKZs/Erq2EWC9fQo/s1600-h/IMG_2883%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-Zqsnj7aT6IE/VQ2Jd0HLCkI/AAAAAAAAKZ0/fIaU93Cm8x4/IMG_2883_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2883" title="IMG_2883"></a></p>
+<p>接下來談到了Visual Studio的開發歷程，改成每2~4個月更新一次；那這個原因當然是因為現在Visual Studio 開發Team已經完全啟用敏捷，所以更新與回饋的速度就更快了，這也是因應現在的潮流；所以我們可以看到Visual Studio 2012和Visual Studio 2013的推出間隔其實是很短的，而過程中，也不斷的發佈新的更新包。</p>
+<p><a href="http://lh6.ggpht.com/-Sha0rH3GVuM/VQ2JezD9SrI/AAAAAAAAKZ8/eFiW8bTpk60/s1600-h/IMG_2884%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-4lwYf3leSHw/VQ2Jf9RKVgI/AAAAAAAAKaE/s2f_V8SO21g/IMG_2884_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2884" title="IMG_2884"></a></p>
+<p>接下來提到，以前的Visual Studio開發，參與人數高達4700人。</p>
+<p><a href="http://lh6.ggpht.com/-5zEZad0oPCM/VQ2JhPlw9II/AAAAAAAAKaM/d5FA-QvbjgI/s1600-h/IMG_2885%25255B6%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-woVfYMwNa8A/VQ2JiKHU-5I/AAAAAAAAKaU/CgCUcpAX88U/IMG_2885_thumb%25255B3%25255D.jpg?imgmax=800" alt="IMG_2885" title="IMG_2885"></a></p>
+<p>當然，也是跨全球的一個研發團隊。</p>
+<p><a href="http://lh5.ggpht.com/-thc-5JQUO4Q/VQ2JjJKPStI/AAAAAAAAKac/FTm7n1TJ1sY/s1600-h/IMG_2886%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-IF7XdDjFfAI/VQ2JkGefGjI/AAAAAAAAKak/3ihA1nkqTXM/IMG_2886_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2886" title="IMG_2886"></a></p>
+<p>接下來，就提到，以前Visual Studio的開發就是使用瀑布流的方式 ( 所以台灣其實沒有落後很多，基本上台灣遇到的問題，微軟也遇到過了XDDD )。</p>
+<p>他們的週期大概是兩年到三年一輪，所以一開始會花很多的時間，決定未來兩年後的趨勢。</p>
+<p><a href="http://lh4.ggpht.com/-94TWpj2eIDE/VQ2JlMa6uQI/AAAAAAAAKas/OMMLrhktvbE/s1600-h/IMG_2887%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-0Z7N9mNmbTg/VQ2JmthN6II/AAAAAAAAKa0/UBXmsrL3GwM/IMG_2887_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2887" title="IMG_2887"></a></p>
+<p>而這個過程中，測試花的時間，其實會遠比寫Code的好幾倍，而早期會花費很多的測試時間和測試人員；Julia有提到，那是因為早期的時候，都是要透過店鋪購買盒裝的軟體，而如果裡面出現嚴重的bug，那回收回來的成本是很可觀的；而現在則可以透過網際網路快速的更新，所以著重的反而是能快速反應使用者的需求… ( 題外話..其實家用電玩也是一樣，記得之前看過FF13的報導，日本Square Enix 之前也是花費了大量的測試人員進行測試與封閉型的開發，現在也逐漸轉變成敏捷的方式了。 )</p>
+<p><a href="http://lh4.ggpht.com/-HDc2RmTNRI8/VQ2Jna8tJMI/AAAAAAAAKa8/jimU1zNRQiI/s1600-h/IMG_2888%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-Oll5YPmsAkk/VQ2JoA4Vs9I/AAAAAAAAKbE/ZtGceR5EQmU/IMG_2888_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2888" title="IMG_2888"></a></p>
+<p>而早期的專案結構，會有PM、Development和Testing，如果有讀過微軟出的測試一書的朋友，就會對於底下的這張圖很熟悉~~，當然，現在就不是這樣的結構了。</p>
+<p><a href="http://lh3.ggpht.com/-XFTLq3WZfcM/VQ2JpWAUAGI/AAAAAAAAKbM/DF5CJHYIFrM/s1600-h/IMG_2890%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-edFmoCGgsQE/VQ2JqQwxf-I/AAAAAAAAKbU/UNuG3nrnrk4/IMG_2890_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2890" title="IMG_2890"></a></p>
+<p>那現在變成怎樣子勒，現在約18的月發行一次大版本，例如 xx 2015 xx 2017之類的，而每六個月會評估一次，目前的方向和方案是否與市場狀況相同，團隊則以3週為一個Sprint，而且人數也沒以前那麼多了，目前不到2000人。</p>
+<p><a href="http://lh6.ggpht.com/-MaCT909nxpY/VQ2JrbBT-YI/AAAAAAAAKbc/lr-n05Phi8w/s1600-h/IMG_2891%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-AARGOtIszT0/VQ2JsSBQ2NI/AAAAAAAAKbk/sVvO1WGPhG4/IMG_2891_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2891" title="IMG_2891"></a></p>
+<p>而現在的內部開發人員，會非常的重視白箱測試，也就是會撰寫Unit Test ( 那黑箱測試，不會就落到我這白老鼠的身上了吧= =+.. 總之會場沒特別提到黑箱怎樣做了… )，並且多聽使用者的反饋，而不是以前的蠻幹。</p>
+<p>另外，工程師也開始進行數據收集與分析的工作 ( 這點台灣倒是還沒有開始… )，透過數據收集與分析，來決定未來的方向；所以也不是以前，完全靠有經驗的大師們指揮，就算是大師們，也必須透過數據。</p>
+<p>另外，工程師也要開始直接與客戶交流 ( 這點台灣最難辦到吧XDD 我們都是宅宅阿~~抖抖 ) 透過與客戶的交流，來更了解客戶的需求。</p>
+<p><a href="http://lh4.ggpht.com/-rBTzxhpFP4M/VQ2JtCtqfiI/AAAAAAAAKbs/DoF0UjTq16I/s1600-h/IMG_2892%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-TPc1ftqJSGA/VQ2JuGS5OHI/AAAAAAAAKb0/kI82mD1d2KA/IMG_2892_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2892" title="IMG_2892"></a></p>
+<p>組織結構也改成如下圖了，移除了Testing，但並不代表不用測試，而是由開發人員自行來測試，也就是說，整合了開發人員與測試人員；整合的過程中也滿有意思的，Julia有提到，先讓兩邊人馬互相交換做事情，而過程中，也發現到，原來兩邊人馬有非常多的重工。</p>
+<p>但不管怎樣，目前還是依據功能來區分；並且每個Team都有非常高的自主性管理。</p>
+<p><a href="http://lh6.ggpht.com/-pgmWVXX9N20/VQ2Ju__1SQI/AAAAAAAAKb8/DXed_xbpPyU/s1600-h/IMG_2893%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-uzfvF7_ukRw/VQ2Jvl6d_QI/AAAAAAAAKcE/Y1AC0d_AQEY/IMG_2893_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2893" title="IMG_2893"></a></p>
+<p>Team Room 的結構，不再是以前一個一個獨立的房間，而是把大家聚在一起，更加的Open，從一開始只有一棟的試驗，現在已經有四棟的大樓，都是採用此模式了。 ( 其實小弟的Team目前也是用此模式，溝通更快了，間隙更小了 )</p>
+<p><a href="http://lh5.ggpht.com/-6IH40EEqqGI/VQ2Jwk0djfI/AAAAAAAAKcM/VUSpeHZbz7Y/s1600-h/IMG_2894%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-Sqgm8QaG4tw/VQ2JxS6TzYI/AAAAAAAAKcU/41DPrDoHHxo/IMG_2894_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2894" title="IMG_2894"></a></p>
+<p>接下來，提到Sprint，基本上是三周一次，而三周內，還有一周會進行佈署，所以時程其實是非常緊迫的；而Julia也有提到，初期改成Scrum的時候，內部也是有很多人反對，例如…我是寫編譯器核心的，我兩周根本沒辦法Demo!!但後來實際run後，的確還是可行的，畢竟不可能兩周完全沒做事情吧，有做多少東西，就Demo多少東西~~</p>
+<p><a href="http://lh5.ggpht.com/-jf_NnX9MQhY/VQ2Jya5eZ9I/AAAAAAAAKcc/0zRSYxDYjik/s1600-h/IMG_2895%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-l5xRE8mnovs/VQ2JzU1iWwI/AAAAAAAAKck/Nnqdrd6JuK4/IMG_2895_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2895" title="IMG_2895"></a></p>
+<p>最後，再重新回顧的時候，有提到Visual Studio 2015 CTP的Codava 第一代的安裝包，就是因為沒有WIN 7的版本，所以一堆Win 7的使用者，都發生了錯誤；其次，當進行Codava安裝的時候，很多都要透過第三方的下載的中心，進行下載，但有時，第三方的下載中心可能會出問題，或是擅自的更改位置，這些都會讓安裝過程遇到問題，但這些都是和功能無關，MS還是會想辦法解決，這就是注重需求與體驗，也就是未來微軟的方向。 ( 從這邊也可以看到，現在的整合，真的是難上加難阿… )</p>
+<p><a href="http://lh5.ggpht.com/-VTriMyIbY64/VQ2Jz0QIiDI/AAAAAAAAKcs/dHWxH6lm7NA/s1600-h/IMG_2900%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-r5k7oQeiRaw/VQ2J0qOVDII/AAAAAAAAKc0/FIdhtQuf1pQ/IMG_2900_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2900" title="IMG_2900"></a></p>
+<p>另外，有提到一件事情，是別的國家問的問題，你們微軟是跑真正的sprint嗎? </p>
+<p>Julia也解釋說，如果是真正的Sprint，Bug單是不會大起大落的，因為真正的Sprint，在每次交付的時候，都會有許多的bug單回饋回來；而如果是假的Sprint，那會到最後的時候，才會看到大量的Bug單提交…</p>
+<p><a href="http://lh4.ggpht.com/-P1ZDk_skOhg/VQ2J1gnEjVI/AAAAAAAAKc8/IKdncX0zELI/s1600-h/IMG_2902%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-EdaeLD5b78g/VQ2J2VXF5QI/AAAAAAAAKdE/ZTb9_aGREis/IMG_2902_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2902" title="IMG_2902"></a></p>
+<p>所以~Microsoft是真的Srpint ( 笑 )</p>
+<p><a href="http://lh5.ggpht.com/-R35RJozF0f8/VQ2J3vSN2xI/AAAAAAAAKdM/I2Yu_27ruj8/s1600-h/IMG_2903%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-qBKg1IXEU2g/VQ2J4k_XNhI/AAAAAAAAKdU/CVdGb7x64j8/IMG_2903_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2903" title="IMG_2903"></a></p>
+<p>最後，現場留了一些時間來Q&amp;A，而Q&amp;A的問題如雪片般的飛來 ( 可見大家還是非常想知道大公司內部是怎樣運作的… )</p>
+<p>以下是Q&amp;A的內容，當然，內容是小弟憑印象Key的~</p>
+<p>Q : 短期的開發是否認定客戶為白老鼠<br>A : 我們希望客戶可以參與到，並且確認的確是客戶所需要的，而事實證明，客戶也很樂意的反饋，並且告訴我們，這東西做的是對還是不對；最終，我們會修正成客戶真正想要的。</p>
+<p>Q : 可否敘述清楚，關於3、6、18這些數字。<br>A : 以去年年初 ( 一、二月為案例 ) ，我們決定要制定跨平台開發，過程中，我們不新增人，而是調度人員，透過調度人員，讓大家能做到不同的事情；六個月後出版，再來看看，做出來的東西，是否和現在的市場符合；過程則使用為期3周一次的進入Sprint 來開始開發；而在進行Codova的部分，我們也發現，原本的核心應該可以更好，所以抽了一部份的人，去改Codova核心，這也是回饋Open Source的一個方法。</p>
+<p>Q : 可否敘述文件是怎樣寫的。<br>A : 我們的文檔多半是Word寫的，我們沒有使用沉重的工具，因為每天都在改..所以不需要沈重的文件，其實Code就是最好的文件了；但有些時候，我們會希望透過Word，來寫一些當初的想法或是當初比較特殊的思維；但不管怎樣，這是由每個Team自行決定；最後，交流才是最重要的，只要Code清晰的表達，文件只要能共享就可以了。</p>
+<p>Q : 人員流失(離職)怎麼辦勒??<br>A : 我們會定期Code Review的機制來解決這個問題。 ( 看來未來有人問到小弟這個問題，小弟有一個極好的案例可以拿來解釋了~~ )</p>
+<p><a href="http://lh6.ggpht.com/-SPR1-M7BU2g/VQ2J5VS_DtI/AAAAAAAAKdc/LLEWm9VK4vY/s1600-h/IMG_2905%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-lE94DmyJwRo/VQ2J6OG4fOI/AAAAAAAAKdk/ER3Lv76Kw6E/IMG_2905_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2905" title="IMG_2905"></a></p>
+<p>過程中，其實大家都聽得很認真也很High，這邊也謝謝Julia女士的經驗分享，也謝謝她帶領的團隊，能提供一個那麼好用的ide工具。</p>
+<p><a href="http://lh4.ggpht.com/-vMQiEX5GxNM/VQ2J7JOaReI/AAAAAAAAKds/_9_-2G0SuvQ/s1600-h/IMG_2906%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-KT4d-Qac2NQ/VQ2J75uJ0DI/AAAAAAAAKd0/xR0jtKcDtpc/IMG_2906_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2906" title="IMG_2906"></a></p>
+<p>接著，就是由Dann哥所率領的DX Demo Team，來進行VS 2015的功能Demo。</p>
+<p><a href="http://lh3.ggpht.com/-mmn8oXXRSXQ/VQ2J86-aeoI/AAAAAAAAKd8/dnwkqLi4QeU/s1600-h/IMG_2907%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-UoxwrgCju6c/VQ2J99ibdhI/AAAAAAAAKeE/focDwre5WBI/IMG_2907_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2907" title="IMG_2907"></a></p>
+<p>他們以一個企業叫車的案例，來串所有的Demo內容，所以我們可以看到跨平台開發還有新的ASP.NET 5。</p>
+<p><a href="http://lh5.ggpht.com/-KO2eFoZ0r2c/VQ2J-3gkgGI/AAAAAAAAKeM/zDyNs_5SC3U/s1600-h/IMG_2909%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-3883mMDnolU/VQ2J_jCvFiI/AAAAAAAAKeU/FuM5k1YyF4g/IMG_2909_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2909" title="IMG_2909"></a></p>
+<p>比較好玩的梗，雙Scott都變成叫車司機XDD，希望哪一天我可以搭到這兩位的車 ( 抖抖 )，另外，果然還是Scott Gu第一名阿XDDD。</p>
+<p><a href="http://lh5.ggpht.com/-dEgHO2PaUoY/VQ2KApp14rI/AAAAAAAAKec/205ZYBWN6ak/s1600-h/IMG_2911%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-bPp4M1QHl_Q/VQ2KBjKBo6I/AAAAAAAAKek/b-1hQ-xm6tY/IMG_2911_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2911" title="IMG_2911"></a></p>
+<p>另外一個主題是當紅的物聯網，這邊拿電梯監控和倫敦地鐵為案例。</p>
+<p><a href="http://lh3.ggpht.com/-Kg6-wNysbzo/VQ2KCRboH6I/AAAAAAAAKes/cFqrr3al6HI/s1600-h/IMG_2916%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-5MVO-duWdUY/VQ2KDFt2CwI/AAAAAAAAKe0/o7T4l0KuRkU/IMG_2916_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2916" title="IMG_2916"></a></p>
+<p>其實倫敦地鐵去年TechDay就已經出現過了..QQ..，但也可以看出，其實微軟這方面，很早就已經開始準備與琢磨。</p>
+<p><a href="http://lh3.ggpht.com/-WnM-Jco1lTM/VQ2KELsJ-HI/AAAAAAAAKe8/XY3nboljP-o/s1600-h/IMG_2917%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-jRV1cBcrWDc/VQ2KE9Ye8HI/AAAAAAAAKfE/ozeWxf3l7u4/IMG_2917_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2917" title="IMG_2917"></a></p>
+<p>比較有意思的是這個架構圖，透過Azure服務來達到IoT ( 未來有機會，小弟來實作一下看看好了=V= )</p>
+<p><a href="http://lh6.ggpht.com/-zSXJVIibj1Q/VQ2KF-QNfHI/AAAAAAAAKfM/zxyAyIc5qR8/s1600-h/IMG_2928%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-ojGrFizySTY/VQ2KHBLg4qI/AAAAAAAAKfU/3f8xa0-Uddk/IMG_2928_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2928" title="IMG_2928"></a></p>
+<p>另外一個大主題就是大數據，這也是近期出現在FB當紅的題目 如果搭上了鐵達尼號，有機會生還嗎?</p>
+<p><a href="http://lh3.ggpht.com/-eBNNJVxcjJc/VQ2KIBr9vxI/AAAAAAAAKfc/5EwOG5iegHg/s1600-h/IMG_2929%25255B4%25255D.jpg" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-XWOwfVL1Mkc/VQ2KI7--ZYI/AAAAAAAAKfk/G6K2hKhLZMI/IMG_2929_thumb%25255B1%25255D.jpg?imgmax=800" alt="IMG_2929" title="IMG_2929"></a></p>
+<p>這是依據那些搭上鐵達尼號的名單，來進行分析；後來，發現只要是女生，生還比率最高= =+。</p>
+<p>最後，就是由小白來進行5min的壓力測試與佈署的Demo，雖然只有短短的五分鐘，但我知道，這個東西是要準備很久的，so，小白辛苦了XDD</p>
+<p>總之，雖然只有半天的研討會，和短短的Demo，但聽到了官方開發Visual Studio的經驗，還是非常可貴的，而透過這半天的研討會，也讓小弟深深的開始省思，一個軟體的成功，並不是只是單單的開發出來就好，尤其現在這個快速改變的時代，整個思維也必須敏捷與改變才行。</p>
+<p>總之，還是要謝謝 Visual Studio Team 與 Julia的帶領，讓我們能一直不斷的使用這麼好的開發軟體。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Sky%E7%9A%84IT%E7%A2%8E%E7%A2%8E%E5%BF%B5/" rel="tag">#Sky的IT碎碎念</a>
+          
+            <a href="/tags/Scrum/" rel="tag">#Scrum</a>
+          
+            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/02/11/VSO-Using_Release_Management_Tools/" rel="next" title="VSO - 使用 Release Management Tools 快速建立 Azure 環境">
+                <i class="fa fa-chevron-left"></i> VSO - 使用 Release Management Tools 快速建立 Azure 環境
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/29/Azure-Use_DNS_Service/" rel="prev" title="Azure - 使用 Azure DNS Service">
+                Azure - 使用 Azure DNS Service <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2015/03/21/2015-軟體研發高峰會/';
+      var disqus_title = '2015 軟體研發高峰會';
+      var disqus_url = 'http://skychang.github.io/2015/03/21/2015-%E8%BB%9F%E9%AB%94%E7%A0%94%E7%99%BC%E9%AB%98%E5%B3%B0%E6%9C%83/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

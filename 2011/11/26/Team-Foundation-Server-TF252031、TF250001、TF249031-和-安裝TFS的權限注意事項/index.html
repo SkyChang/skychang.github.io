@@ -1,0 +1,691 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="SharePoint,TFS,SQL Server,Reporting Services," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近因為記憶體現在實在是太便宜了，所以就買了一堆記憶體，也因此可以重新去調整伺服器的架構，希望能讓SQL Server、TFS、SharePoint分成三台主機來處理，安裝的過程中，也遠遠比全部塞在一台複雜得多QQ，而這次遇到的一個問題，就是跨越三台所產生的問題。 權限在開始之前，有件事情也必須要先提，雖然TFS的功能超級強大，但別忘了，TFS裡面的報表是整合了Reporting Services">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Team Foundation Server - TF252031、TF250001、TF249031 和 安裝TFS的權限注意事項">
+<meta property="og:url" content="http://skychang.github.io/2011/11/26/Team-Foundation-Server-TF252031%E3%80%81TF250001%E3%80%81TF249031-%E5%92%8C-%E5%AE%89%E8%A3%9DTFS%E7%9A%84%E6%AC%8A%E9%99%90%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="最近因為記憶體現在實在是太便宜了，所以就買了一堆記憶體，也因此可以重新去調整伺服器的架構，希望能讓SQL Server、TFS、SharePoint分成三台主機來處理，安裝的過程中，也遠遠比全部塞在一台複雜得多QQ，而這次遇到的一個問題，就是跨越三台所產生的問題。 權限在開始之前，有件事情也必須要先提，雖然TFS的功能超級強大，但別忘了，TFS裡面的報表是整合了Reporting Services">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh3.ggpht.com/-y61cdcmXynQ/TtBGQ6grDaI/AAAAAAAABC8/mpe_xismrsw/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-31oW0rck_AA/TtBGSZwqmLI/AAAAAAAABDQ/uEJcYo-ARTM/image_thumb%25255B6%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-U9EzXFqsRic/TtBGTsz4S_I/AAAAAAAABDc/lKfh-lJZtag/image_thumb%25255B3%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-1QfG8B2xC4M/TtBGVUV79mI/AAAAAAAABDs/jihxwyDTYws/image_thumb%25255B5%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-WzPz2W5rVlY/TtBGWlo9vTI/AAAAAAAABD8/bwvAbYWgSSk/image_thumb%25255B7%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-TMOhbbnKxiM/TtBGY1KsvpI/AAAAAAAABEM/IgoQ6Vsdlnw/image_thumb%25255B10%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-YMIkkgOaagg/TtBGbblnrcI/AAAAAAAABEc/hUcinkWS9AA/image_thumb%25255B12%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-wTV2znPwC-w/TtBGc4FL1oI/AAAAAAAABEs/3B4yUtltZa4/image_thumb%25255B14%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-n1gDeYqB9kE/TtBGef_39rI/AAAAAAAABFA/ApXkzo_prGs/image_thumb%25255B17%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2011-11-26T09:52:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.964Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="SharePoint">
+<meta property="article:tag" content="TFS">
+<meta property="article:tag" content="SQL Server">
+<meta property="article:tag" content="Reporting Services">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh3.ggpht.com/-y61cdcmXynQ/TtBGQ6grDaI/AAAAAAAABC8/mpe_xismrsw/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Team Foundation Server - TF252031、TF250001、TF249031 和 安裝TFS的權限注意事項 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Team Foundation Server - TF252031、TF250001、TF249031 和 安裝TFS的權限注意事項
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2011-11-26T09:52:00+00:00" content="2011-11-26">
+              2011-11-26
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2011/11/26/Team-Foundation-Server-TF252031%E3%80%81TF250001%E3%80%81TF249031-%E5%92%8C-%E5%AE%89%E8%A3%9DTFS%E7%9A%84%E6%AC%8A%E9%99%90%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/11/26/Team-Foundation-Server-TF252031、TF250001、TF249031-和-安裝TFS的權限注意事項/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近因為記憶體現在實在是太便宜了，所以就買了一堆記憶體，也因此可以重新去調整伺服器的架構，希望能讓SQL Server、TFS、SharePoint分成三台主機來處理，安裝的過程中，也遠遠比全部塞在一台複雜得多QQ，而這次遇到的一個問題，就是跨越三台所產生的問題。</p>
+<h4 id="權限"><a href="#權限" class="headerlink" title="權限"></a>權限</h4><p>在開始之前，有件事情也必須要先提，雖然TFS的功能超級強大，但別忘了，TFS裡面的報表是整合了Reporting Services，而那些團隊網頁，則是整合了SharePoint，這代表甚麼?，簡單的說，就是各自有各自的帳號啦!也因此，這三台主機的服務帳號設定是非常複雜的，也沒辦法從單一的TFS裡面，就去控管所有服務的帳號，換言之，這些帳號都要分開建立!!不過現在的TFS已經幫忙處理很多事情了，安裝上也簡單多了，只不過，這個觀念必須要清楚，才能了解錯誤的含意。</p>
+<h4 id="開始之前"><a href="#開始之前" class="headerlink" title="開始之前"></a>開始之前</h4><p>我先說說小弟我的環境吧，基本上和一般並無多大差異，SQL Server有自己的服務帳號，SharePoint也有自己的服務帳號，但是TFS我使用的是NT AUTHORITY\NETWORK SERVICE這個網路服務帳號，至於為什麼只有TFS使用了NT AUTHORITY\NETWORK SERVICE這個帳號，是因為我看到了MSDN的這句話</p>
+<blockquote>
+<p>內建帳戶並未使用密碼，並且已經擁有 [以服務方式登入] 使用權限，這讓它們更易於管理，尤其是在網域環境中。 </p>
+</blockquote>
+<p>也因此，我想說，反正MSDN都說這是秘訣了，那我就直接使用NETWORK SERVICE來當服務帳號吧，至於是不是我會錯意我就不知道了XDD。( <a href="http://msdn.microsoft.com/zh-tw/library/dd578625.aspx" target="_blank" rel="noopener" title="http://msdn.microsoft.com/zh-tw/library/dd578625.aspx">http://msdn.microsoft.com/zh-tw/library/dd578625.aspx</a> )</p>
+<p>如果想知道哪裡可以看到TFS的服務帳號，可以進TFS管理主控台，就可以看到。</p>
+<p><a href="http://lh5.ggpht.com/-oY8ey212Uic/TtBGP3upHOI/AAAAAAAABC4/dltvW1N0zjg/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-y61cdcmXynQ/TtBGQ6grDaI/AAAAAAAABC8/mpe_xismrsw/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h4 id="第一次設定的驗證警告"><a href="#第一次設定的驗證警告" class="headerlink" title="第一次設定的驗證警告"></a>第一次設定的驗證警告</h4><p>接下來我們要開始慢慢地進入主題了；如同前面所說，因為三台主機的權限帳號的因素，所以如果SharePoint和TFS不是同一台時，第一次設定時，到驗證完成後，一定會有一個警告的訊息。</p>
+<blockquote>
+<p>您指定的SharePoint Web應用程式與Team Foundation Server的應用程式層裝載在不同伺服器。Web應用程式裝載在下列伺服器<a href="http://xxx:xxxx。這是支援的組態，但可能需要其他步驟之後，部署才能正常運作。繼續之前，您應該檢閱與遠端SharePoint">http://xxx:xxxx。這是支援的組態，但可能需要其他步驟之後，部署才能正常運作。繼續之前，您應該檢閱與遠端SharePoint</a> Web應用程式整合的所有需求。如需詳細資訊，請參閱 Microsoft 網站 (<a href="http://go.microsoft.com/fwlink/?LinkId=161206" target="_blank" rel="noopener">http://go.microsoft.com/fwlink/?LinkId=161206</a>)。 </p>
+</blockquote>
+<p>如果之前驗證設定的時候，又有勾選建立新的Team專案集合，就會出錯，雖然TFS也算設定完成，但Team專案集合則建立不起來。</p>
+<p>所以，要先處理權限的步驟，才能在設定TFS的時候去勾選建立新的Team專案集合，要不然就是先不要勾選，也是可以順利設定完成，最後再把權限加進去，然後再來建立新的專案集合。</p>
+<h4 id="所以TF252031、TF250001、TF249031-是"><a href="#所以TF252031、TF250001、TF249031-是" class="headerlink" title="所以TF252031、TF250001、TF249031 是?"></a>所以TF252031、TF250001、TF249031 是?</h4><p>沒錯，就是權限問題，如果權限沒設定好，又去建立Team專案集合，就會發生TF252031、TF250001的錯誤，如下。</p>
+<blockquote>
+<p>TF252031: 無法為 Team 專案集合建立 SharePoint 網站。發生下列錯誤: TF250001: 下列帳戶的驗證檢查失敗: [網域名稱][TFS主機名稱]。帳戶必須是下列 SharePoint Web 應用程式的 Farm Administrators 群組成員: http://<font color="#5e5e5e">[SharePoint位置]</font>/。如需詳細資訊，請參閱 Microsoft 網站 (<a href="http://go.microsoft.com/fwlink/?LinkId=161206" target="_blank" rel="noopener">http://go.microsoft.com/fwlink/?LinkId=161206</a>)。 </p>
+</blockquote>
+<p>而TF249031是Reporting Services的權限錯誤。</p>
+<blockquote>
+<p>TF249031: 無法建立含有下列名稱的資料夾: /TfsReports/Team專案名稱。使用者帳戶沒有在裝載報告之伺服器上建立資料夾的使用權限。 </p>
+</blockquote>
+<h4 id="解決TF252031、TF250001"><a href="#解決TF252031、TF250001" class="headerlink" title="解決TF252031、TF250001"></a>解決TF252031、TF250001</h4><p>其實很簡單，把帳號加入到SharePoint裡面就可以了；進入SharePoint的管理中心，並選擇安全性，再選擇管理伺服器陣列管理員群組。如果不知道怎樣進去，可以到安裝SharePoint的那台主機上，開始程式集裡面有一個SharePoint管理中心。</p>
+<p><a href="http://lh6.ggpht.com/-jlRkJYwgDBU/TtBGRW9A92I/AAAAAAAABDE/YkLYQTeky30/s1600-h/image%25255B14%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-31oW0rck_AA/TtBGSZwqmLI/AAAAAAAABDQ/uEJcYo-ARTM/image_thumb%25255B6%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh6.ggpht.com/-9pB-ddQI00Y/TtBGTCuB_3I/AAAAAAAABDU/97ePugFemeY/s1600-h/image%25255B7%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-U9EzXFqsRic/TtBGTsz4S_I/AAAAAAAABDc/lKfh-lJZtag/image_thumb%25255B3%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來在Farm Administrators群組裡面新增帳號，因為我的TFS服務帳號是使用NETWORK SERVICE，所以這邊新增服務帳號，就要選擇MyDomain\TFSTest$，沒錯有錢字符號喔!(假設我的網域名稱為MyDomain，而主機名稱為TFSTest)。</p>
+<p><a href="http://lh3.ggpht.com/-ttSNBcTWaQw/TtBGUiRMiYI/AAAAAAAABDk/fx3Qa-jXliI/s1600-h/image%25255B11%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-1QfG8B2xC4M/TtBGVUV79mI/AAAAAAAABDs/jihxwyDTYws/image_thumb%25255B5%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這樣就解決了權限不足的問題，如果有自己設定TFS的服務帳號，也可以在這邊選擇自己的服務帳號。</p>
+<h4 id="解決TF249031"><a href="#解決TF249031" class="headerlink" title="解決TF249031"></a>解決TF249031</h4><p>這個是Reporting Service的問題，也滿簡單的，反正就加入進去就可以了；如果不知道Reporting Service管理的網址，可以這樣做，進入安裝SQL Server的那台電腦，並啟動Reporting Service 組態管理員。</p>
+<p><a href="http://lh4.ggpht.com/-xW49loU_iXc/TtBGWCnnJII/AAAAAAAABD0/I7oUfHavUXU/s1600-h/image%25255B17%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-WzPz2W5rVlY/TtBGWlo9vTI/AAAAAAAABD8/bwvAbYWgSSk/image_thumb%25255B7%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後可以從報表管理員URL裡面看到。</p>
+<p><a href="http://lh5.ggpht.com/-u_8_imlNrkQ/TtBGXlJWcSI/AAAAAAAABEI/AIvlrtxDOE0/s1600-h/image%25255B22%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-TMOhbbnKxiM/TtBGY1KsvpI/AAAAAAAABEM/IgoQ6Vsdlnw/image_thumb%25255B10%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>進入Reporting Service的報表管理員網站後，選擇資料夾設定。</p>
+<p><a href="http://lh5.ggpht.com/-q-_5pMzoQss/TtBGa7pxmzI/AAAAAAAABEY/XfhSUaP6HAU/s1600-h/image%25255B26%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-YMIkkgOaagg/TtBGbblnrcI/AAAAAAAABEc/hUcinkWS9AA/image_thumb%25255B12%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後新增角色指派。</p>
+<p><a href="http://lh3.ggpht.com/-hprzgRryP38/TtBGbzGD5UI/AAAAAAAABEk/R60bn5uaftM/s1600-h/image%25255B30%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-wTV2znPwC-w/TtBGc4FL1oI/AAAAAAAABEs/3B4yUtltZa4/image_thumb%25255B14%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這裡要勾選Team Foundation內容管理員，同樣的如果TFS使用的是NETWORK SERVICE當作服務帳號，就必須要使用MyDomain\TFSTest$(假設我的網域名稱為MyDomain，而主機名稱為TFSTest)，如果TFS自己有設定服務帳號，就Key那組服務帳號。</p>
+<p><a href="http://lh5.ggpht.com/-sK3m7Og63ls/TtBGdgzWOEI/AAAAAAAABE0/SEtuAOot-5E/s1600-h/image%25255B35%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-n1gDeYqB9kE/TtBGef_39rI/AAAAAAAABFA/ApXkzo_prGs/image_thumb%25255B17%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>以上就完成了!。</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://msdn.microsoft.com/zh-tw/library/dd631908.aspx" target="_blank" rel="noopener" title="http://msdn.microsoft.com/zh-tw/library/dd631908.aspx">http://msdn.microsoft.com/zh-tw/library/dd631908.aspx</a></li>
+<li><a href="http://msdn.microsoft.com/zh-tw/library/ms253149.aspx" target="_blank" rel="noopener" title="http://msdn.microsoft.com/zh-tw/library/ms253149.aspx">http://msdn.microsoft.com/zh-tw/library/ms253149.aspx</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SharePoint/" rel="tag">#SharePoint</a>
+          
+            <a href="/tags/TFS/" rel="tag">#TFS</a>
+          
+            <a href="/tags/SQL-Server/" rel="tag">#SQL Server</a>
+          
+            <a href="/tags/Reporting-Services/" rel="tag">#Reporting Services</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/11/21/Team-Foundation-Service-Preview-%E5%88%AA%E9%99%A4Team%E5%B0%88%E6%A1%88/" rel="next" title="Team Foundation Service Preview - 刪除Team專案">
+                <i class="fa fa-chevron-left"></i> Team Foundation Service Preview - 刪除Team專案
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011/11/30/Team-Foundation-Server-%E5%AE%89%E8%A3%9DSCRUM-1-0%E6%B5%81%E7%A8%8B%E7%AF%84%E6%9C%AC/" rel="prev" title="Team Foundation Server - 安裝SCRUM 1.0流程範本">
+                Team Foundation Server - 安裝SCRUM 1.0流程範本 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#權限"><span class="nav-number">1.</span> <span class="nav-text">權限</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#開始之前"><span class="nav-number">2.</span> <span class="nav-text">開始之前</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第一次設定的驗證警告"><span class="nav-number">3.</span> <span class="nav-text">第一次設定的驗證警告</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#所以TF252031、TF250001、TF249031-是"><span class="nav-number">4.</span> <span class="nav-text">所以TF252031、TF250001、TF249031 是?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解決TF252031、TF250001"><span class="nav-number">5.</span> <span class="nav-text">解決TF252031、TF250001</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解決TF249031"><span class="nav-number">6.</span> <span class="nav-text">解決TF249031</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">7.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2011/11/26/Team-Foundation-Server-TF252031、TF250001、TF249031-和-安裝TFS的權限注意事項/';
+      var disqus_title = 'Team Foundation Server - TF252031、TF250001、TF249031 和 安裝TFS的權限注意事項';
+      var disqus_url = 'http://skychang.github.io/2011/11/26/Team-Foundation-Server-TF252031%E3%80%81TF250001%E3%80%81TF249031-%E5%92%8C-%E5%AE%89%E8%A3%9DTFS%E7%9A%84%E6%AC%8A%E9%99%90%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

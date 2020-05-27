@@ -1,0 +1,671 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ASP.NET MVC,Design Patten," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="還記得當年，第一次看到MVC，是從Java那邊看來的，但是實作，卻是PHP的Zend Framewrok，後來，隨著工作關係，又回到了Microsoft，而也因為工作的關係，整整的經歷過ASP、ASP.NET、ASP.NET MVC，三個跨時代產品XD，所以恐怖的義大利麵也吃過，萬行Fuction包含百行SQL也碰過，不過也不能怪罪於先人，畢竟，幾十年歷史的系統，軟體發展又那麼快，這中間的演變真的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET MVC - 什麼是MVC?">
+<meta property="og:url" content="http://skychang.github.io/2011/09/28/ASP-NET-MVC-%E4%BB%80%E9%BA%BC%E6%98%AFMVC/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="還記得當年，第一次看到MVC，是從Java那邊看來的，但是實作，卻是PHP的Zend Framewrok，後來，隨著工作關係，又回到了Microsoft，而也因為工作的關係，整整的經歷過ASP、ASP.NET、ASP.NET MVC，三個跨時代產品XD，所以恐怖的義大利麵也吃過，萬行Fuction包含百行SQL也碰過，不過也不能怪罪於先人，畢竟，幾十年歷史的系統，軟體發展又那麼快，這中間的演變真的">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh3.ggpht.com/-JwGhgs6mA-4/TlNv1IvLJNI/AAAAAAAAAcE/G6bGmQ--N5E/image_thumb.png?imgmax=800">
+<meta property="article:published_time" content="2011-09-28T03:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.836Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta property="article:tag" content="Design Patten">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh3.ggpht.com/-JwGhgs6mA-4/TlNv1IvLJNI/AAAAAAAAAcE/G6bGmQ--N5E/image_thumb.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ASP.NET MVC - 什麼是MVC? | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ASP.NET MVC - 什麼是MVC?
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2011-09-28T03:00:00+00:00" content="2011-09-28">
+              2011-09-28
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2011/09/28/ASP-NET-MVC-%E4%BB%80%E9%BA%BC%E6%98%AFMVC/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/09/28/ASP-NET-MVC-什麼是MVC/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>還記得當年，第一次看到MVC，是從Java那邊看來的，但是實作，卻是PHP的Zend Framewrok，後來，隨著工作關係，又回到了Microsoft，而也因為工作的關係，整整的經歷過ASP、ASP.NET、ASP.NET MVC，三個跨時代產品XD，所以恐怖的義大利麵也吃過，萬行Fuction包含百行SQL也碰過，不過也不能怪罪於先人，畢竟，幾十年歷史的系統，軟體發展又那麼快，這中間的演變真的很大，當初也沒有什麼比較好的設計方式，所以這也是可以諒解的。</p>
+<p>隨著時間的演進，程式設計也像神奇寶貝一樣，會開始超進化，只不過不是程式自己進化，而是許多偉大的程式設計師在撰寫程式時，發現了許多的問題，於是提出好的設計架構，而MVC就是其中一個。</p>
+<p>還記得第一段提到的義大利麵程式碼嗎?在解釋MVC之前，先解釋一下義大利麵程式吧，所謂的義大利麵程式碼，就是一隻程式裡面，包山包地也包海，最有名的大概就是ASP吧，HTML包在裡面，JavaScript包在裡面，CSS包在裡面，還有一堆邏輯也包在裡面，別忘了，還要加一下配料SQL….；維護過的人就知道，光是要拆解，就費勁功夫了，忍痛改完，就算驗證過，還是常常發生一堆錯誤，然後又進入這可怕的循環；記得以前在公司，有好幾支這種地雷，每次有需要動到這些地雷的時候，大家覺得都會唯恐避之不及。</p>
+<p>後來出了ASP.NET，我只能說，微軟真的是封裝得太棒了，能把整個技術封裝成這種程度，讓人開發網頁像是開發Win Form程式一班，而且針對視圖與邏輯也有一定程度的拆解，但隨著時代的轉移，現在越來越標準的HTML、CSS，還有AJAX的崛起，測試的重要性等，也讓ASP.NET的一些缺點暴露出來，如下:</p>
+<ol>
+<li>傳輸過於笨重  <li>複雜的HTML  <li>不可測試性 </li>
+</ol>
+<p>ASP.NET是利用View state來處理整個生命週期，但View state實在是太重了，而且生命週期也太過複雜，PostBack到最後都不知道在做甚麼，對高手來說，可能沒有此困擾，但對於新手來講，這反而是一個開發上的一個隱憂，此外因View state過大，傳遞也會浪費許多的時間，雖然現在隨便就幾百Mb，但不可否認的，如果是大型網站，還是必須將此考量進去。</p>
+<p>其次就是分離觀點的問題，ASP.NET變成在後端去控制前端元件，這在測試上，也是另外一種困擾，因為這樣子就很難單獨的測試到邏輯。</p>
+<p>最後，用過ASP.NET的人都知道，很少人會自己寫標準的HTML在ASPX頁面，幾乎都是利用拖拉元件方式，並使用這些元件，而這也會形成另外一個問題，由ASP.NET產生出來的html，擁有複雜的id，而且可能不是標準的html。</p>
+<p>當然這些問題隨著ASP.NET 4的發佈，也慢慢地改善，但畢竟先天就是這樣子了，後天再怎樣改善，還是沒辦法改到根本。</p>
+<p>通常講到這，就一定會有人詢問，那ASP.NET就完全沒用了嗎?要被淘汰了嗎?其實Microsoft也說過，ASP.NET 還是會持續維護，而且在實際的應用上，ASP.NET還是很好用，像我們以前必須要非常快速的開發一個一兩頁的小程式，我們就很喜歡用ASP.NET快速的處理完畢，甚至有一些是拋棄式的網頁，我們也喜歡用ASP.NET快速開發；對的地方用上對的工具，才是最重要的，你說是吧!</p>
+<p>拉哩拉哩的說了一堆古，MVC都還沒帶出來哩，這邊我們就隆重的介紹一下MVC吧，MVC是一種軟體架構的設計樣式，不只是微軟有用，PHP裡面也有許多的Framewrok來實作MVC架構( 例如Zend Framework )，連Flash也有MVC架構，而微軟實作MVC的產品，就叫做ASP.NET MVC。所以<font color="#ff0000">MVC是一個軟體架構的設計樣式，ASP.NET MVC是微軟實作此架構的名詞。</font></p>
+<p>而MVC是由以下三個單字的第一個字母所組合而成的。</p>
+<ol>
+<li>Model – 資料、商業物件。  <li>View - 視圖，包含畫面、顯示的邏輯。  <li>Controller - 控制整個運作的流程。 </li>
+</ol>
+<p>若把它拆解開來，HTML、CSS、JavaScript等，就是屬於View，他負責顯示那些畫面，也負責處理畫面的邏輯，所以你不會在上面看到一堆SQL，但你還是會看到一些關於顯示上的邏輯。</p>
+<p>而那些商業物件，就是Model，你可以把他當作是資料，但實際上，他應該是一種擁有商業邏輯方法的物件。</p>
+<p>而Controller就是控管整個流程，他會控管接下來的路要怎麼走；當然也可以將SQL塞到Controller裡面，但是非常不推薦；Controller應該定義的是處理的步驟，但細節的資料庫存取，或是商業邏輯，因該要拆分到其他各自負責的物件去( 例如Repository、或是Model等 )。</p>
+<p><font color="#ff0000">說到這邊，可能已經湖煞煞了，但是沒關係，這邊只是給個觀念，後面會比較詳細的說到，現階段只要知道View是畫面，Model是資料，Controller是流程就可以了。</font></p>
+<p>這裡有一張MVC，三個之間的關係。</p>
+<p><a href="http://lh6.ggpht.com/-TPa25KDKvuA/TlNv0aD9f2I/AAAAAAAAAcA/X5tsOHbM7qE/s1600-h/image2.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-JwGhgs6mA-4/TlNv1IvLJNI/AAAAAAAAAcE/G6bGmQ--N5E/image_thumb.png?imgmax=800" alt="image" title="image"></a></p>
+<p>所以我們可以發現，Controller會相依於Model和View，因為Controller要將Model取回，並傳遞給View，而View因為要顯示Controller傳過來的Model，所以相依於Model，而Model則可以完全獨立；也因此，MVC這種架構，大大的降低偶合，並提高了內聚力，所以MVC最大最大的優點就是可以很輕鬆的拆解，並且彼此可以獨立開發，測試達到關注點分離的設計境界。</p>
+<p>所以當一個Team，可以有人專注於開發Model，有人專注的開發View，有人專注地開發流程，並且在測試的時候，獨立進行，這部分就是ASP或是ASP.NET比較難做到的事情了。</p>
+<p>(要測試ASP.NET的一個按下按鈕的功能，然後不要用到View….老實說，真的是有點困難… )</p>
+<p>所以，所謂的MVC，就是將原本混再一起的東西，做了拆離，讓我們能專注的處理每個部份。</p>
+<p>提到這邊，有人會開始詢問到，MVC不就是三層式架構嗎( 3-Tier )?</p>
+<p>早期的多層式架構，是應用於Server的溝通上面，因一台Server效能的瓶頸，或是維護上的問題，所以拆成多層來處理；後來開始有人將此概念延伸到軟體層上，3-Tier是將軟體分為展示( UI )，邏輯 ( BI ) ， 資料存取( DA )等；的確，對應上看起來的確很像MVC，但我必須強調，<font color="#ff0000">N-Tier不等於MVC</font>，因為MVC是實作於展示層的設計樣式，所以不要把N-Tier和MVC混為一談，也不要一直想著怎樣對應，因為兩者是講不同的東西。所以N-Tier和MVC不相等，也不要想著怎樣去對應。</p>
+<p>接下來，我們知道這三個東西後，現在我們用一個簡單的登入系統來看看，他的流程是怎樣跑，第一步當然是先在瀏覽器上打上網址，假設是index好了，後面的程式收到你的訊息後，第一個動作的是Controller，Controller根據你打的網址，並會知道要傳怎樣的View給你看，而你看到畫面上有id和pw欄位需要輸入，並輸入進去後，按下送出，View就會將你輸入好的東西( Model )送回到Controller去做處理。</p>
+<p>( 這裡補充一下，原則上，過程是很複雜，但有些東西是後面才會提到，所以上面敘述的是非常簡易的版本，讓大家先有一點感覺。理論上我們會先建立客戶這個物件當作Model，在輸入完index此頁面的時候，Controller並會吐回一個View給使用者，而這個View並會使用客戶這個Model，當使用者填完id、pw的時候，並會將此資料塞到客戶這個Model，並傳回Controller，Controller會再利用Repository此樣式去做資料庫的存取，來驗證是否正確，如果正確就導向到正確頁，如果錯誤就導向到錯誤頁。 )</p>
+<p>基本上，整個MVC的流程大致上就是這樣，其實MVC這個Patten，就是來解決原本複雜的交互依賴問題，而利用了MVC進行拆離，來提高整體的維護，在ASP.NET MVC推出後，我們也實作了許多案例，無論是在開發上的清晰度，或是後續的維護，合作等等，都有一種煥然一新的感受，當然，內部同仁也有人抱怨，沒像ASP.NET那樣拖拉的方便、覺得要處理許許多多的東西，但這些其實也只是因為大家不熟悉而產生的抱怨，到後來，大家也都開開心心的活在ASP.NET MVC之中了。</p>
+<p>最後，國外的ASP.NET MVC書籍作者給了他一段評言。</p>
+<blockquote>
+<p>It emphasizes clean architecture, design patterns, and testability, and it doesn’t try to conceal how the Web works. </p>
+</blockquote>
+<p>中文的意思是，”它強調簡潔的架構，設計模式，和可測性，它不試圖掩飾如何在Web上的運作”。</p>
+<p>沒錯，這就是ASP.NET MVC，後續，我們將開始講解如何開發ASP.NET MVC。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+            <a href="/tags/Design-Patten/" rel="tag">#Design Patten</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/09/27/Windows-Azure-%E5%BA%95%E5%B1%A4%E6%9E%B6%E6%A7%8B/" rel="next" title="Windows Azure 底層架構">
+                <i class="fa fa-chevron-left"></i> Windows Azure 底層架構
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011/09/28/UI%E7%9A%84%E8%A8%AD%E8%A8%88%E6%A8%A1%E5%BC%8FMVP%E6%A8%A1%E5%BC%8F-Passive-View/" rel="prev" title="UI的設計模式MVP模式 - Passive View">
+                UI的設計模式MVP模式 - Passive View <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2011/09/28/ASP-NET-MVC-什麼是MVC/';
+      var disqus_title = 'ASP.NET MVC - 什麼是MVC?';
+      var disqus_url = 'http://skychang.github.io/2011/09/28/ASP-NET-MVC-%E4%BB%80%E9%BA%BC%E6%98%AFMVC/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

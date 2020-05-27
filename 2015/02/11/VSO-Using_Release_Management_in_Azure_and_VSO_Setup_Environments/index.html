@@ -1,0 +1,678 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Azure,VSO,Release Management," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="設定Release Managment 環境完成了Release Management與Visual Studio Online與Azure的相關設定後，接下來，到”設定路徑” &#x3D;&gt; “環境” 的地方來設定環境；我們這邊選擇”新的vNext Azure”。  接下來，按下”連結Azure環境”的按鈕，來取得Azure的相關資源。  於彈跳出來的視窗選擇Azure訂閱後，就可以搜尋到目前的VM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online 環境設定篇">
+<meta property="og:url" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Environments/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="設定Release Managment 環境完成了Release Management與Visual Studio Online與Azure的相關設定後，接下來，到”設定路徑” &#x3D;&gt; “環境” 的地方來設定環境；我們這邊選擇”新的vNext Azure”。  接下來，按下”連結Azure環境”的按鈕，來取得Azure的相關資源。  於彈跳出來的視窗選擇Azure訂閱後，就可以搜尋到目前的VM">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Environments/19.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Environments/20.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Environments/21.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Environments/22.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Environments/23.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Environments/24.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Environments/25.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Environments/26.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Environments/27.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Environments/28.png">
+<meta property="article:published_time" content="2015-02-11T22:50:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.980Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="VSO">
+<meta property="article:tag" content="Release Management">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Environments/19.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online 環境設定篇 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online 環境設定篇
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-02-11T22:50:00+00:00" content="2015-02-11">
+              2015-02-11
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Environments/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Environments/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="設定Release-Managment-環境"><a href="#設定Release-Managment-環境" class="headerlink" title="設定Release Managment 環境"></a>設定Release Managment 環境</h2><p>完成了Release Management與Visual Studio Online與Azure的相關設定後，接下來，到”設定路徑” =&gt; “環境” 的地方來設定環境；我們這邊選擇”新的vNext Azure”。</p>
+<p><img src="19.png" alt=""></p>
+<p>接下來，按下”連結Azure環境”的按鈕，來取得Azure的相關資源。</p>
+<p><img src="20.png" alt=""></p>
+<p>於彈跳出來的視窗選擇Azure訂閱後，就可以搜尋到目前的VM群組。<br>( 這邊搜尋到的其實是”雲端服務”，而非獨立的一台VM，而在new Azure Portal 裡面，其實也看不到”雲端服務了”，所以這邊我們可以把它當成一個HA Group ( 可用性群組 )的角度來看待。 )</p>
+<p><img src="21.png" alt=""></p>
+<p>完成後，就可以看到如下圖，選擇的”環境(“雲端服務”)已經被帶進來了，接下來，按下”連結Azure伺服器”。</p>
+<p><img src="22.png" alt=""></p>
+<p>接著，從這邊選擇VM。</p>
+<p><img src="23.png" alt=""></p>
+<p>完成後，就可以按下儲存，結束這回合!</p>
+<p><img src="24.png" alt=""></p>
+<p>最後，我們就可以從伺服器的地方，看到我們選擇的VM。</p>
+<p><img src="25.png" alt=""></p>
+<p>另外，提醒大家一下，在正常的情況下，應該是從”伺服器”那邊開始設定，接著才會設定到”環境”，原因是因為一個環境底下，可能會有多個伺服器 ( 例如 Web 、 AP 、 DB Server)；但在Azure的設定下會剛好相反；其中一個原因是因為沒辦法從伺服器那邊選起，所以才只能從環境的地方開始設定起，而對Azure來說，一個環境，對應到的是一個”雲端服務”，所以選擇完雲端服務後，自然而然地就可以選擇到一個VM了。</p>
+<p>接下來，我們要設定vNext發行路徑，如下圖。</p>
+<p><img src="26.png" alt=""></p>
+<p>這邊，我們可以先給一個名稱，然後於”階段”的地方，就可以加入每個佈署的過程，如下圖，可以看到dev和QA，表示會先進入dev的佈署，完成之後才會進入QA的佈署。</p>
+<p>首先，我們先選擇”加入”，就可以選擇Dev，這邊要特別注意的是接受步驟旁的自動化，一定要打勾，不然到時候會不能儲存… ( 那為什麼還要讓我們勾勒… )<br>接受步驟表示的是Release Management會接受並觸發動作。</p>
+<p>然後核准者和擁有者就選擇預設的Team Foundation Service就可以了，未來大家也可以自行的增加使用者或是群組，例如 RD Team之類的。</p>
+<p>驗證步驟的地方，也有一個要勾選的，那邊如果勾選的話，就不會讓人稽核，直接就會開始進行下一關的佈署，而如果沒勾的話，就會需要驗證者的審核，Release Management才會開始進行下一關的佈署；所以這邊我就選擇我自己，當作佈署後的驗證。</p>
+<p>而有的時候，可能不會只有一個人驗證，可能會有多個人驗證，所以在下方，還有個加號，可以讓更高階的主管認證；而這邊因為我沒有別的帳號，所以我還是選擇我自己。</p>
+<p>最後，QA環境的意思和Dev環境的設定相同，大家可以設定自己想要的環境，但要注意的是，一個環境只能給一個階段使用，以下圖來說，RMAzure1已經被Dev的環境使用掉了，所以QA就不能再使用了RMAzure1了。</p>
+<p>所以到時候，這篇文章會只使用Dev環境當作Demo。</p>
+<p><img src="27.png" alt=""></p>
+<p>完成後，就可以看到發行路徑已經建立好了。</p>
+<p><img src="28.png" alt=""></p>
+<p>基本上，Release Management的環境設定就到這邊。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="http://www.visualstudio.com/get-started/manage-your-release-vs" target="_blank" rel="noopener">http://www.visualstudio.com/get-started/manage-your-release-vs</a></li>
+<li><a href="http://www.visualstudio.com/get-started/deploy-with-agents-vs" target="_blank" rel="noopener">http://www.visualstudio.com/get-started/deploy-with-agents-vs</a></li>
+<li><a href="http://blogs.msdn.com/b/visualstudioalm/archive/2014/11/11/using-release-management-vso-service-to-manage-releases.aspx" target="_blank" rel="noopener">http://blogs.msdn.com/b/visualstudioalm/archive/2014/11/11/using-release-management-vso-service-to-manage-releases.aspx</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/VSO/" rel="tag">#VSO</a>
+          
+            <a href="/tags/Release-Management/" rel="tag">#Release Management</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/" rel="next" title="VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online Azure 設定篇">
+                <i class="fa fa-chevron-left"></i> VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online Azure 設定篇
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Build/" rel="prev" title="VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online PS 與組建設定篇">
+                VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online PS 與組建設定篇 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#設定Release-Managment-環境"><span class="nav-number">1.</span> <span class="nav-text">設定Release Managment 環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">2.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Environments/';
+      var disqus_title = 'VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online 環境設定篇';
+      var disqus_url = 'http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Environments/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

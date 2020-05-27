@@ -1,0 +1,732 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ASP.NET MVC," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="當使用者Keyin網址後，瀏覽器送出請求，而透過Routing機制後，緊接著的就是Controller，就如前面MVC架構所敘說的，Controller控制著所有的流程 ( 不然他怎麼會叫做Controller!? )，取得Model、決定View，這些工作都是在Controller裡面進行，我們先看一下簡單的Controller吧。 假設網址是 blog.sanc.idv.tw&#x2F;home&#x2F;ind">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET MVC Controller 和 Action">
+<meta property="og:url" content="http://skychang.github.io/2011/09/26/ASP-NET-MVC-Controller-%E5%92%8C-Action/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="當使用者Keyin網址後，瀏覽器送出請求，而透過Routing機制後，緊接著的就是Controller，就如前面MVC架構所敘說的，Controller控制著所有的流程 ( 不然他怎麼會叫做Controller!? )，取得Model、決定View，這些工作都是在Controller裡面進行，我們先看一下簡單的Controller吧。 假設網址是 blog.sanc.idv.tw&#x2F;home&#x2F;ind">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2011-09-26T21:48:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.832Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ASP.NET MVC Controller 和 Action | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ASP.NET MVC Controller 和 Action
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2011-09-26T21:48:00+00:00" content="2011-09-26">
+              2011-09-26
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2011/09/26/ASP-NET-MVC-Controller-%E5%92%8C-Action/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/09/26/ASP-NET-MVC-Controller-和-Action/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>當使用者Keyin網址後，瀏覽器送出請求，而透過Routing機制後，緊接著的就是Controller，就如前面MVC架構所敘說的，Controller控制著所有的流程 ( 不然他怎麼會叫做Controller!? )，取得Model、決定View，這些工作都是在Controller裡面進行，我們先看一下簡單的Controller吧。</p>
+<p>假設網址是 <a href="http://blog.sanc.idv.tw/home/index" target="_blank" rel="noopener">blog.sanc.idv.tw/home/index</a></p>
+<p>( 這個網址沒有打錯喔，還記得前面講的嗎，MVC的網址和以前我們熟悉的index.html這種檔案式的架構不同，所有的網址要求，會透過Routing重新轉送。 )</p>
+<pre class="brush: csharp;">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace MvcWebRole1.Controllers
+{
+    //HomeController代表著blog.sanc.idv.tw/Home &lt;--這個路徑
+    public class HomeController : Controller 
+    {
+        //這個Function代表著blog.sanc.idv.tw/Home/Index &lt;--這個路徑
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult About()
+        {
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            return View();
+        }
+    }
+}
+</pre>
+
+<p>所以，blog.sanc.idv.tw/Home對應到的是一個類別，也就是HomeController這個類別，而blog.sanc.idv.tw/Home/Index對應到的是HomeController這個類別的Index這個方法，裡面我們還可以看到About、Contact，其實也分別會對應到blog.sanc.idv.tw/Home/About和blog.sanc.idv.tw/Contact這兩個路徑。</p>
+<p>所以我們可以知道，當瀏覽器請求進來的時候，就會到對應的Controller裡面，對應的Function來做指定的事情，而這個Function在MVC裡面，我們又稱為Action，( 所以未來我會用Action來稱呼 )。</p>
+<p>到這邊，我們算是複習複習之前講的，接下來我們在繼續往下看看Controller和Action。</p>
+<h4 id="ActionResult"><a href="#ActionResult" class="headerlink" title="ActionResult"></a>ActionResult</h4><p>我們將Controller的其中一個Action拉出來看一下。</p>
+<pre class="brush: csharp;">public ActionResult Index()
+{
+    return View();
+}
+</pre>
+
+<p>我們可以看到，這個Action的回傳值是一個ActionResult型別，其實這是一個抽象型別，最後一行的return View();，其實會回傳一個ViewResult型別，而這個型別就是繼承於ActionResult型別，最後，Controller就會利用取得的這個ActionResult裡面的ExecuteResult方法，將畫面 ( 或是其他結果 )傳回使用者端。</p>
+<p>既然ActionResult是抽象型別，也就表示會有很多的類別繼承於他，接下來，我們會開始介紹型別。</p>
+<h4 id="ASP-NET-MVC-3-可用的ActionResult的型別"><a href="#ASP-NET-MVC-3-可用的ActionResult的型別" class="headerlink" title="ASP.NET MVC 3 可用的ActionResult的型別"></a>ASP.NET MVC 3 可用的ActionResult的型別</h4><p>下面是可用的型別列表，後續會一個一個寫上範例，Controller Helper Methods代表的是可以讓我們快速地去使用，例如return View();的View()，他就會產生一個ViewResult型別出來。</p>
+<table width="624">
+<thead>
+<tr>
+<th width="155">型別</th>
+<th width="272">簡介</th>
+<th width="195">Controller Helper Methods</th></tr></thead>
+<tbody>
+<tr>
+<td width="155">EmptyResult</td>
+<td width="272">甚麼事都不做…</td>
+<td width="195">無</td></tr>
+<tr>
+<td width="155">ContentResult</td>
+<td width="272">回傳文字至瀏覽器，可以自行設定content-type。</td>
+<td width="195">Content</td></tr>
+<tr>
+<td width="155">FileResult</td>
+<td width="272">回傳二位元資料，例如Server上的mp3等檔案。</td>
+<td width="195">File</td></tr>
+<tr>
+<td width="155">ViewResult</td>
+<td width="272">呈現指定或是預設的View。</td>
+<td width="195">View</td></tr>
+<tr>
+<td width="155">PartialViewResult</td>
+<td width="272">呈現指定或是預設的View樣板</td>
+<td width="195">PartialView</td></tr>
+<tr>
+<td width="155">RedirectToRouteResult</td>
+<td width="272">如果產生HTTP 301、302則會重新導向到另外一個Action或是其他指定的URL、或是設定好的Router。</td>
+<td width="195">
+
+<p>RedirectToAction<br>RedirectToActionPermanent<br>RedirectToRoute<br>RedirectToRoutePermanent</p>
+</td></tr>
+<tr>
+<td width="155">RedirectResult</td>
+<td width="272">如果產生HTTP 301、302則會導向至另外一個URL。</td>
+<td width="195">Redirect
+RedirectPermanent</td></tr>
+<tr>
+<td width="155">JsonResult</td>
+<td width="272">將.net 物件序列化成Json格式並回傳。</td>
+<td width="195">Json</td></tr>
+<tr>
+<td width="155">JavaScriptResult</td>
+<td width="272">回傳一個JavaScript的程式碼片段，通常用於Ajax裡面。</td>
+<td width="195">JavaScript</td></tr>
+<tr>
+<td width="155">HttpUnauthorizedResult</td>
+<td width="272">回傳HTTP 401 ( 未授權 )。</td>
+<td width="195">None</td></tr>
+<tr>
+<td width="155">HttpNotFoundResult</td>
+<td width="272">回傳HTTP 404。</td>
+<td width="195">HttpNotFound</td></tr>
+<tr>
+<td width="155">HttpStatusCodeResult</td>
+<td width="272">返回指定的HTTP代碼。</td>
+<td width="195">無</td></tr></tbody></table>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/09/26/jQuery-Mobile-%E4%BB%8B%E7%B4%B9/" rel="next" title="jQuery Mobile 介紹">
+                <i class="fa fa-chevron-left"></i> jQuery Mobile 介紹
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011/09/27/Windows-Azure-%E5%AE%89%E8%A3%9D%E6%B5%81%E7%A8%8B/" rel="prev" title="Windows Azure 安裝流程">
+                Windows Azure 安裝流程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#ActionResult"><span class="nav-number">1.</span> <span class="nav-text">ActionResult</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ASP-NET-MVC-3-可用的ActionResult的型別"><span class="nav-number">2.</span> <span class="nav-text">ASP.NET MVC 3 可用的ActionResult的型別</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2011/09/26/ASP-NET-MVC-Controller-和-Action/';
+      var disqus_title = 'ASP.NET MVC Controller 和 Action';
+      var disqus_url = 'http://skychang.github.io/2011/09/26/ASP-NET-MVC-Controller-%E5%92%8C-Action/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

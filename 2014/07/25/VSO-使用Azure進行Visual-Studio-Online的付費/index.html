@@ -1,0 +1,657 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Visual Studio,TFS,Azure,VSO," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近朋友問的我一個問題…”當Visual Studio Online上的壓力測試和Build使用超過額度了，不能用了怎麼辦!!?為什麼我都找不到付費的地方??” 其實在Visual Studio Online上找不到是很正常的…因為Visual Studio Online的付費是綁定Azure帳號的阿!!!!! ( 可見兩者的關係很好…阿…畢竟之前ScottGu是管整個ASP.NET Team的!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VSO - 使用Azure進行Visual Studio Online的付費">
+<meta property="og:url" content="http://skychang.github.io/2014/07/25/VSO-%E4%BD%BF%E7%94%A8Azure%E9%80%B2%E8%A1%8CVisual-Studio-Online%E7%9A%84%E4%BB%98%E8%B2%BB/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="最近朋友問的我一個問題…”當Visual Studio Online上的壓力測試和Build使用超過額度了，不能用了怎麼辦!!?為什麼我都找不到付費的地方??” 其實在Visual Studio Online上找不到是很正常的…因為Visual Studio Online的付費是綁定Azure帳號的阿!!!!! ( 可見兩者的關係很好…阿…畢竟之前ScottGu是管整個ASP.NET Team的!">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh5.ggpht.com/-cXaHWlUAc94/U9EwdqC5iYI/AAAAAAAAJak/6hol8eNufBI/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-1TbjRByrPBw/U9EwfQqrcMI/AAAAAAAAJa0/EihLlDOUa8s/image_thumb%25255B4%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-a6RojRcuA3M/U9EwhMlU5oI/AAAAAAAAJbI/qX0o1ow3BBA/image_thumb%25255B6%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2014-07-25T00:12:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.984Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="TFS">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="VSO">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh5.ggpht.com/-cXaHWlUAc94/U9EwdqC5iYI/AAAAAAAAJak/6hol8eNufBI/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> VSO - 使用Azure進行Visual Studio Online的付費 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                VSO - 使用Azure進行Visual Studio Online的付費
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2014-07-25T00:12:00+00:00" content="2014-07-25">
+              2014-07-25
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/07/25/VSO-%E4%BD%BF%E7%94%A8Azure%E9%80%B2%E8%A1%8CVisual-Studio-Online%E7%9A%84%E4%BB%98%E8%B2%BB/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/07/25/VSO-使用Azure進行Visual-Studio-Online的付費/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近朋友問的我一個問題…”當Visual Studio Online上的壓力測試和Build使用超過額度了，不能用了怎麼辦!!?為什麼我都找不到付費的地方??”</p>
+<p>其實在Visual Studio Online上找不到是很正常的…因為Visual Studio Online的付費是綁定Azure帳號的阿!!!!! ( 可見兩者的關係很好…阿…畢竟之前ScottGu是管整個ASP.NET Team的!! )</p>
+<p>所以我們要進行Visual Studio Online的付費，就要有一個Azure帳號，並且進行繫結~</p>
+<p>如下圖，就等同我們平常使用Azure一樣，我們新增一個Visual Studio Online服務就可以；但這邊要注意，如果是要連結現有的VSO帳號，那你的Azure帳號要和VSO帳號一樣，也就是說，這個帳號必須是VSO的擁有者，並且也是Azure的Administrator、co-Administrator，不然會找不到喔!!</p>
+<p><a href="http://lh6.ggpht.com/-IOx_KxM-haQ/U9Ewcn4e3wI/AAAAAAAAJag/AQIAsHo5wl8/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-cXaHWlUAc94/U9EwdqC5iYI/AAAAAAAAJak/6hol8eNufBI/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>新增完之後，就可以從這個畫面進行調整，而且隨時可以進行使用者人數、組建、附載測試的設定；另外，目前也沒辦法只提供管理VSO資源(如下圖)的管理者，畢竟是針對Azure權限開啟，所以一開後，整個Azure的權限都會開= =…</p>
+<p><a href="http://lh3.ggpht.com/-rsux3sT6MnE/U9EweYTcSmI/AAAAAAAAJas/qk4ibNMA7jQ/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-1TbjRByrPBw/U9EwfQqrcMI/AAAAAAAAJa0/EihLlDOUa8s/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>另外，官方有這點特別條文，MSDN每月的可用額度，是不適用於VSO計費的(反正就是要額外收費，而且還要關閉付費限制)</p>
+<p><a href="http://lh5.ggpht.com/-bv_IfLxm9m4/U9EwgD2T4RI/AAAAAAAAJa8/92SUoYOaUdc/s1600-h/image%25255B12%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-a6RojRcuA3M/U9EwhMlU5oI/AAAAAAAAJbI/qX0o1ow3BBA/image_thumb%25255B6%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>最後補充上關於各等級的<a href="http://www.visualstudio.com/products/visual-studio-online-user-plans-vs" target="_blank" rel="noopener">網址</a>，有需要的朋友可以去網址看看；另外，如果加入進來的帳號，有MSDN的權限，那就不會占掉五人名額喔!</p>
+<p>基本上就是這樣，有興趣的也可以去看<a href="http://www.visualstudio.com/en-us/get-started/set-up-billing-for-your-account-vs" target="_blank" rel="noopener">網站</a>說明。</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://www.visualstudio.com/products/visual-studio-online-user-plans-vs" target="_blank" rel="noopener" title="http://www.visualstudio.com/products/visual-studio-online-user-plans-vs">http://www.visualstudio.com/products/visual-studio-online-user-plans-vs</a></li>
+<li><a href="http://azure.microsoft.com/zh-tw/pricing/details/visual-studio-online/" target="_blank" rel="noopener" title="http://azure.microsoft.com/zh-tw/pricing/details/visual-studio-online/">http://azure.microsoft.com/zh-tw/pricing/details/visual-studio-online/</a></li>
+<li><a href="http://www.visualstudio.com/en-us/get-started/set-up-billing-for-your-account-vs" target="_blank" rel="noopener" title="http://www.visualstudio.com/en-us/get-started/set-up-billing-for-your-account-vs">http://www.visualstudio.com/en-us/get-started/set-up-billing-for-your-account-vs</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
+          
+            <a href="/tags/TFS/" rel="tag">#TFS</a>
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/VSO/" rel="tag">#VSO</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/06/20/ASP-NET-MVC-ASP-NET-MVC-vNext-MVC-6-%E6%96%BCMAC%E4%B8%8A%E8%B7%91ASP-NET-MVC-%E5%BE%8C%E7%AF%87-Kruntime%E8%88%87MVC%E5%B0%88%E6%A1%88%E8%A8%AD%E5%AE%9A/" rel="next" title="ASP.NET MVC - ASP.NET MVC vNext ( MVC 6 ) 於MAC上跑ASP.NET MVC (後篇) Kruntime與MVC專案設定">
+                <i class="fa fa-chevron-left"></i> ASP.NET MVC - ASP.NET MVC vNext ( MVC 6 ) 於MAC上跑ASP.NET MVC (後篇) Kruntime與MVC專案設定
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/07/25/VSO-%E4%BD%BF%E7%94%A8Azure-AD%E7%AE%A1%E7%90%86Visual-Studio-Online/" rel="prev" title="VSO -  使用Azure AD管理Visual Studio Online">
+                VSO -  使用Azure AD管理Visual Studio Online <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">1.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2014/07/25/VSO-使用Azure進行Visual-Studio-Online的付費/';
+      var disqus_title = 'VSO - 使用Azure進行Visual Studio Online的付費';
+      var disqus_url = 'http://skychang.github.io/2014/07/25/VSO-%E4%BD%BF%E7%94%A8Azure%E9%80%B2%E8%A1%8CVisual-Studio-Online%E7%9A%84%E4%BB%98%E8%B2%BB/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

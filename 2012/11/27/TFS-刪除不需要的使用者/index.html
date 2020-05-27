@@ -1,0 +1,650 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="TFS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="今天和小章哥聊天，剛好聊到他說他的VS2012掛掉了 ( 好吧，我也必須負一半責任XDD，因為是我慫恿他玩Code Map的…Orz )，後來他貼給我他的解決方案，也讓我想到，我還有一篇文章還沒完成。 ( 但後來發現，解決方法，完全和小章哥的那篇無關… ) 那我要處理的問題是甚麼?，就是在使用TFS的時候( 小弟是使用Team Foundation Service，不過處理方式和TFS應該都一樣">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TFS -  刪除不需要的使用者">
+<meta property="og:url" content="http://skychang.github.io/2012/11/27/TFS-%E5%88%AA%E9%99%A4%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84%E4%BD%BF%E7%94%A8%E8%80%85/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="今天和小章哥聊天，剛好聊到他說他的VS2012掛掉了 ( 好吧，我也必須負一半責任XDD，因為是我慫恿他玩Code Map的…Orz )，後來他貼給我他的解決方案，也讓我想到，我還有一篇文章還沒完成。 ( 但後來發現，解決方法，完全和小章哥的那篇無關… ) 那我要處理的問題是甚麼?，就是在使用TFS的時候( 小弟是使用Team Foundation Service，不過處理方式和TFS應該都一樣">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh6.ggpht.com/-ndj2Xrrf-a4/ULTHu4D2-7I/AAAAAAAAFYw/hziap1aFNi8/image_thumb%25255B2%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-wypvGDsAZao/ULTHw3bF85I/AAAAAAAAFZA/q-sC6MxvID4/image_thumb%25255B4%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-mOLQuFQMckc/ULTHysWH7UI/AAAAAAAAFZQ/bSRX9hHREPA/image_thumb%25255B7%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-cnYCjyAA8x4/ULTH1L_TYaI/AAAAAAAAFZc/r0RApv8IZOM/image_thumb%25255B10%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-if49P1LwNjU/ULTH3KnzsPI/AAAAAAAAFZw/MgmD01ForQY/image_thumb%25255B13%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-0czH74CeU8Y/ULTH5YvEbGI/AAAAAAAAFZ8/dpVftY2XTMg/image_thumb%25255B15%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2012-11-27T22:02:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.964Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="TFS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh6.ggpht.com/-ndj2Xrrf-a4/ULTHu4D2-7I/AAAAAAAAFYw/hziap1aFNi8/image_thumb%25255B2%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> TFS -  刪除不需要的使用者 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                TFS -  刪除不需要的使用者
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2012-11-27T22:02:00+00:00" content="2012-11-27">
+              2012-11-27
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/11/27/TFS-%E5%88%AA%E9%99%A4%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84%E4%BD%BF%E7%94%A8%E8%80%85/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/11/27/TFS-刪除不需要的使用者/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>今天和小章哥聊天，剛好聊到他說他的VS2012掛掉了 ( 好吧，我也必須負一半責任XDD，因為是我慫恿他玩Code Map的…Orz )，後來他貼給我他的<a href="http://www.dotblogs.com.tw/yc421206/archive/2012/09/04/74596.aspx" target="_blank" rel="noopener">解決方案</a>，也讓我想到，我還有一篇文章還沒完成。 ( 但後來發現，解決方法，完全和小章哥的那篇無關… )</p>
+<p>那我要處理的問題是甚麼?，就是在使用TFS的時候( 小弟是使用Team Foundation Service，不過處理方式和TFS應該都一樣 )，有時增加了一堆人，結果選擇的時候就會出現一堆人的列表，但那些人可能現在也不需要了，有可能離職了，也有可能退出專案了，總之，就已經消失出專案裡面，所以TFS也應該把這些人移除，如下，是一個例子，這裡是要新增新的使用者到此Team Porject，然後下拉選單一拉，結果有一堆人…，而這些人，早就應該刪除出整個Default Collection。</p>
+<p><a href="http://lh4.ggpht.com/-FisurQnK8_E/ULTHt2jkzMI/AAAAAAAAFYo/ypncj9AczAM/s1600-h/image%25255B4%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-ndj2Xrrf-a4/ULTHu4D2-7I/AAAAAAAAFYw/hziap1aFNi8/image_thumb%25255B2%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>起初，我以為這是Cahce的問題，那解決的方式就應該用小章哥的那篇，結果後來發現，完全不是XDD，那應該怎樣做呢??</p>
+<p>首先我們進入管理頁面，然後點選右上角的齒輪。</p>
+<p><a href="http://lh4.ggpht.com/-KAKByKik2mM/ULTHwC8X3PI/AAAAAAAAFY4/gCvIhjth6Oo/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-wypvGDsAZao/ULTHw3bF85I/AAAAAAAAFZA/q-sC6MxvID4/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這邊就是控制中心了，選擇右下的管理Coolection Security和Group Membership。</p>
+<p><a href="http://lh5.ggpht.com/-e6bCjLM-t-0/ULTHxkPyVeI/AAAAAAAAFZI/XWtO8c8DpBg/s1600-h/image%25255B13%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-mOLQuFQMckc/ULTHysWH7UI/AAAAAAAAFZQ/bSRX9hHREPA/image_thumb%25255B7%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>進來後，再點選Users。</p>
+<p><a href="http://lh5.ggpht.com/-dfk4XhfdwTc/ULTHzhNmJ3I/AAAAAAAAFZY/tuIYbbUnpMk/s1600-h/image%25255B18%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-cnYCjyAA8x4/ULTH1L_TYaI/AAAAAAAAFZc/r0RApv8IZOM/image_thumb%25255B10%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後就會發現，之前加入過的使用者都在這邊了!!結果，和Cache完全無關!!Orz…( 由下圖可知，小弟很努力地在推廣TFS XDDD )</p>
+<p><a href="http://lh5.ggpht.com/-aUhiLkfNjE4/ULTH1zXlzdI/AAAAAAAAFZo/QS6fW0BOX-Q/s1600-h/image%25255B23%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-if49P1LwNjU/ULTH3KnzsPI/AAAAAAAAFZw/MgmD01ForQY/image_thumb%25255B13%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後點選其中一位，並且按下右上的Edit，就會出現Delete的選項，刪除後，就可以和那位使用者說881了=v=。</p>
+<p><a href="http://lh3.ggpht.com/-ETcgc4BkxwM/ULTH39hHINI/AAAAAAAAFZ4/qcRvqWvEvpA/s1600-h/image%25255B27%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-0czH74CeU8Y/ULTH5YvEbGI/AAAAAAAAFZ8/dpVftY2XTMg/image_thumb%25255B15%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>以上，就那麼簡單，我完全沒注意到…或使這是自己一個人玩TFS的盲點吧，因為不太需要設定權限…所以一直沒發現在這邊…總之，這篇文章也推薦給新手吧QQ…</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/TFS/" rel="tag">#TFS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/11/27/ASP-NET-MVC-%E5%B0%87%E8%88%8A%E5%B0%88%E6%A1%88%E5%8D%87%E7%B4%9A%E6%88%90-NET-4-5%E6%99%82%EF%BC%8C%E7%99%BC%E7%94%9FMSB3247%E9%8C%AF%E8%AA%A4/" rel="next" title="ASP.NET MVC - 將舊專案升級成.NET 4.5時，發生MSB3247錯誤">
+                <i class="fa fa-chevron-left"></i> ASP.NET MVC - 將舊專案升級成.NET 4.5時，發生MSB3247錯誤
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/11/27/Windows-Azure-Cloud-Service%E7%9A%84%E4%BD%88%E7%BD%B2%E6%96%B9%E5%BC%8F/" rel="prev" title="Windows Azure - Cloud Service的佈署方式">
+                Windows Azure - Cloud Service的佈署方式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2012/11/27/TFS-刪除不需要的使用者/';
+      var disqus_title = 'TFS -  刪除不需要的使用者';
+      var disqus_url = 'http://skychang.github.io/2012/11/27/TFS-%E5%88%AA%E9%99%A4%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84%E4%BD%BF%E7%94%A8%E8%80%85/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

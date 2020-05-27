@@ -1,0 +1,659 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="PowerShell," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="這篇應該是Azure File的番外篇…但其實和Azure File完全沒關係XDD…這篇主要是在寫Azure File的時候，發現使用PowerShell的import-module指令時，小弟我選擇了永遠允許，但當時我卻忘記截圖…Orz…所以發揮追根究柢的精神，就去查了一下，怎要把永遠允許移除掉… (結果造成Azure File的文章還沒寫好…&#x3D; &#x3D;… ) 當我們使用import-moudle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PowerShell -  移除import-module所選擇的永不執行或是永遠執行">
+<meta property="og:url" content="http://skychang.github.io/2014/06/03/PowerShell-%E7%A7%BB%E9%99%A4import-module%E6%89%80%E9%81%B8%E6%93%87%E7%9A%84%E6%B0%B8%E4%B8%8D%E5%9F%B7%E8%A1%8C%E6%88%96%E6%98%AF%E6%B0%B8%E9%81%A0%E5%9F%B7%E8%A1%8C/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="這篇應該是Azure File的番外篇…但其實和Azure File完全沒關係XDD…這篇主要是在寫Azure File的時候，發現使用PowerShell的import-module指令時，小弟我選擇了永遠允許，但當時我卻忘記截圖…Orz…所以發揮追根究柢的精神，就去查了一下，怎要把永遠允許移除掉… (結果造成Azure File的文章還沒寫好…&#x3D; &#x3D;… ) 當我們使用import-moudle">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh4.ggpht.com/-x-NvQ6fGmgk/U41htu8IGKI/AAAAAAAAI64/dS4maPi6pT0/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-oY_M0e-ZNRQ/U41hvHgRxoI/AAAAAAAAI7I/qS7TWvPfGXM/image_thumb%25255B4%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-mhWyeE3Gqgs/U41hw6wYRrI/AAAAAAAAI7Y/chHDFRRzyzE/image_thumb%25255B8%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-ibypm7D6Yu4/U41hyeGChPI/AAAAAAAAI7o/cZ-yVY0eBW0/image_thumb%25255B11%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-AY9aOpfYRGQ/U41hzkKNHnI/AAAAAAAAI74/Rh8vKPL6dvs/image_thumb%25255B14%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-OcSX3WWJcP8/U41h02GCaCI/AAAAAAAAI8I/C1ExFqe4rEI/image_thumb%25255B17%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2014-06-03T13:49:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.928Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="PowerShell">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh4.ggpht.com/-x-NvQ6fGmgk/U41htu8IGKI/AAAAAAAAI64/dS4maPi6pT0/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> PowerShell -  移除import-module所選擇的永不執行或是永遠執行 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                PowerShell -  移除import-module所選擇的永不執行或是永遠執行
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2014-06-03T13:49:00+00:00" content="2014-06-03">
+              2014-06-03
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/06/03/PowerShell-%E7%A7%BB%E9%99%A4import-module%E6%89%80%E9%81%B8%E6%93%87%E7%9A%84%E6%B0%B8%E4%B8%8D%E5%9F%B7%E8%A1%8C%E6%88%96%E6%98%AF%E6%B0%B8%E9%81%A0%E5%9F%B7%E8%A1%8C/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/06/03/PowerShell-移除import-module所選擇的永不執行或是永遠執行/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>這篇應該是Azure File的番外篇…但其實和Azure File完全沒關係XDD…這篇主要是在寫Azure File的時候，發現使用PowerShell的import-module指令時，小弟我選擇了永遠允許，但當時我卻忘記截圖…Orz…所以發揮追根究柢的精神，就去查了一下，怎要把永遠允許移除掉… (結果造成Azure File的文章還沒寫好…= =… )</p>
+<p>當我們使用import-moudle的時候，可能會出現以下的訊息。</p>
+<p>[V] Never run&nbsp; [D] Do not run&nbsp; [R] Run once&nbsp; [A] Always run&nbsp; [?] Help (default is “D”):</p>
+<p>中文版是這樣。</p>
+<p>C:\AzureStorageFile\Microsoft.WindowsAzure.Commands.Storage.File.types.ps1xml 檔案是由 CN=Mi<br>OU=MOPR, O=Microsoft Corporation, L=Redmond, S=Washington, C=US<br>所發行，在您的系統上並不受信任。只可執行來自受信任的發行者的指令碼。<br>[V] 永不執行(V)&nbsp; [D] 不要執行(D)&nbsp; [R] 執行一次(R)&nbsp; [A] 永遠執行(A)&nbsp; [?] 說明 (預設值為 “D”):</p>
+<p>而當時，小弟就隨手的輸入了A…也就是變成了永遠允許。</p>
+<p>那現在該怎要移除呢??，其實PowerShell會建立一個憑證，所以我們只要把那個憑證移除就可以了。</p>
+<p>首先，我們輸入執行mmc</p>
+<p><a href="http://lh6.ggpht.com/-fRl7R_xW1Hs/U41hs1_hEAI/AAAAAAAAI6w/wFxo_ZpLjeI/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-x-NvQ6fGmgk/U41htu8IGKI/AAAAAAAAI64/dS4maPi6pT0/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>預設下，mmc裡面是不會顯示憑證資訊的，所以我們要把憑證資訊顯示出來。</p>
+<p><a href="http://lh4.ggpht.com/-gj8v2IYelrU/U41huRcZQsI/AAAAAAAAI7A/Feqkis8oU6g/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-oY_M0e-ZNRQ/U41hvHgRxoI/AAAAAAAAI7I/qS7TWvPfGXM/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這邊選擇憑證，然後按下新增(被跳出來的視窗擋住了)，然後再選擇我的使用者帳號。</p>
+<p><a href="http://lh4.ggpht.com/-Df0LlUa0KSw/U41hwHt64sI/AAAAAAAAI7Q/37a9tFfbgzQ/s1600-h/image%25255B14%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-mhWyeE3Gqgs/U41hw6wYRrI/AAAAAAAAI7Y/chHDFRRzyzE/image_thumb%25255B8%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>我們就可以從受信任的發行者裡面找到這筆憑證，基本上移除就可以了。</p>
+<p><a href="http://lh4.ggpht.com/-7l8ncWgP_Gs/U41hxr9c36I/AAAAAAAAI7g/drel7KRasJg/s1600-h/image%25255B19%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-ibypm7D6Yu4/U41hyeGChPI/AAAAAAAAI7o/cZ-yVY0eBW0/image_thumb%25255B11%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這是這個憑證的詳細資料。</p>
+<p><a href="http://lh4.ggpht.com/-hJIGRwydlS0/U41hy-nH45I/AAAAAAAAI7w/QOxtOahmgyo/s1600-h/image%25255B24%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-AY9aOpfYRGQ/U41hzkKNHnI/AAAAAAAAI74/Rh8vKPL6dvs/image_thumb%25255B14%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>移除掉後，就可以了…</p>
+<p>那如果不小心按到永不執行呢??那會在沒有信任的憑證裡面，一樣移除就可以了喔!~</p>
+<p><a href="http://lh4.ggpht.com/-jqIhiXYSR1E/U41h0Mvmp2I/AAAAAAAAI8A/a3e9toBzKTQ/s1600-h/image%25255B29%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-OcSX3WWJcP8/U41h02GCaCI/AAAAAAAAI8I/C1ExFqe4rEI/image_thumb%25255B17%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>就這樣簡單… ( 但找了好久… )</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://superuser.com/questions/433662/allow-powershell-script-to-run-after-marking-it-with-never-run" target="_blank" rel="noopener" title="http://superuser.com/questions/433662/allow-powershell-script-to-run-after-marking-it-with-never-run">http://superuser.com/questions/433662/allow-powershell-script-to-run-after-marking-it-with-never-run</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PowerShell/" rel="tag">#PowerShell</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/05/22/ASP-NET-MVC-ASP-NET-MVC-vNext-MVC-6-KVM%E5%88%9D%E9%AB%94%E9%A9%97/" rel="next" title="ASP.NET MVC - ASP.NET MVC vNext ( MVC 6 ) KVM初體驗">
+                <i class="fa fa-chevron-left"></i> ASP.NET MVC - ASP.NET MVC vNext ( MVC 6 ) KVM初體驗
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/06/04/Azure-Azure-File/" rel="prev" title="Azure -  Azure File">
+                Azure -  Azure File <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">1.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2014/06/03/PowerShell-移除import-module所選擇的永不執行或是永遠執行/';
+      var disqus_title = 'PowerShell -  移除import-module所選擇的永不執行或是永遠執行';
+      var disqus_url = 'http://skychang.github.io/2014/06/03/PowerShell-%E7%A7%BB%E9%99%A4import-module%E6%89%80%E9%81%B8%E6%93%87%E7%9A%84%E6%B0%B8%E4%B8%8D%E5%9F%B7%E8%A1%8C%E6%88%96%E6%98%AF%E6%B0%B8%E9%81%A0%E5%9F%B7%E8%A1%8C/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

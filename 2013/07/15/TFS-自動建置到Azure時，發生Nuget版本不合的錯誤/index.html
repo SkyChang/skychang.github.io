@@ -1,0 +1,657 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="TFS,Azure,NuGet," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="之前因為Team Foundation Service上面沒有最新的Azure SDK，所以就把CI的功能關掉，而今天心血來潮，把它重新啟動的時候，就發生了如下的錯誤，建置失敗…  錯誤訊息如下，還滿長的，但主要是在敘說，我現在的NuGet版本是1.8，已經太舊了。  Debug | Any CPU 4 個錯誤，0 個警告$&#x2F;Study4&#x2F;Main&#x2F;Source&#x2F;Study4&#x2F;Study4.sln">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TFS -  自動建置到Azure時，發生Nuget版本不合的錯誤">
+<meta property="og:url" content="http://skychang.github.io/2013/07/15/TFS-%E8%87%AA%E5%8B%95%E5%BB%BA%E7%BD%AE%E5%88%B0Azure%E6%99%82%EF%BC%8C%E7%99%BC%E7%94%9FNuget%E7%89%88%E6%9C%AC%E4%B8%8D%E5%90%88%E7%9A%84%E9%8C%AF%E8%AA%A4/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="之前因為Team Foundation Service上面沒有最新的Azure SDK，所以就把CI的功能關掉，而今天心血來潮，把它重新啟動的時候，就發生了如下的錯誤，建置失敗…  錯誤訊息如下，還滿長的，但主要是在敘說，我現在的NuGet版本是1.8，已經太舊了。  Debug | Any CPU 4 個錯誤，0 個警告$&#x2F;Study4&#x2F;Main&#x2F;Source&#x2F;Study4&#x2F;Study4.sln">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh3.ggpht.com/-lTTvXNoDG9c/UeL4htsWQrI/AAAAAAAAGrU/7brbqiBGGuA/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-fc8ruBkrppU/UeL4jVm95hI/AAAAAAAAGrk/I-gh1GZmW4s/image_thumb%25255B3%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-wS5jxH97Cno/UeL4lPQq_OI/AAAAAAAAGr0/SOkvwfvX5kw/image_thumb%25255B8%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-AtauXdGQueA/UeL4m4OzMsI/AAAAAAAAGsE/i-yWH7vVE18/image_thumb%25255B6%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-1uXj0mrsids/UeL4oaevOjI/AAAAAAAAGsU/4uA-e_XOYLA/image_thumb%25255B11%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-kXsS771LqQI/UeL4p7XF5mI/AAAAAAAAGsk/WYIXcVTxuPw/image_thumb%25255B13%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2013-07-15T03:14:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.964Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="TFS">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="NuGet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh3.ggpht.com/-lTTvXNoDG9c/UeL4htsWQrI/AAAAAAAAGrU/7brbqiBGGuA/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> TFS -  自動建置到Azure時，發生Nuget版本不合的錯誤 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                TFS -  自動建置到Azure時，發生Nuget版本不合的錯誤
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2013-07-15T03:14:00+00:00" content="2013-07-15">
+              2013-07-15
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/07/15/TFS-%E8%87%AA%E5%8B%95%E5%BB%BA%E7%BD%AE%E5%88%B0Azure%E6%99%82%EF%BC%8C%E7%99%BC%E7%94%9FNuget%E7%89%88%E6%9C%AC%E4%B8%8D%E5%90%88%E7%9A%84%E9%8C%AF%E8%AA%A4/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/07/15/TFS-自動建置到Azure時，發生Nuget版本不合的錯誤/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>之前因為Team Foundation Service上面沒有最新的Azure SDK，所以就把CI的功能關掉，而今天心血來潮，把它重新啟動的時候，就發生了如下的錯誤，建置失敗…</p>
+<p><a href="http://lh6.ggpht.com/-FeNSDYPKXJ8/UeL4glUhK5I/AAAAAAAAGrM/j3uvR766Et4/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-lTTvXNoDG9c/UeL4htsWQrI/AAAAAAAAGrU/7brbqiBGGuA/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>錯誤訊息如下，還滿長的，但主要是在敘說，我現在的NuGet版本是1.8，已經太舊了。</p>
+<blockquote>
+<p>Debug | Any CPU<br> 4 個錯誤，0 個警告<br>$/Study4/Main/Source/Study4/Study4.sln (‘Other\Study4_Azure:Publish’ 個目標) - 4 個錯誤，0 個警告，檢視記錄檔<br> C:\a\src\Study4\Main\Source\Study4.nuget\nuget.targets (58): The schema version of ‘Microsoft.Bcl’ is incompatible with version 1.8.30604.0 of NuGet. Please upgrade NuGet to the latest version from <a href="http://go.microsoft.com/fwlink/?LinkId=213942" target="_blank" rel="noopener">http://go.microsoft.com/fwlink/?LinkId=213942</a>.<br> C:\a\src\Study4\Main\Source\Study4.nuget\nuget.targets (58): The schema version of ‘Microsoft.Bcl.Build’ is incompatible with version 1.8.30604.0 of NuGet. Please upgrade NuGet to the latest version from <a href="http://go.microsoft.com/fwlink/?LinkId=213942" target="_blank" rel="noopener">http://go.microsoft.com/fwlink/?LinkId=213942</a>.<br> C:\a\src\Study4\Main\Source\Study4.nuget\nuget.targets (58): One or more errors occurred.<br> C:\a\src\Study4\Main\Source\Study4.nuget\nuget.targets (58): The command “”C:\a\src\Study4\Main\Source\Study4.nuget\nuget.exe” install “C:\a\src\Study4\Main\Source\Study4\Webs\Study4.Web\packages.config” -source “” -o “C:\a\src\Study4\Main\Source\Study4\packages”” exited with code 1.<br> $/Study4/Main/Source/Study4/Study4.sln 已編譯<br>$/Study4/Main/Source/Study4/Study4.sln (‘Other\Study4_Azure:Publish’ 個目標) - 4 個錯誤，0 個警告，檢視記錄檔<br> 沒有測試結果<br> 沒有程式碼涵蓋範圍結果<br>其他錯誤和警告<br> 1 個錯誤，0 個警告<br> Exception Message: MSBuild error 1 has ended this build. You can find more specific information about the cause of this error in above messages. (type BuildProcessTerminateException)<br>Exception Stack Trace:&nbsp;&nbsp;&nbsp; at System.Activities.Statements.Throw.Execute(CodeActivityContext context)<br>&nbsp;&nbsp; at System.Activities.CodeActivity.InternalExecute(ActivityInstance instance, ActivityExecutor executor, BookmarkManager bookmarkManager)<br>&nbsp;&nbsp; at System.Activities.Runtime.ActivityExecutor.ExecuteActivityWorkItem.ExecuteBody(ActivityExecutor executor, BookmarkManager bookmarkManager, Location resultLocation) </p>
+</blockquote>
+<p>當下的第一個想法是想說，嗯，那應該又是Team Foundation Service提供的NuGet版本問題，但後來仔細想想，不對阿，Team Foundation Service理論上不太可能提供1.8這種古老版本，後來想到專案裡面重新建置會有一個Nuget.exe檔案，所以打開了檔案仔細看了一下，結果發現，原來是這個exe檔的版本太舊…Orz…</p>
+<p><a href="http://lh6.ggpht.com/-hveD5vE7teQ/UeL4iRiqdZI/AAAAAAAAGrc/u6IUbR2zPNA/s1600-h/image%25255B7%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-fc8ruBkrppU/UeL4jVm95hI/AAAAAAAAGrk/I-gh1GZmW4s/image_thumb%25255B3%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>既然知道問題所在，那要處理就簡單多了，我們只要重新啟動套件還原功能就可以了；首先，我們先把.nuget整個目錄刪除掉。</p>
+<p><a href="http://lh6.ggpht.com/-a2NQy7Y1FY0/UeL4kFxDdZI/AAAAAAAAGrs/iPde--dW030/s1600-h/image%25255B16%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-wS5jxH97Cno/UeL4lPQq_OI/AAAAAAAAGr0/SOkvwfvX5kw/image_thumb%25255B8%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後重新再方案的地方啟用NuGet套件還原。</p>
+<p><a href="http://lh4.ggpht.com/-tBjkHjB0VIk/UeL4l9cG_vI/AAAAAAAAGr8/vJLj0nmjBuc/s1600-h/image%25255B12%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-AtauXdGQueA/UeL4m4OzMsI/AAAAAAAAGsE/i-yWH7vVE18/image_thumb%25255B6%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>重新看一下版本，發現，現在已經到2.6了!!</p>
+<p><a href="http://lh5.ggpht.com/-CMbvYjGaRoU/UeL4nmmQjOI/AAAAAAAAGsM/9x8uh-GUos8/s1600-h/image%25255B21%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-1uXj0mrsids/UeL4oaevOjI/AAAAAAAAGsU/4uA-e_XOYLA/image_thumb%25255B11%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後再重新啟用CI，終於成功了QQ…第一次遇到這種問題啊…</p>
+<p><a href="http://lh6.ggpht.com/-hsr54nFxZ9s/UeL4pG_bpTI/AAAAAAAAGsc/4aqYxULxrYo/s1600-h/image%25255B25%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-kXsS771LqQI/UeL4p7XF5mI/AAAAAAAAGsk/WYIXcVTxuPw/image_thumb%25255B13%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/TFS/" rel="tag">#TFS</a>
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/NuGet/" rel="tag">#NuGet</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/07/15/TFS-%E5%9C%98%E9%9A%8A%E5%90%88%E4%BD%9C%E7%9A%84%E5%A5%BD%E5%B9%AB%E6%89%8BTeam-Room/" rel="next" title="TFS -  團隊合作的好幫手Team Room">
+                <i class="fa fa-chevron-left"></i> TFS -  團隊合作的好幫手Team Room
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/07/15/SQL-Server-%E6%9B%B4%E6%94%B9FileTable%E7%9A%84Windows%E5%85%B1%E7%94%A8%E5%90%8D%E7%A8%B1/" rel="prev" title="SQL Server - 更改FileTable的Windows共用名稱">
+                SQL Server - 更改FileTable的Windows共用名稱 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2013/07/15/TFS-自動建置到Azure時，發生Nuget版本不合的錯誤/';
+      var disqus_title = 'TFS -  自動建置到Azure時，發生Nuget版本不合的錯誤';
+      var disqus_url = 'http://skychang.github.io/2013/07/15/TFS-%E8%87%AA%E5%8B%95%E5%BB%BA%E7%BD%AE%E5%88%B0Azure%E6%99%82%EF%BC%8C%E7%99%BC%E7%94%9FNuget%E7%89%88%E6%9C%AC%E4%B8%8D%E5%90%88%E7%9A%84%E9%8C%AF%E8%AA%A4/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

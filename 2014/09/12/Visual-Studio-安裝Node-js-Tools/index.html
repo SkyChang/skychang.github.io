@@ -1,0 +1,665 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Visual Studio,Node.js,npm," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近因為某些需求裝了Node.js，而裝了Node.js後，又覺得不使用一下Node.js Tools for Visual Studio感覺很對不起機器上的Visual Studio…於是就誕生出了這篇…( 其實這篇也是安裝的過程中，順便紀錄的… ) 首先，我們要先到Node.js的官網，到這 裡下載，Windows版本就有分兩種，一種是msi，另外一個是exe。 如果你是懶人，就選擇msi，他">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Visual Studio - 安裝Node.js Tools">
+<meta property="og:url" content="http://skychang.github.io/2014/09/12/Visual-Studio-%E5%AE%89%E8%A3%9DNode-js-Tools/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="最近因為某些需求裝了Node.js，而裝了Node.js後，又覺得不使用一下Node.js Tools for Visual Studio感覺很對不起機器上的Visual Studio…於是就誕生出了這篇…( 其實這篇也是安裝的過程中，順便紀錄的… ) 首先，我們要先到Node.js的官網，到這 裡下載，Windows版本就有分兩種，一種是msi，另外一個是exe。 如果你是懶人，就選擇msi，他">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh5.ggpht.com/-ITyI5VcXXeQ/VBLB6sb43II/AAAAAAAAJ4E/vgSWw6jXWdo/image_thumb2.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-0Hw-3Owdw7A/VBLB8VVNypI/AAAAAAAAJ4U/G9R8oce7-aw/image_thumb5.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-9vo84pwd9ew/VBLB90WmYCI/AAAAAAAAJ4k/n2frYfMPPbk/image_thumb8.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-iAGMYxCBXlE/VBLB_grYs2I/AAAAAAAAJ40/lWGwlryWdGs/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-RaRWvDM5J9k/VBLCBvWURJI/AAAAAAAAJ5E/za8PvH3rvPE/image_thumb%25255B6%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-oroeJGXXhk0/VBLCDtW2ZxI/AAAAAAAAJ5U/0tLlfamBFbw/image_thumb%25255B9%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-KpA5TeW4TKk/VBLCFAI8j4I/AAAAAAAAJ5k/M5U8LNt_Kss/image_thumb%25255B12%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-5amNCe1pkD8/VBLCG5GKwnI/AAAAAAAAJ50/n4961WjPAcY/image_thumb%25255B3%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2014-09-12T23:50:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.023Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="npm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh5.ggpht.com/-ITyI5VcXXeQ/VBLB6sb43II/AAAAAAAAJ4E/vgSWw6jXWdo/image_thumb2.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Visual Studio - 安裝Node.js Tools | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Visual Studio - 安裝Node.js Tools
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2014-09-12T23:50:00+00:00" content="2014-09-12">
+              2014-09-12
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/09/12/Visual-Studio-%E5%AE%89%E8%A3%9DNode-js-Tools/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/09/12/Visual-Studio-安裝Node-js-Tools/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近因為某些需求裝了Node.js，而裝了Node.js後，又覺得不使用一下Node.js Tools for Visual Studio感覺很對不起機器上的Visual Studio…於是就誕生出了這篇…( 其實這篇也是安裝的過程中，順便紀錄的… )</p>
+<p>首先，我們要先到Node.js的官網，到這 裡<a href="http://nodejs.org/download/" target="_blank" rel="noopener">下載</a>，Windows版本就有分兩種，一種是msi，另外一個是exe。</p>
+<p>如果你是懶人，就選擇msi，他會幫你把環境變數等等相關資訊都弄好，或是選擇純粹的node.exe檔案，但這樣，你的PATH、npm就要自行準備與設定。</p>
+<p>這邊小弟使用msi來安裝~~</p>
+<p><a href="http://lh3.ggpht.com/-mhxLBRa4wnY/VBLB58YVWoI/AAAAAAAAJ38/RuRAHbhbx-k/s1600-h/image4.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-ITyI5VcXXeQ/VBLB6sb43II/AAAAAAAAJ4E/vgSWw6jXWdo/image_thumb2.png?imgmax=800" alt="image" title="image"></a></p>
+<p>下載完之後，就安裝就對了…</p>
+<p><a href="http://lh5.ggpht.com/-kj26_httvks/VBLB7T7BCBI/AAAAAAAAJ4M/aw1V12GTfsg/s1600-h/image9.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-0Hw-3Owdw7A/VBLB8VVNypI/AAAAAAAAJ4U/G9R8oce7-aw/image_thumb5.png?imgmax=800" alt="image" title="image"></a></p>
+<p>安裝完成後，要到<a href="http://nodejstools.codeplex.com/" target="_blank" rel="noopener">這裡</a>下載Node.js Tools for Visual Studio。</p>
+<p><a href="http://lh4.ggpht.com/-JaXdP_OK5v0/VBLB9Mep0lI/AAAAAAAAJ4c/n2MgclyAT2A/s1600-h/image14.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-9vo84pwd9ew/VBLB90WmYCI/AAAAAAAAJ4k/n2frYfMPPbk/image_thumb8.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後就給他安裝下去就對了= =+，接下來，就可以看到Node.js的專案範本了…</p>
+<p><a href="http://lh5.ggpht.com/-0w1PwamNw-I/VBLB-tcYkUI/AAAAAAAAJ4s/Ib_AzojxUrI/s1600-h/image%25255B4%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-iAGMYxCBXlE/VBLB_grYs2I/AAAAAAAAJ40/lWGwlryWdGs/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>完成之後，也可以透過Visual Studio去控管npm</p>
+<p><a href="http://lh4.ggpht.com/-Zy88IMX8J14/VBLCA-D2Y-I/AAAAAAAAJ48/38h0_L8CUyY/s1600-h/image%25255B13%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-RaRWvDM5J9k/VBLCBvWURJI/AAAAAAAAJ5E/za8PvH3rvPE/image_thumb%25255B6%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>另外也可以透過VS工具來執行命令。</p>
+<p><a href="http://lh3.ggpht.com/-TPLp47kKSgc/VBLCCvcyaVI/AAAAAAAAJ5M/VhI_WR3-YGE/s1600-h/image%25255B18%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-oroeJGXXhk0/VBLCDtW2ZxI/AAAAAAAAJ5U/0tLlfamBFbw/image_thumb%25255B9%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>不過前面還要加一個點，就是了…<a href="http://lh3.ggpht.com/-Rmmf4y24bHk/VBLCECvEphI/AAAAAAAAJ5c/Ju7VcLBIu-k/s1600-h/image%25255B23%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-KpA5TeW4TKk/VBLCFAI8j4I/AAAAAAAAJ5k/M5U8LNt_Kss/image_thumb%25255B12%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>按下執行，就會開始跑了，現在連Hello World都不用寫了XDDD</p>
+<p><a href="http://lh3.ggpht.com/-QWbKLoEr3d0/VBLCF1WRRwI/AAAAAAAAJ5s/O-veZV9f-Pk/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-5amNCe1pkD8/VBLCG5GKwnI/AAAAAAAAJ50/n4961WjPAcY/image_thumb%25255B3%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>完成之後，就可以進入Node.js的開發人生了!! (疑!?)</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://www.codedata.com.tw/javascript/using-nodejs-to-learn-javascript/" target="_blank" rel="noopener" title="http://www.codedata.com.tw/javascript/using-nodejs-to-learn-javascript/">http://www.codedata.com.tw/javascript/using-nodejs-to-learn-javascript/</a>  <li><a href="http://www.infoq.com/cn/articles/nodejs-npm-install-config" target="_blank" rel="noopener" title="http://www.infoq.com/cn/articles/nodejs-npm-install-config">http://www.infoq.com/cn/articles/nodejs-npm-install-config</a>  <li><a href="http://www.nodebeginner.org/index-zh-tw.html" target="_blank" rel="noopener" title="http://www.nodebeginner.org/index-zh-tw.html">http://www.nodebeginner.org/index-zh-tw.html</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
+          
+            <a href="/tags/Node-js/" rel="tag">#Node.js</a>
+          
+            <a href="/tags/npm/" rel="tag">#npm</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/09/03/Azure-%E5%AF%A6%E4%BD%9CAzure%E4%B8%8A%E7%9A%84AD%E8%88%87MVC%E9%80%B2%E8%A1%8C%E9%A9%97%E8%AD%89-Azure%E8%A8%AD%E5%AE%9A%E7%AF%87-%E4%B8%89/" rel="next" title="Azure - 實作Azure上的AD與MVC進行驗證 - Azure設定篇 ( 三 )">
+                <i class="fa fa-chevron-left"></i> Azure - 實作Azure上的AD與MVC進行驗證 - Azure設定篇 ( 三 )
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/09/13/npm-%E7%82%BA%E4%BB%80%E9%BA%BC%E5%9C%A8Windows%E5%BA%95%E4%B8%8B%E6%9B%B4%E6%96%B0npm%E7%84%A1%E6%95%88/" rel="prev" title="npm -  為什麼在Windows底下更新npm無效">
+                npm -  為什麼在Windows底下更新npm無效 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">1.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2014/09/12/Visual-Studio-安裝Node-js-Tools/';
+      var disqus_title = 'Visual Studio - 安裝Node.js Tools';
+      var disqus_url = 'http://skychang.github.io/2014/09/12/Visual-Studio-%E5%AE%89%E8%A3%9DNode-js-Tools/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

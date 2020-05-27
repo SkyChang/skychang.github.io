@@ -1,0 +1,680 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ASP.NET MVC," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="俗話說的好，樂團練習必定要練自由，寫程式第一支程式一定是Hello xxx，原本是想換一個不同的東西，但人家說，如果沒有寫Hello的話，是會招來不吉利的!?，所以為了信奉此習俗，所以第一支程式還是簡單的Hello ASP.NET MVC吧。 前面已經針對MVC有個基礎的概念，從現在開始，會教導大家，怎樣寫ASP.NET MVC。 而在這邊，我們要先將開發環境準備好，目前我們會使用到Visual">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET MVC – Hello ASP.NET MVC ( 目錄架構篇 )">
+<meta property="og:url" content="http://skychang.github.io/2011/08/23/ASP-NET-MVC-%E2%80%93-Hello-ASP-NET-MVC-%E7%9B%AE%E9%8C%84%E6%9E%B6%E6%A7%8B%E7%AF%87/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="俗話說的好，樂團練習必定要練自由，寫程式第一支程式一定是Hello xxx，原本是想換一個不同的東西，但人家說，如果沒有寫Hello的話，是會招來不吉利的!?，所以為了信奉此習俗，所以第一支程式還是簡單的Hello ASP.NET MVC吧。 前面已經針對MVC有個基礎的概念，從現在開始，會教導大家，怎樣寫ASP.NET MVC。 而在這邊，我們要先將開發環境準備好，目前我們會使用到Visual">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh4.ggpht.com/-k0F2SaUtOUU/TlRu5uAplvI/AAAAAAAAAcM/zPqzQ9X0WfY/%2525C3%2525B7%2525C3%252596_thumb%25255B2%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-CkEVUKFXlhI/TlRu67RCF3I/AAAAAAAAAcU/Oa7I1AMfoj8/%2525C3%2525B7%2525C3%252596_thumb%25255B6%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-8a99N1b2LAs/TlRu8UWS8uI/AAAAAAAAAcc/T4ROERgA2r8/%2525C3%2525B7%2525C3%252596_thumb%25255B8%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-dEJouxYoZsA/TlRu94dLyRI/AAAAAAAAAck/PoC8v7uq3P0/%2525C3%2525B7%2525C3%252596_thumb%25255B11%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-KnYsReaoJYo/TlRu-6Joj4I/AAAAAAAAAcs/xP3T_tPufxE/%2525C3%2525B7%2525C3%252596_thumb%25255B13%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2011-08-23T09:23:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.836Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh4.ggpht.com/-k0F2SaUtOUU/TlRu5uAplvI/AAAAAAAAAcM/zPqzQ9X0WfY/%2525C3%2525B7%2525C3%252596_thumb%25255B2%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ASP.NET MVC – Hello ASP.NET MVC ( 目錄架構篇 ) | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ASP.NET MVC – Hello ASP.NET MVC ( 目錄架構篇 )
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2011-08-23T09:23:00+00:00" content="2011-08-23">
+              2011-08-23
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2011/08/23/ASP-NET-MVC-%E2%80%93-Hello-ASP-NET-MVC-%E7%9B%AE%E9%8C%84%E6%9E%B6%E6%A7%8B%E7%AF%87/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/08/23/ASP-NET-MVC-–-Hello-ASP-NET-MVC-目錄架構篇/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>俗話說的好，樂團練習必定要練自由，寫程式第一支程式一定是Hello xxx，原本是想換一個不同的東西，但人家說，如果沒有寫Hello的話，是會招來不吉利的!?，所以為了信奉此習俗，所以第一支程式還是簡單的Hello ASP.NET MVC吧。</p>
+<p>前面已經針對MVC有個基礎的概念，從現在開始，會教導大家，怎樣寫ASP.NET MVC。</p>
+<p>而在這邊，我們要先將開發環境準備好，目前我們會使用到Visual Studio 2010來開發，如果沒有Visual Studio 2010的人，可以使用Visual Web Developer Express 2010 SP1，這邊建議可以直接使用Web Platform下載；如果使用Visual Studio 2010，預設是使用ASP.NET MVC 2，建議可以將Visual Studio 2010升級到SP1版本，SP1內含ASP.NET MVC 3，同樣的，以上皆可以使用Web Platform做下載。</p>
+<p>關於Web Platform的教學可以參考<a href="http://blog.sanc.idv.tw/2011/02/microsoft-web-platform.html" target="_blank" rel="noopener">這裡</a>。</p>
+<p>東西都準備妥當後，就要開始超快速的ASP.NET MVC體驗!</p>
+<p>首先，我們先開啟Visual Studio 2010後，選擇檔案=&gt;新增專案，然後選擇ASP.NET MVC 3 Web應用程式。</p>
+<p><a href="http://lh5.ggpht.com/-tD3lMGN6GWM/TlRu4k_WeTI/AAAAAAAAAcI/g99LHjdmVWw/s1600-h/%2525C3%2525B7%2525C3%252596%25255B4%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-k0F2SaUtOUU/TlRu5uAplvI/AAAAAAAAAcM/zPqzQ9X0WfY/%2525C3%2525B7%2525C3%252596_thumb%25255B2%25255D.png?imgmax=800" alt="擷取" title="擷取"></a></p>
+<p>接下來，選擇網際網路應用程式，因為目前重點在於Demo ASP.NET MVC，不是HTML5，所以使用”HTML5語意標記”就不勾選了，另外檢視引擎選擇Razor，單元測試也不是目前的重點，也暫時不勾選，然後按下確定。</p>
+<p>( 網際網路應用程式和內部網路應用程式裡面會包含一些Microsoft預設的範例，未來如果自行開發時，覺得不太需要這些多餘的範例，可以直接選擇空白來做開發，當然，如果自行有定義一些樣板，未來也可以加入進來。至於檢視引擎，有區分兩種，一種是ASPX，也就是ASP.NET MVC 2之前所使用的，大家最常看到，最熟悉的&lt;%%&gt;這種符號，而ASP.NET MVC 3新的檢視引擎Razor，則是使用@來取代&lt;%%&gt;，目前使用過Razor的人，都會給個讚，如果對此還不熟悉的人也沒關係，未來在View的地方會在講解，目前先使用Razor就對了。)</p>
+<p><a href="http://blog.sanc.idv.tw/2011/01/aspnet-mvc-3-razor.html" target="_blank" rel="noopener">這裡</a>有針對Razor做快速的解講，對檢視有稍微了解的人，也可以先去看看。</p>
+<p><a href="http://lh4.ggpht.com/-h0w1McWTQ18/TlRu6ZeeGxI/AAAAAAAAAcQ/p63VHlhvz-o/s1600-h/%2525C3%2525B7%2525C3%252596%25255B10%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-CkEVUKFXlhI/TlRu67RCF3I/AAAAAAAAAcU/Oa7I1AMfoj8/%2525C3%2525B7%2525C3%252596_thumb%25255B6%25255D.png?imgmax=800" alt="擷取" title="擷取"></a></p>
+<p>建立完專案後，原則上就可以直接執行了，執行後，會出現這個畫面，這樣就完成了，最簡單的ASP.NET MVC程式，有沒有很簡單啊，連程式碼都不用Key…不過如果我這樣就結束，可能會被打死…接下來，先讓我們稍微深入的了解一下，ASP.NET MVC的結構吧。</p>
+<p><a href="http://lh6.ggpht.com/-oROsAaHAGHU/TlRu7i-TOXI/AAAAAAAAAcY/WkAW4XgRp-Q/s1600-h/%2525C3%2525B7%2525C3%252596%25255B14%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-8a99N1b2LAs/TlRu8UWS8uI/AAAAAAAAAcc/T4ROERgA2r8/%2525C3%2525B7%2525C3%252596_thumb%25255B8%25255D.png?imgmax=800" alt="擷取" title="擷取"></a></p>
+<p>ASP.NET MVC使用了許多”約定”的設定方法，簡單的說，就是強迫你檔名要怎麼取、位置要怎樣放，所以ASP.NET MVC是不可以隨意地亂取亂放；這是因為，如果你要檔名自己取、位置自己選，那就變成要做非常多的配置設定；設定檔名的對應、位置的對應，這樣子就會變得很複雜，而且很耗時耗力，又不容易除錯；所以ASP.NET MVC使用一種叫做Convention Over Configuration( 約定勝於配置 )的方式來定義這些檔名、位置、Function名稱等等等，所以我們來看看ASP.NET MVC固定的目錄結構。</p>
+<p><a href="http://lh5.ggpht.com/-ByyMjoi9eZk/TlRu8x4V2gI/AAAAAAAAAcg/VbaAy_IxFEg/s1600-h/%2525C3%2525B7%2525C3%252596%25255B19%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-dEJouxYoZsA/TlRu94dLyRI/AAAAAAAAAck/PoC8v7uq3P0/%2525C3%2525B7%2525C3%252596_thumb%25255B11%25255D.png?imgmax=800" alt="擷取" title="擷取"></a></p>
+<p>我們從上面看下來，會有以下的基本目錄，而如上所述，ASP.NET MVC有約定必須要固定放於某個目錄之下，<font color="#ff0000">必須遵守的目錄有Controllers和Views這兩個目錄</font>，雖然其他沒有規定一定要這樣存放，但如果依照他建議的方式存放，我想也沒有甚麼壞處，所以建議大家還是使用預設的存放方式。</p>
+<ol>
+<li>Content - 存放image，css等資源用的目錄，  <li><font color="#ff0000">Controllers</font> - 存放Controller類別。  <li>Models - 存放Model類別。  <li>Scripts - 存放JavaScript。  <li><font color="#ff0000">Views</font> - 存放檢視畫面，如果是ASPX，副檔名是aspx，如果Razor，則為cshtml，另外這裡使用的是C#版本，VB版本的附檔名也有一點點小差異。 <p>還記得之前講到的Controller是什麼嗎?他是負責控制流程的類別，如上圖，就有一個HomeController.cs的檔案和AccountController.cs這兩個Controller檔案，到這邊，我想大家不知道有沒有發現，為什麼後面都要加上Controller呢?沒錯，就是因為這也是約定的關係，既然是約定的關係，所以ASP.NET MVC會強迫所有Controller的檔名就必須叫做xxxController，而且，連此類別的名稱也必須叫做xxxController；所以要建立一個Home的Controller，就必須建立一個叫做HomeController.cs的檔案，然後類別名稱為HomeController，且要放在Controllers的目錄下面。</li>
+</ol>
+<p>( 若是用配置的話，就會有非常多設定，來設定Controller，配置哪個controller在哪裡，名稱叫什麼。 )</p>
+<p>前面提過，Controller是負責流程控制，所以我們先打開看看HomeController.cs這隻檔案，看看裡面有甚麼吧。<pre class="brush: csharp;">using System;<br>using System.Collections.Generic;<br>using System.Linq;<br>using System.Web;<br>using System.Web.Mvc;</p>
+<p>namespace MvcApplication1.Controllers<br>{<br>    public class HomeController : Controller<br>    {<br>        public ActionResult Index()<br>        {<br>            ViewBag.Message = "歡迎使用 ASP.NET MVC!";</p>
+<pre><code>        return View();
+    }
+
+    public ActionResult About()
+    {
+        return View();
+    }
+}</code></pre><p>}<br></pre>首先，不用說，所有的Controller都是繼承於Controller這個父類別，( 好繞舌… )如HomeController也是繼承於Controller這個父類別，而底下有兩個Function，分別為Index()和About()，這兩個分別代表甚麼意思呢?因為Controller是控制器，他會控制流程，並會Show出要顯示的網頁；以首頁來說，首頁可能會有Index頁面、About頁面；所以這裡的Function，Index()和About()就是代表著要處理的Index頁面流程和About頁面流程，假設今天有一個客戶控制器CustController來處理客戶的新增修改刪除等，就需要add()、del()、edit()等Function，而在ASP.NET MVC中，這些Function我們也稱之為Action，代表著要執行的動作。</p>
+<p>( 其實一個Controller的Action (Function) 不一定是代表一個page的流程，也有可能是子頁面，也有可能導向同一頁面，但這邊為了解釋方便，可以暫時先想像成一個Action(Function)等同於一個頁面的流程。 )</p>
+<p>大體的介紹完Controller後，我們繼續看下去，既然Controller的Action(Function)代表著一個頁面，那他勢必也會對應到一個View，對吧!而且既然Controller都約定那麼多了，View當然也逃不了一起被約定的命運；我們剛剛看到了HomeController裡面有Index()、About()，所以，大家應該也猜的到，View檔案的命名，勢必也必須和HomeController的Action(Function)名稱相同；所以Index()這個View的檔名應該叫甚麼呢?沒錯，就是Index.cshtml，而About()就是對應About.cshtml，而且還必須要放到View的目錄下；到這邊，不知道大家有沒有發現一個問題，如果有兩個Controller都有About()，那不就要建立兩個About.cshtml了嗎?這樣不就打架了嗎?，所以ASP.NET MVC還必須在View的目錄下面，在建立一個Controller名稱的目錄，以HomeController的來說，就必須在View底下，在建立一個Home的目錄，並且把Index.cshtml和About.cshtml放到此目錄下去，才算完成喔!</p>
+<p>( Veiw的部分也是，若是要配置，還要指定View與Controller的關係，所以才會有約定勝於配置的做法。 )</p>
+<p>( 至於Model，Model就沒有強制要怎樣做了，甚至有時候，也會有人將Model拉出來當成一個專案來處理，這部份未來有機會會再講到。)</p>
+<p>講到這邊，可能大家就會有開始一堆疑問了，其中，我相信大家一定會問，以前一個檔案代表一頁，例如Index.aspx這個檔案，也代表著一張Page；那現在使用ASP.NET MVC的話，要如何對應到網址呢?其實Asp.net MVC有使用一個Routing機制，但這個機制也可以講個幾個章節，所以先知道這個名詞就好；而利用此Routing機制，會將網址轉到對到應的Controller上去做執行，以預設值來說，預設的Controller為Home，Action為Index，也就是說，如果今天網址上打blog.sanc.idv.tw的話，後面程式就會自動去找Home這個Controller，並會從Controller找到Index這個Action，並找到View來顯示；那你可能又會問了，那其他Controller或是Action是怎樣對應呢?以剛剛的Home這個例子來說，如果要執行About這個Action，他的網址就是blog.sanc.idv.tw/Home/About，就這樣而已，沒錯，About後面不用加.aspx、.html，就是這樣簡單明瞭；如果是Index的話，除了使用blog.sanc.idv.tw就可以顯示出來外，也可以使用blog.sanc.idv.tw/Home/Index；所以大家應該可以發現，網址下的第一個節點，就是代表著Controller名稱，如Home，而第二個節點，就是代表著Action；所以今天如果是客戶控制器CustController，裡面有add、del、edit這些Action的話，我們就可以使用blog.sanc.idv.tw/Cust/add這個網址來新增客戶資料，blog.sanc.idv.tw/Cust/del來刪除客戶資料，還有blog.sanc.idv.tw/Cust/edit來編輯客戶資料。</p>
+<p>說了那麼多，其實第一次寫的時候，有時還是會搞混，但是多練習幾次，就不會有甚麼問題了，而這種方式，不但可以隱藏Client對於目錄架構的了解，另外一方面，也可以針對Controller所應該處理的Action加以歸類，而不會像以前一樣，一堆Page，非常凌亂，其次，這種網址對於SEO也有很大的幫助，所以，請不要氣餒，多試幾次吧!</p>
+<p>到這邊，突然想到，我們還沒寫到Hello World…，如果這樣就結束，會有報應的，所以我們稍微改一下HomeController的程式碼，將原本的”歡迎使用 ASP.NET MVC!”，改成””Hello ASP.NET MVC”吧，如下:<pre class="brush: csharp;">using System;<br>using System.Collections.Generic;<br>using System.Linq;<br>using System.Web;<br>using System.Web.Mvc;</p>
+<p>namespace MvcApplication1.Controllers<br>{<br>    public class HomeController : Controller<br>    {<br>        public ActionResult Index()<br>        {<br>            ViewBag.Message = "Hello ASP.NET MVC!";</p>
+<pre><code>        return View();
+    }
+
+    public ActionResult About()
+    {
+        return View();
+    }
+}</code></pre><p>}</pre>然後執行看看吧!!<br><a href="http://lh4.ggpht.com/-a7vZjpmNkIU/TlRu-H2b7dI/AAAAAAAAAco/LQU1FpfeF5k/s1600-h/%2525C3%2525B7%2525C3%252596%25255B23%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-KnYsReaoJYo/TlRu-6Joj4I/AAAAAAAAAcs/xP3T_tPufxE/%2525C3%2525B7%2525C3%252596_thumb%25255B13%25255D.png?imgmax=800" alt="擷取" title="擷取"></a><p>恭喜你，完成了第一個程式，Hello ASP.NET MVC!，好吧…我承認有點喇賽，但初步認識MVC的基礎架構是非常重要的，接下來，就是針對每個模型進行解說嚕!</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/08/07/ASP-NET-MVC-4-%E7%94%A2%E5%93%81%E8%B7%AF%E7%B7%9A%E5%9C%96/" rel="next" title="ASP.NET MVC 4 產品路線圖">
+                <i class="fa fa-chevron-left"></i> ASP.NET MVC 4 產品路線圖
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011/08/24/ASP-NET-MVC-%E2%80%93-Razor%E7%9A%84-helper%E8%AA%9E%E6%B3%95/" rel="prev" title="ASP.NET MVC – Razor的@helper語法">
+                ASP.NET MVC – Razor的@helper語法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2011/08/23/ASP-NET-MVC-–-Hello-ASP-NET-MVC-目錄架構篇/';
+      var disqus_title = 'ASP.NET MVC – Hello ASP.NET MVC ( 目錄架構篇 )';
+      var disqus_url = 'http://skychang.github.io/2011/08/23/ASP-NET-MVC-%E2%80%93-Hello-ASP-NET-MVC-%E7%9B%AE%E9%8C%84%E6%9E%B6%E6%A7%8B%E7%AF%87/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

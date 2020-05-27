@@ -1,0 +1,727 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Azure,Linux,Container,Docker,ACS,Kubernetes," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="警告Azure Container Service 已經成 Azure Kubernetes Service，這篇已經棄用 新文章請參考這篇 前言上一篇我們花了一點時間，透過 Azure 的 Container Service 來搭建了一個 Kubernetes，而這篇，我們會來看看，如何操作 Kubernetes。 關於 Kubernetes在開始操作前，我們稍微補上一下，上一篇沒有提到的，Ku">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Azure - Azure Container Service - Kubernetes 第一次的部署">
+<meta property="og:url" content="http://skychang.github.io/2017/07/30/Azure-Azure_Container_Service_Kubernetes_First_Create/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="警告Azure Container Service 已經成 Azure Kubernetes Service，這篇已經棄用 新文章請參考這篇 前言上一篇我們花了一點時間，透過 Azure 的 Container Service 來搭建了一個 Kubernetes，而這篇，我們會來看看，如何操作 Kubernetes。 關於 Kubernetes在開始操作前，我們稍微補上一下，上一篇沒有提到的，Ku">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2017/07/30/Azure-Azure_Container_Service_Kubernetes_First_Create/01.png">
+<meta property="og:image" content="http://skychang.github.io/2017/07/30/Azure-Azure_Container_Service_Kubernetes_First_Create/02.png">
+<meta property="og:image" content="http://skychang.github.io/2017/07/30/Azure-Azure_Container_Service_Kubernetes_First_Create/03.png">
+<meta property="og:image" content="http://skychang.github.io/2017/07/30/Azure-Azure_Container_Service_Kubernetes_First_Create/04.png">
+<meta property="og:image" content="http://skychang.github.io/2017/07/30/Azure-Azure_Container_Service_Kubernetes_First_Create/05.png">
+<meta property="og:image" content="http://skychang.github.io/2017/07/30/Azure-Azure_Container_Service_Kubernetes_First_Create/06.png">
+<meta property="og:image" content="http://skychang.github.io/2017/07/30/Azure-Azure_Container_Service_Kubernetes_First_Create/07.png">
+<meta property="article:published_time" content="2017-07-30T13:45:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.868Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Container">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="ACS">
+<meta property="article:tag" content="Kubernetes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2017/07/30/Azure-Azure_Container_Service_Kubernetes_First_Create/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Azure - Azure Container Service - Kubernetes 第一次的部署 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Azure - Azure Container Service - Kubernetes 第一次的部署
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-07-30T13:45:00+00:00" content="2017-07-30">
+              2017-07-30
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/07/30/Azure-Azure_Container_Service_Kubernetes_First_Create/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/07/30/Azure-Azure_Container_Service_Kubernetes_First_Create/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="警告"><a href="#警告" class="headerlink" title="警告"></a>警告</h2><p>Azure Container Service 已經成 Azure Kubernetes Service，這篇已經棄用</p>
+<p>新文章請參考<a href="http://skychang.github.io/2020/03/21/Azure-Create_Azure_Kubernetes_Service/">這篇</a></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上一篇我們花了一點時間，透過 Azure 的 Container Service 來搭建了一個 Kubernetes，而這篇，我們會來看看，如何操作 Kubernetes。</p>
+<h2 id="關於-Kubernetes"><a href="#關於-Kubernetes" class="headerlink" title="關於 Kubernetes"></a>關於 Kubernetes</h2><p>在開始操作前，我們稍微補上一下，上一篇沒有提到的，Kubernetes。</p>
+<p><a href="https://kubernetes.io/" target="_blank" rel="noopener">Kubernetes</a> 其實不是 Microsoft 開發的軟體或服務，他其實是從 Google 發展出來的：而 Kubernetes 發展的目的，就是為了簡化 Container 的管理與部屬：舉例來說，我們可以輕易的將一堆 Container 連線、開幾個 Container 、資源大小等等，全部用設定檔的方式設定好，之後 Kubernetes 就會自動幫忙處理。</p>
+<p>舉例來說，一個簡單的三層式的 Server 架構 ( 雖然 Kubernetes 通常是在處理 MicroService 架構，但這邊就讓我用三層式的 Server 舉例吧 )，如果使用單純的 Dcoker ，我們可能要去處理 Server 與 Server 間如何通訊，可能不好去監控每個容器的狀況，也可能不好規劃資源的大小等等。</p>
+<p>而 Kubernetes 就可以輕鬆地幫我們處理掉這些事情：那為什麼 Microsoft Azure 會有這個服務呢? 那當然是因為現在 Microsoft 走的是 Service 的未來，就算是不同陣營，不同公司的產品，在 Azure 上自然也會支援。所以 Kubernetes 就是 Azure Container Service 支援的其中一個軟體。</p>
+<p>喔，執得一提的是，據說 Kubernetes 之父，目前也在 Microsoft 就職，所以也可以感受到未來發展此產品的決心。</p>
+<p>備註，此篇文章主要來源由<a href="https://docs.microsoft.com/zh-tw/azure/container-service/container-service-kubernetes-walkthrough" target="_blank" rel="noopener">這裡</a>為主，再經由自己實際測試與實驗的補充，若有興趣的朋友可以以直接參考官網。</p>
+<h2 id="安裝-kubectl"><a href="#安裝-kubectl" class="headerlink" title="安裝 kubectl"></a>安裝 kubectl</h2><p>在開始之前，主要控制 Kubernetes ，還是會透過 Kubernetes 的 Cli 為主，而 Kubernetes 的 Cli 稱為 Kubectl：而在這邊，要安裝 Kubectl ，可以透過以下指令，但以下指令需要先安裝 Azure Cli，還沒安裝的朋友可以透過此<a href="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli" target="_blank" rel="noopener">網址</a>安裝。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az acs kubernetes install-cli</span><br></pre></td></tr></table></figure>
+
+<p>若你是用 MacOS ，還有另外一個選擇，就是透過 Brew 進行安裝，同樣的，如果要透過 Brew 安裝，也需要先安裝 <a href="https://brew.sh/index_zh-tw.html" target="_blank" rel="noopener">Brew</a>。</p>
+<p>那還有沒有別的安裝方式，當然有，可以參考官網<a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/" target="_blank" rel="noopener">這篇</a>，我們也可以透過 curl 來下載安裝，這邊大家可以選擇自己喜歡的安裝方式。</p>
+<p>最後，不管用什麼方法安裝，基本上最後還是需要 Azure Cli ，所以還是乖乖的安裝 Azure Cli 吧….</p>
+<p>( 小弟測試是 MacOS 平台，而以前就已經安裝好 Brew ，所以就透過 Brew 來安裝了 )</p>
+<h2 id="設定-kubectl"><a href="#設定-kubectl" class="headerlink" title="設定 kubectl"></a>設定 kubectl</h2><p>完成安裝後，我們要設定 kubectl，畢竟，不能讓 kubectl 可以隨便亂連，這樣是很危險的：所以我們可以透過 az 的指令，將 Kubernetes 的設定檔下載下來，並更新至 kubectl。</p>
+<p>底下指令，resource-group 為你的群組名稱， name 為你的 K8S 名稱，當然，要把[]去掉。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az acs kubernetes get-credentials --resource-group&#x3D;[你的資源群組] --name&#x3D;[你的 K8S 名稱]</span><br></pre></td></tr></table></figure>
+
+<p>下圖紅色框框代表的是 ResourceGroup ( 左上角 )，Container Name ( 右邊 )</p>
+<p><img src="01.png" alt=""></p>
+<p>完成之後，可以透過底下指令，來取得目前所有的節點。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
+
+<p>從下圖，我們可以發現，我們有一個 Master 節點，和兩個 Agent ：這其實就會對應到上一篇提到的安裝過程選擇的數量，通常 Master 主要是負責管理與維運，所以裡面不會放置我們的 Container ，而 Agent Node 就是提供給我們放置 Container 的地方了，當然，我們也不用自行決定放在哪一個 Agent Node ，Kuberentes 會自行幫我們放置。</p>
+<p><img src="02.png" alt=""></p>
+<h2 id="開啟-UI"><a href="#開啟-UI" class="headerlink" title="開啟 UI"></a>開啟 UI</h2><p>透過 kubectl ，我們也可以建立 Proxy ，讓我們可以透過通道來連線到 Kubernetes UI ( 對於指令白痴的小弟我，極為重要啊！！ )，我們可以透過 Kubectl Proxy 連建立通道，如下指令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl proxy</span><br></pre></td></tr></table></figure>
+
+<p>若順利，則會提示位置資訊 “ Starting to serve on 127.0.0.1:8001 “</p>
+<p>這時候，我們就可以開啟瀏覽器，連線到 127.0.0.1:8001/ui 了。 ( 請注意，有 /ui 喔！)</p>
+<p><img src="03.png" alt=""></p>
+<h2 id="部署-NGINX-容器"><a href="#部署-NGINX-容器" class="headerlink" title="部署 NGINX 容器"></a>部署 NGINX 容器</h2><p>接著，我們可以先試著部署 NGINX 容器試試看，NGINX 是一個非常不錯的 Web Server，下一篇，我們再來部署 .NET Core 的應用。</p>
+<p>我們這邊使用 kubectl run 這個指令， 後面接的 nginx 是名稱，可以自行定義，我們可以透過這個名稱，來了解我們部署了什麼東西上去，後面的 image 則是要使用什麼影像檔，這邊，我們直接使用 Docker Hub 的 nginx 影像檔來進行部署</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl run nginx --image nginx</span><br></pre></td></tr></table></figure>
+
+<p><img src="04.png" alt=""></p>
+<p>另外，這邊補充一下，在 Container 的世界裡面，我們使用的幾乎都是 image ，並不會把 Container 實體傳上去，通常我們都是會把 image 傳到例如公開的 Docker Hub ，或是私有的 Azure Container Registry，而在執行環境上，再透過網路把 image 下載下來，並運行 Container。</p>
+<p>接下來，我們可以使用 get 來查看目前的狀況，而這邊出現一個新的名詞，稱為 pods，其實在 Kubernetes 裡面，最小為稱之為 Pods，這個下一章會再介紹，我們現在只要知道，我們 run 了一個 Pods，而透過底下指令，可以取得所有 Pods 的狀態。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pods</span><br></pre></td></tr></table></figure>
+
+<p>而這邊，其實小弟更喜歡用 Watch 來監控，透過 Watch 他會自動更新目前 Pods 的狀況：但 Watch 也是需要額外安裝的，在 MacOS 底下，可以直接使用 Brew 來安裝 Watch。</p>
+<p>我們可以使用底下指令，持續監看。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch kubectl get pods</span><br></pre></td></tr></table></figure>
+
+<p><img src="05.png" alt=""></p>
+<h2 id="連線-NGINX-容器"><a href="#連線-NGINX-容器" class="headerlink" title="連線 NGINX 容器"></a>連線 NGINX 容器</h2><p>雖然建立完成，但這個 Container 其實是還沒有對外公開 ip ，所以我們下一步驟，需要透過指令的方式，公開這台 Container 的服務。</p>
+<p>底下比較特殊的是 type ，這邊 type 要選擇 LoadBalancer ，主要是因為在 Azure ， Azure 有自己的 LoadBalance，所以這邊的 Type 要為 LoadBalancer ，才能和 Azure 的 LoadBalanc 對樣。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl expose deployments nginx --port&#x3D;80 --type&#x3D;LoadBalancer</span><br></pre></td></tr></table></figure>
+
+<p>執行開放會需要一點時間，我們可以透過 get svc 來取得目前的開啟狀態。<br>( 在 Kubernetes ，Service 指的是控制連入聯出等行為的服務，未來會再介紹 )</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get svc</span><br></pre></td></tr></table></figure>
+
+<p>同樣的，我們也可以透過 watch 來持續監控。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch kubectl get svc</span><br></pre></td></tr></table></figure>
+
+<p>如下圖，我們可以看到，ip 已經建立完成，這時候我們就可以透過此 ip 來連入 Web Server。</p>
+<p><img src="06.png" alt=""></p>
+<p>如下，已經可以連入。</p>
+<p><img src="07.png" alt=""></p>
+<h2 id="刪除-NGINX-Pods-和-Service"><a href="#刪除-NGINX-Pods-和-Service" class="headerlink" title="刪除 NGINX Pods 和 Service"></a>刪除 NGINX Pods 和 Service</h2><p>最後，我們可以透過底下指令，將 pod 和 service 刪除。</p>
+<p>刪除 pod 要取得完整的 pod 名稱。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete pod nginx-2371676037-3x9pd</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete service nginx</span><br></pre></td></tr></table></figure>
+
+<p>到這邊，基本的部署試玩就告一段亂。</p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>雖然這邊有很多細節還沒談到，但我們透過簡單的指令，已經可以感受到 Kubernetes ，快速的控制容器，建立與刪除，等強大的功能，後續，就讓我們繼續玩下去。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://kubernetes.io/docs/home/" target="_blank" rel="noopener">https://kubernetes.io/docs/home/</a></li>
+<li><a href="https://docs.microsoft.com/zh-tw/azure/container-service/container-service-kubernetes-walkthrough" target="_blank" rel="noopener">https://docs.microsoft.com/zh-tw/azure/container-service/container-service-kubernetes-walkthrough</a></li>
+<li><a href="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/cli/azure/install-azure-cli</a></li>
+<li><a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/" target="_blank" rel="noopener">https://kubernetes.io/docs/tasks/tools/install-kubectl/</a></li>
+<li><a href="https://kubernetes-v1-4.github.io/docs/user-guide/kubectl/kubectl_delete/" target="_blank" rel="noopener">https://kubernetes-v1-4.github.io/docs/user-guide/kubectl/kubectl_delete/</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/Linux/" rel="tag">#Linux</a>
+          
+            <a href="/tags/Container/" rel="tag">#Container</a>
+          
+            <a href="/tags/Docker/" rel="tag">#Docker</a>
+          
+            <a href="/tags/ACS/" rel="tag">#ACS</a>
+          
+            <a href="/tags/Kubernetes/" rel="tag">#Kubernetes</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/" rel="next" title="Azure - 在 Azure 上使用 Azure Container Service 來執行 Kubernetes">
+                <i class="fa fa-chevron-left"></i> Azure - 在 Azure 上使用 Azure Container Service 來執行 Kubernetes
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/31/Azure-Azure_Container_Instance_Overview/" rel="prev" title="Azure - Azure Container Instances 初體驗">
+                Azure - Azure Container Instances 初體驗 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#警告"><span class="nav-number">1.</span> <span class="nav-text">警告</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#關於-Kubernetes"><span class="nav-number">3.</span> <span class="nav-text">關於 Kubernetes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-kubectl"><span class="nav-number">4.</span> <span class="nav-text">安裝 kubectl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定-kubectl"><span class="nav-number">5.</span> <span class="nav-text">設定 kubectl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#開啟-UI"><span class="nav-number">6.</span> <span class="nav-text">開啟 UI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署-NGINX-容器"><span class="nav-number">7.</span> <span class="nav-text">部署 NGINX 容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#連線-NGINX-容器"><span class="nav-number">8.</span> <span class="nav-text">連線 NGINX 容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#刪除-NGINX-Pods-和-Service"><span class="nav-number">9.</span> <span class="nav-text">刪除 NGINX Pods 和 Service</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">10.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">11.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2017/07/30/Azure-Azure_Container_Service_Kubernetes_First_Create/';
+      var disqus_title = 'Azure - Azure Container Service - Kubernetes 第一次的部署';
+      var disqus_url = 'http://skychang.github.io/2017/07/30/Azure-Azure_Container_Service_Kubernetes_First_Create/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

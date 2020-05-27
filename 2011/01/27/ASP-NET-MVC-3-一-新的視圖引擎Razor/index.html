@@ -1,0 +1,732 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ASP.NET MVC," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="ASP.NET MVC 3 強化了許多的功能，其中一個就是新的視圖引擎Razor。 Razor有許多的特色，例如:  Razor的語法非常乾淨，不會像以前aspx一堆框框與符號。 Razor的語法很簡單易學，其實也就是C#和VB。 VS2010對Razor完全的支援IntelliSense和程式碼顏色。 Razor還可以支援Unit Test，而不需要啟動web Server。  其中Unit T">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET MVC 3 (一) 新的視圖引擎Razor">
+<meta property="og:url" content="http://skychang.github.io/2011/01/27/ASP-NET-MVC-3-%E4%B8%80-%E6%96%B0%E7%9A%84%E8%A6%96%E5%9C%96%E5%BC%95%E6%93%8ERazor/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="ASP.NET MVC 3 強化了許多的功能，其中一個就是新的視圖引擎Razor。 Razor有許多的特色，例如:  Razor的語法非常乾淨，不會像以前aspx一堆框框與符號。 Razor的語法很簡單易學，其實也就是C#和VB。 VS2010對Razor完全的支援IntelliSense和程式碼顏色。 Razor還可以支援Unit Test，而不需要啟動web Server。  其中Unit T">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2011-01-27T06:13:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.832Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ASP.NET MVC 3 (一) 新的視圖引擎Razor | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ASP.NET MVC 3 (一) 新的視圖引擎Razor
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2011-01-27T06:13:00+00:00" content="2011-01-27">
+              2011-01-27
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2011/01/27/ASP-NET-MVC-3-%E4%B8%80-%E6%96%B0%E7%9A%84%E8%A6%96%E5%9C%96%E5%BC%95%E6%93%8ERazor/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/01/27/ASP-NET-MVC-3-一-新的視圖引擎Razor/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>ASP.NET MVC 3 強化了許多的功能，其中一個就是新的視圖引擎Razor。</p>
+<p>Razor有許多的特色，例如:</p>
+<ol>
+<li>Razor的語法非常乾淨，不會像以前aspx一堆框框與符號。</li>
+<li>Razor的語法很簡單易學，其實也就是C#和VB。</li>
+<li>VS2010對Razor完全的支援IntelliSense和程式碼顏色。</li>
+<li>Razor還可以支援Unit Test，而不需要啟動web Server。</li>
+</ol>
+<p>其中Unit Test的部分，未來再來解說吧，</p>
+<p>現在，來看看Razor是怎樣子的吧。</p>
+<p>首先，寫程式最基本最基本要會的就是註解。</p>
+<p>Razor的註解也很簡單，只要使用@* *@包起來就可以。</p>
+<pre class="brush: xml">@* 這是簡單的Hello Razor*@
+&lt;p&gt;Hello Razor&lt;/p&gt;
+</pre>
+
+<p>接下來，還記得ASP.NET MVC 2之前的ASPX視圖引擎是怎樣寫的嗎?</p>
+<p>我們先看一下ASP.NET MVC時使用的。</p>
+<pre class="brush: xml">&lt;p&gt;Hello &lt;%=name%&gt;&lt;p&gt;
+</pre>
+
+<p>到了ASP.NET MVC 2時我們可以改寫成這樣。</p>
+<pre class="brush: xml">&lt;p&gt;Hello &lt;%:name%&gt;&lt;p&gt;
+</pre>使用<%:%>來將輸出的文字編碼，以防遭受到攻擊。
+
+<p>而Razor就很簡單了，如下</p>
+<pre class="brush: xml">&lt;p&gt;Hello @name&lt;p&gt;
+</pre>沒錯，就是那麼的簡單，只要在@後面接變數，就會自動輸出變數內容。
+
+<p>另外，當初在寫ASPX視圖時，遇到最大的問題，就是一堆的&lt;%%&gt;</p>
+<p>不但礙眼，又難看，現在Razor可以使用{}來替代。</p>
+<pre class="brush: xml">&lt;ol&gt;
+@foreach(var c in customers){
+  &lt;li&gt;@c.name&lt;/li&gt;
+}
+&lt;/ol&gt;
+</pre>
+
+<p>變的超級簡潔！！甚至還可以這樣用</p>
+<pre class="brush: xml">&lt;p&gt;
+@{
+string name = &quot;Razor&quot;;
+string message = &quot;Hello &quot; + name;
+if(name == &quot;Razor&quot;)
+{
+  @message
+}else
+{
+  @:Error
+}
+}&lt;/p&gt;
+</pre>這時可能會看到一個比較特別的@:符號，
+
+<p>他的用途有點像跳脫字元，如上面的程式碼，在p標籤裡面包了if判斷式，</p>
+<p>如果沒有加上@:，在IDE就會出現錯誤，因為IDE會判斷這是一個變數，</p>
+<p>當執行時，當然也會出錯，因為編譯器也會認定他是一個變數。</p>
+<p>所以我們要加上一個@:，告訴編譯器，其實Error只是單純的一個文字而已。</p>
+<p>那如果有很多行的文字呢?例如:</p>
+<pre class="brush: xml">@{
+  @:Test1
+  @:Test2
+  @:Test3
+}
+</pre>
+
+<p>也很簡單，只要加上Razor特定的Text標籤，就不用打一堆@:</p>
+<pre class="brush: xml">@{
+  &lt;text&gt;
+  Test1
+  Test2
+  Test3
+  &lt;/text&gt;
+}
+</pre>
+
+<p>當然，也可很複雜的混搭，但這樣就失去了Razor簡單明瞭的意義了。</p>
+<pre class="brush: xml">&lt;p&gt;
+@{
+  &lt;text&gt;
+  @{
+    string test2 = &quot;2&quot;;
+    &lt;text&gt;
+    test1
+    @test2
+    &lt;/text&gt;
+  }
+  &lt;/text&gt;
+}
+&lt;/p&gt;
+</pre>
+
+<p>另外是單行，也可以寫成這樣。</p>
+<pre class="brush: xml">&lt;p&gt;@(&quot;Hello&quot; + name)&lt;/p&gt;
+</pre>
+
+<p>當然，既然能處理變數了，基本的物件與方法也可以直接叫用。</p>
+<pre class="brush: xml">&lt;p&gt;Now : @DateTime.Now&lt;/p&gt;
+</pre>
+
+<p>就如前面所說的，Razor視圖引擎和aspx比較起來，非常的乾淨，</p>
+<p>也很容易去閱讀，但不代表說，所有的邏輯就可以直接放在這裡處理，</p>
+<p>這裡要處理的應該是視圖邏輯，這要注意喔!</p>
+<p>參考資料</p>
+<p><a href="http://weblogs.asp.net/scottgu/archive/2010/07/02/introducing-razor.aspx" target="_blank" rel="noopener">http://weblogs.asp.net/scottgu/archive/2010/07/02/introducing-razor.aspx</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/01/26/ASP-NET-MVC-3-RTM/" rel="next" title="ASP.NET MVC 3 RTM">
+                <i class="fa fa-chevron-left"></i> ASP.NET MVC 3 RTM
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011/01/27/ASP-NET-MVC-3-%E4%BA%8C-Razor%E7%9A%84-model/" rel="prev" title="ASP.NET MVC 3 (二) Razor的@model">
+                ASP.NET MVC 3 (二) Razor的@model <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2011/01/27/ASP-NET-MVC-3-一-新的視圖引擎Razor/';
+      var disqus_title = 'ASP.NET MVC 3 (一) 新的視圖引擎Razor';
+      var disqus_url = 'http://skychang.github.io/2011/01/27/ASP-NET-MVC-3-%E4%B8%80-%E6%96%B0%E7%9A%84%E8%A6%96%E5%9C%96%E5%BC%95%E6%93%8ERazor/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

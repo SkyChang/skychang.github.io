@@ -1,0 +1,651 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="DNS,Windows Server," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="為了防止我老人痴呆&#x3D;w&#x3D;，所以把這個事件紀錄下來，這是我剛安裝完Windows Server的DNS服務後發生的警告，不過感覺上不理他也不會有影響，但由於該死的完美心作祟，就把他給解決了，也在這邊順便分享一下。 下面是從伺服器管理員所看到的問題，主要是414警告。  內容點開是這樣。  以下是把他拉出來的文字描述  DNS 伺服器電腦目前沒有 DNS 網域名稱。它的 DNS 名稱是沒有網域的單一標">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Server DNS 414 警告 (錯誤)">
+<meta property="og:url" content="http://skychang.github.io/2011/10/12/Windows-Server-DNS-414-%E8%AD%A6%E5%91%8A-%E9%8C%AF%E8%AA%A4/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="為了防止我老人痴呆&#x3D;w&#x3D;，所以把這個事件紀錄下來，這是我剛安裝完Windows Server的DNS服務後發生的警告，不過感覺上不理他也不會有影響，但由於該死的完美心作祟，就把他給解決了，也在這邊順便分享一下。 下面是從伺服器管理員所看到的問題，主要是414警告。  內容點開是這樣。  以下是把他拉出來的文字描述  DNS 伺服器電腦目前沒有 DNS 網域名稱。它的 DNS 名稱是沒有網域的單一標">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh6.ggpht.com/-K95GELGOYDQ/TpWxPuAqCbI/AAAAAAAAAvQ/3PQHcsGjn0g/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-yk3xhpzjVgw/TpWxQ88W4xI/AAAAAAAAAvg/A9_E3ol0OlY/image_thumb%25255B5%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-MqdSLypr8Ws/TpWxSMr7VEI/AAAAAAAAAvw/n-NolgrogfU/image_thumb%25255B10%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-kClEtDKAKL4/TpWxTaA4CYI/AAAAAAAAAwA/34zrRWHSxhM/image_thumb%25255B12%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2011-10-12T23:25:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.031Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="DNS">
+<meta property="article:tag" content="Windows Server">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh6.ggpht.com/-K95GELGOYDQ/TpWxPuAqCbI/AAAAAAAAAvQ/3PQHcsGjn0g/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Windows Server DNS 414 警告 (錯誤) | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Windows Server DNS 414 警告 (錯誤)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2011-10-12T23:25:00+00:00" content="2011-10-12">
+              2011-10-12
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2011/10/12/Windows-Server-DNS-414-%E8%AD%A6%E5%91%8A-%E9%8C%AF%E8%AA%A4/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/10/12/Windows-Server-DNS-414-警告-錯誤/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>為了防止我老人痴呆=w=，所以把這個事件紀錄下來，這是我剛安裝完Windows Server的DNS服務後發生的警告，不過感覺上不理他也不會有影響，但由於該死的完美心作祟，就把他給解決了，也在這邊順便分享一下。</p>
+<p>下面是從伺服器管理員所看到的問題，主要是414警告。</p>
+<p><a href="http://lh6.ggpht.com/-XC61cjMJ_zA/TpWxO71tMdI/AAAAAAAAAvI/cCqs9P-0-N0/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-K95GELGOYDQ/TpWxPuAqCbI/AAAAAAAAAvQ/3PQHcsGjn0g/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>內容點開是這樣。</p>
+<p><a href="http://lh3.ggpht.com/-ZIwC0lwO6_4/TpWxQX340EI/AAAAAAAAAvY/-2dh5eX2O9Y/s1600-h/image%25255B11%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-yk3xhpzjVgw/TpWxQ88W4xI/AAAAAAAAAvg/A9_E3ol0OlY/image_thumb%25255B5%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>以下是把他拉出來的文字描述</p>
+<blockquote>
+<p>DNS 伺服器電腦目前沒有 DNS 網域名稱。它的 DNS 名稱是沒有網域的單一標籤主機名稱 (例如: “host” 而不是 “host.microsoft.com”)。<br>&nbsp;<br>您可能忘了為伺服器電腦設定主要的 DNS 網域。<br>&nbsp;<br>因為 DNS 伺服器只有單一標籤名稱，所有建立區域將只會使用這個單一標籤的主機名稱來建立預設的記錄 (SOA 和 NS)。當用戶端或其他的 DNS 伺服器使用這些記錄依名稱尋找伺服器時，將會造成轉介不正確及失敗。<br>&nbsp;<br>如果您要修正這個問題，請:<br>&nbsp; 1) 按一下 [開始]，然後按一下 [控制台]。<br>&nbsp; 2) 開啟 [系統及維護]，然後開啟 [系統]。<br>&nbsp; 3) 按一下 [變更設定]，然後按一下 [變更]。&nbsp; 4) 按一下 [網域] 或 [工作群組]，然後輸入您希望電腦加入的網域或工作群組名稱; 網域或工作群組名稱將會做為您的 DNS 網域名稱。<br>&nbsp; 5) 當提示時，重新啟動電腦。<br>&nbsp;<br>在電腦重新啟動之後，DNS 伺服器會修改預設記錄，以新的伺服器 DNS 名稱取代舊的單一標籤名稱。不過，您應該檢查一次，確認目前區域的 SOA 和 NS 記錄使用正確的伺服器名稱。 </p>
+</blockquote>
+<p>老實說解決步驟，光是到”系統及維護”，我就找不到了XDD，不過大概還是猜的到他的意思，以下是處理方法。</p>
+<p>首先要給一個電腦名稱，然後再按其他，繼續設定。</p>
+<p><a href="http://lh5.ggpht.com/-HYgOBQTgoBs/TpWxRSJyk5I/AAAAAAAAAvo/bGMMLBOyeTw/s1600-h/image%25255B22%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-MqdSLypr8Ws/TpWxSMr7VEI/AAAAAAAAAvw/n-NolgrogfU/image_thumb%25255B10%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，在”這部電腦的主要DNS尾碼”加上Domain Name。</p>
+<p><a href="http://lh6.ggpht.com/-twnjkdPP15c/TpWxSjia8dI/AAAAAAAAAv4/g6W5JI1g6zc/s1600-h/image%25255B26%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-kClEtDKAKL4/TpWxTaA4CYI/AAAAAAAAAwA/34zrRWHSxhM/image_thumb%25255B12%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>最後，按下確定，重新開機，就一切搞定!</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/DNS/" rel="tag">#DNS</a>
+          
+            <a href="/tags/Windows-Server/" rel="tag">#Windows Server</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/10/11/ASP-NET-MVC-%E5%8F%AF%E4%BB%A5%E7%A7%BB%E9%99%A4Model%E7%9A%84%E9%A9%97%E8%AD%89%E5%97%8E/" rel="next" title="ASP.NET MVC - 可以移除Model的驗證嗎!?">
+                <i class="fa fa-chevron-left"></i> ASP.NET MVC - 可以移除Model的驗證嗎!?
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011/10/13/UI%E7%9A%84%E8%A8%AD%E8%A8%88%E6%A8%A1%E5%BC%8FMVP%E6%A8%A1%E5%BC%8F%E2%80%93Supervising-Controller/" rel="prev" title="UI的設計模式MVP模式–Supervising Controller">
+                UI的設計模式MVP模式–Supervising Controller <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2011/10/12/Windows-Server-DNS-414-警告-錯誤/';
+      var disqus_title = 'Windows Server DNS 414 警告 (錯誤)';
+      var disqus_url = 'http://skychang.github.io/2011/10/12/Windows-Server-DNS-414-%E8%AD%A6%E5%91%8A-%E9%8C%AF%E8%AA%A4/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

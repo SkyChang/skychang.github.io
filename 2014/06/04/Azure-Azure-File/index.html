@@ -1,0 +1,679 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Azure," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="如前面幾篇文章所述，這次北美TechED，根本就是技術大爆走，ASP.NET一堆新玩意，而Azure也冒出一堆之前完全沒聽過的東西…而今天我們就要來看看小弟很期待的一個Azure新的東東，也申請了很久，才終於申請下來的新玩意。 這是Storage家族的一個新成員，就如同其名一樣，它的功能就是存File !! ( 迷之聲 : Storage Blob和Drive也都是存File阿… )，但這個東西的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Azure -  Azure File">
+<meta property="og:url" content="http://skychang.github.io/2014/06/04/Azure-Azure-File/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="如前面幾篇文章所述，這次北美TechED，根本就是技術大爆走，ASP.NET一堆新玩意，而Azure也冒出一堆之前完全沒聽過的東西…而今天我們就要來看看小弟很期待的一個Azure新的東東，也申請了很久，才終於申請下來的新玩意。 這是Storage家族的一個新成員，就如同其名一樣，它的功能就是存File !! ( 迷之聲 : Storage Blob和Drive也都是存File阿… )，但這個東西的">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh3.ggpht.com/-O2vpGEitWu4/U430APRde4I/AAAAAAAAI8g/UuYCYbrZXQU/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-GPYEp95oea0/U430B2YeezI/AAAAAAAAI8w/SoxtVQMuJIw/image_thumb%25255B4%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-x70e8eaF6rs/U430D1DgZzI/AAAAAAAAI9A/KOykGmj_uWQ/image_thumb%25255B9%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-boJIyd02lxU/U430GQaJEpI/AAAAAAAAI9Q/YvwnGWN_Rx8/image_thumb%25255B11%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-1NlFwkwioXQ/U430IeMGM9I/AAAAAAAAI9g/zZV1sb4E3as/image_thumb%25255B13%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-tEBKrV1CrSA/U430KgLJbYI/AAAAAAAAI9w/VbK0mOJJqUk/image_thumb%25255B22%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-GYt6huzHzHg/U430M6N-lHI/AAAAAAAAI-A/brKWk1RLXrM/image_thumb%25255B16%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-4QzNenVuf5w/U430OtmUHuI/AAAAAAAAI-Q/hQ-7sF3qQ_Y/image_thumb%25255B19%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-olynLSa4eA8/U430QqmIuZI/AAAAAAAAI-g/sk8oPZQz6Qc/image_thumb%25255B24%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2014-06-04T00:13:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.852Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Azure">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh3.ggpht.com/-O2vpGEitWu4/U430APRde4I/AAAAAAAAI8g/UuYCYbrZXQU/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Azure -  Azure File | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Azure -  Azure File
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2014-06-04T00:13:00+00:00" content="2014-06-04">
+              2014-06-04
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/06/04/Azure-Azure-File/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/06/04/Azure-Azure-File/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>如前面幾篇文章所述，這次北美TechED，根本就是技術大爆走，ASP.NET一堆新玩意，而Azure也冒出一堆之前完全沒聽過的東西…而今天我們就要來看看小弟很期待的一個Azure新的東東，也申請了很久，才終於申請下來的新玩意。</p>
+<p>這是Storage家族的一個新成員，就如同其名一樣，它的功能就是存File !! ( 迷之聲 : Storage Blob和Drive也都是存File阿… )，但這個東西的取向和Blob完全不同，Blob比較偏像定位於Paas層級的應用，可以讓我們使用Cloud Service或是Web Site時，有另外一個快速讓應用程式存放檔案的地方…</p>
+<p>而Drive，在以前，就通常都是用在Iaas層級，讓我們的VM，多一顆硬碟…</p>
+<p>那Azure File呢!?…基本上Azure File出現後，幾乎就是在打Drive的臉了…( Orz… )，Azure File簡單的說，就是支援SMB 2.1協定的檔案存放區；是低，發現了嗎!?，也就是說，我們可以輕易地將VM透過網路芳鄰來連線Azure File (抖抖)，而未來，相信支援SMB 3.0後，我們就可以輕鬆的遠端增加硬碟了… ( 嗯，感覺就像昂貴的OneDrive… )</p>
+<p>而Azure File的出現，也提供了我好友之前問我的一個問題，”我要怎樣讓Azure多台的VM的檔案Sync與備份”…</p>
+<p>是的，以前Drive沒辦法做到這點，因為Drive同時間，只能掛在一台VM下；而Blob又要經過軟體的處理，也很麻煩，而現在Azure File就可以讓多個VM掛上他拉!!!! ( 讚 )</p>
+<p>當然，現階段Azure File 畢竟是SMB 2.1，而且還是Preview，所以可能有些應用程式，也沒辦法裝在Azure File上，還是必須透過Drive；但未來如果出了SMB 3.0，後勢可看好阿!!!</p>
+<p>最後，關於Azure File，如果大家想要深入了解，可以參考<a href="http://www.dotblogs.com.tw/regionbbs/archive/2014/05/20/azure.files.overview.aspx" target="_blank" rel="noopener">小朱前輩的這篇文章</a>，而如果想看小弟喇賽文XDD，那也可以繼續讀下去啦~~</p>
+<p>要使用Azure File，不意外，他當然就是被歸類在儲存體裡面，所以我們要建立一個新的…而畢竟現在是Preview，所以之前建立的儲存體，小弟看了一下，是沒有包含Azure File的。</p>
+<p><a href="http://lh4.ggpht.com/-gPbzzywyLes/U43z-5f3NiI/AAAAAAAAI8Y/COeAi30fE_s/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-O2vpGEitWu4/U430APRde4I/AAAAAAAAI8g/UuYCYbrZXQU/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>完成後，就可以看到檔案了…</p>
+<p><a href="http://lh4.ggpht.com/-Z5jWhdaPJrk/U430BBXmXuI/AAAAAAAAI8o/wHKzvS5qGo8/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-GPYEp95oea0/U430B2YeezI/AAAAAAAAI8w/SoxtVQMuJIw/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>是的，這樣就建立完成了喔!!</p>
+<p>接下來，我們就要用指令的方式，來建立一個準備要存放檔案的地方，而這邊，畢竟是Preview…所以官方這邊也只提供了兩種方式來建立，一個是使用PowerShell，一個是Api…基本上，並不是每個人都會無聊去裝Visual Studio，所以我們這邊還是使用PowerShell來進行建立；而相信以後正式推出後，會更加方便。</p>
+<p>首先要先<a href="http://go.microsoft.com/fwlink/?LinkID=398183" target="_blank" rel="noopener">下載</a>這個官方提供的檔案，下載完後，先不要急著解壓縮，我們要先解除封鎖。</p>
+<p><a href="http://lh3.ggpht.com/-MzpE_g6P_SM/U430C6MyCrI/AAAAAAAAI84/dKWI57EUqTk/s1600-h/image%25255B17%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-x70e8eaF6rs/U430D1DgZzI/AAAAAAAAI9A/KOykGmj_uWQ/image_thumb%25255B9%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>完成之後，我們再解壓縮，小弟是直接解壓縮到C目錄下。</p>
+<p>然後打開PowerShell並輸入以下指令，如下圖，我們要把官方準備好的module載入到PowerShell裡面去。</p>
+<blockquote>
+<pre>import-module .\AzureStorageFile.psd1</pre>
+</blockquote>
+<p><a href="http://lh5.ggpht.com/-J_IUNq28ZYI/U430FHHzHYI/AAAAAAAAI9I/5TEzMJ7nsFQ/s1600-h/image%25255B21%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-boJIyd02lxU/U430GQaJEpI/AAAAAAAAI9Q/YvwnGWN_Rx8/image_thumb%25255B11%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>完成之後，接下來輸入以下指令 ( 以下是兩行喔… )，其中share name是名稱，而account name則是這個Azure Storage的名稱，而同樣的Azure Storage有key，就是填入到account key了…可以參考下圖。</p>
+<blockquote>
+<pre>$ctx=New-AzureStorageContext &lt;account name&gt; &lt;account key&gt;</pre>
+<pre>$s = New-AzureStorageShare &lt;share name&gt; -Context $ctx</pre>
+</blockquote>
+<p>如下，這樣就完成了設定。</p>
+<p><a href="http://lh4.ggpht.com/-yUFsQfUj9KE/U430HU8ZU2I/AAAAAAAAI9Y/sLnHX7LZgAU/s1600-h/image%25255B25%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-1NlFwkwioXQ/U430IeMGM9I/AAAAAAAAI9g/zZV1sb4E3as/image_thumb%25255B13%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們要使用Azure的VM進行連線，但不要從Azure管理介面下載連線檔案，我們使用Windows內建的遠端桌面，並且設定如下；透過此方法，我們就可以將Local的磁碟機map到vm上去，到時候要複製檔案也比較方便。</p>
+<p><a href="http://lh3.ggpht.com/-Eo0IGZ48410/U430JGX5cmI/AAAAAAAAI9o/SBEgfaf6PRM/s1600-h/image%25255B40%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-tEBKrV1CrSA/U430KgLJbYI/AAAAAAAAI9w/VbK0mOJJqUk/image_thumb%25255B22%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>連線進去後，我們要讓我們的vm去map Azure File。</p>
+<p><a href="http://lh5.ggpht.com/-1v_KQB67-5U/U430LrzpDSI/AAAAAAAAI94/n3-vMm4BgSY/s1600-h/image%25255B30%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-GYt6huzHzHg/U430M6N-lHI/AAAAAAAAI-A/brKWk1RLXrM/image_thumb%25255B16%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這邊要輸入網址，其中storagename就是Azure Storage的名稱，而sharename則是剛剛建立時取的名稱；另外Connect using different credentials記得打勾喔…因為我們要使用Azure Storage的驗證，按下確定之後，要輸入帳號，帳號就是Azure Storage的名稱，而PW則是Azure Storage的金鑰。</p>
+<p><a href="http://lh6.ggpht.com/-6d7ILEFIgaY/U430NkvGm7I/AAAAAAAAI-I/Fd8j8upCSbE/s1600-h/image%25255B35%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-4QzNenVuf5w/U430OtmUHuI/AAAAAAAAI-Q/hQ-7sF3qQ_Y/image_thumb%25255B19%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>完成之後，除了Azure File外，我們也把Local給掛上去了，這樣要處理檔案就更加方便了。</p>
+<p><a href="http://lh5.ggpht.com/-dsgmHa3FjSY/U430PimBp6I/AAAAAAAAI-Y/vPCzT4eJSvo/s1600-h/image%25255B44%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-olynLSa4eA8/U430QqmIuZI/AAAAAAAAI-g/sk8oPZQz6Qc/image_thumb%25255B24%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h4 id="參考文章"><a href="#參考文章" class="headerlink" title="參考文章"></a>參考文章</h4><ul>
+<li><a href="http://www.dotblogs.com.tw/regionbbs/archive/2014/05/20/azure.files.overview.aspx" target="_blank" rel="noopener" title="http://www.dotblogs.com.tw/regionbbs/archive/2014/05/20/azure.files.overview.aspx">http://www.dotblogs.com.tw/regionbbs/archive/2014/05/20/azure.files.overview.aspx</a></li>
+<li><a href="http://blogs.msdn.com/b/windowsazurestorage/archive/2014/05/12/introducing-microsoft-azure-file-service.aspx" target="_blank" rel="noopener" title="http://blogs.msdn.com/b/windowsazurestorage/archive/2014/05/12/introducing-microsoft-azure-file-service.aspx">http://blogs.msdn.com/b/windowsazurestorage/archive/2014/05/12/introducing-microsoft-azure-file-service.aspx</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/06/03/PowerShell-%E7%A7%BB%E9%99%A4import-module%E6%89%80%E9%81%B8%E6%93%87%E7%9A%84%E6%B0%B8%E4%B8%8D%E5%9F%B7%E8%A1%8C%E6%88%96%E6%98%AF%E6%B0%B8%E9%81%A0%E5%9F%B7%E8%A1%8C/" rel="next" title="PowerShell -  移除import-module所選擇的永不執行或是永遠執行">
+                <i class="fa fa-chevron-left"></i> PowerShell -  移除import-module所選擇的永不執行或是永遠執行
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/06/04/Visual-Studio-Visual-Studio-14-CTP-1-%E9%9A%A8%E4%BE%BF%E7%8E%A9/" rel="prev" title="Visual Studio - Visual Studio 14 CTP 1 隨便玩">
+                Visual Studio - Visual Studio 14 CTP 1 隨便玩 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#參考文章"><span class="nav-number">1.</span> <span class="nav-text">參考文章</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2014/06/04/Azure-Azure-File/';
+      var disqus_title = 'Azure -  Azure File';
+      var disqus_url = 'http://skychang.github.io/2014/06/04/Azure-Azure-File/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

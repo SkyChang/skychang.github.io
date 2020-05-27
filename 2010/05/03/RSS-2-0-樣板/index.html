@@ -1,0 +1,702 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="快速使用,RSS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="這是最近寫的一個RSS樣本.. &lt;?xml version&#x3D;&quot;1.0&quot;?&gt; &lt;rss version&#x3D;&quot;2.0&quot; xmlns:dc&#x3D;&quot;http:&#x2F;&#x2F;purl.org&#x2F;dc&#x2F;elements&#x2F;1.1&#x2F;&quot; xmlns:itunes&#x3D;&quot;http:&#x2F;&#x2F;www.itunes.com&#x2F;dtds&#x2F;podcast-1.0.dt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RSS 2.0 樣板">
+<meta property="og:url" content="http://skychang.github.io/2010/05/03/RSS-2-0-%E6%A8%A3%E6%9D%BF/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="這是最近寫的一個RSS樣本.. &lt;?xml version&#x3D;&quot;1.0&quot;?&gt; &lt;rss version&#x3D;&quot;2.0&quot; xmlns:dc&#x3D;&quot;http:&#x2F;&#x2F;purl.org&#x2F;dc&#x2F;elements&#x2F;1.1&#x2F;&quot; xmlns:itunes&#x3D;&quot;http:&#x2F;&#x2F;www.itunes.com&#x2F;dtds&#x2F;podcast-1.0.dt">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2010-05-03T01:21:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.928Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="快速使用">
+<meta property="article:tag" content="RSS">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> RSS 2.0 樣板 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                RSS 2.0 樣板
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2010-05-03T01:21:00+00:00" content="2010-05-03">
+              2010-05-03
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2010/05/03/RSS-2-0-%E6%A8%A3%E6%9D%BF/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2010/05/03/RSS-2-0-樣板/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>這是最近寫的一個RSS樣本..</p>
+<pre class="brush: xml">&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;rss version=&quot;2.0&quot; xmlns:dc=&quot;http://purl.org/dc/elements/1.1/&quot;
+xmlns:itunes=&quot;http://www.itunes.com/dtds/podcast-1.0.dtd&quot;&gt;
+&lt;channel&gt;
+&lt;title&gt;San.C的美味程式廚房&lt;/title&gt;
+&lt;link&gt;http://blog.sanc.idv.tw&lt;/link&gt;
+&lt;description&gt;San.C的美味程式廚房RSS&lt;/description&gt;
+&lt;!-- 圖片註解
+&lt;image&gt;
+&lt;url&gt;http://xxx.com/xx.gif&lt;/url&gt;
+&lt;title&gt;San.C的美味程式廚房&lt;/title&gt;
+&lt;link&gt;http://blog.sanc.idv.tw&lt;/link&gt;
+&lt;/image&gt;
+--&gt;
+&lt;language&gt;zh-tw&lt;/language&gt;
+&lt;!-- 版權宣告
+&lt;copyright&gt;Copyright 2010 Blog.sanc.idv.tw&lt;/copyright&gt;
+--&gt;
+&lt;generator&gt;San.C http://blog.sanc.idv.tw/&lt;/generator&gt;
+&lt;!-- iTunes定義 --&gt;
+&lt;itunes:summary&gt;SanC 美味程式廚房 By iTunes &lt;/itunes:summary&gt;
+&lt;itunes:author&gt;SanC 美味程式廚房&lt;/itunes:author&gt;
+&lt;itunes:subtitle&gt;SanC 美味程式廚房 更多好料，通通在此!&lt;/itunes:subtitle&gt;
+&lt;itunes:keywords&gt;SanC 美味程式廚房 程式 亂七八糟&lt;/itunes:keywords&gt;
+&lt;itunes:owner&gt;
+&lt;itunes:name&gt;SanC&lt;/itunes:name&gt;
+
+這是最近弄的一個RSS 2.0的樣板
+&lt;pre&gt;
+&lt;itunes:email&gt;xxx@xxxx&lt;/itunes:email&gt;
+&lt;/itunes:owner&gt;
+&lt;itunes:image href=&quot;http://xxx.com/xxx.jpg&quot; /&gt;
+&lt;itunes:link rel=&quot;image&quot; type=&quot;video/jpeg&quot;
+href=&quot;http://xxx.com/xxx.jpg&quot;&gt;SanC 美味程式廚房&lt;/itunes:link&gt;
+
+&lt;item&gt;
+&lt;title&gt;&lt;![CDATA[標題]]&gt;&lt;/title&gt;
+&lt;link&gt;http://xx.com/位置&lt;/link&gt;
+&lt;!-- 為一位置，通常與Link同--&gt;
+&lt;guid isPermaLink=&quot;true&quot;&gt;http://xx.com/位置&lt;/guid&gt;
+&lt;!--評論網址
+&lt;comments&gt;http://&lt;/comments&gt;
+--&gt;
+&lt;channels&gt;&lt;channel&gt;類別&lt;/channel&gt;&lt;/channels&gt;
+&lt;description&gt;&lt;![CDATA[ 可以插入HTML但，Outlook可能會讀不到部分東西]]&gt;
+&lt;/description&gt;
+&lt;!-- 分類標籤
+&lt;category&gt;標籤1&lt;/category&gt;
+&lt;category&gt;標籤2&lt;/category&gt;
+--&gt;
+&lt;dc:creator&gt;&lt;![CDATA[San.C]]&gt;&lt;/dc:creator&gt;
+&lt;!-- 時間，以下為固定格式 --&gt;
+&lt;pubDate&gt;Thu, 30 Apr 2010 10:46:00 EST&lt;/pubDate&gt;
+&lt;/item&gt;
+
+&lt;!-- iTumes 專區 --&gt;
+&lt;item&gt;
+&lt;title&gt;標題&lt;/title&gt;
+&lt;pubDate&gt;2010/01/29&lt;/pubDate&gt;
+&lt;itunes:author&gt;San.C&lt;/itunes:author&gt;
+&lt;description&gt;iTunes測試&lt;/description&gt;
+&lt;itunes:subtitle&gt;iTunes測試&lt;/itunes:subtitle&gt;
+
+&lt;enclosure url=&quot;http://www.XXXX.com.tw/XXXX.MP3&quot; length=&quot;2483024&quot;
+type=&quot;audio/mpeg&quot;/&gt;
+&lt;guid  ispermalink=&quot;true&quot;&gt;http://www.XXXX.com.tw/XXXX.MP3&lt;/guid&gt;
+&lt;/item&gt;
+
+&lt;/channel&gt;
+&lt;/rss&gt;﻿
+</pre>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E5%BF%AB%E9%80%9F%E4%BD%BF%E7%94%A8/" rel="tag">#快速使用</a>
+          
+            <a href="/tags/RSS/" rel="tag">#RSS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2010/05/03/%E5%AE%89%E8%A3%9D-Team-Foundation-Server-%E9%8C%AF%E8%AA%A4-TF255356-%E8%A7%A3%E6%B1%BA%E6%96%B9%E6%A1%88/" rel="next" title="安裝 Team Foundation Server 錯誤 TF255356 解決方案">
+                <i class="fa fa-chevron-left"></i> 安裝 Team Foundation Server 錯誤 TF255356 解決方案
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2010/05/07/DataTable%E6%96%B0%E5%A2%9E%E8%B3%87%E6%96%99%E4%B9%8B%E6%95%88%E7%8E%87%E5%95%8F%E9%A1%8C/" rel="prev" title="DataTable新增資料之效率問題">
+                DataTable新增資料之效率問題 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2010/05/03/RSS-2-0-樣板/';
+      var disqus_title = 'RSS 2.0 樣板';
+      var disqus_url = 'http://skychang.github.io/2010/05/03/RSS-2-0-%E6%A8%A3%E6%9D%BF/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,707 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="TFS,Azure,Git,Linux,Container,Docker,VSTS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言在 2015 年底左右，因為 VSTS 的 Build 和 Release 改得太好用了，所以那時候寫了一些文章，而快過了兩年，技術的腳步一直都沒停過：因 Docker Container 的起來，再加上 MS 也開始支援 Windows Container ，所以對於整個 App 的開發，也逐漸朝向 Container 的技術進行發展：既然開發要 App ，那自然而然，整個 Build 的流">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VSTS - Container 的 Auto Build ( CI )">
+<meta property="og:url" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="前言在 2015 年底左右，因為 VSTS 的 Build 和 Release 改得太好用了，所以那時候寫了一些文章，而快過了兩年，技術的腳步一直都沒停過：因 Docker Container 的起來，再加上 MS 也開始支援 Windows Container ，所以對於整個 App 的開發，也逐漸朝向 Container 的技術進行發展：既然開發要 App ，那自然而然，整個 Build 的流">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/01.png">
+<meta property="og:image" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/02.png">
+<meta property="og:image" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/02.png">
+<meta property="og:image" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/04.png">
+<meta property="og:image" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/05.png">
+<meta property="og:image" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/06.png">
+<meta property="og:image" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/07.png">
+<meta property="og:image" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/08.png">
+<meta property="og:image" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/09.png">
+<meta property="article:published_time" content="2017-09-18T21:48:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.987Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="TFS">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="Git">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Container">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="VSTS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> VSTS - Container 的 Auto Build ( CI ) | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                VSTS - Container 的 Auto Build ( CI )
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-09-18T21:48:00+00:00" content="2017-09-18">
+              2017-09-18
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/09/18/VSTS-Build_for_Container/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/18/VSTS-Build_for_Container/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 2015 年底左右，因為 VSTS 的 Build 和 Release 改得太好用了，所以那時候寫了<a href="http://skychang.github.io/alm/">一些文章</a>，而快過了兩年，技術的腳步一直都沒停過：因 Docker Container 的起來，再加上 MS 也開始支援 Windows Container ，所以對於整個 App 的開發，也逐漸朝向 Container 的技術進行發展：既然開發要 App ，那自然而然，整個 Build 的流程，也要跟上時代：所以這篇，我們來談談透過 VSTS Auto Build Container ( CI 持續整合 )</p>
+<h2 id="在開始前"><a href="#在開始前" class="headerlink" title="在開始前"></a>在開始前</h2><p>首先，我們這篇文章當然不會再談什麼是 CI 了，更不會重頭開始講解 VSTS 使用 Build 的過程：而希望放在談論 CI 和 Container 大致上會怎樣做。在開始前，讓我們先回憶一下，在一兩年前，沒有 Container 的 CI 時代，大家是怎樣進行 CI 這個動作。</p>
+<h2 id="ASP-NET-與-CI"><a href="#ASP-NET-與-CI" class="headerlink" title="ASP.NET 與 CI"></a>ASP.NET 與 CI</h2><p>其實大致上就和下圖一樣：下面是一個很典型的 ASP.NET Core 的例子，第一步透過取得 Source 後，然後透過 NuGet 取得套件，然後進行 Build 的動作，Build 完後，透過 Auto Test Run Unit Test：當然，如果要串後面的 Release，那可能還要把編譯好的檔案，放到指定位置等等。</p>
+<p><img src="01.png" alt=""></p>
+<h2 id="Container-與-CI"><a href="#Container-與-CI" class="headerlink" title="Container 與 CI"></a>Container 與 CI</h2><p>那如果是 Container 呢？ 當然，也可以執行上面的步驟，然後再透過 Docker Build 的方式，打包成 image 檔案，最後在上傳到 Repo 去：其實現在的文章多半是透過這種方式來處理；因為這種方式最容易理解，每個步驟也很單純。</p>
+<p>而小弟這篇文章，則會用另外一種方式來處理，我們先看看下圖：我們從下圖可以發現，這邊第一步是 Build .NET Core，第二步是 Build Image ，第三步是 Push Image：基本上的步驟，和前面說到的都差不多，只是我們把 Get Source、Get NuGet Package、Build 等等的步驟，通通整合到第一個步驟 Build .NET Core 裡面去了。</p>
+<p><img src="02.png" alt=""></p>
+<p>從上圖可以看到，其實這三個都是 Docker 的命令 ( Docker Cli )，但大家可能會有一個疑惑，疑？為什麼 Docker 命令可以 Build .NET Core ? 又是怎樣一步完成多個步驟。</p>
+<h2 id="VS-產生的-Docker-Compose-File"><a href="#VS-產生的-Docker-Compose-File" class="headerlink" title="VS 產生的 Docker-Compose File"></a>VS 產生的 Docker-Compose File</h2><p>其實這種做法，並不是小弟自己想出來的，如果大家有玩過 Visual Studio 2017 和 Docker，我們使用 Visual Studio 2017 產生的 Docker File，其實是三個 Docker Compose File，如下圖。( 因小弟在 MacOS 下工作，請原諒小弟沒有截 VS 2017 的圖….，就讓小弟直接用 VS Code 講解吧。 )</p>
+<p>這三個檔案分別</p>
+<ul>
+<li>docker-compose.ci.build.yml</li>
+<li>docker-compose.override.yml</li>
+<li>docker-compose.yml</li>
+</ul>
+<p><img src="02.png" alt=""></p>
+<p>當然，docker-compose.yml 就是定義了要怎樣跑出 Container，而共用的設定則會放到 docker-compose.override.yml。<br>而如果我們仔細看 VS 2017 使用 Docker Build 的 Log，其實我們可以發現 docker-compose.ci.build.yml 根本沒用到…. ( 如果小弟眼殘了請多見諒。 )</p>
+<p>那 docker-compose.ci.build.yml 是做什麼的呢?</p>
+<h2 id="docker-compose-ci-build-yml"><a href="#docker-compose-ci-build-yml" class="headerlink" title="docker-compose.ci.build.yml"></a>docker-compose.ci.build.yml</h2><p>docker-compose.ci.build.yml，看名子就知道，一定是和 ci build 有關啊！！，我們可以打開內容來看看。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">ci-build:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">microsoft/aspnetcore-build:2.0.0-stretch</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">.:/src</span></span><br><span class="line">    <span class="attr">working_dir:</span> <span class="string">/src</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">/bin/bash</span> <span class="string">-c</span> <span class="string">"dotnet restore ./Study4Demo.Api.sln &amp;&amp; dotnet publish ./Study4Demo.Api.sln -c Release -o ./obj/Docker/publish"</span></span><br></pre></td></tr></table></figure>
+
+<p>從裡面其實就可以看到，他用的是 image，是 aspnetcore-build，換言之，其實這個 docker-compose 就是提供 Build 的檔案：我們繼續看下去，他的 volumes 參數，會建立一個 src 的目錄，並且把目前我們 Local 的資料掛載過去：然後進入 src 裡面，並執行很長的一串命令。</p>
+<p>但其實這個命令就是</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dotnet restore ./Study4Demo.Api.sln</span><br><span class="line">dotnet publish ./Study4Demo.Api.sln -c Release -o ./obj/Docker/publish</span><br></pre></td></tr></table></figure>
+<p>更簡單的說法，就是，先 restore，並且透過 publish ( 包含 build )，將產生出來的檔案 ( Release Mode )，放到 obj/docker/publish 底下。</p>
+<p>而又因為這個目錄是透過 volumes 掛載進來的，所以等同執行完 publish 後，本機的目錄就會有 obj/docker/publish 這些編譯好的檔案。</p>
+<p>說得更簡單一點，就是透過這個 Container 執行 Build 的動作，並透過掛載本機開發目錄這個技巧，又把編譯好的檔案放回本機去。</p>
+<h2 id="進行實際設定-Build-NET-Core"><a href="#進行實際設定-Build-NET-Core" class="headerlink" title="進行實際設定 - Build .NET Core"></a>進行實際設定 - Build .NET Core</h2><p>知道原理之後，我們就可以開始進行設定:這邊我們主要使用的 Task ，自然就是 Docker-compose，而非 Docker，原因也很簡單了，畢竟我們都準備好Docker-Compose 的設定了。（ 我們一共要有三個 Docker-Compose Task 來 Build、Create Image 和 Push )</p>
+<p><img src="04.png" alt=""></p>
+<p>這邊的設定還滿簡單的，除了名稱別忘了取響亮一點外，Container Registry Type 我們要選擇 Container Registry，表示從 Docker Hub 下載：當然如果覺得這樣耗費時間，也可以改用 Azure Container Registry，但別忘了要自己把 Build 的 Image 放上去就是了….</p>
+<p>Docker Compose File 自然就是選擇剛剛的 yml 檔案嚕。</p>
+<p><img src="05.png" alt=""></p>
+<p>接下來，我們要 Run Docker Compose Command，而這個命令就是 up，透過此命令可以把 Container run 起來，並且執行。</p>
+<p><img src="06.png" alt=""></p>
+<h2 id="進行實際設定-Build-an-Image"><a href="#進行實際設定-Build-an-Image" class="headerlink" title="進行實際設定 - Build an Image"></a>進行實際設定 - Build an Image</h2><p>接下來，就是要 Build Image：這邊比較簡單，主要選擇主要的 Docker-Compose 檔案，並且選擇 Build Image。</p>
+<p>Docker-Compose 的主要內容如下 ( Override 小弟就不列了. )</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">WebApi:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">study4demo.azurecr.io/api/study4demo-api:latest</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">      <span class="attr">context:</span> <span class="string">./Service</span></span><br><span class="line">      <span class="attr">dockerfile:</span> <span class="string">Dockerfile</span></span><br></pre></td></tr></table></figure>
+
+<p>比較重要的為產生的 image 名稱，因為我們未來要放到 Azure Container Registry，所以勢必前面要加上特定的名稱 study4demo.azurecr.io，而中間的 api 是小弟故意加的，用來區分為後台的 Image，最後每次 Build 完後的版本為預設的 latest。</p>
+<p><img src="07.png" alt=""></p>
+<h2 id="進行實際設定-Publish-an-Image"><a href="#進行實際設定-Publish-an-Image" class="headerlink" title="進行實際設定 - Publish an Image"></a>進行實際設定 - Publish an Image</h2><p>接下來，就是要 Publish Image：再放上去之前，記得要先去 Azure Containere Registry 花錢<a href="https://docs.microsoft.com/zh-tw/azure/container-registry/" target="_blank" rel="noopener">開啟 Container Repo 服務</a>，當然，也必須先把 VSTS 與 Azure <a href="https://docs.microsoft.com/en-us/vsts/build-release/concepts/library/government-cloud" target="_blank" rel="noopener">關聯</a>，完成之後，主要是在下面，Actuon 選擇 Push an image，而你要 push 的 image 名稱為 api/study4demo-api:latest，然後 Qualify Image Name 要打勾，這樣他會自動幫我們帶 study4demo.azurecr.io 這個名稱。</p>
+<p><img src="08.png" alt=""></p>
+<h2 id="如果要接-Release"><a href="#如果要接-Release" class="headerlink" title="如果要接 Release"></a>如果要接 Release</h2><p>如果要接 Release，我們也必須先把 config 放到特定的位置，這邊小弟因為要 Release 到 K8S，所以設定檔是 K8S。</p>
+<p><img src="09.png" alt=""></p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>基本上，兩種方式都有各自的好，但對小弟來說，小弟比較喜歡透過 Container 來進行 Build，原因是因為這樣就可以無視 Build Server 上的 .NET Core 版本：甚至也可以透過同樣手段來進行 Node.js、npm 等的 Build：但這種方式也有缺點，如果 image 放在 Docker Hub 的情況下，拉回來的速度還是有點落差。</p>
+<p>最後，大家喜歡用哪一種方式，就看大家習慣吧！～</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://docs.microsoft.com/zh-tw/azure/container-registry/" target="_blank" rel="noopener">https://docs.microsoft.com/zh-tw/azure/container-registry/</a></li>
+<li><a href="https://docs.microsoft.com/en-us/vsts/build-release/concepts/library/service-endpoints#sep-azure-rm" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/vsts/build-release/concepts/library/service-endpoints#sep-azure-rm</a></li>
+<li><a href="https://docs.microsoft.com/en-us/vsts/build-release/concepts/library/government-cloud" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/vsts/build-release/concepts/library/government-cloud</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/TFS/" rel="tag">#TFS</a>
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/Git/" rel="tag">#Git</a>
+          
+            <a href="/tags/Linux/" rel="tag">#Linux</a>
+          
+            <a href="/tags/Container/" rel="tag">#Container</a>
+          
+            <a href="/tags/Docker/" rel="tag">#Docker</a>
+          
+            <a href="/tags/VSTS/" rel="tag">#VSTS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/09/VSTS-Resolve_Git_connection_failure/" rel="next" title="VSTS - 解決 Git 無法同步之問題">
+                <i class="fa fa-chevron-left"></i> VSTS - 解決 Git 無法同步之問題
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/24/Kubernetes-Dashboard_broken/" rel="prev" title="Kubernetes - Dashboard 一片空白">
+                Kubernetes - Dashboard 一片空白 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在開始前"><span class="nav-number">2.</span> <span class="nav-text">在開始前</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ASP-NET-與-CI"><span class="nav-number">3.</span> <span class="nav-text">ASP.NET 與 CI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Container-與-CI"><span class="nav-number">4.</span> <span class="nav-text">Container 與 CI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VS-產生的-Docker-Compose-File"><span class="nav-number">5.</span> <span class="nav-text">VS 產生的 Docker-Compose File</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-compose-ci-build-yml"><span class="nav-number">6.</span> <span class="nav-text">docker-compose.ci.build.yml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#進行實際設定-Build-NET-Core"><span class="nav-number">7.</span> <span class="nav-text">進行實際設定 - Build .NET Core</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#進行實際設定-Build-an-Image"><span class="nav-number">8.</span> <span class="nav-text">進行實際設定 - Build an Image</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#進行實際設定-Publish-an-Image"><span class="nav-number">9.</span> <span class="nav-text">進行實際設定 - Publish an Image</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果要接-Release"><span class="nav-number">10.</span> <span class="nav-text">如果要接 Release</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">11.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">12.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2017/09/18/VSTS-Build_for_Container/';
+      var disqus_title = 'VSTS - Container 的 Auto Build ( CI )';
+      var disqus_url = 'http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

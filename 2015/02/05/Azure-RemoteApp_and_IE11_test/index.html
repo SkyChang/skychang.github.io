@@ -1,0 +1,677 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Azure,Browser,Internet Explorer,RemoteApp," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="我們常常說，寫前端網頁的人，幾乎都在深不見底的坑中，其中最大的原因，大概就是因為不同的瀏覽器版本，就會呈現出不同的效果… 尤其幾年前，IE 6 7 8 又遇到快要進入HTML5的時代，那種痛苦，真的是苦不堪言。一開始把畫面弄得漂漂的，但是使用者偏偏使用的IE 版本就是那麼的舊…想當然的，畫面當然不如預期的設計… 而早期的時候，要測試IE 6 7 8也是一件很痛苦的事情，雖然有號稱擁有IE不同版本核">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Azure - 使用 RemoteApp 來測試IE 11">
+<meta property="og:url" content="http://skychang.github.io/2015/02/05/Azure-RemoteApp_and_IE11_test/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="我們常常說，寫前端網頁的人，幾乎都在深不見底的坑中，其中最大的原因，大概就是因為不同的瀏覽器版本，就會呈現出不同的效果… 尤其幾年前，IE 6 7 8 又遇到快要進入HTML5的時代，那種痛苦，真的是苦不堪言。一開始把畫面弄得漂漂的，但是使用者偏偏使用的IE 版本就是那麼的舊…想當然的，畫面當然不如預期的設計… 而早期的時候，要測試IE 6 7 8也是一件很痛苦的事情，雖然有號稱擁有IE不同版本核">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2015/02/05/Azure-RemoteApp_and_IE11_test/2015-02-05_12-06-23.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/05/Azure-RemoteApp_and_IE11_test/2015-02-05_12-07-20.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/05/Azure-RemoteApp_and_IE11_test/2015-02-05_12-08-14.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/05/Azure-RemoteApp_and_IE11_test/2015-02-05_12-10-08.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/05/Azure-RemoteApp_and_IE11_test/2015-02-05_12-10-57.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/05/Azure-RemoteApp_and_IE11_test/2015-02-05_12-11-14.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/05/Azure-RemoteApp_and_IE11_test/2015-02-05_12-12-16.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/05/Azure-RemoteApp_and_IE11_test/2015-02-05_12-13-03.png">
+<meta property="og:image" content="http://skychang.github.io/2015/02/05/Azure-RemoteApp_and_IE11_test/2015-02-05_12-13-55.png">
+<meta property="article:published_time" content="2015-02-05T23:20:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.884Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="Browser">
+<meta property="article:tag" content="Internet Explorer">
+<meta property="article:tag" content="RemoteApp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2015/02/05/Azure-RemoteApp_and_IE11_test/2015-02-05_12-06-23.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Azure - 使用 RemoteApp 來測試IE 11 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Azure - 使用 RemoteApp 來測試IE 11
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-02-05T23:20:00+00:00" content="2015-02-05">
+              2015-02-05
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/02/05/Azure-RemoteApp_and_IE11_test/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/05/Azure-RemoteApp_and_IE11_test/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我們常常說，寫前端網頁的人，幾乎都在深不見底的坑中，其中最大的原因，大概就是因為不同的瀏覽器版本，就會呈現出不同的效果…</p>
+<p>尤其幾年前，IE 6 7 8 又遇到快要進入HTML5的時代，那種痛苦，真的是苦不堪言。<br>一開始把畫面弄得漂漂的，但是使用者偏偏使用的IE 版本就是那麼的舊…想當然的，畫面當然不如預期的設計…</p>
+<p>而早期的時候，要測試IE 6 7 8也是一件很痛苦的事情，雖然有號稱擁有IE不同版本核心的IETester，但實際上有用過的應該也知道，準確度還有待加強，和真正的IE也還是有差異。</p>
+<p>後來，有廠商看準了這塊商機，也推出了許多測試的方案，但來回修改的過程中，還是沒有那麼的即時，我們還是希望能邊改邊看出來的結果…</p>
+<p>那最終的作法，現在其實也差不多，大概就是虛擬機裝一台XP、Vista、Win7來測試不同的瀏覽器了。</p>
+<p>但隨著時代的進步，總是要長進一點，所以現在Microsoft已經可以透過Remote的技術，來呈現不同的IE了!! ( 但實際上目前也只有IE11，未來也不確定會不會有IE 9 ~ 10的環境 )</p>
+<p>所以來看看怎樣做吧!!</p>
+<p>首先我們要去<a href="http://www.modern.ie/" target="_blank" rel="noopener">moden.IE的官網</a></p>
+<p>然後選擇Test from and device with RemoteApp</p>
+<p><img src="2015-02-05_12-06-23.png" alt=""></p>
+<p>接下來，我們必須使用Microsoft account登入。</p>
+<p><img src="2015-02-05_12-07-20.png" alt=""></p>
+<p>登入完成之後，就可以選擇比較近的資料中心。</p>
+<p><img src="2015-02-05_12-08-14.png" alt=""></p>
+<p>接下來，我們就可以來下載安裝程式。</p>
+<p><img src="2015-02-05_12-10-08.png" alt=""></p>
+<p>安裝完成之後，只需要在設定一下就可以了喔。</p>
+<p><img src="2015-02-05_12-10-57.png" alt=""></p>
+<p>這邊還要登入一次Microsoft account。</p>
+<p><img src="2015-02-05_12-11-14.png" alt=""></p>
+<p>然後我們勾選Inter Explorer。</p>
+<p><img src="2015-02-05_12-12-16.png" alt=""></p>
+<p>完成之後，就可以看到IE11了，點兩下就可以執行起來。</p>
+<p><img src="2015-02-05_12-13-03.png" alt=""></p>
+<p>就如同桌面應用程式一樣，但實際上是run在遠端的。</p>
+<p><img src="2015-02-05_12-13-55.png" alt=""></p>
+<p>##參考資料</p>
+<ul>
+<li><a href="http://www.modern.ie/" target="_blank" rel="noopener">http://www.modern.ie/</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/Browser/" rel="tag">#Browser</a>
+          
+            <a href="/tags/Internet-Explorer/" rel="tag">#Internet Explorer</a>
+          
+            <a href="/tags/RemoteApp/" rel="tag">#RemoteApp</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/01/21/Azure-%E5%9C%A8Web-Site%E4%B8%8A%E9%80%B2%E8%A1%8C%E7%B7%9A%E4%B8%8A%E7%B7%A8%E8%BC%AF/" rel="next" title="Azure - 在Web Site上進行線上編輯">
+                <i class="fa fa-chevron-left"></i> Azure - 在Web Site上進行線上編輯
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/" rel="prev" title="VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online Azure 設定篇">
+                VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online Azure 設定篇 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2015/02/05/Azure-RemoteApp_and_IE11_test/';
+      var disqus_title = 'Azure - 使用 RemoteApp 來測試IE 11';
+      var disqus_url = 'http://skychang.github.io/2015/02/05/Azure-RemoteApp_and_IE11_test/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

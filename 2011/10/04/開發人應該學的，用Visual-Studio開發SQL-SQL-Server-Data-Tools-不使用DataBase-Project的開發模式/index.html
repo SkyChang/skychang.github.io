@@ -1,0 +1,652 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Visual Studio,SQL Server,Tools," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="2012&#x2F;4&#x2F;5 從SQL Server Developer Tools,Codename “Juneau” CTP3版本更新成SQL Server Data Tools – DataBase Project 除了上一篇說的，利用DataBase Project進行開發外，其實如果想直接對SQL Server做動作，SQL Server Data Tools也支援，不過這部分比較沒甚麼好提的，但畢">
+<meta property="og:type" content="article">
+<meta property="og:title" content="開發人應該學的，用Visual Studio開發SQL(SQL Server Data Tools) - 不使用DataBase Project的開發模式">
+<meta property="og:url" content="http://skychang.github.io/2011/10/04/%E9%96%8B%E7%99%BC%E4%BA%BA%E6%87%89%E8%A9%B2%E5%AD%B8%E7%9A%84%EF%BC%8C%E7%94%A8Visual-Studio%E9%96%8B%E7%99%BCSQL-SQL-Server-Data-Tools-%E4%B8%8D%E4%BD%BF%E7%94%A8DataBase-Project%E7%9A%84%E9%96%8B%E7%99%BC%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="2012&#x2F;4&#x2F;5 從SQL Server Developer Tools,Codename “Juneau” CTP3版本更新成SQL Server Data Tools – DataBase Project 除了上一篇說的，利用DataBase Project進行開發外，其實如果想直接對SQL Server做動作，SQL Server Data Tools也支援，不過這部分比較沒甚麼好提的，但畢">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh4.ggpht.com/-trZhNZ01B6I/T31yMBMqI9I/AAAAAAAACFg/sE61iCT3UA0/image_thumb%25255B2%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-XN50UvZaw04/T31yOEs9FVI/AAAAAAAACF0/e18ip-VJkLA/image_thumb%25255B5%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-lxlPKZjbZ7g/T31yP8Y9MLI/AAAAAAAACGE/yg1vO0RcVU4/image_thumb%25255B10%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-8xXavsUl2O8/T31ySJLoPGI/AAAAAAAACGQ/PIaFy3nZ6lM/image_thumb%25255B8%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-bOBQid6um28/T31yT-prNpI/AAAAAAAACGg/7YxjI7n4ieE/image_thumb%25255B13%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2011-10-04T22:56:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.079Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="SQL Server">
+<meta property="article:tag" content="Tools">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh4.ggpht.com/-trZhNZ01B6I/T31yMBMqI9I/AAAAAAAACFg/sE61iCT3UA0/image_thumb%25255B2%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 開發人應該學的，用Visual Studio開發SQL(SQL Server Data Tools) - 不使用DataBase Project的開發模式 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                開發人應該學的，用Visual Studio開發SQL(SQL Server Data Tools) - 不使用DataBase Project的開發模式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2011-10-04T22:56:00+00:00" content="2011-10-04">
+              2011-10-04
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2011/10/04/%E9%96%8B%E7%99%BC%E4%BA%BA%E6%87%89%E8%A9%B2%E5%AD%B8%E7%9A%84%EF%BC%8C%E7%94%A8Visual-Studio%E9%96%8B%E7%99%BCSQL-SQL-Server-Data-Tools-%E4%B8%8D%E4%BD%BF%E7%94%A8DataBase-Project%E7%9A%84%E9%96%8B%E7%99%BC%E6%A8%A1%E5%BC%8F/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/10/04/開發人應該學的，用Visual-Studio開發SQL-SQL-Server-Data-Tools-不使用DataBase-Project的開發模式/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><font color="#ff0000">2012/4/5 從SQL Server Developer Tools,Codename “Juneau” CTP3版本更新成SQL Server Data Tools – DataBase Project</font></p>
+<p>除了<a href="http://blog.sanc.idv.tw/2011/09/visual-studiosql.html" target="_blank" rel="noopener">上一篇</a>說的，利用DataBase Project進行開發外，其實如果想直接對SQL Server做動作，SQL Server Data Tools也支援，不過這部分比較沒甚麼好提的，但畢竟是一系列的，所以也在這邊稍微解說一下。</p>
+<p>其實不使用DataBase Project的方式和SSMS做的事情差不多，都是用撰寫SQL後，直接對SQL Server產生影響，那有人就會想問說，那和SSMS有甚麼不一樣!?大家可以參考下面兩張圖，左邊是SSDT，右邊是SSMS，可以發現，其實對於專職於管理SQL Server的DBA來說，還是會比較偏向使用SSMS，因為SSMS的功能比較強大，而對於開發SQL程式的程式設計師來說，其實SSDT就夠了。</p>
+<p><a href="http://lh6.ggpht.com/-suTTZkMeVRc/T31yLNHIRAI/AAAAAAAACFc/ycFvdTdWuq8/s1600-h/image%25255B4%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-trZhNZ01B6I/T31yMBMqI9I/AAAAAAAACFg/sE61iCT3UA0/image_thumb%25255B2%25255D.png?imgmax=800" alt="image" title="image"></a><a href="http://lh5.ggpht.com/-GBsPhzMr5RM/T31yM9tYikI/AAAAAAAACFo/M6rqKf9HtQA/s1600-h/image%25255B9%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-XN50UvZaw04/T31yOEs9FVI/AAAAAAAACF0/e18ip-VJkLA/image_thumb%25255B5%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>如果是在SSDT裡面的Table下，按下右鍵，並按下”檢視表設計工具”會出現下圖。</p>
+<p><a href="http://lh3.ggpht.com/-cMr_hQeXgto/T31yPCI9YhI/AAAAAAAACF8/ITNP-XCA-BI/s1600-h/image%25255B18%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-lxlPKZjbZ7g/T31yP8Y9MLI/AAAAAAAACGE/yg1vO0RcVU4/image_thumb%25255B10%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>如果是SSMS裡面的Table下，按下右鍵，並按下”設計”，會出現下圖。</p>
+<p><a href="http://lh3.ggpht.com/-6dGBAGSP070/T31yRKZdNSI/AAAAAAAACGM/4KtAID-mUFI/s1600-h/image%25255B14%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-8xXavsUl2O8/T31ySJLoPGI/AAAAAAAACGQ/PIaFy3nZ6lM/image_thumb%25255B8%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>其實可以發現，SSDT裡面，還是會有在本機開發的感覺，而利用”更新”，或是”產生指令碼”的方式去對DB做變動，但如果是SSMS裡面，就會讓然感覺，我們已經連上去了，做的任何動作，都像在Server端上面做。</p>
+<p>如果在SSDT裡面按下更新，SQL Server Data Tools也會自動的提供一些資訊給你，當然，也可以選擇產生指令碼做進一步的調整，也可以很有魄力的按下更新資料庫。</p>
+<p><a href="http://lh5.ggpht.com/-x58rjdCqrxY/T31yS6xw4GI/AAAAAAAACGY/bGpq31bMrHM/s1600-h/image%25255B23%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-bOBQid6um28/T31yT-prNpI/AAAAAAAACGg/7YxjI7n4ieE/image_thumb%25255B13%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>基本上這是屬於不使用DataBase Project的方法，很簡單，在這邊也給大家參考參考。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
+          
+            <a href="/tags/SQL-Server/" rel="tag">#SQL Server</a>
+          
+            <a href="/tags/Tools/" rel="tag">#Tools</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/10/04/%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8img%E6%A8%99%E7%B1%A4%E4%BE%86%E7%95%B6%E4%BD%9Cbutton/" rel="next" title="不要使用img標籤來當作button!">
+                <i class="fa fa-chevron-left"></i> 不要使用img標籤來當作button!
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011/10/06/%E9%80%B2%E5%85%A5ASP-NET-ASP-NET%E7%9A%84%E8%B5%B7%E9%BB%9E/" rel="prev" title="進入ASP.NET - ASP.NET的起點">
+                進入ASP.NET - ASP.NET的起點 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2011/10/04/開發人應該學的，用Visual-Studio開發SQL-SQL-Server-Data-Tools-不使用DataBase-Project的開發模式/';
+      var disqus_title = '開發人應該學的，用Visual Studio開發SQL(SQL Server Data Tools) - 不使用DataBase Project的開發模式';
+      var disqus_url = 'http://skychang.github.io/2011/10/04/%E9%96%8B%E7%99%BC%E4%BA%BA%E6%87%89%E8%A9%B2%E5%AD%B8%E7%9A%84%EF%BC%8C%E7%94%A8Visual-Studio%E9%96%8B%E7%99%BCSQL-SQL-Server-Data-Tools-%E4%B8%8D%E4%BD%BF%E7%94%A8DataBase-Project%E7%9A%84%E9%96%8B%E7%99%BC%E6%A8%A1%E5%BC%8F/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

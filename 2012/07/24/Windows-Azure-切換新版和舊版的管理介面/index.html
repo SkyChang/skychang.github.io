@@ -1,0 +1,641 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Azure," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="目前新版的管理介面是HTML5架構出來的，而舊版的管理介面是Silverlight架構出來的，當然，這東西也沒有甚麼好與壞，但是比較麻煩的是，目前新版的管理介面並非包含所有舊版的功能，而舊版的管理介面，也有很多新版的功能沒有；而最近整理Windows Azure文章的時候，發現常常需要切換來切換去，為了減少相關文章的篇幅，所以就把這篇文章獨立出來了… ( 嗯，小弟我是很懶的&#x3D;v&#x3D; )。 新版切換成">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Azure -  切換新版和舊版的管理介面">
+<meta property="og:url" content="http://skychang.github.io/2012/07/24/Windows-Azure-%E5%88%87%E6%8F%9B%E6%96%B0%E7%89%88%E5%92%8C%E8%88%8A%E7%89%88%E7%9A%84%E7%AE%A1%E7%90%86%E4%BB%8B%E9%9D%A2/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="目前新版的管理介面是HTML5架構出來的，而舊版的管理介面是Silverlight架構出來的，當然，這東西也沒有甚麼好與壞，但是比較麻煩的是，目前新版的管理介面並非包含所有舊版的功能，而舊版的管理介面，也有很多新版的功能沒有；而最近整理Windows Azure文章的時候，發現常常需要切換來切換去，為了減少相關文章的篇幅，所以就把這篇文章獨立出來了… ( 嗯，小弟我是很懶的&#x3D;v&#x3D; )。 新版切換成">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh4.ggpht.com/-i6JKikZAzMo/UA6u4DXF9LI/AAAAAAAADX0/fOYQNUG073E/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-FkCwBEBbl8c/UA6u5oAjNCI/AAAAAAAADYE/ZXntzQYkyAg/image_thumb%25255B3%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-cw28NJiPnzA/UA6u7LRRDNI/AAAAAAAADYU/KItSqyKlK_0/image_thumb%25255B6%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2012-07-24T22:19:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.027Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Azure">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh4.ggpht.com/-i6JKikZAzMo/UA6u4DXF9LI/AAAAAAAADX0/fOYQNUG073E/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Windows Azure -  切換新版和舊版的管理介面 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Windows Azure -  切換新版和舊版的管理介面
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2012-07-24T22:19:00+00:00" content="2012-07-24">
+              2012-07-24
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/07/24/Windows-Azure-%E5%88%87%E6%8F%9B%E6%96%B0%E7%89%88%E5%92%8C%E8%88%8A%E7%89%88%E7%9A%84%E7%AE%A1%E7%90%86%E4%BB%8B%E9%9D%A2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/07/24/Windows-Azure-切換新版和舊版的管理介面/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>目前新版的管理介面是HTML5架構出來的，而舊版的管理介面是Silverlight架構出來的，當然，這東西也沒有甚麼好與壞，但是比較麻煩的是，目前新版的管理介面並非包含所有舊版的功能，而舊版的管理介面，也有很多新版的功能沒有；而最近整理Windows Azure文章的時候，發現常常需要切換來切換去，為了減少相關文章的篇幅，所以就把這篇文章獨立出來了… ( 嗯，小弟我是很懶的=v= )。</p>
+<h4 id="新版切換成舊版"><a href="#新版切換成舊版" class="headerlink" title="新版切換成舊版"></a>新版切換成舊版</h4><p>新版要換到舊版，需要按這裡，如下圖，將滑鼠移到PREIVEW的地方。</p>
+<p><a href="http://lh3.ggpht.com/-yWgMS65F2LQ/UA6u3Tkz6lI/AAAAAAAADXs/Kxu9AAkmjLI/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-i6JKikZAzMo/UA6u4DXF9LI/AAAAAAAADX0/fOYQNUG073E/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後點選這裡，Take me to the pervious portal。</p>
+<p><a href="http://lh4.ggpht.com/-Qnk3SsGBS6M/UA6u4-ByovI/AAAAAAAADX8/mSRMqsixxVk/s1600-h/image%25255B7%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-FkCwBEBbl8c/UA6u5oAjNCI/AAAAAAAADYE/ZXntzQYkyAg/image_thumb%25255B3%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這樣就會切換到舊版了。</p>
+<h4 id="舊版要切換成新版"><a href="#舊版要切換成新版" class="headerlink" title="舊版要切換成新版"></a>舊版要切換成新版</h4><p>舊版要換到新板，要按這裡，如下圖。( 嗯，找不到嗎…在最下面”前往新入口網站” )。</p>
+<p><a href="http://lh5.ggpht.com/-D2Sfevtz9zc/UA6u6ZAxf8I/AAAAAAAADYM/y0aNfkcTCEA/s1600-h/image%25255B12%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-cw28NJiPnzA/UA6u7LRRDNI/AAAAAAAADYU/KItSqyKlK_0/image_thumb%25255B6%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>按下去就可以切換到新版了，就這樣簡單~</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/07/18/Windows-Azure-Web-Sites-VS-Web-Role/" rel="next" title="Windows Azure - Web Sites VS Web Role">
+                <i class="fa fa-chevron-left"></i> Windows Azure - Web Sites VS Web Role
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/07/24/Windows-Azure-%E4%BD%BF%E7%94%A8Web-Sites%E6%9E%B6%E8%A8%ADWordPress%E3%80%81Joomla%E3%80%81Drupal%E7%AD%89%E7%B6%B2%E7%AB%99/" rel="prev" title="Windows Azure - 使用Web Sites架設WordPress、Joomla、Drupal等網站">
+                Windows Azure - 使用Web Sites架設WordPress、Joomla、Drupal等網站 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#新版切換成舊版"><span class="nav-number">1.</span> <span class="nav-text">新版切換成舊版</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#舊版要切換成新版"><span class="nav-number">2.</span> <span class="nav-text">舊版要切換成新版</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2012/07/24/Windows-Azure-切換新版和舊版的管理介面/';
+      var disqus_title = 'Windows Azure -  切換新版和舊版的管理介面';
+      var disqus_url = 'http://skychang.github.io/2012/07/24/Windows-Azure-%E5%88%87%E6%8F%9B%E6%96%B0%E7%89%88%E5%92%8C%E8%88%8A%E7%89%88%E7%9A%84%E7%AE%A1%E7%90%86%E4%BB%8B%E9%9D%A2/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

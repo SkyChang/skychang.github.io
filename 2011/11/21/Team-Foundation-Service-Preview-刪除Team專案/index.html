@@ -1,0 +1,654 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Visual Studio,TFS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="在這之前，先聲明一點，目前Team Foundation Service Preview版，要刪除Team專案，必須在Visual Studio 2011 Developer Preview底下才能刪除，不能於專案網頁、Visual Studio 2010下刪除，官方也指名說，這是一個Bug，總之未來會修正。 刪除的方法，也不是進入Visual Studio 2011裡面，而是要使用Adminis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Team Foundation Service Preview - 刪除Team專案">
+<meta property="og:url" content="http://skychang.github.io/2011/11/21/Team-Foundation-Service-Preview-%E5%88%AA%E9%99%A4Team%E5%B0%88%E6%A1%88/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="在這之前，先聲明一點，目前Team Foundation Service Preview版，要刪除Team專案，必須在Visual Studio 2011 Developer Preview底下才能刪除，不能於專案網頁、Visual Studio 2010下刪除，官方也指名說，這是一個Bug，總之未來會修正。 刪除的方法，也不是進入Visual Studio 2011裡面，而是要使用Adminis">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh5.ggpht.com/-X-bVc7Szkbw/TsnnVg69YsI/AAAAAAAABCw/qXJ23NesmMw/Image.png?imgmax=800">
+<meta property="article:published_time" content="2011-11-21T12:53:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.964Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="TFS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh5.ggpht.com/-X-bVc7Szkbw/TsnnVg69YsI/AAAAAAAABCw/qXJ23NesmMw/Image.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Team Foundation Service Preview - 刪除Team專案 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Team Foundation Service Preview - 刪除Team專案
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2011-11-21T12:53:00+00:00" content="2011-11-21">
+              2011-11-21
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2011/11/21/Team-Foundation-Service-Preview-%E5%88%AA%E9%99%A4Team%E5%B0%88%E6%A1%88/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/11/21/Team-Foundation-Service-Preview-刪除Team專案/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><font color="#ff0000">在這之前，先聲明一點，目前Team Foundation Service Preview版，要刪除Team專案，必須在Visual Studio 2011 Developer Preview底下才能刪除，不能於專案網頁、Visual Studio 2010下刪除，官方也指名說，這是一個Bug，總之未來會修正。</font></p>
+<p>刪除的方法，也不是進入Visual Studio 2011裡面，而是要使用Administrator權限開啟cmd視窗來刪除。</p>
+<p>以下是刪除的指令，主要注意的是https後面加的是你的Team Foundation Service網址，後面要記得加上Collection，也就是DefaultCollection，不然會出錯，最後面在接上Team專案名稱，這裡的專案名稱是Testing。( 目前tfsdeleteproject命令，在Visual Studio 2012 RC裡面，存在的路徑為c:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\ide 底下 )</p>
+<blockquote>
+<p>C:\project&gt;tfsdeleteproject /collection:<a href="https://buckh-test2.tfspreview.com/DefaultCollection" target="_blank" rel="noopener">https://buckh-test2.tfspreview.com/DefaultCollection</a> Testing </p>
+</blockquote>
+<p>如果沒有加上Collection可能會產生以下這個錯誤。</p>
+<blockquote>
+<p>C:\project&gt;tfsdeleteproject /collection:<a href="https://buckh-test2.tfspreview.com" target="_blank" rel="noopener">https://buckh-test2.tfspreview.com</a> Testing<br>Team Foundation services are not available from server <a href="https://buckh-test2.tfspreview.com/" target="_blank" rel="noopener">https://buckh-test2.tfspreview.com/</a>.<br>Technical information (for administrator):<br>&nbsp; HTTP code 404: Not Found </p>
+</blockquote>
+<p>這裡是順利完成的畫面和訊息，命令下完後，會跳出登入畫面，要求你登入帳號，最後會請你確認，按下y後就會開始刪除，因為本來就還沒有Reporting Service和SharePoint，所以當然會有錯誤，不過也可以發現，未來Team Foundation Service會整合Reporting Service 和 SharePoint</p>
+<blockquote>
+<p>C:\project&gt;tfsdeleteproject /collection:<a href="https://buckh-test2.tfspreview.com/DefaultCollection" target="_blank" rel="noopener">https://buckh-test2.tfspreview.com/DefaultCollection</a> Testing  <p>Warning: Deleting a team project is an irrecoverable operation. All version control, work item tracking and Team Foundation build data will be destroyed from the system. The only way to recover this data is by restoring a stored backup of the databases. Are you sure you want to delete the team project and all of its data (Y/N)?y  <p>Deleting from Build …<br>Done<br>Deleting from Version Control …<br>Done<br>Deleting from Work Item Tracking …<br>Done<br>Deleting from TestManagement …<br>Done<br>Deleting from LabManagement …<br>Done<br>Deleting from ProjectServer …<br>Done<br>Warning. Did not find Report Server service.<br>Warning. Did not find SharePoint site service.<br>Deleting from Team Foundation Core …<br>Done </p>
+</blockquote>
+<p>這裡是刪除畫面，因為目前在測試win8和Visual Studio 2011，就順便用這個環境刪除了XDD。</p>
+<p><a href="http://lh5.ggpht.com/-hjMvUGP_pQA/TsnnVH4TkUI/AAAAAAAABCo/LNxUdwu9ehQ/s1600-h/Image.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-X-bVc7Szkbw/TsnnVg69YsI/AAAAAAAABCw/qXJ23NesmMw/Image.png?imgmax=800" alt="Parallels 圖片 5" title="Parallels 圖片 5"></a></p>
+<p>最後補上，如果使用Visual Studio 2010刪除的錯誤。</p>
+<blockquote>
+<p>C:\Program Files\Microsoft Visual Studio 10.0\VC&gt;tfsdeleteproject /collection:<a href="https://buckh-test2.tfspreview.com/DefaultCollection" target="_blank" rel="noopener">https://buckh-test2.tfspreview.com/DefaultCollection</a> Testing2  <p>Warning: Deleting a team project is an irrecoverable operation. All version control, work item tracking and Team Foundation build data will be destroyed from the system. The only way to recover this data is by restoring a stored backup of the databases. Are you sure you want to delete the team project and all of its data (Y/N)?y  <p>TF200040: You cannot delete a team project with your version of Team Explorer. Contact your system administrator to determine how to upgrade your Team Explorer client to the version compatible with Team Foundation Server. </p>
+</blockquote>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><p><a href="http://blogs.msdn.com/b/buckh/archive/2011/09/19/how-to-delete-a-team-project-from-tfs-on-azure.aspx" target="_blank" rel="noopener" title="http://blogs.msdn.com/b/buckh/archive/2011/09/19/how-to-delete-a-team-project-from-tfs-on-azure.aspx">http://blogs.msdn.com/b/buckh/archive/2011/09/19/how-to-delete-a-team-project-from-tfs-on-azure.aspx</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
+          
+            <a href="/tags/TFS/" rel="tag">#TFS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/11/21/%E9%BB%9E%E8%AA%B2%E5%B9%AB-Developer-Party-11-1120%E6%B4%BB%E5%8B%95%E5%B1%95%E9%96%8B/" rel="next" title="點課幫 Developer Party 11-1120活動展開!">
+                <i class="fa fa-chevron-left"></i> 點課幫 Developer Party 11-1120活動展開!
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011/11/26/Team-Foundation-Server-TF252031%E3%80%81TF250001%E3%80%81TF249031-%E5%92%8C-%E5%AE%89%E8%A3%9DTFS%E7%9A%84%E6%AC%8A%E9%99%90%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85/" rel="prev" title="Team Foundation Server - TF252031、TF250001、TF249031 和 安裝TFS的權限注意事項">
+                Team Foundation Server - TF252031、TF250001、TF249031 和 安裝TFS的權限注意事項 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">1.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2011/11/21/Team-Foundation-Service-Preview-刪除Team專案/';
+      var disqus_title = 'Team Foundation Service Preview - 刪除Team專案';
+      var disqus_url = 'http://skychang.github.io/2011/11/21/Team-Foundation-Service-Preview-%E5%88%AA%E9%99%A4Team%E5%B0%88%E6%A1%88/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

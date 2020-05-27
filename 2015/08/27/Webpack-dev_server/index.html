@@ -1,0 +1,699 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CSS,HTML,JavaScript,Webpack," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="webpack 與 Live Loading前面介紹了許多基本的操作，也使用了 watch 來監控檔案的變化，但，人懶是沒有極限的，雖然它會自動幫我們重新綁定，但每次還要按一下瀏覽器的重整，還是粉麻煩阿!!!，所以這一篇，來介紹一下 webpack-dev-server。 webpack-dev-serverwebpack-dev-server 是一個非常小的 Node.js Express se">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Webpack - 使用 Webpack Dev Server 進行開發">
+<meta property="og:url" content="http://skychang.github.io/2015/08/27/Webpack-dev_server/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="webpack 與 Live Loading前面介紹了許多基本的操作，也使用了 watch 來監控檔案的變化，但，人懶是沒有極限的，雖然它會自動幫我們重新綁定，但每次還要按一下瀏覽器的重整，還是粉麻煩阿!!!，所以這一篇，來介紹一下 webpack-dev-server。 webpack-dev-serverwebpack-dev-server 是一個非常小的 Node.js Express se">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2015/08/27/Webpack-dev_server/01.png">
+<meta property="og:image" content="http://skychang.github.io/2015/08/27/Webpack-dev_server/02.png">
+<meta property="og:image" content="http://skychang.github.io/2015/08/27/Webpack-dev_server/03.png">
+<meta property="og:image" content="http://skychang.github.io/2015/08/27/Webpack-dev_server/04.png">
+<meta property="article:published_time" content="2015-08-27T23:40:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.023Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="CSS">
+<meta property="article:tag" content="HTML">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="Webpack">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2015/08/27/Webpack-dev_server/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Webpack - 使用 Webpack Dev Server 進行開發 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Webpack - 使用 Webpack Dev Server 進行開發
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-08-27T23:40:00+00:00" content="2015-08-27">
+              2015-08-27
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/08/27/Webpack-dev_server/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/08/27/Webpack-dev_server/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="webpack-與-Live-Loading"><a href="#webpack-與-Live-Loading" class="headerlink" title="webpack 與 Live Loading"></a>webpack 與 Live Loading</h2><p>前面介紹了許多基本的操作，也使用了 watch 來監控檔案的變化，但，人懶是沒有極限的，雖然它會自動幫我們重新綁定，但每次還要按一下瀏覽器的重整，還是粉麻煩阿!!!，所以這一篇，來介紹一下 webpack-dev-server。</p>
+<h2 id="webpack-dev-server"><a href="#webpack-dev-server" class="headerlink" title="webpack-dev-server"></a>webpack-dev-server</h2><p>webpack-dev-server 是一個非常小的 Node.js Express server，他使用了 webpack-dev-middleware 來服務 webpack 的綑綁功能，而 webpack-dev-server 背後使用了 socket.IO ，所以當發生事件的時候，Server 會去通知 Client 端坐一些事情；至於甚麼事情，當然就是自動地將瀏覽器重整了~~</p>
+<p>簡單的說，就是當改了檔案，發生重新綑綁事件，並且完成綑綁動作後，就會通知瀏覽器，執行重整瀏覽器的功能，這樣子，開發人員就完全不用按下重整按鈕，打完程式碼，馬上就可以看畫面結果，達到懶人的極致!!但要注意，使用 webpack-dev-server 是用於開發階段，他產生出的 bundel.js 是放在 memory 裡面的，所以要上正式環境，還是要執行一下 webpack ，基本上 webpack-dev-server 是用於測試環境的，不是拿來用於編譯的喔! </p>
+<p>而要使用 webpack-dev-server 之前，當然還是先使用 npm 裝一下吧~~ 同樣的，要裝在global 或是專案底下，就看大家覺得哪一個比較好用，小弟這邊還是先以裝在專案底下為範例說明。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install webpack-dev-server -g</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install webpack-dev-server -D</span><br></pre></td></tr></table></figure>
+
+<h2 id="執行-webpack-dev-server"><a href="#執行-webpack-dev-server" class="headerlink" title="執行 webpack-dev-server"></a>執行 webpack-dev-server</h2><p>安裝完成後，我們就可以簡單執行一下，如下指令， –content-base 代表的是 Web Server 運行起來的根目錄，應該會在哪個資料夾下，所以我們這邊設定，根目錄為 wwwroot 資料夾。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\node_modules\.bin\webpack-dev-server --content-base wwwroot</span><br></pre></td></tr></table></figure>
+
+<p>執行的結果如下，我們可以看到，預設的網址位置為<a href="http://localhost:8080/webpack-dev-server" target="_blank" rel="noopener">http://localhost:8080/webpack-dev-server</a></p>
+<p><img src="01.png" alt=""></p>
+<p>我們就可以使用瀏覽器看一下結果，基本上畫面是出來了，但 js 沒效果!? 找不到 !?</p>
+<p><img src="02.png" alt=""></p>
+<h2 id="Inline-mode"><a href="#Inline-mode" class="headerlink" title="Inline mode"></a>Inline mode</h2><p>甚麼是 Inline mode ，根據官方的文件指出，當我們監控的 js 等檔案，變動的時候，它會自動的重新編譯，並且將編譯好的檔案，存一份到記憶體中，而網頁 include 進來的 js ，不是去抓實體存放在硬碟的 js 檔案，而是抓取記憶體的 js 檔案，所以這代表的幾件事情，一個是實體的 js 實際上是不會被編譯到的，所以後續要用於正式環境上，還是要執行 webpack 來綑綁；第二件事情，既然他存放在 memory ，那實際上，到底存在 memory 上的 js 檔案，會對應到哪個 url 呢?? 畢竟是在記憶體裡面阿!? 這就帶出了我們上面的那個指令 –content-base ，預設的情況下，webpack-dev-server 會將存在記憶體的 js 對應到我們使用 content-base 的那個目錄下。</p>
+<p>所以換言之，為什麼我們剛剛執行的畫面，js 找不到!? 我們回到 index.html 的 script 標籤看一下；是低，因為我們的 script 的 src 指向的是 app/bundle.js。</p>
+<p>‘’’html<br>    <script src="app/bundle.js"></script><br>‘’’</p>
+<p>但實際上，他對應的 bundle.js 卻是在 wwwroot 底下…所以這時候，我們就要去調整一下 webpack-config.js ，我們就可以透過 publicPath 來建立虛擬的 url ，所以我們這邊建立的虛擬對外路徑為 /app 。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: <span class="string">"./wwwroot/app/enter.js"</span>,    </span><br><span class="line">    output: &#123;</span><br><span class="line">        path: __dirname + <span class="string">"/wwwroot/app/"</span>,</span><br><span class="line">        publicPath: <span class="string">"/app"</span>,</span><br><span class="line">        filename: <span class="string">"bundle.js"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="built_in">module</span>: &#123;</span><br><span class="line">        loaders: [</span><br><span class="line">            &#123; <span class="attr">test</span>: <span class="regexp">/\.css$/</span>, <span class="attr">loader</span>: <span class="string">"style!css"</span> &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>加上去後，重新 run webpack-dev-server ，js 就可以順利運作了。</p>
+<h2 id="Live-Loading"><a href="#Live-Loading" class="headerlink" title="Live Loading"></a>Live Loading</h2><p>這時候，如果我們去改了一下 js 的檔案，你會發現 webpack-dev-server 會自動 watch，並且執行編譯，而且編譯完成後，畫面會閃一下，自動的 Live Loading喔!!連重整瀏覽器都不用了，達到了懶人的極致~~</p>
+<p>最後，我們可以看到下圖，webpack-dev-server 底下的 index ，就是目前瀏覽器的這頁，而這頁也是動態產生的，如果去看一下這頁的source，可以發現，它其實是去讀取 <strong>webpack_dev_server</strong> 底下的 live.bundle.js喔。</p>
+<p>所以簡單的說，原生的 index.html ，裡面使用了 app/bundle.js，透過 webpack-dev-server 後，它會幫我們產生一個虛擬的目錄 webpack-dev-server ，而會把 index.html 的內容複製一份到 webpack-dev-server 目錄底下，並且置換掉 scrpit 標籤的<br> src ，也就是 app/bundle.js，改成 <strong>webpack_dev_server</strong>/live.bundle.js ，而 live.bundle.js 裡面的東西，就是我們上面設定 publicPath 的內容。</p>
+<p> 所以這代表的是，app/bundle.js 底下的東西，都不會在 webpack-dev-server 進行編譯。</p>
+<p> 另外，就算我們實際上 app/bundle.js 底下有真實的 js ，但實際上，它抓的 js 還是 <strong>webpack_dev_server</strong>/live.bundle.js 底下的 js，完全不會和 app/bundle.js 有所衝突。</p>
+<p><img src="03.png" alt=""></p>
+<p>( 備註 : 官方文件很多東西沒寫得很清楚，以上內容是小弟自行實驗和揣測，如有錯誤，請多包涵 )</p>
+<h2 id="另外一種實現-Live-Loading"><a href="#另外一種實現-Live-Loading" class="headerlink" title="另外一種實現 Live Loading"></a>另外一種實現 Live Loading</h2><p>除此之外，官方也提供了另外一種方式實現 Live Loading，我們可以在 index.html 加上這段 script </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://localhost:8080/webpack-dev-server.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如下；這個時候，我們就可以直接使用 <a href="http://localhost:8080" target="_blank" rel="noopener">http://localhost:8080</a> 來訪問我們的網頁，一樣也會有 Live Loading 的效果。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=utf-8"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Test2<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"btn"</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"按我"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://localhost:8080/webpack-dev-server.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"app/bundle.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>結果如下圖，我們可以發現，沒有原本複雜的目錄結構了，但要注意的是，app/bundle.js 依舊是透過 webpack-dev-server 編譯出來的，並不是真實的 bundle.js 。</p>
+<p><img src="04.png" alt=""></p>
+<p>( 備註 : 官方文件很多東西沒寫得很清楚，以上內容是小弟自行實驗和揣測，如有錯誤，請多包涵 )</p>
+<h2 id="最終版的-Live-Loading"><a href="#最終版的-Live-Loading" class="headerlink" title="最終版的 Live Loading"></a>最終版的 Live Loading</h2><p>上面的方式看起來很優，但是要增加一個 script 還是很麻煩，有時候要部屬到正式環境，還是要去做一下調整，所以終極懶人版，大家可以改成如下，我們去修改 webpack.config.js 檔案。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    <span class="comment">// entry: "./wwwroot/app/enter.js",   </span></span><br><span class="line">    entry: [</span><br><span class="line">        <span class="string">'webpack-dev-server/client?http://localhost:8080'</span>,</span><br><span class="line">        <span class="string">'./wwwroot/app/enter.js'</span></span><br><span class="line">    ],</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: __dirname + <span class="string">"/wwwroot/app/"</span>,</span><br><span class="line">        publicPath: <span class="string">"/app"</span>,</span><br><span class="line">        filename: <span class="string">"bundle.js"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="built_in">module</span>: &#123;</span><br><span class="line">        loaders: [</span><br><span class="line">            &#123; <span class="attr">test</span>: <span class="regexp">/\.css$/</span>, <span class="attr">loader</span>: <span class="string">"style!css"</span> &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>其實這也是 React Hot Loader 的作法，簡單的說，就是把原本所需要載入的 js 檔案，也一併綑綁起來，這樣子，就可以不用管 script 了。</p>
+<p>基本上，到這邊，Live Loding 的架構就完成了。</p>
+<p>當然，我們一樣可以把 webpack-dev-server 的指令塞到 package.json 裡面，這些都是一樣的。</p>
+<h2 id="webpack-dev-server-的幾種應用"><a href="#webpack-dev-server-的幾種應用" class="headerlink" title="webpack-dev-server 的幾種應用"></a>webpack-dev-server 的幾種應用</h2><p>最後，針對 webpack-dev-server 底下，我們在介紹一下有幾種配合的可能。</p>
+<p>一種可能是直接透過 webpack-dev-server 當作我們的 web server 來進行開發，這種情況最單純，尤其是純粹只開發前端。</p>
+<p>但還有另外一種可能，當我們使用 IIS Express 或是其他的 web server 當作我們的開發環境時，畢竟，要使用 webpack-dev-server 這台 web server 一定看不懂 cshtml 或是 aspx 等等後端的東西，那這個時候，就可以採用另外一個方式，將 webpack-dev-server 當作資源伺服器，簡單的說，我們讓 cshtml 裡面的 script 標籤來參考到 webpack-dev-server 所提供的 bundel.js 檔案，但開發完後，要切換成真正的 script 就是了。</p>
+<p>最後一種，情況如第二種情形，但我們透過 webpack-dev-server 的 proxy 功能，來映射到 IIS Express 的 ip 位置上，這個部分，後續再進行介紹。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="http://www.jianshu.com/p/8adf4c2bfa51" target="_blank" rel="noopener">http://www.jianshu.com/p/8adf4c2bfa51</a></li>
+<li><a href="https://leanpub.com/survivejs_webpack/read" target="_blank" rel="noopener">https://leanpub.com/survivejs_webpack/read</a></li>
+<li><a href="http://webpack.github.io/docs/" target="_blank" rel="noopener">http://webpack.github.io/docs/</a></li>
+<li><a href="http://segmentfault.com/a/1190000002551952" target="_blank" rel="noopener">http://segmentfault.com/a/1190000002551952</a></li>
+<li><a href="https://github.com/petehunt/webpack-howto" target="_blank" rel="noopener">https://github.com/petehunt/webpack-howto</a></li>
+<li><a href="http://segmentfault.com/a/1190000002552008" target="_blank" rel="noopener">http://segmentfault.com/a/1190000002552008</a></li>
+<li><a href="https://medium.com/html-test/webpack-%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B-585f2bc952b9" target="_blank" rel="noopener">https://medium.com/html-test/webpack-%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B-585f2bc952b9</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CSS/" rel="tag">#CSS</a>
+          
+            <a href="/tags/HTML/" rel="tag">#HTML</a>
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/Webpack/" rel="tag">#Webpack</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/26/Webpack-CSS_Loader_and_config/" rel="next" title="Webpack - 使用 Webpack 載入 CSS 與設定檔">
+                <i class="fa fa-chevron-left"></i> Webpack - 使用 Webpack 載入 CSS 與設定檔
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/10/06/Hexo-Install_Hexo/" rel="prev" title="Hexo - 安裝 Hexo">
+                Hexo - 安裝 Hexo <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#webpack-與-Live-Loading"><span class="nav-number">1.</span> <span class="nav-text">webpack 與 Live Loading</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#webpack-dev-server"><span class="nav-number">2.</span> <span class="nav-text">webpack-dev-server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#執行-webpack-dev-server"><span class="nav-number">3.</span> <span class="nav-text">執行 webpack-dev-server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Inline-mode"><span class="nav-number">4.</span> <span class="nav-text">Inline mode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Live-Loading"><span class="nav-number">5.</span> <span class="nav-text">Live Loading</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#另外一種實現-Live-Loading"><span class="nav-number">6.</span> <span class="nav-text">另外一種實現 Live Loading</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最終版的-Live-Loading"><span class="nav-number">7.</span> <span class="nav-text">最終版的 Live Loading</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#webpack-dev-server-的幾種應用"><span class="nav-number">8.</span> <span class="nav-text">webpack-dev-server 的幾種應用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">9.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2015/08/27/Webpack-dev_server/';
+      var disqus_title = 'Webpack - 使用 Webpack Dev Server 進行開發';
+      var disqus_url = 'http://skychang.github.io/2015/08/27/Webpack-dev_server/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

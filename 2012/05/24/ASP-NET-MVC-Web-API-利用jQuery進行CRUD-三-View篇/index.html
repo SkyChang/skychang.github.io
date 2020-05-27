@@ -1,0 +1,1254 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ASP.NET MVC,CSS,HTML,JavaScript,jQuery," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="支援版本 ASP.NET MVC 4 Beta   終於進入到View篇了，本來是預計一天把三篇寫完的，結果沒想到變成一個禮拜一篇&#x3D; &#x3D;，現在終於知道連載的辛苦了，富木堅，對不起以前都一直罵你XDD；回到主題，上一篇我們介紹到Controller，也把整個Web Service完成了，但是我們還沒講到要怎樣利用JavaScript ( 利用jQuery這個函式庫 )對Web Service進行呼叫">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET MVC Web API - 利用jQuery進行CRUD! (三) View篇">
+<meta property="og:url" content="http://skychang.github.io/2012/05/24/ASP-NET-MVC-Web-API-%E5%88%A9%E7%94%A8jQuery%E9%80%B2%E8%A1%8CCRUD-%E4%B8%89-View%E7%AF%87/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="支援版本 ASP.NET MVC 4 Beta   終於進入到View篇了，本來是預計一天把三篇寫完的，結果沒想到變成一個禮拜一篇&#x3D; &#x3D;，現在終於知道連載的辛苦了，富木堅，對不起以前都一直罵你XDD；回到主題，上一篇我們介紹到Controller，也把整個Web Service完成了，但是我們還沒講到要怎樣利用JavaScript ( 利用jQuery這個函式庫 )對Web Service進行呼叫">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh6.ggpht.com/-nmOXGLxNJnI/T70gLHPUdPI/AAAAAAAACn8/8hlS8K8Mxp8/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-IhnYIOkabnY/T70gNJ2aWCI/AAAAAAAACoM/K_vdTcLxZmA/image_thumb%25255B2%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-7TPtsg8_c2k/T70gO5U65tI/AAAAAAAACog/YFRHcWNj-kY/image_thumb%25255B3%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-XYijBShNhoc/T70gRRhBsnI/AAAAAAAACos/p2XsRqjLaO8/image_thumb%25255B5%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-AqOmWgRaC4U/T70gTVxa3PI/AAAAAAAACpA/d63hWPeWGLo/image_thumb%25255B8%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-SDV_8HRZjNw/T70gVRmIcaI/AAAAAAAACpM/sNQwlW6_Vl4/image_thumb%25255B11%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-0lIxh6qVFTc/T70gXa0y-6I/AAAAAAAACpc/EGho4LA7yww/image_thumb%25255B14%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-DsFMc3GEdSQ/T70gapYjo7I/AAAAAAAACpw/Hsa7_ozY0ZM/image_thumb%25255B17%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2012-05-24T01:37:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.836Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta property="article:tag" content="CSS">
+<meta property="article:tag" content="HTML">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="jQuery">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh6.ggpht.com/-nmOXGLxNJnI/T70gLHPUdPI/AAAAAAAACn8/8hlS8K8Mxp8/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ASP.NET MVC Web API - 利用jQuery進行CRUD! (三) View篇 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ASP.NET MVC Web API - 利用jQuery進行CRUD! (三) View篇
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2012-05-24T01:37:00+00:00" content="2012-05-24">
+              2012-05-24
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/05/24/ASP-NET-MVC-Web-API-%E5%88%A9%E7%94%A8jQuery%E9%80%B2%E8%A1%8CCRUD-%E4%B8%89-View%E7%AF%87/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/05/24/ASP-NET-MVC-Web-API-利用jQuery進行CRUD-三-View篇/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="支援版本"><a href="#支援版本" class="headerlink" title="支援版本"></a>支援版本</h4><ul>
+<li>ASP.NET MVC 4 Beta </li>
+</ul>
+<p>終於進入到View篇了，本來是預計一天把三篇寫完的，結果沒想到變成一個禮拜一篇= =，現在終於知道連載的辛苦了，富木堅，對不起以前都一直罵你XDD；回到主題，<a href="http://blog.sanc.idv.tw/2012/05/aspnet-mvc-web-api-jquerycrud.html" target="_blank" rel="noopener">上一篇</a>我們介紹到Controller，也把整個Web Service完成了，但是我們還沒講到要怎樣利用JavaScript ( 利用jQuery這個函式庫 )對Web Service進行呼叫阿!?所以我們這篇來談談View的部分。</p>
+<h4 id="jQuery"><a href="#jQuery" class="headerlink" title="jQuery"></a>jQuery</h4><p>小弟就不再這邊詳細的介紹jQuery了，我相信很多人應該都會使用，這邊只簡單的介紹一下jQuery是做甚麼的；jQuery 是一個非常方便，快速，程式碼又簡潔的JavaScript函式庫，原本我們用JavaScript來進行DOM物件的尋找、處理事件、動畫、瀏覽器版本還有Ajax等等，都會寫非常多的程式碼，所以就有位天才John Resig，寫了jQuery來大幅的簡化，總之，就是一個好物就是了；如果不會jQuery，可以參考一下<a href="http://jquery.com/" target="_blank" rel="noopener">jQuery的官網</a>或是<a href="http://blog.darkthread.net/post-2009-01-23-my-jquery-tutorial.aspx" target="_blank" rel="noopener">暗黑前輩的超完整教學</a>，所以這部分小弟就不多介紹嚕。</p>
+<h4 id="Knockout"><a href="#Knockout" class="headerlink" title="Knockout"></a>Knockout</h4><p>這裡必須還要再提一個東西，就是Knockout，他也是一個JavaScript的程式庫，不過不用擔心，小弟沒那麼慘忍XDD，一下要K Repository Patten，一下要看ASP.NET MVC Web API，一下又要看jQuery，所以這篇文章小弟不會用到Knockout；但為什麼要提到這個呢!?那是因為目前這個東西也正是被納入到ASP.NET MVC裡面，而且官方的範例中，就是大量地使用到這個程式庫，Knockout主要的用處是利用MVVM模式，來繫節畫面上的UI；詳細可以參考<a href="http://blog.darkthread.net/post-2012-05-09-knockout-js-intro.aspx" target="_blank" rel="noopener">暗黑前輩的Knockout這篇文章</a>，或是<a href="http://knockoutjs.com/" target="_blank" rel="noopener">官網</a>，或是<a href="http://blog.faq-book.com/?p=3456" target="_blank" rel="noopener">Andy前輩的FAQ Book</a>；不過在一次的重申，這篇文章不會用到Knockout，所以可以放鬆心情的去讀這幾位前輩的文章=v=。</p>
+<h4 id="View"><a href="#View" class="headerlink" title="View"></a>View</h4><p>前面鋪完路後，我們終於要正式開始撰寫View了，不知道大家還記不記得，<a href="http://blog.sanc.idv.tw/2012/05/aspnet-mvc-web-api-jquerycrud-model.html" target="_blank" rel="noopener">第一章</a>的時候，那個空白的圖?那時候我們建立起View後，並沒有在View裡面添加甚麼，現在我們終於要開始加上一些東西了；首先，我們可以先打開如下圖的檔案，這就是我們<a href="http://blog.sanc.idv.tw/2012/05/aspnet-mvc-web-api-jquerycrud-model.html" target="_blank" rel="noopener">第一章</a>就準備好的檔案。</p>
+<p><a href="http://lh5.ggpht.com/-TqzLfchYaEs/T70gJ5EQUsI/AAAAAAAACn4/3kHK5AtCgnM/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-nmOXGLxNJnI/T70gLHPUdPI/AAAAAAAACn8/8hlS8K8Mxp8/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>我們首先先準備一下畫面，我們預期的畫面如下圖，基本上和官網的差不多 ( 官網範例沒有Delete喔XDD )。</p>
+<p><a href="http://lh5.ggpht.com/-tJlOVdHuFSE/T70gLsDJ2XI/AAAAAAAACoE/Rt7lMIYMFFk/s1600-h/image%25255B6%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-IhnYIOkabnY/T70gNJ2aWCI/AAAAAAAACoM/K_vdTcLxZmA/image_thumb%25255B2%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h4 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h4><p>接下來，HTML要怎樣寫哩，其實也沒甚麼特別的，就是利用了一些HTML5的標籤 ( 畢竟已經是HTML5的時代了 )，然後準備好一個Table，來顯示資料，並且準備一些輸入欄位，以便後續的CRUD( 這裡範例是用DIV標籤來包輸入欄位，當然也可以用DD、DT、或是li等標籤，看個人喜好吧 )，當然，我們也要準備一些 Button來觸發事件，所以我們準備了很多的Button ( 不是Submit按鈕喔!!兩個是有差異的。 )，來觸發各種事件，完成大致上如下。( 眼力好的人，可能已經會發現Button裡面已經有寫準備觸發的事件的Function名稱了，我們等下就會把這些Function建立起來了喔! )</p>
+<pre class="brush: xml;">@{
+    Layout = null;
+}
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name="viewport" content="width=device-width" /&gt;
+    &lt;title&gt;Index&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;div id="body"&gt;
+        &lt;section class="content-wrapper main-content"&gt;
+            &lt;h3&gt;Contacts&lt;/h3&gt;
+            &lt;table&gt;
+                &lt;thead&gt;
+                    &lt;tr&gt;
+                        &lt;th&gt;ID&lt;/th&gt;
+                        &lt;th&gt;Name&lt;/th&gt;
+                        &lt;th&gt;Phone&lt;/th&gt;
+                    &lt;/tr&gt;
+                &lt;/thead&gt;
+                &lt;tbody id="customers"&gt;
+                &lt;/tbody&gt;
+            &lt;/table&gt;
+        &lt;/section&gt;
+        &lt;section id="detail" class="content-wrapper"&gt;
+            &lt;h3&gt;View Contact&lt;/h3&gt;
+            &lt;label for="contactId"&gt;ID&lt;/label&gt;
+            &lt;input type="text" title="ID" id="contactId" size="5" /&gt;
+            &lt;input type="button" value="Get" onclick="find();" /&gt;
+            &lt;div&gt;
+                &lt;label for="name"&gt;Name&lt;/label&gt;
+                &lt;input type="text" title="Name" id="name" /&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;label for="phone"&gt; Phone&lt;/label&gt;
+                &lt;input type="text" title="Phone" id="phone" /&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;input type="button" value="Update" onclick="update();" /&gt;
+                &lt;input type="button" value="Delete" onclick="del();" /&gt;
+                &lt;input type="button" value="Add New" onclick="add();" /&gt;
+            &lt;/div&gt;
+        &lt;div&gt;
+            &lt;p id="status"&gt;&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;/section&gt; 
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p>接下來，我們稍微弄一下美化吧，所以我們利用CSS進行美化，( 再次強調，不要用HTML做為美化的工具，美化的職責應該是由CSS負責的喔!! )。</p>
+<h4 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h4><p>好，不用擔心，我們沒有用到CSS3，下面是個很簡單的CSS，把CSS放到head標籤底下；CSS的內容也超簡單，基本上也只是把table、tr、th、td上個顏色，畢竟小弟現在不是要寫CSS的筆記，所以稍微設定一下而已；另外，小弟特別把從頭擷取index.cshtml的程式碼，我想這樣大家會比較了解CSS要放到哪邊。</p>
+<pre class="brush: css;">@{
+    Layout = null;
+}
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name="viewport" content="width=device-width" /&gt;
+    &lt;title&gt;Index&lt;/title&gt;
+
+&lt;style type="text/css"&gt;
+    table
+    {
+        border: 1px solid #000;
+        border-collapse: collapse;
+        color: #666666;
+        min-width: 200px;
+    }
+
+    tr
+    {
+        border: 1px solid #000;
+        line-height: 25px;
+    }
+
+    th
+    {
+        background-color: #B1C3CC;
+        color: #000;
+        font-size: 13px;
+        text-align: left;
+    }
+
+    th, td
+    {
+        padding-left: 5px;
+    }
+&lt;/style&gt;
+
+&lt;/head&gt;
+</pre>
+
+<p>完成後，就會變成這樣，有沒有有沒有，變漂亮了吧!!( 好吧，其實也沒漂亮到哪去…但我們這篇的重點是jQuery和Web Service，小細節就不要計較了XDD)。</p>
+<p><a href="http://lh3.ggpht.com/-uSNGvjekP1U/T70gNxgCc6I/AAAAAAAACoU/-mwofbzNOdE/s1600-h/image%25255B9%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-7TPtsg8_c2k/T70gO5U65tI/AAAAAAAACog/YFRHcWNj-kY/image_thumb%25255B3%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h4 id="JavaScript-amp-jQuery"><a href="#JavaScript-amp-jQuery" class="headerlink" title="JavaScript &amp; jQuery"></a>JavaScript &amp; jQuery</h4><p>好，完成畫面後，就可以隨便亂點了，然後就會在偵錯工具出現這些錯誤( 記得偵錯工具要打開…)，這當然很正常，因為我們JavaScript還沒開始寫嘛。</p>
+<p><a href="http://lh6.ggpht.com/-WcZXcvy6rEI/T70gQF-4imI/AAAAAAAACoo/U2ZAGBj1xc8/s1600-h/image%25255B13%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-XYijBShNhoc/T70gRRhBsnI/AAAAAAAACos/p2XsRqjLaO8/image_thumb%25255B5%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來我們開始寫JavaScript，以下是整個JavaScript，我們可以把整個JavaScript放到head標籤裡面，我們後面會針對細節做介紹。 ( 好的，我知道一些JavaScript放在head，效能等等之類的問題，但是，這不是我們這篇的重點=v= )</p>
+<pre class="brush: js;">&lt;script src="@Url.Content("~/Scripts/jquery-1.6.2.js")" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+
+    //清空status區段
+    function clearStatus() {
+        $('#status').html('');
+    }
+
+    var API_URL = "api/Customer/";
+
+    //增加資料
+    function add() {
+
+        clearStatus();
+
+        var json = JSON.stringify({ name: $("#name").val(), phone: $("#phone").val() });
+
+        $.ajax({
+            url: API_URL,
+            cache: false,
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            data: json,
+            statusCode: {
+                201 /*Created*/: function (data) {
+                    getAll();
+                }
+            }
+        });
+    }
+
+    //尋找資料
+    function find() {
+
+        clearStatus();
+
+        var id = $('#contactId').val();
+        if (id != "") {
+            $.getJSON(API_URL + id,
+            function (data) {
+                $("#customers tr").remove();
+                $("#customers").append("&lt;tr&gt;" +
+                          "&lt;td&gt;" + data["Id"] + "&lt;/td&gt;" +
+                          "&lt;td&gt;" + data["Name"] + "&lt;/td&gt;" +
+                          "&lt;td&gt;" + data["Phone"] + "&lt;/td&gt;" +
+                          "&lt;/tr&gt;");
+            })
+            .fail(
+            function (xhr, textStatus, err) {
+                $('#status').html('Error: ' + err);
+            });
+        } else {
+            getAll();
+        }
+    }
+
+    //更新資料
+    function update() {
+        clearStatus();
+
+        var id = $('#contactId').val();
+
+        var json = JSON.stringify({ name: $("#name").val(), phone: $("#phone").val() });
+
+        $.ajax({
+            url: API_URL + id,
+            cache: false,
+            type: 'PUT',
+            contentType: 'application/json; charset=utf-8',
+            data: json,
+            success: function () { getAll(); }
+        })
+        .fail(
+        function (xhr, textStatus, err) {
+            $('#status').html('Error: ' + err);
+        });
+    }
+
+    //刪除指定資料
+    function del() {
+        clearStatus();
+
+        var id = $('#contactId').val();
+
+        $.ajax({
+            url: API_URL + id,
+            cache: false,
+            type: 'DELETE',
+            contentType: 'application/json; charset=utf-8',
+            //data: json,
+            success: function () { getAll(); }
+        })
+        .fail(
+        function (xhr, textStatus, err) {
+            $('#status').html('Error: ' + err);
+        });
+    }
+
+    //取得所有資料
+    function getAll() {
+        clearStatus();
+
+        //利用Get方式取得。
+        $.getJSON(API_URL,
+        function (data) {
+            $("#customers tr").remove();
+            for (i = 0; i &lt; data.length; i++) {
+                $("#customers").append("&lt;tr&gt;" +
+                              "&lt;td&gt;" + data[i].Id + "&lt;/td&gt;" +
+                              "&lt;td&gt;" + data[i].Name + "&lt;/td&gt;" +
+                              "&lt;td&gt;" + data[i].Phone + "&lt;/td&gt;" +
+                              "&lt;/tr&gt;");
+            }
+        })
+    .fail(
+        function (xhr, textStatus, err) {
+            $('#status').html('Error: ' + err);
+        });
+    }
+
+    //開始時，先把資料讀取進來
+    $(document).ready(function () {
+        getAll();
+    });
+
+&lt;/script&gt;
+</pre>
+
+<p>接下來，我們針對每個細部，做一個講解，有講不好的地方，不要鞭我喔&gt;&lt;。</p>
+<h4 id="清空"><a href="#清空" class="headerlink" title="清空"></a>清空</h4><p>我們的第一個function，主要用途是清除status的資訊，在HTML裡面，有一段會顯示錯誤訊息等資訊，所以我們這邊也要準備一下，清除這些資訊的Function。</p>
+<pre class="brush: js;">//清空status區段
+    function clearStatus() {
+        $('#status').html('');
+    }
+</pre>
+
+<p>接下來繼續。</p>
+<h4 id="取得全部"><a href="#取得全部" class="headerlink" title="取得全部"></a>取得全部</h4><p>我們先來介紹取得全部的這個Funciton，也就是getAll()，我們這邊利用jQuery的getJSON API進行處理，這個API預設會用HTTP的GET命令；當順利取得資料的時候，就會把HTML table裡面的東西移除掉，然後再利用迴圈的方式，把取得的JSON資料和HTML標籤td，一起塞到Table裡面去。</p>
+<pre class="brush: js;">//取得所有資料
+function getAll() {
+    clearStatus();
+
+    //利用Get方式取得。
+    $.getJSON(API_URL,
+    function (data) {
+        $("#customers tr").remove();
+        for (i = 0; i &lt; data.length; i++) {
+            $("#customers").append("&lt;tr&gt;" +
+                          "&lt;td&gt;" + data[i].Id + "&lt;/td&gt;" +
+                          "&lt;td&gt;" + data[i].Name + "&lt;/td&gt;" +
+                          "&lt;td&gt;" + data[i].Phone + "&lt;/td&gt;" +
+                          "&lt;/tr&gt;");
+        }
+    })
+.fail(
+    function (xhr, textStatus, err) {
+        $('#status').html('Error: ' + err);
+    });
+}
+</pre>
+
+<p>然後我們來看看新增。</p>
+<h4 id="ADD"><a href="#ADD" class="headerlink" title="ADD"></a>ADD</h4><p>第二段我們要講的是ADD，但我們談論ADD之前，我們要先設一個變數，負責記錄網址位置，也就是API_URL；接下來，因為是新增，所以我們會需要準備傳遞資料，所以我們利用JSON.stringify來將我們填入表單的資料，轉成JSON格式。然後我們就要利用jQuery的ajax API來對Web Service進行呼叫；還記得嗎?HTTP的POST就是新增的意思，所以我們Type會設定POST，並且等傳回201時，執行getAll()這個Function。</p>
+<pre class="brush: js;">var API_URL = "api/Customer/";
+
+    //增加資料
+    function add() {
+
+        clearStatus();
+
+        var json = JSON.stringify({ name: $("#name").val(), phone: $("#phone").val() });
+
+        $.ajax({
+            url: API_URL,
+            cache: false,
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            data: json,
+            statusCode: {
+                201 /*Created*/: function (data) {
+                    getAll();
+                }
+            }
+        });
+    }
+</pre>
+
+<p>這樣ADD就完成了，下圖是執行結果，我們填入AA、AA的資料 ( Phone欄位沒有驗證，我真的知道&gt;&lt;，是我的錯。 )，按下AddNew後，畫面會自動更新Table，出現第四筆資料；而下面的分析工具可以看到，真的送出了POST。</p>
+<p><a href="http://lh5.ggpht.com/-ebSGc82vn4c/T70gSQA2G2I/AAAAAAAACo4/kl17g8R_Uc0/s1600-h/image%25255B18%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-AqOmWgRaC4U/T70gTVxa3PI/AAAAAAAACpA/d63hWPeWGLo/image_thumb%25255B8%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h4 id="Find"><a href="#Find" class="headerlink" title="Find"></a>Find</h4><p>接下來是尋找資料，其實尋找資料和getAll()很像，就不多加敘述了，但比較特別的是，我們會在網址 (API_URL)後面加上id，來尋找到想要找到的那一筆；如果沒有找到，就會在status區塊報錯。</p>
+<pre class="brush: js;">//尋找資料
+function find() {
+
+    clearStatus();
+
+    var id = $('#contactId').val();
+    if (id != "") {
+        $.getJSON(API_URL + id,
+        function (data) {
+            $("#customers tr").remove();
+            $("#customers").append("&lt;tr&gt;" +
+                      "&lt;td&gt;" + data["Id"] + "&lt;/td&gt;" +
+                      "&lt;td&gt;" + data["Name"] + "&lt;/td&gt;" +
+                      "&lt;td&gt;" + data["Phone"] + "&lt;/td&gt;" +
+                      "&lt;/tr&gt;");
+        })
+        .fail(
+        function (xhr, textStatus, err) {
+            $('#status').html('Error: ' + err);
+        });
+    } else {
+        getAll();
+    }
+}
+</pre>
+
+<p>執行結果如下，table會更新成尋到到的那筆，在下面的偵錯視窗可以看到，利用了Get。</p>
+<p><a href="http://lh6.ggpht.com/-HF-LVrXufUs/T70gUZsLlkI/AAAAAAAACpE/9fCfQtCHPq4/s1600-h/image%25255B23%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-SDV_8HRZjNw/T70gVRmIcaI/AAAAAAAACpM/sNQwlW6_Vl4/image_thumb%25255B11%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>Update</p>
+<p>更新資料和新增資料很像，一樣是利用JSON.stringify來轉換成JSON格式，然後用PUT來進行傳送。</p>
+<pre class="brush: js;">//更新資料
+function update() {
+    clearStatus();
+
+    var id = $('#contactId').val();
+
+    var json = JSON.stringify({ name: $("#name").val(), phone: $("#phone").val() });
+
+    $.ajax({
+        url: API_URL + id,
+        cache: false,
+        type: 'PUT',
+        contentType: 'application/json; charset=utf-8',
+        data: json,
+        success: function () { getAll(); }
+    })
+    .fail(
+    function (xhr, textStatus, err) {
+        $('#status').html('Error: ' + err);
+    });
+}
+</pre>
+
+<p>執行結果如下，我們ID、Name、Phone都填好後，按下Update就會更新資料，並且取得最新的table，我們也可以看到下面的偵錯工具，可以發現到現在是用HTTP PUT命令。</p>
+<p><a href="http://lh4.ggpht.com/-QxMIIIGwmng/T70gWbY5S9I/AAAAAAAACpU/vkC0-0qQKxs/s1600-h/image%25255B28%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-0lIxh6qVFTc/T70gXa0y-6I/AAAAAAAACpc/EGho4LA7yww/image_thumb%25255B14%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>Delete</p>
+<p>刪除資料更簡單了，因為連JSON都不需要了，我們只要URL配合id，並且送出DELETE的指令就可以了! </p>
+<pre class="brush: js;">//刪除指定資料
+function del() {
+    clearStatus();
+
+    var id = $('#contactId').val();
+
+    $.ajax({
+        url: API_URL + id,
+        cache: false,
+        type: 'DELETE',
+        contentType: 'application/json; charset=utf-8',
+        //data: json,
+        success: function () { getAll(); }
+    })
+    .fail(
+    function (xhr, textStatus, err) {
+        $('#status').html('Error: ' + err);
+    });
+}
+</pre>
+
+<p>測試一下，我們填入要刪除的ID，並按下Delete按鈕，table就會自動更新，我們也可以從偵錯視窗看到目前使用的是HTTP裡面的Delete命令。</p>
+<p><a href="http://lh3.ggpht.com/--KKP132158g/T70gYflo5OI/AAAAAAAACpo/XCbBAQtv4Ew/s1600-h/image%25255B33%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-DsFMc3GEdSQ/T70gapYjo7I/AAAAAAAACpw/Hsa7_ozY0ZM/image_thumb%25255B17%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h4 id="畫面載入完成時"><a href="#畫面載入完成時" class="headerlink" title="畫面載入完成時"></a>畫面載入完成時</h4><p>這是最後一小段的程式碼，小弟我希望畫面載入完成後，table會再動載入資料進來，所以加了這段。</p>
+<pre class="brush: js;">//開始時，先把資料讀取進來
+    $(document).ready(function () {
+        getAll();
+    });
+</pre>
+
+<p>到這邊就大功告成，我們最後再把整個index.cshtml看一遍吧。</p>
+<pre class="brush: xml;">@{
+    Layout = null;
+}
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name="viewport" content="width=device-width" /&gt;
+    &lt;title&gt;Index&lt;/title&gt;
+
+&lt;style type="text/css"&gt;
+    table
+    {
+        border: 1px solid #000;
+        border-collapse: collapse;
+        color: #666666;
+        min-width: 200px;
+    }
+
+    tr
+    {
+        border: 1px solid #000;
+        line-height: 25px;
+    }
+
+    th
+    {
+        background-color: #B1C3CC;
+        color: #000;
+        font-size: 13px;
+        text-align: left;
+    }
+
+    th, td
+    {
+        padding-left: 5px;
+    }
+&lt;/style&gt;
+&lt;script src="@Url.Content("~/Scripts/jquery-1.6.2.js")" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+
+    //清空status區段
+    function clearStatus() {
+        $('#status').html('');
+    }
+
+    var API_URL = "api/Customer/";
+
+    //增加資料
+    function add() {
+
+        clearStatus();
+
+        var json = JSON.stringify({ name: $("#name").val(), phone: $("#phone").val() });
+
+        $.ajax({
+            url: API_URL,
+            cache: false,
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            data: json,
+            statusCode: {
+                201 /*Created*/: function (data) {
+                    getAll();
+                }
+            }
+        });
+    }
+
+    //尋找資料
+    function find() {
+
+        clearStatus();
+
+        var id = $('#contactId').val();
+        if (id != "") {
+            $.getJSON(API_URL + id,
+            function (data) {
+                $("#customers tr").remove();
+                $("#customers").append("&lt;tr&gt;" +
+                          "&lt;td&gt;" + data["Id"] + "&lt;/td&gt;" +
+                          "&lt;td&gt;" + data["Name"] + "&lt;/td&gt;" +
+                          "&lt;td&gt;" + data["Phone"] + "&lt;/td&gt;" +
+                          "&lt;/tr&gt;");
+            })
+            .fail(
+            function (xhr, textStatus, err) {
+                $('#status').html('Error: ' + err);
+            });
+        } else {
+            getAll();
+        }
+    }
+
+    //更新資料
+    function update() {
+        clearStatus();
+
+        var id = $('#contactId').val();
+
+        var json = JSON.stringify({ name: $("#name").val(), phone: $("#phone").val() });
+
+        $.ajax({
+            url: API_URL + id,
+            cache: false,
+            type: 'PUT',
+            contentType: 'application/json; charset=utf-8',
+            data: json,
+            success: function () { getAll(); }
+        })
+        .fail(
+        function (xhr, textStatus, err) {
+            $('#status').html('Error: ' + err);
+        });
+    }
+
+    //刪除指定資料
+    function del() {
+        clearStatus();
+
+        var id = $('#contactId').val();
+
+        $.ajax({
+            url: API_URL + id,
+            cache: false,
+            type: 'DELETE',
+            contentType: 'application/json; charset=utf-8',
+            //data: json,
+            success: function () { getAll(); }
+        })
+        .fail(
+        function (xhr, textStatus, err) {
+            $('#status').html('Error: ' + err);
+        });
+    }
+
+    //取得所有資料
+    function getAll() {
+        clearStatus();
+
+        //利用Get方式取得。
+        $.getJSON(API_URL,
+        function (data) {
+            $("#customers tr").remove();
+            for (i = 0; i &lt; data.length; i++) {
+                $("#customers").append("&lt;tr&gt;" +
+                              "&lt;td&gt;" + data[i].Id + "&lt;/td&gt;" +
+                              "&lt;td&gt;" + data[i].Name + "&lt;/td&gt;" +
+                              "&lt;td&gt;" + data[i].Phone + "&lt;/td&gt;" +
+                              "&lt;/tr&gt;");
+            }
+        })
+    .fail(
+        function (xhr, textStatus, err) {
+            $('#status').html('Error: ' + err);
+        });
+    }
+
+    //開始時，先把資料讀取進來
+    $(document).ready(function () {
+        getAll();
+    });
+
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="body"&gt;
+        &lt;section class="content-wrapper main-content"&gt;
+            &lt;h3&gt;Contacts&lt;/h3&gt;
+            &lt;table&gt;
+                &lt;thead&gt;
+                    &lt;tr&gt;
+                        &lt;th&gt;ID&lt;/th&gt;
+                        &lt;th&gt;Name&lt;/th&gt;
+                        &lt;th&gt;Phone&lt;/th&gt;
+                    &lt;/tr&gt;
+                &lt;/thead&gt;
+                &lt;tbody id="customers"&gt;
+                &lt;/tbody&gt;
+            &lt;/table&gt;
+        &lt;/section&gt;
+        &lt;section id="detail" class="content-wrapper"&gt;
+            &lt;h3&gt;View Contact&lt;/h3&gt;
+            &lt;label for="contactId"&gt;ID&lt;/label&gt;
+            &lt;input type="text" title="ID" id="contactId" size="5" /&gt;
+            &lt;input type="button" value="Get" onclick="find();" /&gt;
+            &lt;div&gt;
+                &lt;label for="name"&gt;Name&lt;/label&gt;
+                &lt;input type="text" title="Name" id="name" /&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;label for="phone"&gt; Phone&lt;/label&gt;
+                &lt;input type="text" title="Phone" id="phone" /&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+                &lt;input type="button" value="Update" onclick="update();" /&gt;
+                &lt;input type="button" value="Delete" onclick="del();" /&gt;
+                &lt;input type="button" value="Add New" onclick="add();" /&gt;
+            &lt;/div&gt;
+        &lt;div&gt;
+            &lt;p id="status"&gt;&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;/section&gt; 
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+</pre>
+
+<p>以上，終於寫完!</p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>寫完的當下，才發現<a href="http://blog.kkbruce.net/search/label/Web%20API#.T70ecMWYS48" target="_blank" rel="noopener">KingKong前輩</a>，和<a href="http://mvc.keigen.net/2012/03/web-api_30.html" target="_blank" rel="noopener">阿源哥哥前輩</a>都有寫過類似的文章 ( 暈倒 )，但不管怎樣，這是小弟自己邊看邊寫的讀書筆記啦&gt;&lt;，所以如果小弟沒寫好的地方，也可以去看看前輩們寫的超詳細文章喔!!</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://zh.wikipedia.org/wiki/JQuery" target="_blank" rel="noopener" title="http://zh.wikipedia.org/wiki/JQuery">http://zh.wikipedia.org/wiki/JQuery</a><li><a href="http://jquery.com/" target="_blank" rel="noopener" title="http://jquery.com/">http://jquery.com/</a><li><a href="http://blog.darkthread.net/post-2009-01-23-my-jquery-tutorial.aspx" target="_blank" rel="noopener" title="http://blog.darkthread.net/post-2009-01-23-my-jquery-tutorial.aspx">http://blog.darkthread.net/post-2009-01-23-my-jquery-tutorial.aspx</a><li><a href="http://knockoutjs.com/" target="_blank" rel="noopener" title="http://knockoutjs.com/">http://knockoutjs.com/</a><li><a href="http://blog.darkthread.net/post-2012-05-09-knockout-js-intro.aspx" target="_blank" rel="noopener" title="http://blog.darkthread.net/post-2012-05-09-knockout-js-intro.aspx">http://blog.darkthread.net/post-2012-05-09-knockout-js-intro.aspx</a><li><a href="http://blog.faq-book.com/?p=3456" target="_blank" rel="noopener" title="http://blog.faq-book.com/?p=3456">http://blog.faq-book.com/?p=3456</a><li>[http://blog.kkbruce.net/search/label/Web%20API#.T70ecMWYS48](http://blog.kkbruce.net/search/label/Web%20API#.T70ecMWYS48 "http://blog.kkbruce.net/search/label/Web%20API#.T70ecMWYS48")
+<li>[http://mvc.keigen.net/2012/03/web-api_30.html](http://mvc.keigen.net/2012/03/web-api_30.html "http://mvc.keigen.net/2012/03/web-api_30.html")
+<li>[http://www.asp.net/web-api/overview/creating-web-apis/creating-a-web-api-that-supports-crud-operations](http://www.asp.net/web-api/overview/creating-web-apis/creating-a-web-api-that-supports-crud-operations "http://www.asp.net/web-api/overview/creating-web-apis/creating-a-web-api-that-supports-crud-operations")</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+            <a href="/tags/CSS/" rel="tag">#CSS</a>
+          
+            <a href="/tags/HTML/" rel="tag">#HTML</a>
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/jQuery/" rel="tag">#jQuery</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/05/23/Visual-Studio-%E9%96%8B%E5%95%9F%E8%B5%B7%E5%A7%8B%E9%A0%81/" rel="next" title="Visual Studio -  開啟起始頁">
+                <i class="fa fa-chevron-left"></i> Visual Studio -  開啟起始頁
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/05/24/ASP-NET-MVC-Web-API-%E5%88%A9%E7%94%A8jQuery%E9%80%B2%E8%A1%8CCRUD-%E7%95%AA%E5%A4%96%E7%AF%87-%E4%B8%9F%E5%8E%BBAzure%E5%90%A7/" rel="prev" title="ASP.NET MVC Web API - 利用jQuery進行CRUD! 番外篇 丟去Azure吧!">
+                ASP.NET MVC Web API - 利用jQuery進行CRUD! 番外篇 丟去Azure吧! <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#支援版本"><span class="nav-number">1.</span> <span class="nav-text">支援版本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jQuery"><span class="nav-number">2.</span> <span class="nav-text">jQuery</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Knockout"><span class="nav-number">3.</span> <span class="nav-text">Knockout</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#View"><span class="nav-number">4.</span> <span class="nav-text">View</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTML"><span class="nav-number">5.</span> <span class="nav-text">HTML</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CSS"><span class="nav-number">6.</span> <span class="nav-text">CSS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JavaScript-amp-jQuery"><span class="nav-number">7.</span> <span class="nav-text">JavaScript &amp; jQuery</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#清空"><span class="nav-number">8.</span> <span class="nav-text">清空</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#取得全部"><span class="nav-number">9.</span> <span class="nav-text">取得全部</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ADD"><span class="nav-number">10.</span> <span class="nav-text">ADD</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Find"><span class="nav-number">11.</span> <span class="nav-text">Find</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#畫面載入完成時"><span class="nav-number">12.</span> <span class="nav-text">畫面載入完成時</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">13.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">14.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2012/05/24/ASP-NET-MVC-Web-API-利用jQuery進行CRUD-三-View篇/';
+      var disqus_title = 'ASP.NET MVC Web API - 利用jQuery進行CRUD! (三) View篇';
+      var disqus_url = 'http://skychang.github.io/2012/05/24/ASP-NET-MVC-Web-API-%E5%88%A9%E7%94%A8jQuery%E9%80%B2%E8%A1%8CCRUD-%E4%B8%89-View%E7%AF%87/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

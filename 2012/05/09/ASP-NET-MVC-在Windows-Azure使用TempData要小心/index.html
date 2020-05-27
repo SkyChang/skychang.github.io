@@ -1,0 +1,772 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ASP.NET MVC,Azure," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="其實這篇是延續之前寫的”Windows Azure - 使用Windows Azure Storage解決Sessios問題“這個主題，前一篇提到Session在Windows Azure可能會遇到的問題 ( 如果口袋很深的話&#x3D;v&#x3D; )，而如果對於ASP.NET MVC比較熟的人，可能就會發現一件事情；沒錯，Session會遇到的問題，在ASP.NET MVC的TempData也會碰到，那是因為T">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET MVC -  在Windows Azure使用TempData要小心!">
+<meta property="og:url" content="http://skychang.github.io/2012/05/09/ASP-NET-MVC-%E5%9C%A8Windows-Azure%E4%BD%BF%E7%94%A8TempData%E8%A6%81%E5%B0%8F%E5%BF%83/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="其實這篇是延續之前寫的”Windows Azure - 使用Windows Azure Storage解決Sessios問題“這個主題，前一篇提到Session在Windows Azure可能會遇到的問題 ( 如果口袋很深的話&#x3D;v&#x3D; )，而如果對於ASP.NET MVC比較熟的人，可能就會發現一件事情；沒錯，Session會遇到的問題，在ASP.NET MVC的TempData也會碰到，那是因為T">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh3.ggpht.com/-9bvEh5W-keo/T6pyGqQKDmI/AAAAAAAACeI/_thsXcggXn0/image_thumb%25255B2%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-yNpQGplWv9k/T6pyIZ2XoTI/AAAAAAAACec/f8rtD22QPU0/image_thumb%25255B5%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-aIgsQ2hIMA0/T6pyLH4QKFI/AAAAAAAACes/d1dsxEcdZ80/image_thumb%25255B8%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-DWw6osIqF0U/T6pyNSpzYCI/AAAAAAAACe8/0-qRbPkg1zc/image_thumb%25255B11%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2012-05-09T21:33:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.836Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta property="article:tag" content="Azure">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh3.ggpht.com/-9bvEh5W-keo/T6pyGqQKDmI/AAAAAAAACeI/_thsXcggXn0/image_thumb%25255B2%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ASP.NET MVC -  在Windows Azure使用TempData要小心! | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ASP.NET MVC -  在Windows Azure使用TempData要小心!
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2012-05-09T21:33:00+00:00" content="2012-05-09">
+              2012-05-09
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/05/09/ASP-NET-MVC-%E5%9C%A8Windows-Azure%E4%BD%BF%E7%94%A8TempData%E8%A6%81%E5%B0%8F%E5%BF%83/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/05/09/ASP-NET-MVC-在Windows-Azure使用TempData要小心/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>其實這篇是延續之前寫的”<a href="http://blog.sanc.idv.tw/2012/04/windows-azure-windows-azure_21.html" target="_blank" rel="noopener">Windows Azure - 使用Windows Azure Storage解決Sessios問題</a>“這個主題，前一篇提到Session在Windows Azure可能會遇到的問題 ( 如果口袋很深的話=v= )，而如果對於ASP.NET MVC比較熟的人，可能就會發現一件事情；沒錯，Session會遇到的問題，在ASP.NET MVC的TempData也會碰到，那是因為TempData是利用Session來進行實作 ( 但詳細的情況小弟我並沒有真的去翻原始碼認證，所以有錯也請告知 )，所以Session抓不到的問題，在ASP.NET MVC的TempData當然也會發生。</p>
+<p>同樣的，沒圖沒真相，我們還是稍微實驗一下吧。</p>
+<h4 id="開始實驗"><a href="#開始實驗" class="headerlink" title="開始實驗!"></a>開始實驗!</h4><p>首先，整個專案的檔案大致是這樣，既然是要測試Windows Azure，所以當然要有Windows Azure的專案，然後也別忘了，要將Web Role設定兩個以上，如果只設一個，當然不會發生任何問題了；接下來，我們只利用一個HomeController就可以了；因為要切換頁面，所以我們要ˇ兩個View，一個就是Index，另外一個就是Index2。</p>
+<p><a href="http://lh6.ggpht.com/-9D2ikjMT_fo/T6pyFWT6m3I/AAAAAAAACeE/W1qPuMAVhIc/s1600-h/image%25255B4%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-9bvEh5W-keo/T6pyGqQKDmI/AAAAAAAACeI/_thsXcggXn0/image_thumb%25255B2%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>反正是本機模擬，執行個體開四個也沒差了，但千萬不要發布上去喔!</p>
+<p><a href="http://lh3.ggpht.com/-PRa-2iDqZc0/T6pyHaQbJLI/AAAAAAAACeQ/RzBAvGVoraY/s1600-h/image%25255B9%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-yNpQGplWv9k/T6pyIZ2XoTI/AAAAAAAACec/f8rtD22QPU0/image_thumb%25255B5%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h4 id="HomeControl的程式碼"><a href="#HomeControl的程式碼" class="headerlink" title="HomeControl的程式碼"></a>HomeControl的程式碼</h4><p>HomeControl的程式碼很簡單，我們在第一個View (Index)，設定了Session、ViewData、ViewBag、TempData來做測試，至於為什麼還要設定ViewData和ViewBag，那是因為小弟之前太蠢了，想說ViewData和ViewBag會不會也和TempData一樣有問題，當初還跑去問<a href="http://studyhost.blogspot.com/" target="_blank" rel="noopener">David老師</a>，只看到David老師一臉疑惑的看著我XDD；後來回到家裡仔細想想，其實ViewData和ViewBag當然不會有這個問題，理由很簡單，從Control到View這段，其實還在同一台機器上，所以自然不會有這種問題啊!! ( David老師對不起，問了蠢問題QQ )，所以這邊的ViewData和ViewBag看看就好..，其次，我們使用RoleEnvironment.CurrentRoleInstance.Id來取得目前Windows Azure的機器id，用來判斷是否不同台。</p>
+<pre class="brush: csharp;">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using Microsoft.WindowsAzure.ServiceRuntime;
+
+namespace MvcWebRole1.Controllers
+{
+    public class HomeController : Controller
+    {
+        //
+        // GET: /Home/
+
+        public ActionResult Index()
+        {
+            ViewBag.id = RoleEnvironment.CurrentRoleInstance.Id;
+            Session["Test"] = "Have Value";
+            ViewData["Test"] = "Have Value";
+            ViewBag.Test = "Have Value";
+            TempData["Test"] = "Have Value";
+            return View();
+        }
+
+        public ActionResult Index2()
+        {
+            ViewBag.id = RoleEnvironment.CurrentRoleInstance.Id;
+            return View();
+        }
+    }
+}
+</pre>
+
+<p>這樣子Controller就寫好了，接下來我們來看看View。</p>
+<h4 id="Index的程式碼"><a href="#Index的程式碼" class="headerlink" title="Index的程式碼"></a>Index的程式碼</h4><p>Index裡面很簡單，就是把剛剛那個很糗的ViewData和ViewBag秀出來，基本上，是沒甚麼意義可言啦…，但是ViewBag.id就是有意義的，我們把剛剛抓到的Windows Azure機器id給Show出來，另外，我們最後面加上一個連結，準備連到另外一個View。</p>
+<pre class="brush: xml;">@{
+    Layout = null;
+}
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name="viewport" content="width=device-width" /&gt;
+    &lt;title&gt;Index&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;@ViewBag.id&lt;/h1&gt;
+    &lt;div&gt;
+    Session:
+    @if(Session["Test"] == null)
+    {
+        @:Session is null &lt;br /&gt;
+    }else
+    {
+        @Session["Test"]; &lt;br /&gt;
+    }
+    ViewData:
+    @if (ViewData["Test"] == null)
+    { 
+        @:ViewData is null &lt;br /&gt;
+    }
+    else
+    { 
+        @ViewData["Test"]; &lt;br /&gt;
+    }
+    ViewBag
+    @if (ViewBag.Test == null)
+    { 
+        @:ViewBag is null &lt;br /&gt;
+    }
+    else
+    { 
+        @ViewBag.Test;&lt;br /&gt;
+    }
+
+    @Html.ActionLink("Next", "Index2", "Home");
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p>到這邊，第一個View就結束了，接下來，我們來看看Index2。</p>
+<h4 id="Index2的程式碼"><a href="#Index2的程式碼" class="headerlink" title="Index2的程式碼"></a>Index2的程式碼</h4><p>接下來是Index2，我們把剛剛設定好的Session和TempData，Show出在Index2頁面，當然，這邊也要使用ViewBag.id來把Windows Azure上的機器id給Show出來。</p>
+<pre class="brush: xml;">@{
+    Layout = null;
+}
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta name="viewport" content="width=device-width" /&gt;
+    &lt;title&gt;Index2&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;@ViewBag.id&lt;/h1&gt;
+    &lt;div&gt;
+    Session:
+    @if(Session["Test"] == null)
+    {
+        @:Session is null &lt;br /&gt;
+    }else
+    {
+        @Session["Test"]; &lt;br /&gt;
+        Session.Clear();
+    }
+    TempData:
+    @if (TempData["Test"] == null)
+    {
+        @:TempData is null &lt;br /&gt;
+    }
+    else
+    {
+        @TempData["Test"]; &lt;br /&gt;
+    }
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p>這樣又完成了範例，接下來我們就執行看看。</p>
+<p>Run</p>
+<p>我們可以發現，目前是在編號1的Windows Azure之下，接下來，我們按下Next，看看下一頁會怎樣。</p>
+<p><a href="http://lh5.ggpht.com/-vPUx6PZ8f7E/T6pyKFme9aI/AAAAAAAACek/tthmEwWw_Zg/s1600-h/image%25255B14%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-aIgsQ2hIMA0/T6pyLH4QKFI/AAAAAAAACes/d1dsxEcdZ80/image_thumb%25255B8%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>到了第二頁，我們可以發現目前的id是0，也就是說和第一台是不同台，而這邊我們也可以發現Session是空的，而比較重要的是TempData也為空。</p>
+<p><a href="http://lh5.ggpht.com/-oRqohBcs_oo/T6pyMbOl9kI/AAAAAAAACe0/p_nPldEefU8/s1600-h/image%25255B19%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-DWw6osIqF0U/T6pyNSpzYCI/AAAAAAAACe8/0-qRbPkg1zc/image_thumb%25255B11%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>到這邊，實驗就算結束了。</p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>當然，這篇的用意是想提醒大家，使用ASP.NET MVC丟到Windows Azure的時候，使用TempData需要特別的注意，至於解法，可以參考<a href="http://blog.sanc.idv.tw/2012/04/windows-azure-windows-azure_21.html" target="_blank" rel="noopener">上一篇</a>喔。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/04/22/SQL-Azure-%E4%BD%BF%E7%94%A8SSIS%E5%B0%87SQL-Azure%E7%9A%84%E8%B3%87%E6%96%99%E8%A4%87%E8%A3%BD%E5%88%B0Local/" rel="next" title="SQL Azure - 使用SSIS將SQL Azure的資料複製到Local">
+                <i class="fa fa-chevron-left"></i> SQL Azure - 使用SSIS將SQL Azure的資料複製到Local
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/05/09/Silverlight-%E7%B9%BC%E6%89%BFUserControl%E7%9A%84%E4%BD%9C%E6%B3%95/" rel="prev" title="Silverlight -  繼承UserControl的作法">
+                Silverlight -  繼承UserControl的作法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#開始實驗"><span class="nav-number">1.</span> <span class="nav-text">開始實驗!</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HomeControl的程式碼"><span class="nav-number">2.</span> <span class="nav-text">HomeControl的程式碼</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Index的程式碼"><span class="nav-number">3.</span> <span class="nav-text">Index的程式碼</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Index2的程式碼"><span class="nav-number">4.</span> <span class="nav-text">Index2的程式碼</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">5.</span> <span class="nav-text">後記</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2012/05/09/ASP-NET-MVC-在Windows-Azure使用TempData要小心/';
+      var disqus_title = 'ASP.NET MVC -  在Windows Azure使用TempData要小心!';
+      var disqus_url = 'http://skychang.github.io/2012/05/09/ASP-NET-MVC-%E5%9C%A8Windows-Azure%E4%BD%BF%E7%94%A8TempData%E8%A6%81%E5%B0%8F%E5%BF%83/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

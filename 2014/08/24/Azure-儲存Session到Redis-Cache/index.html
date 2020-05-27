@@ -1,0 +1,741 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ASP.NET MVC,Azure,Redis," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="上一篇，我們快速地看到了Redis怎麼樣在Azure建立與使用，那同樣的，在Azure上，多個Instance最需要解決的還是Session問題；我們以前看了很多種解決方式，例如官方不建議的Table方式，或是早期的存放到SQL Database、貴貴的Azure Cache，或是拿Cloud Service的Work Role當作Cache。 而這篇文章，我們就來看看，要怎樣使用超高速的Redi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Azure - 儲存Session到Redis Cache">
+<meta property="og:url" content="http://skychang.github.io/2014/08/24/Azure-%E5%84%B2%E5%AD%98Session%E5%88%B0Redis-Cache/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="上一篇，我們快速地看到了Redis怎麼樣在Azure建立與使用，那同樣的，在Azure上，多個Instance最需要解決的還是Session問題；我們以前看了很多種解決方式，例如官方不建議的Table方式，或是早期的存放到SQL Database、貴貴的Azure Cache，或是拿Cloud Service的Work Role當作Cache。 而這篇文章，我們就來看看，要怎樣使用超高速的Redi">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh6.ggpht.com/-hwnggp09Zok/U_mzNqgS01I/AAAAAAAAJto/QCSXBEWIf-0/image_thumb%25255B2%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2014-08-24T17:41:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.888Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="Redis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh6.ggpht.com/-hwnggp09Zok/U_mzNqgS01I/AAAAAAAAJto/QCSXBEWIf-0/image_thumb%25255B2%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Azure - 儲存Session到Redis Cache | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Azure - 儲存Session到Redis Cache
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2014-08-24T17:41:00+00:00" content="2014-08-24">
+              2014-08-24
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/08/24/Azure-%E5%84%B2%E5%AD%98Session%E5%88%B0Redis-Cache/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/08/24/Azure-儲存Session到Redis-Cache/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>上一篇，我們快速地看到了Redis怎麼樣在Azure建立與使用，那同樣的，在Azure上，多個Instance最需要解決的還是Session問題；我們以前看了很多種解決方式，例如官方不建議的Table方式，或是早期的存放到SQL Database、貴貴的Azure Cache，或是拿Cloud Service的Work Role當作Cache。</p>
+<p>而這篇文章，我們就來看看，要怎樣使用超高速的Redis Cache當作Session的存放位置。</p>
+<p>首先，我們要在NuGet裝RedisSessionStateProvider，所以我們要在搜尋方塊打”RedisSessionStateProvider”。( 目前這個Lib是屬於發行前版本，所以要切換到發行前版本進行搜尋才搜尋的到 )</p>
+<p><a href="http://lh5.ggpht.com/-4uErAxzP8c4/U_mzMroV1mI/AAAAAAAAJtg/_p4j98q2qPU/s1600-h/image%25255B4%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-hwnggp09Zok/U_mzNqgS01I/AAAAAAAAJto/QCSXBEWIf-0/image_thumb%25255B2%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>完成之後，官方是寫說會將Lib載入，並且自動修改Web.config，但實際上，我沒有阿QQ..好啦，這個月人品持續有問題，那我們也只好自己加入了…下面是官方給的範例，我們就用這範例去做調整吧。</p>
+<p>基本上，只有retryTimeoutInMilliseconds要注意一下，因為是以毫秒為單位計算。( RetryTimeoutInMilliseconds是當有斷線，連不到的情況下，可以重試 )</p>
+<pre class="brush: xml;">&lt;sessionState mode="Custom" customProvider="MySessionStateStore"&gt;
+  &lt;providers&gt;
+    &lt;!--
+      &lt;add name="MySessionStateStore" 
+        host = "127.0.0.1" [String]
+        port = "" [number]
+        accessKey = "" [String]
+        ssl = "false" [true|false]
+        throwOnError = "true" [true|false]
+        retryTimeoutInMilliseconds = "0" [number]
+      /&gt;
+    --&gt;
+    &lt;add name="MySessionStateStore" type="Microsoft.Web.Redis.RedisSessionStateProvider" host="127.0.0.1" accessKey="" ssl="false" /&gt;
+  &lt;/providers&gt;
+&lt;/sessionState&gt;
+</pre>
+
+<p>那我們修改玩的Web.Config會長得像這樣，記得accessKey要填入Azure上Redis Cache的Key。</p>
+<pre class="brush: xml;">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;!--
+  如需如何設定 ASP.NET 應用程式的詳細資訊，請瀏覽
+  http://go.microsoft.com/fwlink/?LinkId=301880
+  --&gt;
+&lt;configuration&gt;
+  &lt;appSettings&gt;
+    &lt;add key="webpages:Version" value="3.0.0.0"/&gt;
+    &lt;add key="webpages:Enabled" value="false"/&gt;
+    &lt;add key="ClientValidationEnabled" value="true"/&gt;
+    &lt;add key="UnobtrusiveJavaScriptEnabled" value="true"/&gt;
+  &lt;/appSettings&gt;
+  &lt;system.web&gt;
+    &lt;compilation debug="true" targetFramework="4.5"/&gt;
+    &lt;httpRuntime targetFramework="4.5"/&gt;
+
+    &lt;sessionState mode="Custom" customProvider="MySessionStateStore"&gt;
+      &lt;providers&gt;
+        &lt;!--
+      &lt;add name="MySessionStateStore" 
+        host = "127.0.0.1" [String]
+        port = "" [number]
+        accessKey = "" [String]
+        ssl = "false" [true|false]
+        throwOnError = "true" [true|false]
+        retryTimeoutInMilliseconds = "0" [number]
+      /&gt;
+    --&gt;
+        &lt;add name="MySessionStateStore" type="Microsoft.Web.Redis.RedisSessionStateProvider" 
+             host="skyrediscache.redis.cache.windows.net"
+        accessKey="..." ssl="true" /&gt;
+      &lt;/providers&gt;
+    &lt;/sessionState&gt;
+
+  &lt;/system.web&gt;
+  &lt;runtime&gt;
+    &lt;assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1"&gt;
+      &lt;dependentAssembly&gt;
+        &lt;assemblyIdentity name="Newtonsoft.Json" culture="neutral" publicKeyToken="30ad4fe6b2a6aeed"/&gt;
+        &lt;bindingRedirect oldVersion="0.0.0.0-6.0.0.0" newVersion="6.0.0.0"/&gt;
+      &lt;/dependentAssembly&gt;
+      &lt;dependentAssembly&gt;
+        &lt;assemblyIdentity name="System.Web.Optimization" publicKeyToken="31bf3856ad364e35"/&gt;
+        &lt;bindingRedirect oldVersion="1.0.0.0-1.1.0.0" newVersion="1.1.0.0"/&gt;
+      &lt;/dependentAssembly&gt;
+      &lt;dependentAssembly&gt;
+        &lt;assemblyIdentity name="WebGrease" publicKeyToken="31bf3856ad364e35"/&gt;
+        &lt;bindingRedirect oldVersion="1.0.0.0-1.5.2.14234" newVersion="1.5.2.14234"/&gt;
+      &lt;/dependentAssembly&gt;
+      &lt;dependentAssembly&gt;
+        &lt;assemblyIdentity name="System.Web.Helpers" publicKeyToken="31bf3856ad364e35"/&gt;
+        &lt;bindingRedirect oldVersion="1.0.0.0-3.0.0.0" newVersion="3.0.0.0"/&gt;
+      &lt;/dependentAssembly&gt;
+      &lt;dependentAssembly&gt;
+        &lt;assemblyIdentity name="System.Web.WebPages" publicKeyToken="31bf3856ad364e35"/&gt;
+        &lt;bindingRedirect oldVersion="1.0.0.0-3.0.0.0" newVersion="3.0.0.0"/&gt;
+      &lt;/dependentAssembly&gt;
+      &lt;dependentAssembly&gt;
+        &lt;assemblyIdentity name="System.Web.Mvc" publicKeyToken="31bf3856ad364e35"/&gt;
+        &lt;bindingRedirect oldVersion="1.0.0.0-5.2.0.0" newVersion="5.2.0.0"/&gt;
+      &lt;/dependentAssembly&gt;
+    &lt;/assemblyBinding&gt;
+  &lt;/runtime&gt;
+&lt;/configuration&gt;
+</pre>
+
+<p>最後，我們可以寫一個Session進去看看。</p>
+<pre class="brush: csharp;">public ActionResult SessionTest()
+{
+    Session["Test"] = "Hello Redis";
+
+    return View();
+}
+</pre>
+
+<p>基本上如果無報錯的話，就代表成功了喔!!</p>
+<p>參考資料</p>
+<ul>
+<li><a href="http://blogs.msdn.com/b/webdev/archive/2014/05/12/announcing-asp-net-session-state-provider-for-redis-preview-release.aspx?PageIndex=4" target="_blank" rel="noopener" title="http://blogs.msdn.com/b/webdev/archive/2014/05/12/announcing-asp-net-session-state-provider-for-redis-preview-release.aspx?PageIndex=4">http://blogs.msdn.com/b/webdev/archive/2014/05/12/announcing-asp-net-session-state-provider-for-redis-preview-release.aspx?PageIndex=4</a></li>
+<li><a href="http://azure.microsoft.com/zh-tw/documentation/articles/cache-dotnet-how-to-use-azure-redis-cache/" target="_blank" rel="noopener" title="http://azure.microsoft.com/zh-tw/documentation/articles/cache-dotnet-how-to-use-azure-redis-cache/">http://azure.microsoft.com/zh-tw/documentation/articles/cache-dotnet-how-to-use-azure-redis-cache/</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/Redis/" rel="tag">#Redis</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/08/24/Azure-Redis-Cache/" rel="next" title="Azure - Redis Cache">
+                <i class="fa fa-chevron-left"></i> Azure - Redis Cache
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/08/24/Azure-Resource-Group/" rel="prev" title="Azure -  Resource Group">
+                Azure -  Resource Group <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2014/08/24/Azure-儲存Session到Redis-Cache/';
+      var disqus_title = 'Azure - 儲存Session到Redis Cache';
+      var disqus_url = 'http://skychang.github.io/2014/08/24/Azure-%E5%84%B2%E5%AD%98Session%E5%88%B0Redis-Cache/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

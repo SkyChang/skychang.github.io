@@ -1,0 +1,703 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Azure,Linux,Ubuntu,VM," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="大家應該都很清楚，透過Azure可以輕鬆的建立Windows的VM，但實際上，要建立Linux的VM也一樣容易，  而本篇，就由小弟來為大家介紹Ubuntu in Azure。 建立Ubuntu VM 與 登入建立Linux VM的方式基本上與建立Windows沒兩樣，這邊小弟選擇了Linux裡面大家很常使用的Ubuntu來作為教學。 而這邊要特別注意，我們選擇的是Ubuntu 14.10的版本，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Azure上的Ubuntu與遠端桌面管理 VNC">
+<meta property="og:url" content="http://skychang.github.io/2015/07/30/Azure%E4%B8%8A%E7%9A%84Ubuntu%E8%88%87%E9%81%A0%E7%AB%AF%E6%A1%8C%E9%9D%A2%E7%AE%A1%E7%90%86-VNC/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="大家應該都很清楚，透過Azure可以輕鬆的建立Windows的VM，但實際上，要建立Linux的VM也一樣容易，  而本篇，就由小弟來為大家介紹Ubuntu in Azure。 建立Ubuntu VM 與 登入建立Linux VM的方式基本上與建立Windows沒兩樣，這邊小弟選擇了Linux裡面大家很常使用的Ubuntu來作為教學。 而這邊要特別注意，我們選擇的是Ubuntu 14.10的版本，">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://lh3.googleusercontent.com/0jxoESgIEeD0b9FtXDfixmIKxewxrk3gMtKbIhn1ZTA=s600">
+<meta property="og:image" content="https://lh3.googleusercontent.com/gWftkxYQXCwVbZDi3cCkB6VptTiCkMbx2uYHyiqRZy0=s600">
+<meta property="og:image" content="https://lh3.googleusercontent.com/SAHUQQkMVDuwxoy_l1Wl89gR_fbodcPZSJvjgAIZnbo=s600">
+<meta property="og:image" content="https://lh3.googleusercontent.com/fbtACjObO6UalSvmrBLJJuoKj63mlukcw3esrLJyK5M=s600">
+<meta property="og:image" content="https://lh3.googleusercontent.com/-iPEJdkdhjKzbq1Qglby-77Pfd3zCkxoSiPdQDdk988=s600">
+<meta property="og:image" content="https://lh3.googleusercontent.com/npNXmCdKfgoq8Kcck4xphBl3zVl_30oyBgpfM8Amfjg=s600">
+<meta property="og:image" content="https://lh3.googleusercontent.com/7b0bJaCNAuzowwVDCCDPBIYW7c4xvhbU5kGIH9fLL5s=s600">
+<meta property="og:image" content="https://lh3.googleusercontent.com/hzuFIsaEmhzfjA5lgOs9U2udnuugIvwiMW9t_fV9BfE=s600">
+<meta property="og:image" content="https://lh3.googleusercontent.com/my6_bvEGpCymQgB40DSkTnRXwDGMz8v_9B-QXde5jXQ=s600">
+<meta property="og:image" content="https://lh3.googleusercontent.com/vNbu89lf5rzyj9mA34MyWCsjTcRHjZS6oAsMOHeeGGc=s600">
+<meta property="og:image" content="https://lh3.googleusercontent.com/UE-q2rFMoVrv46TJW0ZD-pzx_D_f-tKfrd06H5kWKX8=s600">
+<meta property="og:image" content="https://lh3.googleusercontent.com/SQWEqclYgs44pEYdXtlZ2u6RFkVpbHWGaNJkYy-6T5A=s600">
+<meta property="og:image" content="https://lh3.googleusercontent.com/x3IwQWV_-U1iDpSSKuEk98Ckl1Vrfpt-zWPNm23nf0Q=s600">
+<meta property="article:published_time" content="2015-07-30T22:31:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.888Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Ubuntu">
+<meta property="article:tag" content="VM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lh3.googleusercontent.com/0jxoESgIEeD0b9FtXDfixmIKxewxrk3gMtKbIhn1ZTA=s600">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Azure上的Ubuntu與遠端桌面管理 VNC | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Azure上的Ubuntu與遠端桌面管理 VNC
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-07-30T22:31:00+00:00" content="2015-07-30">
+              2015-07-30
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/30/Azure%E4%B8%8A%E7%9A%84Ubuntu%E8%88%87%E9%81%A0%E7%AB%AF%E6%A1%8C%E9%9D%A2%E7%AE%A1%E7%90%86-VNC/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/07/30/Azure上的Ubuntu與遠端桌面管理-VNC/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>大家應該都很清楚，透過Azure可以輕鬆的建立Windows的VM，但實際上，要建立Linux的VM也一樣容易， </p>
+<p>而本篇，就由小弟來為大家介紹Ubuntu in Azure。</p>
+<h2 id="建立Ubuntu-VM-與-登入"><a href="#建立Ubuntu-VM-與-登入" class="headerlink" title="建立Ubuntu VM 與 登入"></a>建立Ubuntu VM 與 登入</h2><p>建立Linux VM的方式基本上與建立Windows沒兩樣，這邊小弟選擇了Linux裡面大家很常使用的Ubuntu來作為教學。</p>
+<p>而這邊要特別注意，我們選擇的是Ubuntu 14.10的版本，而後面開啟遠端設定的版本，也是針對14.10，如果您使用了別的版本，那可能會照成設定失敗的狀況。</p>
+<p><img src="https://lh3.googleusercontent.com/0jxoESgIEeD0b9FtXDfixmIKxewxrk3gMtKbIhn1ZTA=s600" alt="enter image description here" title="01.png"></p>
+<p>接下來，我們選擇 Ubuntu 14.10的版本，其餘的設定和建立一般的Windows Server差不多，一樣可以選擇地區或是資源群組。</p>
+<p><img src="https://lh3.googleusercontent.com/gWftkxYQXCwVbZDi3cCkB6VptTiCkMbx2uYHyiqRZy0=s600" alt="enter image description here" title="02.png"></p>
+<p>完成之後，我們沒辦法和 Windows 一樣，直接下載 RDP 的檔案來連線，我們必須透過 SSH 來進行連線。 </p>
+<p>這邊要注意一下，我們要在後面加上 -l 的參數，並且帶入帳號，不然他預設會用我們目前終端機的帳號，第一次登入的時候，會要求將金鑰寫入，所以這邊一定要按下 yes ，然後就可以輸入帳號密碼了～</p>
+<p><img src="https://lh3.googleusercontent.com/SAHUQQkMVDuwxoy_l1Wl89gR_fbodcPZSJvjgAIZnbo=s600" alt="enter image description here" title="03.png"></p>
+<h2 id="VNC-開始之前"><a href="#VNC-開始之前" class="headerlink" title="VNC 開始之前"></a>VNC 開始之前</h2><p>基本上，到上面那邊的操作，就已經可以順利登入了，但小弟畢竟是懶惰的，如果遠端登入也有 UI 那不是更棒嗎！！而目前，Ubuntu已經預設提供了 VNC 外，也提供透過Microsoft Remote Desktop ( RDP )的方式來遠端登入，( 其實底層還是 VNC 只是中間透過xRDP 來進行命令的轉換 )，基本上透過 RDP 的速度會比較快，但是目前 Ubuntu 預設的桌面和 xRDP 有一些衝突，所以要另外安裝其他的桌面環境，而這邊為了初步體驗順利，我們就直接來看看，透過 VNC 的方式來進行遠端登入。</p>
+<p>但開始前，小弟先提醒大家，目前小弟測試使用 VNC 登入，效果不是很好，滿慢的，所以有這個需求的朋友，可能要先有心理準備…</p>
+<h2 id="更新-Ubuntu-與-安裝-Ubuntu-Desktop"><a href="#更新-Ubuntu-與-安裝-Ubuntu-Desktop" class="headerlink" title="更新 Ubuntu 與 安裝 Ubuntu Desktop"></a>更新 Ubuntu 與 安裝 Ubuntu Desktop</h2><p>裝完 Ubuntu 後，第一步當然就是更新…所以我們要下</p>
+<pre><code>&lt;span class=&quot;hljs-built_in&quot;&gt;sudo&lt;/span&gt; apt-get update</code></pre><p>來更新。</p>
+<p><img src="https://lh3.googleusercontent.com/fbtACjObO6UalSvmrBLJJuoKj63mlukcw3esrLJyK5M=s600" alt="enter image description here" title="04.png"></p>
+<p>接下來，我們就可以裝預設的桌面環境了。</p>
+<p>sudo apt-get install ubuntu-desktop</p>
+<p>這邊裝的過程有點久，大家可能要耐心等待一下。</p>
+<p><img src="https://lh3.googleusercontent.com/-iPEJdkdhjKzbq1Qglby-77Pfd3zCkxoSiPdQDdk988=s600" alt="enter image description here" title="05.png"></p>
+<h2 id="安裝-x11vnc-與-設定"><a href="#安裝-x11vnc-與-設定" class="headerlink" title="安裝 x11vnc 與 設定"></a>安裝 x11vnc 與 設定</h2><p>接下來，我們要安裝 x11vnc 來當作我們的 VNC Server </p>
+<p>sudo apt-get install x11vnc</p>
+<p><img src="https://lh3.googleusercontent.com/npNXmCdKfgoq8Kcck4xphBl3zVl_30oyBgpfM8Amfjg=s600" alt="enter image description here" title="06.png"></p>
+<p>安裝完成之後，要設定遠端的登入密碼。 </p>
+<p>sudo x11vnc -storepasswd /etc/x11vnc.pass</p>
+<p><img src="https://lh3.googleusercontent.com/7b0bJaCNAuzowwVDCCDPBIYW7c4xvhbU5kGIH9fLL5s=s600" alt="" title="07.png"></p>
+<p>最後，我們要到/etc/init/的目錄下，新增加x11vnc.conf這個檔案</p>
+<p>小弟這邊直接使用 vi 來進行編輯。</p>
+<p>sudo vi /etc/init/x11vnc.conf</p>
+<p>內容如下，但要小心/usr/bin/x11vnc 等一長串，其實是”同一行”!!</p>
+<p>start on login-session-start  </p>
+<p>script  </p>
+<p>/usr/bin/x11vnc -xkb -auth /var/run/lightdm/root/:0 -noxrecord -noxfixes -noxdamage -rfbauth /etc/x11vnc.pass -forever -bg -rfbport 5900 -o /var/log/x11vnc.log  </p>
+<p>end script</p>
+<p><img src="https://lh3.googleusercontent.com/hzuFIsaEmhzfjA5lgOs9U2udnuugIvwiMW9t_fV9BfE=s600" alt="enter image description here" title="08.png"></p>
+<p>存擋完成之後，我們就可以重新開啟Ubuntu</p>
+<p>sudo reboot</p>
+<p><img src="https://lh3.googleusercontent.com/my6_bvEGpCymQgB40DSkTnRXwDGMz8v_9B-QXde5jXQ=s600" alt="enter image description here" title="09.png"></p>
+<h2 id="設定-Azure-端點"><a href="#設定-Azure-端點" class="headerlink" title="設定 Azure 端點"></a>設定 Azure 端點</h2><p>當然，最重要的，也別忘記設定 Azure 的端點。</p>
+<p><img src="https://lh3.googleusercontent.com/vNbu89lf5rzyj9mA34MyWCsjTcRHjZS6oAsMOHeeGGc=s600" alt="enter image description here" title="20.png"></p>
+<h2 id="連線"><a href="#連線" class="headerlink" title="連線"></a>連線</h2><p>接下來，就可以透過 VNC 的軟體進行登入嚕！！ （ 小弟這邊是直接使用 OSX 內建的 VNC 軟體 ） </p>
+<p>只要在 Safari 裡面輸入 VNC://網址，就可以進行登入</p>
+<p><img src="https://lh3.googleusercontent.com/UE-q2rFMoVrv46TJW0ZD-pzx_D_f-tKfrd06H5kWKX8=s600" alt="enter image description here" title="21.png"></p>
+<p>接下來輸入密碼</p>
+<p><img src="https://lh3.googleusercontent.com/SQWEqclYgs44pEYdXtlZ2u6RFkVpbHWGaNJkYy-6T5A=s600" alt="enter image description here" title="22.png"></p>
+<p>然後就可以成功進去了！！(這邊的登入密碼，就是建立 VM 時所 Key 的密碼，但有時候會因為網路的延遲，造成大小寫轉換失效，所以如果進不去，可以多試驗幾次)</p>
+<p><img src="https://lh3.googleusercontent.com/x3IwQWV_-U1iDpSSKuEk98Ckl1Vrfpt-zWPNm23nf0Q=s600" alt="enter image description here" title="23.png"></p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>基本上，這樣就可以輕鬆的登入到 Ubuntu 的遠端畫面，但小弟建議，還是用終端機吧…真的快很多….</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="http://c-nergy.be/blog/?p=5870" target="_blank" rel="noopener">http://c-nergy.be/blog/?p=5870</a></li>
+<li><a href="http://jamyy.us.to/blog/2015/04/7354.html" target="_blank" rel="noopener">http://jamyy.us.to/blog/2015/04/7354.html</a></li>
+<li><a href="http://askubuntu.com/questions/556358/desktop-sharing-on-14-10" target="_blank" rel="noopener">http://askubuntu.com/questions/556358/desktop-sharing-on-14-10</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/Linux/" rel="tag">#Linux</a>
+          
+            <a href="/tags/Ubuntu/" rel="tag">#Ubuntu</a>
+          
+            <a href="/tags/VM/" rel="tag">#VM</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/29/Azure-Use_DNS_Service/" rel="next" title="Azure - 使用 Azure DNS Service">
+                <i class="fa fa-chevron-left"></i> Azure - 使用 Azure DNS Service
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/30/%E5%9C%A8Ubuntu%E9%81%8B%E8%A1%8CDocker/" rel="prev" title="在Ubuntu運行Docker">
+                在Ubuntu運行Docker <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#建立Ubuntu-VM-與-登入"><span class="nav-number">1.</span> <span class="nav-text">建立Ubuntu VM 與 登入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VNC-開始之前"><span class="nav-number">2.</span> <span class="nav-text">VNC 開始之前</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新-Ubuntu-與-安裝-Ubuntu-Desktop"><span class="nav-number">3.</span> <span class="nav-text">更新 Ubuntu 與 安裝 Ubuntu Desktop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-x11vnc-與-設定"><span class="nav-number">4.</span> <span class="nav-text">安裝 x11vnc 與 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定-Azure-端點"><span class="nav-number">5.</span> <span class="nav-text">設定 Azure 端點</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#連線"><span class="nav-number">6.</span> <span class="nav-text">連線</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#總結"><span class="nav-number">7.</span> <span class="nav-text">總結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">8.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2015/07/30/Azure上的Ubuntu與遠端桌面管理-VNC/';
+      var disqus_title = 'Azure上的Ubuntu與遠端桌面管理 VNC';
+      var disqus_url = 'http://skychang.github.io/2015/07/30/Azure%E4%B8%8A%E7%9A%84Ubuntu%E8%88%87%E9%81%A0%E7%AB%AF%E6%A1%8C%E9%9D%A2%E7%AE%A1%E7%90%86-VNC/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

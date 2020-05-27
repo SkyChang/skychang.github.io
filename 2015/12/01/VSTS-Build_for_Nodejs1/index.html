@@ -1,0 +1,710 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Azure,JavaScript,Node.js,Release Management,VSTS,CI,CD," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言在上一篇了解了 new Build 後，我們這篇就來實際使用 Build 來佈署 Node.js 看看。 而開始前，我們先來看一下我們的環境，目前小弟的 Source Code 是放在 GitHub 上，而我希望透過 VSTS 的 Build ，來將我的 Node.js 佈署到 Azure Web Site，而這篇文章，可以達到這個目的。 另外，在開始之前，有一些事情概念的事情需要注意。 因這">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VSTS - VSTS Build - Node.js 前篇">
+<meta property="og:url" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="前言在上一篇了解了 new Build 後，我們這篇就來實際使用 Build 來佈署 Node.js 看看。 而開始前，我們先來看一下我們的環境，目前小弟的 Source Code 是放在 GitHub 上，而我希望透過 VSTS 的 Build ，來將我的 Node.js 佈署到 Azure Web Site，而這篇文章，可以達到這個目的。 另外，在開始之前，有一些事情概念的事情需要注意。 因這">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/01.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/02.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/03.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/04.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/05.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/06.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/07.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/08.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/09.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/10.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/11.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/12.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/13.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/14.png">
+<meta property="article:published_time" content="2015-12-01T23:20:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.991Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="Release Management">
+<meta property="article:tag" content="VSTS">
+<meta property="article:tag" content="CI">
+<meta property="article:tag" content="CD">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> VSTS - VSTS Build - Node.js 前篇 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                VSTS - VSTS Build - Node.js 前篇
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-12-01T23:20:00+00:00" content="2015-12-01">
+              2015-12-01
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/01/VSTS-Build_for_Nodejs1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/12/01/VSTS-Build_for_Nodejs1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在<a href="http://skychang.github.io/2015/11/30/VSTS-Build_Setup/">上一篇</a>了解了 new Build 後，我們這篇就來實際使用 Build 來佈署 Node.js 看看。</p>
+<p>而開始前，我們先來看一下我們的環境，目前小弟的 Source Code 是放在 GitHub 上，而我希望透過 VSTS 的 Build ，來將我的 Node.js 佈署到 Azure Web Site，而這篇文章，可以達到這個目的。</p>
+<p>另外，在開始之前，有一些事情概念的事情需要注意。</p>
+<p>因這篇是使用 Node.js 所以可能比較看不出來 CI 的效果，但有興趣朋友，後續可以在接 Test ，目前這篇並不會談到 Node.js 的自動測試，另外，在這篇，後續則是直接 Deploy 到 Azure ，也暫時不會談到 Release Management ，這篇是初階的引導班，未來會在講該怎麼和 Release Management 整合。</p>
+<h2 id="環境需求"><a href="#環境需求" class="headerlink" title="環境需求"></a>環境需求</h2><p>因使用 Node.js 5.0.0 版本，所以要自行建立 Build Agent，請參考<a href="http://skychang.github.io/2015/11/30/VSTS-Build_Setup/">上一篇</a>文章建立 Build Agent</p>
+<p>因為要佈署到 Azure，請於 Build Agent 這台 Server 安裝 Azure PowerShell</p>
+<p>因為要使用 VSTS 的 Build 功能，請先建立一個 Team 專案 ，亦可以參考<a href="http://skychang.github.io/2015/11/30/VSTS-Build_Setup/">上一篇</a></p>
+<h2 id="設定流程"><a href="#設定流程" class="headerlink" title="設定流程"></a>設定流程</h2><p>一開始，我們要先設定 Build 的流程，也就是設定一步接著一步的步驟。</p>
+<p>這邊，我們先在 Build 的選單下，按下 + 鈕，透過此按鈕，來新增新的 Build 定義。</p>
+<p><img src="01.png" alt=""></p>
+<p>接著，我們可以看到，官方已經提供了許多樣板，但很不幸的，Node.js 不在預設樣板裏面，所以我們先選擇空的，等下我們在自己新增。</p>
+<p><img src="02.png" alt=""></p>
+<p>接下來，選擇 source 來源，我們這邊當然就是選擇 GitHub，而 Default Agent queue 則讓我們選擇，要使用哪一個 Agent Pool，還記得嗎?，上一篇我們將我們自己的 Build Agent 放到 Default 這個 pool 裡面，所以這邊我們就選擇使用 Default；最後，如果你希望簽入到 GitHub 的時候，就自動觸發此 Build ，那就要勾選最下面的選項。</p>
+<p><img src="03.png" alt=""></p>
+<p>完成之後，我們持續設定，接下來，我們要加入好幾個步驟，第一個步驟就是 npm install ，畢竟應該不會有人把 package 也放到版控吧…所以當我們取下 source code 的時候，第一步就是先 npm install，如下圖。</p>
+<p>注意，這邊 UI 沒設計好，所以你按下 Add 的時候，感覺沒啥反應，但其實已經在背後增加了一個流程了，如果不小心按太多次，等下在移除流程即可。</p>
+<p><img src="04.png" alt=""></p>
+<p>當 npm install 完後，該做甚麼事情哩??..當然就是透過 gulp ( or grunt ) 來進行 Node.js 的流程處理。 ( 如果不知道甚麼是 gulp 的朋友可以參考<a href="http://skychang.github.io/2014/11/02/JavaScript-%E4%BD%BF%E7%94%A8gulp%E4%BE%86%E5%BB%BA%E7%BD%AEJS/">這篇</a>)</p>
+<p><img src="05.png" alt=""></p>
+<p>當該捆綁，轉換等等的過程都好了之後，下一步要做甚麼呢??，當然就是要發佈到 Azure WebSite，所以最後一步驟，就是把 Azure Web Site 流程加上去。</p>
+<p><img src="06.png" alt=""></p>
+<p>完成後如下圖，而這代表甚麼，這代表著當我們執行 Build 的流程，也就是說，當我們從 GitHub 下載完 Source Code 之後，會先執行 npm install ，來將欠缺的 package 給裝上去 ，接著，會執行 gulp 來跑流程，看是要將 ES6 、或是 TypeScript 轉成標準的 JavaScript ，又或著是打包 js 、 CSS 等流程，甚至我們還要在 gulp 設定壓縮成 package.zip ，來給 Azure PowerShell 上傳；最後一個步驟，當然就是使用 Azure PowerShell，將剛剛壓縮好的 Package.zip 傳到 Azure 上，並且進行佈署。</p>
+<p>所以，這裡的每一個流程，我們都可以自行的組合，已完成我們所需要的功能。</p>
+<p><img src="07.png" alt=""></p>
+<h2 id="設定-Azure-帳號"><a href="#設定-Azure-帳號" class="headerlink" title="設定 Azure 帳號"></a>設定 Azure 帳號</h2><p>接下來，我們要在 VSTS 裡面設定 Azure 帳號，我們可以直接從下圖的位置，打開設定頁。</p>
+<p><img src="08.png" alt=""></p>
+<p>接下來，新增一個 Azure。</p>
+<p><img src="09.png" alt=""></p>
+<p>然後把必要的資訊填入即可，相關資訊可以從 Azure Portal 取得，如下圖。另外 Connection Name 可以隨便填。</p>
+<p><img src="10.png" alt=""></p>
+<h2 id="設定-GitHub-帳號"><a href="#設定-GitHub-帳號" class="headerlink" title="設定 GitHub 帳號"></a>設定 GitHub 帳號</h2><p>接著，我們也把 GitHub 設定設定，設定的方法和 Azure 很類似。</p>
+<p><img src="11.png" alt=""></p>
+<p>這邊只要按下按鈕，就會跳出視窗驗證。</p>
+<p><img src="12.png" alt=""></p>
+<h2 id="繼續設定-Build-流程"><a href="#繼續設定-Build-流程" class="headerlink" title="繼續設定 Build 流程"></a>繼續設定 Build 流程</h2><p>接著，回到主線，現在我們就可以從 Azure Subscription 選到剛剛新增的 Azure 帳號，然後我們就可以填入目標 Web Site 的名稱 ( 他不會自己帶，目前只能自己 Key )，這個名稱就是建立 Web Site 的時候給的名稱。</p>
+<p>地區的部分，可選可不選…小弟是都有選就是了…</p>
+<p>最後，最重要的是 Web Deploy Package 的路徑，這邊要 Key</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(Build.StagingDirectory)&#x2F;package.zip</span><br></pre></td></tr></table></figure>
+
+<p>這樣才找的到 Package。</p>
+<p><img src="13.png" alt=""></p>
+<p>接著，我們跳回到 Repository 的地方來檢查一下，GitHub 有無正確對應到你要取出的 Repo。<br>同樣的，我們可以從 Connection 來選擇剛剛新增的 GitHub，接著他會自動帶出你可以選擇的 Repo，並且你可以選擇你要的分支。</p>
+<p><img src="14.png" alt=""></p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>基本上到這邊，算是針對 Build 的設定完成，但實際上，我們還必須針對 gulpfile.js 和 WebConfig 等等進行設定。</p>
+<p>下一篇，繼續~~</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://msdn.microsoft.com/en-us/Library/vs/alm/Build/agents/windows" target="_blank" rel="noopener">https://msdn.microsoft.com/en-us/Library/vs/alm/Build/agents/windows</a></li>
+<li><a href="https://www.visualstudio.com/en-us/get-started/setup/get-more-build-or-load-testing-vs" target="_blank" rel="noopener">https://www.visualstudio.com/en-us/get-started/setup/get-more-build-or-load-testing-vs</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/Node-js/" rel="tag">#Node.js</a>
+          
+            <a href="/tags/Release-Management/" rel="tag">#Release Management</a>
+          
+            <a href="/tags/VSTS/" rel="tag">#VSTS</a>
+          
+            <a href="/tags/CI/" rel="tag">#CI</a>
+          
+            <a href="/tags/CD/" rel="tag">#CD</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/30/VSTS-Build_Setup/" rel="next" title="VSTS - VSTS Build 設定篇">
+                <i class="fa fa-chevron-left"></i> VSTS - VSTS Build 設定篇
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/02/Azure-Setup_Nodejs_Version/" rel="prev" title="Azure - 更改 Azure 上 WebSite 的 Node.js 版本">
+                Azure - 更改 Azure 上 WebSite 的 Node.js 版本 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#環境需求"><span class="nav-number">2.</span> <span class="nav-text">環境需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定流程"><span class="nav-number">3.</span> <span class="nav-text">設定流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定-Azure-帳號"><span class="nav-number">4.</span> <span class="nav-text">設定 Azure 帳號</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定-GitHub-帳號"><span class="nav-number">5.</span> <span class="nav-text">設定 GitHub 帳號</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#繼續設定-Build-流程"><span class="nav-number">6.</span> <span class="nav-text">繼續設定 Build 流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">7.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">8.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2015/12/01/VSTS-Build_for_Nodejs1/';
+      var disqus_title = 'VSTS - VSTS Build - Node.js 前篇';
+      var disqus_url = 'http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

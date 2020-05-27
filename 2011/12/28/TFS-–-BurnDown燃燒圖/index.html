@@ -1,0 +1,647 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Scrum,TFS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="在我們建立好Task，且進入每個人自己的開發流程後，我們通常都會於每天下班結束前，重新KeyIn剩餘時間，這件事是一定必須要做的事情，這樣才能真正的反應到目前的工作進度，而不是到最後的階段，才一次爆出來! ( 我好像常常這樣QQ ) 下班前，我們可以先進入borard這裡，並點兩下紅色框框的這個區塊。  底下的AssignedTo( 指派給誰 ) 其實是有帳號的，我把它馬賽克了，另外我們先看Sta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TFS – BurnDown燃燒圖">
+<meta property="og:url" content="http://skychang.github.io/2011/12/28/TFS-%E2%80%93-BurnDown%E7%87%83%E7%87%92%E5%9C%96/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="在我們建立好Task，且進入每個人自己的開發流程後，我們通常都會於每天下班結束前，重新KeyIn剩餘時間，這件事是一定必須要做的事情，這樣才能真正的反應到目前的工作進度，而不是到最後的階段，才一次爆出來! ( 我好像常常這樣QQ ) 下班前，我們可以先進入borard這裡，並點兩下紅色框框的這個區塊。  底下的AssignedTo( 指派給誰 ) 其實是有帳號的，我把它馬賽克了，另外我們先看Sta">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh5.ggpht.com/-mfiCUZPP1nU/TvpshEVmd-I/AAAAAAAABTQ/1LRYEI5b0LM/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-NbLBU6_wk7E/TvpsjOJ9iDI/AAAAAAAABTg/BcaWkn489_E/image_thumb%25255B4%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-s0qouEWDiY0/TvpslMRdH_I/AAAAAAAABTw/lkzhFA4rn7k/image_thumb%25255B7%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-Dvhgzdz-6TU/TvpsnevZIwI/AAAAAAAABUA/tofWukeAgZI/image_thumb%25255B10%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2011-12-28T09:10:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.964Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Scrum">
+<meta property="article:tag" content="TFS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh5.ggpht.com/-mfiCUZPP1nU/TvpshEVmd-I/AAAAAAAABTQ/1LRYEI5b0LM/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> TFS – BurnDown燃燒圖 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                TFS – BurnDown燃燒圖
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2011-12-28T09:10:00+00:00" content="2011-12-28">
+              2011-12-28
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2011/12/28/TFS-%E2%80%93-BurnDown%E7%87%83%E7%87%92%E5%9C%96/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/12/28/TFS-–-BurnDown燃燒圖/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在我們建立好Task，且進入每個人自己的開發流程後，我們通常都會於每天下班結束前，重新KeyIn剩餘時間，這件事是一定必須要做的事情，這樣才能真正的反應到目前的工作進度，而不是到最後的階段，才一次爆出來! ( 我好像常常這樣QQ )</p>
+<p>下班前，我們可以先進入borard這裡，並點兩下紅色框框的這個區塊。</p>
+<p><a href="http://lh4.ggpht.com/-ys05wObQ7co/TvpsgRfUExI/AAAAAAAABTM/2382vfYESow/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-mfiCUZPP1nU/TvpshEVmd-I/AAAAAAAABTQ/1LRYEI5b0LM/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>底下的AssignedTo( 指派給誰 ) 其實是有帳號的，我把它馬賽克了，另外我們先看State ( 狀態 )這邊，目前的狀態是In Progress ( 執行中 )，剛好是對應到上圖的位置，所以當上圖拉動的時候，其實這個也回連動喔!接下來，是Remaining Work ( 剩餘工作 )，其實我們要修改的就是這裡，例如今天下班前，確認此工作還需要兩個小時，所以我們可以把這邊改成2。</p>
+<p><a href="http://lh3.ggpht.com/-OvOphJ30owc/TvpshySx0bI/AAAAAAAABTY/TxPj7hxRQec/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-NbLBU6_wk7E/TvpsjOJ9iDI/AAAAAAAABTg/BcaWkn489_E/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>當回到主頁面的時候，我們就可以感受到主頁面的改變了，而右邊的Burndown就是等下要講的一個重要圖表，也就是燃燒圖!! ( 有沒有感覺很High! )</p>
+<p><a href="http://lh5.ggpht.com/-h1Nm3ojTZ5g/Tvpsjn-M5bI/AAAAAAAABTs/g_9Fkte4qiw/s1600-h/image%25255B13%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-s0qouEWDiY0/TvpslMRdH_I/AAAAAAAABTw/lkzhFA4rn7k/image_thumb%25255B7%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>當我們點一下BurnDown圖表，會出現下面這個放大版的圖，我們可以看到X軸是時間，這個時間也就是這次Sprint所定義出來的時間，而Y軸的部分，則代表著還沒工作的剩餘時間，也就是每個Task剩餘工作的總和，黑線( Ideal Trend )是理想曲線，也就是說，理想的狀況下，每天的工作會越來越少，到1/2號時，就會完成了，紅線( Actual Trend )是實際曲線，也就是目前工作實際的線條。</p>
+<p><a href="http://lh3.ggpht.com/-EaEpD3Ui8gw/TvpsmIFcsuI/AAAAAAAABT8/WWLNt4E1RDs/s1600-h/image%25255B18%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-Dvhgzdz-6TU/TvpsnevZIwI/AAAAAAAABUA/tofWukeAgZI/image_thumb%25255B10%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>我們繼續以上面的這個圖來解釋，在12/26號的時候，我們剩餘的工作量為4小時，而1/2號的時候，是預計結束，所以應該是要剩餘0小時，第二天的時候，因為我打混，四處聊天沒工作，所以還是維持4小時，所以在12/27號的時候，就超出了理想曲線( 黑線 )，這也代表這需要注意一下了，而12/28號，因為被老闆發現，被罵了一頓，所以認真工作一整天，所以剩餘工作剩下2個小時，所以整個舊低於理想曲線，所以我們可以從這個圖表，輕鬆地看到目前整個進度與狀況，是否能於預定時間內完成。</p>
+<p>當然，真實的專案裡面，這個表一定會起起伏伏，但大家還是必須每天都要更新，重點不在於監督每個人，而是能藉由此圖表，了解目前整個專案的狀態，當有任何問題需要處理，也能及早發現，及早治療。 </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Scrum/" rel="tag">#Scrum</a>
+          
+            <a href="/tags/TFS/" rel="tag">#TFS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/12/27/Study4-%E9%BB%9E%E8%AA%B2%E5%B9%AB-Web-Design-Club-12-0107-%E6%9C%9D%E5%90%91%E6%9C%AA%E4%BE%86-HTML5-%E6%B4%BB%E5%8B%95%E5%B1%95%E9%96%8B/" rel="next" title="Study4 點課幫 Web Design Club 12-0107 朝向未來!HTML5 活動展開!">
+                <i class="fa fa-chevron-left"></i> Study4 點課幫 Web Design Club 12-0107 朝向未來!HTML5 活動展開!
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011/12/29/WPF-%E2%80%93-MVVM-%E4%B8%80/" rel="prev" title="WPF – MVVM (一)">
+                WPF – MVVM (一) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2011/12/28/TFS-–-BurnDown燃燒圖/';
+      var disqus_title = 'TFS – BurnDown燃燒圖';
+      var disqus_url = 'http://skychang.github.io/2011/12/28/TFS-%E2%80%93-BurnDown%E7%87%83%E7%87%92%E5%9C%96/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

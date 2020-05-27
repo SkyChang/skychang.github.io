@@ -1,0 +1,648 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Azure," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近突然想到，在Windows Azure上，遺漏了這篇，所以今天就利用一點時間，把這篇文章給補完。 我們在Windows Azure建立好VM之後，如果是使用最小的Virtual Machine，那可能會如下圖，只有少少的Local Disk和少少的Temporary Storage，如果是大一點Virtual Machine，可能就會發現Termporary Storage變得比較大，或許大家">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Azure - 在VM上掛載新的硬碟">
+<meta property="og:url" content="http://skychang.github.io/2012/09/24/Windows-Azure-%E5%9C%A8VM%E4%B8%8A%E6%8E%9B%E8%BC%89%E6%96%B0%E7%9A%84%E7%A1%AC%E7%A2%9F/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="最近突然想到，在Windows Azure上，遺漏了這篇，所以今天就利用一點時間，把這篇文章給補完。 我們在Windows Azure建立好VM之後，如果是使用最小的Virtual Machine，那可能會如下圖，只有少少的Local Disk和少少的Temporary Storage，如果是大一點Virtual Machine，可能就會發現Termporary Storage變得比較大，或許大家">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh4.ggpht.com/-YP3MvnKbrFU/UGBqIczy0pI/AAAAAAAAE2w/JEbAkFjmYQM/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-ONcfek8ardY/UGBqKyljJlI/AAAAAAAAE3A/QMDosPBas8E/image_thumb%25255B3%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-BsvO67kZiFQ/UGBqNOYUzII/AAAAAAAAE3Q/URPs4-HXkqI/image_thumb%25255B6%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-SAMQwKqOKDU/UGBqPXam32I/AAAAAAAAE3g/vpKcq-aVL2o/image_thumb%25255B11%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-BlCbuuLi9rw/UGBqSKZNM0I/AAAAAAAAE3s/AsRBP2w-s6M/image_thumb%25255B14%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2012-09-24T22:12:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.031Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Azure">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh4.ggpht.com/-YP3MvnKbrFU/UGBqIczy0pI/AAAAAAAAE2w/JEbAkFjmYQM/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Windows Azure - 在VM上掛載新的硬碟 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Windows Azure - 在VM上掛載新的硬碟
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2012-09-24T22:12:00+00:00" content="2012-09-24">
+              2012-09-24
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/09/24/Windows-Azure-%E5%9C%A8VM%E4%B8%8A%E6%8E%9B%E8%BC%89%E6%96%B0%E7%9A%84%E7%A1%AC%E7%A2%9F/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/09/24/Windows-Azure-在VM上掛載新的硬碟/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近突然想到，在Windows Azure上，遺漏了這篇，所以今天就利用一點時間，把這篇文章給補完。</p>
+<p>我們在Windows Azure建立好VM之後，如果是使用最小的Virtual Machine，那可能會如下圖，只有少少的Local Disk和少少的Temporary Storage，如果是大一點Virtual Machine，可能就會發現Termporary Storage變得比較大，或許大家會很開心!，原來建立Windows Azure的VM，還會附加一顆那麼大的HDD!!但實際上，不要被騙了 ( 其實Windows Azure也沒騙人啦XDD )，Termporary Storage是系統用的，所以實際上，並不會確保資料一定會安穩的保存下來，簡單的說，每台Virtual Machine，就只有Local Disk是可以用的。</p>
+<p><a href="http://lh3.ggpht.com/-bLPfqKC0fPI/UGBqG6Rn_rI/AAAAAAAAE2o/PjmqKien_n8/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-YP3MvnKbrFU/UGBqIczy0pI/AAAAAAAAE2w/JEbAkFjmYQM/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>所以實際上，如果我們要建立Database，或是要存放大量的資料，還是請放到Storage，才是正確的作法，所以今天這篇文章，就來看看，如何輕輕鬆鬆地附掛上一台HDD。</p>
+<p>我們首先，先從Virtual Machines點進來。</p>
+<p><a href="http://lh3.ggpht.com/-7E3U3ykq-hw/UGBqJj2AbyI/AAAAAAAAE24/mwL20lf1FZU/s1600-h/image%25255B7%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-ONcfek8ardY/UGBqKyljJlI/AAAAAAAAE3A/QMDosPBas8E/image_thumb%25255B3%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>點進來後，下面有一個Attach的按鈕，按下他，我們就可以附加一顆新的硬碟到VM裡面去。</p>
+<p><a href="http://lh6.ggpht.com/-rW9hb5fr5sI/UGBqL7wK1UI/AAAAAAAAE3I/nf7WSXRUppg/s1600-h/image%25255B12%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-BsvO67kZiFQ/UGBqNOYUzII/AAAAAAAAE3Q/URPs4-HXkqI/image_thumb%25255B6%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們要輸入File Name和Size，其中File Name代表著的是存放到Storage，Blob的名子，接下來輸入Size，也就是預期的硬碟大小。</p>
+<p><a href="http://lh4.ggpht.com/-zhlZ8xFuW6I/UGBqONpXH9I/AAAAAAAAE3Y/DrjAkX6hkW0/s1600-h/image%25255B21%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-SAMQwKqOKDU/UGBqPXam32I/AAAAAAAAE3g/vpKcq-aVL2o/image_thumb%25255B11%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>當按下去後，過一段時間後，就會建立完成，我們就可以在VM裡面看到硬碟已經新增完成了!!</p>
+<p><a href="http://lh3.ggpht.com/-vsu1y_60x70/UGBqQoWcrMI/AAAAAAAAE3o/w_o6uaoK7K4/s1600-h/image%25255B26%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-BlCbuuLi9rw/UGBqSKZNM0I/AAAAAAAAE3s/AsRBP2w-s6M/image_thumb%25255B14%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這樣就完成了!!</p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>當然，我們也有辦法從本地端傳上去掛載，但這部分我們未來在解說，下一篇我們很快地教大家如何把硬碟和VM分離。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/09/24/Microsoft-TechDays-2012/" rel="next" title="Microsoft TechDays 2012">
+                <i class="fa fa-chevron-left"></i> Microsoft TechDays 2012
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/09/24/Windows-Azure-%E5%BE%9EVM%E5%B0%87%E6%8E%9B%E8%BC%89%E4%B8%8A%E7%9A%84%E7%A1%AC%E7%A2%9F%E5%88%86%E9%9B%A2/" rel="prev" title="Windows Azure - 從VM將掛載上的硬碟分離">
+                Windows Azure - 從VM將掛載上的硬碟分離 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">1.</span> <span class="nav-text">後記</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2012/09/24/Windows-Azure-在VM上掛載新的硬碟/';
+      var disqus_title = 'Windows Azure - 在VM上掛載新的硬碟';
+      var disqus_url = 'http://skychang.github.io/2012/09/24/Windows-Azure-%E5%9C%A8VM%E4%B8%8A%E6%8E%9B%E8%BC%89%E6%96%B0%E7%9A%84%E7%A1%AC%E7%A2%9F/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

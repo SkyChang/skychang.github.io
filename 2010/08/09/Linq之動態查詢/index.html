@@ -1,0 +1,717 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Entity Framework,Linq," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Linq之動態查詢。 最近寫Linq碰到一個問題， 就是如果要寫一個查詢系統，這個系統裡面有很多TextBox可以填， 然後撈出符合各個欄位的資料。 在SQL查詢的時候還滿方便的，用字串連連連就可以了， ( 也就是sqlStr +&#x3D; “or name like ‘%sanc%’ “ ) 那在Linq的話呢，就完全沒有辦法可以用連連連的方法QQ 後來和G神禱告後，G神告訴我目前有三種方法可以處理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linq之動態查詢">
+<meta property="og:url" content="http://skychang.github.io/2010/08/09/Linq%E4%B9%8B%E5%8B%95%E6%85%8B%E6%9F%A5%E8%A9%A2/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="Linq之動態查詢。 最近寫Linq碰到一個問題， 就是如果要寫一個查詢系統，這個系統裡面有很多TextBox可以填， 然後撈出符合各個欄位的資料。 在SQL查詢的時候還滿方便的，用字串連連連就可以了， ( 也就是sqlStr +&#x3D; “or name like ‘%sanc%’ “ ) 那在Linq的話呢，就完全沒有辦法可以用連連連的方法QQ 後來和G神禱告後，G神告訴我目前有三種方法可以處理。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2010-08-09T08:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.928Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Entity Framework">
+<meta property="article:tag" content="Linq">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Linq之動態查詢 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Linq之動態查詢
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2010-08-09T08:00:00+00:00" content="2010-08-09">
+              2010-08-09
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2010/08/09/Linq%E4%B9%8B%E5%8B%95%E6%85%8B%E6%9F%A5%E8%A9%A2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2010/08/09/Linq之動態查詢/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Linq之動態查詢。</p>
+<p>最近寫Linq碰到一個問題，</p>
+<p>就是如果要寫一個查詢系統，這個系統裡面有很多TextBox可以填，</p>
+<p>然後撈出符合各個欄位的資料。</p>
+<p>在SQL查詢的時候還滿方便的，用字串連連連就可以了，</p>
+<p>( 也就是sqlStr += “or name like ‘%sanc%’ “ )</p>
+<p>那在Linq的話呢，就完全沒有辦法可以用連連連的方法QQ</p>
+<p>後來和G神禱告後，G神告訴我目前有三種方法可以處理。</p>
+<p>第一是出自MS的Linq Dynamic Query Library</p>
+<p>但聽說一堆問題，就懶得去試了。</p>
+<p>第二是自己寫運算式樹，也就是建立QueryBuilder</p>
+<p>好吧，我有空會再找時間研究看看QQ</p>
+<p>第三則是由有名的C# In a Nutshell作者寫的一個Library</p>
+<p>( 其實滿想讀他寫的書的，但是全英文….光看這篇，就懶了= = )</p>
+<p>總之，最後用了第三個方案，因為真的很方便，也很直覺。</p>
+<p>要擴充或是移除，都很方便。</p>
+<p>他給的第一個範例是這樣，這個範例沒用到什麼技巧，</p>
+<p>反正直接就可以用了。</p>
+<pre class="brush: csharp">IQueryable SearchProducts (params string[] keywords)
+{
+  IQueryable query = dataContext.Products;
+
+  foreach (string keyword in keywords)
+  {
+    string temp = keyword;
+    query = query.Where (p =&gt; p.Description.Contains (temp));
+  }
+return query;
+}
+</pre>這個的功能很簡單，假設你送進去，"可樂"、"暢快"，
+
+<p>他就會把在Products的Description(描述)裡面有”可樂”和”暢快”這兩個關鍵字</p>
+<p>的內容撈出來，也就是用and的方法。</p>
+<p>但是，我們常常需要用到or方法，例如要查詢”可樂”、”雪碧”。</p>
+<p>那在用這種查詢方法，就沒辦法查的到了….</p>
+<p>( 不可能會出現一種可樂是雪碧口味的吧= =)</p>
+<p>ok~所以作者提出了另外一種方法，也就是使用了PredicateBuilder</p>
+<pre class="brush: csharp">IQueryable SearchProducts (params string[] keywords)
+{
+  var predicate = PredicateBuilder.False();
+
+  foreach (string keyword in keywords)
+  {
+    string temp = keyword;
+    predicate = predicate.Or (p =&gt; p.Description.Contains (temp));
+  }
+return dataContext.Products.Where (predicate);
+}
+</pre>用Or方法，就可以用or來查詢"可樂"和"雪碧"。
+
+<p>讚吧!!果然是神人級的。</p>
+<p>但是看到這邊，不要馬上貼上去使用阿<del>@@</del></p>
+<p>因為最重要最重要的關鍵是</p>
+<p>我們還沒有PredicateBuilder這個類別阿。</p>
+<p>這裡有兩個方法可以使用這個類別。</p>
+<p>一、去作者網站下載LinqKit</p>
+<p>二、去作者網站將PredicateBuilder的程式碼複製貼上</p>
+<p>( 兩個都夠簡單吧= = )</p>
+<p>最後，要補充一下，</p>
+<p>如果是使用Linq to Entity的話，要把程式碼的最後一行改為</p>
+<pre class="brush: csharp">return objectContext.Products.AsExpandable().Where (predicate);
+</pre>也就是如下程式碼。
+
+<pre class="brush: csharp">IQueryable SearchProducts (params string[] keywords)
+{
+  var predicate = PredicateBuilder.False();
+
+  foreach (string keyword in keywords)
+  {
+    string temp = keyword;
+    predicate = predicate.Or (p =&gt; p.Description.Contains (temp));
+  }
+return objectContext.Products.AsExpandable().Where (predicate);
+}
+</pre>另外，如果要查名子、描述、發行公司等等
+
+<p>很多TextBox的話，怎麼辦呢?</p>
+<p>就改成這樣。</p>
+<pre class="brush: csharp">var predicate = PredicateBuilder.False();
+predicate = predicate.Or(p =&gt; p.name.Contains(要查詢的));
+predicate = predicate.Or(p =&gt; p.Description.Contains (要查詢的));
+objectContext.Products.AsExpandable().Where (predicate);
+</pre>這樣擴充有沒有很容易呢!?
+
+<p>最後，這些我都還沒實驗過，實驗完後，我會再修改這篇文章，</p>
+<p>將正確的訊息貼上。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Entity-Framework/" rel="tag">#Entity Framework</a>
+          
+            <a href="/tags/Linq/" rel="tag">#Linq</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2010/07/12/Form%E5%BF%AB%E9%80%9F%E4%BD%BF%E7%94%A8/" rel="next" title="Form快速使用">
+                <i class="fa fa-chevron-left"></i> Form快速使用
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2010/08/18/Firefox%E7%84%A1%E6%B3%95Debug-Silveright%E8%A7%A3%E6%B1%BA%E6%96%B9%E6%A1%88/" rel="prev" title="Firefox無法Debug Silveright解決方案">
+                Firefox無法Debug Silveright解決方案 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2010/08/09/Linq之動態查詢/';
+      var disqus_title = 'Linq之動態查詢';
+      var disqus_url = 'http://skychang.github.io/2010/08/09/Linq%E4%B9%8B%E5%8B%95%E6%85%8B%E6%9F%A5%E8%A9%A2/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

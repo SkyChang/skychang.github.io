@@ -1,0 +1,784 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ASP.NET MVC," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="支援版本 ASP.NET MVC 4 Beta   從二月中ASP.NET MVC 4 Beta 發佈到現在，終於比較有時間可以開始一系列的Web API的教學部份了，這個系列的教學，主要還是從ASP.NET的官方網站加上小弟自己的破英文翻譯與見解和而來，當然，內容絕對不會百分之百和官網一樣，畢竟算是閱讀後的筆記，所以喜歡原文的人，也可以去官網上面閱讀。 甚麼是Web API這個要從HTTP開始說">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET MVC - 第一個Web API,Hello Web API">
+<meta property="og:url" content="http://skychang.github.io/2012/04/19/ASP-NET-MVC-%E7%AC%AC%E4%B8%80%E5%80%8BWeb-API-Hello-Web-API/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="支援版本 ASP.NET MVC 4 Beta   從二月中ASP.NET MVC 4 Beta 發佈到現在，終於比較有時間可以開始一系列的Web API的教學部份了，這個系列的教學，主要還是從ASP.NET的官方網站加上小弟自己的破英文翻譯與見解和而來，當然，內容絕對不會百分之百和官網一樣，畢竟算是閱讀後的筆記，所以喜歡原文的人，也可以去官網上面閱讀。 甚麼是Web API這個要從HTTP開始說">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh5.ggpht.com/-l6CAEFPBt40/T47qKx2nhxI/AAAAAAAACQE/4nTwwFsqYuQ/image_thumb%25255B2%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-exWei2PHfTU/T47qNU9bm6I/AAAAAAAACQU/izIs4-OgrUE/image_thumb%25255B5%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-KFGRzM-98oM/T47qP48H_6I/AAAAAAAACQk/S7nUVqUMUw8/image_thumb%25255B7%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-LEe_h-AyAms/T47qSAn55II/AAAAAAAACQ0/di9wVj0o-Cs/image_thumb%25255B13%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-YjqV4G94RUE/T47qUVApOII/AAAAAAAACRE/ikWyh21RyjI/image_thumb%25255B15%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-mW-qXjLuP3E/T47qWWKyadI/AAAAAAAACRU/aCshq18eSl4/image_thumb%25255B16%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-0a_oXSnxLcI/T47qZrUOl6I/AAAAAAAACRk/OftqUC9lEx8/image_thumb%25255B19%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/--OMb2aMKows/T47qcmdqEbI/AAAAAAAACR0/yueBg2nBNpQ/image_thumb%25255B21%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-ab2wkDuX2hM/T47qeyM2cMI/AAAAAAAACSE/gFGcHTmeQFM/image_thumb%25255B27%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-0QX52x5hZf4/T47qhDga7BI/AAAAAAAACSU/Jajsbyucx5M/image_thumb%25255B26%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-tcpqBnKafcs/T47qjGwCXPI/AAAAAAAACSk/w31NxqIXbuY/image_thumb%25255B29%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-ZPekGBzcwcg/T47qmgYw8iI/AAAAAAAACS0/MP7tKAyuyTA/image_thumb%25255B30%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-8jSVQrTcr00/T47qppGK1mI/AAAAAAAACTE/HMtFrfKFpAI/image_thumb%25255B31%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-YAdLYSmXTEc/T47qvBr9jLI/AAAAAAAACTU/9h5ADtnWBVI/image_thumb%25255B32%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-kNb93tHUDsY/T4713r6KE3I/AAAAAAAACTk/atBKGbC-i2c/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-mvPTNJ84O2E/T4716vTftRI/AAAAAAAACT0/RzsgZfDsLdI/image_thumb%25255B4%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2012-04-19T00:24:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.836Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh5.ggpht.com/-l6CAEFPBt40/T47qKx2nhxI/AAAAAAAACQE/4nTwwFsqYuQ/image_thumb%25255B2%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ASP.NET MVC - 第一個Web API,Hello Web API | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ASP.NET MVC - 第一個Web API,Hello Web API
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2012-04-19T00:24:00+00:00" content="2012-04-19">
+              2012-04-19
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/04/19/ASP-NET-MVC-%E7%AC%AC%E4%B8%80%E5%80%8BWeb-API-Hello-Web-API/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/04/19/ASP-NET-MVC-第一個Web-API-Hello-Web-API/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="支援版本"><a href="#支援版本" class="headerlink" title="支援版本"></a>支援版本</h4><ul>
+<li>ASP.NET MVC 4 Beta </li>
+</ul>
+<p>從二月中ASP.NET MVC 4 Beta 發佈到現在，終於比較有時間可以開始一系列的Web API的教學部份了，這個系列的教學，主要還是從<a href="http://www.asp.net/" target="_blank" rel="noopener">ASP.NET的官方網站</a>加上小弟自己的破英文翻譯與見解和而來，當然，內容絕對不會百分之百和官網一樣，畢竟算是閱讀後的筆記，所以喜歡原文的人，也可以去官網上面閱讀。</p>
+<h4 id="甚麼是Web-API"><a href="#甚麼是Web-API" class="headerlink" title="甚麼是Web API"></a>甚麼是Web API</h4><p>這個要從HTTP開始說起，大家對於HTTP這四個字，我想大概每天都會去打到他，但是HTTP到底是甚麼!?沒錯，HTTP其實中文就叫做”超本文傳輸協定”，所以HTTP其實是一個協定；而這個協定我們通常拿來傳遞的資料，就是HTML”超本文標記語言”，但是HTTP只能應用在網頁上嗎!?，當然不，就如前面說的，HTTP是一個協定，HTTP不是一個只能處理HTML而已。</p>
+<p>HTTP是很強大的，而且現在HTTP這個協定已經是一個公訂的標準，不管是怎樣的裝置，怎樣的設備，都有對應的應用程式可以輕鬆的使用HTTP這個協定!當然，最常用的還是在網頁上面了。</p>
+<p>那HTTP還有甚麼應用!?沒錯，就是大家常聽到的Web Service；Web Service簡單的說，就是透過標準的Web協定( 這裡使用的是HTTP )，來提供各式各樣的服務；例如，我們可能打一段網址，他會回傳資料、或是送出一個Post訊息，他就可以發送簡訊等等，這些都是Web Service的應用。</p>
+<p>那ASP.NET MVC Web API又是啥東西，Web API其實只是一個名詞，說穿了，只是利用ASP.NET MVC的架構去實作Web Service的服務，就是這樣的簡單；但是Web Service這塊也是有很多學問的，如果有興趣的話，大家可以再去Google查詢關於Web Service的知識，畢竟這篇是要講ASP.NET MVC Web API，我們就不要離題太遠了XDD。</p>
+<h4 id="Hello-Web-API"><a href="#Hello-Web-API" class="headerlink" title="Hello Web API"></a>Hello Web API</h4><p>話不多說，與其講一堆東西讓大家睡著，那還不如趕快先來實做看看吧。</p>
+<p>首先，我們需要建立一個新的專案，這裡我使用Visual Studio 11，但是如果使用Visual Studio 2010也是一樣的。</p>
+<p><a href="http://lh5.ggpht.com/-arFsQObbdaQ/T47qJ_JzGVI/AAAAAAAACP8/7KTKkboW38U/s1600-h/image%25255B4%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-l6CAEFPBt40/T47qKx2nhxI/AAAAAAAACQE/4nTwwFsqYuQ/image_thumb%25255B2%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們就使用Web API的Template吧!，如果未來熟了，也可以使用空的樣板來自己建立。</p>
+<p><a href="http://lh3.ggpht.com/-F7YEinluf1E/T47qMV43mKI/AAAAAAAACQI/RnIS1SiAk5s/s1600-h/image%25255B9%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-exWei2PHfTU/T47qNU9bm6I/AAAAAAAACQU/izIs4-OgrUE/image_thumb%25255B5%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，建立好的專案，我們就直接執行看看吧!</p>
+<p><a href="http://lh5.ggpht.com/-572kRJiUA4k/T47qOkrUhJI/AAAAAAAACQY/uGbTRp1Grns/s1600-h/image%25255B13%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-KFGRzM-98oM/T47qP48H_6I/AAAAAAAACQk/S7nUVqUMUw8/image_thumb%25255B7%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>既然他預設是用IE10，那我們就用IE10來看；我們順便打開IE10的偵錯工具，按下F12，或是最右上角的齒輪圖示，裡面就可以看到偵錯工具，</p>
+<p><a href="http://lh3.ggpht.com/-49A_eQTIAGE/T47qRR_bHyI/AAAAAAAACQs/bCaO-Q-8nTc/s1600-h/image%25255B25%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-LEe_h-AyAms/T47qSAn55II/AAAAAAAACQ0/di9wVj0o-Cs/image_thumb%25255B13%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>打開後，就可以看到如下圖。</p>
+<p><a href="http://lh4.ggpht.com/-HWIldQWV5Rk/T47qTL-JqQI/AAAAAAAACQ8/TzlhA6haWUc/s1600-h/image%25255B29%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-YjqV4G94RUE/T47qUVApOII/AAAAAAAACRE/ikWyh21RyjI/image_thumb%25255B15%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們要開始監控一下網路，我們在偵錯工具選擇Network，然後選擇Start capturing。</p>
+<p><a href="http://lh6.ggpht.com/-Gfmni-Hc8tg/T47qVUlikoI/AAAAAAAACRM/7Dym7fXfouA/s1600-h/image%25255B30%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-mW-qXjLuP3E/T47qWWKyadI/AAAAAAAACRU/aCshq18eSl4/image_thumb%25255B16%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們要在網址後面加上api/values，按下enter後，可能會跳出訊息，問你要不要存檔或是開啟( 各瀏覽器的狀況可能不同 )，但不用擔心，這真的不是病毒XDD，你可選擇Save到桌面然後晚一點再刪掉，或是選擇打開，如果選擇打開，他可能會問你要用甚麼程式開啟，你可以選擇記事本，或是按ESC離開，但無論怎樣選擇，都不會有甚麼影響啦XDD；接下來，我們停止監聽，並按下旁邊的顯示詳細資料。</p>
+<p><a href="http://lh4.ggpht.com/-2Q-nV_0SA1A/T47qXjkTDGI/AAAAAAAACRc/alrLySaMnPY/s1600-h/image%25255B35%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-0a_oXSnxLcI/T47qZrUOl6I/AAAAAAAACRk/OftqUC9lEx8/image_thumb%25255B19%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>如果用記事本開啟，為了證明真的不是病毒，會出現如下畫面。</p>
+<p><a href="http://lh6.ggpht.com/-D50KxEIajh8/T47qbvg5bpI/AAAAAAAACRs/XS_FaoUlCDA/s1600-h/image%25255B39%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/--OMb2aMKows/T47qcmdqEbI/AAAAAAAACR0/yueBg2nBNpQ/image_thumb%25255B21%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>之後，我們就可以開始看看，這個輸入了這個網址後，發生了甚麼事情；我們先看到Request headers這邊，我們可以從這邊看到，發出請求的是GET。</p>
+<p><a href="http://lh6.ggpht.com/-A1sKAkMPjDs/T47qdpJFYZI/AAAAAAAACR8/Qwe1CvYz3_4/s1600-h/image%25255B49%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-ab2wkDuX2hM/T47qeyM2cMI/AAAAAAAACSE/gFGcHTmeQFM/image_thumb%25255B27%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後我們看看Response headers，這裡代表的是回應，我們可以看到回應是200 OK，表示有正確的回應了，重點是Content-Type這邊，我們可以看到的是application/json這串文字，有沒有發現json和你剛剛存檔的副檔名是一樣的!?</p>
+<p><a href="http://lh4.ggpht.com/-kSWBMPwEWBc/T47qfwTKU4I/AAAAAAAACSM/rnqUkKkGgF8/s1600-h/image%25255B48%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-0QX52x5hZf4/T47qhDga7BI/AAAAAAAACSU/Jajsbyucx5M/image_thumb%25255B26%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後我們看到Response body這邊，這就代表著回應的內容，如果剛剛你有用記事本打開，會發現內容也是一樣的；到這邊有沒有覺得很神奇!! ( 如果已經懂這些東西的前輩們，請多包涵用這個老梗QQ )。</p>
+<p><a href="http://lh6.ggpht.com/-JCmBvp-QmAc/T47qiKer_CI/AAAAAAAACSc/w5yvZACd75Q/s1600-h/image%25255B53%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-tcpqBnKafcs/T47qjGwCXPI/AAAAAAAACSk/w31NxqIXbuY/image_thumb%25255B29%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>或許有些人會覺得很神奇XDD，或許有些人會覺得很無聊 ( 因為看了那麼長，完全沒講到重點 )，但是我覺得，這幾個訊息是很重要的，整個ASP.NET MVC Web API會和這幾個地方息息相關。</p>
+<h4 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h4><p>剛剛看了那麼多東西，我相信這個名詞大家應該會特別耳熟，在談論JSON之前，還記不記得前面所談到的Web Service；沒錯，剛剛打的網址其實就是在透過HTTP來叫用一個Web Service，而這個Web Service的功能就是會傳回一些資料。</p>
+<p>通常Web Service多多少少都會回傳一些資料，就算是呼叫傳送簡訊的Web Service，至少也會回傳個是否成功的訊息，( 當然，也可能碰到沒有回傳資料的Web Service )，而早期傳遞訊息資料，最常用到的一種格式就是XML ( 或許有人會說，也有可能只回傳一個字串阿，好吧，這也是有可能啦，但這邊既然談論的是資料，就不是單單字串這一點點的東西了 )，而XML最大的一個問題就是體積龐大。</p>
+<p>談到了資料傳遞，我們就來談談JSON吧，JSON(JavaScript Object Notation) 其實是一種輕量級的數據交換格式，和XML最大的不同點在於，XML是一個完整的標記語言，但JSON不是；基本上，他們的設計理念本來就是不同，JSON的目標就是小巧，可以讓瀏覽器快速的解析與傳遞，而就如前面所說的，並非是要拿JSON來取代XML，兩個的取向是不同的( 實際上，之前聽一個瞭師說，XML在某些情況下，也可能比JSON還小! )</p>
+<h4 id="回頭看範例"><a href="#回頭看範例" class="headerlink" title="回頭看範例"></a>回頭看範例</h4><p>我們回頭來看看上面三張圖，我們現在應該可以很清楚的了解，其實這個範例的目的，就是透過HTTP的GET，來對api/values進行呼叫，目的是取得資料。</p>
+<p><a href="http://lh3.ggpht.com/-qLDASRgvn08/T47ql0-VugI/AAAAAAAACSs/_-UCW--VqDQ/s1600-h/image%25255B57%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-ZPekGBzcwcg/T47qmgYw8iI/AAAAAAAACS0/MP7tKAyuyTA/image_thumb%25255B30%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後，會回應的是JSON格式的資料，並且是utf-8編碼喔!，也因為瀏覽器發現是JSON格式，所以會問你要不要存檔，或是開啟檢視此資料。</p>
+<p><a href="http://lh6.ggpht.com/-jZzhEq8Jw9w/T47qn43UBMI/AAAAAAAACS8/9bNFVKCO6_E/s1600-h/image%25255B61%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-8jSVQrTcr00/T47qppGK1mI/AAAAAAAACTE/HMtFrfKFpAI/image_thumb%25255B31%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後，這個JSON的格式內容如下圖，這個表示法，是JSON的個表示法，代表著的意思是，這是一個陣列( Array )，陣列位置0的值是values1，1的位置是value2。</p>
+<p><a href="http://lh6.ggpht.com/-MENIh1gaz1w/T47qqfBSEGI/AAAAAAAACTM/CRtMWQKHRus/s1600-h/image%25255B65%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-YAdLYSmXTEc/T47qvBr9jLI/AAAAAAAACTU/9h5ADtnWBVI/image_thumb%25255B32%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，該看看Code了。</p>
+<h4 id="該看Code了吧"><a href="#該看Code了吧" class="headerlink" title="該看Code了吧"></a>該看Code了吧</h4><p>我們打開Controllers目錄下的ValuesController，如果對於ASP.NET MVC架構還不熟的人，可以<a href="http://blog.sanc.idv.tw/2011/08/aspnet-mvc-hello-aspnet-mvc.html" target="_blank" rel="noopener">參考這篇</a>。</p>
+<p><a href="http://lh4.ggpht.com/-VrozOrsCARs/T4712sgjGLI/AAAAAAAACTc/6SOOkd5RaG8/s1600-h/image%25255B4%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-kNb93tHUDsY/T4713r6KE3I/AAAAAAAACTk/atBKGbC-i2c/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>其實這就是很典型的Controller，不過，現在繼承的東西不一樣了，Web API的Controller繼承的是ApiController；其次，回傳的東西也不再是ActionResult，以這邊的例子來看，回傳的就是一個IEnumerable型別。接下來，我們看一下這個程式碼的第一個Function就好，也就是Get()；熟悉ASP.NET MVC的人，第一個疑問一定就是，這個Action是Get，但為什麼剛剛Key的網址卻沒有Get!?( 剛剛的網址是api/values )，我們稍微看一下後面的Function，我們會發現，這四個分別為Get、Post、Put、Delete，沒錯，聰明的你，應該發現到了，其實在ASP.NET MVC Web API 的Controller，裡面對應的不是Action了，而是HTTP裡面的四種命令( 也就是Get、Post、Put、Delete )；所以網址裡面不會是以前的Controller/Action格式，而是只有Controller而已 ( 預設前面會加api，所以變成api/controller )，也就是說，實際上會呼叫哪個Controller的Function，不是利用網址來決定，而是利用HTTP的命令，這也是典型的REST風格；如前面的範例，我們就是使用HTTP的Get命令，所以對應到的是ValuesController的GET Function；舉個例子，如果是一個ClientBasicController，並有一個post() Function，要怎麼呼叫呢?，答案就是使用HTTP的post命令來呼叫網址api/ClientBasic；而這邊的Get() Function其實很簡單，就是回傳一個String陣列，裡面內容是Value1和Value2，有沒有發現，這剛好就是對應到傳回來的JSON的資料。</p>
+<pre class="brush: csharp;">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Web.Http;
+
+namespace MvcHelloWebAPI.Controllers
+{
+    public class ValuesController : ApiController
+    {
+        // GET /api/values
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "value1", "value2" };
+        }
+
+        // GET /api/values/5
+        public string Get(int id)
+        {
+            return "value";
+        }
+
+        // POST /api/values
+        public void Post(string value)
+        {
+        }
+
+        // PUT /api/values/5
+        public void Put(int id, string value)
+        {
+        }
+
+        // DELETE /api/values/5
+        public void Delete(int id)
+        {
+        }
+    }
+}
+</pre>
+
+<p>寫到這邊，我相信大家應該有一定的了解了，後面幾篇，會再針對細節詳細的解說，到這邊，只需要了解到一些基本的觀念就可以了，最後，我們還沒寫Hello World耶！，</p>
+<h4 id="寫Hello-World吧！"><a href="#寫Hello-World吧！" class="headerlink" title="寫Hello World吧！"></a>寫Hello World吧！</h4><p>我們這邊改第二個Function，也就是有傳入int的Get()，然後改成Hello Web API吧。</p>
+<pre class="brush: csharp;">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Web.Http;
+
+namespace MvcHelloWebAPI.Controllers
+{
+    public class ValuesController : ApiController
+    {
+        // GET /api/values
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "value1", "value2" };
+        }
+
+        // GET /api/values/5
+        //改一下這邊！
+        public string Get(int id)
+        {
+            return "Hello Web API";
+        }
+
+        // POST /api/values
+        public void Post(string value)
+        {
+        }
+
+        // PUT /api/values/5
+        public void Put(int id, string value)
+        {
+        }
+
+        // DELETE /api/values/5
+        public void Delete(int id)
+        {
+        }
+    }
+}
+</pre>
+
+<p>然後Run起來，並且在網址邊加上api/values/1，我們就可以得到剛剛所打的字串。</p>
+<p><a href="http://lh4.ggpht.com/-qVThXhKIAPc/T4715VHkKsI/AAAAAAAACTs/CtWcicEwikY/s1600-h/image%25255B9%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-mvPTNJ84O2E/T4716vTftRI/AAAAAAAACT0/RzsgZfDsLdI/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>到這邊，超級簡單的ASP.NET MVC Web API範例就完成了。</p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>其實ASP.NET MVC Web API並不難，對於初學者而言困難的反而是Web Service、JSON這些東西，對於已經熟悉Web Service的人而言，大概只要注意一下網址的格式，大致上就可以簡單上手了；所以這篇的重心，我比較放在懂ASP.NET MVC架構，但對Web Service不熟悉的人身上，也希望這篇可以讓這些人對於Web Service有個初步的了解，並且有方向可以去專研；下一篇，會開始介紹一下使用jQuery進行ASP.NET MVC Web API的呼叫，也請大家多多指教。</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://www.asp.net/" target="_blank" rel="noopener" title="http://www.asp.net/">http://www.asp.net/</a></li>
+<li><a href="http://zh.wikipedia.org/wiki/Web_Services" target="_blank" rel="noopener" title="http://zh.wikipedia.org/wiki/Web_Services">http://zh.wikipedia.org/wiki/Web_Services</a></li>
+<li><a href="http://zh.wikipedia.org/wiki/JSON" target="_blank" rel="noopener" title="http://zh.wikipedia.org/wiki/JSON">http://zh.wikipedia.org/wiki/JSON</a></li>
+<li><a href="http://www.json.org/json-zh.html" target="_blank" rel="noopener" title="http://www.json.org/json-zh.html">http://www.json.org/json-zh.html</a></li>
+<li><a href="http://zh.wikipedia.org/zh-hant/REST" target="_blank" rel="noopener" title="http://zh.wikipedia.org/zh-hant/REST">http://zh.wikipedia.org/zh-hant/REST</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/04/18/Windows-8-Consumer-Preview-Merto-Style%E7%9A%84Messenger-MSN-%E4%B9%8B%E4%B8%89%E5%85%A9%E4%BA%8B/" rel="next" title="Windows 8 Consumer Preview Merto Style的Messenger ( MSN ) 之三兩事">
+                <i class="fa fa-chevron-left"></i> Windows 8 Consumer Preview Merto Style的Messenger ( MSN ) 之三兩事
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/04/21/Windows-Azure-%E5%84%B2%E5%AD%98%E9%AB%94-%E8%A8%AD%E5%AE%9A%E7%9C%9F%E5%AF%A6Windows-Azure%E5%84%B2%E5%AD%98%E9%AB%94%E7%9A%84%E9%80%A3%E7%B7%9A%E5%AD%97%E4%B8%B2/" rel="prev" title="Windows Azure 儲存體 -  設定真實Windows Azure儲存體的連線字串">
+                Windows Azure 儲存體 -  設定真實Windows Azure儲存體的連線字串 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#支援版本"><span class="nav-number">1.</span> <span class="nav-text">支援版本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#甚麼是Web-API"><span class="nav-number">2.</span> <span class="nav-text">甚麼是Web API</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hello-Web-API"><span class="nav-number">3.</span> <span class="nav-text">Hello Web API</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSON"><span class="nav-number">4.</span> <span class="nav-text">JSON</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#回頭看範例"><span class="nav-number">5.</span> <span class="nav-text">回頭看範例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#該看Code了吧"><span class="nav-number">6.</span> <span class="nav-text">該看Code了吧</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#寫Hello-World吧！"><span class="nav-number">7.</span> <span class="nav-text">寫Hello World吧！</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">8.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">9.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2012/04/19/ASP-NET-MVC-第一個Web-API-Hello-Web-API/';
+      var disqus_title = 'ASP.NET MVC - 第一個Web API,Hello Web API';
+      var disqus_url = 'http://skychang.github.io/2012/04/19/ASP-NET-MVC-%E7%AC%AC%E4%B8%80%E5%80%8BWeb-API-Hello-Web-API/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

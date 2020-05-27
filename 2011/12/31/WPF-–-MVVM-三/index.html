@@ -1,0 +1,811 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Silveright,Design Patten,WPF," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="做到這邊，我們已經做了很大部分的分離了，但是實際上，我們還有一個地方還沒處理，那就是放在View那邊的邏輯，也就是按下Button時的事件，所以我們這邊再進一步的去處理。 移除View裡面的邏輯首先我們先把View裡面的邏輯移除，並把它放到ViewModel裡面去，所以我們先將View裡面的東西移除掉，現在裡面真的是空空沒有東西了。 using System; using System.Colle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WPF – MVVM (三)">
+<meta property="og:url" content="http://skychang.github.io/2011/12/31/WPF-%E2%80%93-MVVM-%E4%B8%89/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="做到這邊，我們已經做了很大部分的分離了，但是實際上，我們還有一個地方還沒處理，那就是放在View那邊的邏輯，也就是按下Button時的事件，所以我們這邊再進一步的去處理。 移除View裡面的邏輯首先我們先把View裡面的邏輯移除，並把它放到ViewModel裡面去，所以我們先將View裡面的東西移除掉，現在裡面真的是空空沒有東西了。 using System; using System.Colle">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2011-12-31T10:27:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.023Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Silveright">
+<meta property="article:tag" content="Design Patten">
+<meta property="article:tag" content="WPF">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> WPF – MVVM (三) | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                WPF – MVVM (三)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2011-12-31T10:27:00+00:00" content="2011-12-31">
+              2011-12-31
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2011/12/31/WPF-%E2%80%93-MVVM-%E4%B8%89/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/12/31/WPF-–-MVVM-三/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>做到這邊，我們已經做了很大部分的分離了，但是實際上，我們還有一個地方還沒處理，那就是放在View那邊的邏輯，也就是按下Button時的事件，所以我們這邊再進一步的去處理。</p>
+<h4 id="移除View裡面的邏輯"><a href="#移除View裡面的邏輯" class="headerlink" title="移除View裡面的邏輯"></a>移除View裡面的邏輯</h4><p>首先我們先把View裡面的邏輯移除，並把它放到ViewModel裡面去，所以我們先將View裡面的東西移除掉，現在裡面真的是空空沒有東西了。</p>
+<pre class="brush: csharp;">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace WPFMVVM3
+{
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+    }
+}
+</pre>
+
+<p>接下來我們來看看移到ViewModel產生了甚麼變化。</p>
+<h4 id="邏輯移到ViewModel"><a href="#邏輯移到ViewModel" class="headerlink" title="邏輯移到ViewModel"></a>邏輯移到ViewModel</h4><p>到這邊，我相信大家就會產生一個疑問，那View裡面的按鈕按下後，要怎樣去呼叫ViewModel裡面的東西呢??其實我們還是會使用一個Binding的方式，只是這次Binding的是一個ICommand的型別；接下來我們繼續處理ViewModel，這次在ViewModel加了一個ICommand型別的參數UpdateTitleNmae，他會回傳一個實作ICommand的RelayCommand實體，並且傳入兩個方法UpdateTitleExecute,CanUpdateTitleExecute ( 沒錯，不要懷疑，傳入進去的是方法)。等下我們會建立RelayCommand類別，到時候就會看到，另外UpdateTitleExecute這個方法裡面定義著要處理的邏輯，也就是從View搬過來的邏輯；而CanUpdateTitleExecute代表著是否可以執行此方法，因為我們這邊一定都會讓此方法( UpdateTitleExecute )可以動作，所以CanUpdateTitleExecute就直接回傳True。</p>
+<pre class="brush: csharp;">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.ComponentModel;
+using System.Windows.Input;
+
+namespace WPFMVVM3
+{
+    //實作InotifyPropertyChanged
+    public class PostsViewModel : INotifyPropertyChanged
+    {
+        public Posts posts{ get; set;}
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        //定義一個ICommand型別的參數，他會回傳實作ICommand介面的RelayCommand類別。
+        public ICommand UpdateTitleName { get { return new RelayCommand(UpdateTitleExecute, CanUpdateTitleExecute); } }
+
+        public PostsViewModel()
+        {
+            posts = new Posts { postsText = "", postsTitle = "Unknown" };
+        }
+
+        public string PostsTitle
+        {
+            get { return posts.postsTitle; }
+            set 
+            {
+                if (posts.postsTitle != value)
+                {
+                    posts.postsTitle = value;
+                    RaisePropertyChanged("postsTitle");
+                }
+            }
+        } 
+
+        //產生事件的方法
+        private void RaisePropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        //更新Title，原本放在View那邊的邏輯，藉由繫結的方式來處理按下Button的事件。
+        void UpdateTitleExecute()
+        {
+            PostsTitle = "SkyMVVM";
+        }
+
+        //定義是否可以更新Title
+        bool CanUpdateTitleExecute()
+        {
+            return true;
+        }
+    }
+}
+</pre>
+
+<p>這樣，ViewModel就完成了，接下來是處理RelayCommand。</p>
+<h4 id="撰寫RelayCommand"><a href="#撰寫RelayCommand" class="headerlink" title="撰寫RelayCommand"></a>撰寫RelayCommand</h4><p>RelayCommand是實作ICommand的類別，一開始我們就可以看到定義了Func和Action，這兩個就是用來參考到剛剛傳入進來的兩個方法，並進行了一些的處理。</p>
+<pre class="brush: csharp;">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows.Input;
+using System.Diagnostics;
+
+namespace WPFMVVM3
+{
+    public class RelayCommand :ICommand
+    {
+
+        readonly Func<boolean> _canExecute;
+        readonly Action _execute;
+
+        public RelayCommand(Action execute)
+            : this(execute, null)
+        {
+        }
+
+        public RelayCommand(Action execute, Func<boolean> canExecute)
+        {
+            if (execute == null)
+                throw new ArgumentNullException("execute");
+            _execute = execute;
+            _canExecute = canExecute;
+        }
+
+        public event EventHandler CanExecuteChanged
+        {
+            add
+            {
+
+                if (_canExecute != null)
+                    CommandManager.RequerySuggested += value;
+            }
+            remove
+            {
+
+                if (_canExecute != null)
+                    CommandManager.RequerySuggested -= value;
+            }
+        }
+
+        [DebuggerStepThrough]
+        public Boolean CanExecute(Object parameter)
+        {
+            return _canExecute == null ? true : _canExecute();
+        }
+
+        public void Execute(Object parameter)
+        {
+            _execute();
+        }
+    }
+}
+</pre>
+
+<p>最後，我們必須重新調整XMAL。</p>
+<h4 id="調整XMAL"><a href="#調整XMAL" class="headerlink" title="調整XMAL"></a>調整XMAL</h4><p>最後的一個動作，我們將Button的Click屬性拿掉了，改成Command屬性，並將之Binding到ViewModel的UpdateTitleName屬性，就完成了。</p>
+<pre class="brush: csharp;">&lt;Window x:Class="WPFMVVM3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:WPFMVVM3"
+        Title="MainWindow" Height="350" Width="525"&gt;
+    &lt;Window.DataContext&gt;
+        &lt;!-- 實例化PostViewModel --&gt;
+        &lt;local:PostsViewModel /&gt;
+    &lt;/Window.DataContext&gt;
+    &lt;Grid&gt;
+        &lt;Label  Content="{Binding PostsTitle}"    Height="28" HorizontalAlignment="Left" Margin="12,12,0,0" Name="label1" VerticalAlignment="Top" /&gt;
+        &lt;Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="145,13,0,0" Name="button1" VerticalAlignment="Top" Width="75" Command="{Binding UpdateTitleName}" /&gt;
+    &lt;/Grid&gt;
+&lt;/Window&gt;
+</pre>
+
+<p>以上就完成了!</p>
+<h4 id="結尾"><a href="#結尾" class="headerlink" title="結尾"></a>結尾</h4><p>到這邊就算是手工打造MVVM的一個段落了，其實現在有許多的Framework可以幫我們處理一些繁雜的事物，但如果能了解原理，我相信會更有幫助，所以這次用了循序漸進的方式，來記錄這些內容，也希望能給大家一點幫助!</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://www.codeproject.com/KB/WPF/WpfMvvmQuickStart.aspx" target="_blank" rel="noopener">http://www.codeproject.com/KB/WPF/WpfMvvmQuickStart.aspx</a><li>[http://www.codeproject.com/KB/WPF/MVVMMadeSimple.aspx](http://www.codeproject.com/KB/WPF/MVVMMadeSimple.aspx)
+<li>[http://www.codeproject.com/KB/WPF/MVVMQuickTutorial.aspx](http://www.codeproject.com/KB/WPF/MVVMQuickTutorial.aspx)
+<li>[http://csharperimage.jeremylikness.com/2010/04/model-view-viewmodel-mvvm-explained.html](http://csharperimage.jeremylikness.com/2010/04/model-view-viewmodel-mvvm-explained.html)</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Silveright/" rel="tag">#Silveright</a>
+          
+            <a href="/tags/Design-Patten/" rel="tag">#Design Patten</a>
+          
+            <a href="/tags/WPF/" rel="tag">#WPF</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/12/29/WPF-%E2%80%93-MVVM-%E4%BA%8C/" rel="next" title="WPF – MVVM (二)">
+                <i class="fa fa-chevron-left"></i> WPF – MVVM (二)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/01/09/ASP-NET-MVC-Helper-Namespace%E9%8C%AF%E8%AA%A4/" rel="prev" title="ASP.NET MVC -  Helper Namespace錯誤">
+                ASP.NET MVC -  Helper Namespace錯誤 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#移除View裡面的邏輯"><span class="nav-number">1.</span> <span class="nav-text">移除View裡面的邏輯</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#邏輯移到ViewModel"><span class="nav-number">2.</span> <span class="nav-text">邏輯移到ViewModel</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#撰寫RelayCommand"><span class="nav-number">3.</span> <span class="nav-text">撰寫RelayCommand</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#調整XMAL"><span class="nav-number">4.</span> <span class="nav-text">調整XMAL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#結尾"><span class="nav-number">5.</span> <span class="nav-text">結尾</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">6.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2011/12/31/WPF-–-MVVM-三/';
+      var disqus_title = 'WPF – MVVM (三)';
+      var disqus_url = 'http://skychang.github.io/2011/12/31/WPF-%E2%80%93-MVVM-%E4%B8%89/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,671 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="TFS,Azure,AzureDevOps,DevOps,LoadTest," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="不重要的碎碎念幾百年沒寫 Blog 了，上一篇文章已經一年前了 ( 遮臉 )，而沒寫文章的時間也收到很多 Fans (!?) 的鼓勵，都在詢問為啥沒更新 XDDD，但真的沒辦法，工作太忙了，也請大家多喔見諒 ( 好啦，是我偷懶… ) 而最近因答應了某人，所以打算又開始執筆來寫一些東西，於是就誕生了這篇…. 問題這幾天因為專案需求，需要在 Azure App Service 的 Web App 使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Azure DevOps - 對 Web App 使用壓力測試時發生錯誤">
+<meta property="og:url" content="http://skychang.github.io/2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="不重要的碎碎念幾百年沒寫 Blog 了，上一篇文章已經一年前了 ( 遮臉 )，而沒寫文章的時間也收到很多 Fans (!?) 的鼓勵，都在詢問為啥沒更新 XDDD，但真的沒辦法，工作太忙了，也請大家多喔見諒 ( 好啦，是我偷懶… ) 而最近因答應了某人，所以打算又開始執筆來寫一些東西，於是就誕生了這篇…. 問題這幾天因為專案需求，需要在 Azure App Service 的 Web App 使用">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/01.png">
+<meta property="og:image" content="http://skychang.github.io/2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/02.png">
+<meta property="og:image" content="http://skychang.github.io/2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/03.png">
+<meta property="article:published_time" content="2019-03-26T11:12:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.880Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="TFS">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="AzureDevOps">
+<meta property="article:tag" content="DevOps">
+<meta property="article:tag" content="LoadTest">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Azure DevOps - 對 Web App 使用壓力測試時發生錯誤 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Azure DevOps - 對 Web App 使用壓力測試時發生錯誤
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2019-03-26T11:12:00+00:00" content="2019-03-26">
+              2019-03-26
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="不重要的碎碎念"><a href="#不重要的碎碎念" class="headerlink" title="不重要的碎碎念"></a>不重要的碎碎念</h2><p>幾百年沒寫 Blog 了，上一篇文章已經一年前了 ( 遮臉 )，而沒寫文章的時間也收到很多 Fans (!?) 的鼓勵，都在詢問為啥沒更新 XDDD，但真的沒辦法，工作太忙了，也請大家多喔見諒 ( 好啦，是我偷懶… )</p>
+<p>而最近因答應了某人，所以打算又開始執筆來寫一些東西，於是就誕生了這篇….</p>
+<h2 id="問題"><a href="#問題" class="headerlink" title="問題"></a>問題</h2><p>這幾天因為專案需求，需要在 Azure App Service 的 Web App 使用 VS Load Test 測試一些東西：尤其是這幾天，每天都下雨的情況下，只好拿壓力測試工具來出氣，當興高采烈地按下去，然後悠哉地去泡一杯紅茶加牛奶，回來一看。</p>
+<p><img src="01.png" alt=""></p>
+<p>好吧，沒有吐血，也把紅茶和牛奶吐出來了，是的，竟然打了 36649 的 request，然後也錯了 36649 的 request，完全的 100%…原本是想拿來當出氣工具，結果壓力全部跑回到自己身上…</p>
+<p>既然都錯了，而且打了兩三次都是同樣結果，那身為工程屍，只能去找錯了。</p>
+<p>所以第一步當然就是點開錯誤資訊看一下</p>
+<p><img src="02.png" alt=""></p>
+<p>所以找到了第一個關鍵，An existing connection was forcibly closed by the remote host    。</p>
+<p>啥，被中斷了，第一個想到的是，會不會是 Web App 爆了，實際點進去看，並且查看 Web App 的 CPU 等狀況：嗯，這根本不是好不好，而是根本沒打進去!!</p>
+<p>好啦，也合理，因為正常情況下，應該也會打幾個成功的進去啊！！！！！</p>
+<p>然後再去 Detail 檢查，也不是 500 錯誤，所以真的也沒進去。</p>
+<p>好吧，既然如此，就去問一下 google 大神，看看是什麼問題….</p>
+<h2 id="解決方案"><a href="#解決方案" class="headerlink" title="解決方案"></a>解決方案</h2><p>當然，歷經多年沒寫文章，這篇是小品，所以就直接講答案，其實查閱的結果，這就是個 bug，未來應該也是會修啦，有興趣的可以直接<a href="https://developercommunity.visualstudio.com/content/problem/326207/vsts-load-test-fails.html" target="_blank" rel="noopener">參考這篇</a>。</p>
+<p>而這篇的內容主要就是在說，因為現在 Web App 預設會使用 TLS 1.2，而這會影響到壓測工具，但文章沒詳細敘述原因就是了，而暫時解的方法，大概這幾種，然後就開始吵，這個到底算不算 Bug….</p>
+<ol>
+<li>使用 Plung 掛上 TLS 1.2 的支援</li>
+<li>關閉 Https only，然後打 Http</li>
+<li>將 TLS 1.2 降到 1.0</li>
+</ol>
+<p>1 的方案小弟沒試過，因為想說未來應該會自己改完這 Bug XDD<br>2 的方案不是很喜歡，因為打到 http 會在從新導向到 https..<br>3 至少對我來說，是可以接受的暫時解，所以小弟就選擇 3 來處理此問題。</p>
+<p>想要修改的，可以到 Web App 的 SSL settings 進行設定，像下圖，我就把原本的 TLS 1.2 改成 1.0<br><img src="03.png" alt=""></p>
+<p>完成之後，再重新打一次，就可以享受喝奶茶的樂趣了 (誤)</p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>好吧，我不確定未來會不會修復此問題，如果未來還是沒修復，小弟可能會在想怎麼解決吧….</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://developercommunity.visualstudio.com/content/problem/326207/vsts-load-test-fails.html" target="_blank" rel="noopener">https://developercommunity.visualstudio.com/content/problem/326207/vsts-load-test-fails.html</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/TFS/" rel="tag">#TFS</a>
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/AzureDevOps/" rel="tag">#AzureDevOps</a>
+          
+            <a href="/tags/DevOps/" rel="tag">#DevOps</a>
+          
+            <a href="/tags/LoadTest/" rel="tag">#LoadTest</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/24/VSTS-CICD-Creat_Build_Agent/" rel="next" title="VSTS - CI 與 CD - 自建 Agent">
+                <i class="fa fa-chevron-left"></i> VSTS - CI 與 CD - 自建 Agent
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/30/Docker-Install_Docker_Without_HyperV_In_Windows_10/" rel="prev" title="Docker - 在 Windows 10 底下不使用 Hyper-V 安裝 Docker">
+                Docker - 在 Windows 10 底下不使用 Hyper-V 安裝 Docker <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#不重要的碎碎念"><span class="nav-number">1.</span> <span class="nav-text">不重要的碎碎念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#問題"><span class="nav-number">2.</span> <span class="nav-text">問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解決方案"><span class="nav-number">3.</span> <span class="nav-text">解決方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">4.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">5.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/';
+      var disqus_title = 'Azure DevOps - 對 Web App 使用壓力測試時發生錯誤';
+      var disqus_url = 'http://skychang.github.io/2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

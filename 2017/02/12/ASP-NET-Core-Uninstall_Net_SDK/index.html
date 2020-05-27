@@ -1,0 +1,690 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ASP.NET Core,ASP.NET,macOS,Visual Studio Code,.NET Core," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言在 macOS 上裝 pkg 雖然很方便，按一按就結束了，但當要反安裝的時候，就真的感受到 Windows 下 msi 的好處了….而這篇，主要會敘述，在 macOS 下，假設已經安裝了 dotnet-dev-osx-x64.1.0.0-preview2-1-003177 這個 pkg 最後，我們該怎樣移除。 備註 ：為什麼要移除呢？那是因為目前的 .NET Core CLI 工具，已經進入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET Core - 移除在 macOS 上的 .Net Core SDK">
+<meta property="og:url" content="http://skychang.github.io/2017/02/12/ASP-NET-Core-Uninstall_Net_SDK/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="前言在 macOS 上裝 pkg 雖然很方便，按一按就結束了，但當要反安裝的時候，就真的感受到 Windows 下 msi 的好處了….而這篇，主要會敘述，在 macOS 下，假設已經安裝了 dotnet-dev-osx-x64.1.0.0-preview2-1-003177 這個 pkg 最後，我們該怎樣移除。 備註 ：為什麼要移除呢？那是因為目前的 .NET Core CLI 工具，已經進入">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2017/02/12/ASP-NET-Core-Uninstall_Net_SDK/01.png">
+<meta property="og:image" content="http://skychang.github.io/2017/02/12/ASP-NET-Core-Uninstall_Net_SDK/02.png">
+<meta property="og:image" content="http://skychang.github.io/2017/02/12/ASP-NET-Core-Uninstall_Net_SDK/03.png">
+<meta property="og:image" content="http://skychang.github.io/2017/02/12/ASP-NET-Core-Uninstall_Net_SDK/04.png">
+<meta property="og:image" content="http://skychang.github.io/2017/02/12/ASP-NET-Core-Uninstall_Net_SDK/05.png">
+<meta property="og:image" content="http://skychang.github.io/2017/02/12/ASP-NET-Core-Uninstall_Net_SDK/06.png">
+<meta property="article:published_time" content="2017-02-12T14:49:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.824Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="ASP.NET Core">
+<meta property="article:tag" content="ASP.NET">
+<meta property="article:tag" content="macOS">
+<meta property="article:tag" content="Visual Studio Code">
+<meta property="article:tag" content=".NET Core">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2017/02/12/ASP-NET-Core-Uninstall_Net_SDK/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ASP.NET Core - 移除在 macOS 上的 .Net Core SDK | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ASP.NET Core - 移除在 macOS 上的 .Net Core SDK
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-02-12T14:49:00+00:00" content="2017-02-12">
+              2017-02-12
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/02/12/ASP-NET-Core-Uninstall_Net_SDK/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/02/12/ASP-NET-Core-Uninstall_Net_SDK/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 macOS 上裝 pkg 雖然很方便，按一按就結束了，但當要反安裝的時候，就真的感受到 Windows 下 msi 的好處了….<br>而這篇，主要會敘述，在 macOS 下，假設已經安裝了 dotnet-dev-osx-x64.1.0.0-preview2-1-003177 這個 pkg 最後，我們該怎樣移除。</p>
+<p>備註 ：<br>為什麼要移除呢？<br>那是因為目前的 .NET Core CLI 工具，已經進入 RC 4 了，而<a href="https://www.microsoft.com/net/download/core#/current" target="_blank" rel="noopener">官網</a>提供的 pkg 有點太舊，<br>現在 CLI RC 4 的版本 ( 其實 CLI RC 3 開始 )，已經陸續的將 project.json 轉移到 .csproj 底下了。<br>所以原本的 Previre2 的版本，小弟就覺得礙事，就研究了一下移除的方法….</p>
+<p>( 重點是，官網既然找不到 = = …. 還好國內國外都有很多高手已經嘗試過了…. )</p>
+<h2 id="pkg-裡面有啥東西"><a href="#pkg-裡面有啥東西" class="headerlink" title="pkg 裡面有啥東西"></a>pkg 裡面有啥東西</h2><p>在開始之前，我們可以先使用底下指令，來列出所有關於 microsoft 的 pkg 套件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pkgutil --pkgs | grep microsoft</span><br></pre></td></tr></table></figure>
+
+<p>如下圖，我們的目標就是紅色的那個套件，但，我們怎麼能確定，其他的 pkg 是和 dev.1.0.0-preview2 無關呢？</p>
+<p><img src="01.png" alt=""></p>
+<p>所以，這邊我們使用另外一個指令，用這個指令可以解開 pkg 包，並解開到桌面的 Temp 底下。<br>( 當然，要先下載原先的 pkg 包來解開，下圖小弟是直接下載最後版本的 .NET Runtime pkg 來檢驗 )</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pkgutil --expand .&#x2F;dotnet-osx-x64.latest.pkg ~&#x2F;Desktop&#x2F;Temp</span><br></pre></td></tr></table></figure>
+
+<p><img src="02.png" alt=""></p>
+<p>解開後，其實我們可以看到下圖，如果只有 runtim 的 pkg 是會裝底下三個 pkg 的，<br>所以可以證實，其實這三個 pkg 是屬於 runtime 時期用的，<br>而 dev.1.0.0-Previre2 就是代表著是 cli 工具了。</p>
+<p><img src="03.png" alt=""></p>
+<p>既然確定了目標，我們就可以來進行反安裝。</p>
+<h2 id="反安裝-NET-Core-SDK"><a href="#反安裝-NET-Core-SDK" class="headerlink" title="反安裝 .NET Core SDK"></a>反安裝 .NET Core SDK</h2><p>接下來，我們可以使用底下指令，來查看 pkg 的重要資訊。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pkgutil --pkg-info [pkg 名稱]</span><br></pre></td></tr></table></figure>
+<p>透過此資訊，我們就可以得知，這個 pkg 主要會將檔案裝在 usr/local/share/dotnet 這個目錄下。</p>
+<p><img src="04.png" alt=""></p>
+<p>接下來，我們要先 cd 至 usr/local/share/dotnet 這個目錄下，並使用 sudo su 切換高權限，<br>不然會刪不掉….</p>
+<p>接著，我們就可以使用底下兩個指令刪除檔案與目錄。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pkgutil --only-files --files [pkg 名稱] | tr &#39;\n&#39; &#39;\0&#39; | xargs -n 1 -0 rm -if</span><br><span class="line">pkgutil --only-dirs --files [pkg 名稱] | tr &#39;\n&#39; &#39;\0&#39; | xargs -n 1 -0 rm -ifr</span><br></pre></td></tr></table></figure>
+
+<p>上面的指令，事先透過 pkgutil 來列出檔案和檔案路徑，並透過管線的方式來刪除。</p>
+<p>但其實 usr/local/share/dotnet 這個目錄底下，也只有 sdk 有這個目錄。<br>也可以直接使用 rm -rf 來刪除 sdk 這個目錄。</p>
+<p>例如如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf &#x2F;usr&#x2F;local&#x2F;share&#x2F;dotnet&#x2F;sdk&#x2F;1.0.0-preview2.1-003155&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p><img src="05.png" alt=""></p>
+<p>刪除完畢後，我們要將這個 pkg 給移除，移除完畢後·可以嘗試在 home 目錄下使用 dotnet new 看看，<br>如果不能使用，就表示移除完成。</p>
+<p>當然，也可以重新列出 pkg 列表，看看還在不在。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pkgutil --forget [pkg 名稱]</span><br></pre></td></tr></table></figure>
+
+<p><img src="06.png" alt=""></p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>現在雖然比較麻煩，但相信，未來應該會提供比較好的移除方式的。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://github.com/dotnet/core/blob/master/cli/known-issues.md" target="_blank" rel="noopener">https://github.com/dotnet/core/blob/master/cli/known-issues.md</a></li>
+<li><a href="http://superuser.com/questions/36567/how-do-i-uninstall-any-apple-pkg-package-file" target="_blank" rel="noopener">http://superuser.com/questions/36567/how-do-i-uninstall-any-apple-pkg-package-file</a></li>
+<li><a href="https://devmanna.blogspot.tw/2016/06/howto-uninstall-mac-pkg.html" target="_blank" rel="noopener">https://devmanna.blogspot.tw/2016/06/howto-uninstall-mac-pkg.html</a></li>
+<li><a href="http://tattoocoder.com/troubleshooting-installing-net-core-1-1-rtm-on-osx/" target="_blank" rel="noopener">http://tattoocoder.com/troubleshooting-installing-net-core-1-1-rtm-on-osx/</a></li>
+<li><a href="http://www.macx.cn/thread-2075903-1-1.html" target="_blank" rel="noopener">http://www.macx.cn/thread-2075903-1-1.html</a></li>
+<li><a href="https://www.microsoft.com/net/download/core#/current" target="_blank" rel="noopener">https://www.microsoft.com/net/download/core#/current</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-NET-Core/" rel="tag">#ASP.NET Core</a>
+          
+            <a href="/tags/ASP-NET/" rel="tag">#ASP.NET</a>
+          
+            <a href="/tags/macOS/" rel="tag">#macOS</a>
+          
+            <a href="/tags/Visual-Studio-Code/" rel="tag">#Visual Studio Code</a>
+          
+            <a href="/tags/NET-Core/" rel="tag">#.NET Core</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/11/ASP-NET-Core-First_In_Mac/" rel="next" title="ASP.NET Core - 在 macOS 上開發 ASP.NET Core - 環境準備篇">
+                <i class="fa fa-chevron-left"></i> ASP.NET Core - 在 macOS 上開發 ASP.NET Core - 環境準備篇
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/09/Redis-Create_Redis_HA/" rel="prev" title="Redis - 在 Windows 上建立高可用性的 Redis">
+                Redis - 在 Windows 上建立高可用性的 Redis <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-裡面有啥東西"><span class="nav-number">2.</span> <span class="nav-text">pkg 裡面有啥東西</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反安裝-NET-Core-SDK"><span class="nav-number">3.</span> <span class="nav-text">反安裝 .NET Core SDK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">4.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">5.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2017/02/12/ASP-NET-Core-Uninstall_Net_SDK/';
+      var disqus_title = 'ASP.NET Core - 移除在 macOS 上的 .Net Core SDK';
+      var disqus_url = 'http://skychang.github.io/2017/02/12/ASP-NET-Core-Uninstall_Net_SDK/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

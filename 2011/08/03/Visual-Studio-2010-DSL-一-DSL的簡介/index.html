@@ -1,0 +1,658 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Visual Studio,DSL," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近又看到IThome的一篇文章，IBM個人電腦和MS-DOS邁入30年頭，才驚覺其實電腦真正開始發展也不過短短30年頭，而短短的30年頭，就已經佔領了每個人的生活，同樣的，程式的發展也沒幾年，所以，不要太苛求我們寫程式的了，整個軟體工程，也不過短短的幾年發展而已啊~~回想當年，以前上課所教的瀑布式開發法，直到現在，演進也算是非常快的了。 最近因為公司再導入軟體工程的一些東西，所以又開始看了一些關">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Visual Studio 2010 DSL (一) DSL的簡介">
+<meta property="og:url" content="http://skychang.github.io/2011/08/03/Visual-Studio-2010-DSL-%E4%B8%80-DSL%E7%9A%84%E7%B0%A1%E4%BB%8B/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="最近又看到IThome的一篇文章，IBM個人電腦和MS-DOS邁入30年頭，才驚覺其實電腦真正開始發展也不過短短30年頭，而短短的30年頭，就已經佔領了每個人的生活，同樣的，程式的發展也沒幾年，所以，不要太苛求我們寫程式的了，整個軟體工程，也不過短短的幾年發展而已啊~~回想當年，以前上課所教的瀑布式開發法，直到現在，演進也算是非常快的了。 最近因為公司再導入軟體工程的一些東西，所以又開始看了一些關">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh4.ggpht.com/-kdMWSTjem38/TjpIDV5sv3I/AAAAAAAAAWY/VXvbZJkYnAs/image_thumb%25255B3%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-AB_RO73xLKM/TjpIEV2Um-I/AAAAAAAAAWg/KVOc8SX75m0/image_thumb%25255B2%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-oj8EsIRxfTM/TjpIF81QKoI/AAAAAAAAAWo/4J_3F6DdGjs/image_thumb%25255B6%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2011-08-03T21:19:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.019Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="DSL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh4.ggpht.com/-kdMWSTjem38/TjpIDV5sv3I/AAAAAAAAAWY/VXvbZJkYnAs/image_thumb%25255B3%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Visual Studio 2010 DSL (一) DSL的簡介 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Visual Studio 2010 DSL (一) DSL的簡介
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2011-08-03T21:19:00+00:00" content="2011-08-03">
+              2011-08-03
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2011/08/03/Visual-Studio-2010-DSL-%E4%B8%80-DSL%E7%9A%84%E7%B0%A1%E4%BB%8B/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/08/03/Visual-Studio-2010-DSL-一-DSL的簡介/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近又看到IThome的一篇文章，IBM個人電腦和MS-DOS邁入30年頭，才驚覺其實電腦真正開始發展也不過短短30年頭，而短短的30年頭，就已經佔領了每個人的生活，同樣的，程式的發展也沒幾年，所以，不要太苛求我們寫程式的了，整個軟體工程，也不過短短的幾年發展而已啊~~回想當年，以前上課所教的瀑布式開發法，直到現在，演進也算是非常快的了。</p>
+<p>最近因為公司再導入軟體工程的一些東西，所以又開始看了一些關於架構，設計等等之類的書籍，說到軟體工程的一些東西，除了超久超久以前上課所學的瀑布式等等外，當初比較有印象的就是好幾年前在學校做專題的案例了，那時候是要寫一個網頁UI程式碼自動產生器，也就是利用UML的循序圖和類別圖來斷定必須要有那些UI介面，並讓他自動產生，而整個專案過程，是使用MDA配合UML來開發，後來隨著時間，又看了一堆敏捷、XP等等等，直到最近，因DDD的關係，不小心看到了DSL。</p>
+<p>廢話說了一堆，那到底甚麼是DSL，今天的主題並不是要用Visual Studio 2010開發任天堂的NDSL喔…，如果是的話，我想我大概就會紅了，其實DSL的全名是Domain Specific Languages，直接翻譯就是”領域特定語言”，或是倒裝一下”特定領域語言”，目前看下來，”特定領域語言”這種中翻比較多人使用。</p>
+<p>在解釋甚麼是DSL之前，我必須要先強調，DSL並不是像C#、Java這類的程式語言，也不是像UML這類的圖形語言，反而言之，他應該是可以包含C#、Java和UML等，換言之，他比較像是一種概念。其實DSL的概念，可以簡單說成，”利用你自己所定義的東西，來處理不斷重複的事情，並且最終可以產生你所預期的程式碼。”</p>
+<p>舉例來說，Visual Studio裡面的LinqToSql和EntityFramework設計器，就是用DSL所寫出來的，所以DSL定義了每個Entity圖是代表著甚麼意義，兩個Entity之間的線是代表著甚麼關聯，最終畫出來的圖，應該怎樣產出程式碼。也因此，DSL其實是一種特別用來描述某個特殊領域的語言，而這個EntityFramework，就是種特殊的領域。除此之外，Visual Studio 2010的UML Modeling Project裡面的循序、類別圖等，也都是用Visual Studion DSL開發出來的。</p>
+<p>我們再來看另外一個例子，大家應該常常會有這種感覺，今天做完這個專案，下次做另外一個專案的時候，有許多東西是很類似的，這時大家會怎麼做?，像我比較笨一點就會使用拷貝貼上改改改的方式來完成吧，而這種區塊，可能就是某種特定的領域，這時候，就可以考慮使用DSL來將此區段模組化，未來就可以直接使用。</p>
+<p>像是EntityFramework設計器就是一個例子，我們不同的專案，不可能都用一套全新的設計器吧，而是所有專案都會使用EntityFramework設計器，所以今天把此領域模組化，未來就可以不斷的適用於各種不同地方。</p>
+<p>而講到DSL，就不能不提DSD。</p>
+<p>利用DSL所設計與開發的模式，就稱之為DSD Domain Specific Development</p>
+<p>我們再從整個系統的角度來看，整個系統中，通常設計完後，可能會有固定不常變動的區塊和常常需要變動的區塊，而DSD的設計，就是尋找出經常需要變動的區塊，由設計人員使用DSL預先定義好所有的Domain，來讓那些站在更高層次，領域專家的角度，(或是程式設計師自己)來處理這類需要不斷重複解決問題的方法，而不需要讓程式設計師不斷的重複的撰寫這些程式，最後由DSL產生出來的程式碼，並整合於固定不變的部分，這就是一種DSD。</p>
+<p>就如下圖一樣，一個系統裡面的Framework，除了手寫的Code外，不常變動的區塊外，還有一塊是由DSL寫出來的Model(左上角)所產生出來的，而產出的程式碼，就這樣嵌入於Framework裡面。</p>
+<p><a href="http://lh5.ggpht.com/-k_TXK0H1E-w/TjpICnm85KI/AAAAAAAAAWU/xII6VG4-AQo/s1600-h/image%25255B7%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-kdMWSTjem38/TjpIDV5sv3I/AAAAAAAAAWY/VXvbZJkYnAs/image_thumb%25255B3%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>另外，我們通常設計一個程式時，最基本的，我們會分成三層，我們也可以利用DSL來定義這三層，並讓他自動產生相對應的程式碼，這樣未來我們製作其他專案的時候，就可以不需要再重複地打某些程式碼，如下圖，是Microsoft所做出來的一個例子，他們使用DSL來描述這三層式的架構。</p>
+<p><a href="http://lh4.ggpht.com/-njwqAQ8diCM/TjpID3pq3JI/AAAAAAAAAWc/mUwqCKwmTcw/s1600-h/image%25255B6%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-AB_RO73xLKM/TjpIEV2Um-I/AAAAAAAAAWg/KVOc8SX75m0/image_thumb%25255B2%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>我們可以知道，如果跨越層級存取，是非常嚴重的一個錯誤，所以當UI直接存取Data時，就會產生錯誤，這些也可以從DSL裡面定義。</p>
+<p><a href="http://lh5.ggpht.com/-I0I55lUo5J8/TjpIEyi_vgI/AAAAAAAAAWk/6VAtyhIeu2U/s1600-h/image%25255B12%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-oj8EsIRxfTM/TjpIF81QKoI/AAAAAAAAAWo/4J_3F6DdGjs/image_thumb%25255B6%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>說了非常多的東西，看到最後，或許有人會覺得這和UML有啥不同?，就如前面所述，DSL是一種用於解決特定領域的語言，他的關鍵在於解決，這和描述用途的UML是非常不同的，雖然現在像是類別圖也可以用來產生程式碼，但是UML最初的用意，是用來描述整個系統架構，讓開發者了解，這和DSL是有很大的差異，DSL的初本，就是去解決特定重複性的問題。</p>
+<p>說了那麼多，未來我會帶一些範例，我想，大家就會更清楚的了解領悟。</p>
+<p>以下是一些參考網站，大家也可以過去看看喔。</p>
+<p><a href="http://en.wikipedia.org/wiki/Domain-specific_language" target="_blank" rel="noopener" title="http://en.wikipedia.org/wiki/Domain-specific_language">http://en.wikipedia.org/wiki/Domain-specific_language</a></p>
+<p><a href="http://msdn.microsoft.com/zh-tw/vstudio/cc963628" target="_blank" rel="noopener" title="http://msdn.microsoft.com/zh-tw/vstudio/cc963628">http://msdn.microsoft.com/zh-tw/vstudio/cc963628</a></p>
+<p><a href="http://msdn.microsoft.com/en-us/vstudio/ff637756" target="_blank" rel="noopener" title="http://msdn.microsoft.com/en-us/vstudio/ff637756">http://msdn.microsoft.com/en-us/vstudio/ff637756</a></p>
+<p><a href="http://msdn.microsoft.com/en-us/vstudio/ff637759" target="_blank" rel="noopener" title="http://msdn.microsoft.com/en-us/vstudio/ff637759">http://msdn.microsoft.com/en-us/vstudio/ff637759</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
+          
+            <a href="/tags/DSL/" rel="tag">#DSL</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/07/28/CodeBehind%E5%92%8CCodeFile%E7%9A%84%E6%AD%B7%E5%8F%B2%E6%95%85%E4%BA%8B/" rel="next" title="CodeBehind和CodeFile的歷史故事">
+                <i class="fa fa-chevron-left"></i> CodeBehind和CodeFile的歷史故事
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011/08/04/IIS%E4%BD%BF%E7%94%A8Windows%E9%A9%97%E8%AD%89%E6%99%82%EF%BC%8C%E7%84%A1%E6%B3%95%E7%99%BB%E5%85%A5%EF%BC%8C%E4%B8%94%E6%9C%83%E5%87%BA%E7%8F%BE401-1-%E9%8C%AF%E8%AA%A4%E3%80%82/" rel="prev" title="IIS使用Windows驗證時，無法登入，且會出現401.1 錯誤。">
+                IIS使用Windows驗證時，無法登入，且會出現401.1 錯誤。 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2011/08/03/Visual-Studio-2010-DSL-一-DSL的簡介/';
+      var disqus_title = 'Visual Studio 2010 DSL (一) DSL的簡介';
+      var disqus_url = 'http://skychang.github.io/2011/08/03/Visual-Studio-2010-DSL-%E4%B8%80-DSL%E7%9A%84%E7%B0%A1%E4%BB%8B/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

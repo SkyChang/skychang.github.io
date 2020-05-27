@@ -1,0 +1,657 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Visual Studio,ASP.NET MVC,Tools," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="想要裝個Silverlight 4 Tools卻不知道這個版本是不是最新的!?ASP.NET MVC 3 出了，還在找安裝程式。 好吧，我承認我以前常常幹這種事情，找東找西，就只是為了找一個新版的套件，找的了，還懷疑東懷疑西，繼續尋找看看，是不是最新版。 但這些問題，碰到Microsoft Web Platform就都解決了!! 官方的解釋是這樣 官網位置http:&#x2F;&#x2F;www.microsoft.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Microsoft Web Platform">
+<meta property="og:url" content="http://skychang.github.io/2011/02/11/Microsoft-Web-Platform/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="想要裝個Silverlight 4 Tools卻不知道這個版本是不是最新的!?ASP.NET MVC 3 出了，還在找安裝程式。 好吧，我承認我以前常常幹這種事情，找東找西，就只是為了找一個新版的套件，找的了，還懷疑東懷疑西，繼續尋找看看，是不是最新版。 但這些問題，碰到Microsoft Web Platform就都解決了!! 官方的解釋是這樣 官網位置http:&#x2F;&#x2F;www.microsoft.">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh3.ggpht.com/-tMD7nS5k_8A/Tj-frp-9CnI/AAAAAAAAAY8/0WDwgT9qZnQ/image_thumb%25255B26%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-cwt-p3ZcEdU/Tj-fuVq1tAI/AAAAAAAAAZE/Zq80kjAzufE/image_thumb%25255B25%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-JtqNmt5926o/Tj-fwhFcUZI/AAAAAAAAAZM/qoLS9pEIQJ4/image_thumb%25255B24%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-k9Zp1sO2TLM/Tj-fyzI2q9I/AAAAAAAAAZU/mkA14GiXKRU/image_thumb%25255B17%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-ojqla9gD2Eo/Tj-f04ZLeFI/AAAAAAAAAZc/PfwJQOK7WWk/image_thumb%25255B19%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-zbv5suK0qvc/Tj-f21S17VI/AAAAAAAAAZk/JaUvphAk3L4/image_thumb%25255B21%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-GCJTByQSz5M/Tj-f4koR_lI/AAAAAAAAAZs/CxH-QY16qJE/image_thumb%25255B23%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2011-02-11T05:57:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.928Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta property="article:tag" content="Tools">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh3.ggpht.com/-tMD7nS5k_8A/Tj-frp-9CnI/AAAAAAAAAY8/0WDwgT9qZnQ/image_thumb%25255B26%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Microsoft Web Platform | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Microsoft Web Platform
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2011-02-11T05:57:00+00:00" content="2011-02-11">
+              2011-02-11
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2011/02/11/Microsoft-Web-Platform/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/02/11/Microsoft-Web-Platform/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>想要裝個Silverlight 4 Tools卻不知道這個版本是不是最新的!?<br>ASP.NET MVC 3 出了，還在找安裝程式。</p>
+<p>好吧，我承認我以前常常幹這種事情，找東找西，就只是為了找一個新版的套件，找的了，還懷疑東懷疑西，繼續尋找看看，是不是最新版。</p>
+<p>但這些問題，碰到Microsoft Web Platform就都解決了!!</p>
+<p>官方的解釋是這樣 官網位置<a href="http://www.microsoft.com/web/" target="_blank" rel="noopener">http://www.microsoft.com/web/</a></p>
+<blockquote>
+<p>Microsoft Web Platform 提供的不只是功能強大的一組工具、伺服器和技術，更提供了可打造主機網站、服務和應用程式的完整生態系統。 無論您是想要打造公司的網站呈現，或是要啟用新一代的 MySpace，我們都可提供讓您美夢成真的產品。 榮獲財星五百大公司信任，擁有數以百萬的個人使用者的 Microsoft Web Platform，就是完美工作的好夥伴﹗ </p>
+</blockquote>
+<p>我們直接先來看看Web Platform執行的畫面吧! <font color="#f79646">( 目前Web Platform Install 3.0會找不到一些比較新的工具或是測試中的工具，例如:SQL Server Data Tools，目前只有Web Platform Install 4.0 Beta才有提供，有需要的人可能要注意一下。 )</font><br><a href="http://lh5.ggpht.com/-b8b1fhTeW34/Tj-fquxvVII/AAAAAAAAAY4/0K-gDq74IiY/s1600-h/image%25255B42%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-tMD7nS5k_8A/Tj-frp-9CnI/AAAAAAAAAY8/0WDwgT9qZnQ/image_thumb%25255B26%25255D.png?imgmax=800" alt="image" title="image"></a><br>如畫面所示，應該可以看到像是.NET 4、MVC3等等，都可以輕易地在Web Platform選單上面看到了!<br>而我們只要在Web Platform上輕鬆地按下新增，並且安裝，Web Platform就會自動地幫我們處理好。<br>簡單吧!，超適合像我這種懶人使用=w=。</p>
+<p>那如何下載安裝呢?<br>我們只要到Web Platform之官網<a href="http://www.microsoft.com/web/" target="_blank" rel="noopener">http://www.microsoft.com/web/</a><br>並且點選下載。<br><a href="http://lh6.ggpht.com/-3147UslFFAs/Tj-ftBfSEAI/AAAAAAAAAZA/bKagaHoEdxg/s1600-h/image%25255B41%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-cwt-p3ZcEdU/Tj-fuVq1tAI/AAAAAAAAAZE/Zq80kjAzufE/image_thumb%25255B25%25255D.png?imgmax=800" alt="image" title="image"></a><br>然後會進到下載頁，點下載，並且下載完後安裝即可。<br><a href="http://lh4.ggpht.com/-HrhX_saWP34/Tj-fvuNSSDI/AAAAAAAAAZI/rt68bOKI8T8/s1600-h/image%25255B40%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-JtqNmt5926o/Tj-fwhFcUZI/AAAAAAAAAZM/qoLS9pEIQJ4/image_thumb%25255B24%25255D.png?imgmax=800" alt="image" title="image"></a><br>裝完後執行後，就如同第一個畫面一樣，就可以開始在Web Platform上簡單的將您想要的東西裝上去啦!!<br>( P.S 若要移除安裝上去的套件，目前在Web Platform 3.0上是不行的，<br>還是只能透過程式管理員移除. )</p>
+<p>不知道大家有沒有這種經驗，<br>平常Server沒有安裝ASP.NET MVC 3的話，就必須在發佈的時候，<br>上傳一堆ASP.NET MVC 3之DLL檔到網站bin目錄，<br>要不然就是要去微軟的官網找ASP.NET MVC3安裝程式，<br>但一不小心，也可能裝到的是RC版本，<br>現在有了Web Platform只要輕輕地按下新增和安裝，就可以非常方便的安裝，<br>小弟我不但開發機有裝Web Platform，Server上我也裝了Web Platform。<br>所以現在我們實際來利用Web Platform裝一下最夯的ASP.NET MVC 3吧。  <p><font color="#ff0000">如果已經裝了Visual Studio 2010 SP1，則內建就會有MVC 3，如果沒有裝SP1的人，可以考慮直接使用Web Platform直接裝SP1</font></p>
+<p>首先，我們先選擇產品 -&gt; ASP.NET MVC 3 新增 -&gt; 安裝。<br><a href="http://lh6.ggpht.com/-wDiy2xH2z78/Tj-fxgbw8II/AAAAAAAAAZQ/Xv1l15FfM1U/s1600-h/image%25255B33%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-k9Zp1sO2TLM/Tj-fyzI2q9I/AAAAAAAAAZU/mkA14GiXKRU/image_thumb%25255B17%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後他會和你說，要裝哪些東西<br><a href="http://lh3.ggpht.com/-jk_3CK0GlYA/Tj-f0MujxJI/AAAAAAAAAZY/g0VHjrgzoHs/s1600-h/image%25255B35%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-ojqla9gD2Eo/Tj-f04ZLeFI/AAAAAAAAAZc/PfwJQOK7WWk/image_thumb%25255B19%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>確定後，Web Platform就會開自己跑了。<br><a href="http://lh4.ggpht.com/-3xJ8XuwprD0/Tj-f1nfa7zI/AAAAAAAAAZg/4Qlw248TJhQ/s1600-h/image%25255B37%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-zbv5suK0qvc/Tj-f21S17VI/AAAAAAAAAZk/JaUvphAk3L4/image_thumb%25255B21%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>過一會兒，就安裝完成。<br><a href="http://lh3.ggpht.com/-gGGmBpATJsI/Tj-f3zwopsI/AAAAAAAAAZo/n8qeVfT94Ss/s1600-h/image%25255B39%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-GCJTByQSz5M/Tj-f4koR_lI/AAAAAAAAAZs/CxH-QY16qJE/image_thumb%25255B23%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>Web Platform就是如此的簡單好用! </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+            <a href="/tags/Tools/" rel="tag">#Tools</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/01/27/ASP-NET-MVC-3-%E4%BA%8C-Razor%E7%9A%84-model/" rel="next" title="ASP.NET MVC 3 (二) Razor的@model">
+                <i class="fa fa-chevron-left"></i> ASP.NET MVC 3 (二) Razor的@model
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011/07/28/%E5%AE%89%E8%A3%9DSQL-Server-Data-Tools-DataBase-Projects/" rel="prev" title="安裝SQL Server Data Tools - DataBase Projects">
+                安裝SQL Server Data Tools - DataBase Projects <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2011/02/11/Microsoft-Web-Platform/';
+      var disqus_title = 'Microsoft Web Platform';
+      var disqus_url = 'http://skychang.github.io/2011/02/11/Microsoft-Web-Platform/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,653 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Visual Studio,TFS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="延續前一篇，小弟我講到利用Team Foundation Service當代理伺服器來進行負載測試；後來又和Franma聊天聊到，是的，目前這個服務也還算是Preview，所以是有限制的；大家可以去底下的參考資料找到連結。 而這個限制，基本上是每月給Team Foundation Service帳號，15000人&#x2F;分的額度可以使用，簡單的說，如果你一次要壓15000人，那只能壓1min…如下圖，設">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Visual Studio - 利用Team Foundation Service當代理伺服器進行負載測試目前的限制">
+<meta property="og:url" content="http://skychang.github.io/2013/07/04/Visual-Studio-%E5%88%A9%E7%94%A8Team-Foundation-Service%E7%95%B6%E4%BB%A3%E7%90%86%E4%BC%BA%E6%9C%8D%E5%99%A8%E9%80%B2%E8%A1%8C%E8%B2%A0%E8%BC%89%E6%B8%AC%E8%A9%A6%E7%9B%AE%E5%89%8D%E7%9A%84%E9%99%90%E5%88%B6/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="延續前一篇，小弟我講到利用Team Foundation Service當代理伺服器來進行負載測試；後來又和Franma聊天聊到，是的，目前這個服務也還算是Preview，所以是有限制的；大家可以去底下的參考資料找到連結。 而這個限制，基本上是每月給Team Foundation Service帳號，15000人&#x2F;分的額度可以使用，簡單的說，如果你一次要壓15000人，那只能壓1min…如下圖，設">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh3.ggpht.com/-FNkf10qMvuU/UdVxh812ImI/AAAAAAAAGm0/KSltU_tjVsE/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-Znz7KIAj-qM/UdVxjSJzYkI/AAAAAAAAGnE/rCKLEU0LCNM/image_thumb%25255B3%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-0fsmTzcmru8/UdVxk4cyQ_I/AAAAAAAAGnU/Xv6XHaglOLU/image_thumb%25255B5%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-d2lfplJww50/UdVxmnyPUyI/AAAAAAAAGnk/5Np4Z5DUWMI/image_thumb%25255B7%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2013-07-04T20:59:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.023Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="TFS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh3.ggpht.com/-FNkf10qMvuU/UdVxh812ImI/AAAAAAAAGm0/KSltU_tjVsE/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Visual Studio - 利用Team Foundation Service當代理伺服器進行負載測試目前的限制 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Visual Studio - 利用Team Foundation Service當代理伺服器進行負載測試目前的限制
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2013-07-04T20:59:00+00:00" content="2013-07-04">
+              2013-07-04
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/07/04/Visual-Studio-%E5%88%A9%E7%94%A8Team-Foundation-Service%E7%95%B6%E4%BB%A3%E7%90%86%E4%BC%BA%E6%9C%8D%E5%99%A8%E9%80%B2%E8%A1%8C%E8%B2%A0%E8%BC%89%E6%B8%AC%E8%A9%A6%E7%9B%AE%E5%89%8D%E7%9A%84%E9%99%90%E5%88%B6/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/07/04/Visual-Studio-利用Team-Foundation-Service當代理伺服器進行負載測試目前的限制/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>延續<a href="http://blog.sanc.idv.tw/2013/07/visual-studio-team-foundation-service.html" target="_blank" rel="noopener">前一篇</a>，小弟我講到利用Team Foundation Service當代理伺服器來進行負載測試；後來又和Franma聊天聊到，是的，目前這個服務也還算是Preview，所以是有限制的；大家可以去底下的參考資料找到連結。</p>
+<p>而這個限制，基本上是每月給Team Foundation Service帳號，15000人/分的額度可以使用，簡單的說，如果你一次要壓15000人，那只能壓1min…如下圖，設定為1000人。</p>
+<p><a href="http://lh6.ggpht.com/-5XIVeJdeSfc/UdVxhBQ8eAI/AAAAAAAAGms/p2YNOVjoOLk/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-FNkf10qMvuU/UdVxh812ImI/AAAAAAAAGm0/KSltU_tjVsE/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>從計時這邊可以控制時間，這邊的分鐘數，要乘上上圖的人數，就是你所花費的額度，例如，每分鐘1000人，跑10min，就要有10000人的額度。</p>
+<p><a href="http://lh3.ggpht.com/-XwVjS7nV8cA/UdVxioLz9uI/AAAAAAAAGm8/c_1Vp-fAPsE/s1600-h/image%25255B7%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-Znz7KIAj-qM/UdVxjSJzYkI/AAAAAAAAGnE/rCKLEU0LCNM/image_thumb%25255B3%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>超過限制的話，就會出現錯誤。</p>
+<p><a href="http://lh4.ggpht.com/-YYQtQdMzomo/UdVxkJKOJNI/AAAAAAAAGnM/1rsP5-3vQdw/s1600-h/image%25255B11%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-0fsmTzcmru8/UdVxk4cyQ_I/AAAAAAAAGnU/Xv6XHaglOLU/image_thumb%25255B5%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>我們可以從詳細的訊息這邊看到，目前還剩下多少額度等資訊。</p>
+<p><a href="http://lh3.ggpht.com/-bIFY8OUVsiY/UdVxluojxNI/AAAAAAAAGnc/A7ritlSjQ6I/s1600-h/image%25255B15%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-d2lfplJww50/UdVxmnyPUyI/AAAAAAAAGnk/5Np4Z5DUWMI/image_thumb%25255B7%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>原文如下，以小弟的案例，就不到5000人可以用了… ( 感覺好像在打online - - )</p>
+<blockquote>
+<p>This run exceeds the maximum allowed usage for this month. The current usage for your account for this month (including runs in progress) is 10250 and the maximum allowed usage is 15000. To learn more about usage limits and how to modify them, refer <a href="http://go.microsoft.com/fwlink/?LinkId=303976" target="_blank" rel="noopener">http://go.microsoft.com/fwlink/?LinkId=303976</a>. </p>
+</blockquote>
+<p>基本上就是這樣，相信未來正式開始服務的時候，官方因該還會變動，不管怎樣，現在是Preview，大家就多體諒嚕~~</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://blogs.msdn.com/b/visualstudioalm/archive/2013/06/26/load-testing-with-team-foundation-service-launching-preview-and-early-adoption-program.aspx" target="_blank" rel="noopener" title="http://blogs.msdn.com/b/visualstudioalm/archive/2013/06/26/load-testing-with-team-foundation-service-launching-preview-and-early-adoption-program.aspx">http://blogs.msdn.com/b/visualstudioalm/archive/2013/06/26/load-testing-with-team-foundation-service-launching-preview-and-early-adoption-program.aspx</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
+          
+            <a href="/tags/TFS/" rel="tag">#TFS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/07/02/Visual-Studio-%E5%88%A9%E7%94%A8Team-Foundation-Service%E7%95%B6%E4%BB%A3%E7%90%86%E4%BC%BA%E6%9C%8D%E5%99%A8%E9%80%B2%E8%A1%8C%E8%B2%A0%E8%BC%89%E6%B8%AC%E8%A9%A6/" rel="next" title="Visual Studio -  利用Team Foundation Service當代理伺服器進行負載測試">
+                <i class="fa fa-chevron-left"></i> Visual Studio -  利用Team Foundation Service當代理伺服器進行負載測試
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/07/04/Visual-Studio-C-%E5%89%8D%E7%BD%AE%E8%99%95%E7%90%86%E5%99%A8%E6%8C%87%E7%A4%BA%E8%A9%9E-if/" rel="prev" title="Visual Studio - C# 前置處理器指示詞#if">
+                Visual Studio - C# 前置處理器指示詞#if <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">1.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2013/07/04/Visual-Studio-利用Team-Foundation-Service當代理伺服器進行負載測試目前的限制/';
+      var disqus_title = 'Visual Studio - 利用Team Foundation Service當代理伺服器進行負載測試目前的限制';
+      var disqus_url = 'http://skychang.github.io/2013/07/04/Visual-Studio-%E5%88%A9%E7%94%A8Team-Foundation-Service%E7%95%B6%E4%BB%A3%E7%90%86%E4%BC%BA%E6%9C%8D%E5%99%A8%E9%80%B2%E8%A1%8C%E8%B2%A0%E8%BC%89%E6%B8%AC%E8%A9%A6%E7%9B%AE%E5%89%8D%E7%9A%84%E9%99%90%E5%88%B6/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,656 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Visual Studio,TFS,Git," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="這篇是邊體驗，邊寫的紀錄文了，基本上，大家就隨意看看吧，畢竟正式版還沒出來，也沒辦法真的花很多時間下去測試和撰寫，有錯的話，也請多見諒喔，因為很多可能還沒仔細查證。 這篇主要是版本控制，未來如果有發現甚麼東西，會再補充上來。 初始就預設了Git!!在新的Visual Studio 2013 Preview 還沒將Team專案連線，就出現了Git，看來Git是內建的版控機制!?其實這樣也有非常大的好">
+<meta property="og:type" content="article">
+<meta property="og:title" content="紀錄文 - Visual Studio 2013 Preview 的新功能 - 版本控制篇">
+<meta property="og:url" content="http://skychang.github.io/2013/07/01/%E7%B4%80%E9%8C%84%E6%96%87-Visual-Studio-2013-Preview-%E7%9A%84%E6%96%B0%E5%8A%9F%E8%83%BD-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%AF%87/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="這篇是邊體驗，邊寫的紀錄文了，基本上，大家就隨意看看吧，畢竟正式版還沒出來，也沒辦法真的花很多時間下去測試和撰寫，有錯的話，也請多見諒喔，因為很多可能還沒仔細查證。 這篇主要是版本控制，未來如果有發現甚麼東西，會再補充上來。 初始就預設了Git!!在新的Visual Studio 2013 Preview 還沒將Team專案連線，就出現了Git，看來Git是內建的版控機制!?其實這樣也有非常大的好">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh4.ggpht.com/-KwcVHfSDAAY/UdEUDFGyPrI/AAAAAAAAGek/kzI4k20Qjww/image_thumb1.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-cB0sNiVeqvw/UdEUFTMDrvI/AAAAAAAAGe0/gScQOYtkWU4/image_thumb3.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-jPUPsPMPteE/UdEUHWZvy1I/AAAAAAAAGfE/WQ66m_VFtko/image_thumb5.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-xjjk72q3xs0/UdEUJ2wBj3I/AAAAAAAAGfU/Lpr44NEE1_Q/image_thumb8.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-AF44NKfvM8c/UdEUMbBaTSI/AAAAAAAAGfk/ecVbm3MMRB4/image_thumb10.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-fVJQAGIaTv8/UdEUOvgxetI/AAAAAAAAGf0/fqduEEkWikA/image_thumb12.png?imgmax=800">
+<meta property="article:published_time" content="2013-07-01T13:31:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.079Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="TFS">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh4.ggpht.com/-KwcVHfSDAAY/UdEUDFGyPrI/AAAAAAAAGek/kzI4k20Qjww/image_thumb1.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 紀錄文 - Visual Studio 2013 Preview 的新功能 - 版本控制篇 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                紀錄文 - Visual Studio 2013 Preview 的新功能 - 版本控制篇
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2013-07-01T13:31:00+00:00" content="2013-07-01">
+              2013-07-01
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/07/01/%E7%B4%80%E9%8C%84%E6%96%87-Visual-Studio-2013-Preview-%E7%9A%84%E6%96%B0%E5%8A%9F%E8%83%BD-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%AF%87/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/07/01/紀錄文-Visual-Studio-2013-Preview-的新功能-版本控制篇/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>這篇是邊體驗，邊寫的紀錄文了，基本上，大家就隨意看看吧，畢竟正式版還沒出來，也沒辦法真的花很多時間下去測試和撰寫，有錯的話，也請多見諒喔，因為很多可能還沒仔細查證。</p>
+<p>這篇主要是版本控制，未來如果有發現甚麼東西，會再補充上來。</p>
+<h3 id="初始就預設了Git"><a href="#初始就預設了Git" class="headerlink" title="初始就預設了Git!!"></a>初始就預設了Git!!</h3><p>在新的Visual Studio 2013 Preview 還沒將Team專案連線，就出現了Git，看來Git是內建的版控機制!?其實這樣也有非常大的好處，只要裝好Visual Studio 2013 Preview後，就可以在Local進行版控，如果還有進一步的備份需求，還可以用到GitHub，而如果有私人不能公開的專案，還可以再改用TFService，而如果公司擔心，還可以自己架設TFS。</p>
+<p><a href="http://lh6.ggpht.com/-8wRMxCeUhVM/UdEUCCNQ-jI/AAAAAAAAGec/OOtekks7Y_0/s1600-h/image3.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-KwcVHfSDAAY/UdEUDFGyPrI/AAAAAAAAGek/kzI4k20Qjww/image_thumb1.png?imgmax=800" alt="image" title="image"></a></p>
+<p>當建立了Repo後，就可以使用了…所以看起來Git真的內建了…，另外，如果有需求，也可以額外安裝Git工具。</p>
+<p><a href="http://lh3.ggpht.com/-WBcT6rZ0bg8/UdEUEIHliPI/AAAAAAAAGes/D3bHVaGdW6Q/s1600-h/image7.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-cB0sNiVeqvw/UdEUFTMDrvI/AAAAAAAAGe0/gScQOYtkWU4/image_thumb3.png?imgmax=800" alt="image" title="image"></a></p>
+<h3 id="TFS"><a href="#TFS" class="headerlink" title="TFS!!"></a>TFS!!</h3><p>如果是連線到TFS，這次漂亮多了…，其實這樣的感覺還不錯，以前常常按錯，現在有圖案後，就比較清楚了。</p>
+<p><a href="http://lh5.ggpht.com/-J_cTmlO3K98/UdEUGa42PcI/AAAAAAAAGe8/y7NxNrY8uYs/s1600-h/image11.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-jPUPsPMPteE/UdEUHWZvy1I/AAAAAAAAGfE/WQ66m_VFtko/image_thumb5.png?imgmax=800" alt="image" title="image"></a></p>
+<p>另外，以前的Team Explorer都會在同一個框框裡面，現在可以跳出來…這…算新功能吧!?但不管怎樣，至少，可以同時看到我的工作，和組建等等。</p>
+<p><a href="http://lh6.ggpht.com/-tzm6QL4g_Y4/UdEUIo2uwZI/AAAAAAAAGfM/6eW8bdWfgbw/s1600-h/image16.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-xjjk72q3xs0/UdEUJ2wBj3I/AAAAAAAAGfU/Lpr44NEE1_Q/image_thumb8.png?imgmax=800" alt="image" title="image"></a></p>
+<p>現在如果按了工作面板等，他就會自動帶出網頁 ( 用瀏覽器帶出 )。</p>
+<p><a href="http://lh6.ggpht.com/-b7bTo8oebso/UdEULDqseEI/AAAAAAAAGfc/OJ8Z-et-Lkk/s1600-h/image20.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-AF44NKfvM8c/UdEUMbBaTSI/AAAAAAAAGfk/ecVbm3MMRB4/image_thumb10.png?imgmax=800" alt="image" title="image"></a></p>
+<p>另外一個貼心的地方，如果設定了工作區，現在有方案列表，以前都要點進去檔案才能開啟說…</p>
+<p><a href="http://lh6.ggpht.com/-IKlDOcmE1W4/UdEUNajbWmI/AAAAAAAAGfs/O_fMIdy0xJE/s1600-h/image24.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-fVJQAGIaTv8/UdEUOvgxetI/AAAAAAAAGf0/fqduEEkWikA/image_thumb12.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這次大致上只看到這邊，未來如果有新的部分，再繼續追加下去。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
+          
+            <a href="/tags/TFS/" rel="tag">#TFS</a>
+          
+            <a href="/tags/Git/" rel="tag">#Git</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/06/27/%E7%B4%80%E9%8C%84%E6%96%87-Visual-Studio-2013-Preview/" rel="next" title="紀錄文 - Visual Studio 2013 Preview!!">
+                <i class="fa fa-chevron-left"></i> 紀錄文 - Visual Studio 2013 Preview!!
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/07/01/ASP-NET-MVC-OData%E8%88%87JayData%E6%89%BE%E4%B8%8D%E5%88%B0%E5%B0%8E%E8%A6%BD%E5%B1%AC%E6%80%A7%E7%9A%84%E5%8E%9F%E5%9B%A0/" rel="prev" title="ASP.NET MVC -  OData與JayData找不到導覽屬性的原因">
+                ASP.NET MVC -  OData與JayData找不到導覽屬性的原因 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始就預設了Git"><span class="nav-number">1.</span> <span class="nav-text">初始就預設了Git!!</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TFS"><span class="nav-number">2.</span> <span class="nav-text">TFS!!</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2013/07/01/紀錄文-Visual-Studio-2013-Preview-的新功能-版本控制篇/';
+      var disqus_title = '紀錄文 - Visual Studio 2013 Preview 的新功能 - 版本控制篇';
+      var disqus_url = 'http://skychang.github.io/2013/07/01/%E7%B4%80%E9%8C%84%E6%96%87-Visual-Studio-2013-Preview-%E7%9A%84%E6%96%B0%E5%8A%9F%E8%83%BD-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%AF%87/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,661 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Container,Docker,Windows," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="警告 此方法主要拿來測試遊玩用，不是正規官方做法，請勿拿來當作正視環境使用 此方法目前僅在 Windows 10 1809 上，不代表未來更新後，都可以正常 此寫文章的時間為 2019-03-30，若未來時間超過太久，請忽略掉這篇文章  前言最近看到保哥的 Blog談到關於 Win 10 1809 的更新，針對 Container 開始支援 Process 隔離模式，老實說，看到是非常興奮的！！因">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker - 在 Windows 10 底下不使用 Hyper-V 安裝 Docker">
+<meta property="og:url" content="http://skychang.github.io/2019/03/30/Docker-Install_Docker_Without_HyperV_In_Windows_10/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="警告 此方法主要拿來測試遊玩用，不是正規官方做法，請勿拿來當作正視環境使用 此方法目前僅在 Windows 10 1809 上，不代表未來更新後，都可以正常 此寫文章的時間為 2019-03-30，若未來時間超過太久，請忽略掉這篇文章  前言最近看到保哥的 Blog談到關於 Win 10 1809 的更新，針對 Container 開始支援 Process 隔離模式，老實說，看到是非常興奮的！！因">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2019/03/30/Docker-Install_Docker_Without_HyperV_In_Windows_10/01.png">
+<meta property="og:image" content="http://skychang.github.io/2019/03/30/Docker-Install_Docker_Without_HyperV_In_Windows_10/02.png">
+<meta property="article:published_time" content="2019-03-30T13:43:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.908Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Container">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Windows">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2019/03/30/Docker-Install_Docker_Without_HyperV_In_Windows_10/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Docker - 在 Windows 10 底下不使用 Hyper-V 安裝 Docker | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Docker - 在 Windows 10 底下不使用 Hyper-V 安裝 Docker
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2019-03-30T13:43:00+00:00" content="2019-03-30">
+              2019-03-30
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2019/03/30/Docker-Install_Docker_Without_HyperV_In_Windows_10/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/03/30/Docker-Install_Docker_Without_HyperV_In_Windows_10/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="警告"><a href="#警告" class="headerlink" title="警告"></a>警告</h2><ul>
+<li>此方法主要拿來測試遊玩用，不是正規官方做法，請勿拿來當作正視環境使用</li>
+<li>此方法目前僅在 Windows 10 1809 上，不代表未來更新後，都可以正常</li>
+<li>此寫文章的時間為 2019-03-30，若未來時間超過太久，請忽略掉這篇文章</li>
+</ul>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近看到<a href="https://blog.miniasp.com/post/2019/03/22/Enable-process-isolation-by-default-on-Windows-containers" target="_blank" rel="noopener">保哥的 Blog</a>談到關於 Win 10 1809 的更新，針對 Container 開始支援 Process 隔離模式，老實說，看到是非常興奮的！！因為這個功能等了兩三年，終於有看到比較像樣的曙光，尤其像小弟使用 Macbook 的使用者。</p>
+<p>首先，我們快速回憶一下，什麼是 Process 隔離模式：其實在 Linux 底下，都是透過 Process 隔離，來讓每一個 Container 自己獨立的運行，所以啟動速度才會那麼快。而在 Win 10 底下，一開始支援 Docker 的時候，其實是沒有 Process 隔離的，而採用的是 Hyper-V 隔離，當然，一方面，是為了支援 Linux，一方面也有更好的安全性。當然對於一般 User 來說，其實不是什麼問題，但對於 OSX 的 User 就會比較麻煩，因為通常 OSX 底下不能直將 run Windows Container，所以要跑 Windows Container，通常就必須透過 VMWare 或 Parallels 來安裝 Windows 10 ( 虛擬化 )，然後再啟動虛擬機的巢狀虛擬化技術，讓 Win 10 底下可以在啟用 Hyper-V。 ( 或是安裝 Windows Server，但有時礙於開發，Windows Server 還是有點不方便 )。而透過巢狀的方式來處理時候，Docker for Window 是很多問題的，官方也表明不 Support 的：所以當聽到 1809 可以支援 Process 隔離 ( Native Container )，意味著我們可以不用巢狀虛擬化，對小弟來說，是一個很棒的消息。</p>
+<h2 id="啟動-Process-隔離"><a href="#啟動-Process-隔離" class="headerlink" title="啟動 Process 隔離"></a>啟動 Process 隔離</h2><p>這篇不會講標準的啟動方式，有興趣可以看<a href="https://blog.miniasp.com/post/2019/03/22/Enable-process-isolation-by-default-on-Windows-containers" target="_blank" rel="noopener">保哥這篇</a>，保哥已經寫得很詳細了，小弟這篇是旁門左道 XDDD</p>
+<p>透過保哥的方式，小弟有測試過，也沒問題，但第一次還是要裝 Hyper-V，並且開啟巢狀虛擬化，事後關閉巢狀和 Hyper-V 是比較正確也比較好的做法</p>
+<h2 id="不使用-Hyper-V-安裝-Docker-EE"><a href="#不使用-Hyper-V-安裝-Docker-EE" class="headerlink" title="不使用 Hyper-V 安裝 Docker EE"></a>不使用 Hyper-V 安裝 Docker EE</h2><p>那這篇是聊一聊旁門左道的方法 ( 我相信未來官方應該會提供比較好的方案 )，但要還是要注意，這方法不建議用於生產環境，僅適用於驗證與瞭解技術。</p>
+<p>這個方法的來源，主要是透過<a href="https://www.kauffmann.nl/2019/03/04/how-to-install-docker-on-windows-10-without-hyper-v/" target="_blank" rel="noopener">國外大神</a>的方式，他一樣也是希望不要安裝 Hyper-V，來安裝 Docker，但 Docker for Windows 一定要裝 Hyper-V，所以原作者就把想法想到 Docker EE 上去。</p>
+<p>p.s Docker EE 的授權也要注意，原則上 Docker EE 的授權是綁在 Windows Server 上的。</p>
+<p>底下是原作者寫的 Powershell，基本上使用 administrator 開啟 Powershell ISE 貼上，並執行即可，但要注意，中間可能會重新啟動電腦，重新啟動完後，要再把 docker Service run 起來 ( 或是再重新執行此此 PS 一次 )。</p>
+<figure class="highlight ps"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Install Windows feature containers</span></span><br><span class="line"><span class="variable">$restartNeeded</span> = <span class="variable">$false</span></span><br><span class="line"><span class="keyword">if</span> (!(<span class="built_in">Get-WindowsOptionalFeature</span> <span class="literal">-FeatureName</span> containers <span class="literal">-Online</span>).State <span class="operator">-eq</span> <span class="string">'Enabled'</span>) &#123;</span><br><span class="line">    <span class="variable">$restartNeeded</span> = (<span class="built_in">Enable-WindowsOptionalFeature</span> <span class="literal">-FeatureName</span> containers <span class="literal">-Online</span>).RestartNeeded</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">Get-Service</span> docker <span class="literal">-ErrorAction</span> SilentlyContinue)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">Stop-Service</span> docker</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Download the zip file.</span></span><br><span class="line"><span class="variable">$json</span> = <span class="built_in">Invoke-WebRequest</span> https://download.docker.com/components/engine/windows<span class="literal">-server</span>/index.json | <span class="built_in">ConvertFrom-Json</span></span><br><span class="line"><span class="variable">$version</span> = <span class="variable">$version</span> = <span class="variable">$json</span>.channels.<span class="string">'18.09'</span>.version</span><br><span class="line"><span class="variable">$url</span> = <span class="variable">$json</span>.versions.<span class="variable">$version</span>.url</span><br><span class="line"><span class="variable">$zipfile</span> = <span class="built_in">Join-Path</span> <span class="string">"<span class="variable">$env:USERPROFILE</span>\Downloads\"</span> <span class="variable">$json</span>.versions.<span class="variable">$version</span>.url.Split(<span class="string">'/'</span>)[-<span class="number">1</span>]</span><br><span class="line"><span class="built_in">Invoke-WebRequest</span> <span class="literal">-UseBasicparsing</span> <span class="literal">-Outfile</span> <span class="variable">$zipfile</span> <span class="literal">-Uri</span> <span class="variable">$url</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Extract the archive.</span></span><br><span class="line"><span class="built_in">Expand-Archive</span> <span class="variable">$zipfile</span> <span class="literal">-DestinationPath</span> <span class="variable">$Env:ProgramFiles</span> <span class="literal">-Force</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Modify PATH to persist across sessions.</span></span><br><span class="line"><span class="variable">$newPath</span> = [<span class="type">Environment</span>]::GetEnvironmentVariable(<span class="string">"PATH"</span>,[<span class="type">EnvironmentVariableTarget</span>]::Machine) + <span class="string">";<span class="variable">$env:ProgramFiles</span>\docker"</span></span><br><span class="line"><span class="variable">$splittedPath</span> = <span class="variable">$newPath</span> <span class="operator">-split</span> <span class="string">';'</span></span><br><span class="line"><span class="variable">$cleanedPath</span> = <span class="variable">$splittedPath</span> | <span class="built_in">Sort-Object</span> <span class="literal">-Unique</span></span><br><span class="line"><span class="variable">$newPath</span> = <span class="variable">$cleanedPath</span> <span class="operator">-join</span> <span class="string">';'</span></span><br><span class="line">[<span class="type">Environment</span>]::SetEnvironmentVariable(<span class="string">"PATH"</span>, <span class="variable">$newPath</span>, [<span class="type">EnvironmentVariableTarget</span>]::Machine)</span><br><span class="line"><span class="variable">$env:path</span> = <span class="variable">$newPath</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Register the Docker daemon as a service.</span></span><br><span class="line"><span class="keyword">if</span> (!(<span class="built_in">Get-Service</span> docker <span class="literal">-ErrorAction</span> SilentlyContinue)) &#123;</span><br><span class="line">  dockerd -<span class="literal">-exec</span><span class="literal">-opt</span> isolation=<span class="keyword">process</span> -<span class="literal">-register</span><span class="literal">-service</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Start the Docker service.</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$restartNeeded</span>) &#123;</span><br><span class="line">    <span class="built_in">Write-Host</span> <span class="string">'A restart is needed to finish the installation'</span> <span class="literal">-ForegroundColor</span> Green</span><br><span class="line">    <span class="keyword">If</span> ((<span class="built_in">Read-Host</span> <span class="string">'Do you want to restart now? [Y/N]'</span>) <span class="operator">-eq</span> <span class="string">'Y'</span>) &#123;</span><br><span class="line">      <span class="built_in">Restart-Computer</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">Start-Service</span> docker</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如下圖，直接貼上執行就可以。<br><img src="01.png" alt=""></p>
+<p>完成之後，使用 administrator 權限開啟 CMD，就可以正常執行 Docker 了，而且右下角不會有 Docker for Windows 的 ICON。<br><img src="02.png" alt=""></p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>還是強調，這不是正規流程，只是剛好看到國外有人這樣玩，就順手邊寫文章邊做一次，正規還是請等待官方，或是開啟 Hyper-V 來安裝，另外，國外大神文章也提到，因為 Win 10 和 Windows Server 是同樣核心，所以他想這樣玩玩看，沒想到真的可行：而需要重新寫 PS 來安裝，也是因為原本在 Windows Server 的安裝，會檢查 OS 版本是不是 Windows，大神也已經在 GitHub 發出 PR，但他說，上一個 PR 已經 1 年沒消息，所以不知道這個 PR 會不會被採納還不確定。</p>
+<p>總之，不管怎樣，再未來，OSX 底下想使用 Windows Container 也會更加方便了 :)</p>
+<p>p.s 測試過程中，小弟使用 nano server Latest 會出現錯誤，後來改用 1809 版本才正常，大家測試的時候也要注意一下。( Latest 看網站的版本為 Windows Server 2016 SAC，所以可能和 win 10 1809 的核心不符合. )</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://www.kauffmann.nl/2019/03/04/how-to-install-docker-on-windows-10-without-hyper-v/" target="_blank" rel="noopener">https://www.kauffmann.nl/2019/03/04/how-to-install-docker-on-windows-10-without-hyper-v/</a></li>
+<li><a href="https://blog.miniasp.com/post/2019/03/22/Enable-process-isolation-by-default-on-Windows-containers" target="_blank" rel="noopener">https://blog.miniasp.com/post/2019/03/22/Enable-process-isolation-by-default-on-Windows-containers</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Container/" rel="tag">#Container</a>
+          
+            <a href="/tags/Docker/" rel="tag">#Docker</a>
+          
+            <a href="/tags/Windows/" rel="tag">#Windows</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/" rel="next" title="Azure DevOps - 對 Web App 使用壓力測試時發生錯誤">
+                <i class="fa fa-chevron-left"></i> Azure DevOps - 對 Web App 使用壓力測試時發生錯誤
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/05/O365-Change_Outlook_ICON_Style/" rel="prev" title="O365 - 變更 Outlook 的 Icon Style">
+                O365 - 變更 Outlook 的 Icon Style <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#警告"><span class="nav-number">1.</span> <span class="nav-text">警告</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#啟動-Process-隔離"><span class="nav-number">3.</span> <span class="nav-text">啟動 Process 隔離</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不使用-Hyper-V-安裝-Docker-EE"><span class="nav-number">4.</span> <span class="nav-text">不使用 Hyper-V 安裝 Docker EE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">5.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">6.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2019/03/30/Docker-Install_Docker_Without_HyperV_In_Windows_10/';
+      var disqus_title = 'Docker - 在 Windows 10 底下不使用 Hyper-V 安裝 Docker';
+      var disqus_url = 'http://skychang.github.io/2019/03/30/Docker-Install_Docker_Without_HyperV_In_Windows_10/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

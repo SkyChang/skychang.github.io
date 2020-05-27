@@ -1,0 +1,649 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Azure," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="今天剛好有人問到，問我Cloud Service是怎樣佈署的，本來想說，把Blog網址丟過去交差了事( 疑!? 當然是開玩笑的XDD，我怎麼可能會做這種事情!! )，但後來發現，原來，我根本還沒寫過類似的文章 ( 所以也不能丟丟網址交差了事了…QQ )，所以這篇，教大家，幾個Cloud Service佈署的方式，另外，如果有去今年TechDays的朋友們，John哥那場也有介紹到這幾種方式喔!!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Azure - Cloud Service的佈署方式">
+<meta property="og:url" content="http://skychang.github.io/2012/11/27/Windows-Azure-Cloud-Service%E7%9A%84%E4%BD%88%E7%BD%B2%E6%96%B9%E5%BC%8F/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="今天剛好有人問到，問我Cloud Service是怎樣佈署的，本來想說，把Blog網址丟過去交差了事( 疑!? 當然是開玩笑的XDD，我怎麼可能會做這種事情!! )，但後來發現，原來，我根本還沒寫過類似的文章 ( 所以也不能丟丟網址交差了事了…QQ )，所以這篇，教大家，幾個Cloud Service佈署的方式，另外，如果有去今年TechDays的朋友們，John哥那場也有介紹到這幾種方式喔!!">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh4.ggpht.com/-Ll0WRuBE9C8/ULTTYubxC4I/AAAAAAAAFbA/tKGmb602j54/image_thumb%25255B2%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-A5ZSxduSRH0/ULTTas5wTlI/AAAAAAAAFbQ/ZgmJ-NRxXRM/image_thumb%25255B5%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-2b_alUqYv6o/ULTTdLmQzlI/AAAAAAAAFbg/f4YZzfNpyV8/image_thumb%25255B8%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-fSkvGtAJhcs/ULTTfmOQSzI/AAAAAAAAFbs/puzvHYuMNNo/image_thumb%25255B10%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2012-11-27T22:51:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.027Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Azure">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh4.ggpht.com/-Ll0WRuBE9C8/ULTTYubxC4I/AAAAAAAAFbA/tKGmb602j54/image_thumb%25255B2%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Windows Azure - Cloud Service的佈署方式 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Windows Azure - Cloud Service的佈署方式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2012-11-27T22:51:00+00:00" content="2012-11-27">
+              2012-11-27
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/11/27/Windows-Azure-Cloud-Service%E7%9A%84%E4%BD%88%E7%BD%B2%E6%96%B9%E5%BC%8F/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/11/27/Windows-Azure-Cloud-Service的佈署方式/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>今天剛好有人問到，問我Cloud Service是怎樣佈署的，本來想說，把Blog網址丟過去交差了事( 疑!? 當然是開玩笑的XDD，我怎麼可能會做這種事情!! )，但後來發現，原來，我根本還沒寫過類似的文章 ( 所以也不能丟丟網址交差了事了…QQ )，所以這篇，教大家，幾個Cloud Service佈署的方式，另外，如果有去今年TechDays的朋友們，John哥那場也有介紹到這幾種方式喔!!</p>
+<h4 id="第一種-建立兩個Cloud-Server"><a href="#第一種-建立兩個Cloud-Server" class="headerlink" title="第一種 建立兩個Cloud Server"></a>第一種 建立兩個Cloud Server</h4><p>嗯，這也是小弟一開始使用的方式，假如正是網址為sky.com；簡單的說，就是準備兩個Cloud Service，A和B，當A是正式環境的時候，就把程式佈署到B，然後再利用自己架設的DNS，改變DNS，讓sky.com指向B的ip位置；所以Cloud Service B就變成正式的環境；同理，下次要佈署的時候，就佈署到A，然後再取改變DNS，讓sky.com指向A…嗯，當然小弟我就直接講結論了，基本上，除非不得已，不然真的不要用這種佈署方式…</p>
+<h4 id="第二種-直接覆蓋"><a href="#第二種-直接覆蓋" class="headerlink" title="第二種 直接覆蓋"></a>第二種 直接覆蓋</h4><p>其實在Cloud Service上，是可以直接覆蓋的，而且覆蓋期間，服務是不會中斷的( 官方文件是寫，如果有兩個Role以上，就不會中斷 )，簡單的說，就是只有一台Cloud Server A，而我們直接使用UpDate的方式，如下圖。</p>
+<p><a href="http://lh3.ggpht.com/-vJd1ld8dfWA/ULTTX5bvlvI/AAAAAAAAFa4/8XCEngH8O-E/s1600-h/image%25255B4%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-Ll0WRuBE9C8/ULTTYubxC4I/AAAAAAAAFbA/tKGmb602j54/image_thumb%25255B2%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>如果有多台Role，其實也不用擔心UPDATE會一口氣全部升級，我們可以從INSTANCES的地方看到UPDATE DOMAIN，簡單的說，Azure的升級，根據UPDATE DOMAIN的區塊進行升級，不過因為小弟這邊只用一個Web Role和Work Role，所以都是0，如果有兩個以上，就會發現有0，1，2等等不同的區段。</p>
+<p><a href="http://lh3.ggpht.com/-NrpLDKDKCB0/ULTTZ0ZHR9I/AAAAAAAAFbI/KYKLuNYo9oE/s1600-h/image%25255B11%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-A5ZSxduSRH0/ULTTas5wTlI/AAAAAAAAFbQ/ZgmJ-NRxXRM/image_thumb%25255B5%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>當然，這是一種升級方式，也是小弟後來使用的升級方式。</p>
+<h4 id="第三種方式-SWAP-VIP"><a href="#第三種方式-SWAP-VIP" class="headerlink" title="第三種方式 SWAP VIP"></a>第三種方式 SWAP VIP</h4><p>當然，小弟還是主推這種方式，因為這種方式真的是超級方便，不知道大家還記不記得，其實Cloud Service有分兩種Production和Staging ( 雖然兩個都要收錢… )，但是他既然這樣分，就自然有它的用意；所以這種佈署的方式，就是我們正式的Web頁面在Production上，而將我們準備要佈署新的頁面先佈署到Staging( 一個Cloud Service可以同時佈署不同的Production和Staging )，我們只要在DASHBOARD按下Staging，就可以切換到Staging，然後再按下下面的佈署，就可以佈署到Staging，而Production完全不會受到影響。<a href="http://lh4.ggpht.com/-_lf3yt-wp8Y/ULTTbrCZ23I/AAAAAAAAFbU/7lz4EonDzp8/s1600-h/image%25255B16%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-2b_alUqYv6o/ULTTdLmQzlI/AAAAAAAAFbg/f4YZzfNpyV8/image_thumb%25255B8%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>當Staging佈署完成後，進入下一步之前，我們稍微回顧一下，現在我們的Production是正式環境，Staging是測試環境；如果依據版本來看，Staging目前放的是比較新的版本 ( 因為準備要替換掉目前Prodction線上的頁面嘛 )，那要如何做呢?我們只要按下SWAP按鈕，接下來按下ok。</p>
+<p><a href="http://lh6.ggpht.com/-psAEIdDYCjw/ULTTedq8XdI/AAAAAAAAFbo/7OOXgjt_pe0/s1600-h/image%25255B20%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-fSkvGtAJhcs/ULTTfmOQSzI/AAAAAAAAFbs/puzvHYuMNNo/image_thumb%25255B10%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>是的，神奇的事情就這樣發生了SWAP的作用，就是將Prodction和Staging互換，簡單的說，原本準備卸下來，在Prodction的頁面，會變成Staging，而準備換上去，在Staging的新網站，會變成Production，所以，按下去後，我們放在Staging的新網站，就自動地被切換成新網站了!!當然，過程中，也不會中斷，全部交由Azure完成。</p>
+<p>當然，後面的機制都是由Azure完成，主要是透過Role前面的Load Blance來切換位置，當然，這和我們使用者一點關係都沒有。</p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>是的，不用說，當然要用第三種方式，但也別忘記，放在Staging的網站，也是要算錢的，所以如果被換下來的舊網站，真的不需要的話，也別忘記砍掉，而第一二種方式就完全沒用了嗎?其實也不一定，或許某些場合，還是需要=v=，不管如何，這三種是Cloud Service佈署的一些小技巧，也給大家參考看看。</p>
+<h4 id="參考網址"><a href="#參考網址" class="headerlink" title="參考網址"></a>參考網址</h4><ul>
+<li><a href="http://msdn.microsoft.com/en-us/library/windowsazure/hh472157.aspx" target="_blank" rel="noopener" title="http://msdn.microsoft.com/en-us/library/windowsazure/hh472157.aspx">http://msdn.microsoft.com/en-us/library/windowsazure/hh472157.aspx</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/11/27/TFS-%E5%88%AA%E9%99%A4%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84%E4%BD%BF%E7%94%A8%E8%80%85/" rel="next" title="TFS -  刪除不需要的使用者">
+                <i class="fa fa-chevron-left"></i> TFS -  刪除不需要的使用者
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/11/27/Windows-Azure-%E4%BD%88%E7%BD%B2Cloud-Service%E6%99%82%EF%BC%8C%E7%9B%B4%E6%8E%A5%E9%81%B8%E6%93%87%E6%83%B3%E8%A6%81%E7%9A%84OS/" rel="prev" title="Windows Azure -  佈署Cloud Service時，直接選擇想要的OS">
+                Windows Azure -  佈署Cloud Service時，直接選擇想要的OS <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一種-建立兩個Cloud-Server"><span class="nav-number">1.</span> <span class="nav-text">第一種 建立兩個Cloud Server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二種-直接覆蓋"><span class="nav-number">2.</span> <span class="nav-text">第二種 直接覆蓋</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三種方式-SWAP-VIP"><span class="nav-number">3.</span> <span class="nav-text">第三種方式 SWAP VIP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">4.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考網址"><span class="nav-number">5.</span> <span class="nav-text">參考網址</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2012/11/27/Windows-Azure-Cloud-Service的佈署方式/';
+      var disqus_title = 'Windows Azure - Cloud Service的佈署方式';
+      var disqus_url = 'http://skychang.github.io/2012/11/27/Windows-Azure-Cloud-Service%E7%9A%84%E4%BD%88%E7%BD%B2%E6%96%B9%E5%BC%8F/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,770 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Silveright,WPF," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="這篇的內容，主要是翻譯於這個網站的內容，是由國外的Nick Polyak高手所寫的，然後再加上小弟雜多的解釋內容XDD，所以內容不是百分百和原網站一樣，而且差異甚大，如有不好之處，也請各位多多包涵 ( 所以這篇可以算是讀後心得了，不算翻譯文了.. ) 最簡單的Prism程式這裡示範的第一個最簡單的Prism程式，為什麼叫做最簡單呢!?因為這個範例裡面完全沒有任何的視覺效果，也就是說，不會放一些啥B">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Prism -  第一個!超簡單Prism範例">
+<meta property="og:url" content="http://skychang.github.io/2012/03/18/Prism-%E7%AC%AC%E4%B8%80%E5%80%8B-%E8%B6%85%E7%B0%A1%E5%96%AEPrism%E7%AF%84%E4%BE%8B/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="這篇的內容，主要是翻譯於這個網站的內容，是由國外的Nick Polyak高手所寫的，然後再加上小弟雜多的解釋內容XDD，所以內容不是百分百和原網站一樣，而且差異甚大，如有不好之處，也請各位多多包涵 ( 所以這篇可以算是讀後心得了，不算翻譯文了.. ) 最簡單的Prism程式這裡示範的第一個最簡單的Prism程式，為什麼叫做最簡單呢!?因為這個範例裡面完全沒有任何的視覺效果，也就是說，不會放一些啥B">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh4.ggpht.com/-rhx-Suhof8I/T2YRlvpj-TI/AAAAAAAABpU/PrbYyxxKTw8/image_thumb%25255B31%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-fpLw9GsLvxU/T2YRnZsKDKI/AAAAAAAABpg/mCKlRHLenAc/image_thumb%25255B3%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-vC7zFoFjEJo/T2YRpj8UiZI/AAAAAAAABp0/GOXEQqIrv2s/image_thumb%25255B6%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-kqCA7-8dAtA/T2YRrl_SjrI/AAAAAAAABqE/HxG5kJbAYog/image_thumb%25255B8%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-qIYLEV9PfQ0/T2YRtj2CSfI/AAAAAAAABqU/Pm7hEEy5NTM/image_thumb%25255B10%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-DHJgOws5OBA/T2YRvhxWFhI/AAAAAAAABqg/ymhVUT0ZMwg/image_thumb%25255B20%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-OleTZUcA0rc/T2YRyOf3teI/AAAAAAAABq0/AMBITCnUEgw/image_thumb%25255B23%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-wM3cqPSd_ek/T2YR0FYpnpI/AAAAAAAABrE/ly9X01n3wf8/image_thumb%25255B17%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-NcqhmnGF1bE/T2YR2XFs00I/AAAAAAAABrU/NMja4wX2QnA/image_thumb%25255B15%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-gNShYq6aDFs/T2YR4K0WIJI/AAAAAAAABrg/UsvhnwGHbkI/image_thumb%25255B26%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-ACtAcZBcmz0/T2YR6CQ27yI/AAAAAAAABr0/VexKyHBQRQk/image_thumb%25255B28%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2012-03-18T00:46:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.928Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Silveright">
+<meta property="article:tag" content="WPF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh4.ggpht.com/-rhx-Suhof8I/T2YRlvpj-TI/AAAAAAAABpU/PrbYyxxKTw8/image_thumb%25255B31%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Prism -  第一個!超簡單Prism範例 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Prism -  第一個!超簡單Prism範例
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2012-03-18T00:46:00+00:00" content="2012-03-18">
+              2012-03-18
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/03/18/Prism-%E7%AC%AC%E4%B8%80%E5%80%8B-%E8%B6%85%E7%B0%A1%E5%96%AEPrism%E7%AF%84%E4%BE%8B/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/03/18/Prism-第一個-超簡單Prism範例/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>這篇的內容，主要是翻譯於這個<a href="http://www.codeproject.com/Articles/155835/Prism-for-Silverlight-MEF-in-Easy-Samples-Part-1-P" target="_blank" rel="noopener">網站的內容</a>，是由國外的<strong><a href="http://www.codeproject.com/script/Membership/View.aspx?mid=2514552" target="_blank" rel="noopener">Nick Polyak</a></strong>高手所寫的，然後再加上小弟雜多的解釋內容XDD，所以內容不是百分百和原網站一樣，而且差異甚大，如有不好之處，也請各位多多包涵 ( 所以這篇可以算是讀後心得了，不算翻譯文了.. )</p>
+<h4 id="最簡單的Prism程式"><a href="#最簡單的Prism程式" class="headerlink" title="最簡單的Prism程式"></a>最簡單的Prism程式</h4><p>這裡示範的第一個最簡單的Prism程式，為什麼叫做最簡單呢!?因為這個範例裡面完全沒有任何的視覺效果，也就是說，不會放一些啥Button等等之類的Control，只有最簡單的東西，運作出來的結果如下，我們可以看到畫面非常的單純， 單純到沒有任何東西XDD。</p>
+<p><a href="http://lh3.ggpht.com/-k-AlWvRg-oI/T2YRkhVeykI/AAAAAAAABpM/N03bYgtY1Rk/s1600-h/image%25255B61%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-rhx-Suhof8I/T2YRlvpj-TI/AAAAAAAABpU/PrbYyxxKTw8/image_thumb%25255B31%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>雖然一片空白，但裡面有很多學問=w=，接下來，我們看看怎樣來做這個範例。</p>
+<h4 id="實作Main-Project"><a href="#實作Main-Project" class="headerlink" title="實作Main Project"></a>實作Main Project</h4><p>首先我們先建立一個Silverlight應用程式，並且把不需要的東西先刪除掉，這裡我們把MainPage.xaml刪除掉，所以目前專案架構會變成如下圖；因為這個範例我們沒有打算使用到視覺的部分，只是單純的希望能了解他的架構，所以我們用不到MainPage.xaml，就先刪除掉吧。</p>
+<p><a href="http://lh5.ggpht.com/-iQ5ey8vqal0/T2YRmZS1uyI/AAAAAAAABpY/f2W1TUAyPrc/s1600-h/image%25255B7%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-fpLw9GsLvxU/T2YRnZsKDKI/AAAAAAAABpg/mCKlRHLenAc/image_thumb%25255B3%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這邊我們需要參考兩個dll，這兩個dll分別在安裝Prism的bin目錄下面，分別是Microsoft.Practices.Prism.dll和Microsoft.Practies.Prism.MefExtension.dll。</p>
+<p><a href="http://lh4.ggpht.com/-JjmoHkOE9wk/T2YRogqHFaI/AAAAAAAABps/_s6Q6_383TI/s1600-h/image%25255B12%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-vC7zFoFjEJo/T2YRpj8UiZI/AAAAAAAABp0/GOXEQqIrv2s/image_thumb%25255B6%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們要改變一下App.xaml.cs的程式碼，位置如下圖。</p>
+<p><a href="http://lh4.ggpht.com/-ccu4He_XAtA/T2YRqQ74STI/AAAAAAAABp8/OcUU6I4ZVFQ/s1600-h/image%25255B16%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-kqCA7-8dAtA/T2YRrl_SjrI/AAAAAAAABqE/HxG5kJbAYog/image_thumb%25255B8%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>我們打開App.xaml.cs的程式碼，會發現裡面有錯誤；這是很正常的，因為我們已經把MainPage.xaml砍掉了，所以我們要改變一下這邊的程式碼。</p>
+<p><a href="http://lh5.ggpht.com/-HJ5A_jmi3V4/T2YRsWmVRzI/AAAAAAAABqM/6d-NbSg1zTU/s1600-h/image%25255B20%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-qIYLEV9PfQ0/T2YRtj2CSfI/AAAAAAAABqU/Pm7hEEy5NTM/image_thumb%25255B10%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h4 id="修改App-xaml-cs的Application-Startup"><a href="#修改App-xaml-cs的Application-Startup" class="headerlink" title="修改App.xaml.cs的Application_Startup"></a>修改App.xaml.cs的Application_Startup</h4><p>改成如下；打的時候會發現TheBootstrapper找不到，不過那是正常的，因為這個Class我們還沒撰寫，我們這邊改用TheBootstrapper來取代原本程式執行時預設顯示的View，如果是原本程式架構，當程式執行時，會將MainPage.xaml給實例化起來，並且變成預設的根畫面( RootVisual，也就是最底層的畫面 )，但我們使用Prism時，不會使用原本的MainPage.xaml ( 無論是不是這簡單的範例都一樣，都會改變這行)；因為使用Prism的時候，需要的東西和原本預設的MainPage.xaml是完全不一樣的，所以改用Prism時，我們會使用自己建立的Bootstrapper Class來產生整個Prism所需要的東西，而這裡我們自己建立的Bootstrapper Class稱為TheBootstrapper。 </p>
+<pre class="brush: xml;">private void Application_Startup(object sender, StartupEventArgs e)
+{
+    (new TheBootstrapper()).Run();
+}
+</pre>
+
+<h4 id="撰寫Bootstrapper-Class"><a href="#撰寫Bootstrapper-Class" class="headerlink" title="撰寫Bootstrapper Class"></a>撰寫Bootstrapper Class</h4><p>接下來，我要要建立一個TheBootstrapper.cs類別，內容如下；這個Class將替我們產生Prism所需要的Shell( 也就最上層的View )和整個底層的組件，Bootstrapper也會註冊一些需要用到的服務( 這裡使用MEF，所以必須繼承於MefBootstrapper )。</p>
+<pre class="brush: csharp;">using System;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using Microsoft.Practices.Prism.MefExtensions;
+using Microsoft.Practices.Prism.Modularity;
+
+namespace PrismDeom1NoVirual
+{
+    public class TheBootstrapper : MefBootstrapper
+    {
+        protected override void InitializeShell()
+        {
+            base.InitializeShell();
+
+            // 這裡是給Silverlight用，如果是WPF會不一樣。
+            Application.Current.RootVisual = (UIElement)Shell;
+        }
+
+        // 建立Shell的方法，shell在Prism Application是主要的View 
+        // 在這個範例，我們只想了解BootStrapper，所以我們把原本的MainPage刪掉。
+        // 並且利用Grid當作主要的Shell
+        protected override DependencyObject CreateShell()
+        {
+            return new Grid();
+        }
+
+        protected override IModuleCatalog CreateModuleCatalog()
+        {
+            ModuleCatalog moduleCatalog = new ModuleCatalog();
+
+            //在這邊，我們使用moduleCatalog來加載模組進來。
+            moduleCatalog.AddModule
+            (
+                new ModuleInfo
+                {
+                    InitializationMode = InitializationMode.WhenAvailable,
+                    Ref = "Module1.xap",
+                    ModuleName = "Module1Impl",
+                    ModuleType = "Module1.Module1Impl, Module1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+                }
+            );
+
+            return moduleCatalog;
+        }
+    }
+}
+</pre>
+
+<p>在這邊，需要注意到這個Class執行Function的一個順序性( 未來會有一篇來探討原始碼 )，我們接下來看看這順序性是如何，我們這個Bootstrapper只有Override三個Function，你會發現他最先執行的Function是CreateModuleCatalog()，也就是說，他會先建立moduleCatalog這個Class，這個Class的用途是紀錄目前有哪些module，並準備利用MEF的方式去做個組合，寫法就如上面的程式碼一樣( 等下會去建立Module )；第二個執行的Function是CreateShell()，我們把原本在Application_Startup方法裡面建立View的任務，移到這裡來，而這邊，我們直接new一個Grid，畢竟原本的MainPage.xaml被我們刪除掉了；第三個要執行的Function是InitializeShell()，除了原本MEFBootstrapper原本就該執行的程式外，我們也把Application_Stratup指定RootVisual的任務，寫在這邊；或許有人會問說，為什麼我會知道順序!?其實很簡單，因為我翻過原始碼…</p>
+<h4 id="建立Module-Project"><a href="#建立Module-Project" class="headerlink" title="建立Module Project"></a>建立Module Project</h4><p>緊接著，我們要來建立Module，在Prism裡面，通常會把Module建立成獨立的專案來進行，所以我們建立一個新的專案，這邊要特別注意，要選擇的是Silverlight應用程式( Silverlight Application )而非Silverlight類別庫 ( Silverlight Class )，這是因為Module是一個xap，而非dll。</p>
+<p><a href="http://lh4.ggpht.com/-07_kbDwFF5Q/T2YRuoE7K8I/AAAAAAAABqc/E2e7mBiGmMM/s1600-h/image%25255B40%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-DHJgOws5OBA/T2YRvhxWFhI/AAAAAAAABqg/ymhVUT0ZMwg/image_thumb%25255B20%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們不需要額外的測試頁，所以把測試頁的勾選拿掉。</p>
+<p><a href="http://lh4.ggpht.com/-aX_jdRoPXNY/T2YRw3RWHZI/AAAAAAAABqs/kguzVpBg1fE/s1600-h/image%25255B45%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-OleTZUcA0rc/T2YRyOf3teI/AAAAAAAABq0/AMBITCnUEgw/image_thumb%25255B23%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>建立完新的專案後，把APP.xaml和MainPage.xaml刪除到( 這是因為我們這個範例沒用到 )，刪除完後，並建立一個Class，名稱取為Module1Impl.cs，完成後如下。</p>
+<p><a href="http://lh6.ggpht.com/-pP2NGyDv_NQ/T2YRzO_vegI/AAAAAAAABq8/X8WZEoa0YZ4/s1600-h/image%25255B35%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-wM3cqPSd_ek/T2YR0FYpnpI/AAAAAAAABrE/ly9X01n3wf8/image_thumb%25255B17%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，又要參照一些dll了，除了上面的那兩個dll要參照進來，還需要參照.NET Framework內建的System.ComponentModel.Composition。這裡因為我是使用Silverlight 5，所以使用5.0版本。</p>
+<p><a href="http://lh4.ggpht.com/-rkebSqmq_x8/T2YR1AbpjxI/AAAAAAAABrM/v8JvKgzSpN0/s1600-h/image%25255B31%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-NcqhmnGF1bE/T2YR2XFs00I/AAAAAAAABrU/NMja4wX2QnA/image_thumb%25255B15%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>參照完後，<font color="#ff0000"><font color="#ff0000">在Module Project的地方，需要特別注意，我們要把參照到的Microsoft.Practices.Prism和Microsoft.Practies.Prism.MefExtension，複製到本機的選項改為False，這點要特別注意，如果設定為True，程式還是可以跑，也不會報錯，但就是不會加載Module進來 ( 只需要改Module的專案。 )。</font></font></p>
+<p><a href="http://lh6.ggpht.com/-BstH-wrkyCk/T2YR3POH9RI/AAAAAAAABrY/FwWEvpKxsLs/s1600-h/image%25255B52%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-gNShYq6aDFs/T2YR4K0WIJI/AAAAAAAABrg/UsvhnwGHbkI/image_thumb%25255B26%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h4 id="撰寫Module1-Class"><a href="#撰寫Module1-Class" class="headerlink" title="撰寫Module1 Class"></a>撰寫Module1 Class</h4><p>接下來，我們要撰寫Module，Module必須實作於IModule，而這邊會使用ModuleExport屬性來標記，讓Prism知道這是一個Module。</p>
+<pre class="brush: csharp;">using System;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using Microsoft.Practices.Prism.Modularity;
+using Microsoft.Practices.Prism.MefExtensions.Modularity;
+
+namespace Module1
+{
+    //利用ModuleExport屬性來標記，這是一個Module
+    [ModuleExport(typeof(Module1Impl))]
+    public class Module1Impl : IModule
+    {
+
+        #region IModule Members
+
+        public void Initialize()
+        {
+
+        }
+
+        #endregion
+    }
+}
+</pre>
+
+<p>最後，我們可以設定中斷點在這邊，當程式執行的時候，如果有進到這個中斷點，就表示有順利的去加載這個Module了。</p>
+<p><a href="http://lh6.ggpht.com/-ixNEMq5uGmk/T2YR5Ha3PNI/AAAAAAAABrs/ZqJrS2nCRkk/s1600-h/image%25255B56%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-ACtAcZBcmz0/T2YR6CQ27yI/AAAAAAAABr0/VexKyHBQRQk/image_thumb%25255B28%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>做到這邊，最簡單的Prism程式就完成了，在Prism裡面，如果用的是MEF框架，那建議先稍微懂一下MEF會比較好，不然做下來可能會湖煞煞，如果有時間，也建議把IoC的部分有個理解，因為有很多地方，都是利用注入的概念；其實Prism就如許多前輩講的一樣，學習門檻真比較高，光是這邊文章，打打停停，也打了三天，而且其實還有很多東西還沒講得很仔細，這部分未來會再慢慢補充回來，如果覺得很有趣，迫不急待的人，也可以先看參考資料，繼續下去=w=。</p>
+<p>參考資料</p>
+<ul>
+<li><a href="http://www.codeproject.com/Articles/155835/Prism-for-Silverlight-MEF-in-Easy-Samples-Part-1-P#Creating_App_Project" target="_blank" rel="noopener" title="http://www.codeproject.com/Articles/155835/Prism-for-Silverlight-MEF-in-Easy-Samples-Part-1-P#Creating_App_Project">http://www.codeproject.com/Articles/155835/Prism-for-Silverlight-MEF-in-Easy-Samples-Part-1-P#Creating_App_Project</a></li>
+<li><a href="http://msdn.microsoft.com/en-us/library/ff921153%28v=pandp.40%29.aspx" target="_blank" rel="noopener" title="http://msdn.microsoft.com/en-us/library/ff921153%28v=pandp.40%29.aspx">http://msdn.microsoft.com/en-us/library/ff921153%28v=pandp.40%29.aspx</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Silveright/" rel="tag">#Silveright</a>
+          
+            <a href="/tags/WPF/" rel="tag">#WPF</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/03/16/%E7%AC%AC%E4%B8%83%E6%AC%A1Study4-%E9%BB%9E%E8%AA%B2%E5%B9%AB-SQL-Server%E6%8A%80%E8%A1%93%E5%88%86%E4%BA%AB%E6%9C%83-12-0331-%E6%B4%BB%E5%8B%95%E9%96%8B%E5%A7%8B/" rel="next" title="第七次Study4 點課幫 SQL Server技術分享會 12-0331 活動開始!!">
+                <i class="fa fa-chevron-left"></i> 第七次Study4 點課幫 SQL Server技術分享會 12-0331 活動開始!!
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/03/19/Prism-%E9%AB%94%E6%9C%83Shell%E5%92%8CModule/" rel="prev" title="Prism - 體會Shell和Module">
+                Prism - 體會Shell和Module <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#最簡單的Prism程式"><span class="nav-number">1.</span> <span class="nav-text">最簡單的Prism程式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#實作Main-Project"><span class="nav-number">2.</span> <span class="nav-text">實作Main Project</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改App-xaml-cs的Application-Startup"><span class="nav-number">3.</span> <span class="nav-text">修改App.xaml.cs的Application_Startup</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#撰寫Bootstrapper-Class"><span class="nav-number">4.</span> <span class="nav-text">撰寫Bootstrapper Class</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立Module-Project"><span class="nav-number">5.</span> <span class="nav-text">建立Module Project</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#撰寫Module1-Class"><span class="nav-number">6.</span> <span class="nav-text">撰寫Module1 Class</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">7.</span> <span class="nav-text">後記</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2012/03/18/Prism-第一個-超簡單Prism範例/';
+      var disqus_title = 'Prism -  第一個!超簡單Prism範例';
+      var disqus_url = 'http://skychang.github.io/2012/03/18/Prism-%E7%AC%AC%E4%B8%80%E5%80%8B-%E8%B6%85%E7%B0%A1%E5%96%AEPrism%E7%AF%84%E4%BE%8B/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

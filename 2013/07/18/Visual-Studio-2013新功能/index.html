@@ -1,0 +1,731 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Visual Studio,ASP.NET MVC,WPF," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="2013&#x2F;07&#x2F;18 更新 最近沸沸騰騰的其中一個項目大概就是VS 2013了，從出到現在，只有之前稍微看了一下版控的部分，IDE終於比較有時間可以玩一玩，所以就邊看教學影片邊紀錄，而整個看完後，才發現已經有滿多前輩朋友們，也都已經紀錄了很多文章..Orz…不過都已經截圖了…就當作是給自己的一個紀錄文吧 而每個功能，如果有發現有前輩有寫得不錯的文章，也會補充在下面，另外，每個功能的中文標題，都是小">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Visual Studio - 2013新功能">
+<meta property="og:url" content="http://skychang.github.io/2013/07/18/Visual-Studio-2013%E6%96%B0%E5%8A%9F%E8%83%BD/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="2013&#x2F;07&#x2F;18 更新 最近沸沸騰騰的其中一個項目大概就是VS 2013了，從出到現在，只有之前稍微看了一下版控的部分，IDE終於比較有時間可以玩一玩，所以就邊看教學影片邊紀錄，而整個看完後，才發現已經有滿多前輩朋友們，也都已經紀錄了很多文章..Orz…不過都已經截圖了…就當作是給自己的一個紀錄文吧 而每個功能，如果有發現有前輩有寫得不錯的文章，也會補充在下面，另外，每個功能的中文標題，都是小">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh3.ggpht.com/-gZjjcUXebto/UebkwnoiggI/AAAAAAAAGzc/orV5t7cmHzI/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-zZ5EODRWSU4/UebkyIXyAGI/AAAAAAAAGzs/xguUD_t-2-I/image_thumb%25255B3%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-LOhMx-k1_Sg/UebkzqN-BDI/AAAAAAAAGz8/v1qNcishGAk/image_thumb%25255B5%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-bfmVMjnuFRU/Uebk1WJQi7I/AAAAAAAAG0M/ZOsjTtae0Ew/image_thumb%25255B7%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-_3u7FClP6p4/Uebk3MebDCI/AAAAAAAAG0c/nHF61V71uFQ/image_thumb%25255B11%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-WGLfILW8Z5U/Uebk4jIFqeI/AAAAAAAAG0s/77cDdbKkPSI/image_thumb%25255B13%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-akgjhL0OkuI/Uebk6CiMLxI/AAAAAAAAG08/_Q1httwlDG4/image_thumb%25255B15%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-Loax1Z0IV6g/Uebk73u9ukI/AAAAAAAAG1M/mehytdxx9UE/image_thumb%25255B18%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-bMTRxUPSbio/Uebk9h4WNPI/AAAAAAAAG1c/22s8dj0VcDA/image_thumb%25255B21%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-i0W46G_nO0g/Uebk_HMjD7I/AAAAAAAAG1s/dU-gSQSC3d4/image_thumb%25255B27%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-2gQYruvUx8c/UeblA-G52aI/AAAAAAAAG18/RlA4_CR_zg8/image_thumb%25255B30%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-XXviPzvsMjg/UeblCbWkRfI/AAAAAAAAG2M/zfx6alOoX6g/image_thumb%25255B33%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-eZkmb-ROME0/UeblEGyG56I/AAAAAAAAG2c/AwBNplZChSU/image_thumb%25255B38%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-nMfqEV0EfXY/UeblGOySIRI/AAAAAAAAG2s/0tdXaNNcaOI/image_thumb%25255B40%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-jLB5lYrU2lw/UeblIBjjFLI/AAAAAAAAG28/Unc71pDGUhI/image_thumb%25255B42%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-By0y33UI9Oc/UeblKERhtgI/AAAAAAAAG3M/rWIaZxe3R1k/image_thumb%25255B44%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-xImj-3tlH58/UeblLnnAn_I/AAAAAAAAG3c/5MiiASFsMz0/image_thumb%25255B47%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-_qS030T1JxU/UeblNcPvMiI/AAAAAAAAG3s/fNpy9D-o2NQ/image_thumb%25255B49%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-jwUhAUhOZuM/UeblOevJ7NI/AAAAAAAAG38/RZIXBTQcsGU/image_thumb%25255B51%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-BtyivKEmAp0/UeblP3osjyI/AAAAAAAAG4M/WCLs8bkG-U8/image_thumb%25255B54%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-FnvdIrNspE8/UeblRM1jmfI/AAAAAAAAG4c/L28jpENgW4U/image_thumb%25255B56%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-zfFMy2NEAe0/UeblSJqJi-I/AAAAAAAAG4s/gIe3JHvswFY/image_thumb%25255B58%25255D.png?imgmax=800">
+<meta property="og:image" content="http://blogs.msdn.com/cfs-filesystemfile.ashx/__key/communityserver-blogs-components-weblogfiles/00-00-01-29-92/8228.bracecompletion.gif">
+<meta property="og:image" content="http://lh3.ggpht.com/-_mkYh9Tw_ZE/UeeEIECz-TI/AAAAAAAAG5E/9Y2NPCxg8D8/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-eS6lM3iPP4I/UeeGfSpclGI/AAAAAAAAG5Y/Bvotf4is_X0/image_thumb%25255B3%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-Xl5sajiRhH0/UeeGgiJpzJI/AAAAAAAAG5s/_tmwde9hVa0/image_thumb%25255B5%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-R_IxXFQ4a1o/Uee8EgrbDiI/AAAAAAAAG6c/pUVbULmNapo/image_thumb%25255B2%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-HUtbpzyNbus/UefAInB7c2I/AAAAAAAAG60/UNvL_Ummnjs/image_thumb%25255B5%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2013-07-18T02:41:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.019Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta property="article:tag" content="WPF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh3.ggpht.com/-gZjjcUXebto/UebkwnoiggI/AAAAAAAAGzc/orV5t7cmHzI/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Visual Studio - 2013新功能 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Visual Studio - 2013新功能
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2013-07-18T02:41:00+00:00" content="2013-07-18">
+              2013-07-18
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/07/18/Visual-Studio-2013%E6%96%B0%E5%8A%9F%E8%83%BD/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/07/18/Visual-Studio-2013新功能/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><font color="#ff0000">2013/07/18 更新</font></p>
+<p>最近沸沸騰騰的其中一個項目大概就是VS 2013了，從出到現在，只有之前稍微看了一下版控的部分，IDE終於比較有時間可以玩一玩，所以就邊看<a href="http://channel9.msdn.com/Shows/Visual-Studio-Toolbox/Visual-Studio-2013-Preview" target="_blank" rel="noopener">教學影片</a>邊紀錄<del>，而整個看完後，才發現已經有滿多前輩朋友們，也都已經紀錄了很多文章..Orz…不過都已經截圖了…就當作是給自己的一個紀錄文吧</del></p>
+<p>而每個功能，如果有發現有前輩有寫得不錯的文章，也會補充在下面，另外，每個功能的中文標題，都是小弟自己會意Key的，並沒有參考原文，請多見諒喔~~</p>
+<p>首先，裝完Visual Studio後，第一個發現的應該就是出現了參考的連結。</p>
+<h4 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h4><p><a href="http://lh6.ggpht.com/-eiQHH9tTuUY/UebkvluR0DI/AAAAAAAAGzU/6vo4si2CDcg/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-gZjjcUXebto/UebkwnoiggI/AAAAAAAAGzc/orV5t7cmHzI/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>當我們點下去參考，VS2013就會很貼心的Show出相關的資訊!!</p>
+<p><a href="http://lh3.ggpht.com/-XhvsPfIoFWs/UebkxSzfd3I/AAAAAAAAGzk/2r2Eak-kiBw/s1600-h/image%25255B7%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-zZ5EODRWSU4/UebkyIXyAGI/AAAAAAAAGzs/xguUD_t-2-I/image_thumb%25255B3%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>如果有三個參考，就會Show出三個=v=</p>
+<p><a href="http://lh6.ggpht.com/-ESjUnONBEek/UebkywY8HxI/AAAAAAAAGz0/DSHO5r7W78U/s1600-h/image%25255B11%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-LOhMx-k1_Sg/UebkzqN-BDI/AAAAAAAAGz8/v1qNcishGAk/image_thumb%25255B5%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>而如果點了跳出來的資訊，就還可以看到是哪段Code參考到喔!!而且如果雙擊的話，還會直接導過去喔!!</p>
+<p><a href="http://lh6.ggpht.com/-zvYkgGW6wbo/Uebk0t0NrHI/AAAAAAAAG0E/VgpuHm9x8rc/s1600-h/image%25255B15%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-bfmVMjnuFRU/Uebk1WJQi7I/AAAAAAAAG0M/ZOsjTtae0Ew/image_thumb%25255B7%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>好友<a href="http://www.dotblogs.com.tw/yc421206/archive/2013/07/01/107479.aspx" target="_blank" rel="noopener">小章哥</a>也有介紹到這個功能~</p>
+<h3 id="Peek-Definition-Alt-F12-查看定義"><a href="#Peek-Definition-Alt-F12-查看定義" class="headerlink" title="Peek Definition (Alt + F12) 查看定義"></a>Peek Definition (Alt + F12) 查看定義</h3><p>另外，查看定義的功能也變強大了。</p>
+<p><a href="http://lh3.ggpht.com/-IsDkKsstvAU/Uebk2OM4tSI/AAAAAAAAG0U/Hkn1rDzPsbk/s1600-h/image%25255B21%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-_3u7FClP6p4/Uebk3MebDCI/AAAAAAAAG0c/nHF61V71uFQ/image_thumb%25255B11%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>是的，它會自動地在原本的視窗再跳出來XDDD ( 超方便的啦~~ )</p>
+<p><a href="http://lh6.ggpht.com/-j8ByEw5A_gg/Uebk35TYPQI/AAAAAAAAG0k/wTfn5xkCRUk/s1600-h/image%25255B25%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-WGLfILW8Z5U/Uebk4jIFqeI/AAAAAAAAG0s/77cDdbKkPSI/image_thumb%25255B13%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>如果按下紅色框框，就會幫我們帶出大的視窗。</p>
+<p><a href="http://lh5.ggpht.com/-uF5A8VRxuaQ/Uebk5WwxevI/AAAAAAAAG00/Q7cPblsIQ8o/s1600-h/image%25255B29%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-akgjhL0OkuI/Uebk6CiMLxI/AAAAAAAAG08/_Q1httwlDG4/image_thumb%25255B15%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>以上的功能<a href="http://www.dotblogs.com.tw/larrynung/archive/2013/07/04/107786.aspx" target="_blank" rel="noopener">Larry前輩</a>有深入的介紹喔!!</p>
+<p>接下來是顏色的設定，總之，就是多了vs2010的顏色…</p>
+<p><a href="http://lh3.ggpht.com/-kQn80c0WL1c/Uebk7EHYB-I/AAAAAAAAG1E/Rs_rMGPuO0Q/s1600-h/image%25255B34%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-Loax1Z0IV6g/Uebk73u9ukI/AAAAAAAAG1M/mehytdxx9UE/image_thumb%25255B18%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h4 id="同步功能"><a href="#同步功能" class="headerlink" title="同步功能"></a>同步功能</h4><p>接下來是同步的功能，可以讓VS2013同步設定，這個對於常重灌的人，應該滿有用的XDDD</p>
+<p><a href="http://lh5.ggpht.com/-ulKwxQ3i81U/Uebk8qAA30I/AAAAAAAAG1U/1bIXcqQz-OI/s1600-h/image%25255B39%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-bMTRxUPSbio/Uebk9h4WNPI/AAAAAAAAG1c/22s8dj0VcDA/image_thumb%25255B21%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>對這個功能有興趣的可以再參考<a href="http://www.dotblogs.com.tw/larrynung/archive/2013/07/09/109150.aspx" target="_blank" rel="noopener">Larry前輩</a>的深入介紹!!</p>
+<h3 id="Enhanced-Scrollbar-捲軸"><a href="#Enhanced-Scrollbar-捲軸" class="headerlink" title="Enhanced Scrollbar 捲軸"></a>Enhanced Scrollbar 捲軸</h3><p>接下來是旁邊的捲軸，我們只要在捲軸上按下滑鼠右鍵，就有選項可以選。</p>
+<p><a href="http://lh4.ggpht.com/-nvA1_gOYqvQ/Uebk-TvUUOI/AAAAAAAAG1k/hFfcOntUMjk/s1600-h/image%25255B49%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-i0W46G_nO0g/Uebk_HMjD7I/AAAAAAAAG1s/dU-gSQSC3d4/image_thumb%25255B27%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>我們改成如下圖的垂直捲軸使用地圖模式。</p>
+<p><a href="http://lh4.ggpht.com/-PN93MOLrBzA/Uebk_1LyuhI/AAAAAAAAG10/saGxYvLzvDU/s1600-h/image%25255B54%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-2gQYruvUx8c/UeblA-G52aI/AAAAAAAAG18/RlA4_CR_zg8/image_thumb%25255B30%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>那捲軸就會出現迷你版的Code，滑鼠一上去後，還可以看到放大的Code。其實這個功能VS2012的Power Tools就有了，現在終於內建進去了!!</p>
+<p><a href="http://lh6.ggpht.com/-PccXkWeM6Xo/UeblBjtlleI/AAAAAAAAG2E/2AWn_7uyXbY/s1600-h/image%25255B59%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-XXviPzvsMjg/UeblCbWkRfI/AAAAAAAAG2M/zfx6alOoX6g/image_thumb%25255B33%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>不過小弟更喜歡這個，以前都裝Power Tools才有；這個功能就是會在捲軸上，用不同的顏色顯示位置，例如小弟這邊搜尋i，那旁邊的捲軸就會出現所有有i的顏色~~</p>
+<p><a href="http://lh5.ggpht.com/-ftjfEuY0HxI/UeblDCj6yvI/AAAAAAAAG2U/tiKMyIeaCxE/s1600-h/image%25255B68%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-eZkmb-ROME0/UeblEGyG56I/AAAAAAAAG2c/AwBNplZChSU/image_thumb%25255B38%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這個功能<a href="http://www.dotblogs.com.tw/larrynung/archive/2013/07/06/107891.aspx" target="_blank" rel="noopener">Larry前輩</a>和<a href="http://kevintsengtw.blogspot.tw/2013/07/visual-studio-2013-preview-enhanced.html#.UebUd23eRw4" target="_blank" rel="noopener">Kevin哥</a>都有介紹到~</p>
+<h4 id="與瀏覽器連結"><a href="#與瀏覽器連結" class="headerlink" title="與瀏覽器連結"></a>與瀏覽器連結</h4><p>這功能是當啟動偵錯的時候，會連結瀏覽器。</p>
+<p><a href="http://lh3.ggpht.com/--3-cCLSDWdU/UeblFBAo0VI/AAAAAAAAG2k/GEaKaQzAKiY/s1600-h/image%25255B72%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-nMfqEV0EfXY/UeblGOySIRI/AAAAAAAAG2s/0tdXaNNcaOI/image_thumb%25255B40%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後如果改了東西，就可以直接在VS2013裡面按下Ctrl + Alt + Enter 就會直接在瀏覽器上呈現改變，而不用去刷新瀏覽器…</p>
+<p><a href="http://lh3.ggpht.com/-2XMJExqgKEI/UeblHC8UUCI/AAAAAAAAG20/0KzckaLWZQc/s1600-h/image%25255B76%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-jLB5lYrU2lw/UeblIBjjFLI/AAAAAAAAG28/Unc71pDGUhI/image_thumb%25255B42%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>另外，執行時期，也可以看出現在的JavaScript，並且設定中斷點。( 不過我想大家應該還是比較喜歡用瀏覽器偵錯吧0 0… )</p>
+<p><a href="http://lh6.ggpht.com/-c2p0Rh4Y2is/UeblJPGv7fI/AAAAAAAAG3E/CCf_Dh1MY3A/s1600-h/image%25255B80%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-By0y33UI9Oc/UeblKERhtgI/AAAAAAAAG3M/rWIaZxe3R1k/image_thumb%25255B44%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h4 id="偵錯時改變值"><a href="#偵錯時改變值" class="headerlink" title="偵錯時改變值"></a>偵錯時改變值</h4><p>當我們針對進行偵錯，並設定中斷點的時候，當跑到那個中斷點的時候，是可以改變那行Code的，如下圖WPF的Code，原本要給的值是Test，現在在中斷點的時候，可以改成Test1111。</p>
+<p><a href="http://lh5.ggpht.com/-EC3RvmdPawg/UeblKwzb2tI/AAAAAAAAG3U/y5phmweHBBo/s1600-h/image%25255B85%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-xImj-3tlH58/UeblLnnAn_I/AAAAAAAAG3c/5MiiASFsMz0/image_thumb%25255B47%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>那只有WPF可以嗎??當然不是，ASP.NET MVC也行喔，我們設定return View();這行為中斷點。</p>
+<p><a href="http://lh6.ggpht.com/-ECsZI3V8yz0/UeblMS1e59I/AAAAAAAAG3k/TLhRSqg3MJc/s1600-h/image%25255B89%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-_qS030T1JxU/UeblNcPvMiI/AAAAAAAAG3s/fNpy9D-o2NQ/image_thumb%25255B49%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>如果是正常執行的話，應該會出現ASP.NET MVC 5的畫面。</p>
+<p><a href="http://lh3.ggpht.com/-ZN4KQl9GwGk/UeblNxstKBI/AAAAAAAAG30/jlMtUot_SZU/s1600-h/image%25255B93%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-jwUhAUhOZuM/UeblOevJ7NI/AAAAAAAAG38/RZIXBTQcsGU/image_thumb%25255B51%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>但我們可以在中斷的時候改變，改成return Content(“cool”);</p>
+<p><a href="http://lh4.ggpht.com/-Y7hGwZ14c6I/UeblPWd4vuI/AAAAAAAAG4E/LNfAEBvC4gg/s1600-h/image%25255B98%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-BtyivKEmAp0/UeblP3osjyI/AAAAAAAAG4M/WCLs8bkG-U8/image_thumb%25255B54%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>那輸出就會變成如下圖，當然Code改變後，就算停止偵錯，還是會維持Content(“Cool”)，不會變回原本的View()喔!!</p>
+<p><a href="http://lh6.ggpht.com/-O1oX8IpXRy4/UeblQTFSHfI/AAAAAAAAG4U/nAU0UbVpzyU/s1600-h/image%25255B102%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-FnvdIrNspE8/UeblRM1jmfI/AAAAAAAAG4c/L28jpENgW4U/image_thumb%25255B56%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>中斷的js也可以喔!!</p>
+<p><a href="http://lh3.ggpht.com/-x3Irv6tdnBI/UeblRqkyWpI/AAAAAAAAG4k/CLph21lTGiA/s1600-h/image%25255B106%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-zfFMy2NEAe0/UeblSJqJi-I/AAAAAAAAG4s/gIe3JHvswFY/image_thumb%25255B58%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h3 id="Auto-Brace-Complete-自動產生結束括號"><a href="#Auto-Brace-Complete-自動產生結束括號" class="headerlink" title="Auto Brace Complete 自動產生結束括號"></a>Auto Brace Complete 自動產生結束括號</h3><p>如下圖(此圖來自於<a href="http://blogs.msdn.com/b/visualstudio/archive/2013/07/15/visual-studio-2013-new-editor-features.aspx" target="_blank" rel="noopener">Microsoft 官方Blog</a>)，這個功能也是Power Tools就有的，現在正是納入VS 2013裡面。當我們輸入”(“ 的時候，會自動地出現右邊的括號”)”，不用我們在自己Key了~~( 不過小弟自己都有裝Power Tools，沒啥感覺就是了- -… )<img src="http://blogs.msdn.com/cfs-filesystemfile.ashx/__key/communityserver-blogs-components-weblogfiles/00-00-01-29-92/8228.bracecompletion.gif" alt="http://blogs.msdn.com/cfs-filesystemfile.ashx/__key/communityserver-blogs-components-weblogfiles/00-00-01-29-92/8228.bracecompletion.gif"></p>
+<h3 id="New-IDE-Features-for-JavaScript-新的JS-IDE功能"><a href="#New-IDE-Features-for-JavaScript-新的JS-IDE功能" class="headerlink" title="New IDE Features for JavaScript 新的JS IDE功能"></a>New IDE Features for JavaScript 新的JS IDE功能</h3><p>我們直接看下圖比較快，首先，比較明顯的是，上方出現了Function Bar，可以讓我們快速跳到想要的Function，另外，如果我們點了IDE編輯室窗裡面的Function ( 例如下圖的function( selector…. ) )則上方的Function也會自動跳喔!!</p>
+<p><a href="http://lh4.ggpht.com/-MNqJYEg4vVc/UeeEHCqIwpI/AAAAAAAAG48/JXrXmhi3mSE/s1600-h/image%25255B4%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-_mkYh9Tw_ZE/UeeEIECz-TI/AAAAAAAAG5E/9Y2NPCxg8D8/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>另外，我們可以看到，我們點集了某個變數之類的，在那個Function之下，就會高亮度出來。</p>
+<p><a href="http://lh4.ggpht.com/-1ETztnAPbjw/UeeGe4rlanI/AAAAAAAAG5U/ya7bcAuvObk/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-eS6lM3iPP4I/UeeGfSpclGI/AAAAAAAAG5Y/Bvotf4is_X0/image_thumb%25255B3%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>更特別的是，他只會尋找Function底下，並不會亂七八糟的亂找，如下圖，只會顯示function底下的elem，上層的elem是不會高亮度的。</p>
+<p><a href="http://lh3.ggpht.com/-fZs9IV9D1LI/UeeGfyBUh9I/AAAAAAAAG5k/1eyS1GwpXXo/s1600-h/image%25255B12%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-Xl5sajiRhH0/UeeGgiJpzJI/AAAAAAAAG5s/_tmwde9hVa0/image_thumb%25255B5%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h3 id="觀看function-return-values"><a href="#觀看function-return-values" class="headerlink" title="觀看function return values"></a>觀看function return values</h3><p>這個功能也超級實用，可以觀看Function return後的值，如下的Code，我們可以從debug下，設定中斷點，來查看，不過這邊要查看，需要有點技巧，我們必須把中斷點設定在int result那行，然後中斷到那行的時候，在按F10(或是點選不進入函式)跳到”}”的地方，就可以從目前變數那邊看到資訊喔!!</p>
+<p>其次也可以從即時運算視窗輸入$ReturnValue也可以看到，這算是一個很不錯的功能，尤其像小弟常常接一大串的情況下，這功能就很好用~~ ( <a href="http://blogs.msdn.com/b/visualstudioalm/archive/2013/06/27/seeing-function-return-values-in-the-debugger-in-visual-studio-2013.aspx" target="_blank" rel="noopener">微軟Blog說明</a> )</p>
+<p><a href="http://lh5.ggpht.com/-qewQB476zGg/Uee8DnW3W9I/AAAAAAAAG6U/6cDUWO8sLss/s1600-h/image%25255B5%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-R_IxXFQ4a1o/Uee8EgrbDiI/AAAAAAAAG6c/pUVbULmNapo/image_thumb%25255B2%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>但如果回傳的是物件之類的，則會顯示如下圖，基本上還是可以看的到回傳的東西就是了~~</p>
+<p><a href="http://lh5.ggpht.com/-0D5CTkuhJZM/UefAHR5okUI/AAAAAAAAG6s/wEB9Rjsy3Eg/s1600-h/image%25255B10%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-HUtbpzyNbus/UefAInB7c2I/AAAAAAAAG60/UNvL_Ummnjs/image_thumb%25255B5%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>除此之外，還有小弟沒發現，但Larry前輩有玩出來的一些功能，例如可以<a href="http://www.dotblogs.com.tw/larrynung/archive/2013/07/10/109338.aspx" target="_blank" rel="noopener">程式碼分析的加強</a>、<a href="http://www.dotblogs.com.tw/larrynung/archive/2013/07/11/109502.aspx" target="_blank" rel="noopener">整行的拖動</a>、<a href="http://www.dotblogs.com.tw/larrynung/archive/2013/07/06/107943.aspx" target="_blank" rel="noopener">功能選項的尋覽</a>、<a href="http://www.dotblogs.com.tw/larrynung/archive/2013/07/06/107941.aspx" target="_blank" rel="noopener">內嵌巡覽</a>等等，有興趣的可以去看看喔!!</p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>除了這幾項以外，還有幾個大功能，因為功能比較大，就不列在這篇裡面了，未來有機會，再來繼續補充完畢!~</p>
+<h4 id="參考網址"><a href="#參考網址" class="headerlink" title="參考網址"></a>參考網址</h4><ul>
+<li><a href="http://channel9.msdn.com/Shows/Visual-Studio-Toolbox/Visual-Studio-2013-Preview" target="_blank" rel="noopener" title="http://channel9.msdn.com/Shows/Visual-Studio-Toolbox/Visual-Studio-2013-Preview">http://channel9.msdn.com/Shows/Visual-Studio-Toolbox/Visual-Studio-2013-Preview</a>  <li><a href="http://blogs.msdn.com/b/visualstudio/archive/2013/07/15/visual-studio-2013-new-editor-features.aspx" target="_blank" rel="noopener" title="http://blogs.msdn.com/b/visualstudio/archive/2013/07/15/visual-studio-2013-new-editor-features.aspx">http://blogs.msdn.com/b/visualstudio/archive/2013/07/15/visual-studio-2013-new-editor-features.aspx</a>  <li><a href="http://msdn.microsoft.com/en-us/library/bb386063%28v=vs.120%29.aspx" target="_blank" rel="noopener" title="http://msdn.microsoft.com/en-us/library/bb386063%28v=vs.120%29.aspx">http://msdn.microsoft.com/en-us/library/bb386063%28v=vs.120%29.aspx</a>  <li><a href="http://www.dotblogs.com.tw/larrynung/category/2884.aspx" target="_blank" rel="noopener" title="http://www.dotblogs.com.tw/larrynung/category/2884.aspx">http://www.dotblogs.com.tw/larrynung/category/2884.aspx</a>  <li><a href="http://www.dotblogs.com.tw/yc421206/archive/2013/07/01/107479.aspx" target="_blank" rel="noopener" title="http://www.dotblogs.com.tw/yc421206/archive/2013/07/01/107479.aspx">http://www.dotblogs.com.tw/yc421206/archive/2013/07/01/107479.aspx</a>  <li><a href="http://kevintsengtw.blogspot.tw/2013/07/visual-studio-2013-preview-enhanced.html#.UebUd23eRw4" target="_blank" rel="noopener" title="http://kevintsengtw.blogspot.tw/2013/07/visual-studio-2013-preview-enhanced.html#.UebUd23eRw4">http://kevintsengtw.blogspot.tw/2013/07/visual-studio-2013-preview-enhanced.html#.UebUd23eRw4</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+            <a href="/tags/WPF/" rel="tag">#WPF</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/07/18/TFS-%E6%96%B0%E7%9A%84Features-Item/" rel="next" title="TFS - 新的Features Item">
+                <i class="fa fa-chevron-left"></i> TFS - 新的Features Item
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/07/30/C-%E9%9D%9E%E5%90%8C%E6%AD%A5%E7%9A%84async%E5%92%8Cawait/" rel="prev" title="C# - 非同步的async和await">
+                C# - 非同步的async和await <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#參考"><span class="nav-number">1.</span> <span class="nav-text">參考</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Peek-Definition-Alt-F12-查看定義"><span class="nav-number"></span> <span class="nav-text">Peek Definition (Alt + F12) 查看定義</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#同步功能"><span class="nav-number">1.</span> <span class="nav-text">同步功能</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Enhanced-Scrollbar-捲軸"><span class="nav-number"></span> <span class="nav-text">Enhanced Scrollbar 捲軸</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#與瀏覽器連結"><span class="nav-number">1.</span> <span class="nav-text">與瀏覽器連結</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#偵錯時改變值"><span class="nav-number">2.</span> <span class="nav-text">偵錯時改變值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Auto-Brace-Complete-自動產生結束括號"><span class="nav-number"></span> <span class="nav-text">Auto Brace Complete 自動產生結束括號</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#New-IDE-Features-for-JavaScript-新的JS-IDE功能"><span class="nav-number"></span> <span class="nav-text">New IDE Features for JavaScript 新的JS IDE功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#觀看function-return-values"><span class="nav-number"></span> <span class="nav-text">觀看function return values</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">1.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考網址"><span class="nav-number">2.</span> <span class="nav-text">參考網址</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2013/07/18/Visual-Studio-2013新功能/';
+      var disqus_title = 'Visual Studio - 2013新功能';
+      var disqus_url = 'http://skychang.github.io/2013/07/18/Visual-Studio-2013%E6%96%B0%E5%8A%9F%E8%83%BD/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

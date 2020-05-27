@@ -1,0 +1,707 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Azure,Linux,Docker,Ubuntu,VM," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="假設一個情境，如果今天我們的應用程式已經開發完成了，以前還要把 Source Code 拿去客戶端部署，還要設定一堆參數等等，或是今天內部開發完成，要進行測試，也要部署到測試機上，如今有 Docker 了，有沒有辦法，只用前面介紹的 run -p 這個指令，就直接完成安裝！？ 基本上，前面那篇，我們直接登入到 Docker 來進行抓取 Source 的動作，並且在裡面執行，最後 Commit ，的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="建立自己的 Docker image">
+<meta property="og:url" content="http://skychang.github.io/2015/07/30/%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84-Docker-image/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="假設一個情境，如果今天我們的應用程式已經開發完成了，以前還要把 Source Code 拿去客戶端部署，還要設定一堆參數等等，或是今天內部開發完成，要進行測試，也要部署到測試機上，如今有 Docker 了，有沒有辦法，只用前面介紹的 run -p 這個指令，就直接完成安裝！？ 基本上，前面那篇，我們直接登入到 Docker 來進行抓取 Source 的動作，並且在裡面執行，最後 Commit ，的">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://lh3.googleusercontent.com/-E54NR867C4Y/Vbo8YMKAVcI/AAAAAAAAKmo/qdK1jom-jiM/s600/01.png">
+<meta property="og:image" content="https://lh3.googleusercontent.com/-6z8C-tctEvE/Vbo8dCeWVeI/AAAAAAAAKm8/iA1FSFY_JuA/s600/02.png">
+<meta property="og:image" content="https://lh3.googleusercontent.com/-tKY6kUvzERk/Vbo8iDWwi8I/AAAAAAAAKnM/ck0QXa8VLQU/s600/03.png">
+<meta property="og:image" content="https://lh3.googleusercontent.com/-Sy6US8WTLbY/Vbo8nW8pIGI/AAAAAAAAKnc/AR5W4rMtHXA/s600/04.png">
+<meta property="og:image" content="https://lh3.googleusercontent.com/-bx_oB1J8Va0/Vbo8sbAzKnI/AAAAAAAAKno/ECVeytE0Y2E/s600/05.png">
+<meta property="og:image" content="https://lh3.googleusercontent.com/-5K2ieI8fT_8/Vbo8xArWBzI/AAAAAAAAKn0/bPOpxGsvKaM/s600/06.png">
+<meta property="og:image" content="https://lh3.googleusercontent.com/-83qu-QTFMWw/Vbo82Ams2bI/AAAAAAAAKoE/wkXVEIO0gCY/s600/07.png">
+<meta property="og:image" content="https://lh3.googleusercontent.com/-v9TglGvHg1w/Vbo86lOlsBI/AAAAAAAAKoQ/RQWZ8m3WbYo/s600/08.png">
+<meta property="og:image" content="https://lh3.googleusercontent.com/-A44QGKeePGo/Vbo8_p1BtvI/AAAAAAAAKoc/qjwCcNb--3A/s600/09.png">
+<meta property="og:image" content="https://lh3.googleusercontent.com/-vzz-_w54G5I/Vbo9JSFoFVI/AAAAAAAAKos/0PlM97k_K-c/s600/10.png">
+<meta property="og:image" content="https://lh3.googleusercontent.com/-b_Er4GdTHdQ/Vbo9PieVYsI/AAAAAAAAKo4/g0lpPylxah8/s600/11.png">
+<meta property="og:image" content="https://lh3.googleusercontent.com/-xtQzyczPci4/Vbo9WYIv2LI/AAAAAAAAKpI/aE3kBam4cmI/s600/13.png">
+<meta property="article:published_time" content="2015-07-30T23:06:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.079Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Ubuntu">
+<meta property="article:tag" content="VM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lh3.googleusercontent.com/-E54NR867C4Y/Vbo8YMKAVcI/AAAAAAAAKmo/qdK1jom-jiM/s600/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 建立自己的 Docker image | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                建立自己的 Docker image
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-07-30T23:06:00+00:00" content="2015-07-30">
+              2015-07-30
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/30/%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84-Docker-image/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/07/30/建立自己的-Docker-image/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>假設一個情境，如果今天我們的應用程式已經開發完成了，以前還要把 Source Code 拿去客戶端部署，還要設定一堆參數等等，或是今天內部開發完成，要進行測試，也要部署到測試機上，如今有 Docker 了，有沒有辦法，只用前面介紹的 run -p 這個指令，就直接完成安裝！？</p>
+<p>基本上，前面那篇，我們直接登入到 Docker 來進行抓取 Source 的動作，並且在裡面執行，最後 Commit ，的確，這是一種方法，也可以建立一個新的image，但是，我們不可能每次要 Run MVC 的時候，都還要登入進去執行吧，那真的很累人…其次，登入容器後，再去下載 Source 感覺也不是很好，準備環境也很麻煩，所以這篇，我們來看看，怎樣來建立自己的 Image。</p>
+<h2 id="準備本地端的-Source-Code"><a href="#準備本地端的-Source-Code" class="headerlink" title="準備本地端的 Source Code"></a>準備本地端的 Source Code</h2><p>首先，我們透過git指令，來取得ASP.NET 的 Source Code</p>
+<p>git clone <a href="https://github.com/aspnet/Home.git" target="_blank" rel="noopener">https://github.com/aspnet/Home.git</a> aspnet-home</p>
+<p><img src="https://lh3.googleusercontent.com/-E54NR867C4Y/Vbo8YMKAVcI/AAAAAAAAKmo/qdK1jom-jiM/s600/01.png" alt="enter image description here" title="01.png"></p>
+<p>完成後，我們先進入專案的位置。</p>
+<p>cd aspnet-home/samples/HelloWeb</p>
+<p><img src="https://lh3.googleusercontent.com/-6z8C-tctEvE/Vbo8dCeWVeI/AAAAAAAAKm8/iA1FSFY_JuA/s600/02.png" alt="enter image description here" title="02.png"></p>
+<h2 id="建立-Dockerfile"><a href="#建立-Dockerfile" class="headerlink" title="建立 Dockerfile"></a>建立 Dockerfile</h2><p>接下來，我們透過文字編輯器，來新建一個 Dockerfile 的檔案，這個檔案主要是用來設定 Docker 容器的細節。</p>
+<p>vi Dockerfile</p>
+<p><img src="https://lh3.googleusercontent.com/-tKY6kUvzERk/Vbo8iDWwi8I/AAAAAAAAKnM/ck0QXa8VLQU/s600/03.png" alt="enter image description here" title="03.png"></p>
+<p>文字的內容如下，第一行表示要用哪一個Image當作基底，接下來，拷貝目前目錄下的所有東西到 app ，然後進入app目錄，接著就來跑一下 kpm restore 這個指令，完成之後，對外的 port 要開 5004，並且於整個容器準備完成之後執行 k kestrel。除此之外，比較常用到的還有MAINTAINER(維護人)和ADD(同樣將檔案加入到image，但如果是壓縮黨會自動解壓縮)</p>
+<p>FROM microsoft/aspnet</p>
+<p>COPY . /app </p>
+<p>WORKDIR /app </p>
+<p>RUN [“kpm”, “restore”]</p>
+<p>EXPOSE 5004 </p>
+<p>ENTRYPOINT [“k”, “kestrel”]</p>
+<p><img src="https://lh3.googleusercontent.com/-Sy6US8WTLbY/Vbo8nW8pIGI/AAAAAAAAKnc/AR5W4rMtHXA/s600/04.png" alt="enter image description here" title="04.png"></p>
+<h2 id="Build-Image"><a href="#Build-Image" class="headerlink" title="Build Image"></a>Build Image</h2><p>接下來，我們就可以透過 build 的指令來建立新的image，並且取名為 myapp，後面的 . 表示路徑位置，也就是要指向 Dockerfile的位置。 </p>
+<p>sudo docker build -t myapp .</p>
+<p><img src="https://lh3.googleusercontent.com/-bx_oB1J8Va0/Vbo8sbAzKnI/AAAAAAAAKno/ECVeytE0Y2E/s600/05.png" alt="enter image description here" title="05.png"></p>
+<p>很快地就會完成了，完成之後我們可以透過等下指令看一下是否有增加進去。</p>
+<p>sudo docker images</p>
+<p><img src="https://lh3.googleusercontent.com/-5K2ieI8fT_8/Vbo8xArWBzI/AAAAAAAAKn0/bPOpxGsvKaM/s600/06.png" alt="enter image description here" title="06.png"></p>
+<h2 id="Run"><a href="#Run" class="headerlink" title="Run"></a>Run</h2><p>完成後，我們就可以拿這個 Image 來進行建置容器的動作，這邊的 -d 代表的是讓容器在背景執行，最後我們再用 docker ps 來查看，就可以發現，他在背景執行了。</p>
+<p>sudo docker run -t -d -p 80:5004 myapp</p>
+<p><img src="https://lh3.googleusercontent.com/-83qu-QTFMWw/Vbo82Ams2bI/AAAAAAAAKoE/wkXVEIO0gCY/s600/07.png" alt="enter image description here" title="07.png"></p>
+<h2 id="上傳到-Docker-Hub"><a href="#上傳到-Docker-Hub" class="headerlink" title="上傳到 Docker Hub"></a>上傳到 Docker Hub</h2><p>最後，我們可以把我們準備好的 Image 提供給別的使用者共享，我們可以把我們的影像檔傳到 Docker Hub 上，所以在進行最後一個步驟之前，要先去申請 Docker Hub 的帳號。</p>
+<p>申請完成之後，我們就可以透過以下指令進行登入。</p>
+<p>sudo docker login</p>
+<p><img src="https://lh3.googleusercontent.com/-v9TglGvHg1w/Vbo86lOlsBI/AAAAAAAAKoQ/RQWZ8m3WbYo/s600/08.png" alt="enter image description here" title="08.png"></p>
+<p>那再上傳之前，有一點需要注意，Docker Hub 的格式為 UserName/Repo，所以這邊我們要先改名一下，不然會傳不上去，我們先用以下指令查看我們目前有哪些 Image。</p>
+<p>sudo docker images</p>
+<p>接下來，我們就可以用以下指令改名，改成 skychang/mapp。</p>
+<p>sudo docker tag myapp2:latest skychang/myapp:latest</p>
+<p><img src="https://lh3.googleusercontent.com/-A44QGKeePGo/Vbo8_p1BtvI/AAAAAAAAKoc/qjwCcNb--3A/s600/09.png" alt="enter image description here" title="09.png"></p>
+<p>最後，我們再用 push ，就可以傳到 Docker Hub 嚕！</p>
+<p>sudo docker push skychang/myapp</p>
+<p><img src="https://lh3.googleusercontent.com/-vzz-_w54G5I/Vbo9JSFoFVI/AAAAAAAAKos/0PlM97k_K-c/s600/10.png" alt="enter image description here" title="10.png"></p>
+<p>完成後，就可以在 Docker Hub 看到嚕！！</p>
+<p><img src="https://lh3.googleusercontent.com/-b_Er4GdTHdQ/Vbo9PieVYsI/AAAAAAAAKo4/g0lpPylxah8/s600/11.png" alt="enter image description here" title="11.png"></p>
+<h2 id="刪除用不到的-Image"><a href="#刪除用不到的-Image" class="headerlink" title="刪除用不到的 Image"></a>刪除用不到的 Image</h2><p>如果有用不到的 Image ，可以透過 rmi 的指令移除 image ， rmi 後面的參數是代表 image 的名稱</p>
+<p>sudo docker images 來查看所有的資訊</p>
+<p>sudo docker rmi myapp</p>
+<p><img src="https://lh3.googleusercontent.com/-xtQzyczPci4/Vbo9WYIv2LI/AAAAAAAAKpI/aE3kBam4cmI/s600/13.png" alt="enter image description here" title="13.png"></p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://github.com/aspnet/aspnet-docker" target="_blank" rel="noopener">https://github.com/aspnet/aspnet-docker</a></li>
+<li><a href="http://blogs.msdn.com/b/webdev/archive/2015/01/14/running-asp-net-5-applications-in-linux-containers-with-docker.aspx" target="_blank" rel="noopener">http://blogs.msdn.com/b/webdev/archive/2015/01/14/running-asp-net-5-applications-in-linux-containers-with-docker.aspx</a></li>
+<li><a href="http://blog.aminjam.com/hello-asp-net-5-on-docker/" target="_blank" rel="noopener">http://blog.aminjam.com/hello-asp-net-5-on-docker/</a></li>
+<li><a href="http://www.codedata.com.tw/social-coding/docker-layman-abc/" target="_blank" rel="noopener">http://www.codedata.com.tw/social-coding/docker-layman-abc/</a></li>
+<li><a href="http://philipzheng.gitbooks.io/docker_practice/content/basic_concept/repository.html" target="_blank" rel="noopener">http://philipzheng.gitbooks.io/docker_practice/content/basic_concept/repository.html</a></li>
+<li><a href="http://www.openfoundry.org/tw/tech-column/9319-docker-101" target="_blank" rel="noopener">http://www.openfoundry.org/tw/tech-column/9319-docker-101</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/Linux/" rel="tag">#Linux</a>
+          
+            <a href="/tags/Docker/" rel="tag">#Docker</a>
+          
+            <a href="/tags/Ubuntu/" rel="tag">#Ubuntu</a>
+          
+            <a href="/tags/VM/" rel="tag">#VM</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/30/%E8%AE%93-ASP-NET-MVC-%E5%9F%B7%E8%A1%8C%E6%96%BC-Docker/" rel="next" title="讓 ASP.NET MVC 執行於 Docker">
+                <i class="fa fa-chevron-left"></i> 讓 ASP.NET MVC 執行於 Docker
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/31/%E7%B4%80%E9%8C%84%E6%96%87-Windows-10-%E7%99%BC%E4%BD%88/" rel="prev" title="紀錄文 - Windows 10 發佈">
+                紀錄文 - Windows 10 發佈 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#準備本地端的-Source-Code"><span class="nav-number">1.</span> <span class="nav-text">準備本地端的 Source Code</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立-Dockerfile"><span class="nav-number">2.</span> <span class="nav-text">建立 Dockerfile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Build-Image"><span class="nav-number">3.</span> <span class="nav-text">Build Image</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Run"><span class="nav-number">4.</span> <span class="nav-text">Run</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上傳到-Docker-Hub"><span class="nav-number">5.</span> <span class="nav-text">上傳到 Docker Hub</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#刪除用不到的-Image"><span class="nav-number">6.</span> <span class="nav-text">刪除用不到的 Image</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">7.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2015/07/30/建立自己的-Docker-image/';
+      var disqus_title = '建立自己的 Docker image';
+      var disqus_url = 'http://skychang.github.io/2015/07/30/%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84-Docker-image/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,703 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Azure,SQL Server," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="因為在準備投影片，就想說，順便整理整理，提供給大家做一個參考。 在Azure服務裡面，最簡單的服務，大概就是vm吧，而託Azure的福，原本要跪求IT賜給我們一台測試機，現在我們也可以直接利用Azure的VM來進行測試了，而這邊，就列一下，SQL Server in VM的一些注意事項。 如下MSDN的截圖，我們要控制SQL Server有兩條入，一條是從上面的遠端桌面，這應該是最簡單不過了，另外">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Azure -  SQL Server in VM的一些注意事項">
+<meta property="og:url" content="http://skychang.github.io/2013/08/22/Windows-Azure-SQL-Server-in-VM%E7%9A%84%E4%B8%80%E4%BA%9B%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="因為在準備投影片，就想說，順便整理整理，提供給大家做一個參考。 在Azure服務裡面，最簡單的服務，大概就是vm吧，而託Azure的福，原本要跪求IT賜給我們一台測試機，現在我們也可以直接利用Azure的VM來進行測試了，而這邊，就列一下，SQL Server in VM的一些注意事項。 如下MSDN的截圖，我們要控制SQL Server有兩條入，一條是從上面的遠端桌面，這應該是最簡單不過了，另外">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://i.msdn.microsoft.com/dynimg/IC670657.gif">
+<meta property="og:image" content="http://lh5.ggpht.com/-R-RUtx2NAz8/UhYlZma0bVI/AAAAAAAAHCg/pdpTjvTHfAo/image_thumb%25255B6%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-Wlzp0gOrl7g/UhYlbQ6za8I/AAAAAAAAHCw/LgXZRev2xRY/image_thumb%25255B9%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-Trh143LX2Io/UhYldAW9WgI/AAAAAAAAHDA/vMoc6G3zHfA/image_thumb%25255B12%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-M_mf3K_wRnA/UhYle0ZFk6I/AAAAAAAAHDQ/2xym08LINnQ/image_thumb%25255B15%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-AqFtrPafCZA/UhYlgukygWI/AAAAAAAAHDg/fCjMl8n86Fo/image_thumb%25255B40%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-RRRmwU_dQhQ/UhYli1fEfRI/AAAAAAAAHDw/H7oFYOkCa5c/image_thumb%25255B18%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-Zgot_lRdA9A/UhYlkTFntrI/AAAAAAAAHEA/NDilVLn7gP4/image_thumb%25255B22%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-GOA4gUY-19U/UhYlmEuBQaI/AAAAAAAAHEQ/GQCLFcEHMF0/image_thumb%25255B25%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-mnPKJgwmGzI/UhYlnxM2zRI/AAAAAAAAHEg/ql-aFZ6BeYc/image_thumb%25255B28%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/--SejoCvl1k0/UhYlpde6fhI/AAAAAAAAHEw/9ZOh4L1DYd0/image_thumb%25255B31%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-QVvsrRRLt9I/UhYlrS_odSI/AAAAAAAAHFA/V306xn3GXe4/image_thumb%25255B34%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-c5Bc7mtMpVU/UhYltE5-JoI/AAAAAAAAHFQ/vvMtY99cZBs/image_thumb%25255B37%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-GBzDTw57c8Y/UhYlu_H8m1I/AAAAAAAAHFg/W9rkn6Py9mQ/image_thumb%25255B45%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-O8TUT2IuTpA/UhYlwbVPSCI/AAAAAAAAHFw/0UmEEEDdzI0/image_thumb%25255B42%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-Lpt6IGlydi8/UhYlx8vQRiI/AAAAAAAAHGA/XCXyb342wMY/image_thumb%25255B48%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-qVInj9-uqjI/UhYlzt85e0I/AAAAAAAAHGQ/0TninwV1Uag/image_thumb%25255B52%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-yR-ptNNF-tc/UhYmNqx0U-I/AAAAAAAAHGg/Pw97tm-BHEE/image_thumb%25255B55%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2013-08-22T22:53:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.027Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="SQL Server">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.msdn.microsoft.com/dynimg/IC670657.gif">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Windows Azure -  SQL Server in VM的一些注意事項 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Windows Azure -  SQL Server in VM的一些注意事項
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2013-08-22T22:53:00+00:00" content="2013-08-22">
+              2013-08-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/08/22/Windows-Azure-SQL-Server-in-VM%E7%9A%84%E4%B8%80%E4%BA%9B%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/08/22/Windows-Azure-SQL-Server-in-VM的一些注意事項/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>因為在準備投影片，就想說，順便整理整理，提供給大家做一個參考。</p>
+<p>在Azure服務裡面，最簡單的服務，大概就是vm吧，而託Azure的福，原本要跪求IT賜給我們一台測試機，現在我們也可以直接利用Azure的VM來進行測試了，而這邊，就列一下，SQL Server in VM的一些注意事項。</p>
+<p>如下MSDN的截圖，我們要控制SQL Server有兩條入，一條是從上面的遠端桌面，這應該是最簡單不過了，另外一個就是利用SSMS工具。但如同下圖所示，如果要用SSMS，就會有很多紅色驚嘆號；是的，這些東西就是我們今天要告訴大家，要開啟的!!</p>
+<p>( 當然，這內容和自己建立的vm沒甚麼兩樣，差異大概只差在，需要在Azure vm的端點那邊，開啟一下端點，另外，預設會開啟一個比較特殊的port，在SQL Server 2014的時候；port 11435是給SQL Server 2014部屬用的。因為這個東西算是很基本的設定，所以後面的說明，就不會列的很詳細了，請見諒。 )</p>
+<p><img src="http://i.msdn.microsoft.com/dynimg/IC670657.gif" alt="存取 Windows Azure 虛擬機器中的 SQL Server" title="存取 Windows Azure 虛擬機器中的 SQL Server"></p>
+<h4 id="第一步-使用SQL-Server驗證連接到SQL-Server"><a href="#第一步-使用SQL-Server驗證連接到SQL-Server" class="headerlink" title="第一步 使用SQL Server驗證連接到SQL Server"></a>第一步 使用SQL Server驗證連接到SQL Server</h4><p>是的，我們要先用遠端登入登入SQL Server機器，在利用SSMS連入SQL Server後，要把SQL Server和Windows驗證的混合模式打開。</p>
+<p><a href="http://lh3.ggpht.com/-SPrgPgD7g7E/UhYlYhrK-AI/AAAAAAAAHCY/6XuqzlvEHvw/s1600-h/image%25255B12%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-R-RUtx2NAz8/UhYlZma0bVI/AAAAAAAAHCg/pdpTjvTHfAo/image_thumb%25255B6%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們要修改sa的密碼和登入權限，如下圖 ( 請注意，這邊為了解說方便，所以直接打開sa，但真實環境下，請建立新的帳號，並且開啟特定的權限。 )</p>
+<p><a href="http://lh3.ggpht.com/-YjB3VA_cJkU/UhYlasWGiTI/AAAAAAAAHCo/BURldOSSDZI/s1600-h/image%25255B17%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-Wlzp0gOrl7g/UhYlbQ6za8I/AAAAAAAAHCw/LgXZRev2xRY/image_thumb%25255B9%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>設定完成後，記得要去SQL Server Configuration Manager重新啟動一下SQL Server。</p>
+<p><a href="http://lh5.ggpht.com/-k4phzO_sTZw/UhYlcQI1siI/AAAAAAAAHC4/ZpEmJAIsOZk/s1600-h/image%25255B22%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-Trh143LX2Io/UhYldAW9WgI/AAAAAAAAHDA/vMoc6G3zHfA/image_thumb%25255B12%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們可以用sa登入試試看。</p>
+<p><a href="http://lh6.ggpht.com/-FjoDxO7CIfE/UhYleLjjGhI/AAAAAAAAHDI/ZHPRWKpaLLI/s1600-h/image%25255B27%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-M_mf3K_wRnA/UhYle0ZFk6I/AAAAAAAAHDQ/2xym08LINnQ/image_thumb%25255B15%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>確定可以登入後，我們就可以進入下一步，開啟TCP/IP。</p>
+<h4 id="第二步-開啟SQL-Server的TCP-IP"><a href="#第二步-開啟SQL-Server的TCP-IP" class="headerlink" title="第二步 開啟SQL Server的TCP/IP"></a>第二步 開啟SQL Server的TCP/IP</h4><p>說到這個，小弟超久超久以前，要連SSMS，一直連不上去，就是因為TCP/IP沒開啟，所以大家記得要開啟，小弟使用SQL Server 2014的樣板，預設是已經開啟了。</p>
+<p><a href="http://lh3.ggpht.com/-NxnbSEVmg1w/UhYlfz3hEHI/AAAAAAAAHDY/ZYkyvf9OXIw/s1600-h/image%25255B70%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-AqFtrPafCZA/UhYlgukygWI/AAAAAAAAHDg/fCjMl8n86Fo/image_thumb%25255B40%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，是要開啟vm上的防火牆。</p>
+<h4 id="第三步-開啟VM上的防火牆"><a href="#第三步-開啟VM上的防火牆" class="headerlink" title="第三步 開啟VM上的防火牆"></a>第三步 開啟VM上的防火牆</h4><p>SQL Server預設的Port是1433，所以如果要用SSMS連進來，就要開啟1433的Port ( 如果有要用其他服務，也別忘了要開啟。)</p>
+<p><a href="http://lh6.ggpht.com/-VRCMb-QfYG0/UhYlhwCQHxI/AAAAAAAAHDo/LJCmvVYhB1g/s1600-h/image%25255B32%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-RRRmwU_dQhQ/UhYli1fEfRI/AAAAAAAAHDw/H7oFYOkCa5c/image_thumb%25255B18%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這邊填入1433。</p>
+<p><a href="http://lh4.ggpht.com/-pBH_DLPv3GM/UhYljsYHOUI/AAAAAAAAHD4/l8EMNt7xIKM/s1600-h/image%25255B40%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-Zgot_lRdA9A/UhYlkTFntrI/AAAAAAAAHEA/NDilVLn7gP4/image_thumb%25255B22%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>後續就照著預設值就可以了。</p>
+<p><a href="http://lh3.ggpht.com/-T-4vkqMhagI/UhYllZR7g9I/AAAAAAAAHEI/j9qEe96CRQw/s1600-h/image%25255B45%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-GOA4gUY-19U/UhYlmEuBQaI/AAAAAAAAHEQ/GQCLFcEHMF0/image_thumb%25255B25%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>如果有特別需求，這邊可以調整，但我想，通常應該不會改變連線才對。</p>
+<p><a href="http://lh6.ggpht.com/-i5g9NMp3YH0/UhYlnGbvheI/AAAAAAAAHEY/Pukb9GVLQyc/s1600-h/image%25255B50%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-mnPKJgwmGzI/UhYlnxM2zRI/AAAAAAAAHEg/ql-aFZ6BeYc/image_thumb%25255B28%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後輸入一個可識別的名稱。</p>
+<p><a href="http://lh6.ggpht.com/-grGL6heH6kM/UhYlo2lg-BI/AAAAAAAAHEo/pagukMYKX1Y/s1600-h/image%25255B55%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/--SejoCvl1k0/UhYlpde6fhI/AAAAAAAAHEw/9ZOh4L1DYd0/image_thumb%25255B31%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>完成之後就會如下圖，另外，如果眼尖的，會發現預設就有一個SQL Server Cloud Adapter。</p>
+<p><a href="http://lh4.ggpht.com/-mpGbkD-_wYQ/UhYlqpsHuwI/AAAAAAAAHE4/599c7E5t5vg/s1600-h/image%25255B60%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-QVvsrRRLt9I/UhYlrS_odSI/AAAAAAAAHFA/V306xn3GXe4/image_thumb%25255B34%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>他的Port是11435，主要是拿來在SQL Server 2014直接部屬到SQL Server in vm用的，因為小弟是用SQL Server 2014的樣板建立的vm，所以有出現這個，至於2012的樣板會不會有，小弟就不知道了，大家有興趣可以幫小弟試試看XDDD。</p>
+<p><a href="http://lh5.ggpht.com/-9p_ZYxM5yb4/UhYlsT618fI/AAAAAAAAHFI/w96jkeCF580/s1600-h/image%25255B65%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-c5Bc7mtMpVU/UhYltE5-JoI/AAAAAAAAHFQ/vvMtY99cZBs/image_thumb%25255B37%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>到這邊，vm上的設定通通都結束了，接下來要去Windows Azure裡面設定。</p>
+<p>第四步 設定Windows Azure VM的端點</p>
+<p>預設情況下，當我們啟用Windows Azure VM的時候，就可以先選擇要開的端點了，如下圖。</p>
+<p><a href="http://lh5.ggpht.com/-4ZoRz11rbxk/UhYluELKf0I/AAAAAAAAHFY/owBq1RbGp8g/s1600-h/image%25255B79%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-GBzDTw57c8Y/UhYlu_H8m1I/AAAAAAAAHFg/W9rkn6Py9mQ/image_thumb%25255B45%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>如果當時忘記開，也可以自己從這邊打開。</p>
+<p><a href="http://lh6.ggpht.com/-Jh1-BXVlYpo/UhYlvshNDlI/AAAAAAAAHFo/o96BOx8gvF8/s1600-h/image%25255B74%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-O8TUT2IuTpA/UhYlwbVPSCI/AAAAAAAAHFw/0UmEEEDdzI0/image_thumb%25255B42%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>例如下圖，我們要把11435打開，那我們可以如下圖設定；公用連接埠表示的是對外的連接，也就是外面要用11111來連入這台Server，而私用連接埠是內部用的連接，也就是說外面從11111連進來，會對應到內部的11435；這邊建議用不同的Port，才能防止攻擊，另外，也強烈建議，把平常沒用到的端點刪掉，例如Remote Desktop的3389，沒事的時候，就把它刪掉，要用的時候在建立，這樣會安全很多。</p>
+<p><a href="http://lh3.ggpht.com/-upsw-q8ArTU/UhYlxHqcUGI/AAAAAAAAHF4/7fcgehDQ8cY/s1600-h/image%25255B84%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-Lpt6IGlydi8/UhYlx8vQRiI/AAAAAAAAHGA/XCXyb342wMY/image_thumb%25255B48%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>到這邊，我們就結束了所有設定。</p>
+<p>最終步 在Local使用ssms登入</p>
+<p>最後，我們再用SSMS登入就可以了。</p>
+<p><a href="http://lh4.ggpht.com/-fmlVwhTKkds/UhYly5HabiI/AAAAAAAAHGI/YeRt-0HSLMM/s1600-h/image%25255B90%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-qVInj9-uqjI/UhYlzt85e0I/AAAAAAAAHGQ/0TninwV1Uag/image_thumb%25255B52%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這樣就可以順利連上去了。</p>
+<p>補充</p>
+<p>如果今天Azure的端點不是設定為1433，設定為10000的話，可以在ssms裡的伺服器名稱後面加入小逗點，再加上port，如下圖。</p>
+<p><a href="http://lh3.ggpht.com/-u30BOIT5r8g/UhYmMijqyPI/AAAAAAAAHGY/zXX6lD8QOgY/s1600-h/image%25255B95%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-yR-ptNNF-tc/UhYmNqx0U-I/AAAAAAAAHGg/Pw97tm-BHEE/image_thumb%25255B55%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這樣就可以簡單的指定Port了。</p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>其實對於DBA來說，這真的很簡單，但隨著Azure的發展，Developer也可以簡單的建立Azure上的vm拿來測試與支援，相信對於專職於寫Code的朋友們，可能就會四處碰壁了，所以這邊也提供了這些步驟，希望能讓Developer們，使用DB的時候，不會一開始就卡住~~</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://blogs.msdn.com/b/windowsazure/archive/2012/07/16/data-series-how-to-setup-sql-server-on-windows-azure-virtual-machines.aspx" target="_blank" rel="noopener" title="http://blogs.msdn.com/b/windowsazure/archive/2012/07/16/data-series-how-to-setup-sql-server-on-windows-azure-virtual-machines.aspx">http://blogs.msdn.com/b/windowsazure/archive/2012/07/16/data-series-how-to-setup-sql-server-on-windows-azure-virtual-machines.aspx</a></li>
+<li><a href="http://msdn.microsoft.com/zh-tw/library/windowsazure/dn133152.aspx" target="_blank" rel="noopener" title="http://msdn.microsoft.com/zh-tw/library/windowsazure/dn133152.aspx">http://msdn.microsoft.com/zh-tw/library/windowsazure/dn133152.aspx</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/SQL-Server/" rel="tag">#SQL Server</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/08/22/Windows-Azure-%E5%9C%A8Windows-Server-VM%E5%AE%89%E8%A3%9D%E4%B8%AD%E6%96%87%E8%AA%9E%E7%B3%BB/" rel="next" title="Windows Azure -  在Windows Server VM安裝中文語系">
+                <i class="fa fa-chevron-left"></i> Windows Azure -  在Windows Server VM安裝中文語系
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/08/22/Windows-Azure-%E4%BD%BF%E7%94%A8SQL-Server%E7%9A%84DAC%E4%BE%86%E8%BC%B8%E5%87%BA%E8%B3%87%E6%96%99%E5%88%B0Azure%E7%9A%84Blob/" rel="prev" title="Windows Azure -  使用SQL Server的DAC來輸出資料到Azure的Blob">
+                Windows Azure -  使用SQL Server的DAC來輸出資料到Azure的Blob <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一步-使用SQL-Server驗證連接到SQL-Server"><span class="nav-number">1.</span> <span class="nav-text">第一步 使用SQL Server驗證連接到SQL Server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二步-開啟SQL-Server的TCP-IP"><span class="nav-number">2.</span> <span class="nav-text">第二步 開啟SQL Server的TCP&#x2F;IP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三步-開啟VM上的防火牆"><span class="nav-number">3.</span> <span class="nav-text">第三步 開啟VM上的防火牆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">4.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">5.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2013/08/22/Windows-Azure-SQL-Server-in-VM的一些注意事項/';
+      var disqus_title = 'Windows Azure -  SQL Server in VM的一些注意事項';
+      var disqus_url = 'http://skychang.github.io/2013/08/22/Windows-Azure-SQL-Server-in-VM%E7%9A%84%E4%B8%80%E4%BA%9B%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

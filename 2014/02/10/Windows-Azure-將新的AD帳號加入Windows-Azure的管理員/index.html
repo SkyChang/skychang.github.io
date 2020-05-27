@@ -1,0 +1,663 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Azure,Active Directory," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前面幾篇，有介紹到如何新增AD帳號，AD帳號除了未來可以拿來當應用程式的驗證使用外，我們也可以利用這個AD帳號當作登入Windows Azure管理畫面使用的帳號，首先我們先來看一下上次新增的帳號。  這個時候，如果我們如果想利用sky2來當作Windows Azure的管理者，我們就使用此mail登入。  當然，如果沒有設定，就會出現此畫面。  接下來，我們就來看看如何設定，我們先到設定的選項，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Azure -  將新的AD帳號加入Windows Azure的管理員">
+<meta property="og:url" content="http://skychang.github.io/2014/02/10/Windows-Azure-%E5%B0%87%E6%96%B0%E7%9A%84AD%E5%B8%B3%E8%99%9F%E5%8A%A0%E5%85%A5Windows-Azure%E7%9A%84%E7%AE%A1%E7%90%86%E5%93%A1/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="前面幾篇，有介紹到如何新增AD帳號，AD帳號除了未來可以拿來當應用程式的驗證使用外，我們也可以利用這個AD帳號當作登入Windows Azure管理畫面使用的帳號，首先我們先來看一下上次新增的帳號。  這個時候，如果我們如果想利用sky2來當作Windows Azure的管理者，我們就使用此mail登入。  當然，如果沒有設定，就會出現此畫面。  接下來，我們就來看看如何設定，我們先到設定的選項，">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh3.ggpht.com/-9LJfmWjmqR8/UvevHTaukgI/AAAAAAAAIpY/BF4DBjnRInE/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-jNKSnjQ6dJ8/UvevI_jBE0I/AAAAAAAAIpo/vx2lUuf5DPY/image_thumb%25255B4%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-I0RoyeR6hh4/UvevKcD7wSI/AAAAAAAAIp4/mswLHbnFWUI/image_thumb%25255B7%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-kDIvHGpPNVY/UvevLlocdUI/AAAAAAAAIqI/jjfPuXRc21w/image_thumb%25255B11%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-17WDxmZcaXc/UvevM3iAkZI/AAAAAAAAIqY/9ZqD3Jh4h-U/image_thumb%25255B14%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-NMw9rJ4yWbU/UvevOUIgogI/AAAAAAAAIqo/xSlac3W8wTU/image_thumb%25255B17%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-_nQ5yAnvkU4/UvevP58waeI/AAAAAAAAIq4/QqjA_g0Ykw8/image_thumb%25255B20%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-ON9lur8Pp9A/UvevRJE2D2I/AAAAAAAAIrI/29IouhvdXBw/image_thumb%25255B23%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-D2uDw4ty5kg/UvevSplC4wI/AAAAAAAAIrY/KEaar9BCkQo/image_thumb%25255B29%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-lmFlZdzGcWI/UvevTzovByI/AAAAAAAAIro/1fO-8-VHWNE/image_thumb%25255B28%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2014-02-10T00:39:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.031Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="Active Directory">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh3.ggpht.com/-9LJfmWjmqR8/UvevHTaukgI/AAAAAAAAIpY/BF4DBjnRInE/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Windows Azure -  將新的AD帳號加入Windows Azure的管理員 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Windows Azure -  將新的AD帳號加入Windows Azure的管理員
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2014-02-10T00:39:00+00:00" content="2014-02-10">
+              2014-02-10
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/02/10/Windows-Azure-%E5%B0%87%E6%96%B0%E7%9A%84AD%E5%B8%B3%E8%99%9F%E5%8A%A0%E5%85%A5Windows-Azure%E7%9A%84%E7%AE%A1%E7%90%86%E5%93%A1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/02/10/Windows-Azure-將新的AD帳號加入Windows-Azure的管理員/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>前面<a href="http://blog.sanc.idv.tw/2014/01/windows-azure-active-directory_14.html" target="_blank" rel="noopener">幾篇</a>，有介紹到如何新增AD帳號，AD帳號除了未來可以拿來當應用程式的驗證使用外，我們也可以利用這個AD帳號當作登入Windows Azure管理畫面使用的帳號，首先我們先來看一下上次新增的帳號。</p>
+<p><a href="http://lh3.ggpht.com/-RgZvyHfZ6RU/UvevGnB5c_I/AAAAAAAAIpQ/Hrzia4BTAIs/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-9LJfmWjmqR8/UvevHTaukgI/AAAAAAAAIpY/BF4DBjnRInE/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這個時候，如果我們如果想利用sky2來當作Windows Azure的管理者，我們就使用此mail登入。</p>
+<p><a href="http://lh5.ggpht.com/-16xYCn8YFlk/UvevIARNuWI/AAAAAAAAIpg/1J2EoGBtyqI/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-jNKSnjQ6dJ8/UvevI_jBE0I/AAAAAAAAIpo/vx2lUuf5DPY/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>當然，如果沒有設定，就會出現此畫面。</p>
+<p><a href="http://lh6.ggpht.com/-MiSQILoOmgA/UvevJroYi7I/AAAAAAAAIpw/0xEYgGQBQOU/s1600-h/image%25255B13%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-I0RoyeR6hh4/UvevKcD7wSI/AAAAAAAAIp4/mswLHbnFWUI/image_thumb%25255B7%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們就來看看如何設定，我們先到設定的選項，並且選擇管理員，再按下加入。</p>
+<p><a href="http://lh5.ggpht.com/-1YfC9k6RI4w/UvevK5ymXjI/AAAAAAAAIqA/RwL8N1U1W1s/s1600-h/image%25255B21%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-kDIvHGpPNVY/UvevLlocdUI/AAAAAAAAIqI/jjfPuXRc21w/image_thumb%25255B11%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這邊就可以填入sky2這個mail (也就是ad帳號)。</p>
+<p><a href="http://lh3.ggpht.com/-UxivU2PcIrA/UvevMc3WcQI/AAAAAAAAIqQ/MBit6JUGv6Q/s1600-h/image%25255B26%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-17WDxmZcaXc/UvevM3iAkZI/AAAAAAAAIqY/9ZqD3Jh4h-U/image_thumb%25255B14%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>通常按下確定就可以，但如果你建立了多個ad目錄，可能會出現以下的問題；這個問題是，每個Windows Azure，都會對應一個AD目錄，如我目前的Windows Azure，對應的是San.C Net這個AD目錄，不是Study4的目錄；所以他會告訴我，必須是要San.C Net目錄下的使用者，才可以變成管理員。</p>
+<p><a href="http://lh4.ggpht.com/-vSiAfSboyuA/UvevNqsqgRI/AAAAAAAAIqg/tpw4ZaEDZm4/s1600-h/image%25255B31%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-NMw9rJ4yWbU/UvevOUIgogI/AAAAAAAAIqo/xSlac3W8wTU/image_thumb%25255B17%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>我們可以從下圖的位置，看到目前的訂用帳戶對應的是San.C Net這個目錄。</p>
+<p><a href="http://lh6.ggpht.com/-SnqYyVcexuc/UvevPKPGezI/AAAAAAAAIqw/wjVVZ4Xs7Cg/s1600-h/image%25255B36%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-_nQ5yAnvkU4/UvevP58waeI/AAAAAAAAIq4/QqjA_g0Ykw8/image_thumb%25255B20%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>如果要更改，只需要點下面的編輯目錄。</p>
+<p><a href="http://lh6.ggpht.com/-J4LxlegBtB4/UvevQTaxvQI/AAAAAAAAIrA/DoH4tAzKWMY/s1600-h/image%25255B41%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-ON9lur8Pp9A/UvevRJE2D2I/AAAAAAAAIrI/29IouhvdXBw/image_thumb%25255B23%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這邊就可以變更關聯的目錄了。</p>
+<p><a href="http://lh3.ggpht.com/-C0X2fkrF0q0/UvevR9OQUMI/AAAAAAAAIrQ/HqBLt_Y47CY/s1600-h/image%25255B51%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-D2uDw4ty5kg/UvevSplC4wI/AAAAAAAAIrY/KEaar9BCkQo/image_thumb%25255B29%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>按下確定就完成了目錄的對應。</p>
+<p><a href="http://lh3.ggpht.com/-ixlzYDpn_Pw/UvevTN8jNUI/AAAAAAAAIrg/MS18FeBsELQ/s1600-h/image%25255B50%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-lmFlZdzGcWI/UvevTzovByI/AAAAAAAAIro/1fO-8-VHWNE/image_thumb%25255B28%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這時候，我們就可以把Study4這個目錄的使用者，變成Windows Azure的管理員了，未來就可以讓sky2直接登入；但要注意的是，這邊Windows Azure的管理員擁有最大的權限，也沒辦法鎖定他的某些功能，所以在開放的時候也要特別注意喔!!~</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/Active-Directory/" rel="tag">#Active Directory</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/01/14/Windows-Azure-%E6%96%B0%E5%A2%9E%E6%96%B0%E7%9A%84Active-Directory%E4%BD%BF%E7%94%A8%E8%80%85/" rel="next" title="Windows Azure -  新增新的Active Directory使用者">
+                <i class="fa fa-chevron-left"></i> Windows Azure -  新增新的Active Directory使用者
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/02/10/Windows-Azure-%E6%95%B4%E5%90%88Office-365%E7%9A%84AD%E7%9B%AE%E9%8C%84/" rel="prev" title="Windows Azure -  整合Office 365的AD目錄">
+                Windows Azure -  整合Office 365的AD目錄 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2014/02/10/Windows-Azure-將新的AD帳號加入Windows-Azure的管理員/';
+      var disqus_title = 'Windows Azure -  將新的AD帳號加入Windows Azure的管理員';
+      var disqus_url = 'http://skychang.github.io/2014/02/10/Windows-Azure-%E5%B0%87%E6%96%B0%E7%9A%84AD%E5%B8%B3%E8%99%9F%E5%8A%A0%E5%85%A5Windows-Azure%E7%9A%84%E7%AE%A1%E7%90%86%E5%93%A1/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

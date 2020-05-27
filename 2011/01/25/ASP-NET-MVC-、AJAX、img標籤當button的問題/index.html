@@ -1,0 +1,687 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ASP.NET MVC,HTML,JavaScript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="在ASP.NET MVC 2裡，當使用ajax helper時，如果使用不當，是會造成個瀏覽器的一些問題。 但如果您是使用ASP.NET MVC 3，就不用繼續看下去了。 function send() {   $(&quot;#webForm&quot;).trigger(&quot;onsubmit&quot;); }   中間程式碼略 &lt;a href&#x3D;&quot;#&quot;&gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET MVC 、AJAX、img標籤當button的問題">
+<meta property="og:url" content="http://skychang.github.io/2011/01/25/ASP-NET-MVC-%E3%80%81AJAX%E3%80%81img%E6%A8%99%E7%B1%A4%E7%95%B6button%E7%9A%84%E5%95%8F%E9%A1%8C/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="在ASP.NET MVC 2裡，當使用ajax helper時，如果使用不當，是會造成個瀏覽器的一些問題。 但如果您是使用ASP.NET MVC 3，就不用繼續看下去了。 function send() {   $(&quot;#webForm&quot;).trigger(&quot;onsubmit&quot;); }   中間程式碼略 &lt;a href&#x3D;&quot;#&quot;&gt;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2011-01-25T06:43:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.836Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta property="article:tag" content="HTML">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ASP.NET MVC 、AJAX、img標籤當button的問題 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ASP.NET MVC 、AJAX、img標籤當button的問題
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2011-01-25T06:43:00+00:00" content="2011-01-25">
+              2011-01-25
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2011/01/25/ASP-NET-MVC-%E3%80%81AJAX%E3%80%81img%E6%A8%99%E7%B1%A4%E7%95%B6button%E7%9A%84%E5%95%8F%E9%A1%8C/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/01/25/ASP-NET-MVC-、AJAX、img標籤當button的問題/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在ASP.NET MVC 2裡，當使用ajax helper時，如果使用不當，是會造成個瀏覽器的一些問題。</p>
+<p>但如果您是使用ASP.NET MVC 3，就不用繼續看下去了。</p>
+<pre class="brush: js">function send() {
+  $(&quot;#webForm&quot;).trigger(&quot;onsubmit&quot;);
+}
+</pre>
+
+<p>中間程式碼略<a href="#"></a></p>
+<pre class="brush: html">&lt;a href=&quot;#&quot;&gt;
+&lt;img src=&quot;&quot; alt=&quot;send&quot; name=&quot;Test&quot; width=&quot;150&quot;
+height=&quot;37&quot; border=&quot;0&quot; id=&quot;Test&quot;
+onclick=&quot;send();&quot; /&gt;
+&lt;/a&gt;
+</pre>
+
+<p>上面這段程式碼看請來滿正常的，畢竟在設計師設計的時候，</p>
+<p>通常都不會使用標準的Button控制項來做Submit..</p>
+<p>通常都會將Button包成漂漂的img，然後外面包一個a標籤，</p>
+<p>然後在img裡面加上JavaScript的觸發事件，</p>
+<p>也就是onClick事件，來觸發JavaScript的send方法，</p>
+<p>畢竟有的時候會需要JavaScript做驗證，</p>
+<p>然後驗證完成後，在觸發submit事件，</p>
+<p>這是一個行之多年的爛方法，</p>
+<p>當然，我們也知道利用a標籤來框住img標籤的這個方法很蠢，</p>
+<p>但是使用到現在，也沒發生什麼問題，從設計師那邊接手過來的HTML是這樣，</p>
+<p>時間緊迫，也懶得再去修改，但結果，事情就這樣的發生了。</p>
+<p>平常可能還沒甚麼問題，</p>
+<p>但在使用Ajax helper的時候，卻會產生大大的問題，</p>
+<p>Ajax helper配合上Model的驗證時，我們雖然在.cs裡面只需要在多加上幾行，</p>
+<p>就會有強大的效過，但也產生大大的問題，</p>
+<p>回來看這由Ajax helper產生的html，卻會在form裡面插入了兩個事件，</p>
+<p>onClick與onSubmit，也因如此，在配合上各家瀏覽器的”風格”不同，造就了不同的結果….</p>
+<p>首先，看到jQuery的部分，為何不寫成 $(“webForm”).submit();</p>
+<p>就是因為在ie系列，配合上form的onSubmit時會送出兩次的post….</p>
+<p>至於為什麼，我也只能猜測，在ie上，javascript的submit會直接送出表單，然後onSubmit事件會再送出一次，</p>
+<p>那改成$(“webForm”).trigger(“onsubmit”);這樣寫就沒問題了嗎?</p>
+<p>錯…..</p>
+<p>如果使用這樣的寫法，firefox是不會有動作的….</p>
+<p>原因似乎是因為onSubmit標準上是不會送出submit事件的( ie除外，所以ie會post兩次= = )</p>
+<p>所以要怎麼辦呢…要改成以下程式碼</p>
+<pre class="brush: js">function send() {
+$(&quot;#webForm&quot;).trigger(&quot;onsubmit&quot;);
+}
+</pre>
+
+<p>中間程式碼略</p>
+<pre class="brush: html">&lt;input type=&quot;image&quot; src=&quot;&quot;  alt=&quot;send&quot; name=&quot;Test&quot; id=&quot;Test&quot;
+onclick=&quot;send();&quot; /&gt;
+</pre>
+
+<p>這樣IE，Firefox都可以了，為何會這樣，我的推測，在HTML裡，input送出的事件，會呼叫onSubmit，然後再送出。</p>
+<p>所以這樣子，ie就不會送出兩次，firefox也可以順利執行。</p>
+<p>所以，正規的HTML寫法還是很重要..</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+            <a href="/tags/HTML/" rel="tag">#HTML</a>
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2010/10/04/%E4%BD%BF%E7%94%A8Linq%E9%80%B2%E8%A1%8C%E5%8B%95%E6%85%8B%E6%9F%A5%E8%A9%A2/" rel="next" title="使用Linq進行動態查詢">
+                <i class="fa fa-chevron-left"></i> 使用Linq進行動態查詢
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011/01/25/ASP-NET-MVC-Area%E8%88%87Controller%E4%B9%8BRouting%E5%95%8F%E9%A1%8C/" rel="prev" title="ASP.NET MVC - Area與Controller之Routing問題">
+                ASP.NET MVC - Area與Controller之Routing問題 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2011/01/25/ASP-NET-MVC-、AJAX、img標籤當button的問題/';
+      var disqus_title = 'ASP.NET MVC 、AJAX、img標籤當button的問題';
+      var disqus_url = 'http://skychang.github.io/2011/01/25/ASP-NET-MVC-%E3%80%81AJAX%E3%80%81img%E6%A8%99%E7%B1%A4%E7%95%B6button%E7%9A%84%E5%95%8F%E9%A1%8C/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

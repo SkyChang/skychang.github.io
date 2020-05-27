@@ -1,0 +1,665 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Visual Studio,Node.js,Gulp," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言如果很早就開始玩 JS 打包的 Visual Studio 工程師，一定對於 Task Runner Explorer 有很深刻的印象，在某些情境，Task Runner Explorer 是很方便的，他可以透過整合 Visual Studio，讓你在 Visual Studio 裡面寫完 JS 後，透過 Task Runner Exploere 的點擊，就可以執行 Gulp 等等的行為。隨然">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Visual Studio - Task Runner Explorer 和 Node 版本">
+<meta property="og:url" content="http://skychang.github.io/2020/03/11/Visual-Studio-Task%20Runner%20Explorer%20and%20Nodejs%20version/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="前言如果很早就開始玩 JS 打包的 Visual Studio 工程師，一定對於 Task Runner Explorer 有很深刻的印象，在某些情境，Task Runner Explorer 是很方便的，他可以透過整合 Visual Studio，讓你在 Visual Studio 裡面寫完 JS 後，透過 Task Runner Exploere 的點擊，就可以執行 Gulp 等等的行為。隨然">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2020/03/11/Visual-Studio-Task%20Runner%20Explorer%20and%20Nodejs%20version/01.png">
+<meta property="og:image" content="http://skychang.github.io/2020/03/11/Visual-Studio-Task%20Runner%20Explorer%20and%20Nodejs%20version/02.png">
+<meta property="og:image" content="http://skychang.github.io/2020/03/11/Visual-Studio-Task%20Runner%20Explorer%20and%20Nodejs%20version/03.png">
+<meta property="og:image" content="http://skychang.github.io/2020/03/11/Visual-Studio-Task%20Runner%20Explorer%20and%20Nodejs%20version/04.png">
+<meta property="article:published_time" content="2020-03-11T21:26:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.019Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="Gulp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2020/03/11/Visual-Studio-Task%20Runner%20Explorer%20and%20Nodejs%20version/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Visual Studio - Task Runner Explorer 和 Node 版本 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Visual Studio - Task Runner Explorer 和 Node 版本
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2020-03-11T21:26:00+00:00" content="2020-03-11">
+              2020-03-11
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/03/11/Visual-Studio-Task%20Runner%20Explorer%20and%20Nodejs%20version/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/11/Visual-Studio-Task Runner Explorer and Nodejs version/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>如果很早就開始玩 JS 打包的 Visual Studio 工程師，一定對於 Task Runner Explorer 有很深刻的印象，在某些情境，Task Runner Explorer 是很方便的，他可以透過整合 Visual Studio，讓你在 Visual Studio 裡面寫完 JS 後，透過 Task Runner Exploere 的點擊，就可以執行 Gulp 等等的行為。隨然在這個時代，前端大概都是透過 VS Code，和搭配指令的方式處理了，但早期的一些專案，還是有用 Task Runner Explorer 來處理。</p>
+<h2 id="問題-gulp-3-9-和-Node-js-12-x"><a href="#問題-gulp-3-9-和-Node-js-12-x" class="headerlink" title="問題 gulp 3.9 和 Node.js 12.x"></a>問題 gulp 3.9 和 Node.js 12.x</h2><p>首先，在看 Task Runner Explorer 和 node 關係前，其實是在解決另外一個問題的，這個問題主要是 gulp 3.9 和 Node.js 12.x 的問題。<br>如下圖..</p>
+<p>發生了底下的錯誤</p>
+<p><code>fs.js:27
+const { Math, Object } = primordials;
+                         ^
+ReferenceError: primordials is not defined</code></p>
+<p><img src="01.png" alt=""></p>
+<h2 id="解決-gulp-3-9-和-Node-js-12-x"><a href="#解決-gulp-3-9-和-Node-js-12-x" class="headerlink" title="解決 gulp 3.9 和 Node.js 12.x"></a>解決 gulp 3.9 和 Node.js 12.x</h2><p>至於這個，其實算是容易解的，網路上也很容易查到，簡單的說，就是 gulp 3.9 不支援 Node.js 12.x，所以 Node.js 降版到 10.x 就可以了..<br>( Node.js 單號是短期支援，所以用偶數為主 )</p>
+<h2 id="真正的問題"><a href="#真正的問題" class="headerlink" title="真正的問題"></a>真正的問題</h2><p>但真正的問題很妙，因為配合這個專案，小弟其實已經裝了 Node.js 10.x 的版本。</p>
+<p><img src="02.png" alt=""></p>
+<p>但結果 Task Runner Explorer 還是拼命地出現不相容 Node.js 12.x 的這個錯誤 ( 怒 )</p>
+<h2 id="真正的結果"><a href="#真正的結果" class="headerlink" title="真正的結果"></a>真正的結果</h2><p>後來查閱後才發現，原來 Visual Studio 裡面是有內建 Node.js，而且會依據底下的順序尋找…</p>
+<p><img src="03.png" alt=""></p>
+<p>沒錯，他會先收尋專案目錄底下的 nod_modules 位置。<br>然後會搜尋 $(VisualStudioExternalTool) 這個變數路徑…</p>
+<p>而重點就是這個變數路徑…</p>
+<p>他會指向到 <code>C:\Program Files (x86)\Microsoft Visual Studio\2019\Preview\MSBuild\Microsoft\VisualStudio</code></p>
+<p>然後裡面藏著 Node.js ….. 而且是 v12.x 版本 ( 翻桌 )</p>
+<p><img src="04.png" alt=""></p>
+<p>那解決方案呢，就是回到上上圖，Visual Studio 的設定，讓他的搜尋順序改變，讓 PATH 先抓到，就可以吃到我們自己裝的 Node.js 了….</p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>好吧，我承認，我都是用 CMD 和自己裝，所以踩到這個冷坑….但如果有需要的朋友，可能要注意一下…</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>*<a href="https://stackoverflow.com/questions/55921442/how-to-fix-referenceerror-primordials-is-not-defined-in-node" target="_blank" rel="noopener">https://stackoverflow.com/questions/55921442/how-to-fix-referenceerror-primordials-is-not-defined-in-node</a></p>
+<ul>
+<li><a href="https://developercommunity.visualstudio.com/content/problem/388612/node-npm-using-different-architecture-32-vs-64-bit.html" target="_blank" rel="noopener">https://developercommunity.visualstudio.com/content/problem/388612/node-npm-using-different-architecture-32-vs-64-bit.html</a></li>
+<li><a href="https://stackoverflow.com/questions/46582442/visual-studio-2017-task-runner-explorer-not-loading-module" target="_blank" rel="noopener">https://stackoverflow.com/questions/46582442/visual-studio-2017-task-runner-explorer-not-loading-module</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
+          
+            <a href="/tags/Node-js/" rel="tag">#Node.js</a>
+          
+            <a href="/tags/Gulp/" rel="tag">#Gulp</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/10/npm-Fix%20node-gyp%20and%20canvas%20dependence/" rel="next" title="npm - 處理 node-gyp 和 canvas 的相依性">
+                <i class="fa fa-chevron-left"></i> npm - 處理 node-gyp 和 canvas 的相依性
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/13/Dapr-Hello_Dapr/" rel="prev" title="Dapr - Hello Dapr">
+                Dapr - Hello Dapr <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#問題-gulp-3-9-和-Node-js-12-x"><span class="nav-number">2.</span> <span class="nav-text">問題 gulp 3.9 和 Node.js 12.x</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解決-gulp-3-9-和-Node-js-12-x"><span class="nav-number">3.</span> <span class="nav-text">解決 gulp 3.9 和 Node.js 12.x</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#真正的問題"><span class="nav-number">4.</span> <span class="nav-text">真正的問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#真正的結果"><span class="nav-number">5.</span> <span class="nav-text">真正的結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">6.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">7.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2020/03/11/Visual-Studio-Task Runner Explorer and Nodejs version/';
+      var disqus_title = 'Visual Studio - Task Runner Explorer 和 Node 版本';
+      var disqus_url = 'http://skychang.github.io/2020/03/11/Visual-Studio-Task%20Runner%20Explorer%20and%20Nodejs%20version/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

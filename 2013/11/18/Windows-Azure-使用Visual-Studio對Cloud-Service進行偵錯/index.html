@@ -1,0 +1,670 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Visual Studio,ASP.NET MVC,Azure," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近這段時間真的是超級無敵忙，所以一直到現在，才比較有空產出一些文章，而最近，也因為比較有空閒一點，所以想趕快把Azure前一段時間發佈的一些東西給補齊… 好嚕，廢話不多說，今天來稍微看一下Windows Azure SDK 2.2搭配Visual Studio的一個新功能；就是遠端進行偵錯… 是的，遠端偵錯阿… ( 遙望…. ) 令人多麼需要的一個功能…老實說之前在還沒有這個功能的時候，真的會讓">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Azure -  使用Visual Studio對Cloud Service進行偵錯">
+<meta property="og:url" content="http://skychang.github.io/2013/11/18/Windows-Azure-%E4%BD%BF%E7%94%A8Visual-Studio%E5%B0%8DCloud-Service%E9%80%B2%E8%A1%8C%E5%81%B5%E9%8C%AF/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="最近這段時間真的是超級無敵忙，所以一直到現在，才比較有空產出一些文章，而最近，也因為比較有空閒一點，所以想趕快把Azure前一段時間發佈的一些東西給補齊… 好嚕，廢話不多說，今天來稍微看一下Windows Azure SDK 2.2搭配Visual Studio的一個新功能；就是遠端進行偵錯… 是的，遠端偵錯阿… ( 遙望…. ) 令人多麼需要的一個功能…老實說之前在還沒有這個功能的時候，真的會讓">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh5.ggpht.com/-3Dowk6llbbk/Uoop7oAQt2I/AAAAAAAAILo/zmjMR07X7ds/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-0EeL2HbtQDg/Uoop9XtY8-I/AAAAAAAAIL4/tSHO5MLsIBU/image_thumb%25255B5%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-TQA89bmEBcU/Uoop-wfRJ1I/AAAAAAAAIMI/Vp2P77oVbWc/image_thumb%25255B20%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-6AnNjNWXHr8/UooqAgw9wlI/AAAAAAAAIMY/QTkwPRswkZ0/image_thumb%25255B11%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-Ew4EWBnQd_U/UooqCG4xU6I/AAAAAAAAIMo/pwdB9lwqWW0/image_thumb%25255B14%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-03XGWvbG5fg/UooqD02ZjII/AAAAAAAAIM4/qssGUx8oxYw/image_thumb%25255B22%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-6sdfDvYSRbk/UooqFv0ToFI/AAAAAAAAINI/vuHcjDLtU98/image_thumb%25255B23%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-alMp0JJoM_M/UooqHa38LbI/AAAAAAAAINY/vgk8uxHZV20/image_thumb%25255B25%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2013-11-18T22:54:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.027Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta property="article:tag" content="Azure">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh5.ggpht.com/-3Dowk6llbbk/Uoop7oAQt2I/AAAAAAAAILo/zmjMR07X7ds/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Windows Azure -  使用Visual Studio對Cloud Service進行偵錯 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Windows Azure -  使用Visual Studio對Cloud Service進行偵錯
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2013-11-18T22:54:00+00:00" content="2013-11-18">
+              2013-11-18
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/11/18/Windows-Azure-%E4%BD%BF%E7%94%A8Visual-Studio%E5%B0%8DCloud-Service%E9%80%B2%E8%A1%8C%E5%81%B5%E9%8C%AF/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/11/18/Windows-Azure-使用Visual-Studio對Cloud-Service進行偵錯/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近這段時間真的是超級無敵忙，所以一直到現在，才比較有空產出一些文章，而最近，也因為比較有空閒一點，所以想趕快把Azure前一段時間發佈的一些東西給補齊…</p>
+<p>好嚕，廢話不多說，今天來稍微看一下Windows Azure SDK 2.2搭配Visual Studio的一個新功能；就是遠端進行偵錯…</p>
+<p>是的，遠端偵錯阿… ( 遙望…. ) 令人多麼需要的一個功能…老實說之前在還沒有這個功能的時候，真的會讓人發瘋，雖然有的時候在Local都測試完成，再加上Unit Test，但上去之後，就是給他錯…所以今天出現這個功能，真的要謝主隆恩…Orz…</p>
+<p>廢話不多說，我們盡快的給他看一下吧!!</p>
+<p>首先，這個功能要在佈署前先設定，所以我們要進去發行這邊。</p>
+<p><a href="http://lh3.ggpht.com/-DHKOd_OVhRM/Uoop6jqSdRI/AAAAAAAAILg/fxuYpZJbf5A/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-3Dowk6llbbk/Uoop7oAQt2I/AAAAAAAAILo/zmjMR07X7ds/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後組建組態要設定為Debug。</p>
+<p><a href="http://lh5.ggpht.com/-ET4NLcJCIR8/Uoop8UW9JzI/AAAAAAAAILw/gqTam9mJHBw/s1600-h/image%25255B9%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-0EeL2HbtQDg/Uoop9XtY8-I/AAAAAAAAIL4/tSHO5MLsIBU/image_thumb%25255B5%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>並且勾選啟用所有角色的遠端偵錯工具。</p>
+<p><a href="http://lh3.ggpht.com/-QIiSywu4S4k/Uoop91nZ5lI/AAAAAAAAIMA/aLIfSLXMxW4/s1600-h/image%25255B34%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-TQA89bmEBcU/Uoop-wfRJ1I/AAAAAAAAIMI/Vp2P77oVbWc/image_thumb%25255B20%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>修改完成後，就發布吧。</p>
+<p><a href="http://lh4.ggpht.com/-99O8rBkPV0Q/Uoop_upP--I/AAAAAAAAIMQ/5Nf1ZArfBZ4/s1600-h/image%25255B19%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-6AnNjNWXHr8/UooqAgw9wlI/AAAAAAAAIMY/QTkwPRswkZ0/image_thumb%25255B11%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後就要等一段無敵長的時間，不過這是沒辦法，畢竟是Cloud Service，人家可是把整台VM給重建…這樣想，感覺有沒有比較快一點XDDD</p>
+<p>佈署完成後，我們可以先設定要偵錯的中斷點。</p>
+<p><a href="http://lh4.ggpht.com/-km3GY4lgWDE/UooqBdwwf3I/AAAAAAAAIMg/YY9uXnq-q6w/s1600-h/image%25255B24%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-Ew4EWBnQd_U/UooqCG4xU6I/AAAAAAAAIMo/pwdB9lwqWW0/image_thumb%25255B14%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們打開伺服器總管，是低，安裝SDK 2.2後，現在很多事情都可以從VS2013裡面進行控管了… ( 不過小弟還是喜歡進去Web管理畫面… )</p>
+<p>打開之後就可以看到出現了連結偵錯工具!!</p>
+<p><a href="http://lh5.ggpht.com/-63zJenDCnow/UooqCxx3TUI/AAAAAAAAIMw/3L6t8_kBLxA/s1600-h/image%25255B38%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-03XGWvbG5fg/UooqD02ZjII/AAAAAAAAIM4/qssGUx8oxYw/image_thumb%25255B22%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>如果沒有執行一開始的步驟，是沒有的~~</p>
+<p><a href="http://lh5.ggpht.com/-CBQ6OphGyOM/UooqEuQIODI/AAAAAAAAINA/HhuMoiu-CCA/s1600-h/image%25255B39%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-6sdfDvYSRbk/UooqFv0ToFI/AAAAAAAAINI/vuHcjDLtU98/image_thumb%25255B23%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>按下去後，就會讓vs2013進入偵錯模式，然後我們就可以打開網址，進行偵錯嚕!!</p>
+<p><a href="http://lh6.ggpht.com/-iXJs1p9Cptw/UooqGfxWayI/AAAAAAAAINQ/6zkveSOznvo/s1600-h/image%25255B43%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-alMp0JJoM_M/UooqHa38LbI/AAAAAAAAINY/vgk8uxHZV20/image_thumb%25255B25%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這個功能真的是佛心來的….</p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>也別忘記，佈署到正式環境後，要把此功能關掉喔!!</p>
+<h4 id="參考網址"><a href="#參考網址" class="headerlink" title="參考網址"></a>參考網址</h4><ul>
+<li><a href="http://weblogs.asp.net/scottgu/archive/2013/10/22/windows-azure-announcing-release-of-windows-azure-sdk-2-2-with-lots-of-goodies.aspx" target="_blank" rel="noopener">http://weblogs.asp.net/scottgu/archive/2013/10/22/windows-azure-announcing-release-of-windows-azure-sdk-2-2-with-lots-of-goodies.aspx</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/10/06/Microsoft-TechDays-2013/" rel="next" title="Microsoft TechDays 2013">
+                <i class="fa fa-chevron-left"></i> Microsoft TechDays 2013
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/11/18/Windows-Azure-%E4%BD%BF%E7%94%A8Visual-Studio%E5%B0%8DWeb-Site%E9%80%B2%E8%A1%8C%E5%81%B5%E9%8C%AF/" rel="prev" title="Windows Azure - 使用Visual Studio對Web Site進行偵錯">
+                Windows Azure - 使用Visual Studio對Web Site進行偵錯 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">1.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考網址"><span class="nav-number">2.</span> <span class="nav-text">參考網址</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2013/11/18/Windows-Azure-使用Visual-Studio對Cloud-Service進行偵錯/';
+      var disqus_title = 'Windows Azure -  使用Visual Studio對Cloud Service進行偵錯';
+      var disqus_url = 'http://skychang.github.io/2013/11/18/Windows-Azure-%E4%BD%BF%E7%94%A8Visual-Studio%E5%B0%8DCloud-Service%E9%80%B2%E8%A1%8C%E5%81%B5%E9%8C%AF/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

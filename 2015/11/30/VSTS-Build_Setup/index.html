@@ -1,0 +1,717 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Azure,Release Management,VSTS,CI,CD," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言很久很久以前，版本控制是一種奢侈 XDD ，因為要使用版本控制，不是自己養一隻小烏龜，要不然就是要在公司準備很多台機器裝 TFS ，而隨著 Service 時代的覺醒，版本控制已經是隨手可得的一件事情，也變成寫 Code 的一種呼吸~ 而最近這個時代，隨著 App 的興起，DevOps 也開始流行起來，除了快速的把 Code 簽入到版本控制外，緊接著，持續整合 ( CI ) ，持續佈署 ( C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VSTS - VSTS Build 設定篇">
+<meta property="og:url" content="http://skychang.github.io/2015/11/30/VSTS-Build_Setup/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="前言很久很久以前，版本控制是一種奢侈 XDD ，因為要使用版本控制，不是自己養一隻小烏龜，要不然就是要在公司準備很多台機器裝 TFS ，而隨著 Service 時代的覺醒，版本控制已經是隨手可得的一件事情，也變成寫 Code 的一種呼吸~ 而最近這個時代，隨著 App 的興起，DevOps 也開始流行起來，除了快速的把 Code 簽入到版本控制外，緊接著，持續整合 ( CI ) ，持續佈署 ( C">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2015/11/30/VSTS-Build_Setup/01.png">
+<meta property="og:image" content="http://skychang.github.io/2015/11/30/VSTS-Build_Setup/02.png">
+<meta property="og:image" content="http://skychang.github.io/2015/11/30/VSTS-Build_Setup/03.png">
+<meta property="og:image" content="http://skychang.github.io/2015/11/30/VSTS-Build_Setup/04.png">
+<meta property="og:image" content="http://skychang.github.io/2015/11/30/VSTS-Build_Setup/05.png">
+<meta property="og:image" content="http://skychang.github.io/2015/11/30/VSTS-Build_Setup/06.png">
+<meta property="article:published_time" content="2015-11-30T23:20:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.984Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="Release Management">
+<meta property="article:tag" content="VSTS">
+<meta property="article:tag" content="CI">
+<meta property="article:tag" content="CD">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2015/11/30/VSTS-Build_Setup/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> VSTS - VSTS Build 設定篇 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                VSTS - VSTS Build 設定篇
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-11-30T23:20:00+00:00" content="2015-11-30">
+              2015-11-30
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/30/VSTS-Build_Setup/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/11/30/VSTS-Build_Setup/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很久很久以前，版本控制是一種奢侈 XDD ，因為要使用版本控制，不是自己養一隻小烏龜，要不然就是要在公司準備很多台機器裝 TFS ，而隨著 Service 時代的覺醒，版本控制已經是隨手可得的一件事情，也變成寫 Code 的一種呼吸~</p>
+<p>而最近這個時代，隨著 App 的興起，DevOps 也開始流行起來，除了快速的把 Code 簽入到版本控制外，緊接著，持續整合 ( CI ) ，持續佈署 ( CD )，測試，回饋也緊接著而來。</p>
+<p>其實 VSO 時代就提供了 Build 這個功能，透過自動 Build ，簽入的 source code ，可以自動的發佈到 Azure Cloud Service、 Web Site 等等，但用過的也知道，除了費用上的考量外，慢…也是極大因素…除此之外，對於 Node.js 等等，也不是那麼的友善。</p>
+<p>P.S 舊版的 Build ，官方稱為 Build(XAML) ，預計 2016 年 停止使用。</p>
+<p>但隨著新 CEO 上任，MS 的態度也和以前不一樣，現在新版的 VSTS 更是強大，對於其他語言的支援也越來越豐富!!</p>
+<p>而這篇，就先來探討，該怎樣使用新的 VSTS Build !!</p>
+<h2 id="為什麼需要-Build-又為什麼要-CI-和-CD"><a href="#為什麼需要-Build-又為什麼要-CI-和-CD" class="headerlink" title="為什麼需要 Build ?? 又為什麼要 CI 和 CD ??"></a>為什麼需要 Build ?? 又為什麼要 CI 和 CD ??</h2><p>以前我們談到 CI ，是因為在 C# 這種需要編譯的語言，需要確保每次簽入進去的 Code 都是可以正常編譯的，這樣才能確保其他人取出來的時候，可以正常的執行。</p>
+<p>大家或許會覺得納悶，怎麼可能會有不能編譯的狀況…；其實這種狀況還滿多的，例如以前沒有 NuGet 的時代，引用了第三方的 dll ，但 dll 沒有簽入進去…又或者是遇上了超強隊友，下班的時候，不管三七二十一，立馬簽入進去當作備份，這些都是小弟遇過的真實案例…</p>
+<p>而持續整合 CI 的目的，就是持續不斷的 Build ，讓我們的 Code 能維持正常的狀況…</p>
+<p>當然，CI 後面，可以搭配自動化測試 ( 自動 Run Unit Test )，甚至 CD ( 持續佈署 ) 到測試環境，然後再接著執行整合測試。</p>
+<p>或許又會有人問，那 Release Management 勒?..</p>
+<p>目前小弟自己對於 RM 的定位，是當整個開發 Team 測試完成，要正式放到預備環境，這時候就可以搭配 VSTS Release Management 了，不過目前來說，我們先做前面這段吧~~</p>
+<h2 id="Build-Agent"><a href="#Build-Agent" class="headerlink" title="Build Agent"></a>Build Agent</h2><p>首先，在開始之前，我們必須要有一台 Build 的機器，來為我們進行編譯或是下載 npm 等等的動作，而這台就是 Build Agent… </p>
+<p>是的，大家或許會困惑，但你沒看錯…</p>
+<p>為什麼要一台 Build Agent ? VSTS 不是已經提供了嗎!!??</p>
+<p>以下會介紹幾種狀況</p>
+<ol>
+<li><p>VSTS 提供的 Build Agent 不夠新；VSTS 是有提供 Build Agent ，但上面的軟體並非最新的，舉例來說，寫這篇文章的時候，上面的 Node.js 還是 0.10 版本，但是小弟我自己已經用了 5.0.0 版本，這時候用上面的 Build Agent 會有問題的。</p>
+</li>
+<li><p>Source 來源為 GitHub…；根據<a href="https://msdn.microsoft.com/en-us/Library/vs/alm/Build/github/index" target="_blank" rel="noopener">官方的文章</a>寫到… “If you don’t have a build agent, set up a Windows agent or an Xplat agent.”，所以若你是使用 GitHub ，則需要自行架設… ( 但小弟抱持著懷疑的態度…小弟主要是碰上版本問題，才自行架設的…有興趣的朋友可以試試看 )</p>
+</li>
+<li><p>你已經用了一台官方的 Build Agent ，但你又不想付費，但又要多一台 Build Agent。</p>
+</li>
+</ol>
+<p>所以結論是甚麼??，如果你是使用 VSTS 當作版控，而官方的 Build Agent 內含的軟體又包含你要的 ，你就可以直接使用官方的 Build Agent 。</p>
+<p>但如果沒有滿足條件，或是想在自己的電腦上當作 Build Agent，就必須自己架設 Server 了。</p>
+<p>但大家也不用太擔心，未來官方一定會完整支援的。</p>
+<p>( 所以綜合以上狀況，小弟還是自己開了一台 Azure VM 來當作 Build Agent… )</p>
+<p>另外，如果已經裝了 TFS ，則內建也會有 Build Agent</p>
+<h3 id="Build-Agent-Server-裡面要裝甚麼"><a href="#Build-Agent-Server-裡面要裝甚麼" class="headerlink" title="Build Agent Server 裡面要裝甚麼!!?"></a>Build Agent Server 裡面要裝甚麼!!?</h3><p>你用到甚麼，就裝甚麼…，如果你要 Build C# ，就裝 VS 2015 吧…若你要 Build Node.js ，請記得裝 Node.js ，若你還要發送到 Azure ，也別忘了裝 Azure PowerShell，此外，必要條件還有 PowerShell 3.0。</p>
+<p>( 如要知道目前你使用的 PowerShell 版本，可看<a href="https://msdn.microsoft.com/Library/vs/alm/Build/agents/windows#qa_windows_agent_powershell_version" target="_blank" rel="noopener">這裡</a>)</p>
+<h3 id="我要怎樣知道官方的-Build-Agent-有裝甚麼"><a href="#我要怎樣知道官方的-Build-Agent-有裝甚麼" class="headerlink" title="我要怎樣知道官方的 Build Agent 有裝甚麼??"></a>我要怎樣知道官方的 Build Agent 有裝甚麼??</h3><p>請參考<a href="https://www.visualstudio.com/get-started/build/hosted-agent-pool#software" target="_blank" rel="noopener">官網</a></p>
+<h3 id="我可以用-Linux-Mac-當-Build-Server-嗎"><a href="#我可以用-Linux-Mac-當-Build-Server-嗎" class="headerlink" title="我可以用 Linux , Mac 當 Build Server 嗎?"></a>我可以用 Linux , Mac 當 Build Server 嗎?</h3><p>答案是. “可以” !! ，目前除了官方也提供了 Node.js 版本的 Build Agent <a href="https://www.npmjs.com/package/vsoagent-installer" target="_blank" rel="noopener">XPlat</a></p>
+<p>所以你要在別的平台裝 Build Agent ，則要先裝 Node.js 和 npm 喔!!</p>
+<h3 id="我可以裝多台的-Build-Agent-嗎"><a href="#我可以裝多台的-Build-Agent-嗎" class="headerlink" title="我可以裝多台的 Build Agent 嗎??"></a>我可以裝多台的 Build Agent 嗎??</h3><p>可以，但是預設只能有一台，要多台，就要付錢，可以<a href="https://www.visualstudio.com/en-us/get-started/setup/get-more-build-or-load-testing-vs" target="_blank" rel="noopener">參考這裡</a></p>
+<h3 id="所以到底有幾台免費"><a href="#所以到底有幾台免費" class="headerlink" title="所以到底有幾台免費 ?"></a>所以到底有幾台免費 ?</h3><p>官方提供一台 Build Agent ，你也可以自己建立一台，所以免費的情況下，最大兩台</p>
+<h3 id="我很有錢，我要怎樣付錢"><a href="#我很有錢，我要怎樣付錢" class="headerlink" title="我很有錢，我要怎樣付錢"></a>我很有錢，我要怎樣付錢</h3><p>請透過 Azure Portal 進行連結 VSTS 後，透過 Azure Portal 進行付款</p>
+<h3 id="我有看到-Build-XAML-那和這個有甚麼不同"><a href="#我有看到-Build-XAML-那和這個有甚麼不同" class="headerlink" title="我有看到 Build(XAML) 那和這個有甚麼不同"></a>我有看到 Build(XAML) 那和這個有甚麼不同</h3><p>Build(XAML) 是舊版的 Build 機制，以前是依據 Build 的時間收費，而新版則是依據 Agent 台數收費，此外，底層架構也完全不同了。</p>
+<hr>
+<p>接下來，這篇我們就先以 Windows Server 平台為主。</p>
+<h2 id="VSTS-專案"><a href="#VSTS-專案" class="headerlink" title="VSTS 專案"></a>VSTS 專案</h2><p>當 Windows Server 都準備好後，我們就要從 VSTS 專案開始，如下圖。</p>
+<p><img src="01.png" alt=""></p>
+<p>然後進入 Build 就可以看到以下畫面.</p>
+<p><img src="02.png" alt=""></p>
+<h3 id="若我是用-GitHub-也需要建立-Team-專案嗎"><a href="#若我是用-GitHub-也需要建立-Team-專案嗎" class="headerlink" title="若我是用 GitHub 也需要建立 Team 專案嗎?"></a>若我是用 GitHub 也需要建立 Team 專案嗎?</h3><p>是低，一定要先開 Team 專案，才能使用 Build 。</p>
+<h3 id="這個-Team-專案裡面沒東西也可以使用-Build-嗎"><a href="#這個-Team-專案裡面沒東西也可以使用-Build-嗎" class="headerlink" title="這個 Team 專案裡面沒東西也可以使用 Build 嗎?"></a>這個 Team 專案裡面沒東西也可以使用 Build 嗎?</h3><p>是低，裡面沒任何的 Source Code ，Work Item ，你也可以使用 Build ，只是你必須要先有一個專案。</p>
+<h2 id="安裝-Windows-Agent"><a href="#安裝-Windows-Agent" class="headerlink" title="安裝 Windows Agent"></a>安裝 Windows Agent</h2><p>當一切準備就緒，我們就可以到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;&#123;your_account&#125;.visualstudio.com&#x2F;_admin&#x2F;_AgentPool</span><br></pre></td></tr></table></figure>
+
+<p>下載 Agent 軟體，如下圖，我們可以直接點 Download Agent 來下載；另外，要特別注意底下的 Default ，等下我們會需要輸入 Default 這個 Agent Pool 名稱。</p>
+<p><img src="03.png" alt=""></p>
+<p>下載檔案到 Server 後，只需要解開壓縮即可，官方建議直接丟在 C:\Agent 底下，以防路徑過長問題，如下圖，我們可以看到 C:\Agent 底下有解開壓縮的檔案。</p>
+<p><img src="04.png" alt=""></p>
+<p>接下來，當然不是點兩下，( 不要衝動阿!!! )，而是要使用 cmd ( administrator 權限 )<br>來執行 configureAgent.cmd；這時，會問幾個簡單的問題。</p>
+<p>基本上，大概只有網址要填寫，其他地方都不用填，用預設的就可以了。</p>
+<p>1.預設 Agent 的名稱<br>2.TFS or VSTS 的網址<br>3.Agent Pool 的名稱 ( 就是上一個步驟看到的 Default )<br>4.路徑<br>5.是否要將 Angent 變成一個 Windows Service ( 小弟自己是不喜歡…所以是選 N )</p>
+<p>輸入完之後，會跳出登入畫面，輸入帳號密碼後，就完成安裝了!!</p>
+<p><img src="05.png" alt=""></p>
+<p>安裝完成後，要啟用這個 Build Agent 只要如下圖輸入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\agent\vsoAgent.exe</span><br></pre></td></tr></table></figure>
+
+<p>即可，但請注意，一定要在 agent 的目錄下輸入，如下圖。</p>
+<p><img src="06.png" alt=""></p>
+<p>完成之後，你的 Build Agent 就準備好了!!!</p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>下一篇，針對 Node.js 進行設置。</p>
+<p>( 如文章內容有誤，請告知小弟~ 謝謝)</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://msdn.microsoft.com/en-us/Library/vs/alm/Build/agents/windows" target="_blank" rel="noopener">https://msdn.microsoft.com/en-us/Library/vs/alm/Build/agents/windows</a></li>
+<li><a href="https://www.visualstudio.com/en-us/get-started/setup/get-more-build-or-load-testing-vs" target="_blank" rel="noopener">https://www.visualstudio.com/en-us/get-started/setup/get-more-build-or-load-testing-vs</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/Release-Management/" rel="tag">#Release Management</a>
+          
+            <a href="/tags/VSTS/" rel="tag">#VSTS</a>
+          
+            <a href="/tags/CI/" rel="tag">#CI</a>
+          
+            <a href="/tags/CD/" rel="tag">#CD</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/02/JavaScript-Use_Javascript_Fetch/" rel="next" title="使用 fetch 來進行 Ajax 呼叫">
+                <i class="fa fa-chevron-left"></i> 使用 fetch 來進行 Ajax 呼叫
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/01/VSTS-Build_for_Nodejs1/" rel="prev" title="VSTS - VSTS Build - Node.js 前篇">
+                VSTS - VSTS Build - Node.js 前篇 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#為什麼需要-Build-又為什麼要-CI-和-CD"><span class="nav-number">2.</span> <span class="nav-text">為什麼需要 Build ?? 又為什麼要 CI 和 CD ??</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Build-Agent"><span class="nav-number">3.</span> <span class="nav-text">Build Agent</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Build-Agent-Server-裡面要裝甚麼"><span class="nav-number">3.1.</span> <span class="nav-text">Build Agent Server 裡面要裝甚麼!!?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我要怎樣知道官方的-Build-Agent-有裝甚麼"><span class="nav-number">3.2.</span> <span class="nav-text">我要怎樣知道官方的 Build Agent 有裝甚麼??</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我可以用-Linux-Mac-當-Build-Server-嗎"><span class="nav-number">3.3.</span> <span class="nav-text">我可以用 Linux , Mac 當 Build Server 嗎?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我可以裝多台的-Build-Agent-嗎"><span class="nav-number">3.4.</span> <span class="nav-text">我可以裝多台的 Build Agent 嗎??</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#所以到底有幾台免費"><span class="nav-number">3.5.</span> <span class="nav-text">所以到底有幾台免費 ?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我很有錢，我要怎樣付錢"><span class="nav-number">3.6.</span> <span class="nav-text">我很有錢，我要怎樣付錢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我有看到-Build-XAML-那和這個有甚麼不同"><span class="nav-number">3.7.</span> <span class="nav-text">我有看到 Build(XAML) 那和這個有甚麼不同</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VSTS-專案"><span class="nav-number">4.</span> <span class="nav-text">VSTS 專案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#若我是用-GitHub-也需要建立-Team-專案嗎"><span class="nav-number">4.1.</span> <span class="nav-text">若我是用 GitHub 也需要建立 Team 專案嗎?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#這個-Team-專案裡面沒東西也可以使用-Build-嗎"><span class="nav-number">4.2.</span> <span class="nav-text">這個 Team 專案裡面沒東西也可以使用 Build 嗎?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-Windows-Agent"><span class="nav-number">5.</span> <span class="nav-text">安裝 Windows Agent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">6.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">7.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2015/11/30/VSTS-Build_Setup/';
+      var disqus_title = 'VSTS - VSTS Build 設定篇';
+      var disqus_url = 'http://skychang.github.io/2015/11/30/VSTS-Build_Setup/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

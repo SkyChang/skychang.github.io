@@ -1,0 +1,760 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,XCode,Swift," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言這篇是小弟我自己的學習筆記，內容不會針對 iOS 開發的特定主題進行介紹，內容主要是看了 Developing iOS 8 Apps with Swift by Stanford 這個課程的心得與感想，因為這塊尚在學習中，所以內容可能會有錯誤，也請大家包涵。 另外，這邊紀錄的主要是針對小弟我自己比較不熟悉的部分，所以大家不要把這文章當作一個正式的學習過程喔！！還是建議看完整的影片學習，或是直接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS - 學習筆記 - Lession 2">
+<meta property="og:url" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="前言這篇是小弟我自己的學習筆記，內容不會針對 iOS 開發的特定主題進行介紹，內容主要是看了 Developing iOS 8 Apps with Swift by Stanford 這個課程的心得與感想，因為這塊尚在學習中，所以內容可能會有錯誤，也請大家包涵。 另外，這邊紀錄的主要是針對小弟我自己比較不熟悉的部分，所以大家不要把這文章當作一個正式的學習過程喔！！還是建議看完整的影片學習，或是直接">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/01.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/02.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/03.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/04.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/05.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/06.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/07.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/08.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/09.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/10.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/11.png">
+<meta property="article:published_time" content="2016-04-12T23:08:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.055Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="XCode">
+<meta property="article:tag" content="Swift">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> iOS - 學習筆記 - Lession 2 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS - 學習筆記 - Lession 2
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-04-12T23:08:00+00:00" content="2016-04-12">
+              2016-04-12
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/12/iOS-Study_Note_Lession_2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/04/12/iOS-Study_Note_Lession_2/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>這篇是小弟我自己的學習筆記，內容不會針對 iOS 開發的特定主題進行介紹，<br>內容主要是看了 <a href="https://itunes.apple.com/tw/course/developing-ios-8-apps-swift/id961180099" target="_blank" rel="noopener">Developing iOS 8 Apps with Swift by Stanford</a> 這個<br>課程的心得與感想，因為這塊尚在學習中，所以內容可能會有錯誤，也請大家包涵。</p>
+<p>另外，這邊紀錄的主要是針對小弟我自己比較不熟悉的部分，所以大家<br>不要把這文章當作一個正式的學習過程喔！！還是建議看完整的影片學習，或是直接閱讀外面的課本、上課、或是官方的文件喔！！</p>
+<p>最後，這篇文章會隨著小弟自己的學習過程中，不斷的更新，但更新的過程中，並不會特別 Highlight ，也請大家多見諒。</p>
+<h2 id="開始"><a href="#開始" class="headerlink" title="開始"></a>開始</h2><p>是一篇，我們建立了一個僅有數字顯示的計算機功能，而 Lession 2 將會繼續下去。而在這次的影片中，白鬍子老師也提到，<br>原來他想寫的是科學計算機啊！！ ( 不是我們一般的計算機… )，總之，就是那種可以一次按多個數字，然後一次全部相加的那種計算機就是了～～</p>
+<h2 id="建立-Return-按鈕"><a href="#建立-Return-按鈕" class="headerlink" title="建立 Return 按鈕"></a>建立 Return 按鈕</h2><p>前面，我們建立了九宮格的數字，接下來，我們要建立一個 Return ( Enter ) 按鈕，按下這個按鈕，就會將數字不斷地記錄到計算機的記憶體。<br>所以我們就複製一個新的按鈕。</p>
+<p><img src="01.png" alt=""></p>
+<p>而這邊，要注意的是，透過複製的方式，其會這個 Return 的按鈕事件，會和九宮格的按鈕事件一樣，我們透過右邊視窗的小點點，就可以發現，<br>全部按鈕都被繫結至同一個按鈕。</p>
+<p><img src="02.png" alt=""></p>
+<p>所以記得要先移除事件，如下圖，按下叉叉就可以。</p>
+<p><img src="03.png" alt=""></p>
+<p>接下來，我們要顯示 Return 這個按鈕的圖示，而 Xcode 竟然有內建這種 icon 的功能！！酷！！我們只要選擇下圖的選項。</p>
+<p><img src="04.png" alt=""></p>
+<p>一開始出來的是簡略的圖案，我們可以按下右上的按鈕展開詳細的清單，然後我們可以用 Search 尋找 Return 的 icon。</p>
+<p><img src="05.png" alt=""></p>
+<p>接著，我們一樣把 Return 的按鈕拉到 Code，而這邊我們就可以不用帶參數了。</p>
+<p><img src="06.png" alt=""></p>
+<p>完成的 code 會變成這樣，enter 就沒有參數了。</p>
+ <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">enter</span><span class="params">()</span></span> &#123;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p> 接下來，我們針對裡面的程式碼進行撰寫，這邊按下 enter 後，希望把輸入的數字存到記憶體裡面，所以我們這邊就用 Array 進行儲存。<br> 所以我們要先準備一個 Array。</p>
+ <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> operandStack: <span class="type">Array</span>&lt;<span class="type">Double</span>&gt; = <span class="type">Array</span>&lt;<span class="type">Double</span>&gt;()</span><br></pre></td></tr></table></figure>
+
+<p>是的，在 Swift 裡面，不需要多寫 new ( 其實我覺得這點還不錯~~ )，後面直接撰寫類別名稱就可以了。</p>
+<p>另外，還不是最簡潔的， Swift 甚至連變數的型態都可以不用去寫，就像 C# 一樣，透過編譯去處理，編譯器會得知你這個變數的型態。<br>所以可以寫成這樣。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> operandStack = <span class="type">Array</span>&lt;<span class="type">Double</span>&gt;()</span><br></pre></td></tr></table></figure>
+
+<p>就這樣，變得更簡單了！！</p>
+<p>有了 array 後，我們就可以開始將 dobule 加到 array 裡面。我們可以用 append 方法，將數字加入進去.<br>而因為 display.text! 字串，所以我們可以使用 NSNumberFormatter().numberFromString() 來轉型，<br>而 NSNumberFormatter().numberFromString() 會回傳一個 NSNumber? ，所以我們要加上 ! 來取得 NSNumber。</p>
+<p>但是，NSNumber 畢竟還不是一個 double，他定義了一套方法來專門設置和訪問<br>signed、unsigned char、short int、int、long int, long long int、float、double、BOOL。<br>所以還要透過 dobuleValue 屬性來取得 double。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">enter</span><span class="params">()</span></span> &#123;</span><br><span class="line">    userIsInheMiddleOfTypingANumber = <span class="literal">false</span></span><br><span class="line">    operandStack.append(<span class="type">NSNumberFormatter</span>().numberFromString((display.text!))!.doubleValue)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>基本上上面這樣就可以了，但是感覺還是不美好，畢竟直接去操控了 display.text。 ( 謎之聲，但前面的 Code 都是直接操啊！！ )</p>
+<p>好吧，畢竟前面白鬍子沒提到，但既然提到了，我們就稍微處理一下。</p>
+<p>我們希望透過一個變數，類似使用 MVVM 的方式，透過這個變數，來控制與存取 display.text ，換言之，只要我取得這個變數，<br>就等同我取得 display.text，當我存放這個變數，就等於我設定 display.text。</p>
+<p>那要怎麼做勒！？</p>
+<p>我們可以定義一個變數，並且使用 get 和 set ( 這點倒是和 C# 一樣 )，就可以達到效果 ( 未來有沒有 bind 機制，我還不知道… )</p>
+<p>那比較需要注意的是 newValue ，其實這就是代表著傳遞，或是變數自己本身。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> displayValue: <span class="type">Double</span>&#123;</span><br><span class="line">    <span class="keyword">get</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">NSNumberFormatter</span>().numberFromString((display.text!))!.doubleValue</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">set</span>&#123;</span><br><span class="line">        display.text = <span class="string">"\(newValue)"</span></span><br><span class="line">        userIsInheMiddleOfTypingANumber = <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以到這邊為止，我們就可以改變程式碼，變成這樣，Lession 1 寫的 Code 就不變了，因為白鬍子也沒改，<br>為了上內容一致，小弟我就不自己動手改變了。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//var operandStack: Array&lt;Double&gt; = Array&lt;Double&gt;()</span></span><br><span class="line"><span class="keyword">var</span> operandStack = <span class="type">Array</span>&lt;<span class="type">Double</span>&gt;()</span><br><span class="line"></span><br><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">enter</span><span class="params">()</span></span> &#123;</span><br><span class="line">    userIsInheMiddleOfTypingANumber = <span class="literal">false</span></span><br><span class="line">    operandStack.append(displayValue)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"operatStack = \(operandStack)"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> displayValue: <span class="type">Double</span>&#123;</span><br><span class="line">    <span class="keyword">get</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">NSNumberFormatter</span>().numberFromString((display.text!))!.doubleValue</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">set</span>&#123;</span><br><span class="line">        display.text = <span class="string">"\(newValue)"</span></span><br><span class="line">        userIsInheMiddleOfTypingANumber = <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後結果，就如同下圖，我們可以重偵錯視窗看到 operandStack 這個 array。</p>
+<p><img src="07.png" alt=""></p>
+<h2 id="建立加減乘除-使用委派與閉包"><a href="#建立加減乘除-使用委派與閉包" class="headerlink" title="建立加減乘除( 使用委派與閉包 )"></a>建立加減乘除( 使用委派與閉包 )</h2><p>完成了 Enter 後，接下來我們要來建立加減乘除的按鈕，首先，我們一樣複製一個 Button 當作 * ，別且移除事件。</p>
+<p><img src="08.png" alt=""></p>
+<p>接下，我們一樣拖拉出來一個事件，並且選擇如下圖，這次我們就需要有參數了。</p>
+<p><img src="09.png" alt=""></p>
+<p>完成後，我們就開始建構 func 裡面的方法，首先，我們一樣要透過 sender.currentTitle! 來取得按鈕的 Title，接著，<br>我們就用 switch 來判斷 operation 是加減乘除，基本上，大家對於 switch 應該是還滿熟悉的，而比較特別的是，<br>每個 case 裡面不用再加上 break ( 這的確很方便 )</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">operate</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    <span class="keyword">let</span> operation = sender.currentTitle!</span><br><span class="line">    <span class="keyword">switch</span> operation &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"×"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"÷"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"+"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"−"</span>:</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有了 switch 後，我們就可以寫第一個乘法。這邊我們就用 Count 來判斷是否陣列已經超過兩個數字了，有兩個數字才能做乘法的動作。<br>而這邊，我們就用之前寫的 displayValue 來接受計算，而第一個數字，就擷取 array 的最後一個數字去乘倒數第二個數字，<br>所以我們可以用 removeLast 取得最後一個數字。</p>
+<p>題外話，後面加上 enter() 是為了讓運算完的答案，存到 array 裡面繼續做運算。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">operate</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    <span class="keyword">let</span> operation = sender.currentTitle!</span><br><span class="line">    <span class="keyword">if</span> userIsInheMiddleOfTypingANumber &#123;</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">switch</span> operation &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"×"</span>:</span><br><span class="line">     <span class="keyword">if</span> operandStack.<span class="built_in">count</span> &gt;= <span class="number">2</span> &#123;</span><br><span class="line">            displayValue = operandStack.removeLast() * operandStack.removeLast()</span><br><span class="line">            enter()</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> <span class="string">"÷"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"+"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"−"</span>:</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>當然，如果除、加、減都這樣搞，Code 的感覺當然很醜，既然身為設計師，怎麼可以容納這樣的寫法呢！<br>所以第一步的優化，我們就先把邏輯抽出來！</p>
+<p>所以我們可以寫一個 func 來把原本的乘法邏輯抽出來，而 Swift 的回傳寫法，就是在後面加上 -&gt; 型別</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">operate</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    <span class="keyword">let</span> operation = sender.currentTitle!</span><br><span class="line">    <span class="keyword">if</span> userIsInheMiddleOfTypingANumber &#123;</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">switch</span> operation &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"×"</span>:preformOperation &#123; operandStack.removeLast() , operandStack.removeLast()&#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"÷"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"+"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"−"</span>:</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">preformOperation</span><span class="params">(opt1:Double,otp2:Double)</span></span> -&gt; <span class="type">Double</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> operandStack.<span class="built_in">count</span> &gt;= <span class="number">2</span> &#123;</span><br><span class="line">        displayValue =  opt1 * opt2</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>感覺上這樣稍微好一點！！？ 才怪，大家會發現，其實我們還是要建立四個方法才能符合加減乘除啊！！<br>那有沒有比較好的方法勒？？ 大家不知道有沒有發現，改變的地方在哪裡？？沒錯，就只有某某數字加上某某數字，或是某某數字乘上某某數字，<br>簡單的說，只有運算的地方需要改變。</p>
+<p>是低，我們可以用傳遞方法，委派的方式！！</p>
+<p>如下的 Code ，現在方法改成 func preformOperation(operation: (Double,Double )-&gt; Double ) 也就是說，<br>這個 preformOperation 方法的參數 operation 就是另外一個方法，而 operation 這個方法，必須符合 (Double,Double )-&gt; Double 。<br>( 關於委派，小弟就不再這邊闡述太多了…. )</p>
+<p>所以我們可以另外定義一個符合 (Double,Double )-&gt; Double 的方法 multplay ， 以利把 multplay 當作參數傳入到 operation 裡面。</p>
+<p>所以完成的 Code 就會如下，很標準的委派作法~~</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">operate</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    <span class="keyword">let</span> operation = sender.currentTitle!</span><br><span class="line">    <span class="keyword">if</span> userIsInheMiddleOfTypingANumber &#123;</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">switch</span> operation &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"×"</span>:preformOperation(multplay)</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"÷"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"+"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"−"</span>:</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">preformOperation</span><span class="params">(operation: <span class="params">(Double,Double )</span></span></span>-&gt; <span class="type">Double</span> )&#123;</span><br><span class="line">    <span class="keyword">if</span> operandStack.<span class="built_in">count</span> &gt;= <span class="number">2</span> &#123;</span><br><span class="line">        displayValue = operation( operandStack.removeLast(), operandStack.removeLast())</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">multplay</span><span class="params">(op1:Double ,op2:Double)</span></span>-&gt;<span class="type">Double</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> op1 * op2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>好吧，看起來比剛剛稍微好一點，但實際上，我們還是要定義四個方法來代表加減乘除，並當作參數傳遞至 preformOperation 裡面啊！！！</p>
+<p>既然 Swift 是那麼新的語言，怎麼可能沒辦法簡化，所以我們可以改成如下。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">operate</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    <span class="keyword">let</span> operation = sender.currentTitle!</span><br><span class="line">    <span class="keyword">if</span> userIsInheMiddleOfTypingANumber &#123;</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">switch</span> operation &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"×"</span>:preformOperation(&#123;(op1:<span class="type">Double</span> ,op2:<span class="type">Double</span>) -&gt; <span class="type">Double</span> <span class="keyword">in</span></span><br><span class="line">                    <span class="keyword">return</span> op1 * op2</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"÷"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"+"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"−"</span>:</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">preformOperation</span><span class="params">(operation: <span class="params">(Double,Double )</span></span></span>-&gt; <span class="type">Double</span> )&#123;</span><br><span class="line">    <span class="keyword">if</span> operandStack.<span class="built_in">count</span> &gt;= <span class="number">2</span> &#123;</span><br><span class="line">        displayValue = operation( operandStack.removeLast(), operandStack.removeLast())</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>是低！！大家有沒有覺得這段 Code 很熟悉的感覺，這不就是早期 C# 委派的匿名方法的寫法嗎！！</p>
+<p>換句話說，我們就可以不用定義 multplay 了，可以直接把 func 寫在 preformOperation 裡面當作參數直接傳遞<br>，只要使用 {} 包起來 ( 閉包，這和 JS 很像 )，並且用 in 代表裡面的邏輯。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="string">"×"</span>:preformOperation(&#123;(op1:<span class="type">Double</span> ,op2:<span class="type">Double</span>) -&gt; <span class="type">Double</span> <span class="keyword">in</span></span><br><span class="line">                    <span class="keyword">return</span> op1 * op2</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>好，當然 C# 都可以持續進化了，Swift 也可以持續改進。我們更可以精簡成底下這樣，如同 C# ㄧ樣，<br>Swift 也可以透過編譯器自動幫忙知道 op1 , op2 的型別。</p>
+<p>( 因為已經在 preformOperation 裡面定義要傳入的參數型別了，所以編譯器當然能判斷 )</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="string">"×"</span>:preformOperation(&#123;(op1 ,op2 ) <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">return</span> op1 * op2</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果是 C# , 下一步就是進化成 Lambda 了，而 Swift 當然也可以進化.. 如同 Lambda ，如果只有一行，也可以把 return 省略…</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="string">"×"</span>:preformOperation(&#123;(op1 ,op2 ) <span class="keyword">in</span> op1 * op2&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>到這邊就結束了嗎!!? Swift 更噁心…喔，不是，是更聰明，Swift 可以用 $0 , $1 等等，代表參數的順序，這代表什麼！？<br>連 (op1,op2) 都可以省了…所以，就變成底下這樣 …..</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="string">"×"</span>:preformOperation(&#123; $<span class="number">0</span> * $<span class="number">1</span> &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>好，大家以為這樣就結束了，錯，還可以再進化！！ 抖抖 .. 如果 preformOperation 裡面的 func 參數 (也就是 operation: (Double,Double )-&gt; Double) 是最後一個參數，<br>我們還可以把 {} 的內容，拉到 () 後面，變成這樣….</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="string">"×"</span>:preformOperation()&#123; $<span class="number">0</span> * $<span class="number">1</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>這就是神奇的 Swift … 基本，這樣講下來，也把整個 C# 的 Lambda 歷史解釋了一次！！(疑！？）所以可見目前大宗的語言，<br>都是英雄所見略同啊！！</p>
+<p>所以最終的 Code 會變成這樣。</p>
+<p>喔，小提醒，這邊我們多加了 if userIsInheMiddleOfTypingANumber 這個判斷，<br>主要是針對當使用者發生 數字 -&gt; return -&gt; 數字 -&gt; 運算 這種情況下，我們也會把第二次的數字，enter 進 array 裡面，<br>如果沒有這一行，那每次使用者都要 數字 -&gt; return -&gt; 數字 -&gt; retuen 後，才能按下運算按鈕了….</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">operate</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    <span class="keyword">let</span> operation = sender.currentTitle!</span><br><span class="line">    <span class="keyword">if</span> userIsInheMiddleOfTypingANumber &#123;</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">switch</span> operation &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"×"</span>:preformOperation &#123; $<span class="number">0</span> * $<span class="number">1</span> &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"÷"</span>:preformOperation &#123; $<span class="number">1</span> / $<span class="number">0</span> &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"+"</span>:preformOperation &#123; $<span class="number">0</span> + $<span class="number">1</span> &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"−"</span>:preformOperation &#123; $<span class="number">1</span> - $<span class="number">0</span> &#125;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">preformOperation</span><span class="params">(operation: <span class="params">(Double,Double )</span></span></span>-&gt; <span class="type">Double</span> )&#123;</span><br><span class="line">    <span class="keyword">if</span> operandStack.<span class="built_in">count</span> &gt;= <span class="number">2</span> &#123;</span><br><span class="line">        displayValue = operation( operandStack.removeLast(), operandStack.removeLast())</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="overloading"><a href="#overloading" class="headerlink" title="overloading"></a>overloading</h2><p>接下來，我們多拉一排按鈕如下。</p>
+<p><img src="10.png" alt=""></p>
+<p>接著，把上面按鈕的 Title 都拿掉 ( 不是刪除 Button )，我們只留下最後一個，用來準備開根號。</p>
+<p><img src="11.png" alt=""></p>
+<p>完成後，我們可以增加以下程式碼。並且特別注意，如果照著影片教學的內容，是會發生錯誤的。這是因為 Swift 1.2 做了些改變。<br>其一是因為 Objective-C 原本就沒有 Overloading ，或者對 Objective-C 來說，根本就沒有 func 這等事，<br>( Objective-C 使用簽名的概念，並用 @Selector(preformOperation) 做選擇 )</p>
+<p>而在 1.2 為了和 Objective-C 有更好的相容，所以會嚴謹的模式，檢查基於 @objc 方法的重載，<br>也因此，只要是與 Objective-C 有關，就會有這個問題…</p>
+<p>問題是，這邊和 Objective-C 有啥關係，我又沒寫!?….</p>
+<p>那是因為繼承，我們實際上繼承了 UIViewController 而這個是繼承自 NSObject ，而這就是用 Objective-C 寫的…</p>
+<p>所以一種官方<a href="https://developer.apple.com/library/ios/releasenotes/DeveloperTools/RN-Xcode/Chapters/Introduction.html" target="_blank" rel="noopener">解法</a><br>是前面加上 private ，透過 private 關鍵字，來關閉 @objc 的推斷，就不會編譯成 Objective-C。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">operate</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    <span class="keyword">let</span> operation = sender.currentTitle!</span><br><span class="line">    <span class="keyword">if</span> userIsInheMiddleOfTypingANumber &#123;</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">switch</span> operation &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"×"</span>:preformOperation &#123; $<span class="number">0</span> * $<span class="number">1</span> &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"÷"</span>:preformOperation &#123; $<span class="number">1</span> / $<span class="number">0</span> &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"+"</span>:preformOperation &#123; $<span class="number">0</span> + $<span class="number">1</span> &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"−"</span>:preformOperation &#123; $<span class="number">1</span> - $<span class="number">0</span> &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"√"</span>:preformOperation &#123; sqrt($<span class="number">0</span>) &#125;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">preformOperation</span><span class="params">(operation: <span class="params">(Double,Double )</span></span></span>-&gt; <span class="type">Double</span> )&#123;</span><br><span class="line">    <span class="keyword">if</span> operandStack.<span class="built_in">count</span> &gt;= <span class="number">2</span> &#123;</span><br><span class="line">        displayValue = operation( operandStack.removeLast(), operandStack.removeLast())</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">preformOperation</span><span class="params">(operation: Double -&gt; Double )</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> operandStack.<span class="built_in">count</span> &gt;= <span class="number">1</span> &#123;</span><br><span class="line">        displayValue = operation( operandStack.removeLast())</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果真的還是要編譯成 Objective-C ，那就可以在後面加上參數名稱，如前面所說，Objective-C 只要參數名稱不同，<br>就會認定是不同的 func .</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">preformOperation</span><span class="params">(operation: <span class="params">(Double,Double )</span></span></span>-&gt; param:<span class="type">Double</span> )&#123;</span><br><span class="line">    <span class="keyword">if</span> operandStack.<span class="built_in">count</span> &gt;= <span class="number">2</span> &#123;</span><br><span class="line">        displayValue = operation( operandStack.removeLast(), operandStack.removeLast())</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">preformOperation</span><span class="params">(operation: Double -&gt; <span class="number">_</span>:Double )</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> operandStack.<span class="built_in">count</span> &gt;= <span class="number">1</span> &#123;</span><br><span class="line">        displayValue = operation( operandStack.removeLast())</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>待續…</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://itunes.apple.com/tw/course/developing-ios-8-apps-swift/id961180099" target="_blank" rel="noopener">Developing iOS 8 Apps with Swift by Stanford</a></li>
+<li><a href="http://stackoverflow.com/questions/29457720/compiler-error-method-with-objective-c-selector-conflicts-with-previous-declara/29670644#29670644" target="_blank" rel="noopener">http://stackoverflow.com/questions/29457720/compiler-error-method-with-objective-c-selector-conflicts-with-previous-declara/29670644#29670644</a></li>
+<li><a href="http://mingda.net/2015/06/19/method-conflicts-with-previous-declaration-with-the-same-objective-c-selector/" target="_blank" rel="noopener">http://mingda.net/2015/06/19/method-conflicts-with-previous-declaration-with-the-same-objective-c-selector/</a></li>
+<li><a href="http://www.cocoachina.com/bbs/3g/read.php?tid=295786" target="_blank" rel="noopener">http://www.cocoachina.com/bbs/3g/read.php?tid=295786</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+            <a href="/tags/XCode/" rel="tag">#XCode</a>
+          
+            <a href="/tags/Swift/" rel="tag">#Swift</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/11/iOS-Study_Note_Lession_1/" rel="next" title="iOS - 學習筆記 - Lession 1">
+                <i class="fa fa-chevron-left"></i> iOS - 學習筆記 - Lession 1
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/20/Angular2-Env_Setup_1/" rel="prev" title="Angular2 - 與 Webpack 整合環境設定 - 1">
+                Angular2 - 與 Webpack 整合環境設定 - 1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#開始"><span class="nav-number">2.</span> <span class="nav-text">開始</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立-Return-按鈕"><span class="nav-number">3.</span> <span class="nav-text">建立 Return 按鈕</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立加減乘除-使用委派與閉包"><span class="nav-number">4.</span> <span class="nav-text">建立加減乘除( 使用委派與閉包 )</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#overloading"><span class="nav-number">5.</span> <span class="nav-text">overloading</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">6.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">7.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2016/04/12/iOS-Study_Note_Lession_2/';
+      var disqus_title = 'iOS - 學習筆記 - Lession 2';
+      var disqus_url = 'http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,677 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Windows," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="好吧，我承認標題比較很爛，因為實在是不知道怎麼下這個標題。 這篇文章的主要目的是在於Win 8 Metro Style Messenger和Desktop 的Windows Live Messenger的一些問題，其一的問題是，當使用Desktop的Windows Live Messenger後，是否可以讓Metro Style Messenger不登入，其次是如果使用Metro Style Me">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows 8 Consumer Preview Merto Style的Messenger ( MSN ) 之三兩事">
+<meta property="og:url" content="http://skychang.github.io/2012/04/18/Windows-8-Consumer-Preview-Merto-Style%E7%9A%84Messenger-MSN-%E4%B9%8B%E4%B8%89%E5%85%A9%E4%BA%8B/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="好吧，我承認標題比較很爛，因為實在是不知道怎麼下這個標題。 這篇文章的主要目的是在於Win 8 Metro Style Messenger和Desktop 的Windows Live Messenger的一些問題，其一的問題是，當使用Desktop的Windows Live Messenger後，是否可以讓Metro Style Messenger不登入，其次是如果使用Metro Style Me">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh5.ggpht.com/-KNG7z0xJBfI/T45XBOP-RrI/AAAAAAAACNQ/slBZaf8f2pE/image_thumb%25255B2%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-UTMGjgPyPEo/T45XDEaRP-I/AAAAAAAACNg/_DR8kvKz5UE/image_thumb%25255B4%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-u4f8BzU_Pb4/T45XFgEltUI/AAAAAAAACNw/E4GKIqJE_3c/image_thumb%25255B8%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-jKfNAUwo3Uc/T453baKD_hI/AAAAAAAACPs/xYFusH_Mwsc/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-7a_v48YFI00/T45XIU9_dYI/AAAAAAAACOA/B1uXLFmViJ0/image_thumb%25255B14%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-d6aamjT0pLA/T45XLD6sUiI/AAAAAAAACOQ/YknEbBPZNvM/image_thumb%25255B11%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-ACQVr8YQcyA/T45XPUuSWQI/AAAAAAAACOg/l_07iVLOQ50/image_thumb%25255B17%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-0sNN5yHETJQ/T45XTaf5-MI/AAAAAAAACOw/1j76xJyxkho/image_thumb%25255B20%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-48hE4VOEssM/T45XVp0KNqI/AAAAAAAACPA/MNFCEEu-gE0/image_thumb%25255B23%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-K7j2wRisU8M/T45XX6K0QBI/AAAAAAAACPQ/b8ZaJSOpGRs/image_thumb%25255B26%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-rSs81csq1cQ/T45XaQgu1YI/AAAAAAAACPc/tzzVvT_kRfc/image_thumb%25255B28%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2012-04-18T13:19:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.027Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Windows">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh5.ggpht.com/-KNG7z0xJBfI/T45XBOP-RrI/AAAAAAAACNQ/slBZaf8f2pE/image_thumb%25255B2%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Windows 8 Consumer Preview Merto Style的Messenger ( MSN ) 之三兩事 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Windows 8 Consumer Preview Merto Style的Messenger ( MSN ) 之三兩事
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2012-04-18T13:19:00+00:00" content="2012-04-18">
+              2012-04-18
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/04/18/Windows-8-Consumer-Preview-Merto-Style%E7%9A%84Messenger-MSN-%E4%B9%8B%E4%B8%89%E5%85%A9%E4%BA%8B/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/04/18/Windows-8-Consumer-Preview-Merto-Style的Messenger-MSN-之三兩事/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>好吧，我承認標題比較很爛，因為實在是不知道怎麼下這個標題。</p>
+<p>這篇文章的主要目的是在於Win 8 Metro Style Messenger和Desktop 的Windows Live Messenger的一些問題，其一的問題是，當使用Desktop的Windows Live Messenger後，是否可以讓Metro Style Messenger不登入，其次是如果使用Metro Style Messenger，是否可以讓Desktop的Windows Live Messenger不要自動登入，以下就是故事了。</p>
+<p>最近把正式環境切換到Win8上，老實說，除了偶而的不習慣，和英文看無之外，其他的部分都還好，當然偶而會遇到一些小問題( 例如<a href="http://blog.sanc.idv.tw/2012/03/windows-8-consumer-preview-metro-style.html" target="_blank" rel="noopener">Metro Sytle的IE不見了</a> )，但是畢竟現在都還在Consumer Preview，所以也不能太苛求。</p>
+<h3 id="如何讓Metro-Sytle的Messenger不登入"><a href="#如何讓Metro-Sytle的Messenger不登入" class="headerlink" title="如何讓Metro Sytle的Messenger不登入"></a>如何讓Metro Sytle的Messenger不登入</h3><p><font color="#ff0000">話先說在前面，如果要讓Metro Style的Messenger登出，目前小弟也找不到方法…</font></p>
+<p>而使用的過程中，遇到一個比較不順手的問題就是Metro Sytle的Messenger( 也就是我們常用的MSN )，我們上班主要都是用MSN來聯絡，所以常常會有大量的MSN訊息，如果是使用Metro Style的Messenger，就要一直切換畫面，老實說，也很不順手，所以我還是會裝上Desktop的Windows Live Messenger..只是裝了以後，我的Windows Live Messenger上，都會顯示說，我目前有2個位置登入( Metro Style和Desktop )，所以我一直在想，是否可以登出Metro Style的Messenger。</p>
+<p>後來找了國外的網站，<font color="#ff0000">老實說，目前並沒有好的解決方案，而這些方案也沒辦法真正的解決，但既然已經看了，也做了，就寫在這邊給大家參考</font>；另外，如前面說的，目前連RC都不是，大家就不要太計較了..我找到的解決方案如下。</p>
+<h4 id="切換成本地端帳號"><a href="#切換成本地端帳號" class="headerlink" title="切換成本地端帳號"></a>切換成本地端帳號</h4><p>這種方式是最直接的，因為原本是使用Windows Live的帳號，所以Metro Style的Windows Live服務當然就會登入，當然，我們也可以使用本地端的帳號，自然就不會有這個問題，而當想要使用Merto Style的Windows Live服務時，在登入就可以了；但同樣的，這樣就會少了自動備份設定檔等等的自動機制，所以最後小弟還是沒選用。</p>
+<p>作法很簡單，只要在控制台裡面的使用者帳號與管理，然後選擇Make Changes to my account in PC settings 就可以了，如果不知道控制台怎麼進去，可以在Desktop模式下，將滑鼠移到右下角，然後選擇Setting，就可以看到控制台的選項。</p>
+<p><a href="http://lh4.ggpht.com/-lYAF5SgCDR8/T45W_9PumwI/AAAAAAAACNI/nk2mumSqPiY/s1600-h/image%25255B4%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-KNG7z0xJBfI/T45XBOP-RrI/AAAAAAAACNQ/slBZaf8f2pE/image_thumb%25255B2%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>如果是Metro Sytle，也是從右下角，選擇Settings，然後會有一個More PC settings。</p>
+<p><a href="http://lh6.ggpht.com/-Ri6qekXro-Q/T45XCEdH1HI/AAAAAAAACNY/YqArM2VFOsU/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-UTMGjgPyPEo/T45XDEaRP-I/AAAAAAAACNg/_DR8kvKz5UE/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後在Users裡面，依樣會有一個Switch to a local account的選項。</p>
+<p><a href="http://lh6.ggpht.com/-cq8OSDGTJAo/T45XEJaHpkI/AAAAAAAACNo/rBsbCd40GBg/s1600-h/image%25255B16%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-u4f8BzU_Pb4/T45XFgEltUI/AAAAAAAACNw/E4GKIqJE_3c/image_thumb%25255B8%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，照著他的步驟處理就可以了，完成後，就變成使用本地端的帳號了。</p>
+<p>這時候，如果重新登入Desktop的Windows Live Messenger，Metro Style的Windows Live服務就不會自動登入了，會轉成要求您的帳號。</p>
+<p><a href="http://lh6.ggpht.com/-kCG1bfSL_I8/T453aVfqJ0I/AAAAAAAACPo/ZXSDIx5GBLY/s1600-h/image%25255B4%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-jKfNAUwo3Uc/T453baKD_hI/AAAAAAAACPs/xYFusH_Mwsc/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>但登入後，似乎就又不能登出了…</p>
+<h3 id="如何讓Desktop的Windows-Live-Messenger不要自動登入"><a href="#如何讓Desktop的Windows-Live-Messenger不要自動登入" class="headerlink" title="如何讓Desktop的Windows Live Messenger不要自動登入"></a>如何讓Desktop的Windows Live Messenger不要自動登入</h3><p>反過來看，有時我就是想使用Metro Style的Messenger，但是如果裝了Desktop的Windows Live Messenger時，就算取消勾選自動登入，還是會很自動的幫你登入，所以這篇是來解決，如何讓Desktop的Windows Live Messenger不要自動登入。</p>
+<h4 id="停用自動登入Windows-Live服務"><a href="#停用自動登入Windows-Live服務" class="headerlink" title="停用自動登入Windows Live服務"></a>停用自動登入Windows Live服務</h4><p>這個方法可以讓Metro Style的自動登入Windows Live服務停止，但是小弟的測試後，發現如果停止，Desktop的Windows Live Messenger也會沒辦法登入。</p>
+<p>首先，我們要先把Administrator Tools打開，將滑鼠移到右下角，然後選擇設定。( 記住要在Metro Style底下喔 )</p>
+<p><a href="http://lh5.ggpht.com/-xgh3Dxeq0yU/T45XHMS2V8I/AAAAAAAACN4/9l8ikKMwmSA/s1600-h/image%25255B26%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-7a_v48YFI00/T45XIU9_dYI/AAAAAAAACOA/B1uXLFmViJ0/image_thumb%25255B14%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>將Show administrator tools功能改成Yes。</p>
+<p><a href="http://lh3.ggpht.com/-Zp1e6IOOpOI/T45XKDok78I/AAAAAAAACOI/UMnV2iu_kI0/s1600-h/image%25255B21%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-d6aamjT0pLA/T45XLD6sUiI/AAAAAAAACOQ/YknEbBPZNvM/image_thumb%25255B11%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們要回到控制台，這個控制台就要在Desktop底下了 (如果不知道控制台怎麼進去，可以在Desktop模式下，將滑鼠移到右下角，然後選擇Setting，就可以看到控制台的選項。 )，接下來因為小弟用分類模式實在是找不到XDD，所以我們先改變一下View。</p>
+<p><a href="http://lh3.ggpht.com/-ubvB6m5SQbc/T45XNEQARlI/AAAAAAAACOY/zHbf8vRb_Wg/s1600-h/image%25255B31%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-ACQVr8YQcyA/T45XPUuSWQI/AAAAAAAACOg/l_07iVLOQ50/image_thumb%25255B17%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>改成大圖後，我們就可以看到Administrator Tools了。</p>
+<p><a href="http://lh6.ggpht.com/-lp431FnXhsY/T45XQUrGhHI/AAAAAAAACOo/3vUr4OOvhxc/s1600-h/image%25255B36%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-0sNN5yHETJQ/T45XTaf5-MI/AAAAAAAACOw/1j76xJyxkho/image_thumb%25255B20%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接著，我們可以看到許多工具，但我們這邊要選擇Services。</p>
+<p><a href="http://lh5.ggpht.com/-PuW1L0hLbE8/T45XUEMaQ5I/AAAAAAAACO4/ziKQ9mIY0ag/s1600-h/image%25255B41%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-48hE4VOEssM/T45XVp0KNqI/AAAAAAAACPA/MNFCEEu-gE0/image_thumb%25255B23%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>在Services裡面有一個Microsoft Account Sign-in Assistant的Service，我們進去把它關閉。</p>
+<p><a href="http://lh6.ggpht.com/-Rq-MYR74edE/T45XWkdt1YI/AAAAAAAACPI/kxigoNS9sx0/s1600-h/image%25255B46%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-K7j2wRisU8M/T45XX6K0QBI/AAAAAAAACPQ/b8ZaJSOpGRs/image_thumb%25255B26%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>預設給他Disabled，這樣，就不會自動登入了。</p>
+<p><a href="http://lh5.ggpht.com/-UsIu_8Twdgg/T45XZv2o7sI/AAAAAAAACPY/3vsjntQgsAY/s1600-h/image%25255B50%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-rSs81csq1cQ/T45XaQgu1YI/AAAAAAAACPc/tzzVvT_kRfc/image_thumb%25255B28%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>就如小弟說的，這部分可能還是沒有比較好的方法，不過畢竟目前Win 8還沒正式RC，相信未來版本會更加貼近人性化，如過在這邊專研，其實也沒多大意義，只是剛好有找到這些文章與問題，也相信可能有搶先者會有困擾，所以這部分的文章，就先給需要搶鮮的人，當作參考吧，相信未來隨著Win 8的發布，軟體的更新，這個問題就不會再是問題了。</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://www.eightforums.com/tutorials/4842-local-account-switch-windows-8-a.html" target="_blank" rel="noopener" title="http://www.eightforums.com/tutorials/4842-local-account-switch-windows-8-a.html">http://www.eightforums.com/tutorials/4842-local-account-switch-windows-8-a.html</a>  <li><a href="http://www.cezeo.com/tips-and-tricks/windows-messenger/" target="_blank" rel="noopener" title="http://www.cezeo.com/tips-and-tricks/windows-messenger/">http://www.cezeo.com/tips-and-tricks/windows-messenger/</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Windows/" rel="tag">#Windows</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/04/17/%E7%AC%AC8%E6%AC%A1-Study4-TW-120422/" rel="next" title="第8次 Study4.TW 120422">
+                <i class="fa fa-chevron-left"></i> 第8次 Study4.TW 120422
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/04/19/ASP-NET-MVC-%E7%AC%AC%E4%B8%80%E5%80%8BWeb-API-Hello-Web-API/" rel="prev" title="ASP.NET MVC - 第一個Web API,Hello Web API">
+                ASP.NET MVC - 第一個Web API,Hello Web API <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何讓Metro-Sytle的Messenger不登入"><span class="nav-number">1.</span> <span class="nav-text">如何讓Metro Sytle的Messenger不登入</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#切換成本地端帳號"><span class="nav-number">1.1.</span> <span class="nav-text">切換成本地端帳號</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何讓Desktop的Windows-Live-Messenger不要自動登入"><span class="nav-number">2.</span> <span class="nav-text">如何讓Desktop的Windows Live Messenger不要自動登入</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#停用自動登入Windows-Live服務"><span class="nav-number">2.1.</span> <span class="nav-text">停用自動登入Windows Live服務</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">2.2.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">2.3.</span> <span class="nav-text">參考資料</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2012/04/18/Windows-8-Consumer-Preview-Merto-Style的Messenger-MSN-之三兩事/';
+      var disqus_title = 'Windows 8 Consumer Preview Merto Style的Messenger ( MSN ) 之三兩事';
+      var disqus_url = 'http://skychang.github.io/2012/04/18/Windows-8-Consumer-Preview-Merto-Style%E7%9A%84Messenger-MSN-%E4%B9%8B%E4%B8%89%E5%85%A9%E4%BA%8B/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

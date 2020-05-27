@@ -1,0 +1,685 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Visual Studio,ASP.NET MVC," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言小弟從 ASP.NET MVC 2 就開始摸索，時間飛逝，到現在，已經出到 ASP.NET MVC 6 了；記得當初 MVC 2 掀起了風風雨雨，有些人認為，ASP.NET Web Form 要被淘汰了，也有人認為，MVC 的開發速度太慢，沒有 Gird 這類的套件；而到了 MVC 3 ，最大的改變就是 Razor 了吧，強大的 Razor 改變了原本一堆括號的地獄；到了 MVC 4 開始，則">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET MVC - 建立第一個 ASP.NET MVC 6">
+<meta property="og:url" content="http://skychang.github.io/2015/12/23/ASP-NET-MVC-Create_First_ASP_NET_MVC_6/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="前言小弟從 ASP.NET MVC 2 就開始摸索，時間飛逝，到現在，已經出到 ASP.NET MVC 6 了；記得當初 MVC 2 掀起了風風雨雨，有些人認為，ASP.NET Web Form 要被淘汰了，也有人認為，MVC 的開發速度太慢，沒有 Gird 這類的套件；而到了 MVC 3 ，最大的改變就是 Razor 了吧，強大的 Razor 改變了原本一堆括號的地獄；到了 MVC 4 開始，則">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2015/12/23/ASP-NET-MVC-Create_First_ASP_NET_MVC_6/01.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/23/ASP-NET-MVC-Create_First_ASP_NET_MVC_6/02.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/23/ASP-NET-MVC-Create_First_ASP_NET_MVC_6/02-1.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/23/ASP-NET-MVC-Create_First_ASP_NET_MVC_6/03.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/23/ASP-NET-MVC-Create_First_ASP_NET_MVC_6/04.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/23/ASP-NET-MVC-Create_First_ASP_NET_MVC_6/04-1.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/23/ASP-NET-MVC-Create_First_ASP_NET_MVC_6/05.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/23/ASP-NET-MVC-Create_First_ASP_NET_MVC_6/06.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/23/ASP-NET-MVC-Create_First_ASP_NET_MVC_6/07.png">
+<meta property="og:image" content="http://skychang.github.io/2015/12/23/ASP-NET-MVC-Create_First_ASP_NET_MVC_6/08.png">
+<meta property="article:published_time" content="2015-12-23T23:20:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.832Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2015/12/23/ASP-NET-MVC-Create_First_ASP_NET_MVC_6/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ASP.NET MVC - 建立第一個 ASP.NET MVC 6 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ASP.NET MVC - 建立第一個 ASP.NET MVC 6
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-12-23T23:20:00+00:00" content="2015-12-23">
+              2015-12-23
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/23/ASP-NET-MVC-Create_First_ASP_NET_MVC_6/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/12/23/ASP-NET-MVC-Create_First_ASP_NET_MVC_6/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>小弟從 ASP.NET MVC 2 就開始摸索，時間飛逝，到現在，已經出到 ASP.NET MVC 6 了；記得當初 MVC 2 掀起了風風雨雨，有些人認為，ASP.NET Web Form 要被淘汰了，也有人認為，MVC 的開發速度太慢，沒有 Gird 這類的套件；而到了 MVC 3 ，最大的改變就是 Razor 了吧，強大的 Razor 改變了原本一堆括號的地獄；到了 MVC 4 開始，則進入了 Web API 時代，搭配 KO，還有 Mobile 的各種解決方案，也看到了 Mobile 時代的興起；而進入 MVC 5 後，大大的強化了 MVC 4 的功能，並且讓 Bootstrap 等解決方案進入到 MVC 5 預設的選項裡面，也看到了 MS 準備進入 Open Source 的改變；而 MVC 6 更是根本上的改頭換面，搭配全新的 .Net Core ，底層全部從寫，增加 DI ，甚至是未來的 AngularJS 2 ，更可以看到 MVC 6 完全和以前是不一樣的產品了。</p>
+<p>而隨著目前 RC 的推出，我們除了在 OSX 底下進行開發外，我們也來看看，Windows 底下，如何使用 Visual Studio 2015 來撰寫第一個 Hello MVC 應用程式!!</p>
+<p>( 不要覺得 Hello MVC 很虛阿!! Hello Application 可是所有應用程式的始祖 !!! 逃~ )</p>
+<h2 id="建立-Hello-MVC-Web-Application"><a href="#建立-Hello-MVC-Web-Application" class="headerlink" title="建立 Hello MVC Web Application"></a>建立 Hello MVC Web Application</h2><p>首先，我們依據我們熟悉的流程，來建立 ASP.NET 應用程式，而這邊我們選擇了，ASP.NET 5 的範本，並且選擇 Empty。</p>
+<p>或許大家會覺得困惑，為什麼不選擇 Web Application 呢??</p>
+<p>原因很簡單，因為小弟希望能了解從無到有，怎樣建立起一模一樣 ( 或是類似 ) 於 Web Application 範本，雖然選擇了 Web Application 後，裡面甚麼東西都有了，但卻不一定適合小弟我，所以我還是習慣從無到有的建立。 </p>
+<p><img src="01.png" alt=""></p>
+<p>接下來，大家稍微等一下後，就可以發現，專案完成了。</p>
+<p>而使用 Empty ，就真的很 Empty ，甚麼都沒有….但我們可以稍微看一下，其實 參考 是會對應到 project.json 的。</p>
+<p>這點就和以前的設定非常不同，不過在 Node.js 裡面，用 json 當設定檔，也行之多年了。</p>
+<p><img src="02.png" alt=""></p>
+<p>另外，順便補充一下，目前 MVC 用的 .Net Framework 也有分完整版和跨平台專用的 .Net Core ( .Net 核心 )，我們可以從這裡簡單的切換。</p>
+<p><img src="02-1.png" alt=""></p>
+<p>接著，我們繼續往下，我們可以稍微喵一下上圖，會發現，嗯，甚麼都沒有…但既然我們要寫 MVC ，那就一定要有 MVC 的 Lib 阿!!!</p>
+<p>所以我們就要叫出老伙伴，NuGet ，並且安裝 Microsoft.AspNet.MVC。</p>
+<p>這邊要特別注意一下，因為 MVC 6 還在 RC，所以記得要勾選搶鮮版，不然會找不到。</p>
+<p><img src="03.png" alt=""></p>
+<p>安裝完後，我們就可以在 參考 裡面看到了。</p>
+<p><img src="04.png" alt=""></p>
+<p>完成後，我們就可以開始熟悉的事情。</p>
+<p>首先，我們要自己手動新增 Controllers 和 Views 的目錄，也順便在 Views 的目錄下加上 Home 的目錄，( 詳細的 MVC 觀念，這邊就不解釋了。 )</p>
+<p><img src="04-1.png" alt=""></p>
+<p>接下來，我們在 Controlers 的目錄下，新增一個新的項目，並且選擇 MVC 控制器類別。</p>
+<p><img src="05.png" alt=""></p>
+<p>接著，到 Views 的目錄下，底下的 Home ，新增一個新的 View 。</p>
+<p><img src="06.png" alt=""></p>
+<p>並且在 View 裡面打一下 Html吧。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@*</span><br><span class="line">    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860</span><br><span class="line">*@</span><br><span class="line">@&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>Hello MVC<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>完成後，大家可以 run 一下，就會發現，完全不會有任何動作 XDDDD</p>
+<p>理由很簡單，我們可以到 Startup.cs 看到這一行，如下圖。</p>
+<p>這代表著，當 app run 的時候，會輸出 “Hello World” ，所以畫面無論如何都不會出現 Hello MVC ，而是會出現 Hello World 阿!!!! ( 我們要的是 Hello MVC 阿!! ) </p>
+<p><img src="07.png" alt=""></p>
+<p>所以為了讓 MVC 動作，我們必須要改一下 Startup.cs。</p>
+<p>首先，我們要先在 ConfigureServices 裡面加上 service.AddMvc();<br>代表，我們要加上 MVC 這個服務。</p>
+<p>接著，Configure 裡面，去設定 MVC 了。<br>我們在裡面設定了 MVC 的路由，而且現在的路由更好懂了。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"><span class="keyword">using</span> Microsoft.AspNet.Builder;</span><br><span class="line"><span class="keyword">using</span> Microsoft.AspNet.Hosting;</span><br><span class="line"><span class="keyword">using</span> Microsoft.AspNet.Http;</span><br><span class="line"><span class="keyword">using</span> Microsoft.Extensions.DependencyInjection;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Study4.Web</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Startup</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// This method gets called by the runtime. Use this method to add services to the container.</span></span><br><span class="line">        <span class="comment">// For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ConfigureServices</span>(<span class="params">IServiceCollection services</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">//Add MVC</span></span><br><span class="line">            services.AddMvc();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Configure</span>(<span class="params">IApplicationBuilder app</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            app.UseIISPlatformHandler();</span><br><span class="line"></span><br><span class="line">            <span class="comment">//app.Run(async (context) =&gt;</span></span><br><span class="line">            <span class="comment">//&#123;</span></span><br><span class="line">            <span class="comment">//    await context.Response.WriteAsync("Hello World!");</span></span><br><span class="line">            <span class="comment">//&#125;);</span></span><br><span class="line"></span><br><span class="line">            app.UseMvc(routes =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                routes.MapRoute(</span><br><span class="line">                    name: <span class="string">"default"</span>,</span><br><span class="line">                    template: <span class="string">"&#123;controller=Home&#125;/&#123;action=Index&#125;/&#123;id?&#125;"</span>);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Entry point for the application.</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span> =&gt; WebApplication.Run&lt;Startup&gt;(args);</span><br></pre></td></tr></table></figure>
+
+<p>完成之後，我們就可以在 Run 一次，( 不用 Build，未來開發 Web Application ， 都不用 Build 了 )，按下重整後，我們就可以看到我們期待的 Hello MVC 了!!</p>
+<p><img src="08.png" alt=""></p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://docs.asp.net/en/latest/" target="_blank" rel="noopener">https://docs.asp.net/en/latest/</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/20/ASP.NET-Use_OSX_Develop_ASP.NET_Setup/" rel="next" title="ASP.NET - 在 OSX 環境下開發 ASP.NET 應用程式 - 設定篇">
+                <i class="fa fa-chevron-left"></i> ASP.NET - 在 OSX 環境下開發 ASP.NET 應用程式 - 設定篇
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/01/Angular2-First_Angular2/" rel="prev" title="Angular2 - 第一次的 Angular2 初體驗">
+                Angular2 - 第一次的 Angular2 初體驗 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立-Hello-MVC-Web-Application"><span class="nav-number">2.</span> <span class="nav-text">建立 Hello MVC Web Application</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">3.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2015/12/23/ASP-NET-MVC-Create_First_ASP_NET_MVC_6/';
+      var disqus_title = 'ASP.NET MVC - 建立第一個 ASP.NET MVC 6';
+      var disqus_url = 'http://skychang.github.io/2015/12/23/ASP-NET-MVC-Create_First_ASP_NET_MVC_6/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

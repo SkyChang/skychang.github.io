@@ -1,0 +1,785 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript,AngularJS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="這幾天，遇雷的狀況，都已經快要變成索爾了…而今天要談的這個問題，其實算是JS加上AngularJS的基本功…牽涉的範圍還滿廣泛的…從UI-Bootstrap這個Directive開始..到AngularJS Scope的範圍，一直到JavaScript的原型繼承… 而這篇的整個概念可以看原文這裡，對岸的高手，也有幫忙翻譯成簡體中文，所以有興趣的可以先看一下上面這些資訊( 沒時間看的朋友也沒關係，可">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AngularJS -  AngularJS 與 UI-Bootstrap Scope的陷阱">
+<meta property="og:url" content="http://skychang.github.io/2014/05/17/AngularJS-AngularJS-%E8%88%87-UI-Bootstrap-Scope%E7%9A%84%E9%99%B7%E9%98%B1/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="這幾天，遇雷的狀況，都已經快要變成索爾了…而今天要談的這個問題，其實算是JS加上AngularJS的基本功…牽涉的範圍還滿廣泛的…從UI-Bootstrap這個Directive開始..到AngularJS Scope的範圍，一直到JavaScript的原型繼承… 而這篇的整個概念可以看原文這裡，對岸的高手，也有幫忙翻譯成簡體中文，所以有興趣的可以先看一下上面這些資訊( 沒時間看的朋友也沒關係，可">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh4.ggpht.com/-fwl4nMJ9qEs/U3w-ur7JsmI/AAAAAAAAI3g/UPAbSW7Iqqc/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-Y5e96uLtfaI/U3w-weTXpeI/AAAAAAAAI3w/6LMzYzHauQM/image_thumb%25255B4%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-2nYIeuPZfUg/U3w-zB8qKkI/AAAAAAAAI4A/TyMj4mpJSeI/image_thumb%25255B6%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-L1Eib4yEgiw/U3w-0oWDuCI/AAAAAAAAI4Q/mS5KFGKj1HE/image_thumb%25255B9%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2014-05-17T16:10:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.844Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="AngularJS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh4.ggpht.com/-fwl4nMJ9qEs/U3w-ur7JsmI/AAAAAAAAI3g/UPAbSW7Iqqc/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> AngularJS -  AngularJS 與 UI-Bootstrap Scope的陷阱 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                AngularJS -  AngularJS 與 UI-Bootstrap Scope的陷阱
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2014-05-17T16:10:00+00:00" content="2014-05-17">
+              2014-05-17
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/05/17/AngularJS-AngularJS-%E8%88%87-UI-Bootstrap-Scope%E7%9A%84%E9%99%B7%E9%98%B1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/05/17/AngularJS-AngularJS-與-UI-Bootstrap-Scope的陷阱/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>這幾天，遇雷的狀況，都已經快要變成索爾了…而今天要談的這個問題，其實算是JS加上AngularJS的基本功…牽涉的範圍還滿廣泛的…從UI-Bootstrap這個Directive開始..到AngularJS Scope的範圍，一直到JavaScript的原型繼承…</p>
+<p>而這篇的整個概念可以看<a href="http://stackoverflow.com/questions/14049480/what-are-the-nuances-of-scope-prototypal-prototypical-inheritance-in-angularjs" target="_blank" rel="noopener">原文這裡</a>，對岸的高手，也有幫忙翻譯成<a href="http://www.lovelucy.info/understanding-scopes-in-angularjs.html" target="_blank" rel="noopener">簡體中文</a>，所以有興趣的可以先看一下上面這些資訊( 沒時間看的朋友也沒關係，可以先聽小弟講完，再回頭看… )；而以下的敘述，會依據上面的理論來開始解釋小弟遇到的問題…</p>
+<h4 id="問題"><a href="#問題" class="headerlink" title="問題"></a>問題</h4><p>首先，我們還是要先來看一下問題…</p>
+<p>大家可以從這邊看到<a href="http://plnkr.co/edit/RK2AyP?p=preview" target="_blank" rel="noopener">原始碼</a>…另外，我也貼一份在Blog…</p>
+<p>HTML</p>
+<pre class="brush: csharp;">&lt;!doctype html&gt;
+&lt;html ng-app="plunker"&gt;
+  &lt;head&gt;
+    &lt;script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.js"&gt;&lt;/script&gt;
+    &lt;script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js"&gt;&lt;/script&gt;
+    &lt;script src="script.js"&gt;&lt;/script&gt;
+    &lt;link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+
+&lt;div ng-controller="ModalDemoCtrl"&gt;
+    &lt;script type="text/ng-template" id="myModalContent.html"&gt;
+        &lt;div class="modal-header"&gt;
+            &lt;h3 class="modal-title"&gt;I'm a modal!&lt;/h3&gt;
+        &lt;/div&gt;
+        &lt;div class="modal-body"&gt;
+            &lt;ul&gt;
+                &lt;li ng-repeat="item in items"&gt;
+                    &lt;a ng-click="selected.item = item"&gt;&lt;/a&gt;
+                &lt;/li&gt;
+            &lt;/ul&gt;
+            Selected: &lt;b&gt;&lt;/b&gt;
+        &lt;/div&gt;
+        &lt;input type="text" ng-model="testText"  /&gt;
+        &lt;div class="modal-footer"&gt;
+            &lt;button class="btn btn-primary" ng-click="ok()"&gt;OK&lt;/button&gt;
+            &lt;button class="btn btn-warning" ng-click="cancel()"&gt;Cancel&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/script&gt;
+
+    &lt;button class="btn btn-default" ng-click="open()"&gt;Open me!&lt;/button&gt;
+    &lt;div ng-show="selected"&gt;Selection from a modal: &lt;/div&gt;
+&lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p>JS</p>
+<pre class="brush: js;">angular.module('plunker', ['ui.bootstrap']);
+var ModalDemoCtrl = function ($scope, $modal, $log) {
+
+  $scope.items = ['item1', 'item2', 'item3'];
+
+  $scope.open = function (size) {
+
+    var modalInstance = $modal.open({
+      templateUrl: 'myModalContent.html',
+      controller: ModalInstanceCtrl,
+      size: size,
+      resolve: {
+        items: function () {
+          return $scope.items;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+      $scope.selected = selectedItem;
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+};
+
+// Please note that $modalInstance represents a modal window (instance) dependency.
+// It is not the same as the $modal service used above.
+
+var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
+
+  $scope.items = items;
+  $scope.selected = {
+    item: $scope.items[0]
+  };
+
+  $scope.ok = function () {
+    alert($scope.testTest);
+    $modalInstance.close($scope.selected.item);
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+};
+</pre>
+
+<p>好，稍微解釋一下這個問題，這個問題主要是使用UI-Bootstrap Modal的時候，如果我們再彈跳視窗的地方，加上一個Textbox，並且用ng-model ( 原始碼上是Bind到testText )來做Bind；最後當我們按下ok按鈕的時候，會用alert($scope.testText)來顯示值…</p>
+<p>但實際上，大家玩過後可以發現，是找不到這個值的…而且這個值為定義…</p>
+<h4 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h4><p>這個解法其實很簡單，我們只要把Text的ng-model改成繫結$parent.testText就可以了…所以會長的如下這樣:</p>
+<p>把原本繫結testText改成$parent.testText…</p>
+<pre class="brush: xml;">&lt;input type="text" ng-model="$parent.testText"  /&gt;
+</pre>
+
+<p>是的，這樣alert就可以順利彈跳出來值…</p>
+<p>此外，你也可以改成這樣…變成繫結oo.testText</p>
+<pre class="brush: xml;">&lt;input type="text" ng-model="oo.testText"  /&gt;
+</pre>
+
+<p>但這時候，JavaScript那邊也要跟調整…我們在一開始的時候設定oo為物件，並且alert改為alert($scope.oo.testText)。</p>
+<pre class="brush: js;">var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
+
+  $scope.oo = {};
+  $scope.items = items;
+  $scope.selected = {
+    item: $scope.items[0]
+  };
+
+  $scope.ok = function () {
+    alert($scope.oo.testText);
+    $modalInstance.close($scope.selected.item);
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+};
+</pre>
+
+<p>是的，以下兩種方法都可以順利解決這個問題…但是大家一定會覺得很奇怪和納悶…為什麼這樣就可以??</p>
+<h4 id="解釋"><a href="#解釋" class="headerlink" title="解釋"></a>解釋</h4><p>首先，我們回去思索一下問題。</p>
+<p>小弟我使用UI-Bootstrap的Modal，並且定義了這個Modal獨立的Controller，但為什麼這個Modal畫面上的ng-model，在Modal這個Controller上讀不到…反之…加了$Parent或是使用oo.這種寫法就可以讀的到!?</p>
+<p>其實原理就是一開始給大家看的那個網址( 如果沒看的朋友也沒關係，可以繼續看下去 )；小弟引用了一下原文的一張圖，其實原理就是這張圖上…</p>
+<p><a href="http://lh3.ggpht.com/-FzQaew2I_vs/U3w-tlNMj-I/AAAAAAAAI3Y/t-o3Twkv9n8/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-fwl4nMJ9qEs/U3w-ur7JsmI/AAAAAAAAI3g/UPAbSW7Iqqc/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>我們使用的UI-Bootstrap其實是用AngularJS的Directive寫的，這點我相信大家都沒啥問題…而UI-Bootstrap在設定Directive有使用到Transclude ( Transclude 是替換內容的功能 )，而當AngularJS有使用到Transclude時，其實會建立一個獨立的Scope，也就是圖上的TranscludedScope…</p>
+<p>其次，除了TranscluedScope外，AngularJS還會建立另外一個Scope…也就是IsolateScope…而IsolateScope會透過的$$nextSibling指向到TranscludedScope…</p>
+<p>發現了嗎?..真實的底層，並不是我們想的，只有我們為Modal建立的Controller Scope…除了我們為Modal建立的Controller Scope外，還有兩個Scope!!</p>
+<p>所以我們驗證一下，如下圖，我們可以看到他其實不是在我們Modal Controller的Scope，而是自己獨立的Scope….( Modal Controller的Scope為 Scope(004) )，所以可以確定$scope(007)為TranscluedScope</p>
+<p><a href="http://lh3.ggpht.com/-Jxgv5vavcTY/U3w-vQ2VUZI/AAAAAAAAI3o/b1azWJAQrc4/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-Y5e96uLtfaI/U3w-weTXpeI/AAAAAAAAI3w/6LMzYzHauQM/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>我們繼續驗證下去…當我們拉到Scope (006)的時候，我們可以看到$$nextSibling確實指向到了Scope(007)，所以可以確定Scope(006)就是IsolateScope</p>
+<p><a href="http://lh3.ggpht.com/-uJBgwlivqeo/U3w-xaxZn8I/AAAAAAAAI34/op7QahbYU-w/s1600-h/image%25255B12%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-2nYIeuPZfUg/U3w-zB8qKkI/AAAAAAAAI4A/TyMj4mpJSeI/image_thumb%25255B6%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>也因此，實際上我們的Controller與定義畫面的model的Scope完全不同，自然Controller也呼叫不到…</p>
+<p>但那為什麼用$parent.testText就可以呢??..因為$parent是代表上一層的意思(父層)，而他的父層就是Controller，所以也就是代表在父層的Controller Scope定義了這個變數…</p>
+<p>那oo.testText為什麼可以呢…如果ng-model=”oo.testText”這個變數應該也是會落在TranscluedScope上阿??</p>
+<p>那是因為JavaScript原型繼承的特性…如果我們只打ng-model=”oo.testText”，那的確還是會落在TranscluedScope上…</p>
+<p><a href="http://lh5.ggpht.com/-RdAYqhDjsNE/U3w-0ARYuJI/AAAAAAAAI4I/VabGqjSQfpk/s1600-h/image%25255B17%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-L1Eib4yEgiw/U3w-0oWDuCI/AAAAAAAAI4Q/mS5KFGKj1HE/image_thumb%25255B9%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>但如果今天，我們在Controller Scope裡面寫了$Scope.oo = {}，則因JavaScript原型繼承的特性，當子物件要去定義oo.testText的時候，會先往上找到父層，看看有沒有oo這個物件，如果有的話，就實作於父層的oo下面，加上textText，若父層沒有，就會在子物件那邊，建立一個oo.testText…</p>
+<p>基本上就是這樣…</p>
+<p>最後，或許有人會說，那如果父層有oo，那我真的要在子物件去控制oo裡面的東西，不就會找不到oo!?，因為只有父層有oo啊!!?</p>
+<p>但實際上，子Scope還是可以找的到oo，那是因為父層和子Scope都是參考到oo這個物件的記憶體位置~~</p>
+<p>最後的最後，總之，這次的這個Case的原因，其實就是…我們的Controller實際上是屬於父層..但我們直接用ng-model=”testText”的時候，是在子Scope建立了這個變數，而非父層…，所以解決的方法，第一個就是告訴ng-model，要建立這個變數到父層喔!!，或是使用物件的方式，讓這個物件建立於父層~~</p>
+<p>就是這樣!!~</p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>利用上班中午休息時間趕稿趕完XDDD，如有錯誤，也請大家多多包涵<del>~</del></p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://stackoverflow.com/questions/14049480/what-are-the-nuances-of-scope-prototypal-prototypical-inheritance-in-angularjs" target="_blank" rel="noopener" title="http://stackoverflow.com/questions/14049480/what-are-the-nuances-of-scope-prototypal-prototypical-inheritance-in-angularjs">http://stackoverflow.com/questions/14049480/what-are-the-nuances-of-scope-prototypal-prototypical-inheritance-in-angularjs</a><li>[http://www.lovelucy.info/understanding-scopes-in-angularjs.html](http://www.lovelucy.info/understanding-scopes-in-angularjs.html "http://www.lovelucy.info/understanding-scopes-in-angularjs.html")<li>[https://github.com/angular/angular.js/issues/5489](https://github.com/angular/angular.js/issues/5489 "https://github.com/angular/angular.js/issues/5489")<li>[https://egghead.io/lessons/angularjs-the-dot](https://egghead.io/lessons/angularjs-the-dot "https://egghead.io/lessons/angularjs-the-dot")<li>[https://docs.angularjs.org/error/$compile/nonassign?p0=undefined&amp;p1=box](https://docs.angularjs.org/error/$compile/nonassign?p0=undefined&amp;p1=box "https://docs.angularjs.org/error/$compile/nonassign?p0=undefined&amp;p1=box")<li>[https://docs.angularjs.org/api/ng/directive/ngTransclude](https://docs.angularjs.org/api/ng/directive/ngTransclude "https://docs.angularjs.org/api/ng/directive/ngTransclude")<li>[https://github.com/angular-ui/bootstrap/blob/master/template/modal/window.html](https://github.com/angular-ui/bootstrap/blob/master/template/modal/window.html "https://github.com/angular-ui/bootstrap/blob/master/template/modal/window.html")</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/AngularJS/" rel="tag">#AngularJS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/05/15/ASP-NET-MVC-%E9%99%90%E5%88%B6CamalCase%E5%9C%A8%E7%89%B9%E5%AE%9A%E7%9A%84Web-API-Controller%E4%B8%8B/" rel="next" title="ASP.NET MVC - 限制CamalCase在特定的Web API Controller下">
+                <i class="fa fa-chevron-left"></i> ASP.NET MVC - 限制CamalCase在特定的Web API Controller下
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/05/22/ASP-NET-MVC-ASP-NET-MVC-vNext-MVC-6-KVM%E5%88%9D%E9%AB%94%E9%A9%97/" rel="prev" title="ASP.NET MVC - ASP.NET MVC vNext ( MVC 6 ) KVM初體驗">
+                ASP.NET MVC - ASP.NET MVC vNext ( MVC 6 ) KVM初體驗 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#問題"><span class="nav-number">1.</span> <span class="nav-text">問題</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法"><span class="nav-number">2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解釋"><span class="nav-number">3.</span> <span class="nav-text">解釋</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">4.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">5.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2014/05/17/AngularJS-AngularJS-與-UI-Bootstrap-Scope的陷阱/';
+      var disqus_title = 'AngularJS -  AngularJS 與 UI-Bootstrap Scope的陷阱';
+      var disqus_url = 'http://skychang.github.io/2014/05/17/AngularJS-AngularJS-%E8%88%87-UI-Bootstrap-Scope%E7%9A%84%E9%99%B7%E9%98%B1/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

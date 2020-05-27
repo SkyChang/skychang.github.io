@@ -1,0 +1,683 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="TFS,Windows Server," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="這次隨著RC大軍，Team Foundation Server 2012也釋出了中文版的RC，既然都已經裝好了Win Server 2012 RC，就順便把TFS 2012 RC裝上去玩玩看吧。 ( 備註 : 基本上小弟是使用基本安裝，整個安裝流程和TFS 2010其實也沒兩樣，大家也可以去參考TFS界的神人Franma的這篇文章。 ) 開始安裝吧我們可以從這個網址進行下載，如下圖。  因為小弟是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TFS -  安裝Team Foundation Server 2012 RC">
+<meta property="og:url" content="http://skychang.github.io/2012/06/02/TFS-%E5%AE%89%E8%A3%9DTeam-Foundation-Server-2012-RC/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="這次隨著RC大軍，Team Foundation Server 2012也釋出了中文版的RC，既然都已經裝好了Win Server 2012 RC，就順便把TFS 2012 RC裝上去玩玩看吧。 ( 備註 : 基本上小弟是使用基本安裝，整個安裝流程和TFS 2010其實也沒兩樣，大家也可以去參考TFS界的神人Franma的這篇文章。 ) 開始安裝吧我們可以從這個網址進行下載，如下圖。  因為小弟是">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh3.ggpht.com/-l8-LcBxaxTQ/T8l7xArZ1hI/AAAAAAAAC6M/Hwji8yYZG0Y/image_thumb%25255B2%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-jpo5YXvMNro/T8l71MPkmhI/AAAAAAAAC6c/nON9mNMdBr4/image_thumb%25255B4%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-l9xIKot21VY/T8l73PLjrQI/AAAAAAAAC6s/ja2f0PmG_yA/image_thumb%25255B7%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-jsXxy6r5z0k/T8l75apHRTI/AAAAAAAAC68/3jbYFcX5Zhw/image_thumb%25255B10%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-pAWu5n72miY/T8l77geoPJI/AAAAAAAAC7I/vYy04pfaZfA/image_thumb%25255B15%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-HtZZiSdfhNg/T8l7-NBAtsI/AAAAAAAAC7c/_oyoulrYPQI/image_thumb%25255B18%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-o4AzC48ySoQ/T8l8AkLNJqI/AAAAAAAAC7s/5-TCftDKBPA/image_thumb%25255B21%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-mqqlnVzcOfc/T8l8C7mW_8I/AAAAAAAAC78/S-clGc8XO6w/image_thumb%25255B24%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-Yv8YRdmAzPY/T8l8FxRlPnI/AAAAAAAAC8M/ujGIflRNTGg/image_thumb%25255B27%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-68-Z_dvfXXQ/T8l8IOBDIGI/AAAAAAAAC8c/i5T7UkdPHog/image_thumb%25255B30%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-ycjpIvq40eI/T8l8KWh4PaI/AAAAAAAAC8s/KFiZBXyMHOU/image_thumb%25255B33%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-ofVnd80Mv5E/T8l8NJkreMI/AAAAAAAAC88/HRn2ri9UOFE/image_thumb%25255B37%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-GSOSG5NHRmU/T8l8PmHEMrI/AAAAAAAAC9I/S_Nx3wBBH-U/image_thumb%25255B40%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-MWOAJ3vLmxk/T8l8SFyZADI/AAAAAAAAC9Y/6fr5YwoZtXQ/image_thumb%25255B43%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2012-06-02T10:36:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.964Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="TFS">
+<meta property="article:tag" content="Windows Server">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh3.ggpht.com/-l8-LcBxaxTQ/T8l7xArZ1hI/AAAAAAAAC6M/Hwji8yYZG0Y/image_thumb%25255B2%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> TFS -  安裝Team Foundation Server 2012 RC | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                TFS -  安裝Team Foundation Server 2012 RC
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2012-06-02T10:36:00+00:00" content="2012-06-02">
+              2012-06-02
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/06/02/TFS-%E5%AE%89%E8%A3%9DTeam-Foundation-Server-2012-RC/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/06/02/TFS-安裝Team-Foundation-Server-2012-RC/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>這次隨著RC大軍，Team Foundation Server 2012也釋出了中文版的RC，既然都已經裝好了Win Server 2012 RC，就順便把TFS 2012 RC裝上去玩玩看吧。</p>
+<p>( 備註 : 基本上小弟是使用基本安裝，整個安裝流程和TFS 2010其實也沒兩樣，大家也可以去參考TFS界的神人<a href="http://www.dotblogs.com.tw/franma/archive/2011/01/27/21087.aspx" target="_blank" rel="noopener">Franma的這篇文章</a>。 )</p>
+<h4 id="開始安裝吧"><a href="#開始安裝吧" class="headerlink" title="開始安裝吧"></a>開始安裝吧</h4><p>我們可以從這個<a href="http://www.microsoft.com/visualstudio/11/zh-tw" target="_blank" rel="noopener">網址</a>進行下載，如下圖。</p>
+<p><a href="http://lh3.ggpht.com/-bjB3gv7lEjs/T8l7v4PGaCI/AAAAAAAAC6E/XXH1WONOSic/s1600-h/image%25255B4%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-l8-LcBxaxTQ/T8l7xArZ1hI/AAAAAAAAC6M/Hwji8yYZG0Y/image_thumb%25255B2%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>因為小弟是拿到iso檔，所以小弟這邊就使用iso進行安裝，不過過程都一樣啦；因為小弟沒把副檔名的顯示打開，所以當初在找exe 檔的時候，還找了一下XDD。</p>
+<p><a href="http://lh5.ggpht.com/-8VSClfoTjzU/T8l7yil5egI/AAAAAAAAC6U/oJwcGmUU63o/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-jpo5YXvMNro/T8l71MPkmhI/AAAAAAAAC6c/nON9mNMdBr4/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>相信大家應該都和小弟一樣，從來沒看過授權條款，就勾選了- -。</p>
+<p><a href="http://lh6.ggpht.com/-ZHVyTl6nUeU/T8l71yqNSJI/AAAAAAAAC6k/IgGY7weT4Mo/s1600-h/image%25255B13%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-l9xIKot21VY/T8l73PLjrQI/AAAAAAAAC6s/ja2f0PmG_yA/image_thumb%25255B7%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>安裝中；還滿快的，本來想說去打個D3，結果就已經好了- -。</p>
+<p><a href="http://lh3.ggpht.com/-yFFJVgKWrl4/T8l74LzVPEI/AAAAAAAAC60/U6hxYYTXJPs/s1600-h/image%25255B18%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-jsXxy6r5z0k/T8l75apHRTI/AAAAAAAAC68/3jbYFcX5Zhw/image_thumb%25255B10%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後就出現熟悉的設定畫面，我們這邊選擇”基本”，畢竟目前只是RC，如果還要搞SQL Server，SharePoint，老實說，實在太累了，等正式版出的時候再說吧=v=。( 選擇”基本”的話會在本機上裝上SQL Server Express當作資料庫 )</p>
+<p><a href="http://lh5.ggpht.com/-uNfJzO8Obrg/T8l76bHSwtI/AAAAAAAAC7E/PLOnFGaT1GE/s1600-h/image%25255B27%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-pAWu5n72miY/T8l77geoPJI/AAAAAAAAC7I/vYy04pfaZfA/image_thumb%25255B15%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>基本的歡迎頁面，如果想看一下訊息，可以點點看，但小弟懶得看了XDD，就直接下一步了。( 這是不好的喔XD )</p>
+<p><a href="http://lh4.ggpht.com/-aME4e9jR5HA/T8l78o_4zdI/AAAAAAAAC7U/8q6GoHYXRJE/s1600-h/image%25255B32%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-HtZZiSdfhNg/T8l7-NBAtsI/AAAAAAAAC7c/_oyoulrYPQI/image_thumb%25255B18%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>因為是裝在新的Windows Server 2012 RC上面，所以當然是選擇安裝SQL Server Expession啦。</p>
+<p><a href="http://lh6.ggpht.com/-ZLER8UiOtWE/T8l7_B18XQI/AAAAAAAAC7k/-U-GpszKy_s/s1600-h/image%25255B37%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-o4AzC48ySoQ/T8l8AkLNJqI/AAAAAAAAC7s/5-TCftDKBPA/image_thumb%25255B21%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>好啦，我承認我不小心把Windows Server 2012 RC主機名稱取為Win 8 RC，因為打太快筆誤了QQ，你們要笑就笑吧QQ。</p>
+<p><a href="http://lh6.ggpht.com/-AV8R1Qfpqm8/T8l8BwlJciI/AAAAAAAAC7w/IT7hvMo7zD4/s1600-h/image%25255B42%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-mqqlnVzcOfc/T8l8C7mW_8I/AAAAAAAAC78/S-clGc8XO6w/image_thumb%25255B24%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來進行驗證，基本上，空空的Windows Server 2012 RC，因該也很難會有問題。</p>
+<p><a href="http://lh6.ggpht.com/-AWoY0A_j3xQ/T8l8Ejf6SDI/AAAAAAAAC8A/QcRKRGQMeIo/s1600-h/image%25255B47%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-Yv8YRdmAzPY/T8l8FxRlPnI/AAAAAAAAC8M/ujGIflRNTGg/image_thumb%25255B27%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後系統就開始設定了，這邊也滿快的。</p>
+<p><a href="http://lh3.ggpht.com/-1-VeZhYiZsw/T8l8HBc5ukI/AAAAAAAAC8Q/XkvOstKTh44/s1600-h/image%25255B52%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-68-Z_dvfXXQ/T8l8IOBDIGI/AAAAAAAAC8c/i5T7UkdPHog/image_thumb%25255B30%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>燈燈!就這樣成功啦!!</p>
+<p><a href="http://lh4.ggpht.com/-GVSAtygtUQU/T8l8JRyBEAI/AAAAAAAAC8k/lmjYkUbgj90/s1600-h/image%25255B57%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-ycjpIvq40eI/T8l8KWh4PaI/AAAAAAAAC8s/KFiZBXyMHOU/image_thumb%25255B33%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>我們可以看到”設定Team Foundation Application Server”的前面已經打勾了，表示已經完成了，這時按下關閉就可以了。</p>
+<p><a href="http://lh4.ggpht.com/-f3nWhaQeH6E/T8l8LoqIT4I/AAAAAAAAC80/hx9jufJKb7Y/s1600-h/image%25255B63%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-ofVnd80Mv5E/T8l8NJkreMI/AAAAAAAAC88/HRn2ri9UOFE/image_thumb%25255B37%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後就會跳出這熟悉的管理主控台畫面!!</p>
+<p><a href="http://lh5.ggpht.com/-KueZKk_jmaA/T8l8OAcLBMI/AAAAAAAAC9E/d9fK-zR19_s/s1600-h/image%25255B68%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-GSOSG5NHRmU/T8l8PmHEMrI/AAAAAAAAC9I/S_Nx3wBBH-U/image_thumb%25255B40%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>到這邊就安裝完成了，基本上就和以前一模一樣；另外，如果我們利用網址登入進去，也可以發現和Team Foundation Service ( 雲端版TFS ) 的畫面差不多。</p>
+<p><a href="http://lh6.ggpht.com/-Jcpt6Xt1j80/T8l8REqYTMI/AAAAAAAAC9U/URue8caJ1jk/s1600-h/image%25255B73%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-MWOAJ3vLmxk/T8l8SFyZADI/AAAAAAAAC9Y/6fr5YwoZtXQ/image_thumb%25255B43%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>當然，這也是試裝試裝，小弟就像外行人，看看熱鬧而已，相信未來神人們就會開始介紹進階的功能，另外，目前Web的管理介面與功能基本上都和Team Foundation Service ( Cloud版本，有興趣的也可以參考<a href="http://blog.sanc.idv.tw/p/visual-studio-tfs.html" target="_blank" rel="noopener">小弟的Cloud版本的文章</a>。)</p>
+<p>參考網址</p>
+<ul>
+<li><a href="http://www.microsoft.com/visualstudio/11/zh-tw" target="_blank" rel="noopener">http://www.microsoft.com/visualstudio/11/zh-tw</a></li>
+<li><a href="http://www.dotblogs.com.tw/franma/archive/2011/01/27/21087.aspx" target="_blank" rel="noopener">http://www.dotblogs.com.tw/franma/archive/2011/01/27/21087.aspx</a></li>
+<li><a href="http://blog.sanc.idv.tw/p/visual-studio-tfs.html" target="_blank" rel="noopener">http://blog.sanc.idv.tw/p/visual-studio-tfs.html</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/TFS/" rel="tag">#TFS</a>
+          
+            <a href="/tags/Windows-Server/" rel="tag">#Windows Server</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/06/01/%E6%97%A5%E8%A8%98-Windows-8-RP%E3%80%81Windows-Server-2012-%E3%80%81Visual-Studio-2012%E3%80%81-TFS-2012-RC%E8%BB%8D%E5%9C%98-%E9%87%8B%E5%87%BA%E4%BA%86/" rel="next" title="日記 - Windows 8 RP、Windows Server 2012 、Visual Studio 2012、 TFS 2012 RC軍團 釋出了!">
+                <i class="fa fa-chevron-left"></i> 日記 - Windows 8 RP、Windows Server 2012 、Visual Studio 2012、 TFS 2012 RC軍團 釋出了!
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/06/02/TFS-Team-Foundation-Server-2012-RC-%E9%9A%A8%E6%84%8F%E7%8E%A9%E7%8E%A9/" rel="prev" title="TFS -  Team Foundation Server 2012 RC 隨意玩玩">
+                TFS -  Team Foundation Server 2012 RC 隨意玩玩 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#開始安裝吧"><span class="nav-number">1.</span> <span class="nav-text">開始安裝吧</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">2.</span> <span class="nav-text">後記</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2012/06/02/TFS-安裝Team-Foundation-Server-2012-RC/';
+      var disqus_title = 'TFS -  安裝Team Foundation Server 2012 RC';
+      var disqus_url = 'http://skychang.github.io/2012/06/02/TFS-%E5%AE%89%E8%A3%9DTeam-Foundation-Server-2012-RC/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

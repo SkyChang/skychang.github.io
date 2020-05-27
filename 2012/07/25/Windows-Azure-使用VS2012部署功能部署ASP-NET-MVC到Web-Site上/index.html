@@ -1,0 +1,719 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Visual Studio,ASP.NET MVC,Azure," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前一篇我們使用Web Site來快速的部署最近流行的WordPress、Joomla、Drupal等服務，幾乎不需要動到甚麼，按一按就完成了，既輕鬆，又方便；但是我相信，一定有很多人要的不是這些應用程式，而是想把自己寫的東西放上去阿!!而原本的Cloud Service ( Web Role和Work Role )雖然非常強大，但還是要稍微的學習一下 ( 其實也沒啥學習曲線啦&#x3D; &#x3D; )，但當遇到老">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Azure - 使用VS2012部署功能部署ASP.NET MVC到Web Site上">
+<meta property="og:url" content="http://skychang.github.io/2012/07/25/Windows-Azure-%E4%BD%BF%E7%94%A8VS2012%E9%83%A8%E7%BD%B2%E5%8A%9F%E8%83%BD%E9%83%A8%E7%BD%B2ASP-NET-MVC%E5%88%B0Web-Site%E4%B8%8A/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="前一篇我們使用Web Site來快速的部署最近流行的WordPress、Joomla、Drupal等服務，幾乎不需要動到甚麼，按一按就完成了，既輕鬆，又方便；但是我相信，一定有很多人要的不是這些應用程式，而是想把自己寫的東西放上去阿!!而原本的Cloud Service ( Web Role和Work Role )雖然非常強大，但還是要稍微的學習一下 ( 其實也沒啥學習曲線啦&#x3D; &#x3D; )，但當遇到老">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh4.ggpht.com/-z1eXorA_pUs/UBAP2YESqPI/AAAAAAAADfM/7pgo-LtgA2w/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-aT4465nF-4M/UBAP5scQTWI/AAAAAAAADfc/ClbXVrmAZHM/image_thumb%25255B4%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-FfUatF0X7RU/UBAP66my8-I/AAAAAAAADfs/jGJiuMxkkZU/image_thumb%25255B7%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-WPOQK-QXi88/UBAP8cEp9ZI/AAAAAAAADf8/JcsZF7duNrY/image_thumb%25255B10%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-_AMpJn8MCCY/UBAP_P5jQ4I/AAAAAAAADgM/Azez5szJo94/image_thumb%25255B13%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-deEcgVB6Ed8/UBAQAufyVJI/AAAAAAAADgc/mV7e8dqAyZM/image_thumb%25255B16%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-QzPkntq3_JA/UBAQCcixZtI/AAAAAAAADgs/JMHogBT8wVQ/image_thumb%25255B21%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-UiIy4Y0dido/UBAQEOGZA2I/AAAAAAAADg8/QCFDm8DJTcE/image_thumb%25255B26%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-TQep_Nm-heg/UBAQGgKmjZI/AAAAAAAADhM/GR6fXicpBY4/image_thumb%25255B24%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-eojUYNHVyGQ/UBAQH61T6eI/AAAAAAAADhc/XdU4bqNyVKo/image_thumb%25255B29%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-w44EjmXCHeg/UBAQKMFQYWI/AAAAAAAADhs/OZciQGLgckQ/image_thumb%25255B57%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-CZu02mcyyBs/UBAQLrgMI-I/AAAAAAAADh8/pfziqkvsffQ/image_thumb%25255B35%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-HDVxT3e4eLQ/UBAQNNnsl5I/AAAAAAAADiM/xevOt603TqQ/image_thumb%25255B38%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-eqVdbyBSsP4/UBAQOtJNUYI/AAAAAAAADic/-JXZUUE3JG4/image_thumb%25255B41%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-CMMvzxTkddo/UBAQQOaEqwI/AAAAAAAADis/bq26l1bKu7s/image_thumb%25255B44%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/--VPFJunmU48/UBAQRY5rfHI/AAAAAAAADi8/EPhcV42-AHc/image_thumb%25255B47%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-qIX5BPIsWCk/UBAQUZkipnI/AAAAAAAADjM/23MYrwVKPZE/image_thumb%25255B51%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-201IHofSt3Q/UBAQXy283oI/AAAAAAAADjc/XCzn8s63yk8/image_thumb%25255B55%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-0tebIkQsEuo/UBAQamBUKYI/AAAAAAAADjs/ARwS34sGndY/image_thumb%25255B90%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-tK20GG17OoQ/UBAQdHXk9xI/AAAAAAAADj8/xa7cic7wTsg/image_thumb%25255B59%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-wwnXgfbuUbI/UBAQet_NKrI/AAAAAAAADkM/6mmtjMxM5PY/image_thumb%25255B64%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-MLV8mW2t59c/UBAQgPeaUSI/AAAAAAAADkc/Vmr2py8qgP4/image_thumb%25255B66%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-EQLtuqJbFAw/UBAQi-DS9pI/AAAAAAAADks/3IOO1ETrRXc/image_thumb%25255B69%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-RyOx8BvBACM/UBAQkThP6LI/AAAAAAAADk8/JPbnlgWF500/image_thumb%25255B71%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-JBcNhfIRnCA/UBAQnExAidI/AAAAAAAADlM/oJF9dbqraqw/image_thumb%25255B86%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-BlPtLasB8VY/UBAQoS3yLTI/AAAAAAAADlc/T5Gt2gE7kw8/image_thumb%25255B88%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2012-07-25T23:28:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.027Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta property="article:tag" content="Azure">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh4.ggpht.com/-z1eXorA_pUs/UBAP2YESqPI/AAAAAAAADfM/7pgo-LtgA2w/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Windows Azure - 使用VS2012部署功能部署ASP.NET MVC到Web Site上 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Windows Azure - 使用VS2012部署功能部署ASP.NET MVC到Web Site上
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2012-07-25T23:28:00+00:00" content="2012-07-25">
+              2012-07-25
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/07/25/Windows-Azure-%E4%BD%BF%E7%94%A8VS2012%E9%83%A8%E7%BD%B2%E5%8A%9F%E8%83%BD%E9%83%A8%E7%BD%B2ASP-NET-MVC%E5%88%B0Web-Site%E4%B8%8A/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/07/25/Windows-Azure-使用VS2012部署功能部署ASP-NET-MVC到Web-Site上/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="http://blog.sanc.idv.tw/2012/07/windows-azure-web-siteswordpressjoomlad.html" target="_blank" rel="noopener">前一篇</a>我們使用Web Site來快速的部署最近流行的WordPress、Joomla、Drupal等服務，幾乎不需要動到甚麼，按一按就完成了，既輕鬆，又方便；但是我相信，一定有很多人要的不是這些應用程式，而是想把自己寫的東西放上去阿!!而原本的Cloud Service ( Web Role和Work Role )雖然非常強大，但還是要稍微的學習一下 ( 其實也沒啥學習曲線啦= = )，但當遇到老闆不停在催促的時候，就沒那麼多時間可以摸了，當然希望趕快弄完，這樣就可以輕鬆地去摸魚，喔，不是，去做更重要的工作了!!</p>
+<p>所以這次Microsoft也聽見了大家的心聲，多了一個Web Site可以快速的讓人部署上去，而且也不需要做甚麼設定，也是按一按就搞定!!</p>
+<h4 id="建立Web-Site"><a href="#建立Web-Site" class="headerlink" title="建立Web Site"></a>建立Web Site</h4><p>首先，我們當然還是要新建立一個Web Site，因為目前這個版本在Preview，所以記得要先去官網開啟這個服務 ( 不清楚可以看<a href="http://blog.sanc.idv.tw/2012/07/windows-azure-web-siteswordpressjoomlad.html" target="_blank" rel="noopener">前一篇</a> )，而如果在舊的管理介面，需要切換到新的管理介面，可以參考<a href="http://blog.sanc.idv.tw/2012/07/windows-azure.html" target="_blank" rel="noopener">這篇</a>。</p>
+<p>首先，當然是按下New來新增。</p>
+<p><a href="http://lh6.ggpht.com/-omGS1VCX1M4/UBAP1m9HWbI/AAAAAAAADfE/bfQofyNsISs/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-z1eXorA_pUs/UBAP2YESqPI/AAAAAAAADfM/7pgo-LtgA2w/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們不再使用購物車了，要選擇Create With Database，因為ASP.NET MVC的樣板有使用到資料庫，所以我們要選擇這個；但如果今天暫時沒有要使用DB，也可以選擇Quick Create，但要注意的是，如果使用Quick Create建立出來的Web Site，未來是不能再加掛MySQL的，如果今天要使用MySQL，也別忘了要直接選擇Create With Database；其次MySQL的額度只有一個，也別忘記了，最後，這裡新開的SQL Server db也是要另外收費的，有預算限制的要注意一下。</p>
+<p><a href="http://lh4.ggpht.com/-Zz2pgSYA0-4/UBAP4ES3pqI/AAAAAAAADfU/iLxu2tDo14Q/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-aT4465nF-4M/UBAP5scQTWI/AAAAAAAADfc/ClbXVrmAZHM/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>首先，我們要先設定一下Web Site，我們可以取自己想要的URL，但要特別注意，未來如果還要改URL，會有點麻煩，所以這邊要想清楚；接下來，我們選擇建立新的SQL Database，地區這邊是選擇東美，因為目前亞洲還沒有提供，最後，選擇要合約。</p>
+<p><a href="http://lh3.ggpht.com/-08d23WgKqMM/UBAP6IF-OvI/AAAAAAAADfk/D_XXIMG4xUs/s1600-h/image%25255B13%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-FfUatF0X7RU/UBAP66my8-I/AAAAAAAADfs/jGJiuMxkkZU/image_thumb%25255B7%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這裡要建立SQL Server，Web和Business最大的差異，就是未來可以調整的size大小，還有費用的高低。</p>
+<p><a href="http://lh6.ggpht.com/-mw98RoP2HO8/UBAP7qQHzWI/AAAAAAAADf0/S4laq8BnmCo/s1600-h/image%25255B18%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-WPOQK-QXi88/UBAP8cEp9ZI/AAAAAAAADf8/JcsZF7duNrY/image_thumb%25255B10%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這裡我們要輸日SQL Server的管理者帳號，密碼，別忘了資料庫的地區要和Web Site地區設定一樣，這樣速度才會快，也才不會有多餘的費用產生，最後記得下面要打勾，才能讓Windows Azure服務存取這個資料庫。</p>
+<p><a href="http://lh4.ggpht.com/-7vL6a9CJbWg/UBAP9L-rdJI/AAAAAAAADgE/yyG3zrkMTeY/s1600-h/image%25255B23%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-_AMpJn8MCCY/UBAP_P5jQ4I/AAAAAAAADgM/Azez5szJo94/image_thumb%25255B13%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>完成後，我們就可以按下按鈕瀏覽看看。</p>
+<p><a href="http://lh6.ggpht.com/-l4I6u_paUug/UBAP_gFbmFI/AAAAAAAADgU/E3WnnWRJU2U/s1600-h/image%25255B28%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-deEcgVB6Ed8/UBAQAufyVJI/AAAAAAAADgc/mV7e8dqAyZM/image_thumb%25255B16%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>預設的畫面如下圖。</p>
+<p><a href="http://lh3.ggpht.com/-0yCKCYZBW9M/UBAQBfJZyYI/AAAAAAAADgk/BTbk2T_guvI/s1600-h/image%25255B37%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-QzPkntq3_JA/UBAQCcixZtI/AAAAAAAADgs/JMHogBT8wVQ/image_thumb%25255B21%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們回到Web Site的管理，並且進入剛剛選設定好的Web Site。</p>
+<p><a href="http://lh5.ggpht.com/-atQX4e_JeSY/UBAQDCVksnI/AAAAAAAADg0/9FsZXC6Rdcw/s1600-h/image%25255B46%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-UiIy4Y0dido/UBAQEOGZA2I/AAAAAAAADg8/QCFDm8DJTcE/image_thumb%25255B26%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>我們這邊要下載Publish profile，這個檔案超級方便!!，我們未來可以利用Visual Studio 2012來匯入此檔案，然後我們就不需要手動設定了!!</p>
+<p><a href="http://lh6.ggpht.com/-MmPGynIYSOY/UBAQEoz_InI/AAAAAAAADhE/CopwuLFPl-c/s1600-h/image%25255B42%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-TQep_Nm-heg/UBAQGgKmjZI/AAAAAAAADhM/GR6fXicpBY4/image_thumb%25255B24%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>就存到自己記得的位置吧。</p>
+<p><a href="http://lh3.ggpht.com/-m_Lce_evnj4/UBAQHODK2dI/AAAAAAAADhU/7d36vwdAST0/s1600-h/image%25255B51%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-eojUYNHVyGQ/UBAQH61T6eI/AAAAAAAADhc/XdU4bqNyVKo/image_thumb%25255B29%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>到這邊，Web Site就設定完成了，下一步，我們開始利用Visual Studio 2012建立一個ASP.NET MVC專案。</p>
+<h4 id="建立ASP-NET-MVC專案"><a href="#建立ASP-NET-MVC專案" class="headerlink" title="建立ASP.NET MVC專案"></a>建立ASP.NET MVC專案</h4><p>這個畫面大家應該已經看到膩了吧XDD，但這邊特別注意一下，如果使用Visual Studio 2012建立的ASP.NET MVC專案，預設是使用.Net Framework 4.5，所以這邊我們要改回.Net Framework 4，因為目前Web Site不支援.Net Framework 4.5。</p>
+<p><a href="http://lh3.ggpht.com/-A7cCe1lmi5Y/UBAQIpqQJHI/AAAAAAAADhk/oK6n5wLlWec/s1600-h/image%25255B97%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-w44EjmXCHeg/UBAQKMFQYWI/AAAAAAAADhs/OZciQGLgckQ/image_thumb%25255B57%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>選擇Internet Application專案，因為這樣Demo比較方便XDD。</p>
+<p><a href="http://lh5.ggpht.com/-p0NTwZZV0nY/UBAQK__xYyI/AAAAAAAADh0/Dx7qnulplk4/s1600-h/image%25255B61%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-CZu02mcyyBs/UBAQLrgMI-I/AAAAAAAADh8/pfziqkvsffQ/image_thumb%25255B35%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們選擇這個專案，並選擇發行。</p>
+<p><a href="http://lh6.ggpht.com/-H3in9-WCGvU/UBAQMefE7kI/AAAAAAAADiE/dxLL50qquRQ/s1600-h/image%25255B66%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-HDVxT3e4eLQ/UBAQNNnsl5I/AAAAAAAADiM/xevOt603TqQ/image_thumb%25255B38%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這邊選擇Import來匯入剛剛下載的Publish Profile。</p>
+<p><a href="http://lh6.ggpht.com/-y4UkiwbRfh8/UBAQNtiD6-I/AAAAAAAADiU/fM06TxgiLDw/s1600-h/image%25255B71%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-eqVdbyBSsP4/UBAQOtJNUYI/AAAAAAAADic/-JXZUUE3JG4/image_thumb%25255B41%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>選擇剛剛下載的檔案!!</p>
+<p><a href="http://lh4.ggpht.com/-anfIXoWiRvw/UBAQPVm6HLI/AAAAAAAADik/sBrf-aCzvLA/s1600-h/image%25255B76%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-CMMvzxTkddo/UBAQQOaEqwI/AAAAAAAADis/bq26l1bKu7s/image_thumb%25255B44%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後他就會幫你把設定全部都準備好!!超級懶人的啦!!但我超愛=v=，以前搞這個，iis也要設定，Visual Studio也要設定，然後也不知道哪裡出錯，現在，超簡單都搞定了。</p>
+<p><a href="http://lh5.ggpht.com/-0VpoNSvd69E/UBAQQsViB1I/AAAAAAAADi0/pXwFZ67hhXc/s1600-h/image%25255B81%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/--VPFJunmU48/UBAQRY5rfHI/AAAAAAAADi8/EPhcV42-AHc/image_thumb%25255B47%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>我們持續按下一步後，這頁是用來設定Database，基本上也不需要做甚麼，但我們可以看看，Database是否已經設定好了。</p>
+<p><a href="http://lh3.ggpht.com/-bQtcuTb6Mv4/UBAQTofExKI/AAAAAAAADjE/pjjdm-shXcc/s1600-h/image%25255B87%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-qIX5BPIsWCk/UBAQUZkipnI/AAAAAAAADjM/23MYrwVKPZE/image_thumb%25255B51%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>有沒有，有沒有，通通都設定好了!!</p>
+<p><a href="http://lh3.ggpht.com/-i4T5YVdyXwc/UBAQWFhCupI/AAAAAAAADjU/zb4HHJ2xhX8/s1600-h/image%25255B93%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-201IHofSt3Q/UBAQXy283oI/AAAAAAAADjc/XCzn8s63yk8/image_thumb%25255B55%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>好，High完後，我們還是要繼續，最後我們就可以選擇開始發佈，我們可以先使用Start Preview來看看有哪些檔案需要更新，然後再勇敢地按下Publish，就會順利地發佈出去了。</p>
+<p><a href="http://lh6.ggpht.com/-E1moCdpxtY4/UBAQYvs3rYI/AAAAAAAADjk/iGYH2Wj7Bwc/s1600-h/image%25255B156%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-0tebIkQsEuo/UBAQamBUKYI/AAAAAAAADjs/ARwS34sGndY/image_thumb%25255B90%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>如下圖，很順利的成功了。</p>
+<p><a href="http://lh4.ggpht.com/--n6sc__Y2eo/UBAQbP_nTzI/AAAAAAAADj0/XSWXB7nW-W4/s1600-h/image%25255B101%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-tK20GG17OoQ/UBAQdHXk9xI/AAAAAAAADj8/xa7cic7wTsg/image_thumb%25255B59%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>我們可以用瀏覽器看一下，熟悉的ASP.NET MVC Application就這樣部署到雲端去了!!</p>
+<p><a href="http://lh6.ggpht.com/-ZWdjV2Z9A6I/UBAQd0oiraI/AAAAAAAADkE/Prfbrkl3ShM/s1600-h/image%25255B110%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-wwnXgfbuUbI/UBAQet_NKrI/AAAAAAAADkM/6mmtjMxM5PY/image_thumb%25255B64%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們測試一下資料庫，我們選擇註冊。</p>
+<p><a href="http://lh3.ggpht.com/-9b_ZeRQLjSc/UBAQfUNZi8I/AAAAAAAADkU/8eOIQ8uB4wE/s1600-h/image%25255B114%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-MLV8mW2t59c/UBAQgPeaUSI/AAAAAAAADkc/Vmr2py8qgP4/image_thumb%25255B66%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後填一下資料。</p>
+<p><a href="http://lh4.ggpht.com/-AIQw-VHxg4Y/UBAQh5VYQMI/AAAAAAAADkk/DThx_Kyc1LE/s1600-h/image%25255B119%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-EQLtuqJbFAw/UBAQi-DS9pI/AAAAAAAADks/3IOO1ETrRXc/image_thumb%25255B69%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>回到首頁後，可以發現資料已經輸入進去了。</p>
+<p><a href="http://lh5.ggpht.com/-5CcVi6gkhIo/UBAQj8HxDDI/AAAAAAAADk0/NM-wDY0nK_w/s1600-h/image%25255B123%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-RyOx8BvBACM/UBAQkThP6LI/AAAAAAAADk8/JPbnlgWF500/image_thumb%25255B71%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們可以利用SQL Azure的線上管理工具來看看資料是否已經寫入到SQL Azure了，如果不知道這如何進入，可以<a href="http://blog.sanc.idv.tw/2012/07/windows-azure-sql-azure.html" target="_blank" rel="noopener">參考這篇</a>；我們進入後，選擇設計，並且按下編輯 ( 沒錯，是編輯… )。</p>
+<p><a href="http://lh5.ggpht.com/-IrILGXVRZnY/UBAQmUXPKrI/AAAAAAAADlE/Icse_7vU6dY/s1600-h/image%25255B150%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-JBcNhfIRnCA/UBAQnExAidI/AAAAAAAADlM/oJF9dbqraqw/image_thumb%25255B86%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>編輯裡面有一個資料，我們可以從資料這邊查到剛剛註冊的資料!!</p>
+<p><a href="http://lh6.ggpht.com/-JhqV57QM0BY/UBAQn5JqoZI/AAAAAAAADlU/VZXVBY8WnhA/s1600-h/image%25255B154%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-BlPtLasB8VY/UBAQoS3yLTI/AAAAAAAADlc/T5Gt2gE7kw8/image_thumb%25255B88%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這樣就完成了，今天也完全不用寫程式碼喔!!</p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>老實說，Web Site真的很簡單又很好用，雖然少了Cloud Service的一些功能，但對於一般使用，應該就已經很足夠了；有興趣的人，也可以自己玩玩看，完全不用寫到程式碼喔!!。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/07/25/Windows-Azure-%E5%9C%A8%E6%96%B0%E7%89%88%E7%9A%84%E7%AE%A1%E7%90%86%E4%BB%8B%E9%9D%A2%E8%A8%AD%E5%AE%9ASQL-Azure%E7%9A%84%E9%98%B2%E7%81%AB%E7%89%86/" rel="next" title="Windows Azure -  在新版的管理介面設定SQL Azure的防火牆">
+                <i class="fa fa-chevron-left"></i> Windows Azure -  在新版的管理介面設定SQL Azure的防火牆
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/07/26/Windows-Azure-%E8%A3%BD%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84VM%E5%BD%B1%E5%83%8F%E6%AA%94%E4%B8%A6%E4%B8%94%E5%88%A9%E7%94%A8%E9%80%99%E5%80%8B%E5%BD%B1%E5%83%8F%E6%AA%94%E4%BE%86%E7%94%A2%E7%94%9F%E4%B8%80%E5%8F%B0%E6%96%B0VM/" rel="prev" title="Windows Azure - 製作自己的VM影像檔並且利用這個影像檔來產生一台新VM!">
+                Windows Azure - 製作自己的VM影像檔並且利用這個影像檔來產生一台新VM! <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#建立Web-Site"><span class="nav-number">1.</span> <span class="nav-text">建立Web Site</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立ASP-NET-MVC專案"><span class="nav-number">2.</span> <span class="nav-text">建立ASP.NET MVC專案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">3.</span> <span class="nav-text">後記</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2012/07/25/Windows-Azure-使用VS2012部署功能部署ASP-NET-MVC到Web-Site上/';
+      var disqus_title = 'Windows Azure - 使用VS2012部署功能部署ASP.NET MVC到Web Site上';
+      var disqus_url = 'http://skychang.github.io/2012/07/25/Windows-Azure-%E4%BD%BF%E7%94%A8VS2012%E9%83%A8%E7%BD%B2%E5%8A%9F%E8%83%BD%E9%83%A8%E7%BD%B2ASP-NET-MVC%E5%88%B0Web-Site%E4%B8%8A/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

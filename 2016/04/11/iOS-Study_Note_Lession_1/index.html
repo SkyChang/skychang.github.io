@@ -1,0 +1,741 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,XCode,Swift," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言這篇是小弟我自己的學習筆記，內容不會針對 iOS 開發的特定主題進行介紹，內容主要是看了 Developing iOS 8 Apps with Swift by Stanford 這個課程的心得與感想，因為這塊尚在學習中，所以內容可能會有錯誤，也請大家包涵。 另外，這邊紀錄的主要是針對小弟我自己比較不熟悉的部分，所以大家不要把這文章當作一個正式的學習過程喔！！還是建議看完整的影片學習，或是直接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS - 學習筆記 - Lession 1">
+<meta property="og:url" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="前言這篇是小弟我自己的學習筆記，內容不會針對 iOS 開發的特定主題進行介紹，內容主要是看了 Developing iOS 8 Apps with Swift by Stanford 這個課程的心得與感想，因為這塊尚在學習中，所以內容可能會有錯誤，也請大家包涵。 另外，這邊紀錄的主要是針對小弟我自己比較不熟悉的部分，所以大家不要把這文章當作一個正式的學習過程喔！！還是建議看完整的影片學習，或是直接">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/01.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/02.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/03.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/04.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/05.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/06.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/07.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/08.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/09.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/10.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/11.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/12.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/13.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/14.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/15.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/16.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/17.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/18.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/19.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/20.png">
+<meta property="article:published_time" content="2016-04-11T22:12:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.043Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="XCode">
+<meta property="article:tag" content="Swift">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> iOS - 學習筆記 - Lession 1 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS - 學習筆記 - Lession 1
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-04-11T22:12:00+00:00" content="2016-04-11">
+              2016-04-11
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/11/iOS-Study_Note_Lession_1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/04/11/iOS-Study_Note_Lession_1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>這篇是小弟我自己的學習筆記，內容不會針對 iOS 開發的特定主題進行介紹，<br>內容主要是看了 <a href="https://itunes.apple.com/tw/course/developing-ios-8-apps-swift/id961180099" target="_blank" rel="noopener">Developing iOS 8 Apps with Swift by Stanford</a> 這個<br>課程的心得與感想，因為這塊尚在學習中，所以內容可能會有錯誤，也請大家包涵。</p>
+<p>另外，這邊紀錄的主要是針對小弟我自己比較不熟悉的部分，所以大家<br>不要把這文章當作一個正式的學習過程喔！！還是建議看完整的影片學習，或是直接閱讀外面的課本、上課、或是官方的文件喔！！</p>
+<p>最後，這篇文章會隨著小弟自己的學習過程中，不斷的更新，但更新的過程中，並不會特別 Highlight ，也請大家多見諒。</p>
+<h2 id="開始"><a href="#開始" class="headerlink" title="開始"></a>開始</h2><p>根據白鬍子 ( 沒錯，裡面的講師，外號就是白鬍子～～ ) 目前 Lession 1 開始，會從頭撰寫一個計算機，所以我們這篇，<br>就針看看 Lession 1 裡面，從撰寫計算機的過程中，學習 iOS 開發。</p>
+<h2 id="建立新專案"><a href="#建立新專案" class="headerlink" title="建立新專案"></a>建立新專案</h2><p>首先，我們當然要裝上 Xcode，目前 Xcode 是免費的，可以直接從 App Store 進行下載 ( 但是要部署到手機上，就要繳年費 3000 … )，<br>而第一步，我們就先建立一個新的專案。</p>
+<p><img src="01.png" alt=""></p>
+<p>接下來，我們可以看到，這邊基本上提供了許多不同的範本，有類似 Email App 的 Master-Detail 範本，而這邊，我們先使用 Singe View Application 當作範例。</p>
+<p>畢竟，我們現在只需要第一頁而已。</p>
+<p><img src="02.png" alt=""></p>
+<p>接下來，我們可以針對專案名稱進行命名，而比較特殊的是 Organization Identifier ，這個到時候上架，會變成唯一的識別，所以我們通常用倒網址的方式。</p>
+<p><img src="03.png" alt=""></p>
+<p>這邊就單純了，反正就選擇要存放的路徑，而目前我們還不打算使用版控，所以 Create Git Repository 就不勾選了。</p>
+<p><img src="04.png" alt=""></p>
+<h2 id="建立-UI"><a href="#建立-UI" class="headerlink" title="建立 UI"></a>建立 UI</h2><p>完成之後，我們就可以去 Main.storyboard 拉畫面， Main.storyboard 是所有畫面的起點，這點 iOS 做的其實很不錯 ( 其實 MS 也有類似的東西… )，<br>透過一個畫面一個畫面，就可以看到整個畫面的來龍去脈～～</p>
+<p>而這邊，我們就拉一個 Label ， 當作計算機顯示數字的地方，並且可以設定大小為 32 ， 並且將 0 靠右對齊。</p>
+<p><img src="05.png" alt=""></p>
+<p>接著，我們就可以 Run Run 看，登登！！白鬍子就給我們了第一個驚喜！！沒錯，iPhone 模擬器無法看到那個 0 !!!!!</p>
+<p>但其實如下圖，不是那個 0 被 Hidden 了，而是 iPhone 顯示不到那個 0 …</p>
+<p>狀況就很類似下圖的情況， iPhone 的寬度不到那個 0 的位置，而且大家如果有注意到，Main.storyboard 的框框是正方形的！！<br>但沒有任何一個裝置是正方形的啊！！！！！ 沒錯，Main.storyboard 的 Layout 有他自己的特殊規定，<br>為了符合各種裝置，甚至是橫向直向的時候，都能讓 Layout 正常，所以開發上必須有特殊的做法～～</p>
+<p><img src="06.png" alt=""></p>
+<p>接下來，我們就要針對 Layout 進行設定，首先在 Label 上，按住 Ctrl + 滑鼠左鍵，拖拉到左邊線條。</p>
+<p><img src="07.png" alt=""></p>
+<p>完成之後，我們就可以按下，下面的按鈕，並且從左邊的清單看到相關資訊，是低，上面那個動作，就是增加了約束 ( constraints )，<br>透過約束 ( Constraints ) 就可以讓 iOS 在不同的情境下，知道該怎樣去做顯示。</p>
+<p>而底下的紅色線，就代表目前還有 右、上、下 的部分，iOS 不知道怎麼顯示。</p>
+<p>而藍色線代表 iOS 知道他要怎麼顯示。</p>
+<p><img src="08.png" alt=""></p>
+<p>接著，完成了左邊，我們一樣要完成 右、上 ( 請先不要拖拉下方 )，當拖拉到右方的時候，就會跳出如下圖視窗，<br>而這邊我們就選擇 Leading Space to Container Margin。 ( 原因請容小弟未來補上.. )，而拉到上方的時候，也同樣的方式去選擇。</p>
+<p><img src="09.png" alt=""></p>
+<p>當完成之後，我們 左、上、右 都呈現藍色了，接下來，我們可以看到如下圖有個橘色的部分。</p>
+<p>那其實是代表，Xcode 發現有問題。</p>
+<p><img src="10.png" alt=""></p>
+<p>當按下去後，就會跳到下一頁，如下圖，那個三角形代表著 iOS 很貼心的提供我們解決方案。</p>
+<p><img src="11.png" alt=""></p>
+<p>點擊之後，我們就可以選擇 Update frames ，這樣底下就會變成藍線了 ( 未來補上是做什麼用的… )</p>
+<p><img src="12.png" alt=""></p>
+<p>這個時候，我們重新執行，就可以看到 0 出現了！！ ( 而且旋轉模擬器也不會有問題喔！！ )</p>
+<p><img src="13.png" alt=""></p>
+<h2 id="將-Label-與-Code-連結"><a href="#將-Label-與-Code-連結" class="headerlink" title="將 Label 與 Code 連結"></a>將 Label 與 Code 連結</h2><p>接下來，我們一定會想，要怎樣讓 Label 與 Code 連結，其實很簡單，也很好玩，我們只要按住 Ctrl + 滑鼠左鍵，拖拉到程式碼就可以了！！<br>而拖拉過去放開後，會跳出視窗可以選擇，基本上，不用特別去選擇就可以。<br>如下圖。</p>
+<p><img src="14.png" alt=""></p>
+<p>完成後的程式碼如下圖，@IBOutlet 是代表著與 UI 繫結，Weak 目前 Lession 1 還沒介紹到….</p>
+<p>var 代表著變數，而 Display 則是變數名稱 後面 :UILabel 則是代表著型態為 UILabel</p>
+<p>而 UILabel 這個型態後面有一個 ! ，其實這是一個語法糖，因為 Swift 有很多 optional 的型態，而所謂的 optional 說穿了，<br>其實這就很像 C# 的 int? 這種型態…</p>
+<p>而基本上 Swift 定義 optional 也是用 ? ，所以原則上應該也是必須寫成如下</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> <span class="type">Display</span>: <span class="type">UILabel?</span></span><br></pre></td></tr></table></figure>
+
+<p>但如同 C# 一樣，如果是 int? 的型態，到時候要取值，在 C# 裡面就必須要用 xxx.value 來取得值，而在 Swift 裡面，要取得值，就必須要用 ! 來取值，<br>如下，使用 Display! 來取得 optional 裡面的 UILabel 物件。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Display</span>！.text = “<span class="number">123</span><span class="string">"</span></span><br></pre></td></tr></table></figure>
+
+<p>等等，大家可能會發現，不對啊，上面我們看到的是 UILabel!，如下。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> <span class="type">Display</span>: <span class="type">UILabel!</span></span><br></pre></td></tr></table></figure>
+
+<p>而 UILabel 是型別啊！！，不是真的變數啊。沒錯！！所以才說是語法糖，<br>當在型態後面加上 ! 的時候，就代表著 Display 這個變數，無論何時，都會保持著直接取得值的狀態，所以未來使用 Display 的時候，就不用寫 Display! 了。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Display</span>.text = “<span class="number">123</span><span class="string">"</span></span><br></pre></td></tr></table></figure>
+
+<p>p.s 後面我的 Code 又把 Display 這個變數改成小寫 display，因為影片是小寫，所以就統一用小寫。</p>
+<p><img src="15.png" alt=""></p>
+<h2 id="Help-方式"><a href="#Help-方式" class="headerlink" title="Help 方式"></a>Help 方式</h2><p>在 Xcode 裡面，提供了文件說明的方式，只要按住 Option ，然後就可以點選程式碼，就可以看到說明。</p>
+<p><img src="16.png" alt=""></p>
+<h2 id="加上-Button"><a href="#加上-Button" class="headerlink" title="加上 Button"></a>加上 Button</h2><p>接著，我們就可以拉 button 進去了。</p>
+<p><img src="17.png" alt=""></p>
+<p>而 Button 要和 code 產生關聯，方法也是一樣，但這邊就要注意了，要選擇 Action，而不是 Outlet，而 Arguments，必須要選擇 Sender，<br>其實有經驗的開發人員就會知道了，Sender 就是代表著哪個按鈕按下，因為等下我們數字鍵會全部綁定這個方法，所以我們要透過 Sender 這個參數，<br>來得知是哪個按鈕按下。</p>
+<p><img src="18.png" alt=""></p>
+<p>接下來，就拖拖拉拉，完成數字鍵…</p>
+<p><img src="19.png" alt=""></p>
+<h2 id="Swift-Func"><a href="#Swift-Func" class="headerlink" title="Swift Func"></a>Swift Func</h2><p>接下來，我們就要開始寫一些 Code，在 Swift，裡面的 func，如下：</p>
+<p>appendDigit 是 function 的名稱，而 sender 是參數的名稱， UIButton 是參數的型態 ( 剛好和 C# , Java 顛倒，就不能統一一下嗎= = )<br>若有回傳值，則是加在 () 的後面，未來再提。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">appendDigit</span><span class="params">(sender: UIButton)</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而如果是從 Button 拉過來的 func ，會多 @IBAction ，這個也是代表著和 UI 繫結，所以不是 func 必備的參數，但卻是和 UI 繫結必須的。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">appendDigit</span><span class="params">(sender: UIButton)</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>完整的 Class 如下，有幾個地方需要注意，首先，我們可以定義一個變數 userIsInheMiddleOfTypingANumber ，<br>但在 Swift 裡面，只要定義了變數，就一定要先給值，沒辦法和 C# 一樣，定義出來的東西可以先不給值。</p>
+<p>那大家可能又會好奇，剛剛談論很久的 @IBOutlet weak var display: UILabel! 為什麼可以不用給值。</p>
+<p>一來是因為他是 optional 型別，預設就會是 nil ( 可以想成 null )，二來是因為當我們畫面 run 起來的時候，<br>立馬就會與 UI 繫結起來了。</p>
+<p>再往下看，我們可以看到 let ， 使用 let 後，這個變數就不能改了～～</p>
+<p>而 sender.currentTitle! 則是按鈕上的數字，其實可以發現，Swift 真的是海量的 optional …. 撰寫時真的要小心～</p>
+<p>另外，我們看到 print(“digit = (digit)”) ， 只要是 () 裡面的東西，就可以直接輸出變數內容，就不用和以前一樣字串 + + + 了。<br>( 最近 JS ES6 和 C# 都有類似的東西，但寫法都不一樣…翻桌 )</p>
+<p>最後，這邊的邏輯其實很簡單，影片中，使用 userIsInheMiddleOfTypingANumber 來判斷是否第一次按下 button，<br>如果是的話，就直接將按鈕上的數字塞到 Lable ( 這樣才不會出現 01 , 09 , 08 這種狀況 )，而如果不是第一次，就直接往後加字串。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> userIsInheMiddleOfTypingANumber: <span class="type">Bool</span> = <span class="literal">false</span></span><br><span class="line">    </span><br><span class="line">    <span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> display: <span class="type">UILabel!</span></span><br><span class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">appendDigit</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">        <span class="keyword">let</span> digit = sender.currentTitle!</span><br><span class="line">        <span class="keyword">if</span> userIsInheMiddleOfTypingANumber &#123;</span><br><span class="line">            display.text = display.text! + digit</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"digit = \(digit)"</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            display.text = digit</span><br><span class="line">            userIsInheMiddleOfTypingANumber = <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>完成的結果如下～～</p>
+<p><img src="20.png" alt=""></p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>基本上，這樣就完成了，其實寫了一下，Swift 真的感覺不難，也滿好玩的～～</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://itunes.apple.com/tw/course/developing-ios-8-apps-swift/id961180099" target="_blank" rel="noopener">Developing iOS 8 Apps with Swift by Stanford</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+            <a href="/tags/XCode/" rel="tag">#XCode</a>
+          
+            <a href="/tags/Swift/" rel="tag">#Swift</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/" rel="next" title="Xamarin - 準備使用 Xamarin 開發 iOS">
+                <i class="fa fa-chevron-left"></i> Xamarin - 準備使用 Xamarin 開發 iOS
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/12/iOS-Study_Note_Lession_2/" rel="prev" title="iOS - 學習筆記 - Lession 2">
+                iOS - 學習筆記 - Lession 2 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#開始"><span class="nav-number">2.</span> <span class="nav-text">開始</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立新專案"><span class="nav-number">3.</span> <span class="nav-text">建立新專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立-UI"><span class="nav-number">4.</span> <span class="nav-text">建立 UI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#將-Label-與-Code-連結"><span class="nav-number">5.</span> <span class="nav-text">將 Label 與 Code 連結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Help-方式"><span class="nav-number">6.</span> <span class="nav-text">Help 方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加上-Button"><span class="nav-number">7.</span> <span class="nav-text">加上 Button</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift-Func"><span class="nav-number">8.</span> <span class="nav-text">Swift Func</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">9.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">10.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2016/04/11/iOS-Study_Note_Lession_1/';
+      var disqus_title = 'iOS - 學習筆記 - Lession 1';
+      var disqus_url = 'http://skychang.github.io/2016/04/11/iOS-Study_Note_Lession_1/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

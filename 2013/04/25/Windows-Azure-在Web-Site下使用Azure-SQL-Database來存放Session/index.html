@@ -1,0 +1,731 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ASP.NET,ASP.NET MVC,Azure,IIS,SQL Server," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="6&#x2F;23更新 - 新做法請看這裡!! 4&#x2F;30更新 - 目前小朱前輩已經提供了小弟我一個更好的做法，所以這幾天會再修改一篇出來，這篇是2010年的作法，就請大家多見諒 ( 文章出來後，會在這篇加上連結 ) 很早就想把這篇補齊，但一直沒機會，剛好最近，因為要講課，所以就順便把這篇給補起來，這樣大家如果要查詢，就比較方便… 相信如果有讀過這篇( p.s 現在官方強烈建議，不要再用Azure Stora">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Azure - 在Web Site下使用Azure SQL Database來存放Session">
+<meta property="og:url" content="http://skychang.github.io/2013/04/25/Windows-Azure-%E5%9C%A8Web-Site%E4%B8%8B%E4%BD%BF%E7%94%A8Azure-SQL-Database%E4%BE%86%E5%AD%98%E6%94%BESession/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="6&#x2F;23更新 - 新做法請看這裡!! 4&#x2F;30更新 - 目前小朱前輩已經提供了小弟我一個更好的做法，所以這幾天會再修改一篇出來，這篇是2010年的作法，就請大家多見諒 ( 文章出來後，會在這篇加上連結 ) 很早就想把這篇補齊，但一直沒機會，剛好最近，因為要講課，所以就順便把這篇給補起來，這樣大家如果要查詢，就比較方便… 相信如果有讀過這篇( p.s 現在官方強烈建議，不要再用Azure Stora">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh4.ggpht.com/-hmkB-1YVXxU/UXn7KqFcjII/AAAAAAAAGAU/I6Y4dv9kReQ/image_thumb5.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-0HZE72bVPkw/UXn7McP-OEI/AAAAAAAAGAk/uBGg2nEQtLY/image_thumb17.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-yq6NjoOQLmY/UXn7OTzaAdI/AAAAAAAAGA0/QUhSeOVaFG4/image_thumb19.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-xulWyt3XwpE/UXn7PqvfOSI/AAAAAAAAGBE/wUZvdSfeWt0/image_thumb7.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-Sj9EVXx5eB0/UXn7SDoyGOI/AAAAAAAAGBU/rs9xTeEN5Es/image_thumb21.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-a1P3NTFWoF0/UXn7Txsk81I/AAAAAAAAGBk/0K7KkbqDk3k/image_thumb24.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-ZEcdZXdbq2w/UXn7VV1QUOI/AAAAAAAAGB0/dXLn1POnJdE/image_thumb26.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-f4za16-LbAc/UXn7XV3LR_I/AAAAAAAAGCE/S4cBsgCb_H0/image_thumb28.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-ep7k0E3kPWc/UXn7ZLtoA2I/AAAAAAAAGCU/J7Rr_17sRqY/image_thumb31.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-6yKh9oa9_18/UXn7aw9jDlI/AAAAAAAAGCk/VZWoWTQcM0o/image_thumb33.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-FO076JYsr0M/UXn7eeqPQWI/AAAAAAAAGC0/kennw627BOs/image_thumb35.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-BS5aO0Iw6E8/UXn7gPpqK8I/AAAAAAAAGDE/-qll50oMgjA/image_thumb37.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-czieOHuVOFE/UXn7pKFqfrI/AAAAAAAAGDU/HGmlj2d9bVk/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-iiGDUoY-Ae8/UXn7rLYZWGI/AAAAAAAAGDk/m-JUzMFIX2g/image_thumb%25255B5%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/--pfxYdptOM0/UXn7s23bxyI/AAAAAAAAGD0/hO9JnAPuzfA/image_thumb%25255B4%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-clKJkZ2iFjE/UcbT4LgHYaI/AAAAAAAAGa0/AtYl2EHO6FU/image_thumb%25255B17%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-QwLE696re_Y/UcbT48BW2VI/AAAAAAAAGbE/ni8SOZ7b-1w/image_thumb4_thumb.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-3pVzYFbjPHs/UcbT57hqh5I/AAAAAAAAGbU/v5aQbXZ38xs/image_thumb%25255B19%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2013-04-25T23:22:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.031Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="ASP.NET">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="IIS">
+<meta property="article:tag" content="SQL Server">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh4.ggpht.com/-hmkB-1YVXxU/UXn7KqFcjII/AAAAAAAAGAU/I6Y4dv9kReQ/image_thumb5.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Windows Azure - 在Web Site下使用Azure SQL Database來存放Session | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Windows Azure - 在Web Site下使用Azure SQL Database來存放Session
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2013-04-25T23:22:00+00:00" content="2013-04-25">
+              2013-04-25
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/04/25/Windows-Azure-%E5%9C%A8Web-Site%E4%B8%8B%E4%BD%BF%E7%94%A8Azure-SQL-Database%E4%BE%86%E5%AD%98%E6%94%BESession/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/04/25/Windows-Azure-在Web-Site下使用Azure-SQL-Database來存放Session/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><font color="#ff0000">6/23更新 - 新做法請看<a href="http://blog.sanc.idv.tw/2013/06/windows-azure-web-siteazure-sql.html" target="_blank" rel="noopener">這裡</a>!!</font></p>
+<p><font color="#ff0000">4/30更新 - 目前小朱前輩已經提供了小弟我一個更好的做法，所以這幾天會再修改一篇出來，這篇是2010年的作法，就請大家多見諒 ( 文章出來後，會在這篇加上連結 )</font></p>
+<p>很早就想把這篇補齊，但一直沒機會，剛好最近，因為要講課，所以就順便把這篇給補起來，這樣大家如果要查詢，就比較方便…</p>
+<p>相信如果有讀過<a href="http://blog.sanc.idv.tw/2012/04/windows-azure-windows-azure_21.html" target="_blank" rel="noopener">這篇</a>( p.s 現在官方強烈建議，不要再用Azure Storage當Cache了)，那可能會知道，不管是Cloud Service或是Web Site，前面都會有用到Load Balance，當然，如果後面只有一個站台，那就沒甚麼差，但如果後面有兩台以上的站台來分流，那Session的議題就變得很重要了…</p>
+<p>而Cloud Service很佛心的準備了<a href="http://blog.sanc.idv.tw/2012/06/windows-azure-windows-azure-co-located.html" target="_blank" rel="noopener">內建Cache</a>來解決這部分的問題 ( 不然用Azure Cache會貴森森… )，那Web Site呢!?其實除了貴森森的Azure Cache外，還有大家常知的…沒錯!!就是使用SQL Server來存放Session!!</p>
+<p>當然，我們不會傻傻的Web放到Azure上，但卻把Session放在陸地上…所以，這篇的目的，就是要介紹，如何使用Azure的SQL Database來存放Session!! ( 嗯，或許大家會擔心效能上的問題，但根據可靠情報指出，目前Azure 上的SQL Database都是用SSD喔!! )</p>
+<p>( 這篇原文出處於<a href="http://blogs.msdn.com/b/sqlazure/archive/2010/08/04/10046103.aspx" target="_blank" rel="noopener" title="http://blogs.msdn.com/b/sqlazure/archive/2010/08/04/10046103.aspx">http://blogs.msdn.com/b/sqlazure/archive/2010/08/04/10046103.aspx</a> )</p>
+<h4 id="準備SQL-Database"><a href="#準備SQL-Database" class="headerlink" title="準備SQL Database"></a>準備SQL Database</h4><p>首先，我們當然要先去SQL Database來開一個新的SQL Server，這邊我們是要測試，所以很快的快速創建就好。</p>
+<p><a href="http://lh3.ggpht.com/-06RvfoeJW2w/UXn7Jh_zKnI/AAAAAAAAGAM/0TRnDI1A8hE/s1600-h/image9.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-hmkB-1YVXxU/UXn7KqFcjII/AAAAAAAAGAU/I6Y4dv9kReQ/image_thumb5.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們直接進入管理的畫面吧；這邊要特別特別注意，我們要從SQL Database( SQL 數據庫 )這邊點下去，然後選擇服務器那邊的超連結。這樣做的原因很簡單，因為我們等下要在Master資料庫進行作業，所以如果點了前面的ASPNETSessionTest資料庫，那等下進入管理的介面，就會無法使用轉移到Master進行管理，所以我們要從Server的地方連進去。</p>
+<p><a href="http://lh4.ggpht.com/-McTeiMxp_Bo/UXn7LbXF4mI/AAAAAAAAGAc/yW6oOf7kc5o/s1600-h/image33.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-0HZE72bVPkw/UXn7McP-OEI/AAAAAAAAGAk/uBGg2nEQtLY/image_thumb17.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，選擇管理。(大家可以發現，這邊選的就不是什麼ASPNETSessionTest了，而是整台伺服器的名稱 )</p>
+<p><a href="http://lh5.ggpht.com/-Ci5mY4VIz4E/UXn7NXDKerI/AAAAAAAAGAs/7CeDwUhZE-Q/s1600-h/image37.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-yq6NjoOQLmY/UXn7OTzaAdI/AAAAAAAAGA0/QUhSeOVaFG4/image_thumb19.png?imgmax=800" alt="image" title="image"></a></p>
+<p>預設SQL Database的防火牆是沒開放的，所以這邊要允許通過。</p>
+<p><a href="http://lh3.ggpht.com/-_5LPS_DJ95o/UXn7O1_6xwI/AAAAAAAAGA8/Qq_1y7GQxRs/s1600-h/image13.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-xulWyt3XwpE/UXn7PqvfOSI/AAAAAAAAGBE/wUZvdSfeWt0/image_thumb7.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，輸入帳號密碼，資料庫的部分可以空白不選。( 感謝好友Terry提醒~ )</p>
+<p><a href="http://lh4.ggpht.com/-GALfTQpO1xE/UXn7QRFZkxI/AAAAAAAAGBM/hGwKUHFoldA/s1600-h/image41.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-Sj9EVXx5eB0/UXn7SDoyGOI/AAAAAAAAGBU/rs9xTeEN5Es/image_thumb21.png?imgmax=800" alt="image" title="image"></a></p>
+<p>如果是以前，我們在陸地上的時代，我們可能可以使用ASP.NET提供的ASPStateInstall.sql來建立ASPState，但在Azure的SQL Database，則沒那麼容易，因為SQL Database有許多的權限是不可以執行的，所以如果用原本的作法，會碰到釘子，所以我們要利用官方提供給我們的，修改過的版本。</p>
+<p>下載位置在<a href="http://blogs.msdn.com/cfs-file.ashx/__key/communityserver-components-postattachments/00-10-04-61-03/AzureSession.zip" target="_blank" rel="noopener">這邊</a>。</p>
+<p>然後，我們就可以利用下載下來的這兩個sql，來建立必要的東西。</p>
+<h4 id="建立"><a href="#建立" class="headerlink" title="建立"></a>建立</h4><p>當進入管理介面的時候，我們就可以點選選取資料庫。</p>
+<p><a href="http://lh3.ggpht.com/-NIXjDzjknSc/UXn7S7OOZwI/AAAAAAAAGBc/K1rDuA7jxWQ/s1600-h/image46.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-a1P3NTFWoF0/UXn7Txsk81I/AAAAAAAAGBk/0K7KkbqDk3k/image_thumb24.png?imgmax=800" alt="image" title="image"></a></p>
+<p>我們這邊先使用master。</p>
+<p><a href="http://lh5.ggpht.com/-vmNp7XAdMGI/UXn7Up_ROOI/AAAAAAAAGBs/mXSSSKDl2U8/s1600-h/image50.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-ZEcdZXdbq2w/UXn7VV1QUOI/AAAAAAAAGB0/dXLn1POnJdE/image_thumb26.png?imgmax=800" alt="image" title="image"></a></p>
+<p>之後，我們選擇開啟，然後就可以選擇剛剛下載下來後的其中一個檔案ASPStateInstall.sql。</p>
+<p><a href="http://lh6.ggpht.com/-tYzdG45i0ak/UXn7Wm5CITI/AAAAAAAAGB8/Swu1B7KmZe4/s1600-h/image54.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-f4za16-LbAc/UXn7XV3LR_I/AAAAAAAAGCE/S4cBsgCb_H0/image_thumb28.png?imgmax=800" alt="image" title="image"></a></p>
+<p>打開後，其實也就只有這樣，但不管怎樣，我們還是執行吧。</p>
+<p><a href="http://lh3.ggpht.com/-CThruCU7iRM/UXn7YOwxqII/AAAAAAAAGCM/OCouu7kzapE/s1600-h/image59.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-ep7k0E3kPWc/UXn7ZLtoA2I/AAAAAAAAGCU/J7Rr_17sRqY/image_thumb31.png?imgmax=800" alt="image" title="image"></a></p>
+<p>執行完成後，我們要切換到剛剛建立好的這個db (ASPState)。選擇資料庫後，就可以找到ASPState，然後點一下後，就會出現小圖可以選，選擇”摘要”後，就可以進去管理。</p>
+<p><a href="http://lh3.ggpht.com/-_fZIXYde3cU/UXn7ZzlS7uI/AAAAAAAAGCc/SCImfnh-czc/s1600-h/image63.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-6yKh9oa9_18/UXn7aw9jDlI/AAAAAAAAGCk/VZWoWTQcM0o/image_thumb33.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這邊的步驟，就和之前的一樣了。只是這次選擇了InstallSqlState.sql。</p>
+<p><a href="http://lh4.ggpht.com/-nElxf3b4_xI/UXn7dBwK9bI/AAAAAAAAGCs/1h5aZtTwWFg/s1600-h/image67.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-FO076JYsr0M/UXn7eeqPQWI/AAAAAAAAGC0/kennw627BOs/image_thumb35.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這次的東西就很多了，一樣按下執行。</p>
+<p><a href="http://lh3.ggpht.com/-a83DI3FgRwg/UXn7fNJxKmI/AAAAAAAAGC8/JI55oN0nsoQ/s1600-h/image71.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-BS5aO0Iw6E8/UXn7gPpqK8I/AAAAAAAAGDE/-qll50oMgjA/image_thumb37.png?imgmax=800" alt="image" title="image"></a></p>
+<p>到這邊，SQL Database就準備妥當了。</p>
+<h4 id="ASP-NET的修改-MVC同"><a href="#ASP-NET的修改-MVC同" class="headerlink" title="ASP.NET的修改( MVC同 )"></a>ASP.NET的修改( MVC同 )</h4><p>其實修改非常的簡單…如下圖，只需要到Web.Config裡面的SessionState那邊，改成SQL Server的設定就可以了。</p>
+<p>( 如果Web.Config沒看到SessionState，可以安裝ASP.NET Universal Providers，但查詢的時候可能會找到ASP.NET Universal Providers Core，其實Core是ASP.NET Universal Providers的底層核心，當安裝ASP.NET Universal Providers的時候，就會順便把ASP.NET Universal Providers Core裝起來，並且順便修改Web.Config；但如果直接裝Core，則不會協助幫忙修改Web.Config，變成要自己在Web.Config加上後面的那段程式碼。 )</p>
+<p><a href="http://lh4.ggpht.com/-14bdpgGv6NU/UXn7nAN6JcI/AAAAAAAAGDM/Zri_Rc1C2D8/s1600-h/image%25255B4%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-czieOHuVOFE/UXn7pKFqfrI/AAAAAAAAGDU/HGmlj2d9bVk/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這邊貼上原始碼，方便大家複製貼上。</p>
+<pre class="brush: xml;">    &lt;sessionState mode="SQLServer"
+    sqlConnectionString="Server=tcp:klm4dkemn2.database.windows.net,1433;Database=ASPState;User ID=sky@klm4dkemn2
+    ;Password=P@ssw0rd;Trusted_Connection=False;Encrypt=True;"
+    cookieless="false" timeout="20" allowCustomSqlDatabase="true" /&gt;
+</pre>
+
+<p>完成後，我們就可以用一些瀏覽器的工具，來查看Cookie裡面紀錄的Session ID。</p>
+<p><a href="http://lh4.ggpht.com/-ORsMJwy7VbI/UXn7qOMyS0I/AAAAAAAAGDc/Z-En2QUl6PE/s1600-h/image%25255B12%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-iiGDUoY-Ae8/UXn7rLYZWGI/AAAAAAAAGDk/m-JUzMFIX2g/image_thumb%25255B5%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>透過我們建立起來的ASPSTATE這個資料庫，我們也可以從裡面看到，已經有對應的SessionID了，所以可以確定，這樣就已經把SESSION存放到DB裡面去了。</p>
+<p><a href="http://lh6.ggpht.com/-zdSFKCZ6I9U/UXn7sDswIrI/AAAAAAAAGDs/vAk4B1nJ0JE/s1600-h/image%25255B11%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/--pfxYdptOM0/UXn7s23bxyI/AAAAAAAAGD0/hO9JnAPuzfA/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這樣就完成了~</p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>現在透過Web Site，其實整個機制就和一般使用IIS一樣的方便，而且Azure DB的效能也好很多，有興趣的朋友可以試驗看看喔!!</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://blogs.msdn.com/b/sqlazure/archive/2010/08/04/10046103.aspx" target="_blank" rel="noopener" title="http://blogs.msdn.com/b/sqlazure/archive/2010/08/04/10046103.aspx">http://blogs.msdn.com/b/sqlazure/archive/2010/08/04/10046103.aspx</a>com/-EaXA4dfl5QA/UcbT2mOXszI/AAAAAAAAGac/5QUDqJfKY1A/s1600-h/image_thumb51%25255B2%25255D.png)</li>
+</ul>
+<p>我們可以透過Azure的db管理工具，看到Sessions Table已經自動幫我們建立起來了。</p>
+<p><a href="http://lh4.ggpht.com/-ElPNJISArYM/UcbT3rR3sWI/AAAAAAAAGas/iqy5PPv5YoA/s1600-h/image%25255B36%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-clKJkZ2iFjE/UcbT4LgHYaI/AAAAAAAAGa0/AtYl2EHO6FU/image_thumb%25255B17%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>我們也可以從裡面看到，已經有對應的SessionID了，所以可以確定，這樣就已經把SESSION存放到DB裡面去了。</p>
+<p><a href="http://lh3.ggpht.com/-HLRz8JlkI54/UcbT4c0_CAI/AAAAAAAAGa8/bKQBBUs1sqY/s1600-h/image_thumb4%25255B2%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-QwLE696re_Y/UcbT48BW2VI/AAAAAAAAGbE/ni8SOZ7b-1w/image_thumb4_thumb.png?imgmax=800" alt="image_thumb4" title="image_thumb4"></a></p>
+<p>題外話，因為Web Site前面的LB機制會自動認ip，所以通常狂按F5是測試不出來的，所以如果覺得這樣還不能證明，還可以手動去調整Web Site，如果沒有把Session存放到DB裡面去，當改變Web Site的時候，是會掉Session的，但如果存到db裡面去，就不會有這種問題了。</p>
+<p><a href="http://lh5.ggpht.com/-aHql1OZqKng/UcbT5ePRnXI/AAAAAAAAGbM/yvLeW8FIiXc/s1600-h/image%25255B40%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-3pVzYFbjPHs/UcbT57hqh5I/AAAAAAAAGbU/v5aQbXZ38xs/image_thumb%25255B19%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>基本上，這樣就完成了~</p>
+<h4 id="後記-1"><a href="#後記-1" class="headerlink" title="後記"></a>後記</h4><p>現在透過Web Site，其實整個機制就和一般使用IIS一樣的方便，而且Azure DB的效能也好很多，重點是，也不用自己多做甚麼事情，幾乎都可以輕鬆搞定，這邊，也很感謝小朱前輩利用中午吃便當的時候，一邊被我騷擾，一邊和我說有這種東西，在這邊再次感謝他，如果大家有興趣，下面的參考資料，也有小朱前輩上次上課的超詳細步驟解說!!</p>
+<p>最後的最後，也提醒大家一下，這邊的範例，因為方便，所以在撰寫的時候就直接把Connection換成Azure SQL Database，如果在真正的專案執行上，也可以透過VS的發佈工具，動態的改變DB的Connection String，讓開發的時候使用LocalDB，正式的時候，使用Azure SQL Database喔~</p>
+<p>以上，謝謝大家~~</p>
+<h4 id="參考資料-1"><a href="#參考資料-1" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://blogs.msdn.com/b/sqlazure/archive/2010/08/04/10046103.aspx" target="_blank" rel="noopener" title="http://blogs.msdn.com/b/sqlazure/archive/2010/08/04/10046103.aspx">http://blogs.msdn.com/b/sqlazure/archive/2010/08/04/10046103.aspx</a></li>
+<li><a href="http://msdn.microsoft.com/en-us/library/ms178586%28v=vs.100%29.aspx" target="_blank" rel="noopener" title="http://msdn.microsoft.com/en-us/library/ms178586%28v=vs.100%29.aspx">http://msdn.microsoft.com/en-us/library/ms178586%28v=vs.100%29.aspx</a></li>
+<li><a href="http://www.dotblogs.com.tw/regionbbs/archive/2013/04/27/global.windows.azure.bootcamp.2013.aspx" target="_blank" rel="noopener" title="http://www.dotblogs.com.tw/regionbbs/archive/2013/04/27/global.windows.azure.bootcamp.2013.aspx">http://www.dotblogs.com.tw/regionbbs/archive/2013/04/27/global.windows.azure.bootcamp.2013.aspx</a></li>
+</ul>
+<h4 id="專案下載"><a href="#專案下載" class="headerlink" title="專案下載"></a>專案下載</h4><ul>
+<li><a href="https://github.com/SkyChang/AzureAndMvcUseSQLDBSotreSessionByWebSite" target="_blank" rel="noopener" title="https://github.com/SkyChang/AzureAndMvcUseSQLDBSotreSessionByWebSite">https://github.com/SkyChang/AzureAndMvcUseSQLDBSotreSessionByWebSite</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-NET/" rel="tag">#ASP.NET</a>
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/IIS/" rel="tag">#IIS</a>
+          
+            <a href="/tags/SQL-Server/" rel="tag">#SQL Server</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/04/18/SQL-Server-%E5%AE%89%E8%A3%9DStreamInsight-2-1/" rel="next" title="SQL Server -  安裝StreamInsight 2.1">
+                <i class="fa fa-chevron-left"></i> SQL Server -  安裝StreamInsight 2.1
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/04/26/Visual-Studio-%E5%B0%87Source-Code%E7%B0%BD%E5%85%A5%E5%88%B0Git-Local%E7%AF%87/" rel="prev" title="Visual Studio - 將Source Code簽入到Git ( Local篇 )">
+                Visual Studio - 將Source Code簽入到Git ( Local篇 ) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#準備SQL-Database"><span class="nav-number">1.</span> <span class="nav-text">準備SQL Database</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立"><span class="nav-number">2.</span> <span class="nav-text">建立</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ASP-NET的修改-MVC同"><span class="nav-number">3.</span> <span class="nav-text">ASP.NET的修改( MVC同 )</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">4.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">5.</span> <span class="nav-text">參考資料</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#後記-1"><span class="nav-number">6.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料-1"><span class="nav-number">7.</span> <span class="nav-text">參考資料</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#專案下載"><span class="nav-number">8.</span> <span class="nav-text">專案下載</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2013/04/25/Windows-Azure-在Web-Site下使用Azure-SQL-Database來存放Session/';
+      var disqus_title = 'Windows Azure - 在Web Site下使用Azure SQL Database來存放Session';
+      var disqus_url = 'http://skychang.github.io/2013/04/25/Windows-Azure-%E5%9C%A8Web-Site%E4%B8%8B%E4%BD%BF%E7%94%A8Azure-SQL-Database%E4%BE%86%E5%AD%98%E6%94%BESession/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

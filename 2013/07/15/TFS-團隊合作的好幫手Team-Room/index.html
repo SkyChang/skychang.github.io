@@ -1,0 +1,660 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Scrum,TFS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="在以前，我們團隊在討論事情的時候，不外乎是用幾種方式，第一，用Mail來互相溝通；第二，用MSN或是Skype把訊息丟來丟去；第三，直接殺到對方面前去討論。 當然，這些都是公司內部的做法，也沒有甚麼好或是不好；但今天，TFS提供了一個新的功能，讓我們有多一種選擇，那就是Team Room。 目前Team Room在TFS 2013，或是現在的Team Foundation Service，已經正式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TFS -  團隊合作的好幫手Team Room">
+<meta property="og:url" content="http://skychang.github.io/2013/07/15/TFS-%E5%9C%98%E9%9A%8A%E5%90%88%E4%BD%9C%E7%9A%84%E5%A5%BD%E5%B9%AB%E6%89%8BTeam-Room/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="在以前，我們團隊在討論事情的時候，不外乎是用幾種方式，第一，用Mail來互相溝通；第二，用MSN或是Skype把訊息丟來丟去；第三，直接殺到對方面前去討論。 當然，這些都是公司內部的做法，也沒有甚麼好或是不好；但今天，TFS提供了一個新的功能，讓我們有多一種選擇，那就是Team Room。 目前Team Room在TFS 2013，或是現在的Team Foundation Service，已經正式">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh4.ggpht.com/-mAlkhl4rCnw/UeLj41YG86I/AAAAAAAAGps/bjd24n2yMA0/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-iYW_8KLdOH4/UeLj6mTfOaI/AAAAAAAAGp8/QwjeaeJJ6kY/image_thumb%25255B4%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-PI75NMfoY-Y/UeLj8XEUMNI/AAAAAAAAGqM/iVhqDSHVLcc/image_thumb%25255B6%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-k9qOx5v3hl4/UeLj-GK8ZPI/AAAAAAAAGqc/ne3loODm7lQ/image_thumb%25255B9%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-wgoiiVDfu1k/UeLj_hQ6dfI/AAAAAAAAGqs/51__UQM-NIw/image_thumb%25255B12%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-qag2rvWTyKY/UeLkBfR8B7I/AAAAAAAAGq8/tPQyVaLm2Ik/image_thumb%25255B15%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2013-07-15T01:46:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.964Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Scrum">
+<meta property="article:tag" content="TFS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh4.ggpht.com/-mAlkhl4rCnw/UeLj41YG86I/AAAAAAAAGps/bjd24n2yMA0/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> TFS -  團隊合作的好幫手Team Room | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                TFS -  團隊合作的好幫手Team Room
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2013-07-15T01:46:00+00:00" content="2013-07-15">
+              2013-07-15
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/07/15/TFS-%E5%9C%98%E9%9A%8A%E5%90%88%E4%BD%9C%E7%9A%84%E5%A5%BD%E5%B9%AB%E6%89%8BTeam-Room/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/07/15/TFS-團隊合作的好幫手Team-Room/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在以前，我們團隊在討論事情的時候，不外乎是用幾種方式，第一，用Mail來互相溝通；第二，用MSN或是Skype把訊息丟來丟去；第三，直接殺到對方面前去討論。</p>
+<p>當然，這些都是公司內部的做法，也沒有甚麼好或是不好；但今天，TFS提供了一個新的功能，讓我們有多一種選擇，那就是Team Room。</p>
+<p>目前Team Room在TFS 2013，或是現在的Team Foundation Service，已經正式上線與提供了，如果我們登入進去後，就可以發現，多了一個Rooms的按鈕，那就是Team Room，如下圖。( 題外話，現在Member的圖示也變得比較漂亮了喔…不過為啥我預設是紅色的勒- - )</p>
+<p><a href="http://lh3.ggpht.com/-mK6zoMyYjJk/UeLj3xi5s9I/AAAAAAAAGpk/QQDOzrDRZKQ/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-mAlkhl4rCnw/UeLj41YG86I/AAAAAAAAGps/bjd24n2yMA0/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>如果不想從上圖的地方點進去，也可以從下圖的地方點進去。</p>
+<p><a href="http://lh4.ggpht.com/-n2-qLlJEbL4/UeLj5lzD72I/AAAAAAAAGp0/G8Z37-BAg4c/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-iYW_8KLdOH4/UeLj6mTfOaI/AAAAAAAAGp8/QwjeaeJJ6kY/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>進去後，左邊會依據不同的專案，來區分Team Room，而右邊就是訊息列，我們可以從下方的框框中留言打字，甚至即時對談，此外，上面還有日期，可以讓我們依照日期來觀看歷史的紀錄…</p>
+<p><a href="http://lh4.ggpht.com/-iSYeTRg4W28/UeLj7mdranI/AAAAAAAAGqE/RSZGa_ZkZt8/s1600-h/image%25255B12%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-PI75NMfoY-Y/UeLj8XEUMNI/AAAAAAAAGqM/iVhqDSHVLcc/image_thumb%25255B6%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>不過真正強大的功能是可以記錄事件，我們可以點選右邊的管理事件連結，來管理事件。</p>
+<p><a href="http://lh4.ggpht.com/-coyRenixqQI/UeLj9HDVuVI/AAAAAAAAGqU/MHiD19QD-Q0/s1600-h/image%25255B17%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-k9qOx5v3hl4/UeLj-GK8ZPI/AAAAAAAAGqc/ne3loODm7lQ/image_thumb%25255B9%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>我們可以從這邊看到，我們可以去選擇是否要記錄Build的事件，或是Code改變、Work Item更新、Code Reviews的事件。如下圖，我們可以選擇一個CI的事件來記錄。</p>
+<p><a href="http://lh5.ggpht.com/-2DyBziXHyEw/UeLj-8Vb6OI/AAAAAAAAGqk/hwTvIt9g8Ys/s1600-h/image%25255B22%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-wgoiiVDfu1k/UeLj_hQ6dfI/AAAAAAAAGqs/51__UQM-NIw/image_thumb%25255B12%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>當開啟事件後，我們就可以看到當建置的時候，或是Code Change的時候，就會被貼到上面來…( 剛好CI失敗…遮臉 )</p>
+<p><a href="http://lh5.ggpht.com/-d6_UOyGtmRw/UeLkAhxUywI/AAAAAAAAGq0/18F7fa1Cnx4/s1600-h/image%25255B27%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-qag2rvWTyKY/UeLkBfR8B7I/AAAAAAAAGq8/tPQyVaLm2Ik/image_thumb%25255B15%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這就是新的功能Team Room!!</p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>也順便在後記的地方補充一下，Team Room的用途，就是希望能把所有的事情全部攤開，很多開發的過程中，發生的問題，都被隱藏起來，而透過事件的監控，現在誰都不能說謊了QQ ( 我想老闆應該滿喜歡這功能的… )，雖然是這樣說，但其實Team Room真正的重點不是要利用此功能來監控，而是希望透過此功能，能讓團隊間遇到的問題提早浮現，所以大家不要把這個工具拿來當作批鬥的工具阿XDDD</p>
+<p>此外，這也很適合遠程的合作，或是每日站立會議的時候，能了解到現在遇到的問題。</p>
+<p>最後，在敏捷中，團隊是一體的，互相信任的，雖然小弟覺得，在台灣，這功能可能會變質，但還是要呼籲一下大家，這不是拿來監控與批鬥的工具阿XDDD</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://blogs.msdn.com/b/bharry/archive/2013/06/03/visual-studio-2013.aspx" target="_blank" rel="noopener" title="http://blogs.msdn.com/b/bharry/archive/2013/06/03/visual-studio-2013.aspx">http://blogs.msdn.com/b/bharry/archive/2013/06/03/visual-studio-2013.aspx</a></li>
+<li><a href="http://tfs.visualstudio.com/en-us/learn/collaborate-in-a-team-room.aspx" target="_blank" rel="noopener" title="http://tfs.visualstudio.com/en-us/learn/collaborate-in-a-team-room.aspx">http://tfs.visualstudio.com/en-us/learn/collaborate-in-a-team-room.aspx</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Scrum/" rel="tag">#Scrum</a>
+          
+            <a href="/tags/TFS/" rel="tag">#TFS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/07/14/%E6%84%9F%E6%81%A9-2013%E5%B9%B4%E9%80%A3%E4%BB%BBMVP%E6%88%90%E5%8A%9F-%E5%86%8D%E5%8A%A0%E4%B8%8A%E7%AA%81%E7%A0%B420%E8%90%AC%E5%A4%A7%E9%97%9C/" rel="next" title="感恩~2013年連任MVP成功!~再加上突破20萬大關~">
+                <i class="fa fa-chevron-left"></i> 感恩~2013年連任MVP成功!~再加上突破20萬大關~
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/07/15/TFS-%E8%87%AA%E5%8B%95%E5%BB%BA%E7%BD%AE%E5%88%B0Azure%E6%99%82%EF%BC%8C%E7%99%BC%E7%94%9FNuget%E7%89%88%E6%9C%AC%E4%B8%8D%E5%90%88%E7%9A%84%E9%8C%AF%E8%AA%A4/" rel="prev" title="TFS -  自動建置到Azure時，發生Nuget版本不合的錯誤">
+                TFS -  自動建置到Azure時，發生Nuget版本不合的錯誤 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">1.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">2.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2013/07/15/TFS-團隊合作的好幫手Team-Room/';
+      var disqus_title = 'TFS -  團隊合作的好幫手Team Room';
+      var disqus_url = 'http://skychang.github.io/2013/07/15/TFS-%E5%9C%98%E9%9A%8A%E5%90%88%E4%BD%9C%E7%9A%84%E5%A5%BD%E5%B9%AB%E6%89%8BTeam-Room/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

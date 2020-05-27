@@ -1,0 +1,719 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Visual Studio,C#,iOS,Xamarin,XCode," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言在今年的 Build 裡面，其中一個大新聞就是，Microsoft 併購了 Xamarin，而且不單是併購而已，也把許多項目給開源出來，處此之外，如果使用 Visual Studio Community 的朋友們，也提供了免費的使用，而使用 Enterprise 的朋友，也可以進階的對應到 Xamarin professional 和 enterprise 的功能。( 詳細授權方式，請參考這邊">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Xamarin - 準備使用 Xamarin 開發 iOS">
+<meta property="og:url" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="前言在今年的 Build 裡面，其中一個大新聞就是，Microsoft 併購了 Xamarin，而且不單是併購而已，也把許多項目給開源出來，處此之外，如果使用 Visual Studio Community 的朋友們，也提供了免費的使用，而使用 Enterprise 的朋友，也可以進階的對應到 Xamarin professional 和 enterprise 的功能。( 詳細授權方式，請參考這邊">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/XMA2.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/01.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/02.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/03.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/04.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/05.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/06.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/07.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/08.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/11.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/12.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/20.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/21.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/30.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/31.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/22.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/32.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/33.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/34.png">
+<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/35.png">
+<meta property="article:published_time" content="2016-04-10T23:20:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.031Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Xamarin">
+<meta property="article:tag" content="XCode">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/XMA2.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Xamarin - 準備使用 Xamarin 開發 iOS | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Xamarin - 準備使用 Xamarin 開發 iOS
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-04-10T23:20:00+00:00" content="2016-04-10">
+              2016-04-10
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在今年的 Build 裡面，其中一個大新聞就是，Microsoft 併購了 Xamarin，而且不單是併購而已，也把許多項目給開源出來，處此之外，如果使用 Visual Studio Community 的朋友們，也提供了免費的使用，而使用 Enterprise 的朋友，也可以進階的對應到 Xamarin professional 和 enterprise 的功能。<br>( 詳細授權方式，請參考<a href="https://blogs.msdn.microsoft.com/visualstudio/2016/03/31/mobile-app-development-made-easy-with-visual-studio-and-xamarin/" target="_blank" rel="noopener">這邊</a> )<br>以前 Xamarin 是有錢人的玩具 (笑) ，而現在既然開放出來了，小弟當然就趕快來測試寫個 Hello World 試試看了~~</p>
+<p>P.S 既然是要寫 iOS 的 Hello World ，那當然還是要準備一台 MAC ，<br>而且必須讓 Visual Studio 這台電腦，和 MAC 在同一個網域裡面，並且安裝好 Xcode。<br>( 當然，要用 VM 也是 OK 滴 ~~ )</p>
+<p>p.s II 目前因為 Microsoft 才剛剛宣布 Xamarin 的計畫，而未來在帳號的處理上，或是流程上，是否會變得更加簡單，<br>目前不得而知，所以有參考到這篇文章的朋友們，還是別忘了去官網比對一下，也要注意一下這篇文章的日期。</p>
+<p>原文教學可以參考<a href="https://developer.xamarin.com/guides/ios/getting_started/installation/windows/#Configuration" target="_blank" rel="noopener">這篇</a>和<a href="https://developer.xamarin.com/guides/ios/getting_started/installation/mac/" target="_blank" rel="noopener">這篇</a></p>
+<h2 id="準備-MAC-環境"><a href="#準備-MAC-環境" class="headerlink" title="準備 MAC 環境"></a>準備 MAC 環境</h2><p>為什麼要準備 MAC 環境，其實我們可以從 Xamarin 官網的這張圖看到，如下圖；<br>從下圖可以發現，其實 Visual Studio 裝上去的 Xamarin 套件，<br>會透過 SSH ( 網路 ) 的方式，和 Mac OSX 的 Agent 與 Xcode 進行存取，所以 Mac 那台上面，必須裝上 Xamarin 提供的 Agent<br>與 Xcode。</p>
+<p><img src="XMA2.png" alt=""></p>
+<p>首先，我們要先去下載 Xamarin for OSX 的工具，可以到這邊<a href="https://www.xamarin.com/download" target="_blank" rel="noopener">下載</a>。</p>
+<p>這邊必須要填一下基本資料，因為是下載 OSX 版本，所以 I already have Visual Studio installed 就可以勾選起來了。</p>
+<p><img src="01.png" alt=""></p>
+<p>熟悉 OSX 的朋友，應該就會很清楚，點兩下，繼續安裝吧。</p>
+<p><img src="02.png" alt=""></p>
+<p>當然會有一些條款，請您同意…</p>
+<p><img src="03.png" alt=""></p>
+<p>接著，你可以勾選你要安裝的東西，小弟我這邊是為了讓 Mac 也能進行開發 Android ，所以 Xamarin.Android 也勾起來了。</p>
+<p><img src="04.png" alt=""></p>
+<p>接著，就繼續吧，如果想改變路徑，也可以自己改變路徑。</p>
+<p><img src="05.png" alt=""></p>
+<p>底下這張圖是題外話，通常裝 Xamarin 會順便裝 Mono 上去，而小弟我這邊的 Mono 是自己獨立裝上去的，<br>所以如果大家要自己裝 Mono 可以去 Mono 的官網進行安裝，或是讓 Xamarin 來協助安裝。</p>
+<p><img src="06.png" alt=""></p>
+<p>所以可以看到安裝程式預計安裝的清單，如上面所說的，因為小弟我已經自己安裝了 Mono ，所以清單就看不到 Mono 了。</p>
+<p><img src="07.png" alt=""></p>
+<p>安裝過程，可以去喝個可樂，抬槓一下~~</p>
+<p><img src="08.png" alt=""></p>
+<p>基本上，這樣就裝完了，而如果你打開 Xamarin Studio 的話，他會要你的 account ，<br>因為小弟也會在 Mac 上使用 Xamarin Studio 進行開發(娛樂)，所以等下會順便教大家註冊 ( 需要 MSDN 帳號 )。</p>
+<h3 id="啟用-MSDN-提供的-Xamarin-訂閱"><a href="#啟用-MSDN-提供的-Xamarin-訂閱" class="headerlink" title="啟用 MSDN 提供的 Xamarin 訂閱"></a>啟用 MSDN 提供的 Xamarin 訂閱</h3><p>完成了 Mac 上的 Xamarin 安裝後，因為小弟還希望能擁有 Xamarin Studio 的訂閱，所以小弟必須回到 MSDN 裡面，<br>啟動 Xamarin 的訂閱。</p>
+<p>前往 MSDN 的網站裡面，基本上我們已經可以看到現在有提供 Xamarin 的相關訂閱服務了。</p>
+<p>( 搞不好以前就有了，但我沒特別注意 XDD )</p>
+<p>除此之外，也還有免費教學；和 Xamarin Test Cloud 的 25% 折扣</p>
+<p>( Xamarin Test Cloud 是一個 Xamarin 提供的雲端服務，可以協助幫忙測試不同手機畫面功能是否正常 )</p>
+<p><img src="11.png" alt=""></p>
+<p>接著，會被導到 Xamarin 的官網，其實我們可以看到，完全不用付任何錢 ( 一年 )</p>
+<p><img src="12.png" alt=""></p>
+<h3 id="啟用-Xamarin-Studio"><a href="#啟用-Xamarin-Studio" class="headerlink" title="啟用 Xamarin Studio"></a>啟用 Xamarin Studio</h3><p>之後，回到 Mac 上，我們就可以打開 Xamarin Studio 進行登入。</p>
+<p><img src="20.png" alt=""></p>
+<p>成功之後，就可以看到，授權方案是 Visual Studio Enterprise。</p>
+<p><img src="21.png" alt=""></p>
+<h3 id="使用-Visual-Studil-寫-iOS-的-Hello-World"><a href="#使用-Visual-Studil-寫-iOS-的-Hello-World" class="headerlink" title="使用 Visual Studil 寫 iOS 的 Hello World"></a>使用 Visual Studil 寫 iOS 的 Hello World</h3><p>最後，回到 Visual Studio，我們就可以來寫個 Hello World；首先，我們要先在 Visual Studio 登入 Xamarin 帳號。</p>
+<p><img src="30.png" alt=""></p>
+<p>登入完成後，這邊我們就選擇 C# ，並且選擇 Single View App (iPhone )<br>( 如果登入發生 There was an internal error in the activation system. 的錯誤，請先往下看，後面會解釋 )</p>
+<p><img src="31.png" alt=""></p>
+<p>通常建置完畢後，會跳出要我們去打開 Mac 的遠端登入權限，如下圖，要勾選起來。</p>
+<p><img src="22.png" alt=""></p>
+<p>回到 Visual Studio 後，我們就可以 Add Mac</p>
+<p><img src="32.png" alt=""></p>
+<p>輸入 Mac 那台的 ip 位置，按下連線，就可以了。</p>
+<p><img src="33.png" alt=""></p>
+<p>好吧，說可以是騙人的….<br>如果你使用的是 Visual Studio 2015 Update 2 內建的 Xamarin，<br>你應該會發現，怎麼連都連不上!!!!!</p>
+<p>而如果重新登出 Xamarin Account ，並且重新登入後，你應該會得到底下畫面….</p>
+<p><img src="34.png" alt=""></p>
+<p>沒錯!!! 那是因為 Visual Studio 2015 Update 2 內建的 Xamarin 是 4.0.0 版本，但是現在官網已經到 4.0.3 版本了，<br>而 Mac 的 Agent 也是最新版本，所以內建的版本連不起來…也造成無法登入….<br>解決的方式，就是在回到 Xamarin 官網，下載 Windows 版本的安裝套件，並且安裝最新版本，就可以了…</p>
+<p>成功安裝新版完成後，我們重新開啟專案，原則上 Mac 應該也可以連線上，這時，我們點選 Mainstoryboard ，就可以看到如同 Xcode 的設計畫面了。<br>我們可以簡單的拉一個 Label，並且寫一個 Hello World，並且進行偵錯!! ( 模擬器會出現在 Mac 上 )</p>
+<p><img src="35.png" alt=""></p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>基本上，這樣就完成了，比較要注意的是版本問題，但相信這個部分，未來會跟著改進，祝大家用 C# 寫 Code 愉快!!~</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://blogs.msdn.microsoft.com/visualstudio/2016/03/31/mobile-app-development-made-easy-with-visual-studio-and-xamarin/" target="_blank" rel="noopener">https://blogs.msdn.microsoft.com/visualstudio/2016/03/31/mobile-app-development-made-easy-with-visual-studio-and-xamarin/</a></li>
+<li><a href="https://developer.xamarin.com/guides/ios/getting_started/installation/windows/#Configuration" target="_blank" rel="noopener">https://developer.xamarin.com/guides/ios/getting_started/installation/windows/#Configuration</a></li>
+<li><a href="https://developer.xamarin.com/guides/ios/getting_started/installation/mac/" target="_blank" rel="noopener">https://developer.xamarin.com/guides/ios/getting_started/installation/mac/</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
+          
+            <a href="/tags/C/" rel="tag">#C#</a>
+          
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+            <a href="/tags/Xamarin/" rel="tag">#Xamarin</a>
+          
+            <a href="/tags/XCode/" rel="tag">#XCode</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/01/Angular2-First_Angular2/" rel="next" title="Angular2 - 第一次的 Angular2 初體驗">
+                <i class="fa fa-chevron-left"></i> Angular2 - 第一次的 Angular2 初體驗
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/11/iOS-Study_Note_Lession_1/" rel="prev" title="iOS - 學習筆記 - Lession 1">
+                iOS - 學習筆記 - Lession 1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#準備-MAC-環境"><span class="nav-number">2.</span> <span class="nav-text">準備 MAC 環境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#啟用-MSDN-提供的-Xamarin-訂閱"><span class="nav-number">2.1.</span> <span class="nav-text">啟用 MSDN 提供的 Xamarin 訂閱</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#啟用-Xamarin-Studio"><span class="nav-number">2.2.</span> <span class="nav-text">啟用 Xamarin Studio</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Visual-Studil-寫-iOS-的-Hello-World"><span class="nav-number">2.3.</span> <span class="nav-text">使用 Visual Studil 寫 iOS 的 Hello World</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">3.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">4.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/';
+      var disqus_title = 'Xamarin - 準備使用 Xamarin 開發 iOS';
+      var disqus_url = 'http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

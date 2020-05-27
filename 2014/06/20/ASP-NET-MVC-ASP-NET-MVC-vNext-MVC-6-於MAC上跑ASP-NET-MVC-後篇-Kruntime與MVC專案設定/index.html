@@ -1,0 +1,739 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ASP.NET MVC,KVM,Mac," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="開始前，還是要提醒大家，目前也還有很多問題，小弟測試下來，真的感受到，要用於正式環境還有一段路要走… 後篇與前篇相比起來，因該是簡單的多，基本上就是兩件事情，第一件事情是要建立Kruntime和KVM，第二件事情則是要針對OSX上，MVC的設定。 建立Kruntime與KVM基本上，要建立Kruntime與KVM只要下以下這個指令就可以了…  curl https:&#x2F;&#x2F;raw.githubuser">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET MVC - ASP.NET MVC vNext ( MVC 6 ) 於MAC上跑ASP.NET MVC (後篇) Kruntime與MVC專案設定">
+<meta property="og:url" content="http://skychang.github.io/2014/06/20/ASP-NET-MVC-ASP-NET-MVC-vNext-MVC-6-%E6%96%BCMAC%E4%B8%8A%E8%B7%91ASP-NET-MVC-%E5%BE%8C%E7%AF%87-Kruntime%E8%88%87MVC%E5%B0%88%E6%A1%88%E8%A8%AD%E5%AE%9A/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="開始前，還是要提醒大家，目前也還有很多問題，小弟測試下來，真的感受到，要用於正式環境還有一段路要走… 後篇與前篇相比起來，因該是簡單的多，基本上就是兩件事情，第一件事情是要建立Kruntime和KVM，第二件事情則是要針對OSX上，MVC的設定。 建立Kruntime與KVM基本上，要建立Kruntime與KVM只要下以下這個指令就可以了…  curl https:&#x2F;&#x2F;raw.githubuser">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh6.ggpht.com/-nGwEtY505V0/U6HRgVm78XI/AAAAAAAAJWg/JxT2wjnV6mY/Image.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-s2BnS37mQRg/U6HRh_oKpDI/AAAAAAAAJWw/qLfZYrKBXKo/Image.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-0epqv6-3r0g/U6HRja6EmXI/AAAAAAAAJXA/G5wmX42VCX8/Image.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-HBo7oaBwZFg/U6HRlYtheuI/AAAAAAAAJXQ/aXJ1Z444JPg/Image.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-eDB7u3gaLjg/U6HRmpaxmpI/AAAAAAAAJXg/UW5vqK4Pdcs/Image.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-iWz7WLsjWGw/U6HRo0RFSOI/AAAAAAAAJXw/PVPuQ6n8E7g/Image.png?imgmax=800">
+<meta property="article:published_time" content="2014-06-20T23:50:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.832Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta property="article:tag" content="KVM">
+<meta property="article:tag" content="Mac">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh6.ggpht.com/-nGwEtY505V0/U6HRgVm78XI/AAAAAAAAJWg/JxT2wjnV6mY/Image.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ASP.NET MVC - ASP.NET MVC vNext ( MVC 6 ) 於MAC上跑ASP.NET MVC (後篇) Kruntime與MVC專案設定 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ASP.NET MVC - ASP.NET MVC vNext ( MVC 6 ) 於MAC上跑ASP.NET MVC (後篇) Kruntime與MVC專案設定
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2014-06-20T23:50:00+00:00" content="2014-06-20">
+              2014-06-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/06/20/ASP-NET-MVC-ASP-NET-MVC-vNext-MVC-6-%E6%96%BCMAC%E4%B8%8A%E8%B7%91ASP-NET-MVC-%E5%BE%8C%E7%AF%87-Kruntime%E8%88%87MVC%E5%B0%88%E6%A1%88%E8%A8%AD%E5%AE%9A/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/06/20/ASP-NET-MVC-ASP-NET-MVC-vNext-MVC-6-於MAC上跑ASP-NET-MVC-後篇-Kruntime與MVC專案設定/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>開始前，還是要提醒大家，目前也還有很多問題，小弟測試下來，真的感受到，要用於正式環境還有一段路要走…</p>
+<p>後篇與前篇相比起來，因該是簡單的多，基本上就是兩件事情，第一件事情是要建立Kruntime和KVM，第二件事情則是要針對OSX上，MVC的設定。</p>
+<h4 id="建立Kruntime與KVM"><a href="#建立Kruntime與KVM" class="headerlink" title="建立Kruntime與KVM"></a>建立Kruntime與KVM</h4><p>基本上，要建立Kruntime與KVM只要下以下這個指令就可以了…</p>
+<blockquote>
+<p>curl <a href="https://raw.githubusercontent.com/aspnet/Home/master/kvminstall.sh" target="_blank" rel="noopener">https://raw.githubusercontent.com/aspnet/Home/master/kvminstall.sh</a> | sh &amp;&amp; source ~/.kre/kvm/kvm.sh &amp;&amp; kvm upgrade </p>
+</blockquote>
+<p>這個指令基本上做的事情和在Windows下安裝Kruntime和KVM是同樣的…他會做以下的事情。</p>
+<ul>
+<li>下載kvm.sh並且儲存在~/.kre/kvm/kvm.sh&nbsp;&nbsp; <li>使用<code>kvm upgrade下載最新的KRE Package</code> </li>
+</ul>
+<p><code>完成之後，我們就可以使用kvm list來查看裝了哪些東西…</code></p>
+<p><code>[![螢幕快照 2014-06-19 上午1.26.34](http://lh3.ggpht.com/-J_gJuhN91-g/U6HReb-UysI/AAAAAAAAJWQ/qa28kcSdhUo/Image.png?imgmax=800 &quot;螢幕快照 2014-06-19 上午1.26.34&quot;)](http://lh3.ggpht.com/--YVjMN6CHlU/U6HRdkmPezI/AAAAAAAAJWI/hjBYIVOEKaY/s1600-h/Image.png)</code></p>
+<p>基本上，這樣Kruntime環境與KVM就設定完成了。</p>
+<h4 id="設定MVC"><a href="#設定MVC" class="headerlink" title="設定MVC"></a>設定MVC</h4><p>設定MVC專案有幾個地方需要設定，一個是NuGet.config，另外一個是project.json，最後Startup.cs也是要加上useMvc；另外建議也把一些不需要的東西砍一砍，基本上留下下面這些就夠了。</p>
+<p>而比較特別的是Nowin.vNext這個相依的專案，這是國外的高手寫的，就是為了解決OSX上的問題；請注意，當初Scott在Demo的時候，也是有加入Nowin，但實際上，Nuget裡面是找不到Nowin的… ( 未來可能會有… ) 所以現在是由網友熱情自己撰寫一個~~</p>
+<p>那大家可能會想，我要去哪找到這個Nowin.vNext這個專案，大家可以到這邊去<a href="https://github.com/davidfowl/HelloWorldVNext" target="_blank" rel="noopener">下載</a>。</p>
+<p><a href="http://lh5.ggpht.com/-n6ENkRe1-MM/U6HRfbjaNYI/AAAAAAAAJWY/MS12vsL0Enc/s1600-h/Image.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-nGwEtY505V0/U6HRgVm78XI/AAAAAAAAJWg/JxT2wjnV6mY/Image.png?imgmax=800" alt="螢幕快照 2014-06-19 上午1.28.55" title="螢幕快照 2014-06-19 上午1.28.55"></a></p>
+<p>NuGet.Config的設定一樣，要加上ASP.NET vNext現在的dev版本下載位置，平常的NuGet只能取得比較穩定的版本，但畢竟現在版本衝得太快(因為在開發中)，所以很容易版本不同匹配不起來，所以這邊還是建議使用最新的dev版本。</p>
+<p><a href="http://lh6.ggpht.com/--0W18_lF6QY/U6HRgxiZnaI/AAAAAAAAJWo/a0xt40T-1ys/s1600-h/Image.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-s2BnS37mQRg/U6HRh_oKpDI/AAAAAAAAJWw/qLfZYrKBXKo/Image.png?imgmax=800" alt="螢幕快照 2014-06-19 上午1.30.18" title="螢幕快照 2014-06-19 上午1.30.18"></a></p>
+<p>以下是NuGet.Config的code</p>
+<pre class="brush: xml;">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;configuration&gt;
+  &lt;packageSources&gt;
+    &lt;add key="AspNetVNext" value="https://www.myget.org/F/aspnetvnext/" /&gt;
+    &lt;add key="NuGet.org" value="https://nuget.org/api/v2/" /&gt;
+  &lt;/packageSources&gt;
+  &lt;packageSourceCredentials&gt;
+    &lt;AspNetVNext&gt;
+      &lt;add key="Username" value="aspnetreadonly" /&gt;
+      &lt;add key="ClearTextPassword" value="4d8a2d9c-7b80-4162-9978-47e918c9658c" /&gt;
+    &lt;/AspNetVNext&gt;
+  &lt;/packageSourceCredentials&gt;
+&lt;/configuration&gt;
+</pre>
+
+<p>另外，project.json的設定如下，要改command和加入Nowin.vNext這個相依，所以目錄下，一定要有Nowin.vNext這個專案。</p>
+<p><a href="http://lh3.ggpht.com/-QSIyiZ8kLw8/U6HRivn3jsI/AAAAAAAAJW4/bUDARHRuckU/s1600-h/Image.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-0epqv6-3r0g/U6HRja6EmXI/AAAAAAAAJXA/G5wmX42VCX8/Image.png?imgmax=800" alt="螢幕快照 2014-06-19 上午1.30.23" title="螢幕快照 2014-06-19 上午1.30.23"></a></p>
+<p>以下是project.json的code</p>
+<pre class="brush: js;">{
+    "dependencies": {
+        "Microsoft.AspNet.Mvc": "0.1-alpha-*",
+        "Nowin.vNext": ""
+    },
+    "commands": {
+        "web": "Microsoft.AspNet.Hosting --server Nowin.vNext"
+    }
+}
+</pre>
+
+<p>基本上Startup.cs沒甚麼改變，但現在大家應該還是不習慣vNext，所以也在這邊貼出來，提醒大家一下。</p>
+<p><a href="http://lh6.ggpht.com/-YncmGFPjdBE/U6HRkh8-vgI/AAAAAAAAJXI/mFnvsaVxxy8/s1600-h/Image.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-HBo7oaBwZFg/U6HRlYtheuI/AAAAAAAAJXQ/aXJ1Z444JPg/Image.png?imgmax=800" alt="螢幕快照 2014-06-19 上午1.31.51" title="螢幕快照 2014-06-19 上午1.31.51"></a></p>
+<p>以下是Startup.cs的Code。</p>
+<pre class="brush: csharp;">using System;
+using Microsoft.AspNet.Builder;
+using Microsoft.Framework.DependencyInjection;
+
+namespace WebApplication1
+{
+    public class Startup
+    {
+        public void Configure(IBuilder app)
+        {
+            // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
+            app.UseServices(services =&gt;
+            {
+                services.AddMvc();
+            });
+
+             app.Use(async (context, next) =&gt; 
+             {
+                Console.WriteLine(context.Request.Path);
+
+                try
+                {
+                    await next();
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            });
+
+            app.UseMvc();
+        }
+    }
+}
+</pre>
+
+<p>然後在run之前，要先用kpm restore，在下指令之前，也別忘記，進入到專案的目錄下。</p>
+<p>( 是專案，不是方案喔 )</p>
+<p><a href="http://lh5.ggpht.com/-0u-lrRKsen4/U6HRl0_cxdI/AAAAAAAAJXY/SpgyBHD3r4g/s1600-h/Image.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-eDB7u3gaLjg/U6HRmpaxmpI/AAAAAAAAJXg/UW5vqK4Pdcs/Image.png?imgmax=800" alt="螢幕快照 2014-06-19 上午1.44.51" title="螢幕快照 2014-06-19 上午1.44.51"></a></p>
+<p>最後，下k web這個指令，就可以run起來；而難得有OSX表現的機會，我們這次就讓safari來表現一下吧XDD</p>
+<p>( 預設的port是8080 )</p>
+<p><a href="http://lh3.ggpht.com/-Z83J3ydYLHo/U6HRn6mGvwI/AAAAAAAAJXo/FLGgdejoAS8/s1600-h/Image.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-iWz7WLsjWGw/U6HRo0RFSOI/AAAAAAAAJXw/PVPuQ6n8E7g/Image.png?imgmax=800" alt="螢幕快照 2014-06-19 上午1.47.46" title="螢幕快照 2014-06-19 上午1.47.46"></a></p>
+<p>這樣就完成嚕，當然現階段這部分也還在開發，相信明年的這個時候，會更加的方便!!</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://graemechristie.github.io/graemechristie/blog/2014/05/26/asp-dot-net-vnext-on-osx-and-linux/" target="_blank" rel="noopener" title="http://graemechristie.github.io/graemechristie/blog/2014/05/26/asp-dot-net-vnext-on-osx-and-linux/">http://graemechristie.github.io/graemechristie/blog/2014/05/26/asp-dot-net-vnext-on-osx-and-linux/</a><li><a href="https://github.com/davidfowl/HelloWorldVNext" target="_blank" rel="noopener" title="https://github.com/davidfowl/HelloWorldVNext">https://github.com/davidfowl/HelloWorldVNext</a><li><a href="https://github.com/Alxandr/Nowin.vNext" target="_blank" rel="noopener" title="https://github.com/Alxandr/Nowin.vNext">https://github.com/Alxandr/Nowin.vNext</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+            <a href="/tags/KVM/" rel="tag">#KVM</a>
+          
+            <a href="/tags/Mac/" rel="tag">#Mac</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/06/20/ASP-NET-MVC-ASP-NET-MVC-vNext-MVC-6-%E6%96%BCMAC%E4%B8%8A%E8%B7%91ASP-NET-MVC-%E4%B8%8A%E7%AF%87-%E5%AE%89%E8%A3%9DMono/" rel="next" title="ASP.NET MVC - ASP.NET MVC vNext ( MVC 6 ) 於MAC上跑ASP.NET MVC (上篇) 安裝Mono">
+                <i class="fa fa-chevron-left"></i> ASP.NET MVC - ASP.NET MVC vNext ( MVC 6 ) 於MAC上跑ASP.NET MVC (上篇) 安裝Mono
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/07/25/VSO-%E4%BD%BF%E7%94%A8Azure%E9%80%B2%E8%A1%8CVisual-Studio-Online%E7%9A%84%E4%BB%98%E8%B2%BB/" rel="prev" title="VSO - 使用Azure進行Visual Studio Online的付費">
+                VSO - 使用Azure進行Visual Studio Online的付費 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#建立Kruntime與KVM"><span class="nav-number">1.</span> <span class="nav-text">建立Kruntime與KVM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#設定MVC"><span class="nav-number">2.</span> <span class="nav-text">設定MVC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">3.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2014/06/20/ASP-NET-MVC-ASP-NET-MVC-vNext-MVC-6-於MAC上跑ASP-NET-MVC-後篇-Kruntime與MVC專案設定/';
+      var disqus_title = 'ASP.NET MVC - ASP.NET MVC vNext ( MVC 6 ) 於MAC上跑ASP.NET MVC (後篇) Kruntime與MVC專案設定';
+      var disqus_url = 'http://skychang.github.io/2014/06/20/ASP-NET-MVC-ASP-NET-MVC-vNext-MVC-6-%E6%96%BCMAC%E4%B8%8A%E8%B7%91ASP-NET-MVC-%E5%BE%8C%E7%AF%87-Kruntime%E8%88%87MVC%E5%B0%88%E6%A1%88%E8%A8%AD%E5%AE%9A/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

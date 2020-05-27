@@ -1,0 +1,705 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Node.js,Hexo,Github," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言用了很長一段的 Blogger ，目前也已經停止使用了，至於為什麼，有興趣的朋友可以去舊站看看，大體來說，就是小弟希望能用 Markdown 當作 Source Code 的方式把文章留下來，以前在 Blogger 撰寫，雖然寫得很愉快，但貼上後，就是 HTML 格式了，對於未來想轉移，其實都很不方便。而後來看了很多的架站方案，基本上小弟我也不喜歡太複雜的…前後有嘗試過 Hugo ，但是 Hu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo - 安裝 Hexo">
+<meta property="og:url" content="http://skychang.github.io/2015/10/06/Hexo-Install_Hexo/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="前言用了很長一段的 Blogger ，目前也已經停止使用了，至於為什麼，有興趣的朋友可以去舊站看看，大體來說，就是小弟希望能用 Markdown 當作 Source Code 的方式把文章留下來，以前在 Blogger 撰寫，雖然寫得很愉快，但貼上後，就是 HTML 格式了，對於未來想轉移，其實都很不方便。而後來看了很多的架站方案，基本上小弟我也不喜歡太複雜的…前後有嘗試過 Hugo ，但是 Hu">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2015/10/06/Hexo-Install_Hexo/01.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/06/Hexo-Install_Hexo/02.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/06/Hexo-Install_Hexo/03.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/06/Hexo-Install_Hexo/04.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/06/Hexo-Install_Hexo/05.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/06/Hexo-Install_Hexo/06.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/06/Hexo-Install_Hexo/07.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/06/Hexo-Install_Hexo/08.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/06/Hexo-Install_Hexo/09.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/06/Hexo-Install_Hexo/10.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/06/Hexo-Install_Hexo/11.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/06/Hexo-Install_Hexo/12.png">
+<meta property="og:image" content="http://skychang.github.io/2015/10/06/Hexo-Install_Hexo/13.png">
+<meta property="article:published_time" content="2015-10-06T22:40:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.912Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="Github">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2015/10/06/Hexo-Install_Hexo/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Hexo - 安裝 Hexo | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Hexo - 安裝 Hexo
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-10-06T22:40:00+00:00" content="2015-10-06">
+              2015-10-06
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/10/06/Hexo-Install_Hexo/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/10/06/Hexo-Install_Hexo/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>用了很長一段的 Blogger ，目前也已經停止使用了，至於為什麼，有興趣的朋友可以去<a href="http://blog.sanc.idv.tw" target="_blank" rel="noopener">舊站</a>看看，大體來說，就是小弟希望能用 Markdown 當作 Source Code 的方式把文章留下來，以前在 Blogger 撰寫，雖然寫得很愉快，但貼上後，就是 HTML 格式了，對於未來想轉移，其實都很不方便。而後來看了很多的架站方案，基本上小弟我也不喜歡太複雜的…前後有嘗試過 Hugo ，但是 Hugo 搬移文章的工具，小弟我根本不知道該怎麼使用!!(遮臉) ，所以後來還是選擇了以 Node.js 為核心的 Hexo ，選擇 Hexo 的原因其實很簡單，主要是因為目前已經維護得很穩定，而且也有眾多文件。最後選擇架設在 GitHub 上面，其實也沒有甚麼特別的原因，只是因為他很佈署，又方便 XDDD.</p>
+<p>這篇主要是紀錄一下自己的使用過程，雖然市面上已經有很多人寫過類似的文章了，但是有的時候，一些小設定，每次都要 Google 還是很麻煩的，所以就邊架設的過程中，就順便紀錄一下。</p>
+<h2 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h2><p>Hexo 是基於 Node.js 開發的套件，它可以將 Markdown 轉成 HTML，而且提供了豐富的工具。<br>有興趣的朋友，也可以直接參考<a href="https://hexo.io/" target="_blank" rel="noopener">官網</a></p>
+<h2 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h2><p>首先，我們使用以下指令來安裝，當然，既然底層是 Node.js ，當然就是用 <code>npm</code> 了。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">language:</span> <span class="string">node_js</span></span><br><span class="line"></span><br><span class="line"><span class="attr">node_js:</span> <span class="string">stable</span></span><br><span class="line"></span><br><span class="line"><span class="attr">script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">npm</span> <span class="string">install</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">hexo</span> <span class="string">cl</span></span><br><span class="line"></span><br><span class="line"><span class="attr">after_success:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">config</span> <span class="string">--global</span> <span class="string">user.name</span> <span class="string">"yourName"</span> </span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">config</span> <span class="string">--global</span> <span class="string">user.email</span> <span class="string">"your Mail"</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">sed</span> <span class="string">-i''</span> <span class="string">"/^ *repo/s~github\.com~$&#123;GH_TOKEN&#125;@github.com~"</span> <span class="string">_config.yml</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">hexo</span> <span class="string">deploy</span> <span class="string">-g</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="01.png" alt=""></p>
+<p>完成之後，就可以使用 <code>hexo init</code> 名稱 來建置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init blog</span><br></pre></td></tr></table></figure>
+
+<p><img src="02.png" alt=""></p>
+<p>接下來，我們要進入剛剛建立好的 blog 目錄底下，並輸入 <code>npm install</code> 來進行載入套件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
+
+<p>這邊要特別注意一下，如果是使用 OSX 環境的朋友，請安裝 XCode 和 XCode Command Line 工具，不然會發生錯誤。</p>
+<p><img src="03.png" alt=""></p>
+<p>接著，我們可以簡單的使用 hexo server 來啟動 LocalHost 的 Server ，預設會在 localhost:4000 的位置，另外，雖然如下圖，訊息會 show 出 run 在 0.0.0.0:4000 ，但如果是 windows 環境，還是必須要打 localhost:4000。</p>
+<p>( 0.0.0.0 代表的是可以從任何地方進行瀏覽此網站，localhost 代表的是只能從本地瀏覽此網站，無法從外部瀏覽 )</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo Server</span><br></pre></td></tr></table></figure>
+
+<p><img src="04.png" alt=""></p>
+<h2 id="更換主題"><a href="#更換主題" class="headerlink" title="更換主題"></a>更換主題</h2><p>如果用瀏覽器看，沒啥問題，我們就可以開始挑選喜歡的佈景主題，小弟這邊的主題是 <a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">Next 主題</a>。</p>
+<p>這邊你可以選擇 clone 或是，基本的 Download ，小弟是直接透過 Download 的方式。</p>
+<p><img src="05.png" alt=""></p>
+<p>下載下來的檔案，解壓縮後，要把它放到 Theme 的目錄底下，並且改名成 Next。</p>
+<p><img src="06.png" alt=""></p>
+<p>接下來，修改 _config.yml 檔案，找到 Theme ，並把它改成 Next。<br>( 當然，不一定要用記事本，小弟這邊是懶得用其他工具，就直接開了~ )</p>
+<p><img src="07.png" alt=""></p>
+<p>接著，我們就可以使用 hexo s –debug 來開啟 Server，加上 debug 會產生輸出 log 的效果，而 s 是 server 的簡寫。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo s --debug</span><br></pre></td></tr></table></figure>
+
+<p><img src="08.png" alt=""></p>
+<p>然後就可以看到漂漂的網站嚕!! ( 至少小弟是滿喜歡這種簡潔風格的…. )</p>
+<p><img src="09.png" alt=""></p>
+<h2 id="匯入資料"><a href="#匯入資料" class="headerlink" title="匯入資料"></a>匯入資料</h2><p>接下來，我們可以把原本的 Blogger 或是 WordPress 的資料移入進來。</p>
+<p>如果要載入 Blogger ，小弟建議使用 RSS 讀讀入套件 ( Hexo 也只有這個方法…. )<br>所以我們要先裝一下 <code>hexo-migrator-rss</code> 這個 package。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-migrator-rss --save</span><br></pre></td></tr></table></figure>
+
+<p><img src="10.png" alt=""></p>
+<p>裝完之後，我們就可以使用下圖的命令讀入 Blogger 的文章。<br>( 通常如果沒給 max-result ，只會讀入少量的文章，所以這邊透過設定 max-result 的方式，來讀入所有文章 )</p>
+<p><img src="11.png" alt=""></p>
+<p>如果是要轉入 WordPress 則要安裝 <code>hexo-migrator-wordpress</code> 套件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-migrator-wordpress --save</span><br></pre></td></tr></table></figure>
+
+<p><img src="12.png" alt=""></p>
+<p>接下來，我們只要輸入如下圖的指令。<br>( 別忘了要先去 WordPress 把文章備份出來 )</p>
+<p><img src="13.png" alt=""></p>
+<p>基本上，這樣子文章的轉移，就差不多完成了，但要注意一下，透過 rss 的方式，並不會把圖檔也載下來，簡單的說，就是圖檔還是在原本的圖庫裡面，還是透過超連結取得圖檔。但如果是從 Wordpress的方式載入進來的話，基本上是可以連圖檔一起進來的…</p>
+<p>基本上，這篇先到這邊! 我們完成了文章的載入，那又要怎樣佈署上去呢?!</p>
+<p>下一篇，我們將介紹如何上傳到 GitHub 上，並且正式發佈。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="http://serverfault.com/questions/78048/whats-the-difference-between-ip-address-0-0-0-0-and-127-0-0-1#comment63540_78049" target="_blank" rel="noopener">http://serverfault.com/questions/78048/whats-the-difference-between-ip-address-0-0-0-0-and-127-0-0-1#comment63540_78049</a></li>
+<li><a href="http://wsgzao.github.io/post/hexo-guide/" target="_blank" rel="noopener">http://wsgzao.github.io/post/hexo-guide/</a></li>
+<li><a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">https://github.com/iissnan/hexo-theme-next</a></li>
+<li><a href="https://git-scm.com/book/zh-tw/v1/%E4%BC%BA%E6%9C%8D%E5%99%A8%E4%B8%8A%E7%9A%84-Git-%E7%94%9F%E6%88%90-SSH-%E5%85%AC%E9%96%8B%E9%87%91%E9%91%B0" target="_blank" rel="noopener">https://git-scm.com/book/zh-tw/v1/%E4%BC%BA%E6%9C%8D%E5%99%A8%E4%B8%8A%E7%9A%84-Git-%E7%94%9F%E6%88%90-SSH-%E5%85%AC%E9%96%8B%E9%87%91%E9%91%B0</a></li>
+<li><a href="https://gist.github.com/adamjohnson/5682757" target="_blank" rel="noopener">https://gist.github.com/adamjohnson/5682757</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Node-js/" rel="tag">#Node.js</a>
+          
+            <a href="/tags/Hexo/" rel="tag">#Hexo</a>
+          
+            <a href="/tags/Github/" rel="tag">#Github</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/27/Webpack-dev_server/" rel="next" title="Webpack - 使用 Webpack Dev Server 進行開發">
+                <i class="fa fa-chevron-left"></i> Webpack - 使用 Webpack Dev Server 進行開發
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/10/19/Hexo-Source_Control_and_Deploy/" rel="prev" title="Hexo - 版本控制與發佈到 GitHub">
+                Hexo - 版本控制與發佈到 GitHub <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hexo"><span class="nav-number">2.</span> <span class="nav-text">Hexo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝"><span class="nav-number">3.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更換主題"><span class="nav-number">4.</span> <span class="nav-text">更換主題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#匯入資料"><span class="nav-number">5.</span> <span class="nav-text">匯入資料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">6.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2015/10/06/Hexo-Install_Hexo/';
+      var disqus_title = 'Hexo - 安裝 Hexo';
+      var disqus_url = 'http://skychang.github.io/2015/10/06/Hexo-Install_Hexo/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

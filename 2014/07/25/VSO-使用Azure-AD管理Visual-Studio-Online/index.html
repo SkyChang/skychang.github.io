@@ -1,0 +1,672 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Visual Studio,Azure,VSO,Active Directory," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="記得前一段時間，聽到Visual Studio Online可以整合AD了!!真的是一大新聞，但是後來仔細一看，原來要將VSO整合AD，必須用Azure AD帳號去申請VSO，而已經有VSO的朋友則還沒辦法支援… (抖抖)。 但畢竟雲端變化很快，在這次的更新，MS已經提供支援了!! 所以，除了前面一篇講到了在Azure上付費外，我們還可以利用Azure AD來進行Visual Studio Onl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VSO -  使用Azure AD管理Visual Studio Online">
+<meta property="og:url" content="http://skychang.github.io/2014/07/25/VSO-%E4%BD%BF%E7%94%A8Azure-AD%E7%AE%A1%E7%90%86Visual-Studio-Online/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="記得前一段時間，聽到Visual Studio Online可以整合AD了!!真的是一大新聞，但是後來仔細一看，原來要將VSO整合AD，必須用Azure AD帳號去申請VSO，而已經有VSO的朋友則還沒辦法支援… (抖抖)。 但畢竟雲端變化很快，在這次的更新，MS已經提供支援了!! 所以，除了前面一篇講到了在Azure上付費外，我們還可以利用Azure AD來進行Visual Studio Onl">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh4.ggpht.com/-xyW4fz5QjzY/U9E5Foj4ceI/AAAAAAAAJbg/o0ATR-1gzgs/image_thumb%25255B17%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-ApLU0pnVaNQ/U9E5HcpGMJI/AAAAAAAAJbw/vM1DpTLUva0/image_thumb%25255B19%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-R73pJQQTxac/U9E5I5uiRoI/AAAAAAAAJcA/kzAx3OF1ris/image_thumb%25255B23%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-syAM-vJaK3M/U9E5KjMR2yI/AAAAAAAAJcQ/iKrE1MHEaAc/image_thumb%25255B15%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-4IeHzNAF6X0/U9E5MdnBcnI/AAAAAAAAJcg/BP6bpstOoDo/image_thumb%25255B5%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-0JS2auMuqmY/U9E5OEITdfI/AAAAAAAAJcw/afXhLvmi7T8/image_thumb%25255B8%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-UNxZSfrb0F4/U9E5P-YyNcI/AAAAAAAAJdA/TOGVyhjPIQM/image_thumb%25255B11%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-3DG2HH2SGIU/U9E5RWMPYbI/AAAAAAAAJdQ/bLQ206x8al4/image_thumb%25255B21%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2014-07-25T00:50:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.984Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="VSO">
+<meta property="article:tag" content="Active Directory">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh4.ggpht.com/-xyW4fz5QjzY/U9E5Foj4ceI/AAAAAAAAJbg/o0ATR-1gzgs/image_thumb%25255B17%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> VSO -  使用Azure AD管理Visual Studio Online | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                VSO -  使用Azure AD管理Visual Studio Online
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2014-07-25T00:50:00+00:00" content="2014-07-25">
+              2014-07-25
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/07/25/VSO-%E4%BD%BF%E7%94%A8Azure-AD%E7%AE%A1%E7%90%86Visual-Studio-Online/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/07/25/VSO-使用Azure-AD管理Visual-Studio-Online/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>記得前一段時間，聽到Visual Studio Online可以整合AD了!!真的是一大新聞，但是後來仔細一看，原來要將VSO整合AD，必須用Azure AD帳號去申請VSO，而已經有VSO的朋友則還沒辦法支援… (抖抖)。</p>
+<p>但畢竟雲端變化很快，在這次的更新，MS已經提供支援了!!</p>
+<p>所以，除了<a href="http://blog.sanc.idv.tw/2014/07/vso-azurevisual-studio-online.html" target="_blank" rel="noopener">前面一篇</a>講到了在Azure上付費外，我們還可以利用Azure AD來進行Visual Studio Online的控管!! 另外，如果是Local的AD，那也有同步機制可以同步到Azure AD喔!!</p>
+<p><font color="#ff0000">注意! 根據官方文件，繫結的時間需要2HR，所以請利用無人的時間，執行下列動作!</font></p>
+<p>首先，我們要有Azure的最高權限管理者，才能進行這個動作；要怎樣看有無最高權限管理者，可以從Azure的設定畫面，訂用帳戶這邊看到…如果是最高權限管理者，那應該會顯示白色的字，如果不是，則是灰色的… ( 可以使用Azure的所有服務之人，並不代表是有最高權限的管理者，但最高權限管理者，一定可以使用Azure全部服務；基本上最高權限帳號，就是當初註冊的那個帳號。 )</p>
+<p><a href="http://lh4.ggpht.com/-NwinuQUOz6Y/U9E5EQ6l2nI/AAAAAAAAJbY/cVNBc8Xk4ho/s1600-h/image%25255B31%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-xyW4fz5QjzY/U9E5Foj4ceI/AAAAAAAAJbg/o0ATR-1gzgs/image_thumb%25255B17%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>另外，Azure AD的部分，這個帳號也必須為全域管理員…</p>
+<p><a href="http://lh5.ggpht.com/-USWrvaoz42c/U9E5GiZZX1I/AAAAAAAAJbo/AfWtt5WiAmA/s1600-h/image%25255B35%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-ApLU0pnVaNQ/U9E5HcpGMJI/AAAAAAAAJbw/vM1DpTLUva0/image_thumb%25255B19%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>如下圖，就不是全域管理員；如果不是全域管理員，那要使用全域管理員的帳號，登入Azure 並去AD裡面去修改…另外，如果當初申請Azure，用的是Microsoft Account，那也別忘記把Microsoft Account加進去Azure AD裡面。</p>
+<p><a href="http://lh5.ggpht.com/-aLRehgvFdho/U9E5INvnBmI/AAAAAAAAJb4/0prEMiif4rk/s1600-h/image%25255B43%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-R73pJQQTxac/U9E5I5uiRoI/AAAAAAAAJcA/kzAx3OF1ris/image_thumb%25255B23%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，進入VSO的管理頁面。</p>
+<p><a href="http://lh3.ggpht.com/-S2U_f40wf9Y/U9E5JtMztzI/AAAAAAAAJcI/vb4w7PpeL9E/s1600-h/image%25255B27%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-syAM-vJaK3M/U9E5KjMR2yI/AAAAAAAAJcQ/iKrE1MHEaAc/image_thumb%25255B15%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後我們按下設定。</p>
+<p><a href="http://lh3.ggpht.com/-eaKs5G6GjvU/U9E5LUwEeGI/AAAAAAAAJcY/Rs01dhfV920/s1600-h/image%25255B9%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-4IeHzNAF6X0/U9E5MdnBcnI/AAAAAAAAJcg/BP6bpstOoDo/image_thumb%25255B5%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這邊我們就可以利用連接的方式，將現有AD與現有VSO進行連接…</p>
+<p><a href="http://lh6.ggpht.com/-py8mnbg6_uQ/U9E5NbdLd1I/AAAAAAAAJco/Fb-Lj8ARlgo/s1600-h/image%25255B14%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-0JS2auMuqmY/U9E5OEITdfI/AAAAAAAAJcw/afXhLvmi7T8/image_thumb%25255B8%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這邊我們要選擇我們的Azure AD目錄；另外這邊的提示是告訴我們，如果現有的VSO使用者，要繼續使用，那必須要加入到Azure AD目錄下，不然會無法存取!!</p>
+<p>而這邊，按下勾勾後，就可以完成連線了~~</p>
+<p><a href="http://lh4.ggpht.com/-JB4mUteyuyY/U9E5OwRXGOI/AAAAAAAAJc4/_uLaicUEoeI/s1600-h/image%25255B19%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-UNxZSfrb0F4/U9E5P-YyNcI/AAAAAAAAJdA/TOGVyhjPIQM/image_thumb%25255B11%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>如下圖，假設我們設定完成後，在VSO新增一個使用者，VSO也會提醒我們…</p>
+<p><a href="http://lh5.ggpht.com/-2x8U5QJr8wY/U9E5QkuRnoI/AAAAAAAAJdI/ILFJ7j6BGsM/s1600-h/image%25255B39%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-3DG2HH2SGIU/U9E5RWMPYbI/AAAAAAAAJdQ/bLQ206x8al4/image_thumb%25255B21%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>基本上這樣就可以了，但有個小細節提供給大家參考。</p>
+<p>首先，因為當時申請VSO的時候，大家幾乎都是用Microsoft Account，但現在整合的時候，如果希望完全使用組織AD，那大家可以先去VSO，把VSO的擁有者換成組織的AD帳號，然後再進行上面那些步驟，這樣就可以了!!</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://www.visualstudio.com/get-started/manage-organization-access-for-your-account-vs" target="_blank" rel="noopener" title="http://www.visualstudio.com/get-started/manage-organization-access-for-your-account-vs">http://www.visualstudio.com/get-started/manage-organization-access-for-your-account-vs</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/VSO/" rel="tag">#VSO</a>
+          
+            <a href="/tags/Active-Directory/" rel="tag">#Active Directory</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/07/25/VSO-%E4%BD%BF%E7%94%A8Azure%E9%80%B2%E8%A1%8CVisual-Studio-Online%E7%9A%84%E4%BB%98%E8%B2%BB/" rel="next" title="VSO - 使用Azure進行Visual Studio Online的付費">
+                <i class="fa fa-chevron-left"></i> VSO - 使用Azure進行Visual Studio Online的付費
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/07/31/GitHub-GitHub-Page-for-User/" rel="prev" title="GitHub -  GitHub Page for User">
+                GitHub -  GitHub Page for User <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">1.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2014/07/25/VSO-使用Azure-AD管理Visual-Studio-Online/';
+      var disqus_title = 'VSO -  使用Azure AD管理Visual Studio Online';
+      var disqus_url = 'http://skychang.github.io/2014/07/25/VSO-%E4%BD%BF%E7%94%A8Azure-AD%E7%AE%A1%E7%90%86Visual-Studio-Online/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

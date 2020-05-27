@@ -1,0 +1,707 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Azure,Linux,Container,ACI,Docker," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言這段時間，連續的探討 ACS 的 Kubernetes，但其實這幾天，在 Azure 上的容器服務，又出現了一個更方便，更強大的容器服務，也就是今天的主題，Azure Container Instances ( ACI )。 關於 Azure Container Instances大家回想一下，目前雲端上的服務，如果要使用容器，我們必須怎要做？以 Azure 來說，大概上有這幾種方法 ( 可能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Azure - Azure Container Instances 初體驗">
+<meta property="og:url" content="http://skychang.github.io/2017/07/31/Azure-Azure_Container_Instance_Overview/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="前言這段時間，連續的探討 ACS 的 Kubernetes，但其實這幾天，在 Azure 上的容器服務，又出現了一個更方便，更強大的容器服務，也就是今天的主題，Azure Container Instances ( ACI )。 關於 Azure Container Instances大家回想一下，目前雲端上的服務，如果要使用容器，我們必須怎要做？以 Azure 來說，大概上有這幾種方法 ( 可能">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2017/07/31/Azure-Azure_Container_Instance_Overview/01.png">
+<meta property="og:image" content="http://skychang.github.io/2017/07/31/Azure-Azure_Container_Instance_Overview/02.png">
+<meta property="og:image" content="http://skychang.github.io/2017/07/31/Azure-Azure_Container_Instance_Overview/03.png">
+<meta property="og:image" content="http://skychang.github.io/2017/07/31/Azure-Azure_Container_Instance_Overview/04.png">
+<meta property="og:image" content="http://skychang.github.io/2017/07/31/Azure-Azure_Container_Instance_Overview/05.png">
+<meta property="og:image" content="http://skychang.github.io/2017/07/31/Azure-Azure_Container_Instance_Overview/06.png">
+<meta property="og:image" content="http://skychang.github.io/2017/07/31/Azure-Azure_Container_Instance_Overview/07.png">
+<meta property="og:image" content="http://skychang.github.io/2017/07/31/Azure-Azure_Container_Instance_Overview/08.png">
+<meta property="article:published_time" content="2017-07-31T20:56:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.852Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Container">
+<meta property="article:tag" content="ACI">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2017/07/31/Azure-Azure_Container_Instance_Overview/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Azure - Azure Container Instances 初體驗 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Azure - Azure Container Instances 初體驗
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2017-07-31T20:56:00+00:00" content="2017-07-31">
+              2017-07-31
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/07/31/Azure-Azure_Container_Instance_Overview/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/07/31/Azure-Azure_Container_Instance_Overview/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>這段時間，連續的探討 ACS 的 Kubernetes，但其實這幾天，在 Azure 上的容器服務，又出現了一個更方便，更強大的容器服務，也就是今天的主題，Azure Container Instances ( ACI )。</p>
+<h2 id="關於-Azure-Container-Instances"><a href="#關於-Azure-Container-Instances" class="headerlink" title="關於 Azure Container Instances"></a>關於 Azure Container Instances</h2><p>大家回想一下，目前雲端上的服務，如果要使用容器，我們必須怎要做？以 Azure 來說，大概上有這幾種方法 ( 可能沒有全部列出 )，最經典的，就是建立一台 Windows Server 的 VM，或是 Linux VM 來支援容器，一個是簡單，便捷的 App Service，目前可以提供 Linux 上傳上去：其次就是我們最近連發的 ACS 主題，透過 Azure Container Service 來建立 Kubernetes 等，來支援 Container：但是如大家所知，無論是 VM，或是 ACS ，其實底層也是必須要搭配 VM 來搭建，而建立的過程中，可能也需要一點時間：但有的時候，我們會希望能和建立 VM 一樣的方便，甚至比 VM 建立的還要迅速。</p>
+<p>沒錯，這就是 Azure Container Instances 的由來，也是小弟一直很期待的一個服務。</p>
+<p>那 Azure Container Instances ( ACI ) 有什麼好處呢？根據<a href="https://docs.microsoft.com/en-us/azure/container-instances/container-instances-overview" target="_blank" rel="noopener">官網</a>的描述有幾項特點。</p>
+<ul>
+<li>超。快速啟動</li>
+<li>虛擬機層級的安全性</li>
+<li>想要多大多小，自型定義</li>
+<li>提供對外的 IP</li>
+<li>超方便的儲存體支援</li>
+<li>支援 Linux / Windows 容器</li>
+<li>輕鬆的群組與互相協調</li>
+</ul>
+<p>容器提供了虛擬機顯著啟動的好處。隨著Azure的容器實例，您可以在幾秒鐘內開始建置 Windows / Linux 容器，而無需部署和管理虛擬機；而也因為是虛擬層級的容器服務，所以可以說，每一台硬體就是提供給你 run 容器，所以，你可以輕易地調整你 run 這個容器的 cpu 大小和記憶體：當然，透過 Azure 整體的網路服務，在未來更可以輕易地整合 Azure 網路服務：既然有網路，那當然也會有儲存體，所以可以透過 Azure File 直接的共享：最後，不光是一個容器，你也可以輕易地建立 Group，甚至和 Kubernetes 串連。</p>
+<p>沒錯， ACI 的未來就是如此看好 :)</p>
+<p>接下來，就依據官網的<a href="https://docs.microsoft.com/en-us/azure/container-instances/container-instances-quickstart" target="_blank" rel="noopener">教學</a>實際走一次吧</p>
+<h2 id="使用-Shell-建立"><a href="#使用-Shell-建立" class="headerlink" title="使用 Shell 建立"></a>使用 Shell 建立</h2><p>這邊，我們可以使用 Azure Cloud Shell 建立 ( 如下圖 )，或是 Azure Cli 來建立，小弟這邊就使用 Azure Cli 來建立吧，但 Azure Cli 版本請大於 2.0.12 ，<a href="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli" target="_blank" rel="noopener">版本更新</a></p>
+<p><img src="01.png" alt=""></p>
+<p>版本須大於 2.0.12，可用底下指令查看版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az --version</span><br></pre></td></tr></table></figure>
+
+<p><img src="02.png" alt=""></p>
+<h2 id="建立資源群組"><a href="#建立資源群組" class="headerlink" title="建立資源群組"></a>建立資源群組</h2><p>基本上，東西都是要放到資源群組裡面，所以我們就先建立一個稱為 ACITestGroup 且在東美的資源群組。<br>（ 目前東亞不支援，此服務還在 Previrw )</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az group create --name ACITestGroup --location eastus</span><br></pre></td></tr></table></figure>
+
+<p>完成如下</p>
+<p><img src="03.png" alt=""></p>
+<h2 id="建立容器"><a href="#建立容器" class="headerlink" title="建立容器"></a>建立容器</h2><p>接下來，我們就可以用指令快速建立一個 nginx 的容器，並且放到 ACITestGroup 的資源群組，且要公開 ip。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az container create --name nginx --image nginx --resource-group ACITestGroup  --ip-address public</span><br></pre></td></tr></table></figure>
+
+<p>完成後，我們就可以從下圖看到建立完成的相關資訊。</p>
+<p><img src="04.png" alt=""></p>
+<p>因為是對外 ip ，所以我們可以直接使用此 ip 瀏覽。</p>
+<p><img src="05.png" alt=""></p>
+<p>如果，想查看所有的 container ，也可以用底下的指令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az container list</span><br></pre></td></tr></table></figure>
+
+<p>或是針對其中一個 Container 查看。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az container show --name nginx  --resource-group ACITestGroup</span><br></pre></td></tr></table></figure>
+
+<p>當然，也可以從 Portal 的資源群組查看，只是目前 Portal 裡面是看不到 Public IP 的。( 等未來吧 )</p>
+<p><img src="06.png" alt=""></p>
+<h2 id="查看容器-Log"><a href="#查看容器-Log" class="headerlink" title="查看容器 Log"></a>查看容器 Log</h2><p>如要查看 Log ，可以用底下指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az container logs --name nginx --resource-group ACITestGroup</span><br></pre></td></tr></table></figure>
+
+<p>結果如下圖。</p>
+<p><img src="07.png" alt=""></p>
+<h2 id="刪除容器"><a href="#刪除容器" class="headerlink" title="刪除容器"></a>刪除容器</h2><p>最後，如果要刪除，我們可以下底下指令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">az container delete --name nginx --resource-group ACITestGroup</span><br></pre></td></tr></table></figure>
+
+<p>結果如下圖。</p>
+<p><img src="08.png" alt=""></p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>這篇是照著官網，很簡單的一個初體驗，但從這次的體驗已經可以感受到，Azure 對於 Container 的發展，其實整整邁進了一大步，相信未來一定會有更多更好玩的服務出現！！</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/cli/azure/install-azure-cli</a></li>
+<li><a href="https://docs.microsoft.com/en-us/azure/container-instances/container-instances-overview" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/azure/container-instances/container-instances-overview</a></li>
+<li><a href="https://docs.microsoft.com/en-us/azure/container-instances/container-instances-quickstart" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/azure/container-instances/container-instances-quickstart</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/Linux/" rel="tag">#Linux</a>
+          
+            <a href="/tags/Container/" rel="tag">#Container</a>
+          
+            <a href="/tags/ACI/" rel="tag">#ACI</a>
+          
+            <a href="/tags/Docker/" rel="tag">#Docker</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/30/Azure-Azure_Container_Service_Kubernetes_First_Create/" rel="next" title="Azure - Azure Container Service - Kubernetes 第一次的部署">
+                <i class="fa fa-chevron-left"></i> Azure - Azure Container Service - Kubernetes 第一次的部署
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/09/VSTS-Resolve_Git_connection_failure/" rel="prev" title="VSTS - 解決 Git 無法同步之問題">
+                VSTS - 解決 Git 無法同步之問題 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#關於-Azure-Container-Instances"><span class="nav-number">2.</span> <span class="nav-text">關於 Azure Container Instances</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Shell-建立"><span class="nav-number">3.</span> <span class="nav-text">使用 Shell 建立</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立資源群組"><span class="nav-number">4.</span> <span class="nav-text">建立資源群組</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立容器"><span class="nav-number">5.</span> <span class="nav-text">建立容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看容器-Log"><span class="nav-number">6.</span> <span class="nav-text">查看容器 Log</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#刪除容器"><span class="nav-number">7.</span> <span class="nav-text">刪除容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">8.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">9.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2017/07/31/Azure-Azure_Container_Instance_Overview/';
+      var disqus_title = 'Azure - Azure Container Instances 初體驗';
+      var disqus_url = 'http://skychang.github.io/2017/07/31/Azure-Azure_Container_Instance_Overview/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

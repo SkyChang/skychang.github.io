@@ -1,0 +1,668 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言在很久很久很久很久以前 ( 好啦，其實也沒多久… )，那時 Ajax 正慢慢的紅起來，而如果大家剛好有經過那個時期，大概就會知道 XMLHttpRequest 這個東西，而如果那個時代又真的下去寫後，就會發現，阿，真是 OOXX 的有夠難寫….不過，大家也知道，這錯不是錯在 XMLHttpRequest 上，而是時代的混亂阿!! ( 其實現在也沒好到哪去…) 而隨著時代的進步，我們開始擁有了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 fetch 來進行 Ajax 呼叫">
+<meta property="og:url" content="http://skychang.github.io/2015/11/02/JavaScript-Use_Javascript_Fetch/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="前言在很久很久很久很久以前 ( 好啦，其實也沒多久… )，那時 Ajax 正慢慢的紅起來，而如果大家剛好有經過那個時期，大概就會知道 XMLHttpRequest 這個東西，而如果那個時代又真的下去寫後，就會發現，阿，真是 OOXX 的有夠難寫….不過，大家也知道，這錯不是錯在 XMLHttpRequest 上，而是時代的混亂阿!! ( 其實現在也沒好到哪去…) 而隨著時代的進步，我們開始擁有了">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2015-11-02T23:20:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.924Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 使用 fetch 來進行 Ajax 呼叫 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用 fetch 來進行 Ajax 呼叫
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-11-02T23:20:00+00:00" content="2015-11-02">
+              2015-11-02
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/02/JavaScript-Use_Javascript_Fetch/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/11/02/JavaScript-Use_Javascript_Fetch/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在很久很久很久很久以前 ( 好啦，其實也沒多久… )，那時 Ajax 正慢慢的紅起來，而如果大家剛好有經過那個時期，大概就會知道 XMLHttpRequest 這個東西，而如果那個時代又真的下去寫後，就會發現，阿，真是 OOXX 的有夠難寫….<br>不過，大家也知道，這錯不是錯在 XMLHttpRequest 上，而是時代的混亂阿!! ( 其實現在也沒好到哪去…)</p>
+<p>而隨著時代的進步，我們開始擁有了 jQuery ，jQuery 幫我們把 XMLHttpRequest 封裝的好好的，並且解決了各種不同瀏覽器的判斷問題，讓我們快速的進入了新的網頁時代!!那時候看到 jQuery ，真的覺得，阿，他是神物阿!!!</p>
+<p>後來，又出現了 KO ( ASP.NET MVC 4 的時代 )，也依舊覺得他是神物….然後直到 Google 家的 NG ( AngularJS )，更又覺得他是神物中的神物，而 AngularJS 更是把一切要用的東西全部都封裝起來了，我們不用再使用 jQuery ( 雖然 NG 裡面也是包 jQuery Lite )，到這個階段時期，我們使用 AngularJS 後，我們幾乎就可以不用管最底層的 XMLHttpRequest ，也不用管在往上的 jQuery 。</p>
+<p>但又隨著時代的進步…. ( 其實說真的，也才幾年的時間… ) Facebook 的 React 大舉入侵，但 React 基本是指是代表著 View ，也就是說，他並沒有把一堆東西包的好好的，所以在早期的時候，要進行 Ajax ，可能還是要使用 jQuery ….</p>
+<p>但，歷史已經經過了那麼久，我們還是必須要使用 XMLHttpRequest ，其實不然，現在技術大混戰的時期，怎麼可能不推出新的東西哩 ( 爆 ) ，所以這新的東西是甚麼… 就是未來會建立於各個瀏覽器內，新的呼叫方式 fetch .</p>
+<h2 id="fetch"><a href="#fetch" class="headerlink" title="fetch"></a>fetch</h2><p>那甚麼是 fetch 勒? 為什麼要有這東西，基本上這篇不會談到這個，有興趣的可參考小弟的參考資料，神人大大們寫的已經很詳細了。總之就是要取代掉 XMLHttpRequest 的東西。</p>
+<p>那大家可能又會有疑問 “ Cool ，但現在所有瀏覽器都支援嗎? “ ，這個答案就如同 ES6 一樣，當然不支援阿 ( 狂暴 ) ，但雖然不支援，還是有很多神人寫出了 polyfill ，所以大家要知道的有兩件事情。</p>
+<ol>
+<li>fetch 是未來的一個呼叫標準。</li>
+<li>使用這個標準寫出來的 JS Lib 稱為 fetch.js ，來相容不同的瀏覽器. ( 當然，除了 fetch.js 外，也有各神人寫出來不同的 Lib )。</li>
+</ol>
+<h2 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h2><p>這才是這篇的重點，基本上也是小弟自己希望未來要 copy 比較方便，所以順便寫了這篇 XDDD<br>當然，要完整，還是建議看官網吧，小弟只是貼上自己常用的而已喔~~</p>
+<h2 id="Get"><a href="#Get" class="headerlink" title="Get"></a>Get</h2><p>我們先用 Get 稍微看一下，基本上 fetch 他使用了 ES6 的 Promise ，所以後面都用 then 來接後續的動作。</p>
+<p>所以第一個 then，response 那邊，我們可以先用 status 來判斷 http 給我們的 status code，如果是 200 內，我們才會在使用 response.json() 來將資料轉成 json 格式。</p>
+<p>第二個 then 裡面的 data 才是真正的 json 物件.如果沒透過 then 基本上也只是個 Promise 物件而已喔~~</p>
+<p>第三個是 catch ，可以捕捉 throw 的例外，而這個例外可以用 new Error 來產生。</p>
+<p>最後，同樣的 error 裡面的資料，也必須使用response.json() 轉成物件，也同樣的，要最後一個 then 才能取得。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">'目標URL'</span>,&#123;</span><br><span class="line">           method: <span class="string">'GET'</span>,</span><br><span class="line">       &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">response</span>) </span>&#123;</span><br><span class="line">           <span class="keyword">if</span> (response.status &gt;= <span class="number">200</span> &amp;&amp; response.status &lt; <span class="number">300</span>) &#123;</span><br><span class="line">               <span class="keyword">return</span> response.json()</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               <span class="keyword">var</span> error = <span class="keyword">new</span> <span class="built_in">Error</span>(response.statusText)</span><br><span class="line">               error.response = response</span><br><span class="line">               <span class="keyword">throw</span> error</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;)</span><br><span class="line">       .then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">          <span class="comment">// data 才是實際的 JSON 資料</span></span><br><span class="line">       &#125;).catch(<span class="function"><span class="keyword">function</span>(<span class="params">error</span>) </span>&#123;</span><br><span class="line">           <span class="keyword">return</span> error.response.json();</span><br><span class="line">       &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">errorData</span>)</span>&#123;</span><br><span class="line">           <span class="comment">// errorData 裡面才是實際的 JSON 資料</span></span><br><span class="line">       &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>總之，他回傳的都是 Promise 物件就是了~~</p>
+<h2 id="Post"><a href="#Post" class="headerlink" title="Post"></a>Post</h2><p>如果是 Post，然後又是要用 JSON 溝通，我們可以加上 headers 這個標頭，而傳送的內容，則是放到 body 這個屬性裡面。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">'網址'</span>,&#123;</span><br><span class="line">           method: <span class="string">'POST'</span>,</span><br><span class="line">           headers: &#123;</span><br><span class="line">               <span class="string">'Accept'</span>: <span class="string">'application/json'</span>,</span><br><span class="line">               <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span></span><br><span class="line">           &#125;,</span><br><span class="line">           body: <span class="built_in">JSON</span>.stringify(data)</span><br><span class="line">       &#125;).then(<span class="function"><span class="keyword">function</span> <span class="title">checkStatus</span>(<span class="params">response</span>) </span>&#123;</span><br><span class="line">           <span class="keyword">if</span> (response.status &gt;= <span class="number">200</span> &amp;&amp; response.status &lt; <span class="number">300</span>) &#123;</span><br><span class="line">               <span class="keyword">return</span> response.json();</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               <span class="keyword">var</span> error = <span class="keyword">new</span> <span class="built_in">Error</span>(response.statusText)</span><br><span class="line">               error.response = response;</span><br><span class="line">               <span class="keyword">throw</span> error;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;)</span><br><span class="line">       .then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">       	<span class="comment">//完成</span></span><br><span class="line">       &#125;).catch(<span class="function"><span class="keyword">function</span>(<span class="params">error</span>) </span>&#123;</span><br><span class="line">           <span class="built_in">console</span>.log(<span class="string">'request failed'</span>, error);</span><br><span class="line">           <span class="keyword">return</span> error.response.json();</span><br><span class="line">       &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">errorData</span>)</span>&#123;</span><br><span class="line">          <span class="comment">//失敗</span></span><br><span class="line">       &#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Token-驗證"><a href="#Token-驗證" class="headerlink" title="Token 驗證"></a>Token 驗證</h2><p>這邊是自己在後端實作了 OAuth 的驗證，基本上要透過 POST 來傳送 x-www-form-urlencoded 格式的帳號密碼。<br>所以前面先進行了轉換並塞入到 formData 。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> formData = <span class="built_in">Object</span>.keys(userForm).map(<span class="function"><span class="keyword">function</span> (<span class="params">keyName</span>) </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="built_in">encodeURIComponent</span>(keyName) + <span class="string">'='</span> + <span class="built_in">encodeURIComponent</span>(userForm[keyName])</span><br><span class="line">                &#125;).join(<span class="string">'&amp;'</span>);</span><br><span class="line"></span><br><span class="line"> fetch(<span class="string">'網址'</span>,&#123;</span><br><span class="line">            method: <span class="string">'POST'</span>,</span><br><span class="line">            headers: &#123;</span><br><span class="line">                <span class="string">"Content-type"</span>: <span class="string">"application/x-www-form-urlencoded"</span></span><br><span class="line">            &#125;,</span><br><span class="line">            body: formData</span><br><span class="line">        &#125;).then(<span class="function"><span class="keyword">function</span> <span class="title">checkStatus</span>(<span class="params">response</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (response.status &gt;= <span class="number">200</span> &amp;&amp; response.status &lt; <span class="number">300</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> response.json()</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">var</span> error = <span class="keyword">new</span> <span class="built_in">Error</span>(response.statusText)</span><br><span class="line">                error.response = response</span><br><span class="line">                <span class="keyword">throw</span> error</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        .then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">           <span class="comment">//成功取得 Token</span></span><br><span class="line">         &#125;).catch(<span class="function"><span class="keyword">function</span>(<span class="params">error</span>) </span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'request failed'</span>, error);</span><br><span class="line">            <span class="keyword">return</span> error.response.json();</span><br><span class="line">        &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">errorData</span>)</span>&#123;</span><br><span class="line">           <span class="comment">//失敗</span></span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="加上-Token-和-Get"><a href="#加上-Token-和-Get" class="headerlink" title="加上 Token 和 Get"></a>加上 Token 和 Get</h2><p>這邊基本上就是加上了 Authorization 的 Header ，比較特別的是後面的 <code>Bearer ${token}</code>，這是 ES6 串字串的方法。 ( token 是變數 )。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">'網址'</span>,&#123;</span><br><span class="line">           method: <span class="string">'GET'</span>,</span><br><span class="line">            headers: &#123;</span><br><span class="line">               <span class="string">'Authorization'</span>: <span class="string">`Bearer <span class="subst">$&#123;token&#125;</span>`</span></span><br><span class="line">           &#125;,</span><br><span class="line">       &#125;).then(<span class="function"><span class="keyword">function</span> <span class="title">checkStatus</span>(<span class="params">response</span>) </span>&#123;</span><br><span class="line">           <span class="keyword">if</span> (response.status &gt;= <span class="number">200</span> &amp;&amp; response.status &lt; <span class="number">300</span>) &#123;</span><br><span class="line">               <span class="keyword">return</span> response.json()</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               <span class="keyword">var</span> error = <span class="keyword">new</span> <span class="built_in">Error</span>(response.statusText)</span><br><span class="line">               error.response = response</span><br><span class="line">               <span class="keyword">throw</span> error</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;)</span><br><span class="line">       .then(<span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">          <span class="comment">//成功取得 Token</span></span><br><span class="line">        &#125;).catch(<span class="function"><span class="keyword">function</span>(<span class="params">error</span>) </span>&#123;</span><br><span class="line">           <span class="built_in">console</span>.log(<span class="string">'request failed'</span>, error);</span><br><span class="line">           <span class="keyword">return</span> error.response.json();</span><br><span class="line">       &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">errorData</span>)</span>&#123;</span><br><span class="line">          <span class="comment">//失敗</span></span><br><span class="line">       &#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="搭配-Promise"><a href="#搭配-Promise" class="headerlink" title="搭配 Promise"></a>搭配 Promise</h2><p>如果要搭配 Promise，可以這樣寫，底下的範例是，當我們有動態的參數，且每次都必須確保所以請求都完成後，才要繼續作業，這個情況下，我們就可以使用 Promise.all 來進行處理。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> promiseArray = [];</span><br><span class="line">       </span><br><span class="line"><span class="comment">//用map 和 promiseArray 來收集 pormise , 有時因為網址會需要帶參數，</span></span><br><span class="line"><span class="comment">//而參數的內容在 datas 裡面，這邊 datas 裡面存放了 ID                              </span></span><br><span class="line">datas.map( <span class="function">(<span class="params">id</span>) =&gt;</span> &#123;</span><br><span class="line">    promiseArray.push( </span><br><span class="line">    fetch(<span class="string">`網址\id`</span>,&#123;</span><br><span class="line">        method: <span class="string">'GET'</span>,</span><br><span class="line">        headers: &#123;</span><br><span class="line">            <span class="comment">//這邊需要驗證，所以要加上這行，沒有驗證的朋友就不用加了</span></span><br><span class="line">            <span class="string">'Authorization'</span>: <span class="string">`Bearer <span class="subst">$&#123;token&#125;</span>`</span></span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;));</span><br><span class="line">    </span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用 Promise.all ，來讓所有請求完成，才繼續下一步</span></span><br><span class="line"><span class="built_in">Promise</span>.all(promiseArray) <span class="comment">// 帶入 剛剛 map 回來的 promise Array</span></span><br><span class="line">.then( <span class="function">(<span class="params">response</span>) =&gt;</span> &#123; </span><br><span class="line">     <span class="comment">// 回來的也是個陣列，而且陣列裡面的物件是 response</span></span><br><span class="line">     <span class="comment">// 因為我們還要確保回傳的 Json 也是要全部處理完，才能繼續...</span></span><br><span class="line">     <span class="comment">// 所以這邊再繼續用 Promise.all 來處理</span></span><br><span class="line">     <span class="comment">// ( Promise.all 裡面帶的參數就是 promise Array</span></span><br><span class="line">     <span class="comment">// 而我們用 response.map 回來的就是 promise 陣列)</span></span><br><span class="line">     <span class="built_in">Promise</span>.all(response.map( <span class="function">(<span class="params">res</span>) =&gt;</span> &#123; </span><br><span class="line">          <span class="keyword">if</span> (res.status &gt;= <span class="number">200</span> &amp;&amp; res.status &lt; <span class="number">300</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> res.json()</span><br><span class="line">            &#125; </span><br><span class="line">        &#125;) <span class="comment">//map end</span></span><br><span class="line">     ) <span class="comment">//promise all end</span></span><br><span class="line">     <span class="comment">// 因為我是使用 Promise.all ，</span></span><br><span class="line">     <span class="comment">// 所以這邊的 then 就是 全部傳完成後，傳回來的資料</span></span><br><span class="line">     .then( <span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">//這邊就看要怎樣處理資料了~~</span></span><br><span class="line">        <span class="comment">//底下是用 forEach 來逐一列出資料</span></span><br><span class="line">        data.forEach( <span class="function">(<span class="params">d,i</span>) =&gt;</span> &#123; </span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">`data is : $(d) ; Index is <span class="subst">$&#123;i&#125;</span>`</span>);   </span><br><span class="line">            &#125;);    </span><br><span class="line">     &#125;)   </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>基本上這篇就是稍微筆記筆記一下，相信未來應該會有人將這些東西包得更容易使用<del>~<br>同樣的，這個小弟也還在測試中，如有錯誤，有請多包涵喔!!</del></p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://blog.othree.net/log/2014/11/25/fetch/" target="_blank" rel="noopener">https://blog.othree.net/log/2014/11/25/fetch/</a></li>
+<li><a href="https://blog.othree.net/log/2014/11/13/es6-promise/" target="_blank" rel="noopener">https://blog.othree.net/log/2014/11/13/es6-promise/</a></li>
+<li><a href="https://github.com/github/fetch" target="_blank" rel="noopener">https://github.com/github/fetch</a></li>
+<li><a href="https://developer.mozilla.org/zh-TW/docs/HTTP/Access_control_CORS" target="_blank" rel="noopener">https://developer.mozilla.org/zh-TW/docs/HTTP/Access_control_CORS</a></li>
+<li><a href="http://stackoverflow.com/questions/31710768/how-can-i-fetch-an-array-of-urls-with-promise-all" target="_blank" rel="noopener">http://stackoverflow.com/questions/31710768/how-can-i-fetch-an-array-of-urls-with-promise-all</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/19/Hexo-Source_Control_and_Deploy/" rel="next" title="Hexo - 版本控制與發佈到 GitHub">
+                <i class="fa fa-chevron-left"></i> Hexo - 版本控制與發佈到 GitHub
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/30/VSTS-Build_Setup/" rel="prev" title="VSTS - VSTS Build 設定篇">
+                VSTS - VSTS Build 設定篇 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fetch"><span class="nav-number">2.</span> <span class="nav-text">fetch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何使用"><span class="nav-number">3.</span> <span class="nav-text">如何使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Get"><span class="nav-number">4.</span> <span class="nav-text">Get</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Post"><span class="nav-number">5.</span> <span class="nav-text">Post</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Token-驗證"><span class="nav-number">6.</span> <span class="nav-text">Token 驗證</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加上-Token-和-Get"><span class="nav-number">7.</span> <span class="nav-text">加上 Token 和 Get</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搭配-Promise"><span class="nav-number">8.</span> <span class="nav-text">搭配 Promise</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">9.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">10.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2015/11/02/JavaScript-Use_Javascript_Fetch/';
+      var disqus_title = '使用 fetch 來進行 Ajax 呼叫';
+      var disqus_url = 'http://skychang.github.io/2015/11/02/JavaScript-Use_Javascript_Fetch/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

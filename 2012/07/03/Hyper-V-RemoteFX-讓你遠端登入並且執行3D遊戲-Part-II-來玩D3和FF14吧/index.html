@@ -1,0 +1,647 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Windows,Hyper-V,Windows Server," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="之前有寫過一篇Hyper-V - RemoteFX 讓你遠端登入並且執行3D遊戲!，而因為當時家裡無線網路速度不快，再加上當時又沒有甚麼比較好玩遊戲可以測試，所以也只有跑跑3D Mark而已，而最近，終於有一個大作，也就是D3 ( diablo 3 暗黑破壞神3 )，所以當然就決定裝上去跑跑看嚕。 基本上，設定和前篇一樣，依據前篇的設定，原則上就可以跑起來，當然，CPU的部分要支援虛擬化，而如果想">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hyper-V - RemoteFX 讓你遠端登入並且執行3D遊戲! Part II 來玩D3和FF14吧!">
+<meta property="og:url" content="http://skychang.github.io/2012/07/03/Hyper-V-RemoteFX-%E8%AE%93%E4%BD%A0%E9%81%A0%E7%AB%AF%E7%99%BB%E5%85%A5%E4%B8%A6%E4%B8%94%E5%9F%B7%E8%A1%8C3D%E9%81%8A%E6%88%B2-Part-II-%E4%BE%86%E7%8E%A9D3%E5%92%8CFF14%E5%90%A7/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="之前有寫過一篇Hyper-V - RemoteFX 讓你遠端登入並且執行3D遊戲!，而因為當時家裡無線網路速度不快，再加上當時又沒有甚麼比較好玩遊戲可以測試，所以也只有跑跑3D Mark而已，而最近，終於有一個大作，也就是D3 ( diablo 3 暗黑破壞神3 )，所以當然就決定裝上去跑跑看嚕。 基本上，設定和前篇一樣，依據前篇的設定，原則上就可以跑起來，當然，CPU的部分要支援虛擬化，而如果想">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh4.ggpht.com/-TstfYlprBuU/T_KOBJl9lDI/AAAAAAAADXA/4o2YEa1rhbY/Image.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-NO7qgCgApZQ/T_KOE98DiQI/AAAAAAAADXQ/9hML9GBrPzk/FF14_thumb%25255B3%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2012-07-03T13:18:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.924Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Windows">
+<meta property="article:tag" content="Hyper-V">
+<meta property="article:tag" content="Windows Server">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh4.ggpht.com/-TstfYlprBuU/T_KOBJl9lDI/AAAAAAAADXA/4o2YEa1rhbY/Image.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Hyper-V - RemoteFX 讓你遠端登入並且執行3D遊戲! Part II 來玩D3和FF14吧! | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Hyper-V - RemoteFX 讓你遠端登入並且執行3D遊戲! Part II 來玩D3和FF14吧!
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2012-07-03T13:18:00+00:00" content="2012-07-03">
+              2012-07-03
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/07/03/Hyper-V-RemoteFX-%E8%AE%93%E4%BD%A0%E9%81%A0%E7%AB%AF%E7%99%BB%E5%85%A5%E4%B8%A6%E4%B8%94%E5%9F%B7%E8%A1%8C3D%E9%81%8A%E6%88%B2-Part-II-%E4%BE%86%E7%8E%A9D3%E5%92%8CFF14%E5%90%A7/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/07/03/Hyper-V-RemoteFX-讓你遠端登入並且執行3D遊戲-Part-II-來玩D3和FF14吧/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>之前有寫過一篇<a href="http://blog.sanc.idv.tw/2012/01/hyper-v-remotefx-3d.html" target="_blank" rel="noopener">Hyper-V - RemoteFX 讓你遠端登入並且執行3D遊戲!</a>，而因為當時家裡無線網路速度不快，再加上當時又沒有甚麼比較好玩遊戲可以測試，所以也只有跑跑3D Mark而已，而最近，終於有一個大作，也就是D3 ( diablo 3 暗黑破壞神3 )，所以當然就決定裝上去跑跑看嚕。</p>
+<p>基本上，設定和<a href="http://blog.sanc.idv.tw/2012/01/hyper-v-remotefx-3d.html" target="_blank" rel="noopener">前篇</a>一樣，依據<a href="http://blog.sanc.idv.tw/2012/01/hyper-v-remotefx-3d.html" target="_blank" rel="noopener">前篇</a>的設定，原則上就可以跑起來，當然，CPU的部分要支援虛擬化，而如果想要在VM上的Win 7有Aero的效果，則必須在VM Server上裝上桌面體驗這個功能。</p>
+<p>小弟的電腦配備為i7 920，24GRam，Nvidia GTX260的顯示卡，完全沒有跑Raid，而配置出來的VM是給四顆核心，4G Ram，虛擬的顯卡，並沒有給獨立的硬碟；而因為是用無線網路，所以連線過去，大概只有8MB/s左右 ( 大小的B喔 )。</p>
+<p>執行出來的結果就如下圖，小弟是用Win 8遠端桌面登入到VM上的Win 7，並把Win 7上的Diablo 3跑起來，小弟沒跑Full HD就是了，單純的1280的解系度，而且特效的部分就是預設，所以下圖可以看到，沒有影子XDD，基本上，音效和移動都沒有甚麼大問題；但有時會小頓一下，畢竟還是沒有原本的順暢，而深度的職業玩家朋友和小弟說，你這才第一章，到後面你就會Lag到死了XDDD，但無奈，小弟等級不夠也沒辦法測試嚕。</p>
+<p><a href="http://lh5.ggpht.com/-J9ABxavy5yc/T_KN_yzrIDI/AAAAAAAADW4/QbIY6ZY6HPs/s1600-h/Image.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-TstfYlprBuU/T_KOBJl9lDI/AAAAAAAADXA/4o2YEa1rhbY/Image.png?imgmax=800" alt="圖片 4" title="圖片 4"></a></p>
+<p>接下來，是跑FF14 ( Final Fantasy XIV )的Benchmark，幾本上，FF14 Benchmark是需要跑DirectX 9，而預設的Win7是沒有裝DirectX Runtime，所以要先去<a href="http://www.microsoft.com/zh-tw/download/details.aspx?id=35" target="_blank" rel="noopener">這裡下載</a>安裝DirectX End-User Runtime。</p>
+<p>之後就可正常的跑測試，小弟第一次是只開兩顆核心，其餘配置都一樣，結果跑出來的分數為1667，第二次打開四核心，結果跑出來的分數如下圖，1700 ( 剛剛好XDD )，所以基本上CPU的多寡果然不是最重要的…，我們也可以看到下圖，顯示卡為Microsoft RemoteFX Graphics。</p>
+<p><a href="http://lh6.ggpht.com/-RlZibRiri3o/T_KODRmGflI/AAAAAAAADXI/0fDt_IorsP4/s1600-h/FF14%25255B5%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-NO7qgCgApZQ/T_KOE98DiQI/AAAAAAAADXQ/9hML9GBrPzk/FF14_thumb%25255B3%25255D.png?imgmax=800" alt="FF14" title="FF14"></a></p>
+<p>其實之前也還裝過三國志12日文測試版本，但後來沒留作紀錄就砍掉了QQ，那時有用3G網路連回去，老實說，真的很慢…。</p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>這篇文章，未來有新的東西，應該還會持續在這篇上面更新，這陣子還會真的把FF14裝上去跑跑看，並且改用有線網路測試看看，但不管如何，Windows Server 的Remote Service也越來越強大，隨著網路越來越快，我們上班偷玩3D遊戲，也越來越不是夢了XDD。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Windows/" rel="tag">#Windows</a>
+          
+            <a href="/tags/Hyper-V/" rel="tag">#Hyper-V</a>
+          
+            <a href="/tags/Windows-Server/" rel="tag">#Windows Server</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/07/03/%E9%81%B8%E4%B8%8AMVP%EF%BC%8C%E4%B8%8D%E6%98%AF%E6%88%91%E4%B8%80%E5%80%8B%E4%BA%BA%E7%9A%84-%E8%AC%9D%E8%AC%9D%E5%A4%A7%E5%AE%B6/" rel="next" title="選上MVP，不是我一個人的!謝謝大家!">
+                <i class="fa fa-chevron-left"></i> 選上MVP，不是我一個人的!謝謝大家!
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/07/18/Windows-Azure-Web-Sites-VS-Web-Role/" rel="prev" title="Windows Azure - Web Sites VS Web Role">
+                Windows Azure - Web Sites VS Web Role <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">1.</span> <span class="nav-text">後記</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2012/07/03/Hyper-V-RemoteFX-讓你遠端登入並且執行3D遊戲-Part-II-來玩D3和FF14吧/';
+      var disqus_title = 'Hyper-V - RemoteFX 讓你遠端登入並且執行3D遊戲! Part II 來玩D3和FF14吧!';
+      var disqus_url = 'http://skychang.github.io/2012/07/03/Hyper-V-RemoteFX-%E8%AE%93%E4%BD%A0%E9%81%A0%E7%AB%AF%E7%99%BB%E5%85%A5%E4%B8%A6%E4%B8%94%E5%9F%B7%E8%A1%8C3D%E9%81%8A%E6%88%B2-Part-II-%E4%BE%86%E7%8E%A9D3%E5%92%8CFF14%E5%90%A7/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

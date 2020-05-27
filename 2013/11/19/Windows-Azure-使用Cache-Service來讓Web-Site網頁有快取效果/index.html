@@ -1,0 +1,754 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ASP.NET MVC,Azure," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="在Windows Azure上，要擴充網站，第一個遇到的問題就是存放Session，在Windows Azure的歷史上，從存放Session到Share Cache ( 2014停止支援 )，然後還有存放到Table Storage (官方也不建議了)，然後到Azure SQL Database，然後Cloud Service上的Cache機制… 而雖然Cloud Service上的Web已經有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Azure -  使用Cache Service來讓Web Site網頁有快取效果">
+<meta property="og:url" content="http://skychang.github.io/2013/11/19/Windows-Azure-%E4%BD%BF%E7%94%A8Cache-Service%E4%BE%86%E8%AE%93Web-Site%E7%B6%B2%E9%A0%81%E6%9C%89%E5%BF%AB%E5%8F%96%E6%95%88%E6%9E%9C/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="在Windows Azure上，要擴充網站，第一個遇到的問題就是存放Session，在Windows Azure的歷史上，從存放Session到Share Cache ( 2014停止支援 )，然後還有存放到Table Storage (官方也不建議了)，然後到Azure SQL Database，然後Cloud Service上的Cache機制… 而雖然Cloud Service上的Web已經有">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh3.ggpht.com/-jiOLazfC8fo/UopEK8A5pII/AAAAAAAAIQY/U7eHbsZ7l_s/image_thumb%25255B2%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-BLx0eucR04s/UopEMSzjqRI/AAAAAAAAIQo/u-11U7S-YII/image_thumb%25255B4%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-BHfoko7DhS0/UopENiirM-I/AAAAAAAAIQ0/mTIEwCa2Y18/image_thumb%25255B8%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-0IfyrR-vrVc/UopEO_iD3rI/AAAAAAAAIRI/jnOypw6y8jU/image_thumb%25255B10%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-TDQkwjFgbxY/UopEQSGBYvI/AAAAAAAAIRY/t60985cJ8Ns/image_thumb%25255B13%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-S84GNf6J3rM/UopESHjh9_I/AAAAAAAAIRk/iU_l_66T5YU/image_thumb%25255B15%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-Ip2OaDP_q5c/UopETix0jTI/AAAAAAAAIR4/HWm_-XBs_C8/image_thumb%25255B17%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-xy1UEAieFP0/UopEVJeC3sI/AAAAAAAAISI/4N6eiVhxDvo/image_thumb%25255B23%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-4d__XqUU1P0/Uot072W6hDI/AAAAAAAAISg/KSaMrMsDxx4/image_thumb%25255B7%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-M4kukwN2cbU/Uot09e1CQkI/AAAAAAAAISw/wsqkIvBsd3U/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-MVYy1LAkOJU/Uot0--UfMmI/AAAAAAAAITA/sngisIbplNs/image_thumb%25255B3%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2013-11-19T00:46:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.027Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta property="article:tag" content="Azure">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh3.ggpht.com/-jiOLazfC8fo/UopEK8A5pII/AAAAAAAAIQY/U7eHbsZ7l_s/image_thumb%25255B2%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Windows Azure -  使用Cache Service來讓Web Site網頁有快取效果 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Windows Azure -  使用Cache Service來讓Web Site網頁有快取效果
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2013-11-19T00:46:00+00:00" content="2013-11-19">
+              2013-11-19
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/11/19/Windows-Azure-%E4%BD%BF%E7%94%A8Cache-Service%E4%BE%86%E8%AE%93Web-Site%E7%B6%B2%E9%A0%81%E6%9C%89%E5%BF%AB%E5%8F%96%E6%95%88%E6%9E%9C/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/11/19/Windows-Azure-使用Cache-Service來讓Web-Site網頁有快取效果/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在Windows Azure上，要擴充網站，第一個遇到的問題就是存放Session，在Windows Azure的歷史上，從存放Session到Share Cache ( 2014停止支援 )，然後還有存放到Table Storage (官方也不建議了)，然後到Azure SQL Database，然後Cloud Service上的Cache機制…</p>
+<p>而雖然Cloud Service上的Web已經有解了，但是Web Site還是只能快SQL Database撐著；而如今隨著時代的演進，Azure上也提供了Cache Service (其實已經提供一段時間了…Orz… )</p>
+<p>那今天我們就利用Cache Service來存放網頁的page，來達到提供網站的效能吧!!</p>
+<p>首先，我們要先建立一個Cache Service。</p>
+<p>基本上，如果沒有特別需求，選擇Basic就夠了…但如果想嘗到Cache的HA，那就必須選擇高階的選項 (最低從5G開始)，而如果想要有通知功能，至少也要有中階…簡單的說，口袋不夠深，只選擇Basic，就真的只提供Cache….</p>
+<p><a href="http://lh4.ggpht.com/-sECj9n9rC6Y/UopEKI0te-I/AAAAAAAAIQQ/ZTlPfaJozVo/s1600-h/image%25255B4%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-jiOLazfC8fo/UopEK8A5pII/AAAAAAAAIQY/U7eHbsZ7l_s/image_thumb%25255B2%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>嗯，小弟的口袋本來就不夠深，所以只能先嘗試看看Basic，看看未來有沒有人願意提供摳摳，小弟再來嘗試看看比較高階的應用XDDD</p>
+<p>Cache建構的時間比較久，幾乎可以泡完一碗泡麵….而建立完成後，如下圖，就可以點進去做一些設定。</p>
+<p><a href="http://lh6.ggpht.com/-k5qdKtganL0/UopELyt0sxI/AAAAAAAAIQg/Z_baZtjB98I/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-BLx0eucR04s/UopEMSzjqRI/AAAAAAAAIQo/u-11U7S-YII/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>我們進入Configure裡面，就可以針對Cache進行一些設定，例如時間等等…而這邊因為沒有啟用高階或是中階的功能，所以也不能設定通知和高可用性QQ…. ( 未來有需要測試，再來設定看看吧… ) 另外，也因為是Basic，所以只能定義一組，如果是其他等級的，就可以定義10組以上的Cache設定，給不同的狀況下來使用。至於這些詳細的設定，目前MSDN也提供中文的敘述了，就<a href="http://msdn.microsoft.com/zh-tw/library/WindowsAzure/dn448831.aspx#CacheServicePreviewProgramSignup" target="_blank" rel="noopener">直接貼給大家</a>當作參考吧 !!~</p>
+<p><a href="http://lh5.ggpht.com/-hs1ujkzPqg0/UopENPBqVUI/AAAAAAAAIQs/aAO_RSnSwRk/s1600-h/image%25255B16%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-BHfoko7DhS0/UopENiirM-I/AAAAAAAAIQ0/mTIEwCa2Y18/image_thumb%25255B8%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來切到Scale底下；如果有需要，也可以從這邊進行一些設定，切換成中階的Cache或是高階的Cache，基本上，這是給有錢人看的…哭哭…</p>
+<p><a href="http://lh4.ggpht.com/-IX2sTWelPz0/UopEOLv57TI/AAAAAAAAIRA/kO-bgJ-O7iE/s1600-h/image%25255B20%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-0IfyrR-vrVc/UopEO_iD3rI/AAAAAAAAIRI/jnOypw6y8jU/image_thumb%25255B10%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>大致上就這樣，接下來，我們就來看看ASP.NET MVC上，怎樣使用Cache。</p>
+<p>首先，我們還是要用老朋友NuGet來取得套件；這邊當然就是Windows Azure Cache了~</p>
+<p><a href="http://lh3.ggpht.com/-nt3XBJo58qM/UopEPuRqv-I/AAAAAAAAIRQ/qkBgzPXiu_0/s1600-h/image%25255B25%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-TDQkwjFgbxY/UopEQSGBYvI/AAAAAAAAIRY/t60985cJ8Ns/image_thumb%25255B13%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>完成之後，會自動幫我們加上一堆設定檔在Web.config上，但我們還是需要調整一下Web.config。</p>
+<p><a href="http://lh6.ggpht.com/-VBJHbviCnDE/UopERS9CENI/AAAAAAAAIRg/oG7sInKuAdI/s1600-h/image%25255B29%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-S84GNf6J3rM/UopESHjh9_I/AAAAAAAAIRk/iU_l_66T5YU/image_thumb%25255B15%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>調整的內容如下，我們要把&lt;caching&gt;區段的註解拿掉，然後在&lt;autoDiscover&gt;裡面的identifier屬性輸入Caching的url，並且把&lt;securityProperties&gt;區段的註解拿掉，並且在authorizationInfo裡面也填入金鑰。</p>
+<p>基本上如下圖；另外因為這邊沒有使用到將Session存放到Cache的功能，所以&lt;providers&gt;的區段我們就維持註解。</p>
+<p><a href="http://lh6.ggpht.com/-dTXkxXqQD7o/UopES35cTQI/AAAAAAAAIRw/vknxNZ30eIc/s1600-h/image%25255B33%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-Ip2OaDP_q5c/UopETix0jTI/AAAAAAAAIR4/HWm_-XBs_C8/image_thumb%25255B17%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>另外，這邊也補充一下Web.config對應的關係其實是如下圖所示。</p>
+<p><a href="http://lh5.ggpht.com/-aW-GJQiqdVI/UopEUZPNnxI/AAAAAAAAIR8/DL4E41yXJRI/s1600-h/image%25255B47%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-xy1UEAieFP0/UopEVJeC3sI/AAAAAAAAISI/4N6eiVhxDvo/image_thumb%25255B23%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這邊是完成後的Web.config，金鑰的地方已經被小弟改成Key了，別忘了要輸入自己的Key喔!</p>
+<pre class="brush: xml;">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;!--
+  如需如何設定 ASP.NET 應用程式的詳細資訊，請瀏覽
+  http://go.microsoft.com/fwlink/?LinkId=301880
+  --&gt;
+&lt;configuration&gt;
+  &lt;configSections&gt;
+    &lt;section name="dataCacheClients" type="Microsoft.ApplicationServer.Caching.DataCacheClientsSection, Microsoft.ApplicationServer.Caching.Core" allowLocation="true" allowDefinition="Everywhere" /&gt;
+    &lt;section name="cacheDiagnostics" type="Microsoft.ApplicationServer.Caching.AzureCommon.DiagnosticsConfigurationSection, Microsoft.ApplicationServer.Caching.AzureCommon" allowLocation="true" allowDefinition="Everywhere" /&gt;
+  &lt;/configSections&gt;
+  &lt;appSettings&gt;
+    &lt;add key="webpages:Version" value="3.0.0.0" /&gt;
+    &lt;add key="webpages:Enabled" value="false" /&gt;
+     &lt;add key="ClientValidationEnabled" value="true" /&gt;
+    &lt;add key="UnobtrusiveJavaScriptEnabled" value="true" /&gt;
+  &lt;/appSettings&gt;
+  &lt;system.web&gt;
+    &lt;compilation debug="true" targetFramework="4.5" /&gt;
+    &lt;httpRuntime targetFramework="4.5" /&gt;
+  &lt;!-- Windows Azure Cache session state provider --&gt;&lt;!--&lt;sessionState mode="Custom" customProvider="AFCacheSessionStateProvider"&gt;
+      &lt;providers&gt;
+        &lt;add name="AFCacheSessionStateProvider" type="Microsoft.Web.DistributedCache.DistributedCacheSessionStateStoreProvider, Microsoft.Web.DistributedCache" cacheName="default" dataCacheClientName="default" applicationName="AFCacheSessionState"/&gt;
+      &lt;/providers&gt;
+    &lt;/sessionState&gt;--&gt;&lt;!-- Windows Azure Cache output cache provider --&gt;&lt;!--Uncomment this section to use Windows Azure Cache for output cache--&gt;
+    &lt;caching&gt;
+      &lt;outputCache defaultProvider="AFCacheOutputCacheProvider"&gt;
+        &lt;providers&gt;
+          &lt;add name="AFCacheOutputCacheProvider" type="Microsoft.Web.DistributedCache.DistributedCacheOutputCacheProvider, Microsoft.Web.DistributedCache" 
+               cacheName="default" dataCacheClientName="default" applicationName="AFCacheOutputCache" /&gt;
+        &lt;/providers&gt;
+      &lt;/outputCache&gt;
+    &lt;/caching&gt;
+  &lt;/system.web&gt;
+&lt;dataCacheClients&gt;
+    &lt;dataCacheClient name="default" isCompressionEnabled="true"&gt;
+      &lt;!--To use the in-role flavor of Windows Azure Cache, set identifier to be the cache cluster role name --&gt;
+      &lt;!--To use the Windows Azure Cache Service, set identifier to be the endpoint of the cache cluster --&gt;
+      &lt;autoDiscover isEnabled="true" identifier="test12.cache.windows.net" /&gt;
+
+      &lt;!--&lt;localCache isEnabled="true" sync="TimeoutBased" objectCount="100000" ttlValue="300" /&gt;--&gt;
+
+      &lt;!--Use this section to specify security settings for connecting to your cache. This section is not required if your cache is hosted on a role that is a part of your cloud service. --&gt;
+      &lt;securityProperties mode="Message" sslEnabled="false"&gt;
+        &lt;messageSecurity authorizationInfo="Key" /&gt;
+      &lt;/securityProperties&gt;
+    &lt;/dataCacheClient&gt;
+  &lt;/dataCacheClients&gt;&lt;/configuration&gt;
+
+</pre>
+
+<p>接下來，我們要用asp.net mvc程式來測試一下，這邊我們在整個Action上面加上OutputCache輸出，並且另用Duration參數設定為120秒。</p>
+<pre class="brush: csharp;">using Microsoft.ApplicationServer.Caching;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.UI;
+
+namespace WebApplication1.Controllers
+{
+    public class HomeController : Controller
+    {
+        //
+        // GET: /Home/
+        [OutputCache(Duration = 120, Location = OutputCacheLocation.Server, VaryByParam = "none")]
+        public ActionResult Index()
+        {
+            ViewData["Date"] = DateTime.Now.Millisecond;
+            return View();
+        }
+    }
+}
+</pre>
+
+<p>原則上，設定完後，就會有效果了，但我們為了確認真的有使用到Azure Cache Service，所以我們這邊稍微對Cache Service的Configure做一個調整，我們把時間調整成1min；這樣做的意思是表示，這個Cache的生命只有一分鐘的時間( 好可憐… )，當一分鐘過後，這個Cache就會消失了…</p>
+<p><a href="http://lh6.ggpht.com/-xZHr9qh_9eo/Uot07Fb6EzI/AAAAAAAAISY/zJI_NVd5DoY/s1600-h/image%25255B14%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-4d__XqUU1P0/Uot072W6hDI/AAAAAAAAISg/KSaMrMsDxx4/image_thumb%25255B7%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>但我們在MVC的OutputCache是設定120秒阿(兩分鐘)，是的，所以如果真的有存到Azure Cache Service的話，雖然MVC的OutputCache是設定兩分鐘，但實際上，到一分鐘的時候，在Azure上的Cache就會消失了，是沒辦法到兩分鐘的；而如果設定失敗…那就會有存活兩分鐘的現象… (通常也會直接報錯了…)</p>
+<p>最終執行的結果如下，第一次執行的毫秒是584.</p>
+<p><a href="http://lh4.ggpht.com/-pQu1UHPtGko/Uot08s0ye6I/AAAAAAAAISo/Da-LVnGUqts/s1600-h/image%25255B4%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-M4kukwN2cbU/Uot09e1CQkI/AAAAAAAAISw/wsqkIvBsd3U/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>過了一分鐘後，變成346…好吧，我想這樣大家也看不出來…總之，如果有興趣的話，大家可以試試看，這部分還滿簡單的喔!</p>
+<p><a href="http://lh5.ggpht.com/-FEkV7OLxaKE/Uot0-Lgd9-I/AAAAAAAAIS4/uyNQJoZOaeo/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-MVYy1LAkOJU/Uot0--UfMmI/AAAAAAAAITA/sngisIbplNs/image_thumb%25255B3%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這樣就完成了Cache..</p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>其實如果要使用Session也很簡單，只要稍微調整一下，原本打算一併寫的，但畢竟現在已經有中文的資料了，所以只拋磚引玉的寫一篇關於OutputCache的，而未來如果有需要，會再寫一篇關於Session的，那現在如果有很急的朋友們，可以先去參考看看中文的資料喔<del>謝謝</del></p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://www.windowsazure.com/en-us/manage/services/cache/net/how-to-cache-service/" target="_blank" rel="noopener">http://www.windowsazure.com/en-us/manage/services/cache/net/how-to-cache-service/</a><li><a href="http://msdn.microsoft.com/zh-tw/library/WindowsAzure/dn448831.aspx#CacheServicePreviewProgramSignup" target="_blank" rel="noopener">http://msdn.microsoft.com/zh-tw/library/WindowsAzure/dn448831.aspx#CacheServicePreviewProgramSignup</a><li><a href="http://msdn.microsoft.com/zh-tw/library/WindowsAzure/dn386142.aspx" target="_blank" rel="noopener">http://msdn.microsoft.com/zh-tw/library/WindowsAzure/dn386142.aspx</a><li><a href="http://msdn.microsoft.com/zh-tw/library/WindowsAzure/dn448829.aspx#ConfigureNuGet" target="_blank" rel="noopener">http://msdn.microsoft.com/zh-tw/library/WindowsAzure/dn448829.aspx#ConfigureNuGet</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/11/18/Windows-Azure-%E4%BD%BF%E7%94%A8Visual-Studio%E5%B0%8DWeb-Site%E9%80%B2%E8%A1%8C%E5%81%B5%E9%8C%AF/" rel="next" title="Windows Azure - 使用Visual Studio對Web Site進行偵錯">
+                <i class="fa fa-chevron-left"></i> Windows Azure - 使用Visual Studio對Web Site進行偵錯
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/12/13/Windows-Azure-%E8%88%87Visual-Studio-Online%E9%80%A3%E7%B7%9A%E6%99%82%EF%BC%8C%E6%89%BE%E4%B8%8D%E5%88%B0AzureContinuousDeployment-11-xaml%E6%AA%94%E6%A1%88/" rel="prev" title="Windows Azure -  與Visual Studio Online連線時，找不到AzureContinuousDeployment.11.xaml檔案">
+                Windows Azure -  與Visual Studio Online連線時，找不到AzureContinuousDeployment.11.xaml檔案 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">1.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">2.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2013/11/19/Windows-Azure-使用Cache-Service來讓Web-Site網頁有快取效果/';
+      var disqus_title = 'Windows Azure -  使用Cache Service來讓Web Site網頁有快取效果';
+      var disqus_url = 'http://skychang.github.io/2013/11/19/Windows-Azure-%E4%BD%BF%E7%94%A8Cache-Service%E4%BE%86%E8%AE%93Web-Site%E7%B6%B2%E9%A0%81%E6%9C%89%E5%BF%AB%E5%8F%96%E6%95%88%E6%9E%9C/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

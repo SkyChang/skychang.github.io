@@ -1,0 +1,667 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ASP.NET,ASP.NET MVC,Azure," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近忙著處理一些事情，所以這短篇到現在才出來，基本上使用Dedicated Role來當Cache也和前一篇差不多，如果不清楚此機制的人，可以先參考小弟這篇，或是小朱前輩這篇。 前篇我們是使用Co-located Cache( Existing Roles )的機制來放當作Cache使用，Co-located Cache( Existing Roles )也就是拿目前現有的Role中，一部分的記憶">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Azure - 使用Windows Azure Cache的Dedicated Caching解決Session問題">
+<meta property="og:url" content="http://skychang.github.io/2012/06/20/Windows-Azure-%E4%BD%BF%E7%94%A8Windows-Azure-Cache%E7%9A%84Dedicated-Caching%E8%A7%A3%E6%B1%BASession%E5%95%8F%E9%A1%8C/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="最近忙著處理一些事情，所以這短篇到現在才出來，基本上使用Dedicated Role來當Cache也和前一篇差不多，如果不清楚此機制的人，可以先參考小弟這篇，或是小朱前輩這篇。 前篇我們是使用Co-located Cache( Existing Roles )的機制來放當作Cache使用，Co-located Cache( Existing Roles )也就是拿目前現有的Role中，一部分的記憶">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh6.ggpht.com/-I74aXm3OVmc/T-CiHTZQWbI/AAAAAAAADOQ/gb_5AtpOC7w/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-KTl8t3gTQjw/T-CiI7bO6CI/AAAAAAAADOg/KQBAH6HFWBI/image_thumb%25255B4%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-6AnMrvbTM34/T-CiJwk9MlI/AAAAAAAADOw/5FhWWPI3IIM/image_thumb%25255B6%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-CmHxUGL1aJM/T-CiLHuKAbI/AAAAAAAADPA/iP7KUuwBdJw/image_thumb%25255B8%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-oME_G6Nop6g/T-CiMnz0jNI/AAAAAAAADPQ/PoebR13NH9M/image_thumb%25255B11%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2012-06-20T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.027Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="ASP.NET">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta property="article:tag" content="Azure">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh6.ggpht.com/-I74aXm3OVmc/T-CiHTZQWbI/AAAAAAAADOQ/gb_5AtpOC7w/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Windows Azure - 使用Windows Azure Cache的Dedicated Caching解決Session問題 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Windows Azure - 使用Windows Azure Cache的Dedicated Caching解決Session問題
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2012-06-20T00:00:00+00:00" content="2012-06-20">
+              2012-06-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/06/20/Windows-Azure-%E4%BD%BF%E7%94%A8Windows-Azure-Cache%E7%9A%84Dedicated-Caching%E8%A7%A3%E6%B1%BASession%E5%95%8F%E9%A1%8C/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/06/20/Windows-Azure-使用Windows-Azure-Cache的Dedicated-Caching解決Session問題/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近忙著處理一些事情，所以這短篇到現在才出來，基本上使用Dedicated Role來當Cache也和<a href="http://blog.sanc.idv.tw/2012/06/windows-azure-windows-azure-co-located.html" target="_blank" rel="noopener">前一篇</a>差不多，如果不清楚此機制的人，可以先參考<a href="http://blog.sanc.idv.tw/2012/06/windows-azure-overview-of-caching-in.html" target="_blank" rel="noopener">小弟這篇</a>，或是小朱前輩<a href="http://www.dotblogs.com.tw/regionbbs/archive/2012/06/10/windows.azure.spring.release.part4.caching.improvements.aspx" target="_blank" rel="noopener">這篇</a>。</p>
+<p><a href="http://blog.sanc.idv.tw/2012/06/windows-azure-windows-azure-co-located.html" target="_blank" rel="noopener">前篇</a>我們是使用Co-located Cache( Existing Roles )的機制來放當作Cache使用，Co-located Cache( Existing Roles )也就是拿目前現有的Role中，一部分的記憶體，來當作Cache，但有的時候，網站真的附載太大了，我們就可以使用新的Role來當作Cache，也就是Dedicated Caching ( Dedicated Roles )。</p>
+<h4 id="增加Dedicated-Roles-Cache-Worker-Role"><a href="#增加Dedicated-Roles-Cache-Worker-Role" class="headerlink" title="增加Dedicated Roles ( Cache Worker Role )"></a>增加Dedicated Roles ( Cache Worker Role )</h4><p>我們可以從Azure專案裡面的Roles來新增，如下圖。</p>
+<p><a href="http://lh4.ggpht.com/-PF2iuVYkF_w/T-CiG5A84sI/AAAAAAAADOI/QHhJ-haq9T0/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-I74aXm3OVmc/T-CiHTZQWbI/AAAAAAAADOQ/gb_5AtpOC7w/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>到這邊，我們在選擇Cache Worker Role。</p>
+<p><a href="http://lh5.ggpht.com/-0BqWy7F83Dg/T-CiIbcjOsI/AAAAAAAADOY/BwpE5P9yYuI/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-KTl8t3gTQjw/T-CiI7bO6CI/AAAAAAAADOg/KQBAH6HFWBI/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>之後我們就可以從下圖發現，增加了這些東西，而這邊雖然也有WorkerRoles.cs，不過裡面是空的。</p>
+<p><a href="http://lh3.ggpht.com/-QNmiD4wDXsI/T-CiJVGJNyI/AAAAAAAADOo/GztmdHd5kvY/s1600-h/image%25255B12%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-6AnMrvbTM34/T-CiJwk9MlI/AAAAAAAADOw/5FhWWPI3IIM/image_thumb%25255B6%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h4 id="設定Dedicated-Roles"><a href="#設定Dedicated-Roles" class="headerlink" title="設定Dedicated Roles"></a>設定Dedicated Roles</h4><p>我們可以點兩下剛剛建好的CacheWorkerRole1。</p>
+<p><a href="http://lh3.ggpht.com/-f6aTk5BdVIM/T-CiKQD9hLI/AAAAAAAADO4/89wrYe2ew60/s1600-h/image%25255B16%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-CmHxUGL1aJM/T-CiLHuKAbI/AAAAAAAADPA/iP7KUuwBdJw/image_thumb%25255B8%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>其實點開後，就會發現，預設已經幫我們Enable了，而如果要部屬到Windows Azure上面，別忘了要設定一下Storage Account ( 預設是UseDevelopmentStorage=true 那邊。)，如果想自行定義一些其他Cache功能的，可以在Add Named Cache那邊去新增，預設就是Default了。</p>
+<p><a href="http://lh5.ggpht.com/-ST8pitGYQbU/T-CiLo8GSkI/AAAAAAAADPI/wdc6cvlNzQI/s1600-h/image%25255B21%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-oME_G6Nop6g/T-CiMnz0jNI/AAAAAAAADPQ/PoebR13NH9M/image_thumb%25255B11%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>其餘的部分，需要增加的dll、ASP.NET Web.Config的設定，都和<a href="http://blog.sanc.idv.tw/2012/06/windows-azure-windows-azure-co-located.html" target="_blank" rel="noopener">前一篇</a>相同，這裡就不詳細多做介紹了，比較須注意的是，Web.config的設定，這邊因為我們要使用的是CacheWorkerRole1，所以identifier要設定成CacheWorkerRole1。</p>
+<pre class="brush: xml;">  &lt;dataCacheClients&gt;
+    &lt;tracing sinkType="DiagnosticSink" traceLevel="Error" /&gt;
+    &lt;dataCacheClient name="default2"&gt;
+      &lt;autoDiscover isEnabled="true" identifier="CacheWorkerRole1" /&gt;
+      &lt;!--&lt;localCache isEnabled="true" sync="TimeoutBased" objectCount="100000" ttlValue="300" /&gt;--&gt;
+    &lt;/dataCacheClient&gt;
+  &lt;/dataCacheClients&gt;
+</pre>
+
+<p>這樣就可以了。</p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>最近在看這部分的原理，其實裡面的詳細設定還滿多東西的，這部份等一些細節真的比較了解後，會在po上來；而這幾篇的Cache可以感覺得出來，Microsoft很費心地希望把雲端的環境弄成和一般環境一樣 ( 真實當然是不一樣，這裡是指，可以讓目前現有的環境，無痛轉移到雲端 ) ，無論是最近的Web Site或是新的Cache機制，都讓現有的環境更方便的轉移到雲端上面來，而現在雲端台灣區也開放了，這麼好的東西，還不趕快來用嗎=v=?</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://msdn.microsoft.com/en-us/library/hh914128" target="_blank" rel="noopener" title="http://msdn.microsoft.com/en-us/library/hh914128">http://msdn.microsoft.com/en-us/library/hh914128</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-NET/" rel="tag">#ASP.NET</a>
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/06/16/Windows-Azure-%E4%BD%BF%E7%94%A8Windows-Azure-co-located-Caching%E8%A7%A3%E6%B1%BASession%E5%95%8F%E9%A1%8C/" rel="next" title="Windows Azure - 使用Windows Azure co-located Caching解決Session問題">
+                <i class="fa fa-chevron-left"></i> Windows Azure - 使用Windows Azure co-located Caching解決Session問題
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/06/20/Visual-Studio-2012-%E8%B6%85%E5%A5%BD%E7%94%A8%E5%A5%97%E4%BB%B6VSCommands-11/" rel="prev" title="Visual Studio 2012 - 超好用套件VSCommands 11">
+                Visual Studio 2012 - 超好用套件VSCommands 11 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#增加Dedicated-Roles-Cache-Worker-Role"><span class="nav-number">1.</span> <span class="nav-text">增加Dedicated Roles ( Cache Worker Role )</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#設定Dedicated-Roles"><span class="nav-number">2.</span> <span class="nav-text">設定Dedicated Roles</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">3.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">4.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2012/06/20/Windows-Azure-使用Windows-Azure-Cache的Dedicated-Caching解決Session問題/';
+      var disqus_title = 'Windows Azure - 使用Windows Azure Cache的Dedicated Caching解決Session問題';
+      var disqus_url = 'http://skychang.github.io/2012/06/20/Windows-Azure-%E4%BD%BF%E7%94%A8Windows-Azure-Cache%E7%9A%84Dedicated-Caching%E8%A7%A3%E6%B1%BASession%E5%95%8F%E9%A1%8C/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

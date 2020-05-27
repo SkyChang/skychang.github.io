@@ -1,0 +1,665 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Git,GitHub," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="今天要來撰寫的筆記是GitHub Page，其實GitHub Page以前就稍微有看過，但畢竟在實務面上，小弟我也沒甚麼地方可以用的到，所以就沒真的開起來玩玩看，而最近，因為有些需求，所以就想說，邊設定，邊做一個簡單的筆記~ 那GitHub Page是啥??，其實Google一下，應該就可以找到超多的文章；小弟這邊就不詳細的說明了；簡單的說，就是GitHub使用Ruby所撰寫的引擎，來提供靜態網頁">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitHub -  GitHub Page for User">
+<meta property="og:url" content="http://skychang.github.io/2014/07/31/GitHub-GitHub-Page-for-User/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="今天要來撰寫的筆記是GitHub Page，其實GitHub Page以前就稍微有看過，但畢竟在實務面上，小弟我也沒甚麼地方可以用的到，所以就沒真的開起來玩玩看，而最近，因為有些需求，所以就想說，邊設定，邊做一個簡單的筆記~ 那GitHub Page是啥??，其實Google一下，應該就可以找到超多的文章；小弟這邊就不詳細的說明了；簡單的說，就是GitHub使用Ruby所撰寫的引擎，來提供靜態網頁">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh5.ggpht.com/-0jjEeuocAWk/U9kpL3r4BbI/AAAAAAAAJds/V1jeGN4jc_4/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-JPWIzRPBRxw/U9kpNmsBHoI/AAAAAAAAJd8/KUHlHeKG8Wo/image_thumb%25255B4%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-GgdzDTDrGnM/U9kpPoSz1lI/AAAAAAAAJeM/GMDco1MiP3o/image_thumb%25255B8%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-laMqbcCRq8g/U9kpRrP_F0I/AAAAAAAAJec/9G4N6Y3xgs8/image_thumb%25255B11%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-9H3lbmHFR-E/U9kpTbhqtxI/AAAAAAAAJes/CR7XRrfVUNA/image_thumb%25255B14%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-lpDckBbehJY/U9kpVPOhjoI/AAAAAAAAJe8/oQk5PRKCzzk/image_thumb%25255B17%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-sF7jp5lyX-U/U9kpWmPifaI/AAAAAAAAJfM/2V274pJXOHk/image_thumb%25255B20%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2014-07-31T01:20:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.912Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Git">
+<meta property="article:tag" content="GitHub">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh5.ggpht.com/-0jjEeuocAWk/U9kpL3r4BbI/AAAAAAAAJds/V1jeGN4jc_4/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> GitHub -  GitHub Page for User | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                GitHub -  GitHub Page for User
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2014-07-31T01:20:00+00:00" content="2014-07-31">
+              2014-07-31
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/07/31/GitHub-GitHub-Page-for-User/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/07/31/GitHub-GitHub-Page-for-User/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>今天要來撰寫的筆記是GitHub Page，其實GitHub Page以前就稍微有看過，但畢竟在實務面上，小弟我也沒甚麼地方可以用的到，所以就沒真的開起來玩玩看，而最近，因為有些需求，所以就想說，邊設定，邊做一個簡單的筆記~</p>
+<p>那GitHub Page是啥??，其實Google一下，應該就可以找到超多的文章；小弟這邊就不詳細的說明了；簡單的說，就是GitHub使用Ruby所撰寫的引擎，來提供靜態網頁服務；簡單的說，就是可以來當作Blog、介紹自己、或是介紹放在上面的Project!!在MS的圈子裡大家可能比較少聽到，因為MS的圈子哩，國內有鼎鼎大名的點部落，其次的一般人可能會選擇使用Wordpress或是Blogger，但其實GitHub Page在Open Source的朋友圈裏面，超多人用!!更號稱是Developer ( Hacker ) 專用的Blog系統。</p>
+<p>或許會有人想問說，那有甚麼差??</p>
+<p>首先，他是靜態的，所以速度非常快，基本上我們撰寫技術文章，也用不到啥動態產生HTML的Server端語言…，此外，透過底層的Jekyll引擎，更可以將Markdown格式的文章轉成HTML ( MD格式撰寫起來真的會很快樂… )，其次也支援版控、隨便一個編輯器就可以撰寫… ( 你可以使用Visual Studio寫Blog = =|| )…等等等的眾多優點，所以目前GitHub Page非常的夯!!</p>
+<p>( 不過小弟暫時也不會搬Blog…因為太累了= =|| )</p>
+<p>所以講到這，心動了嗎??…不管心不心動，至少身為愛好技術的人，反正就先體驗看看吧!!</p>
+<p>首先GitHub Page 基本上有分成兩大類，一個是for User，簡單的說，你申請的這個帳號，就只會有一個GitHub Page for User的網站；而另一塊是GitHub Page for Project，也就是說，你的這個帳號，有幾個Repository，就可以有幾個Project用的網站；換言之，User通常是企業的品牌網站，而Project則像是企業底下的產品頁面；所以小弟我這邊會分兩篇來敘述，這篇是講User篇。</p>
+<p>當然，在開始前，我們要先有GitHub帳號；登入之後，如下圖，我們要建立一個新的Repository。</p>
+<p><a href="http://lh6.ggpht.com/-ucueR0IOI9U/U9kpKoNOBqI/AAAAAAAAJdk/RE2HNK13MCg/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-0jjEeuocAWk/U9kpL3r4BbI/AAAAAAAAJds/V1jeGN4jc_4/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>而這個Repository Name是這個GitHub的UserName 加上 github.io，所以如下圖，小弟使用的帳號是study4，所以Repository Name就必須為study4.github.io。</p>
+<p><a href="http://lh5.ggpht.com/-mv80aGRDREQ/U9kpMtNtj2I/AAAAAAAAJd0/lKDEcntiYfw/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-JPWIzRPBRxw/U9kpNmsBHoI/AAAAAAAAJd8/KUHlHeKG8Wo/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>完成之後，我們要把檔案發佈上去，但這之前，我們要先在Local建立一個Repository；然後寫完之後在publish上去；而小弟這邊選用的是GitHub的Windows UI圖形工具來處理；如果你想直接下Git指令也是可以啦…那可以直接參考最後的參考連結。</p>
+<p>( 這邊是基本的Git原理，如果真的不懂，又有興趣，可以參考小弟之前的文章，這邊就不重複敘述了 )</p>
+<p><a href="http://lh5.ggpht.com/-P4oZkMs2CFg/U9kpOg21WRI/AAAAAAAAJeE/SyBrO_9H2s4/s1600-h/image%25255B14%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-GgdzDTDrGnM/U9kpPoSz1lI/AAAAAAAAJeM/GMDco1MiP3o/image_thumb%25255B8%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>按下上圖的按鈕後，就會打開工具，下圖是已經處理完，並且在Local已經建立完成了。</p>
+<p><a href="http://lh3.ggpht.com/-_bEPGgIBlEI/U9kpQg8nKKI/AAAAAAAAJeU/6KIG6DFpjrs/s1600-h/image%25255B19%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-laMqbcCRq8g/U9kpRrP_F0I/AAAAAAAAJec/9G4N6Y3xgs8/image_thumb%25255B11%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，我們在下載的路徑下，加入html。</p>
+<p><a href="http://lh4.ggpht.com/-vFvrAjFAbeo/U9kpSRMVwdI/AAAAAAAAJek/8UDszQjIcEc/s1600-h/image%25255B24%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-9H3lbmHFR-E/U9kpTbhqtxI/AAAAAAAAJes/CR7XRrfVUNA/image_thumb%25255B14%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>並且簽入，簽入後，透過工具發佈出去。</p>
+<p><a href="http://lh3.ggpht.com/-yBjnLdbh4Uk/U9kpUFvJqUI/AAAAAAAAJe0/ELc5aLuj_8s/s1600-h/image%25255B29%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-lpDckBbehJY/U9kpVPOhjoI/AAAAAAAAJe8/oQk5PRKCzzk/image_thumb%25255B17%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>通常發佈出去後，需要等一段時間，才可以在username.github.io這個網址看結果，如下圖，我們就可以到study4.github.io看到結果，基本上這樣就完成了!!</p>
+<p><a href="http://lh4.ggpht.com/-WftOmUUVK3Y/U9kpV963aWI/AAAAAAAAJfE/9Hoe_d5W4U0/s1600-h/image%25255B34%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-sF7jp5lyX-U/U9kpWmPifaI/AAAAAAAAJfM/2V274pJXOHk/image_thumb%25255B20%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>下一篇，會講到關於Project的GitHub Page喔!!</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="https://pages.github.com/" target="_blank" rel="noopener" title="https://pages.github.com/">https://pages.github.com/</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Git/" rel="tag">#Git</a>
+          
+            <a href="/tags/GitHub/" rel="tag">#GitHub</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/07/25/VSO-%E4%BD%BF%E7%94%A8Azure-AD%E7%AE%A1%E7%90%86Visual-Studio-Online/" rel="next" title="VSO -  使用Azure AD管理Visual Studio Online">
+                <i class="fa fa-chevron-left"></i> VSO -  使用Azure AD管理Visual Studio Online
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/07/31/GitHub-GitHub-Page-for-Project/" rel="prev" title="GitHub -  GitHub Page for Project">
+                GitHub -  GitHub Page for Project <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">1.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2014/07/31/GitHub-GitHub-Page-for-User/';
+      var disqus_title = 'GitHub -  GitHub Page for User';
+      var disqus_url = 'http://skychang.github.io/2014/07/31/GitHub-GitHub-Page-for-User/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,682 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ASP.NET,ASP.NET MVC,Azure," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="ASP.NET MVC Fall 2012 Update 擁有更多的新功能!!還有更多的樣板!!   看到這段話，就讓我想到xxx-online，  xxx-online 新版更新，擁有更多的裝備，還有更多的副本!!   只不過，玩online看到新版的時候，心情是很躍樂的，而看到技術上的更新…恩…只好犧牲躍樂的心情來寫文章了QQ… 最近的技術更新，其實都慢慢有縮短的趨勢，當然，不知道算不算是敏">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET MVC – ASP.NET MVC 4 2012 Fall Update">
+<meta property="og:url" content="http://skychang.github.io/2012/11/08/ASP-NET-MVC-%E2%80%93-ASP-NET-MVC-4-2012-Fall-Update/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="ASP.NET MVC Fall 2012 Update 擁有更多的新功能!!還有更多的樣板!!   看到這段話，就讓我想到xxx-online，  xxx-online 新版更新，擁有更多的裝備，還有更多的副本!!   只不過，玩online看到新版的時候，心情是很躍樂的，而看到技術上的更新…恩…只好犧牲躍樂的心情來寫文章了QQ… 最近的技術更新，其實都慢慢有縮短的趨勢，當然，不知道算不算是敏">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://www.dotblogs.com.tw/hatelove/category/6313.aspx">
+<meta property="og:image" content="http://lh6.ggpht.com/-bvOFt1j0va4/UJvOSCT-PpI/AAAAAAAAFT8/YpUZ7_O8ZWU/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-8N8i2hDoBio/UJvOUCgE8LI/AAAAAAAAFUM/T3I4sGA2HPI/image_thumb%25255B5%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-bpKoGWlwy0M/UJvOWK80s7I/AAAAAAAAFUY/ERWRlbUgwb0/image_thumb%25255B7%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2012-11-08T23:23:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.836Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="ASP.NET">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta property="article:tag" content="Azure">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.dotblogs.com.tw/hatelove/category/6313.aspx">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ASP.NET MVC – ASP.NET MVC 4 2012 Fall Update | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ASP.NET MVC – ASP.NET MVC 4 2012 Fall Update
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2012-11-08T23:23:00+00:00" content="2012-11-08">
+              2012-11-08
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2012/11/08/ASP-NET-MVC-%E2%80%93-ASP-NET-MVC-4-2012-Fall-Update/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/11/08/ASP-NET-MVC-–-ASP-NET-MVC-4-2012-Fall-Update/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>ASP.NET MVC Fall 2012 Update 擁有更多的新功能!!還有更多的樣板!! </p>
+</blockquote>
+<p>看到這段話，就讓我想到xxx-online，</p>
+<blockquote>
+<p>xxx-online 新版更新，擁有更多的裝備，還有更多的副本!! </p>
+</blockquote>
+<p>只不過，玩online看到新版的時候，心情是很躍樂的，而看到技術上的更新…恩…只好犧牲躍樂的心情來寫文章了QQ…</p>
+<p>最近的技術更新，其實都慢慢有縮短的趨勢，當然，不知道算不算是敏捷開發的方式，讓這些新功能快速地釋出，來讓<strike><font color="#a5a5a5">白老鼠</font></strike>大家能快速的測試與回饋，不過不管怎樣啦XDD，既然身活在這一行，也只能當成每季都有無敵大魔王可以打，抱持的愉悅<strike><font color="#a5a5a5">痛苦</font></strike>的心情，來寫寫這開箱文吧。( 未來技術，會不會也朝向組隊出團的境界阿= =… )</p>
+<p>( 其實本來是想偷懶，寫新版的SSDT開箱文，但結果Terry哥動作更快…馬上寫了<a href="http://www.dotblogs.com.tw/terrychuang/archive/2012/11/08/81018.aspx" target="_blank" rel="noopener">這篇</a>，所以小弟只好來開ASP.NET MVC Fall 2012 Updae (QQ) )</p>
+<h4 id="軟體需求"><a href="#軟體需求" class="headerlink" title="軟體需求"></a>軟體需求</h4><p>此更新只能在Visual Studio 2012和Visual Studio Express 2012 for Web。</p>
+<h4 id="官方支援"><a href="#官方支援" class="headerlink" title="官方支援"></a>官方支援</h4><p>此更新為prerelease，官方是不support的，有問題必須去<a href="http://forums.asp.net/" target="_blank" rel="noopener">論壇</a>問。</p>
+<h4 id="更新項目"><a href="#更新項目" class="headerlink" title="更新項目"></a>更新項目</h4><p>因為沒有很仔細的一個一個去研究，所以有誤的話，請和小弟說，小弟會盡快更正；同樣的，未來有時間，再針對每個項目去做介紹。(<a href="http://www.asp.net/vnext/overview/fall-2012-update/aspnet-fall-2012-update-release-notes" target="_blank" rel="noopener">原文在此</a>，當然，根據小弟的習慣，不可能完全照意思翻啦…有興趣的可以去看原文喔!!)</p>
+<p>以下為更新項目 : </p>
+<h4 id="Web-Publishing-網站佈署"><a href="#Web-Publishing-網站佈署" class="headerlink" title="Web Publishing (網站佈署)"></a>Web Publishing (網站佈署)</h4><ul>
+<li>Website發佈的強化 (現在Web Application Project和Website project有相同的發佈體驗了喔!!)  <li>選擇式發佈 – 你可以選擇一個或多個檔案來進行發佈(在佈署到Web Deploy endpoint之後)，詳細如下：<pre><code>*   可以佈署選擇的檔案  &lt;li&gt;可以知道本地文件和原端文件之間的差異&amp;nbsp; &lt;li&gt;可以利用遠端的檔案來更新本地端檔案，或是利用本地端檔案更新遠端檔案。 ( 真繞舌= =) </code></pre></li>
+</ul>
+<h4 id="New-ASP-NET-MVC-Templates-新-ASP-NET-MVC-樣板"><a href="#New-ASP-NET-MVC-Templates-新-ASP-NET-MVC-樣板" class="headerlink" title="New ASP.NET MVC Templates ( 新!!ASP.NET MVC 樣板 )"></a>New ASP.NET MVC Templates ( 新!!ASP.NET MVC 樣板 )</h4><ul>
+<li>Facebook樣板 – 只需要簡單的幾個步驟，就可以使用Facebook樣板可以快速地建立一個Facebook Canvas應用程式並且取得相關資料，有興趣的人可以參考這篇 <a href="http://go.microsoft.com/fwlink/?LinkID=269921" target="_blank" rel="noopener">http://go.microsoft.com/fwlink/?LinkID=269921</a>。  <li>Single Page Application ( 單一頁面應用程式!!復活!!) – 單一頁面應用程式，使用了knockout.js和ASP.NET Web API，這個樣板時做了代辦事項應用程式，並且示範了使用JavaScript和HTML5搭配RESTful Server API。  <li>FixedDisplayModes package – MVC專案樣板已經包含了新的FixedDisplayModes這個NuGet package，這個Package包含了MVC 4錯誤的解決方法。關於更多訊息請參考MVC Team的文章(<a href="http://blogs.msdn.com/b/rickandy/archive/2012/09/17/asp-net-mvc-4-mobile-caching-bug-fixed.aspx" target="_blank" rel="noopener">http://blogs.msdn.com/b/rickandy/archive/2012/09/17/asp-net-mvc-4-mobile-caching-bug-fixed.aspx</a>)。 </li>
+</ul>
+<h4 id="ASP-NET-Web-API"><a href="#ASP-NET-Web-API" class="headerlink" title="ASP.NET Web API"></a>ASP.NET Web API</h4><p>Web API 增強了非常多的新<strike><font color="#a5a5a5">怪物</font></strike>功能  </p>
+<ul>
+<li>ASP.NET Web API OData  <li>ASP.NET Web API Tracing  <li>ASP.NET Web API Help Page </li>
+</ul>
+<h5 id="ASP-NET-Web-API-OData-再度復活"><a href="#ASP-NET-Web-API-OData-再度復活" class="headerlink" title="ASP.NET Web API OData (再度復活!!)"></a>ASP.NET Web API OData (再度復活!!)</h5> <p>當你需要建立含有豐富商業邏輯的資料來源OData Endpoints時，ASP.NET Web API OData 給了你非常多的靈活度。 最後 ASP.NET Web API OData預設會包含在ASP.NET MVC 4 專案樣板 ，同時也提供NuGet ([http://www.nuget.org/packages/microsoft.aspnet.webapi.odata](http://www.nuget.org/packages/microsoft.aspnet.webapi.odata)).  
+
+<h5 id="ASP-NET-Web-API-Tracing"><a href="#ASP-NET-Web-API-Tracing" class="headerlink" title="ASP.NET Web API Tracing"></a>ASP.NET Web API Tracing</h5> <p>ASP.NET Web API Tracing 整合了.NET Tracing和Web API來追蹤數據。而目前的Web API 專案樣板預設也設定為啟用。你的web API所追蹤的數據會送到Output window並起供IntelliTrace來使用. 你也可以在任何的應用程式來使用ASP.NET Web API Tracing，你只需要安裝ASP.NET Web API Tracing NuGet package。 ([http://www.nuget.org/packages/microsoft.aspnet.webapi.tracing](http://www.nuget.org/packages/microsoft.aspnet.webapi.tracing))。  <p>更多的ASP.NET Web API Tracing 資訊 [http://go.microsoft.com/fwlink/?LinkID=269874](http://go.microsoft.com/fwlink/?LinkID=269874)  
+
+<h5 id="ASP-NET-Web-API-Help-Page"><a href="#ASP-NET-Web-API-Help-Page" class="headerlink" title="ASP.NET Web API Help Page"></a>ASP.NET Web API Help Page</h5> <p>The ASP.NET Web API Help Page 預設已經包含在Web API專案樣板裡面. 簡單的說，ASP.NET Web API Help Page 會自動的產生說明文件，包含了HTTP endpoints、支持的HTTP methods, 參數等等。 你也可以在任何的應用程式來使用ASP.NET Web API Help Page ，你只需要安裝ASP.NET Web API Help Page NuGet package([http://www.nuget.org/packages/microsoft.aspnet.webapi.helppage](http://www.nuget.org/packages/microsoft.aspnet.webapi.helppage)).  <p>更多的ASP.NET Web API Help Page 資訊[http://go.microsoft.com/fwlink/?LinkId=271140](http://go.microsoft.com/fwlink/?LinkId=271140) 
+
+<h4 id="Windows-Azure-Authentication-Windows-Azure驗證"><a href="#Windows-Azure-Authentication-Windows-Azure驗證" class="headerlink" title="Windows Azure Authentication ( Windows Azure驗證 )"></a>Windows Azure Authentication ( Windows Azure驗證 )</h4><p>Windows Azure Authentication可以讓你簡單的把Windows Azure Directory使用在Web application上，你可以使用Office365的使用者，或是使用企業自己的domain帳號等等。  <p>更多的Windows Azure authentication資訊<a href="http://go.microsoft.com/fwlink/?LinkID=267940" target="_blank" rel="noopener">http://go.microsoft.com/fwlink/?LinkID=267940</a> </p>
+<h4 id="ASP-NET-SignalR-大推"><a href="#ASP-NET-SignalR-大推" class="headerlink" title="ASP.NET SignalR (大推)"></a>ASP.NET SignalR (大推)</h4><p>ASP.NET SignalR 可以讓你簡單的建立(怎麼每個都講簡單建立…)即時的ASP.NET應用程式，而不是使用WebSockets!!  <p>更多的ASP.NET SignalR資訊 <a href="http://go.microsoft.com/fwlink/?LinkId=271271" target="_blank" rel="noopener">http://go.microsoft.com/fwlink/?LinkId=271271</a>  <p>雖然未來小弟練習的時候，還是會寫心得筆記，但現在已經有很多前輩寫了SignalR的文章喔!!絕對值得推薦!!有興趣的可以點進去看看喔!<img src="http://www.dotblogs.com.tw/hatelove/category/6313.aspx" alt="91哥">)、<a href="http://www.dotblogs.com.tw/regionbbs/Tags/SignalR/default.aspx" target="_blank" rel="noopener">小朱前輩</a>、<a href="http://blog.darkthread.net/blogs/darkthreadtw/archive/tags/SignalR/default.aspx" target="_blank" rel="noopener">黑暗前輩</a> ( 神人三人組~~ )。</p>
+<h4 id="ASP-NET-Friendly-URLs"><a href="#ASP-NET-Friendly-URLs" class="headerlink" title="ASP.NET Friendly URLs"></a>ASP.NET Friendly URLs</h4><p>ASP.NET FriendlyURLs一樣可以非常簡單讓Developer建立乾淨的URL!! ( 就是那種不包含.aspx的URL )，而且不太需要怎樣的設定!!，重點是，他也支援ASP.NET 4.0的應用程式!!其次，他也可以簡單的讓Developer加入mobile支援到現有的application上，並且支援Desktop和Mobile View的切換喔!!  <p>更多的ASP.NET Friendly URLs資訊 <a href="http://www.hanselman.com/blog/IntroducingASPNETFriendlyUrlsCleanerURLsEasierRoutingAndMobileViewsForASPNETWebForms.aspx" target="_blank" rel="noopener">http://www.hanselman.com/blog/IntroducingASPNETFriendlyUrlsCleanerURLsEasierRoutingAndMobileViewsForASPNETWebForms.aspx</a></p>
+<h4 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h4><p>基本上就是這樣，但同樣的目前也是會有一些問題存在，大家可以<a href="http://www.asp.net/vnext/overview/fall-2012-update/aspnet-fall-2012-update-release-notes" target="_blank" rel="noopener">參考這裡</a>，如果想當<strike><font color="#a5a5a5">白老鼠</font></strike>勇者的人，就可以到這裡去<a href="http://www.asp.net/vnext/overview/fall-2012-update" target="_blank" rel="noopener">下載安裝</a>了。  <p><a href="http://lh5.ggpht.com/-jNZHBH5_Mw0/UJvOQaPUMaI/AAAAAAAAFT0/lnxWNLLOFqg/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-bvOFt1j0va4/UJvOSCT-PpI/AAAAAAAAFT8/YpUZ7_O8ZWU/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>下載的是exe檔，點兩下就可以開始裝了 ( 別忘了把vs2012先關閉喔 )。</p>
+<p><a href="http://lh6.ggpht.com/-83awnxrlazs/UJvOTCty-lI/AAAAAAAAFUA/z6Irplb78YU/s1600-h/image%25255B11%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-8N8i2hDoBio/UJvOUCgE8LI/AAAAAAAAFUM/T3I4sGA2HPI/image_thumb%25255B5%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>過一下子，就完成了!!</p>
+<p><a href="http://lh4.ggpht.com/-d5XY27XMaJw/UJvOVd-fmkI/AAAAAAAAFUU/hksN8XVdGNY/s1600-h/image%25255B15%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-bpKoGWlwy0M/UJvOWK80s7I/AAAAAAAAFUY/ERWRlbUgwb0/image_thumb%25255B7%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後，大家就可以開始<font color="#a5a5a5"><strike>被玩</strike></font>體驗了!!</p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>同上，有興趣的人就衝吧XDDD，小弟有空，再來打打看這些大魔王吧!!~</p>
+<h4 id="參考網址"><a href="#參考網址" class="headerlink" title="參考網址"></a>參考網址</h4><ul>
+<li><a href="http://www.asp.net/vnext" target="_blank" rel="noopener" title="http://www.asp.net/vnext">http://www.asp.net/vnext</a>  <li><a href="http://www.asp.net/vnext/overview/fall-2012-update/aspnet-fall-2012-update-release-notes" target="_blank" rel="noopener" title="http://www.asp.net/vnext/overview/fall-2012-update/aspnet-fall-2012-update-release-notes">http://www.asp.net/vnext/overview/fall-2012-update/aspnet-fall-2012-update-release-notes</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-NET/" rel="tag">#ASP.NET</a>
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/11/06/LocalDB-%E5%9C%A8LocalDB%E4%B8%8A%E4%BD%BF%E7%94%A8SSMS%E9%82%84%E5%8E%9F%E8%B3%87%E6%96%99%E5%BA%AB%E7%94%A2%E7%94%9F%E9%8C%AF%E8%AA%A4/" rel="next" title="LocalDB - 在LocalDB上使用SSMS還原資料庫產生錯誤">
+                <i class="fa fa-chevron-left"></i> LocalDB - 在LocalDB上使用SSMS還原資料庫產生錯誤
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/11/27/ASP-NET-MVC-%E5%B0%87%E8%88%8A%E5%B0%88%E6%A1%88%E5%8D%87%E7%B4%9A%E6%88%90-NET-4-5%E6%99%82%EF%BC%8C%E7%99%BC%E7%94%9FMSB3247%E9%8C%AF%E8%AA%A4/" rel="prev" title="ASP.NET MVC - 將舊專案升級成.NET 4.5時，發生MSB3247錯誤">
+                ASP.NET MVC - 將舊專案升級成.NET 4.5時，發生MSB3247錯誤 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#軟體需求"><span class="nav-number">1.</span> <span class="nav-text">軟體需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#官方支援"><span class="nav-number">2.</span> <span class="nav-text">官方支援</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更新項目"><span class="nav-number">3.</span> <span class="nav-text">更新項目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Web-Publishing-網站佈署"><span class="nav-number">4.</span> <span class="nav-text">Web Publishing (網站佈署)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#New-ASP-NET-MVC-Templates-新-ASP-NET-MVC-樣板"><span class="nav-number">5.</span> <span class="nav-text">New ASP.NET MVC Templates ( 新!!ASP.NET MVC 樣板 )</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ASP-NET-Web-API"><span class="nav-number">6.</span> <span class="nav-text">ASP.NET Web API</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ASP-NET-Web-API-OData-再度復活"><span class="nav-number">6.1.</span> <span class="nav-text">ASP.NET Web API OData (再度復活!!)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ASP-NET-Web-API-Tracing"><span class="nav-number">6.2.</span> <span class="nav-text">ASP.NET Web API Tracing</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ASP-NET-Web-API-Help-Page"><span class="nav-number">6.3.</span> <span class="nav-text">ASP.NET Web API Help Page</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Windows-Azure-Authentication-Windows-Azure驗證"><span class="nav-number">7.</span> <span class="nav-text">Windows Azure Authentication ( Windows Azure驗證 )</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ASP-NET-SignalR-大推"><span class="nav-number">8.</span> <span class="nav-text">ASP.NET SignalR (大推)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ASP-NET-Friendly-URLs"><span class="nav-number">9.</span> <span class="nav-text">ASP.NET Friendly URLs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安裝"><span class="nav-number">10.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">11.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考網址"><span class="nav-number">12.</span> <span class="nav-text">參考網址</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2012/11/08/ASP-NET-MVC-–-ASP-NET-MVC-4-2012-Fall-Update/';
+      var disqus_title = 'ASP.NET MVC – ASP.NET MVC 4 2012 Fall Update';
+      var disqus_url = 'http://skychang.github.io/2012/11/08/ASP-NET-MVC-%E2%80%93-ASP-NET-MVC-4-2012-Fall-Update/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

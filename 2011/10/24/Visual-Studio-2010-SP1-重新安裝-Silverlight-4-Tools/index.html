@@ -1,0 +1,659 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Visual Studio,Silveright," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近因為要開始進行Silverlight的專案，所以準備塵封已久的Silverlight，結果一新增專案，就給我跳出這個畫面。內容敘述是這樣  &gt; “以Silverlight 4為目標必須有Microsoft Visual Studio的更新。”  想說，別鬧了，我都已經裝了SP1，SP1也內含了Silverlight 4，還要叫我更新啥&#x3D; &#x3D;，但礙於找不到其他解決方案，所以我就下載了Sil">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Visual Studio 2010 SP1 重新安裝 Silverlight 4 Tools">
+<meta property="og:url" content="http://skychang.github.io/2011/10/24/Visual-Studio-2010-SP1-%E9%87%8D%E6%96%B0%E5%AE%89%E8%A3%9D-Silverlight-4-Tools/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="最近因為要開始進行Silverlight的專案，所以準備塵封已久的Silverlight，結果一新增專案，就給我跳出這個畫面。內容敘述是這樣  &gt; “以Silverlight 4為目標必須有Microsoft Visual Studio的更新。”  想說，別鬧了，我都已經裝了SP1，SP1也內含了Silverlight 4，還要叫我更新啥&#x3D; &#x3D;，但礙於找不到其他解決方案，所以我就下載了Sil">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh6.ggpht.com/-bvYlYvYG8QA/TqUjRNaslYI/AAAAAAAAAxU/0vYoKE7DUMk/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-Fw7bA2tLRZ8/TqUjSh7jDKI/AAAAAAAAAxk/uASTfVFSehI/image_thumb%25255B4%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-yYV7Zr6FNBA/TqUjUVvU7QI/AAAAAAAAAx0/jLaw00oMODc/image_thumb%25255B7%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-FTNDC3fuLcw/TqUjWn0BBaI/AAAAAAAAAyE/qxlJLaUp1nE/image_thumb%25255B11%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-xy_0a25A4Nk/TqUjYCYps4I/AAAAAAAAAyU/EDZovxOwmRg/image_thumb%25255B14%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-yjC0OUhwlCU/TqUjZ-R3FyI/AAAAAAAAAyk/4X69v3O1U3s/image_thumb%25255B18%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2011-10-24T16:35:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.019Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Visual Studio">
+<meta property="article:tag" content="Silveright">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh6.ggpht.com/-bvYlYvYG8QA/TqUjRNaslYI/AAAAAAAAAxU/0vYoKE7DUMk/image_thumb%25255B1%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Visual Studio 2010 SP1 重新安裝 Silverlight 4 Tools | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Visual Studio 2010 SP1 重新安裝 Silverlight 4 Tools
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2011-10-24T16:35:00+00:00" content="2011-10-24">
+              2011-10-24
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2011/10/24/Visual-Studio-2010-SP1-%E9%87%8D%E6%96%B0%E5%AE%89%E8%A3%9D-Silverlight-4-Tools/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/10/24/Visual-Studio-2010-SP1-重新安裝-Silverlight-4-Tools/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近因為要開始進行Silverlight的專案，所以準備塵封已久的Silverlight，結果一新增專案，就給我跳出這個畫面。內容敘述是這樣  &gt; “以Silverlight 4為目標必須有Microsoft Visual Studio的更新。” <p><a href="http://lh6.ggpht.com/-oNARa17qiug/TqUjQu-OH7I/AAAAAAAAAxM/HOLv8KP2a3c/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-bvYlYvYG8QA/TqUjRNaslYI/AAAAAAAAAxU/0vYoKE7DUMk/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>想說，別鬧了，我都已經裝了SP1，SP1也內含了Silverlight 4，還要叫我更新啥= =，但礙於找不到其他解決方案，所以我就下載了Silverlight 4 Tool來重新安裝。</p>
+<p>結果很開心的又出現下面這個畫面。</p>
+<blockquote>
+<p>必須先安裝符合 Silverlight Tools 4 的語言版本的 Visual Studio 2010 或 Visual Web Developer Express 2010 或 Visual Phone Developer Express 2010，才能繼續安裝 Silverlight Tools 4。Silverlight Tools 有其他語言版本: <a href="http://go.microsoft.com/fwlink/?LinkId=177432&quot;&gt;http://go.microsoft.com/fwlink/?LinkId=177432" target="_blank" rel="noopener">http://go.microsoft.com/fwlink/?LinkId=177432&quot;&gt;http://go.microsoft.com/fwlink/?LinkId=177432</a> </p>
+</blockquote>
+<p><a href="http://lh6.ggpht.com/-lL_OoCe-GRM/TqUjR6gh2kI/AAAAAAAAAxc/xR5ef6T0CHo/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-Fw7bA2tLRZ8/TqUjSh7jDKI/AAAAAAAAAxk/uASTfVFSehI/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>好樣的!，後來查了Log檔，發現此支援版本為</p>
+<blockquote>
+<p>Package Version = 10.0.30319 1033  </p>
+</blockquote>
+<p>但我們目前的Visual Studio 2010 SP1版本為10.0.40219，所以猜測是這個問題。</p>
+<p><a href="http://lh6.ggpht.com/-RQqZ5DfS4Us/TqUjTSHTw5I/AAAAAAAAAxs/668Vxy1hRGE/s1600-h/image%25255B15%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-yYV7Zr6FNBA/TqUjUVvU7QI/AAAAAAAAAx0/jLaw00oMODc/image_thumb%25255B7%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>既然知道問題在哪邊，那就好辦了，首先，我們先把解壓縮軟體把Silverlight4_Tools.exe解開，然後開啟文字編輯工具編輯ParameterInfo.xml這個檔案。</p>
+<p><a href="http://lh4.ggpht.com/--isf-xI-8g0/TqUjVGtKMcI/AAAAAAAAAx8/k3kiMfKjHbE/s1600-h/image%25255B23%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-FTNDC3fuLcw/TqUjWn0BBaI/AAAAAAAAAyE/qxlJLaUp1nE/image_thumb%25255B11%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後將10.0.30319改成10.0.40219，如下圖。( 這個檔案裏面有許多的10.0.30319，下面的圖只是其中一個位置 )</p>
+<p><a href="http://lh4.ggpht.com/-5jdfnOmlQU0/TqUjXa_hwEI/AAAAAAAAAyM/ub2B05POkoA/s1600-h/image%25255B28%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-xy_0a25A4Nk/TqUjYCYps4I/AAAAAAAAAyU/EDZovxOwmRg/image_thumb%25255B14%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>改完後就可以順利安裝。</p>
+<p><a href="http://lh6.ggpht.com/-iUqX-X5nzX8/TqUjZP_06dI/AAAAAAAAAyc/gM1NDv8-qrI/s1600-h/image%25255B34%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-yjC0OUhwlCU/TqUjZ-R3FyI/AAAAAAAAAyk/4X69v3O1U3s/image_thumb%25255B18%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>至於為何會發生這種問題，我倒是沒有頭緒，只記得最後一次裝了和Silverlight有關的軟體是Expression Studio 4，但這些也都是推測，畢竟，小弟我的電腦常常裝一堆新東西XDD，所以搞不好是別的東西影響到的，但不管怎樣，這樣處理完後，就可以順利安裝，安裝完後Silverlight 4也恢復正常了。</p>
+<p>題外話 : 後來發現，Google已經有許多類似的教學了= =….，那我幹啥花那麼多時間除錯啊…</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
+          
+            <a href="/tags/Silveright/" rel="tag">#Silveright</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/10/13/UI%E7%9A%84%E8%A8%AD%E8%A8%88%E6%A8%A1%E5%BC%8FMVP%E6%A8%A1%E5%BC%8F%E2%80%93Supervising-Controller/" rel="next" title="UI的設計模式MVP模式–Supervising Controller">
+                <i class="fa fa-chevron-left"></i> UI的設計模式MVP模式–Supervising Controller
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011/10/30/%E9%BB%9E%E8%AA%B2%E5%B9%AB-Developer-Party-11-1030%E6%B4%BB%E5%8B%95%E5%B1%95%E9%96%8B/" rel="prev" title="點課幫 Developer Party 11-1030活動展開!">
+                點課幫 Developer Party 11-1030活動展開! <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目錄</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2011/10/24/Visual-Studio-2010-SP1-重新安裝-Silverlight-4-Tools/';
+      var disqus_title = 'Visual Studio 2010 SP1 重新安裝 Silverlight 4 Tools';
+      var disqus_url = 'http://skychang.github.io/2011/10/24/Visual-Studio-2010-SP1-%E9%87%8D%E6%96%B0%E5%AE%89%E8%A3%9D-Silverlight-4-Tools/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

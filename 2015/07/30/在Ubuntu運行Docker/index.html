@@ -1,0 +1,690 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Azure,Linux,Docker,Ubuntu,VM," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="首先，在開始前，小弟一定要推薦一下這個網站和這個網站，這個兩個網站寫了很多，而且由淺入深的教學，而這篇文章，一開始會先練習這個網站的前篇教學，並且搭配此網站網站的說明，下一篇，則會使用 Microsoft 提供的 ASP.NET 5 Preview Docker Image 來完成 ASP.NET MVC 應用程式。 安裝 Docker基本上，Ubuntu 已經有內建了 Docker，或是使用 a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Ubuntu運行Docker">
+<meta property="og:url" content="http://skychang.github.io/2015/07/30/%E5%9C%A8Ubuntu%E9%81%8B%E8%A1%8CDocker/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="首先，在開始前，小弟一定要推薦一下這個網站和這個網站，這個兩個網站寫了很多，而且由淺入深的教學，而這篇文章，一開始會先練習這個網站的前篇教學，並且搭配此網站網站的說明，下一篇，則會使用 Microsoft 提供的 ASP.NET 5 Preview Docker Image 來完成 ASP.NET MVC 應用程式。 安裝 Docker基本上，Ubuntu 已經有內建了 Docker，或是使用 a">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://lh3.googleusercontent.com/--3gpt3pEeqA/Vbo6GhzIUrI/AAAAAAAAKjk/f4xn9ctfJxM/s600/01.png">
+<meta property="og:image" content="https://lh3.googleusercontent.com/-hIUl4velqQE/Vbo6MZHcDZI/AAAAAAAAKjw/HPx5tWDvgVM/s600/02.png">
+<meta property="og:image" content="https://lh3.googleusercontent.com/-WxtMI_OXbmo/Vbo6SjCPXhI/AAAAAAAAKj8/tRbGD3CpQpU/s600/03.png">
+<meta property="og:image" content="https://lh3.googleusercontent.com/-mgTvwtFH_m0/Vbo6YOBG2HI/AAAAAAAAKkI/rQYYyIIdw2c/s600/04.png">
+<meta property="og:image" content="https://lh3.googleusercontent.com/-dCQv5tYD_nk/Vbo6eiFJ2SI/AAAAAAAAKkU/8hilZX01KwE/s600/05.png">
+<meta property="og:image" content="https://lh3.googleusercontent.com/-fV-VMpKnUao/Vbo6oLiOsMI/AAAAAAAAKkg/UhiQm5Ipkio/s600/12.png">
+<meta property="article:published_time" content="2015-07-30T22:54:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.079Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="Azure">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Ubuntu">
+<meta property="article:tag" content="VM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lh3.googleusercontent.com/--3gpt3pEeqA/Vbo6GhzIUrI/AAAAAAAAKjk/f4xn9ctfJxM/s600/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 在Ubuntu運行Docker | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                在Ubuntu運行Docker
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-07-30T22:54:00+00:00" content="2015-07-30">
+              2015-07-30
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/30/%E5%9C%A8Ubuntu%E9%81%8B%E8%A1%8CDocker/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/07/30/在Ubuntu運行Docker/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>首先，在開始前，小弟一定要推薦一下這個<a href="http://philipzheng.gitbooks.io/docker_practice/content/basic_concept/repository.html" target="_blank" rel="noopener">網站</a>和這個<a href="http://www.codedata.com.tw/social-coding/docker-layman-abc/" target="_blank" rel="noopener">網站</a>，這個兩個網站寫了很多，而且由淺入深的教學，而這篇文章，一開始會先練習這個<a href="http://www.codedata.com.tw/social-coding/docker-layman-abc/" target="_blank" rel="noopener">網站</a>的前篇教學，並且搭配此網站<a href="http://philipzheng.gitbooks.io/docker_practice/content/basic_concept/repository.html" target="_blank" rel="noopener">網站</a>的說明，下一篇，則會使用 Microsoft 提供的 ASP.NET 5 Preview Docker Image 來完成 ASP.NET MVC 應用程式。</p>
+<h2 id="安裝-Docker"><a href="#安裝-Docker" class="headerlink" title="安裝 Docker"></a>安裝 Docker</h2><p>基本上，Ubuntu 已經有內建了 Docker，或是使用 apt-get 來安裝也是可以的，但是既然神人大大推薦用 curl 的方式取得，那我們這邊就使用 curl 來取得 Docker吧！！</p>
+<p>curl -sSL <a href="https://get.docker.com/ubuntu/" target="_blank" rel="noopener">https://get.docker.com/ubuntu/</a> | sudo sh</p>
+<p><img src="https://lh3.googleusercontent.com/--3gpt3pEeqA/Vbo6GhzIUrI/AAAAAAAAKjk/f4xn9ctfJxM/s600/01.png" alt="enter image description here" title="01.png"></p>
+<p>完成之後，我們就可以啟動 Docker了！！</p>
+<p>sudo service docker start</p>
+<p><img src="https://lh3.googleusercontent.com/-hIUl4velqQE/Vbo6MZHcDZI/AAAAAAAAKjw/HPx5tWDvgVM/s600/02.png" alt="enter image description here" title="02.png"></p>
+<h2 id="Hello-Docker"><a href="#Hello-Docker" class="headerlink" title="Hello Docker"></a>Hello Docker</h2><p>接下來，我們先採用另外一位<a>神人大的教學</a>，來簡單的輸出一下 Hello Docker.</p>
+<p>sudo docker run ubuntu:12.04 echo ‘Hello Docker’</p>
+<p><img src="https://lh3.googleusercontent.com/-WxtMI_OXbmo/Vbo6SjCPXhI/AAAAAAAAKj8/tRbGD3CpQpU/s600/03.png" alt="enter image description here" title="03.png"></p>
+<p>是的，就是這樣簡單，我們就可以看到Hello Docker!!，但是大家可能會想，啥？不就是只是輸出一個 Hello Docker 啊…這和虛擬化，容器技術有啥關係。</p>
+<p>沒錯，別懷疑，這個 Hello Docker 其實是從虛擬化出來的 Ubuntu 12.04 版本 echo 出來的！！！</p>
+<p>也就是說，那短短的幾秒鐘時間，Docker 就已經把虛擬的 OS 準備完成，並且執行，且輸出了！！</p>
+<p>所以，上面那行指令的意思，就是說，我們要 Run 一個 ubuntu:12.04 版本，並且 run 完成之後，於 Sehll 執行 echo ‘Hello Docker’ . 而在執行的過程中，他就會自動地把 ubuntu 12.04 的 image 載下來，結果如下圖。</p>
+<p><img src="https://lh3.googleusercontent.com/-mgTvwtFH_m0/Vbo6YOBG2HI/AAAAAAAAKkI/rQYYyIIdw2c/s600/04.png" alt="enter image description here" title="04.png"></p>
+<p>完成後，我們就可以透過以下指令，來看看目前這台機器有多少個 image，從下圖就可以看到 Ubuntu 已經安裝上去了。</p>
+<p>sudo docker images</p>
+<p><img src="https://lh3.googleusercontent.com/-dCQv5tYD_nk/Vbo6eiFJ2SI/AAAAAAAAKkU/8hilZX01KwE/s600/05.png" alt="enter image description here" title="05.png"></p>
+<h2 id="登入終端機"><a href="#登入終端機" class="headerlink" title="登入終端機"></a>登入終端機</h2><p>但是，我們不可能每次都把一整串的字串，串到 run 後面吧…我們需要可以登入，登入！！登入啊啊啊！！</p>
+<p>當然，這也可以做到，我們可以下以下的指令，這個指令的意思就是，建立容器的時候，順便建立一個終端機( -t )，並且建立與容器標準輸入的互動進行連結 ( -i )，這樣你就可以在裡面下指令操作了~~</p>
+<p>sudo docker run -t -i ubuntu:12.04</p>
+<p>但是，請注意，雖然我們從終端機離開，並不會關掉容器，但如果我們把容器 Kill 或是 移除，那你裡面做的所有事情都會不見…如果你在裡面做了些事情，而希望把裡面的東西存下來，就必須使用 commit 指令，其中7ce430e7c072是表示目前的容器ID ( 可以透過 docker ps 來查看目前執行的容器 )，而aspmvc/text:ver1 代表的是容器的名稱和Tag名稱。 </p>
+<p>(此指令要在容器外面下喔！)</p>
+<p>sudo docker commit -m=’簽入描述’ -a=’簽入者’ 7ce430e7c072 aspmvc/test:ver1</p>
+<h2 id="重新登入容器"><a href="#重新登入容器" class="headerlink" title="重新登入容器"></a>重新登入容器</h2><p>另外，如果你登出了，想要在登入進去那一個容器，我們可以先用</p>
+<p>sudo docker ps -a 來查到所有目前執行的容器。</p>
+<p>然後再用以下指令登入( 後面是id )，下面兩個的差異，一個是直接回到容器裡，另外一個則會開另外一個終端機，目前建議使用第二種方式。</p>
+<p>sudo docker attach 665b4a1e17b6</p>
+<p>sudo docker exec -i -t a66289aeefa6 bash</p>
+<h2 id="停止與刪除背景執行的容器"><a href="#停止與刪除背景執行的容器" class="headerlink" title="停止與刪除背景執行的容器"></a>停止與刪除背景執行的容器</h2><p>若有執行中的容器，想要停止，可以透過底下的指令來完成。</p>
+<p>sudo docker ps -a</p>
+<p>sudo docker stop 9162a162f840</p>
+<p>停止後，就可以用 rm 指令來移除容器。 ( 或是直接用 rm -f 來強制停止)</p>
+<p>sudo docker rm 9162a162f840</p>
+<p>如果有太多容器，想要一次全部移除，可以下以下指令</p>
+<p>sudo docker rm $(sudo docker ps -a)</p>
+<p><img src="https://lh3.googleusercontent.com/-fV-VMpKnUao/Vbo6oLiOsMI/AAAAAAAAKkg/UhiQm5Ipkio/s600/12.png" alt="enter image description here" title="12.png"></p>
+<p>基本上，初步就到這篇，下一篇我們會透過 Microsoft 提供的容器，來建立 ASP.NET MVC 應用程式。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="http://www.codedata.com.tw/social-coding/docker-layman-abc/" target="_blank" rel="noopener">http://www.codedata.com.tw/social-coding/docker-layman-abc/</a></li>
+<li><a href="http://philipzheng.gitbooks.io/docker_practice/content/basic_concept/repository.html" target="_blank" rel="noopener">http://philipzheng.gitbooks.io/docker_practice/content/basic_concept/repository.html</a></li>
+<li><a href="http://www.openfoundry.org/tw/tech-column/9319-docker-101" target="_blank" rel="noopener">http://www.openfoundry.org/tw/tech-column/9319-docker-101</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Azure/" rel="tag">#Azure</a>
+          
+            <a href="/tags/Linux/" rel="tag">#Linux</a>
+          
+            <a href="/tags/Docker/" rel="tag">#Docker</a>
+          
+            <a href="/tags/Ubuntu/" rel="tag">#Ubuntu</a>
+          
+            <a href="/tags/VM/" rel="tag">#VM</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/30/Azure%E4%B8%8A%E7%9A%84Ubuntu%E8%88%87%E9%81%A0%E7%AB%AF%E6%A1%8C%E9%9D%A2%E7%AE%A1%E7%90%86-VNC/" rel="next" title="Azure上的Ubuntu與遠端桌面管理 VNC">
+                <i class="fa fa-chevron-left"></i> Azure上的Ubuntu與遠端桌面管理 VNC
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/30/%E8%AE%93-ASP-NET-MVC-%E5%9F%B7%E8%A1%8C%E6%96%BC-Docker/" rel="prev" title="讓 ASP.NET MVC 執行於 Docker">
+                讓 ASP.NET MVC 執行於 Docker <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-Docker"><span class="nav-number">1.</span> <span class="nav-text">安裝 Docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hello-Docker"><span class="nav-number">2.</span> <span class="nav-text">Hello Docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#登入終端機"><span class="nav-number">3.</span> <span class="nav-text">登入終端機</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重新登入容器"><span class="nav-number">4.</span> <span class="nav-text">重新登入容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#停止與刪除背景執行的容器"><span class="nav-number">5.</span> <span class="nav-text">停止與刪除背景執行的容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">6.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2015/07/30/在Ubuntu運行Docker/';
+      var disqus_title = '在Ubuntu運行Docker';
+      var disqus_url = 'http://skychang.github.io/2015/07/30/%E5%9C%A8Ubuntu%E9%81%8B%E8%A1%8CDocker/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

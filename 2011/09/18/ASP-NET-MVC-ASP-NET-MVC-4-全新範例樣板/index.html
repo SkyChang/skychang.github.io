@@ -1,0 +1,660 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ASP.NET MVC," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="2012&#x2F;2&#x2F;25更新 目前Beta版本已經出了，如果有興趣玩玩看的可以參考這篇，基本上，Beta的內容和Developer Preview版本沒有多大差異。 全新的範例樣本，重心放在更漂亮的畫面! ( 畫面的確很重要XDD )，然後利用CSS來支援Mobile和Desktop上的瀏覽；的確，看文字很難看的懂，接下來，我們就用圖來看一下吧。 接下來打開Visual Studio 2010，我們就可">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET MVC - ASP.NET MVC 4 全新範例樣板">
+<meta property="og:url" content="http://skychang.github.io/2011/09/18/ASP-NET-MVC-ASP-NET-MVC-4-%E5%85%A8%E6%96%B0%E7%AF%84%E4%BE%8B%E6%A8%A3%E6%9D%BF/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="2012&#x2F;2&#x2F;25更新 目前Beta版本已經出了，如果有興趣玩玩看的可以參考這篇，基本上，Beta的內容和Developer Preview版本沒有多大差異。 全新的範例樣本，重心放在更漂亮的畫面! ( 畫面的確很重要XDD )，然後利用CSS來支援Mobile和Desktop上的瀏覽；的確，看文字很難看的懂，接下來，我們就用圖來看一下吧。 接下來打開Visual Studio 2010，我們就可">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://lh4.ggpht.com/-oCsCDdbLMc0/TnbwcnAfH1I/AAAAAAAAAhw/VVcvKWBRmSo/image_thumb%25255B8%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-kGDPaBRbUhM/T0idELT0llI/AAAAAAAABec/iCxUqS3o6mg/image_thumb%25255B1%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh5.ggpht.com/-sQQNe_IMkw0/T0ifHPr0vrI/AAAAAAAABfM/LxZbXD3zL68/image_thumb%25255B2%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-wwALpvdhLUw/Tnbwg6illwI/AAAAAAAAAiI/TXqayIb2djc/image_thumb%25255B19%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh6.ggpht.com/-LzZ7deKjkxc/T0ieS6IKhPI/AAAAAAAABes/qdLShSLLxr0/image_thumb%25255B3%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-ypJIp7FsHhI/TnbwjjPTP_I/AAAAAAAAAiY/O7sg_lR4mxc/image_thumb%25255B25%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh3.ggpht.com/-JtaRJ5L58F4/Tnbwk5jd95I/AAAAAAAAAig/ke4vCiwoopc/image_thumb%25255B29%25255D.png?imgmax=800">
+<meta property="og:image" content="http://lh4.ggpht.com/-vPdhzssdJzY/T0ieVMm_L_I/AAAAAAAABe8/1g3TSGnSFo4/image_thumb%25255B5%25255D.png?imgmax=800">
+<meta property="article:published_time" content="2011-09-18T21:33:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.832Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="ASP.NET MVC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lh4.ggpht.com/-oCsCDdbLMc0/TnbwcnAfH1I/AAAAAAAAAhw/VVcvKWBRmSo/image_thumb%25255B8%25255D.png?imgmax=800">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ASP.NET MVC - ASP.NET MVC 4 全新範例樣板 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ASP.NET MVC - ASP.NET MVC 4 全新範例樣板
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2011-09-18T21:33:00+00:00" content="2011-09-18">
+              2011-09-18
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2011/09/18/ASP-NET-MVC-ASP-NET-MVC-4-%E5%85%A8%E6%96%B0%E7%AF%84%E4%BE%8B%E6%A8%A3%E6%9D%BF/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/09/18/ASP-NET-MVC-ASP-NET-MVC-4-全新範例樣板/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2012/2/25更新</p>
+<p>目前Beta版本已經出了，如果有興趣玩玩看的可以參考<a href="http://blog.sanc.idv.tw/2012/02/aspnet-mvc-aspnet-mvc-4.html" target="_blank" rel="noopener">這篇</a>，基本上，Beta的內容和Developer Preview版本沒有多大差異。</p>
+<p>全新的範例樣本，重心放在更漂亮的畫面! ( 畫面的確很重要XDD )，然後利用CSS來支援Mobile和Desktop上的瀏覽；的確，看文字很難看的懂，接下來，我們就用圖來看一下吧。</p>
+<p>接下來打開Visual Studio 2010，我們就可以看到ASP.NET MVC 4的專案了。</p>
+<p><a href="http://lh3.ggpht.com/-yd_WsYbZAsM/Tnbwb4EBfSI/AAAAAAAAAhs/B_m5zsccbTY/s1600-h/image%25255B14%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-oCsCDdbLMc0/TnbwcnAfH1I/AAAAAAAAAhw/VVcvKWBRmSo/image_thumb%25255B8%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>繼續下去，選擇樣版的部分，多了許多東西，我們就先選擇Form驗證的Internet Application吧。</p>
+<p><a href="http://lh4.ggpht.com/-EvS3-blhtfk/T0idCwVM8DI/AAAAAAAABeU/YIO0cK6a7CM/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-kGDPaBRbUhM/T0idELT0llI/AAAAAAAABec/iCxUqS3o6mg/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>打開後，其實目錄結構也沒甚麼改變。</p>
+<p><a href="http://lh5.ggpht.com/-YSDv3JuXORE/T0ifGCjwLSI/AAAAAAAABfE/rqIk3zCHyhQ/s1600-h/image%25255B5%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-sQQNe_IMkw0/T0ifHPr0vrI/AAAAAAAABfM/LxZbXD3zL68/image_thumb%25255B2%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>Cool!預設樣板完全煥然一新!老實說，真的變得很漂亮，(雖然說實際開發上，完全不會選擇這個樣板)，不過從這邊也可以看的出來這次的用心…</p>
+<p><a href="http://lh3.ggpht.com/-5mG4o_5fUMk/TnbwgIKY10I/AAAAAAAAAiE/GZOQ_DKzp4Y/s1600-h/image%25255B33%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-wwALpvdhLUw/Tnbwg6illwI/AAAAAAAAAiI/TXqayIb2djc/image_thumb%25255B19%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，按下右上角的Login吧，有別以往，這次利用jQuery提升了UI的友善性。</p>
+<p><a href="http://lh3.ggpht.com/-Q3lGLXoWznI/T0ieRwTD6iI/AAAAAAAABek/3qHaMr8UWWs/s1600-h/image%25255B7%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-LzZ7deKjkxc/T0ieS6IKhPI/AAAAAAAABes/qdLShSLLxr0/image_thumb%25255B3%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>此外，這個樣板也展示了手機平台的瀏覽，但是我沒有實際發佈，所以去了ASP.NET官網借一下圖。</p>
+<p><a href="http://lh5.ggpht.com/-3BpXQp4CdE0/Tnbwi8hXICI/AAAAAAAAAiU/m_31bl5_-_E/s1600-h/image%25255B43%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-ypJIp7FsHhI/TnbwjjPTP_I/AAAAAAAAAiY/O7sg_lR4mxc/image_thumb%25255B25%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>但其實只要將瀏覽器縮小，也行!，看起來還滿像Win Phone的XDD</p>
+<p><a href="http://lh6.ggpht.com/-l8xBQD1_QBI/TnbwkMjXNYI/AAAAAAAAAic/_yWtU75VskI/s1600-h/image%25255B49%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-JtaRJ5L58F4/Tnbwk5jd95I/AAAAAAAAAig/ke4vCiwoopc/image_thumb%25255B29%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>其實說穿了，就只是利用CSS去做控制，以前因為沒有手機平台的需求，所以大家對於這種動態的控制比較不重視，但未來手機平台越來越重要，我覺得這也是個很不錯的範例可以給大家參考，然後我們稍微往程式碼那邊看看，這是_Layout.cshtml的部分，也就是此範例預設套用的公版，我們可以發現，此樣板已經開始採用了HTML5標籤 ( 所以一開始選擇樣板的時候，此專案部分就已經沒有HTML5的框框可以勾選了 )。</p>
+<p><a href="http://lh5.ggpht.com/-GTcYteoLGNE/T0ieUCRE3vI/AAAAAAAABe0/CqQicdWT4WI/s1600-h/image%25255B11%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-vPdhzssdJzY/T0ieVMm_L_I/AAAAAAAABe8/1g3TSGnSFo4/image_thumb%25255B5%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>這次的範例樣板其實提供了不錯的範例，無論是支援HTML5的寫法，或是利用Javascript來強化UI的部分，都很適合新手，或是像我這種健忘者，可以快速地瀏覽，當然目前ASP.NET MVC也不斷地朝目前的趨勢邁進，底層架構也不會有啥重大的改變了，但是，會越來越多更方便的開發功能，所以如果有興趣的大家，也可以安心的導入與使用這個成熟的MVC技術了喔!!</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://www.asp.net/whitepapers/mvc4-release-notes" target="_blank" rel="noopener" title="http://www.asp.net/whitepapers/mvc4-release-notes">http://www.asp.net/whitepapers/mvc4-release-notes</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/09/18/%E5%B9%BE%E6%AC%BEMock-Framework%E7%9A%84%E6%AF%94%E8%BC%83/" rel="next" title="幾款Mock Framework的比較">
+                <i class="fa fa-chevron-left"></i> 幾款Mock Framework的比較
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011/09/18/ASP-NET-MVC-%E5%8D%87%E7%B4%9AASP-NET-MVC-3%E5%B0%88%E6%A1%88%E8%87%B3ASP-NET-MVC-4/" rel="prev" title="ASP.NET MVC -  升級ASP.NET MVC 3專案至ASP.NET MVC 4">
+                ASP.NET MVC -  升級ASP.NET MVC 3專案至ASP.NET MVC 4 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">1.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2011/09/18/ASP-NET-MVC-ASP-NET-MVC-4-全新範例樣板/';
+      var disqus_title = 'ASP.NET MVC - ASP.NET MVC 4 全新範例樣板';
+      var disqus_url = 'http://skychang.github.io/2011/09/18/ASP-NET-MVC-ASP-NET-MVC-4-%E5%85%A8%E6%96%B0%E7%AF%84%E4%BE%8B%E6%A8%A3%E6%9D%BF/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

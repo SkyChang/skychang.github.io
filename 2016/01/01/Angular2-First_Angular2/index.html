@@ -1,0 +1,739 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript,Angular2,TypeScript,systemjs," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言每次看到前端的演進，真的讓人覺得自己就像在洪流之中，不斷的被大潮流沖來沖去，從最最早的 Flash 到 Silverlight，從 Dom 的控制，到 jQuery，從 ASP.NET MVC 4 內建的 knockout 到 AngularJS ，又從 AngularJS 到 React ，然後如今，又回到 Angular2 … 每次看到新技術，都會不自覺的讚嘆，”哇，這實在是太酷了，太棒了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular2 - 第一次的 Angular2 初體驗">
+<meta property="og:url" content="http://skychang.github.io/2016/01/01/Angular2-First_Angular2/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="前言每次看到前端的演進，真的讓人覺得自己就像在洪流之中，不斷的被大潮流沖來沖去，從最最早的 Flash 到 Silverlight，從 Dom 的控制，到 jQuery，從 ASP.NET MVC 4 內建的 knockout 到 AngularJS ，又從 AngularJS 到 React ，然後如今，又回到 Angular2 … 每次看到新技術，都會不自覺的讚嘆，”哇，這實在是太酷了，太棒了">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2016/01/01/Angular2-First_Angular2/01.png">
+<meta property="og:image" content="http://skychang.github.io/2016/01/01/Angular2-First_Angular2/02.png">
+<meta property="og:image" content="http://skychang.github.io/2016/01/01/Angular2-First_Angular2/03.png">
+<meta property="og:image" content="http://skychang.github.io/2016/01/01/Angular2-First_Angular2/04.png">
+<meta property="og:image" content="http://skychang.github.io/2016/01/01/Angular2-First_Angular2/05.png">
+<meta property="og:image" content="http://skychang.github.io/2016/01/01/Angular2-First_Angular2/06.png">
+<meta property="og:image" content="http://skychang.github.io/2016/01/01/Angular2-First_Angular2/07.png">
+<meta property="og:image" content="http://skychang.github.io/2016/01/01/Angular2-First_Angular2/07.png">
+<meta property="og:image" content="http://skychang.github.io/2016/01/01/Angular2-First_Angular2/09.png">
+<meta property="og:image" content="http://skychang.github.io/2016/01/01/Angular2-First_Angular2/10.png">
+<meta property="og:image" content="http://skychang.github.io/2016/01/01/Angular2-First_Angular2/11.png">
+<meta property="og:image" content="http://skychang.github.io/2016/01/01/Angular2-First_Angular2/12.png">
+<meta property="article:published_time" content="2016-01-01T23:20:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.840Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="Angular2">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="systemjs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2016/01/01/Angular2-First_Angular2/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Angular2 - 第一次的 Angular2 初體驗 | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Angular2 - 第一次的 Angular2 初體驗
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2016-01-01T23:20:00+00:00" content="2016-01-01">
+              2016-01-01
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/01/Angular2-First_Angular2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/01/01/Angular2-First_Angular2/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>每次看到前端的演進，真的讓人覺得自己就像在洪流之中，不斷的被大潮流沖來沖去，從最最早的 Flash 到 Silverlight，從 Dom 的控制，到 jQuery，從 ASP.NET MVC 4 內建的 knockout 到 AngularJS ，又從 AngularJS 到 React ，然後如今，又回到 Angular2 …</p>
+<p>每次看到新技術，都會不自覺的讚嘆，”哇，這實在是太酷了，太棒了”，但每年換一次的技術疲勞，沒有愛，還真的走不下去….</p>
+<p>所以這篇，秉持著愛與正義 ( 疑!? ) ，還有友情 ( 這是 JUMP 嗎??..)</p>
+<p>就在 2016 年的第一天，讓我們就來看看，經過浴火重生的 Angular2 的初體驗吧~~ ( 羞 )</p>
+<p>P.S 這篇是由官方的 <a href="https://angular.io/docs/ts/latest/quickstart.html#!#package-json" target="_blank" rel="noopener">5 min 實作課程</a>衍生而來，有興趣的也可以參考官方文章。</p>
+<p>P.S 2 此篇我們會依據 TypeScript 來進行，基本上，如果你常寫 es6 ，那應該也不用太擔心，而且這篇簡單到炸掉，大家更可以不用擔心。但若你真的真的很希望用原生的 JavaScript ，那你一樣可以參考<a href="https://angular.io/docs/ts/latest/quickstart.html#!#package-json" target="_blank" rel="noopener">官方網站的教學</a>的教學。</p>
+<p>p.s 3 完成的目錄如下，基本上因為是 TypeScript ，所以是 .ts 檔案，而 .js 和 .map 是透過產生產生出來的，所以不用理會，大家只要知道目錄結構即可。</p>
+<p><img src="01.png" alt=""></p>
+<p>p.s 4 過程中會使用到 npm ，而這篇文章撰寫的時候，電腦是裝 Node.js 5.3.0 版本，所以還沒裝 <a href="https://nodejs.org/en/" target="_blank" rel="noopener">Node.js</a> 的朋友，請記得裝一下…</p>
+<p>p.s 5 過程中，小弟會加上很多自己查的資料與理解，如有錯誤，請多包涵。</p>
+<h2 id="使用-npm-裝上套件"><a href="#使用-npm-裝上套件" class="headerlink" title="使用 npm 裝上套件"></a>使用 npm 裝上套件</h2><p>一開始，其實也沒有甚麼，大家可以決定一下自己想要的目錄，建立一個新的目錄，然後我們就可以開始動作，當目錄準備完畢後。我們就可以用 npm init 來建立一個新的 package.json</p>
+<p><img src="02.png" alt=""></p>
+<p>如下，我們 package.json 就建立完成了。</p>
+<p><img src="03.png" alt=""></p>
+<p>接下來，你可以選擇你喜歡的開發工具，( 小弟這邊是使用 Visual Studio Code ) 來進行開發，我們這邊很簡單的，把官方提供的 package.json 貼到剛剛產生的檔案即可。</p>
+<p>如果用 VS Code 還會有提示….</p>
+<p><img src="04.png" alt=""></p>
+<p>( 為什麼不用 npm install 一個一個安裝勒!? 那是因為可能會遇到版本相依的問題， 目前官方提供的這一個 package.json 是一定可行的。 )</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"angular2-quickstart"</span>,</span><br><span class="line">  <span class="attr">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"tsc"</span>: <span class="string">"tsc"</span>,</span><br><span class="line">    <span class="attr">"tsc:w"</span>: <span class="string">"tsc -w"</span>,</span><br><span class="line">    <span class="attr">"lite"</span>: <span class="string">"lite-server"</span>,</span><br><span class="line">    <span class="attr">"start"</span>: <span class="string">"concurrent \"npm run tsc:w\" \"npm run lite\" "</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"license"</span>: <span class="string">"ISC"</span>,</span><br><span class="line">  <span class="attr">"dependencies"</span>: &#123;</span><br><span class="line">    <span class="attr">"angular2"</span>: <span class="string">"2.0.0-beta.0"</span>,</span><br><span class="line">    <span class="attr">"systemjs"</span>: <span class="string">"0.19.6"</span>,</span><br><span class="line">    <span class="attr">"es6-promise"</span>: <span class="string">"^3.0.2"</span>,</span><br><span class="line">    <span class="attr">"es6-shim"</span>: <span class="string">"^0.33.3"</span>,</span><br><span class="line">    <span class="attr">"reflect-metadata"</span>: <span class="string">"0.1.2"</span>,</span><br><span class="line">    <span class="attr">"rxjs"</span>: <span class="string">"5.0.0-beta.0"</span>,</span><br><span class="line">    <span class="attr">"zone.js"</span>: <span class="string">"0.5.10"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"devDependencies"</span>: &#123;</span><br><span class="line">    <span class="attr">"concurrently"</span>: <span class="string">"^1.0.0"</span>,</span><br><span class="line">    <span class="attr">"lite-server"</span>: <span class="string">"^1.3.1"</span>,</span><br><span class="line">    <span class="attr">"typescript"</span>: <span class="string">"^1.7.3"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="devDependencies"><a href="#devDependencies" class="headerlink" title="devDependencies"></a>devDependencies</h3><p>那上面那些套件分別是做什麼的呢??<br>首先，我們先看 devDependencies，這邊他分別裝了 concurrently、lite-server、typescript。</p>
+<p><a href="https://www.npmjs.com/package/concurrently" target="_blank" rel="noopener">concurrently</a> 主要是提供了 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;start&quot;: &quot;concurrent \&quot;npm run tsc:w\&quot; \&quot;npm run lite\&quot; &quot;</span><br></pre></td></tr></table></figure>
+<p>這一行的效果，原本在 Windows 環境下，要同時 run 多個 Task ，是要額外寫 PowerShell 的 ( 映像中 )，而這邊透過 concurrently 來達到此效果。</p>
+<p>那 npm run tsc:w 的意思就是，啟動 TypeScript 並且即時監看，當 .ts 檔案有變動的時候，就會去自動去編譯成 js 檔案，所以這邊實際上也就是用到了 <a href="http://www.typescriptlang.org/" target="_blank" rel="noopener">typescript</a> 套件。</p>
+<p>另外 npm run lite ，就是去 run lite-server，而 lite-server 其實也內建了 Live-Reload ，所以最終測試的時候，就可以看到，我們立刻改 ts 檔案，瀏覽器會自動重整 ( 但我更想要 Hot-Reload 阿!! )，而這邊，實際上就是使用了 <a href="https://github.com/johnpapa/lite-server" target="_blank" rel="noopener">lite-server</a> 套件。</p>
+<h3 id="dependencies"><a href="#dependencies" class="headerlink" title="dependencies"></a>dependencies</h3><p>而 dependencies 裡面，angular2 就不用說了，所有 angular2 的核心，都在這個套件裡面。</p>
+<p><a href="https://github.com/ReactiveX/RxJS" target="_blank" rel="noopener">rxjs</a>，大概在 2~3 年多前，因為有聽說是 Microsoft 寫的一個開源方案 ，所以就有稍微注意過，後來有一次 JSDC 更有神人去介紹，但後續也並沒有真的拿來實作，就直接放生了 XDDD ，而這次在 angular2 裡面，angular2 使用 rxjs 來實現非同步和以 event-base 、 observable 的應用程式流程，關於詳細，未來再來補充。</p>
+<p><a href="https://github.com/jakearchibald/es6-promise" target="_blank" rel="noopener">es6-promise</a>、<a href="https://github.com/paulmillr/es6-shim" target="_blank" rel="noopener">es6-shim</a> ，這個大家應該就比較熟悉，透過他來轉換 es6 到 es5 的語法，讓大家開開心心的寫 es6 ，但實際是會協助幫忙處理成 es5；那是因為 angular2 有用到 es6 的功能，所以要透過這兩個套件與舊版的瀏覽器相容與轉換。</p>
+<p><a href="https://www.npmjs.com/package/reflect-metadata" target="_blank" rel="noopener">reflect-metadata</a> 則是協助 es7 的 Decorators 功能在 es5 上實現，這是類似 C# 的 Attribut 的感覺，這東西在 TypeScript 1.5 beta 的時候，TypeScript 使用了 reflect-metadata 來實現此功能，而在 angular2 更可以很清楚的看到了 attribut 的影子 ( 例如 @Component )。有興趣的可以參考<a href="http://blogs.msdn.com/b/typescript/archive/2015/04/30/announcing-typescript-1-5-beta.aspx" target="_blank" rel="noopener">這邊</a></p>
+<p><a href="https://github.com/angular/zone.js/" target="_blank" rel="noopener">zone.js</a> 是執行過程的context，可以在非同步之間進行傳遞。對岸神人有很詳細的介紹可以<a href="http://sparkshining.com/2015/10/10/introduction-to-zone-js/" target="_blank" rel="noopener">參考這邊</a></p>
+<p>官方處理 module 的預設方案是 <a href="https://github.com/systemjs/systemjs" target="_blank" rel="noopener">systemjs</a>，當然，官方也說，如果想使用 webpack 也可以，官方並沒有強迫一定要使用哪一套，但在官方文章裡面，目前預設是使用 systemjs 來處以 module。</p>
+<h3 id="注意事項"><a href="#注意事項" class="headerlink" title="注意事項"></a>注意事項</h3><p>基本上，隨著時間的演進，大家一定可以看到最新版本，但要注意，小弟目前在使用的情況下，es6-shim 使用 0.34.0 會有問題，所以還是建議 es6-shim 使用 0.33.3 ，其他部分，小弟目前都是用到最新，還沒遇到問題過。</p>
+<p><img src="05.png" alt=""></p>
+<p>接下來，大家就可以使用 npm install 來安裝，如果過程中發現 err ，不用擔心，那是因為某些套件會需要重 build ，但你的電腦可能沒裝 C++ 或是 Python ，所以無法編譯，而無法編譯的情況下，就會直接使用預設的套件。</p>
+<p>只要最後裝完，npm 沒和你說 err ，就不用太擔心了。</p>
+<p><img src="06.png" alt=""></p>
+<p>到此，準備工作結束。</p>
+<h2 id="準備-tsconfig-json"><a href="#準備-tsconfig-json" class="headerlink" title="準備 tsconfig.json"></a>準備 tsconfig.json</h2><p>這邊 package.json 完畢之後，要準備一下給 TypeScript 用的 Config，我們只要再跟目錄下，加上 tsconfig.json 並且把底下內容複製過去即可，這邊比較需要注意的是 noImplicitAny 這個參數；這個參數是當你的物件沒辦法判斷型別的時候，要不要有警告，Angular2 的團隊則是建議 false ，但如果你真的想要，你也可以開啟。</p>
+<p><img src="07.png" alt=""></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"compilerOptions"</span>: &#123;</span><br><span class="line">    <span class="attr">"target"</span>: <span class="string">"ES5"</span>,</span><br><span class="line">    <span class="attr">"module"</span>: <span class="string">"system"</span>,</span><br><span class="line">    <span class="attr">"moduleResolution"</span>: <span class="string">"node"</span>,</span><br><span class="line">    <span class="attr">"sourceMap"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"emitDecoratorMetadata"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"experimentalDecorators"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"removeComments"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">"noImplicitAny"</span>: <span class="literal">false</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"exclude"</span>: [</span><br><span class="line">    <span class="string">"node_modules"</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="撰寫第一個-Angular2-元件"><a href="#撰寫第一個-Angular2-元件" class="headerlink" title="撰寫第一個 Angular2 元件"></a>撰寫第一個 Angular2 元件</h2><p>接下來，我們就可以撰寫第一個 angular2 的元件，在 AngularJS 的時代，雖然有 Directive ，但大家多半開始學的時候，還是比較把注意力放在 Data-bind 的機制上，到後期，才會開始寫一些 Directive；而在 angular2 的教學裡面，我們可以看到，第一步就先學 angular2 的元件，也可以從這邊知道，angular2 的核心會和 react 一樣，都注重在元件的開發。</p>
+<p>那怎樣寫元件?? angular2 的元件比 Directive 好寫多了!!</p>
+<p>首先，我們的目錄結構如下，我們就在 app 這個目錄下，多增加一個 app.component.ts 這個檔案。<br>( 因為我們要使用 TypeScript 所以使用 .ts )</p>
+<p>如下圖。</p>
+<p><img src="07.png" alt=""></p>
+<p>接著，我們看一下程式碼；我們要 import Component 進來，所以我們可以使用 import {Component} from ‘angular2/core’; 來載入 Component 。</p>
+<p>接下來，我們可以定義一個 class AppComponent ，這邊因為是簡單的 Hello World，所以 AppComponent 裡面沒有任何東西，不然裡面可以放一些初始化的東西和關於此元件的方法。</p>
+<p>另外，前面的 export ，透過 export ，讓他輸出成 module ，到時候就可以給其他 module 載入使用。</p>
+<p>最後，@Component ，就類似 C# 的 Attribut ，透過這邊的設定，我們就可以設定標籤的名稱 ( 所以等下我們會使用 <my-app></my-app> 標籤來使用這個元件。)；另外這邊因為還是簡單的範例，所以我們還是直接在裡面寫上 html 標籤，當作樣板。</p>
+<p>完整的元件如下；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;Component&#125; <span class="keyword">from</span> <span class="string">'angular2/core'</span>;</span><br><span class="line"></span><br><span class="line">@Component(&#123;</span><br><span class="line">    selector: <span class="string">'my-app'</span>,</span><br><span class="line">    template: <span class="string">'&lt;h1&gt;My First Angular App&lt;/h1&gt;'</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">AppComponent</span> </span>&#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="準備-bootstrap"><a href="#準備-bootstrap" class="headerlink" title="準備 bootstrap"></a>準備 bootstrap</h2><p>接下來，我們要讓程式有個進入點，在 React ，小弟記得大家習慣用 app.js ，而在 C# ，可能就是 main ，而在 angular2 裡面，官方也建議有一個進入點，所以這邊，我們就要準備一個 boot.ts 當作進入點。</p>
+<p>而這邊，我們一樣在 app 目錄下，加上 boot.ts 這個檔案，如下圖。</p>
+<p><img src="09.png" alt=""></p>
+<p>同上，我們使用 import 來載入 bootstrap 和 AppComponent ，而 AppComponent 就是我們上面寫好的元件，然後透過 bootstrap(AppComponent) 來啟動整個 angular2 。</p>
+<p>程式碼如下。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;bootstrap&#125;    <span class="keyword">from</span> <span class="string">'angular2/platform/browser'</span></span><br><span class="line"><span class="keyword">import</span> &#123;AppComponent&#125; <span class="keyword">from</span> <span class="string">'./app.component'</span></span><br><span class="line"></span><br><span class="line">bootstrap(AppComponent);</span><br></pre></td></tr></table></figure>
+
+<h2 id="index-html"><a href="#index-html" class="headerlink" title="index.html"></a>index.html</h2><p>當然，還是要有個 index.html，所以我們就在根目錄下產生一個 index.html，如下圖</p>
+<p><img src="10.png" alt=""></p>
+<p>這邊我們沒有特別把所有的 js 打包，畢竟這是一個簡單的範例，所以我們還是依據官方的教學，在 index.html 載入 script。<br>其中特別需要注意的是，根據官方文件 angular2-polyfills.js 和 Rx.js 是 angular2 必要的 lib，一定要放在 index.html 的 script 裡面。</p>
+<p>而這邊比較特別的，是 script 標籤裡面，這邊使用了 systemjs 來載入剛剛寫好的 bootstrap，所以我們可以看到，在 script 標籤裡用，用了 System.config 來設定 systemjs；這邊定義了 package 的形式，底下的 app 代表的是目錄，所以代表著設定這個目錄裡面的東西，接著我們可以看到 format 為 register ，而這個 register 代表著使用 System.register 或 System.registerDynamic 元件的格式；而 System.register 其實就是代表著使用在 es5 裡面使用 es6 的 module。<a href="https://github.com/ModuleLoader/es6-module-loader/blob/v0.17.0/docs/system-register.md" target="_blank" rel="noopener">官方文件</a></p>
+<p>而 defaultExtension 代表著後面的副檔名為 js 檔案。</p>
+<p>並且用 System.import 來載入元件，所以這邊代表著載入 app 目錄底下的 boot.js 這個檔案，而如果成功，就不用管他 ( null ) ，失敗的話，則輸出錯誤 ( console.error.bind(console) )</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line"></span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;title&gt;Angular 2 QuickStart&lt;&#x2F;title&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 1. Load libraries --&gt;</span><br><span class="line">    &lt;script src&#x3D;&quot;node_modules&#x2F;angular2&#x2F;bundles&#x2F;angular2-polyfills.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">    &lt;script src&#x3D;&quot;node_modules&#x2F;systemjs&#x2F;dist&#x2F;system.src.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">    &lt;script src&#x3D;&quot;node_modules&#x2F;rxjs&#x2F;bundles&#x2F;Rx.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">    &lt;script src&#x3D;&quot;node_modules&#x2F;angular2&#x2F;bundles&#x2F;angular2.dev.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 2. Configure SystemJS --&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">      System.config(&#123;</span><br><span class="line">        packages: &#123;        </span><br><span class="line">          app: &#123;</span><br><span class="line">            format: &#39;register&#39;,</span><br><span class="line">            defaultExtension: &#39;js&#39;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">      System.import(&#39;app&#x2F;boot&#39;)</span><br><span class="line">            .then(null, console.error.bind(console));</span><br><span class="line">    &lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">  &lt;&#x2F;head&gt;</span><br><span class="line"></span><br><span class="line">  &lt;!-- 3. Display the application --&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;my-app&gt;Loading...&lt;&#x2F;my-app&gt;</span><br><span class="line">  &lt;&#x2F;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Run"><a href="#Run" class="headerlink" title="Run"></a>Run</h2><p>接下來，如果要 run ，非常簡單，我們只要在 Command 底下，輸入 npm start 就可以啟動了；如下圖。</p>
+<p><img src="11.png" alt=""></p>
+<p>而預設已經包含了 Live-Reload ，所以我們可以修改一下程式碼，存檔後，就可以看到瀏覽器重新載入。</p>
+<p><img src="12.png" alt=""></p>
+<p>以上，簡單又複雜的 angular2 初體驗。</p>
+<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>官方說是 5min 快速 Hello World ，如果不管這些 Detail ，實際上，真的 5min 內可以搞定，但如果要了解這些東西，要看的東西還真的不少；但學一個東西，有的時候如果不知道始末，真的會感覺虛虛的，所以小弟就在邊看邊研究的情況下，順便完成了一下這篇筆記，很多東西也是第一次看到，所以如果內容有錯誤，也請大家多多包涵與見諒，謝謝大家。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://www.npmjs.com/package/concurrently" target="_blank" rel="noopener">https://www.npmjs.com/package/concurrently</a></li>
+<li><a href="http://www.typescriptlang.org/" target="_blank" rel="noopener">http://www.typescriptlang.org/</a></li>
+<li><a href="https://github.com/johnpapa/lite-server" target="_blank" rel="noopener">https://github.com/johnpapa/lite-server</a></li>
+<li><a href="https://github.com/ReactiveX/RxJS" target="_blank" rel="noopener">https://github.com/ReactiveX/RxJS</a></li>
+<li><a href="https://github.com/jakearchibald/es6-promise" target="_blank" rel="noopener">https://github.com/jakearchibald/es6-promise</a></li>
+<li><a href="https://www.npmjs.com/package/reflect-metadata" target="_blank" rel="noopener">https://www.npmjs.com/package/reflect-metadata</a></li>
+<li><a href="https://github.com/angular/zone.js/" target="_blank" rel="noopener">https://github.com/angular/zone.js/</a></li>
+<li><a href="https://github.com/paulmillr/es6-shim" target="_blank" rel="noopener">https://github.com/paulmillr/es6-shim</a></li>
+<li><a href="https://github.com/systemjs/systemjs" target="_blank" rel="noopener">https://github.com/systemjs/systemjs</a></li>
+<li><a href="https://angular.io/docs/ts/latest/quickstart.html#!#package-json" target="_blank" rel="noopener">https://angular.io/docs/ts/latest/quickstart.html#!#package-json</a></li>
+<li><a href="http://segmentfault.com/a/1190000004233348" target="_blank" rel="noopener">http://segmentfault.com/a/1190000004233348</a></li>
+<li><a href="http://sparkshining.com/2015/10/10/introduction-to-zone-js/" target="_blank" rel="noopener">http://sparkshining.com/2015/10/10/introduction-to-zone-js/</a></li>
+<li><a href="https://github.com/ModuleLoader/es6-module-loader/blob/v0.17.0/docs/system-register.md" target="_blank" rel="noopener">https://github.com/ModuleLoader/es6-module-loader/blob/v0.17.0/docs/system-register.md</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/Angular2/" rel="tag">#Angular2</a>
+          
+            <a href="/tags/TypeScript/" rel="tag">#TypeScript</a>
+          
+            <a href="/tags/systemjs/" rel="tag">#systemjs</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/23/ASP-NET-MVC-Create_First_ASP_NET_MVC_6/" rel="next" title="ASP.NET MVC - 建立第一個 ASP.NET MVC 6">
+                <i class="fa fa-chevron-left"></i> ASP.NET MVC - 建立第一個 ASP.NET MVC 6
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/" rel="prev" title="Xamarin - 準備使用 Xamarin 開發 iOS">
+                Xamarin - 準備使用 Xamarin 開發 iOS <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-npm-裝上套件"><span class="nav-number">2.</span> <span class="nav-text">使用 npm 裝上套件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#devDependencies"><span class="nav-number">2.1.</span> <span class="nav-text">devDependencies</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dependencies"><span class="nav-number">2.2.</span> <span class="nav-text">dependencies</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意事項"><span class="nav-number">2.3.</span> <span class="nav-text">注意事項</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#準備-tsconfig-json"><span class="nav-number">3.</span> <span class="nav-text">準備 tsconfig.json</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#撰寫第一個-Angular2-元件"><span class="nav-number">4.</span> <span class="nav-text">撰寫第一個 Angular2 元件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#準備-bootstrap"><span class="nav-number">5.</span> <span class="nav-text">準備 bootstrap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#index-html"><span class="nav-number">6.</span> <span class="nav-text">index.html</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Run"><span class="nav-number">7.</span> <span class="nav-text">Run</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">8.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">9.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2016/01/01/Angular2-First_Angular2/';
+      var disqus_title = 'Angular2 - 第一次的 Angular2 初體驗';
+      var disqus_url = 'http://skychang.github.io/2016/01/01/Angular2-First_Angular2/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,689 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CSS,HTML,JavaScript,Webpack," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="大家都知道前端的應用與套件變化很快，但是到底有多快?我們看到了 Webpack 就會知道。在2014年底的時候，JSDC 還火熱的請來 browserify 的作者來到台灣演講，然後微軟年底還用 grunt 當作預設的流程引擎，到了今年年初，微軟就已經把 grunt 改成 gulp 當作流程引擎了，而接近年中的時候，Web Conf 已經有人介紹了 Webpack … 既然提到了 browseri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Webpack - 使用 Webpack">
+<meta property="og:url" content="http://skychang.github.io/2015/08/26/Webpack-First/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="大家都知道前端的應用與套件變化很快，但是到底有多快?我們看到了 Webpack 就會知道。在2014年底的時候，JSDC 還火熱的請來 browserify 的作者來到台灣演講，然後微軟年底還用 grunt 當作預設的流程引擎，到了今年年初，微軟就已經把 grunt 改成 gulp 當作流程引擎了，而接近年中的時候，Web Conf 已經有人介紹了 Webpack … 既然提到了 browseri">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://skychang.github.io/2015/08/26/Webpack-First/01.png">
+<meta property="og:image" content="http://skychang.github.io/2015/08/26/Webpack-First/02.png">
+<meta property="og:image" content="http://skychang.github.io/2015/08/26/Webpack-First/03.png">
+<meta property="og:image" content="http://skychang.github.io/2015/08/26/Webpack-First/04.png">
+<meta property="og:image" content="http://skychang.github.io/2015/08/26/Webpack-First/05.png">
+<meta property="og:image" content="http://skychang.github.io/2015/08/26/Webpack-First/06.png">
+<meta property="article:published_time" content="2015-08-26T22:40:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:39.023Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="CSS">
+<meta property="article:tag" content="HTML">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="Webpack">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://skychang.github.io/2015/08/26/Webpack-First/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Webpack - 使用 Webpack | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Webpack - 使用 Webpack
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2015-08-26T22:40:00+00:00" content="2015-08-26">
+              2015-08-26
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/08/26/Webpack-First/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/08/26/Webpack-First/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>大家都知道前端的應用與套件變化很快，但是到底有多快?我們看到了 Webpack 就會知道。<br>在2014年底的時候，JSDC 還火熱的請來 browserify 的作者來到台灣演講，然後微軟年底還用 grunt 當作預設的流程引擎，到了今年年初，微軟就已經把 grunt 改成 gulp 當作流程引擎了，而接近年中的時候，Web Conf 已經有人介紹了 Webpack …</p>
+<p>既然提到了 browserify 和 gulp ，大家應該就可以猜到 Webpack 是做什麼用的；我們先回顧一下 browserify ，當初設計 browserify 是為了將 Node.js 的 module 用在 browser 上，後來，browserify 變成了一個當紅的 module 管理方案，而 gulp 則專心處理建置的流程，舉例來說，我們可以透過 gulp 來啟動流程，然後在流程中，透過 browserify 將一堆的 js 打包成一個 js 檔案，接下來，繼續把 js 給 min 化，甚至產生 map 檔案；當然 gulp 處了做這些事情外，還可以繼續整合測試，或是壓縮圖檔，css ，最後在自動的去觸發動作，讓瀏覽器自動更新…</p>
+<h2 id="Webpack"><a href="#Webpack" class="headerlink" title="Webpack !?"></a>Webpack !?</h2><p>那 Webpack 呢?? 他非常的強大，他除了擁有 browserify 的功能，一樣可以管理 module 的相依性外，他還支援 es6 的 module架構、AMD 和 CommonJS 的相依性格式，除此之外，他還可以輕易地切割打包好的 js ，處理 css 的相依性等等外，還擁有瀏覽器自動更新功能，簡單的說，透過 Webpack ，已經可以處理 browserify 的事情，並且還包了 gulp 前半段的流程了，最酷的，他甚至還擁有 Hot Loading，嗯，那甚麼是 Hot Loading ??，簡單的說，他可以不重整瀏覽器的情況下，自動更新 module ，讓你即時就擁有最新的 js 效果!! 想像一下，當你寫 React.js 的時候，改變了元件，不用再重整頁面，不用再擔心填入的表單資料不見，馬上就可以看到最新的畫面與邏輯，超酷的!!</p>
+<p>但小弟也必須說，目前 Hot Loading 與 React、 CSS 等等的載入器搭配最好，如果是 AngularJS，就會需要手工去做設定，但相信這個部分，未來一定會有神人寫出好用的東西!!</p>
+<p>而且不管怎樣，就算沒有Hot Loading，光是Live Loading 也綽綽有餘了!!</p>
+<p>( 請注意，webpack 的確可以減輕原本我們設定 gulp 流程的一小部分，但不代表 webpack 可以取代整個 gulp，很大的情況下，我們還是需要搭配 gulp 來整合整個開發流程 )</p>
+<p><img src="01.png" alt=""></p>
+<h2 id="專案結構"><a href="#專案結構" class="headerlink" title="專案結構"></a>專案結構</h2><p>我們一開始就先不要開Visual Studio了，簡單一點，結構如下，我們會把靜態的檔案放到wwwroot的目錄底下，未來ASP.NET 5也是會採用類似的架構，而底下的app目錄，則是用來存放前端的應用程式。</p>
+<p><img src="02.png" alt=""></p>
+<h2 id="安裝-Webpack"><a href="#安裝-Webpack" class="headerlink" title="安裝 Webpack"></a>安裝 Webpack</h2><p>在安裝 Webpack 前，我們先使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init</span><br></pre></td></tr></table></figure>
+
+<p>來建立一個新的 package.json ，用來管理所有 npm 套件。</p>
+<p><img src="03.png" alt=""></p>
+<p>接下來，我們可以直接使用底下的命令安裝到global，這樣何時何地都能呼叫到 Webpack 指令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install webpack -g</span><br></pre></td></tr></table></figure>
+
+<p>或是在你想要使用的專案底下，下以下指令，後續的範例，我們會直接安裝在專案底下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install webpack -D</span><br></pre></td></tr></table></figure>
+
+<p><img src="04.png" alt=""></p>
+<h2 id="撰寫-index-html"><a href="#撰寫-index-html" class="headerlink" title="撰寫 index.html"></a>撰寫 index.html</h2><p>底下是一個簡單到不行的 html ，畢竟重點不是 html ；大家需要關注的是 bundle.js 這邊，未來，我們會把許多隻的 js 檔案，統一綁成一個 bundle.js ，所以我們這邊就預先寫好這段。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=utf-8"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Test2<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"btn"</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"按我"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"app/bundle.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="撰寫-enter-js"><a href="#撰寫-enter-js" class="headerlink" title="撰寫 enter.js"></a>撰寫 enter.js</h2><p>我們的 js 也很簡單，這邊利用了 Node.js 的 module，第一行的時候會載入 module ，而這個 module下一段會寫到，接下來，針對 btn 註冊一個事件，當按下去的時候，會呼叫 alert 這個方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> t = <span class="built_in">require</span>(<span class="string">'./alert'</span>) </span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.getElementById(<span class="string">"btn"</span>).addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">   t.alert();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="撰寫-alert-module"><a href="#撰寫-alert-module" class="headerlink" title="撰寫 alert module"></a>撰寫 alert module</h2><p>這邊就是定義了 alert這個方法，呼叫的時候，跳出來 tess32dsdde 。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports =&#123; </span><br><span class="line">    alert:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        alert(<span class="string">'tess32dsddee'</span>);</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="執行-Webpack"><a href="#執行-Webpack" class="headerlink" title="執行 Webpack"></a>執行 Webpack</h2><p>是低，範例就是這樣的簡單，接下來，我們到命令列的地方，輸入以下指令；因為我們webpack沒有安裝在global，所以必須去 bin 底下才找的到指令，如果大家是安裝在 globa 那就可以直接下 webpack了。<br>而底下的指令，第一個參數 wwwroot\app\enter.js 是你應用程式的進入點，wwwroot\app\bundle.js 則是輸出的檔案與位置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\node_modules\.bin\webpack wwwroot\app\enter.js wwwroot\app\bundle.js</span><br></pre></td></tr></table></figure>
+
+<p>完成後，可以從下圖看到，它會自動處理相依性。</p>
+<p><img src="05.png" alt=""></p>
+<h2 id="測試網頁"><a href="#測試網頁" class="headerlink" title="測試網頁"></a>測試網頁</h2><p>完成後，我們直接打開 index.html 檔案，就可以看到如下的效果了。</p>
+<p><img src="06.png" alt=""></p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://leanpub.com/survivejs_webpack/read" target="_blank" rel="noopener">https://leanpub.com/survivejs_webpack/read</a></li>
+<li><a href="http://webpack.github.io/docs/" target="_blank" rel="noopener">http://webpack.github.io/docs/</a></li>
+<li><a href="http://segmentfault.com/a/1190000002551952" target="_blank" rel="noopener">http://segmentfault.com/a/1190000002551952</a></li>
+<li><a href="https://github.com/petehunt/webpack-howto" target="_blank" rel="noopener">https://github.com/petehunt/webpack-howto</a></li>
+<li><a href="http://segmentfault.com/a/1190000002552008" target="_blank" rel="noopener">http://segmentfault.com/a/1190000002552008</a></li>
+<li><a href="https://medium.com/html-test/webpack-%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B-585f2bc952b9" target="_blank" rel="noopener">https://medium.com/html-test/webpack-%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B-585f2bc952b9</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CSS/" rel="tag">#CSS</a>
+          
+            <a href="/tags/HTML/" rel="tag">#HTML</a>
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/Webpack/" rel="tag">#Webpack</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/31/%E7%B4%80%E9%8C%84%E6%96%87-Windows-10-%E7%99%BC%E4%BD%88/" rel="next" title="紀錄文 - Windows 10 發佈">
+                <i class="fa fa-chevron-left"></i> 紀錄文 - Windows 10 發佈
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/08/26/Webpack-CSS_Loader_and_config/" rel="prev" title="Webpack - 使用 Webpack 載入 CSS 與設定檔">
+                Webpack - 使用 Webpack 載入 CSS 與設定檔 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Webpack"><span class="nav-number">1.</span> <span class="nav-text">Webpack !?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#專案結構"><span class="nav-number">2.</span> <span class="nav-text">專案結構</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-Webpack"><span class="nav-number">3.</span> <span class="nav-text">安裝 Webpack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#撰寫-index-html"><span class="nav-number">4.</span> <span class="nav-text">撰寫 index.html</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#撰寫-enter-js"><span class="nav-number">5.</span> <span class="nav-text">撰寫 enter.js</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#撰寫-alert-module"><span class="nav-number">6.</span> <span class="nav-text">撰寫 alert module</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#執行-Webpack"><span class="nav-number">7.</span> <span class="nav-text">執行 Webpack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#測試網頁"><span class="nav-number">8.</span> <span class="nav-text">測試網頁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">9.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2015/08/26/Webpack-First/';
+      var disqus_title = 'Webpack - 使用 Webpack';
+      var disqus_url = 'http://skychang.github.io/2015/08/26/Webpack-First/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

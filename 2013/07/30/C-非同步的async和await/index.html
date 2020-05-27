@@ -1,0 +1,848 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="C#,Silveright,Windows Phone,Windows Store App,WPF," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="7&#x2F;31 更新 – async和await是.net 4.5才出現的，感謝ALEX前輩提醒~裡面內文已經更新 前一段時間，在測試Visual Studio的非同步偵錯功能，範例是一個使用async和await滿簡單的程式，但其中有一行Code，內容是寫Task.Yield()，小弟我一直搞不太懂，所花了一點時間把async和await的底層稍微看了一下( 真的只有稍微…但花了整整一整天的時間… )">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C# - 非同步的async和await">
+<meta property="og:url" content="http://skychang.github.io/2013/07/30/C-%E9%9D%9E%E5%90%8C%E6%AD%A5%E7%9A%84async%E5%92%8Cawait/index.html">
+<meta property="og:site_name" content="天空的垃圾場">
+<meta property="og:description" content="7&#x2F;31 更新 – async和await是.net 4.5才出現的，感謝ALEX前輩提醒~裡面內文已經更新 前一段時間，在測試Visual Studio的非同步偵錯功能，範例是一個使用async和await滿簡單的程式，但其中有一行Code，內容是寫Task.Yield()，小弟我一直搞不太懂，所花了一點時間把async和await的底層稍微看了一下( 真的只有稍微…但花了整整一整天的時間… )">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2013-07-30T00:54:00.000Z">
+<meta property="article:modified_time" content="2020-05-27T12:09:38.888Z">
+<meta property="article:author" content="Sky Chang">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="Silveright">
+<meta property="article:tag" content="Windows Phone">
+<meta property="article:tag" content="Windows Store App">
+<meta property="article:tag" content="WPF">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> C# - 非同步的async和await | 天空的垃圾場 </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-29938905-2', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天空的垃圾場</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-development">
+          <a href="/development" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            開發
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-alm">
+          <a href="/alm" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            維運
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-cloud">
+          <a href="/cloud" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            雲端
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                C# - 非同步的async和await
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">發表於</span>
+            <time itemprop="dateCreated" datetime="2013-07-30T00:54:00+00:00" content="2013-07-30">
+              2013-07-30
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/07/30/C-%E9%9D%9E%E5%90%8C%E6%AD%A5%E7%9A%84async%E5%92%8Cawait/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/07/30/C-非同步的async和await/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><font color="#ff0000">7/31 更新 – async和await是.net 4.5才出現的，感謝ALEX前輩提醒~裡面內文已經更新</font></p>
+<p>前一段時間，在測試Visual Studio的非同步偵錯功能，範例是一個使用async和await滿簡單的程式，但其中有一行Code，內容是寫Task.Yield()，小弟我一直搞不太懂，所花了一點時間把async和await的底層稍微看了一下( 真的只有稍微…但花了整整一整天的時間… )，看完後，也大致上了解Task.Yield()，所以小弟也在這邊紀錄一下；雖然這次是從Task.Yield()為出發點，但實際上還是會圍繞在async和await上面。</p>
+<p>這篇文章，大致上的內容是出處於<a href="http://msdn.microsoft.com/zh-cn/magazine/hh456403.aspx" target="_blank" rel="noopener">MSDN雜誌</a>，有興趣的可以去看看原文，而這篇文章，也不太會針對async和await的用法做太多的解釋，也請大家見諒。</p>
+<p>首先，該從哪邊談起呢??應該還是要從非同步與同步開始說起吧，基本上，這裡不會太加以敘述這方面的概念，只會簡單的說一下，同步簡單來說，就是一步接著一步，如我們平常寫的程式碼一樣，從上而下，一步一步依照著我們的步調執行。</p>
+<p>那這樣會遇到怎要的問題呢??簡單的說，當我們遇到了大量存取，或是要消耗大量運算的時候，會碰到怎樣的問題!??，是低，就是卡住，因為會卡在那一行的程式碼嘛…</p>
+<p>而因此，就產生了非同步的概念，非同步簡單的說，就像時空跳躍，當我們遇到需要處理大量資料，而會卡住的時候，先跳去做別的事情，然後等那大量的資料處理完後，再接著處理那大量資料後的程式碼；如果以網頁的角度來說，同步，就好像，我們按下了一個按鈕後，然後看著圈圈在那邊轉阿轉，然後像瀏覽器當掉一樣，甚麼事情都不能做；而非同步，當我們按了一個按鈕之後，還是可以到處亂點~~ ( 其實現在網頁幾乎都在跑非同步了… )</p>
+<p>好，其實還是花了一些時間介紹- -|||，基本上，我想非同步語同步的觀念，以現在寫前端的朋友們，應該都非常熟了才對。</p>
+<p>那我們回來看一下早期的C#寫法( 其實也不算多早阿QQ… )，如下，我們使用MSDN雜誌的Code來進行解釋<del>；其實如果會寫js的朋友，應該就很有感覺，因為語法幾乎一樣阿XDD；下面這個範例，就是TryFetchAsync會傳入網址和一個Action型別的委派( 稱為callback )，以功能面來說，就是抓取網頁資料的方法</del>，然後這個方法定義了WebClient，準備抓取資料，那可想而知，WebClient一定會跑很久( 好啦，至少不會很快… )，所以如果沒使用非同步的話，就會需要等待；而這邊使用了非同步，所以會定義一個完成後的觸發事件，讓網頁下載完成後，在進入那個事件去做處理；也因此，在網頁下載的過程中，可以去做其他的事情，而不會卡在那邊~~。而這種感覺，就是小弟我前面說的，把等事情處理完後，再回來執行後面的程式碼。那當資料下載完後，就使用委派的方式，去呼叫傳進來Action型別的callback，如果成功就呼叫callback(args.Result,null)，至於為什麼會這樣呼叫，是因為callback第一個型別為byte，第二個型別為exception，這兩個參數會由DownloadDataCompleted的事件處理，預設傳入的兩個參數來得知，由DownloadDataCompleted的事件處理的兩個參數為sender ( 事件的來源，也就是由誰觸發 )和args ( 事件的資料，看是成功後取得的資料，或是錯誤的資訊 )。好吧…有點離題太遠了，有興趣的可以參考msdn的<a href="http://msdn.microsoft.com/zh-tw/library/system.net.downloaddatacompletedeventhandler.aspx" target="_blank" rel="noopener">這裡</a>和<a href="http://msdn.microsoft.com/zh-tw/library/bb549311.aspx" target="_blank" rel="noopener">那裏</a>。</p>
+<pre class="brush: csharp;">static void TryFetchAsync(string url, Action&lt;byte[], Exception&gt; callback)
+{
+    //使用WebClient抓取網頁資料
+    var client = new WebClient();
+    //定義事件，當下載完成後，執行此事件，_Sender、args是事件資料
+    client.DownloadDataCompleted += (_, args) =&gt;
+    {
+        if (args.Error == null) callback(args.Result, null);
+        else if (args.Error is WebException) callback(null, null);
+        else callback(null, args.Error);
+    };
+    //開始非同步方式下載
+    client.DownloadDataAsync(new Uri(url));
+}
+</pre>
+
+<p>當然，到了.Net 4.5開始，提供了async和await，讓使用者更加輕鬆的去處理，而且看起來和一般的Code沒啥差異，如下Code。( 一樣拿MSDN雜誌的Code~~因為小弟懶得再去想自己的Code了…請見諒阿… )；基本上，功能和上面一樣，但是變得更加優雅了，我們加上了async並且用Task&lt;byte[]&gt;來當作回傳的型別，當WebClient抓到資料的時候，就直接回傳byte[]，如果沒抓到，就回傳null。( 這邊小弟就不解說為什麼回傳用Task&lt;byte[]&gt;，但實際上，可以直接接到byte[]了，請見諒… )</p>
+<pre class="brush: csharp;">static async Task&lt;byte[]&gt; TryFetchAsync(string url)
+{
+    //使用WebClient抓取網頁資料
+    var client = new WebClient();
+    try
+    {
+        return await client.DownloadDataTaskAsync(url);
+    }
+    catch (WebException) { }
+    return null;
+}
+</pre>
+
+<p>補充一下，當然，你也可以說，在沒使用async和await的情況下，我也可以直接把code塞到DownloadDataCompleted裡面去，的確，這樣的確也是可行，只要後續你要處理byte的程式碼不會很長…如果你後續還要對byte要做一堆的處理，那你想想看，我們要把這些東西塞到DownloadDataCompleted裡面去，不是就把整個cs檔案給塞爆了嗎…但不管怎樣，還是希望大家不要離題XDD，我們重點還是在討論async和await…其實中間的那段，可以省略不看啦0 0..</p>
+<p>好，前面說了一堆大家都知道的東西，後續才是小弟比較重要的紀錄。</p>
+<p>當我們使用async和await的時候，其實會產生類似如下的程式碼( 歹勢，請允許我說類似，因為底下的Code在C#下，可能是不能編譯的，但別忘了，編譯器編譯C#後，產生的是IL中間語言，恩，好吧，其實某方面也不是全對，底下的Code，IL也不能完全真的去跑，但這邊只是想用C#的語法來呈現概念，記這，這是概念<del>~ …P.S 同樣，Code來自MSDN 雜誌</del> )</p>
+<p>是的，底下其實是很長的，但我們分段來看吧，下面先po出全貌。</p>
+<pre class="brush: csharp;">#if false // These are stubs of framework types shown in the paper
+
+    public class AsyncTaskMethodBuilder&lt;TResult&gt;
+    {
+        public Task&lt;TResult&gt; Task { get; }
+        public void SetResult(TResult result);
+        public void SetException(Exception exception);
+    }
+
+    public struct TaskAwaiter&lt;TResult&gt;
+    {
+        public bool IsCompleted { get; }
+        public void OnCompleted(Action continuation);
+        public TResult GetResult();
+    }
+#endif
+
+        static async Task&lt;byte[]&gt; TryFetchAsync(string url)
+        {
+            var client = new WebClient();
+            try
+            {
+                return await client.DownloadDataTaskAsync(url);
+            }
+            catch (WebException) { }
+            return null;
+        }
+
+    class TryFetch2
+    {
+        static Task&lt;byte[]&gt; TryFetchAsync(string url)
+        {
+            var __builder = new AsyncTaskMethodBuilder&lt;byte[]&gt;(); //建立生成器
+            int __state = 0;
+            Action __moveNext = null; //_moveNext委託 ( 播放 )
+            TaskAwaiter&lt;byte[]&gt; __awaiter1;
+
+            WebClient client = null;
+
+            __moveNext = delegate
+            {
+                try
+                {
+                    if (__state == 1) goto Resume1;
+                    client = new WebClient();
+                Resume1:
+                    try
+                    {
+                        if (__state == 1) goto Resume1a;
+                        __awaiter1 = client.DownloadDataTaskAsync(url).GetAwaiter();
+                        if (!__awaiter1.IsCompleted)
+                        {
+                        //__awaiter1未完成時，就先設定。
+                            __state = 1;
+                            __awaiter1.OnCompleted(__moveNext);//設定完程執行__moveNext (因為__moveNext是action型別，所以可以直接這樣寫)
+                            return; //( 暫停 利用return跳出function，未來如果awaiter1完成，則會重新觸發__moveNext方法，再度進來。
+                            //所以利用了這個機制，來達到"等待執行完"才會執行await後面的方法)
+                        }
+                    Resume1a://恢復執行
+                        __builder.SetResult(__awaiter1.GetResult());//完成
+                    }
+                    catch (WebException) { }
+                    __builder.SetResult(null);
+                }
+                catch (Exception exception)
+                {
+                    __builder.SetException(exception);
+                }
+            };
+
+            __moveNext();//上面其實是在撰寫__moveNext的Function，這裡才是真正的第一次觸發__moveNext
+            return __builder.Task;
+        }
+    }
+
+</pre>
+
+<p>首先，會建立兩個類別，分別是AsyncTaskMethodBuilder，這是一個生成器，到時候錯誤和Result都會利用SetException和SetResult來設定最終取得出來的結果 ( 也就是WebClient傳回來的結果 ) 並且放到Task裡面去，而最終，會利用Task來取得最終的結果。</p>
+<p>第二個是TaskAwaiter，他會去定義一些方法，例如可以得知當WebClient是否完成，完成後要處理哪些事情、和取得完成後的資料。</p>
+<pre class="brush: csharp;">#if false // These are stubs of framework types shown in the paper
+
+    public class AsyncTaskMethodBuilder&lt;TResult&gt;
+    {
+        public Task&lt;TResult&gt; Task { get; }
+        public void SetResult(TResult result);
+        public void SetException(Exception exception);
+    }
+
+    public struct TaskAwaiter&lt;TResult&gt;
+    {
+        public bool IsCompleted { get; }
+        public void OnCompleted(Action continuation);
+        public TResult GetResult();
+    }
+#endif
+</pre>
+
+<p>接下來是重頭戲了，這邊有點攏長，請大家忍耐XDD；而這段Code也是真正後端處理的邏輯，他的步驟大致上如下。</p>
+<ol>
+<li>會先建立一個AsyncTaskMethodBuilder這個類別，也就是建立生成器。<li>然後利用狀態機的概念，先把目前的狀態，設定為0，表示一開始。( int <strong>state = 0; )<li>會建立一個新的Action委派，名稱為</strong>moveNext。<li>準備好TaskAwaiter型別的變數，<strong>awaiter1。<li>設定型別WebClient的變數為client ( 這應該是最簡單的一行吧0 0 )。<li>開始撰寫Action委派</strong>moveNext裡面的內容 ( 實際上到這邊，也只是定義<strong>moveNext會執行怎樣的東西罷了，不會真的去執行裡面的Code。 )<li>定義完後，跳到倒數第二行，也就是</strong>moveNext();這裡。( 是的，到這邊，才真正的要開始執行步驟6定義的內容 )。<li>現在開始執行裡面的內容了，首先，先判斷<strong>state是否為1 (也就是if(</strong>state == 1) goto Resume1這行 ) ，理所當然，我們一開始的狀態<strong>state = 0，所以就不會goto。<li>既然是第一次，所以這邊把WebClient給new起來了。<li>進入到第二個try裡面，同樣的，這邊判斷</strong>state是否為1，如果為1，就跳到Resumela。<li>因為<strong>state還是為0，所以這邊執行了要超長時間的client.DownloadDataTaskAsync，並且把取回的Awaiter，放到</strong>awaiter1( 其實應該用指向啦，但用放到，初學者應該會比較好理解… )<li>接下來，用TaskAwaiter的IsCompleted來判斷，WebClient下載完了沒。<li>既然是要花超長時間下載，自然還沒好，所以又進入了if裡面。<li>而這時，就把狀態改成1了( <strong>state = 1 )，雖然先把狀態改成1，但這時其實是還沒下載完成的喔!!<li>並且在</strong>awaiter1.OnCompleted註冊了<strong>moveNext這個方法。是的，沒有看錯，這邊代表當下載完成的時候，又會執行一次</strong>moveNext這個方法一次，<li>然後就return了，表示完全離開了<strong>moveNext()這個方法，跑去摸魚，喔，不是，跑去做其他的事情了。<li>當WebClient完成後，神奇的是其發生了，因為剛剛我們註冊了OnCompleted這個方法，所以當WebClient完成的時候，就觸發了</strong>moveNext再執行一次!!<li>然後因為這次<strong>state = 1了，所以就直接goto到Resume1，也不用再new一次WebClient了。<li>而又因為</strong>state = 1，所以又跳到Resumela。<li>那Resumela那邊做了甚麼事情呢!?因為WebClient已經完成，就可以透過TaskAwaiter的GetResult取得資料，並且透過AsyncTaskMethodBuilder的SetResult，放到AsyncTaskMethodBuilder的Task裡面去。( 也就是<strong>builder.SetResult(</strong>awaiter1.GetResult());這行code )<li>最後，整個__moveNext()執行完後，就到了return __builder.Task，並且把Task回傳回去了<del><li>於是，整個TryFetchAsync真正的結束了</del></li>
+</ol>
+<p>打完了整個步驟，感覺好像看完一部卡通一樣，有點哀傷的感覺(疑!?)，但是從這個步驟中，我們就可以了解，整個底層的運作過程。</p>
+<p>此外，過程中沒提到TaskAwaiter和Task的一些細節，這部分也請大家見諒，看看以後有機會，再把這兩個細節補完~~</p>
+<pre class="brush: csharp;">class TryFetch2
+    {
+        static Task&lt;byte[]&gt; TryFetchAsync(string url)
+        {
+            var __builder = new AsyncTaskMethodBuilder&lt;byte[]&gt;(); //建立生成器
+            int __state = 0;
+            Action __moveNext = null; //_moveNext委託 ( 播放 )
+            TaskAwaiter&lt;byte[]&gt; __awaiter1;
+
+            WebClient client = null;
+
+            __moveNext = delegate
+            {
+                try
+                {
+                    if (__state == 1) goto Resume1;
+                    client = new WebClient();
+                Resume1:
+                    try
+                    {
+                        if (__state == 1) goto Resume1a;
+                        __awaiter1 = client.DownloadDataTaskAsync(url).GetAwaiter();
+                        if (!__awaiter1.IsCompleted)
+                        {
+                        //__awaiter1未完成時，就先設定。
+                            __state = 1;
+                            __awaiter1.OnCompleted(__moveNext);//設定完程執行__moveNext (因為__moveNext是action型別，所以可以直接這樣寫)
+                            return; //( 暫停 利用return跳出function，未來如果awaiter1完成，則會重新觸發__moveNext方法，再度進來。
+                            //所以利用了這個機制，來達到"等待執行完"才會執行await後面的方法)
+                        }
+                    Resume1a://恢復執行
+                        __builder.SetResult(__awaiter1.GetResult());//完成
+                    }
+                    catch (WebException) { }
+                    __builder.SetResult(null);
+                }
+                catch (Exception exception)
+                {
+                    __builder.SetException(exception);
+                }
+            };
+
+            __moveNext();//上面其實是在撰寫__moveNext的Function，這裡才是真正的第一次觸發__moveNext
+            return __builder.Task;
+        }
+    }
+</pre>
+
+<p>到這邊為止，大致上把整個async和await的底層補完，但大家有沒有想到一件事情!?是的，那就是Task.Yield勒!??我們引用一下MSDN雜誌的這句話。</p>
+<blockquote>
+<p>靜態 Task.Yield 實用程序方法返回一個將聲稱（通過 IsCompleted）未完成的可等待操作，但會立即調度傳遞給它的 OnCompleted 方法的回調，就好像該操作實際已完成一樣。 這允許您強制進行調度並繞過編譯器為跳過它而進行的優化（如果結果已可用）。 您可以通過這種方式在「實時」代碼中擠出時間，同時提高並未處於空閒狀態的代碼的響應性。</p>
+</blockquote>
+<p>簡單的說，Task.Yield會返回一個未完成的可等待操作(透過IsCompleted)，但返回後，又會馬上調度OnCompleted，也因此，會立即的執行在await的下一行Code，就如同完成了await一樣，而這個狀況下，就可以在Code裡面，擠出一點時間( 雖然只是一下下，但對cpu來說，可能是很多了… )</p>
+<p>另外，MSDN也提到Task.Yield的一個點。如下。</p>
+<blockquote>
+<p>You can use await Task.Yield(); in an asynchronous method to force the method to complete asynchronously. If there is a current synchronization context (<a href="http://msdn.microsoft.com/en-us/library/system.threading.synchronizationcontext.aspx" target="_blank" rel="noopener">SynchronizationContext</a> object), this will post the remainder of the method’s execution back to that context. However, the context will decide how to prioritize this work relative to other work that may be pending. The synchronization context that is present on a UI thread in most UI environments will often prioritize work posted to the context higher than input and rendering work. For this reason, do not rely on await Task.Yield(); to keep a UI responsive. For more information, see the entry <a href="http://blogs.msdn.com/b/pfxteam/archive/2008/07/23/8768673.aspx" target="_blank" rel="noopener">Useful Abstractions Enabled with ContinueWith</a> in the Parallel Programming with .NET blog.</p>
+</blockquote>
+<p>大致上的翻譯是這樣的，您可以使用Task.Yield();來產生一個快速地中斷，來讓CPU有機會處理別的Thread，但如果當前有一個同步上下文(SynchronizationContext的對象)，那Back回來後，這將繼續執行剩下的Code。然而，上下文會決定這項工作或相對於其他尚未了結工作的優先順序，而在大多數UI環境，上下文通常都會在目前的UI線程，所以往往會優先讓原本的Code高於UI輸入和UI渲染工作。出於這個原因，不要依賴於await Task.Yield()，以保持一個UI響應。</p>
+<p>簡單的說，如果是想讓UI變快，用Task.Yield是沒用的，基本上Task.Yield還是用於提高其他邏輯上的處理…</p>
+<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>花了很長一段時間，把這些東西整理好，當然，對於整個await和async來說，這只是其中的一小部分，現階段小弟也沒力氣繼續追下去了，但相信Google也有更好的文章可以讓大家繼續研究下去，今天就先到這邊吧XDDD</p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.yield.aspx" target="_blank" rel="noopener" title="http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.yield.aspx">http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.yield.aspx</a><li><a href="http://msdn.microsoft.com/zh-cn/magazine/hh456403.aspx" target="_blank" rel="noopener" title="http://msdn.microsoft.com/zh-cn/magazine/hh456403.aspx">http://msdn.microsoft.com/zh-cn/magazine/hh456403.aspx</a><li><a href="http://vunvulearadu.blogspot.tw/2012/07/taskyield-taskdelay.html" target="_blank" rel="noopener" title="http://vunvulearadu.blogspot.tw/2012/07/taskyield-taskdelay.html">http://vunvulearadu.blogspot.tw/2012/07/taskyield-taskdelay.html</a><li><a href="http://msdn.microsoft.com/zh-tw/library/bb549311.aspx" target="_blank" rel="noopener" title="http://msdn.microsoft.com/zh-tw/library/bb549311.aspx">http://msdn.microsoft.com/zh-tw/library/bb549311.aspx</a><li><a href="http://msdn.microsoft.com/zh-tw/library/system.net.downloaddatacompletedeventhandler.aspx" target="_blank" rel="noopener" title="http://msdn.microsoft.com/zh-tw/library/system.net.downloaddatacompletedeventhandler.aspx">http://msdn.microsoft.com/zh-tw/library/system.net.downloaddatacompletedeventhandler.aspx</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag">#C#</a>
+          
+            <a href="/tags/Silveright/" rel="tag">#Silveright</a>
+          
+            <a href="/tags/Windows-Phone/" rel="tag">#Windows Phone</a>
+          
+            <a href="/tags/Windows-Store-App/" rel="tag">#Windows Store App</a>
+          
+            <a href="/tags/WPF/" rel="tag">#WPF</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/07/18/Visual-Studio-2013%E6%96%B0%E5%8A%9F%E8%83%BD/" rel="next" title="Visual Studio - 2013新功能">
+                <i class="fa fa-chevron-left"></i> Visual Studio - 2013新功能
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/08/21/Visual-Studio-%E5%81%B5%E9%8C%AF%E5%BE%8C%EF%BC%8CIIS-Express%E6%9C%83%E8%87%AA%E5%8B%95%E8%A2%AB%E9%97%9C%E6%8E%89/" rel="prev" title="Visual Studio -  偵錯後，IIS Express會自動被關掉">
+                Visual Studio -  偵錯後，IIS Express會自動被關掉 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Sky Chang" />
+          <p class="site-author-name" itemprop="name">Sky Chang</p>
+          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">354</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">標籤</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">1.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">2.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'skychang';
+      var disqus_identifier = '2013/07/30/C-非同步的async和await/';
+      var disqus_title = 'C# - 非同步的async和await';
+      var disqus_url = 'http://skychang.github.io/2013/07/30/C-%E9%9D%9E%E5%90%8C%E6%AD%A5%E7%9A%84async%E5%92%8Cawait/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
