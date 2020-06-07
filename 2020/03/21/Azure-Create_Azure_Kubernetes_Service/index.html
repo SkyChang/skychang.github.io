@@ -1,709 +1,353 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="AKS,Azure,Linux,Container,Docker,Kubernetes,Log Analytics,ACR," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="前言現在 Kubernetes 紅得幾乎如日中天，各家都推出自己的 Kubernetes 服務，而在 Microsoft 的 K8S，當然就叫做 Azure Kubernetes Service，而它的前身為 Azure Container Service。 而這篇文章，會敘述，如何建立 AKS。是的，你沒看錯，又要再寫一次怎麼建立 AKS。其實之前也寫過很多次，但是隨著時代的演進，又略有不同了">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Azure - 建立 Azure Kubernetes Service">
-<meta property="og:url" content="http://skychang.github.io/2020/03/21/Azure-Create_Azure_Kubernetes_Service/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="前言現在 Kubernetes 紅得幾乎如日中天，各家都推出自己的 Kubernetes 服務，而在 Microsoft 的 K8S，當然就叫做 Azure Kubernetes Service，而它的前身為 Azure Container Service。 而這篇文章，會敘述，如何建立 AKS。是的，你沒看錯，又要再寫一次怎麼建立 AKS。其實之前也寫過很多次，但是隨著時代的演進，又略有不同了">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://skychang.github.io/2020/03/21/Azure-Create_Azure_Kubernetes_Service/2020-05-27-16-55-07.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/21/Azure-Create_Azure_Kubernetes_Service/2020-05-27-17-44-08.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/21/Azure-Create_Azure_Kubernetes_Service/2020-05-27-17-36-00.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/21/Azure-Create_Azure_Kubernetes_Service/2020-05-27-17-36-50.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/21/Azure-Create_Azure_Kubernetes_Service/2020-05-27-17-38-23.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/21/Azure-Create_Azure_Kubernetes_Service/2020-05-27-17-38-55.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/21/Azure-Create_Azure_Kubernetes_Service/2020-05-27-17-40-30.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/21/Azure-Create_Azure_Kubernetes_Service/2020-05-27-17-41-11.png">
-<meta property="article:published_time" content="2020-03-21T23:58:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:38.872Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="AKS">
-<meta property="article:tag" content="Azure">
-<meta property="article:tag" content="Linux">
-<meta property="article:tag" content="Container">
-<meta property="article:tag" content="Docker">
-<meta property="article:tag" content="Kubernetes">
-<meta property="article:tag" content="Log Analytics">
-<meta property="article:tag" content="ACR">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://skychang.github.io/2020/03/21/Azure-Create_Azure_Kubernetes_Service/2020-05-27-16-55-07.png">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> Azure - 建立 Azure Kubernetes Service | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Azure - 建立 Azure Kubernetes Service
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2020-03-21T23:58:00+00:00" content="2020-03-21">
-              2020-03-21
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2020/03/21/Azure-Create_Azure_Kubernetes_Service/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/21/Azure-Create_Azure_Kubernetes_Service/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>現在 Kubernetes 紅得幾乎如日中天，各家都推出自己的 Kubernetes 服務，而在 Microsoft 的 K8S，當然就叫做 Azure Kubernetes Service，而它的前身為 Azure Container Service。</p>
-<p>而這篇文章，會敘述，如何建立 AKS。是的，你沒看錯，又要再寫一次怎麼建立 AKS。其實之前也寫過很多次，但是隨著時代的演進，又略有不同了 (泣)，所以這篇又會再重新敘述，如何建立 ASK….</p>
-<h2 id="建立-Create-Log-Analytics-工作區"><a href="#建立-Create-Log-Analytics-工作區" class="headerlink" title="建立 Create Log Analytics 工作區"></a>建立 Create Log Analytics 工作區</h2><p>因為 AKS 會使用到 Log Analytics 來存放 Log 資訊，雖然你可以讓他自己建立，但放置的 Resource 位置都醜醜的，所以第一步，我們先來建立 Create Log Analytics 工作區。</p>
-<p>找到 Log Analytics 工作區並建立，基本上，裡面也沒什麼可以選的…就順順的建立完成吧。<br><img src="2020-05-27-16-55-07.png" alt=""></p>
-<h2 id="建立-Azure-Container-Registry"><a href="#建立-Azure-Container-Registry" class="headerlink" title="建立 Azure Container Registry"></a>建立 Azure Container Registry</h2><p>通常 AKS 拉的 Images 會來自 ACR ( 你要放到 Docker Hub 也是可以啦 )，所以這邊會建議也先準備好 ACR，因為現在建立 AKS 的時候，可以直接選擇 ACR，讓他直接塞 Service Principal 進去，可以省掉自己加 Service Principal 的步驟。</p>
-<p><img src="2020-05-27-17-44-08.png" alt=""></p>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">Azure - 建立 Azure Kubernetes Service :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="前言 現在 Kubernetes 紅得幾乎如日中天，各家都推出自己的 Kubernetes 服務，而在 Microsoft 的 K8S，當然就叫做 Azure Kubernetes Service，而它的前身為 Azure Container Service…"/><meta data-react-helmet="true" property="og:title" content="Azure - 建立 Azure Kubernetes Service"/><meta data-react-helmet="true" property="og:description" content="前言 現在 Kubernetes 紅得幾乎如日中天，各家都推出自己的 Kubernetes 服務，而在 Microsoft 的 K8S，當然就叫做 Azure Kubernetes Service，而它的前身為 Azure Container Service…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="Azure - 建立 Azure Kubernetes Service"/><meta data-react-helmet="true" name="twitter:description" content="前言 現在 Kubernetes 紅得幾乎如日中天，各家都推出自己的 Kubernetes 服務，而在 Microsoft 的 K8S，當然就叫做 Azure Kubernetes Service，而它的前身為 Azure Container Service…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2020/03/21/Azure-Create_Azure_Kubernetes_Service/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">Azure - 建立 Azure Kubernetes Service</h1><div class="post-module--meta--3YtjE">21 March 2020<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/Azure/"><span class="post-module--tag--16U9p">#<!-- -->Azure</span></a><a href="/tag/Container/"><span class="post-module--tag--16U9p">#<!-- -->Container</span></a><a href="/tag/AKS/"><span class="post-module--tag--16U9p">#<!-- -->AKS</span></a><a href="/tag/Log-Analytics/"><span class="post-module--tag--16U9p">#<!-- -->Log Analytics</span></a><a href="/tag/ACR/"><span class="post-module--tag--16U9p">#<!-- -->ACR</span></a><a href="/tag/Kubernetes/"><span class="post-module--tag--16U9p">#<!-- -->Kubernetes</span></a><a href="/tag/Docker/"><span class="post-module--tag--16U9p">#<!-- -->Docker</span></a><a href="/tag/Linux/"><span class="post-module--tag--16U9p">#<!-- -->Linux</span></a></div></div><div><h2>前言</h2>
+<p>現在 Kubernetes 紅得幾乎如日中天，各家都推出自己的 Kubernetes 服務，而在 Microsoft 的 K8S，當然就叫做 Azure Kubernetes Service，而它的前身為 Azure Container Service。</p>
+<p>而這篇文章，會敘述，如何建立 AKS。是的，你沒看錯，又要再寫一次怎麼建立 AKS。其實之前也寫過很多次，但是隨著時代的演進，又略有不同了 (泣)，所以這篇又會再重新敘述，如何建立 ASK....</p>
+<h2>建立 Create Log Analytics 工作區</h2>
+<p>因為 AKS 會使用到 Log Analytics 來存放 Log 資訊，雖然你可以讓他自己建立，但放置的 Resource 位置都醜醜的，所以第一步，我們先來建立 Create Log Analytics 工作區。</p>
+<p>找到 Log Analytics 工作區並建立，基本上，裡面也沒什麼可以選的...就順順的建立完成吧。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/b435dc5accefe5bd45ff6d863e90e050/add93/2020-05-27-16-55-07.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 49.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABRklEQVQoz4WSS1ODMBSFs6fllUACRUqVFMJLp844ddeVmzqunHGccaf+CH/9sYkFqdPWxZnATfhy7+GQq7yEKhrIskVR3yDkApZlwXEcuI4N13Xhed6wnlK/TxLVQD2/ocgXaOsSdV2jaRpEcQIq5vAZ3x12zsIOgPPtJ5qPLzw8veLx5R1ZtoDgHIwF8GkAz6e7g+5Z0HgKIuILeFMb2WqLtLyDPbUwmUxh27aRGX3/kZZ+7zUGDR1KuUTbdZCXKbI0QRzHSJIEs9nMSAgBvus4DEMj/dzXjnlLtF+bzQbr9T3aths8VEohz3OkaYooisxFetUwDWaMHQcWS4nb1Qpd9wvrVVWVqfXSNSklKKUHsDGUSHVtIsN5OHShRw2C4MC7sU9avu8fjRJh0RyUp3D2P+CU4X+hp/JJPPcnwP/l7Fz2xvoG8UMAQbWe1HUAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="2020 05 27 16 55 07"
+        title="2020 05 27 16 55 07"
+        src="/static/b435dc5accefe5bd45ff6d863e90e050/78d47/2020-05-27-16-55-07.png"
+        srcset="/static/b435dc5accefe5bd45ff6d863e90e050/56d15/2020-05-27-16-55-07.png 200w,
+/static/b435dc5accefe5bd45ff6d863e90e050/d9f49/2020-05-27-16-55-07.png 400w,
+/static/b435dc5accefe5bd45ff6d863e90e050/78d47/2020-05-27-16-55-07.png 800w,
+/static/b435dc5accefe5bd45ff6d863e90e050/64756/2020-05-27-16-55-07.png 1200w,
+/static/b435dc5accefe5bd45ff6d863e90e050/add93/2020-05-27-16-55-07.png 1377w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>建立 Azure Container Registry</h2>
+<p>通常 AKS 拉的 Images 會來自 ACR ( 你要放到 Docker Hub 也是可以啦 )，所以這邊會建議也先準備好 ACR，因為現在建立 AKS 的時候，可以直接選擇 ACR，讓他直接塞 Service Principal 進去，可以省掉自己加 Service Principal 的步驟。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/afeb0590b4a1f5e4936779aebd207fc5/bcfad/2020-05-27-17-44-08.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 49.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABFklEQVQoz42STU7DMBCFc4EQ/0SpkoqIJjSx85+0ogJ2cAIkVmxZISHWHIFehis+bEORK5mSxdPYY8+n5xl763WBohSo6xpxHCMMQzDGQbUoBSHExP+k7zHG4InXPYaPT4zjgOubW3RdjyhJwZc5WBidBB7O7OhdPr5gfNvj7ukd9w/PyiFHEAQgPxf+kg21916yiBAxioAt4PuBShJwzsGVff0Es3bIBh05LIXEZrtF29Romsb0sqoqo7ZtIYRAlmVGeZ7/SvfbCUySGMMwGEkpDUBHXfQ9IObsn847gedpiqvdDn3fY5omNZzRxLIsT/bQhhwBL4oOy5XEme+bYRw057s4HRKqrFM+q2AO2DPJGX9tLvALX83/I4ADyA8AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="2020 05 27 17 44 08"
+        title="2020 05 27 17 44 08"
+        src="/static/afeb0590b4a1f5e4936779aebd207fc5/78d47/2020-05-27-17-44-08.png"
+        srcset="/static/afeb0590b4a1f5e4936779aebd207fc5/56d15/2020-05-27-17-44-08.png 200w,
+/static/afeb0590b4a1f5e4936779aebd207fc5/d9f49/2020-05-27-17-44-08.png 400w,
+/static/afeb0590b4a1f5e4936779aebd207fc5/78d47/2020-05-27-17-44-08.png 800w,
+/static/afeb0590b4a1f5e4936779aebd207fc5/64756/2020-05-27-17-44-08.png 1200w,
+/static/afeb0590b4a1f5e4936779aebd207fc5/bcfad/2020-05-27-17-44-08.png 1396w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>這邊不會提到怎麼建 ACR，後續找時間再來補上 ACR 的部分。</p>
-<h2 id="建立-AAD-Service-Principal"><a href="#建立-AAD-Service-Principal" class="headerlink" title="建立 AAD Service Principal"></a>建立 AAD Service Principal</h2><p>在以前，建立 AKS 的第一步，就是要建立 Service Pricnipal，因為 AKS ( Azure Kubernetes Service ) 會需要和其他 Azure 的服務互動，所以我們必須給他一個 AAD Service Principal，如果對於 Service Prinipal 不熟悉的，可以參考底下兩篇文章</p>
+<h2>建立 AAD Service Principal</h2>
+<p>在以前，建立 AKS 的第一步，就是要建立 Service Pricnipal，因為 AKS ( Azure Kubernetes Service ) 會需要和其他 Azure 的服務互動，所以我們必須給他一個 AAD Service Principal，如果對於 Service Prinipal 不熟悉的，可以參考底下兩篇文章</p>
 <ul>
-<li><a href="https://docs.microsoft.com/zh-tw/azure/active-directory/develop/active-directory-application-objects" target="_blank" rel="noopener">關於 AAD Service Princiap 的解釋 : Azure Active Directory (Azure AD) 中的應用程式和服務主體物件</a></li>
-<li><a href="https://docs.microsoft.com/zh-tw/azure/azure-resource-manager/resource-group-create-service-principal-portal" target="_blank" rel="noopener">使用入口網站來建立可存取資源的 Active Directory 應用程式和服務主體</a></li>
+<li><a href="https://docs.microsoft.com/zh-tw/azure/active-directory/develop/active-directory-application-objects">關於 AAD Service Princiap 的解釋 : Azure Active Directory (Azure AD) 中的應用程式和服務主體物件</a></li>
+<li><a href="https://docs.microsoft.com/zh-tw/azure/azure-resource-manager/resource-group-create-service-principal-portal">使用入口網站來建立可存取資源的 Active Directory 應用程式和服務主體</a></li>
 </ul>
 <p>但這個時代，建立 AKS 的時候，你可以先不用建立了，而且，不是以前那種建立出來醜醜的 SP，而是現在有直接管理的機制 ( 刪除 AKS，Service Princiap 也會自動刪除喔! )</p>
-<h2 id="建立-Azure-Kubernetes-Service"><a href="#建立-Azure-Kubernetes-Service" class="headerlink" title="建立 Azure Kubernetes Service"></a>建立 Azure Kubernetes Service</h2><p><code>若需要使用 Az cli 請參考本文最後面</code></p>
+<h2>建立 Azure Kubernetes Service</h2>
+<p><code class="language-text">若需要使用 Az cli 請參考本文最後面</code></p>
 <p>在建立之前，有幾個地方要特別注意。</p>
-<h3 id="Node-的-Pods-數"><a href="#Node-的-Pods-數" class="headerlink" title="Node 的 Pods 數"></a>Node 的 Pods 數</h3><p>預設每一個 Node 的最大 Pods 數為 110，若要調整為最大 Pods 數 ( 250 ) 需使用 AZ CLI 進行設定。</p>
-<p>雖然正常情況下，一個 Node 的 Pods 數不太會高達超過 110，但如果真的有超過這個的規劃，那可能要使用 Azure Cli 進行建置。( 配置完後，<br>就不可變更 )</p>
-<h3 id="AKS-IP-的規劃"><a href="#AKS-IP-的規劃" class="headerlink" title="AKS IP 的規劃"></a>AKS IP 的規劃</h3><p>AKS 預設使用的 IP 量是很大的，他有一個公式如下:</p>
+<h3>Node 的 Pods 數</h3>
+<p>預設每一個 Node 的最大 Pods 數為 110，若要調整為最大 Pods 數 ( 250 ) 需使用 AZ CLI 進行設定。</p>
+<p>雖然正常情況下，一個 Node 的 Pods 數不太會高達超過 110，但如果真的有超過這個的規劃，那可能要使用 Azure Cli 進行建置。( 配置完後，
+就不可變更 )</p>
+<h3>AKS IP 的規劃</h3>
+<p>AKS 預設使用的 IP 量是很大的，他有一個公式如下:</p>
 <p>EX : 若有 50 個節點，其中也包含相應增加的 10 個節點的佈建：(50 + 10 + 1) + ( (50+10+1) * 30 (default)) = 1,891 (/21 或更大)</p>
 <p>所以如果未來有需要有非常多的 Node，則要提前考慮與計算。</p>
 <p>也請在開始前，將此網段切好，不然可能只能重新建 AKS 了</p>
-<h3 id="AKS-VNode-IP-的規劃"><a href="#AKS-VNode-IP-的規劃" class="headerlink" title="AKS-VNode IP 的規劃"></a>AKS-VNode IP 的規劃</h3><p>除了使用 Node 外，AKS 支援使用 ACI ( Azure Contianer Instance ) 來進行存放實際的 Pods，通常 VNode 需要一個網段，而每一個 Pods 也會佔用掉一個 IP。</p>
+<h3>AKS-VNode IP 的規劃</h3>
+<p>除了使用 Node 外，AKS 支援使用 ACI ( Azure Contianer Instance ) 來進行存放實際的 Pods，通常 VNode 需要一個網段，而每一個 Pods 也會佔用掉一個 IP。</p>
 <p>雖然這個功能，在建立完後再 enable / disable，但若有需要，開始前將此網段切好，會比較好。</p>
-<h3 id="AKS-Node-大小的規劃"><a href="#AKS-Node-大小的規劃" class="headerlink" title="AKS Node 大小的規劃"></a>AKS Node 大小的規劃</h3><p>AKS 的 Node 規格建立後，就不可以變更了 ( 很重要，請唸三遍 )，所以到底要給大一點的 VM 當作 Node，還是小一點的 VM 當 Node，在一開始的時候，就決定了一切。</p>
-<h3 id="AKS-的私人叢集"><a href="#AKS-的私人叢集" class="headerlink" title="AKS 的私人叢集"></a>AKS 的私人叢集</h3><p>建立 AKS 的時候，可以決定，是否只有內網 ( VNet 內 ) 才能對 AKS 進行控制 ( EX : 使用 Kubectl )，而這個也會在建立玩成後，無法變更。</p>
-<p>但目前將 AKS 放到私人叢集可能會有以下 <a href="https://docs.microsoft.com/en-us/azure/aks/private-clusters" target="_blank" rel="noopener">issue</a></p>
-<h3 id="網路原則"><a href="#網路原則" class="headerlink" title="網路原則"></a>網路原則</h3><p>目前 AKS 支援原生、Calico、Azure 三種網路原則，雖然小弟我一定是選 Azure，但如果有需要其他原則的考量，可能也要在部署前思考清楚。</p>
-<h3 id="使用-Azure-Cli-來建立"><a href="#使用-Azure-Cli-來建立" class="headerlink" title="使用 Azure Cli 來建立"></a>使用 Azure Cli 來建立</h3><p>在 AKS 的官網，主要透過 Azure Cli 來建立，當然也可以透過 Portal 建立，這邊我們先提供一個快速的 Cli 指令。</p>
-<h3 id="開始建立"><a href="#開始建立" class="headerlink" title="開始建立"></a>開始建立</h3><p>找到 Azure Kubernetes Service</p>
-<p><img src="2020-05-27-17-36-00.png" alt=""></p>
+<h3>AKS Node 大小的規劃</h3>
+<p>AKS 的 Node 規格建立後，就不可以變更了 ( 很重要，請唸三遍 )，所以到底要給大一點的 VM 當作 Node，還是小一點的 VM 當 Node，在一開始的時候，就決定了一切。</p>
+<h3>AKS 的私人叢集</h3>
+<p>建立 AKS 的時候，可以決定，是否只有內網 ( VNet 內 ) 才能對 AKS 進行控制 ( EX : 使用 Kubectl )，而這個也會在建立玩成後，無法變更。</p>
+<p>但目前將 AKS 放到私人叢集可能會有以下 <a href="https://docs.microsoft.com/en-us/azure/aks/private-clusters">issue</a></p>
+<h3>網路原則</h3>
+<p>目前 AKS 支援原生、Calico、Azure 三種網路原則，雖然小弟我一定是選 Azure，但如果有需要其他原則的考量，可能也要在部署前思考清楚。</p>
+<h3>使用 Azure Cli 來建立</h3>
+<p>在 AKS 的官網，主要透過 Azure Cli 來建立，當然也可以透過 Portal 建立，這邊我們先提供一個快速的 Cli 指令。</p>
+<h3>開始建立</h3>
+<p>找到 Azure Kubernetes Service</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/bed1d91f5cae75e0738e12d3973aa382/bcfad/2020-05-27-17-36-00.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 51.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABIklEQVQoz5WST06EMBSH2SsUihnkTymFwjAkYmTFCSZxtmrizo1uXbryDq69gnfyLD9bTMlggIyLr+81ff2avtZinIMLgbK+wia4hG2fwyVE4cB1XXieN8YlzDqlFNb+8IL7x3fUpUAlc2y3FYI4hR9L0IuNKiarsr8HWq9vX/j4/Mb+7hmHhyckSQKP+oPMUyeeKjJzK04yhLGA6G6RyGs49hkcxwHRqKuvYSTHrbGE6l9VlYgCH3EYIE05sixTMR3g/Hdu0PWaMAwn0lFY1zX6vsdN16Ft24GmabDb7QZ0nuf5RFYUxbKwkBJaqoukyvVG3UcDYwxRFA1oydw1J0KW1whZofpmTxZPeQxTPxESNZCZ11pjTjwK6cIX+O93MfEHh/QACa2rCNUAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="2020 05 27 17 36 00"
+        title="2020 05 27 17 36 00"
+        src="/static/bed1d91f5cae75e0738e12d3973aa382/78d47/2020-05-27-17-36-00.png"
+        srcset="/static/bed1d91f5cae75e0738e12d3973aa382/56d15/2020-05-27-17-36-00.png 200w,
+/static/bed1d91f5cae75e0738e12d3973aa382/d9f49/2020-05-27-17-36-00.png 400w,
+/static/bed1d91f5cae75e0738e12d3973aa382/78d47/2020-05-27-17-36-00.png 800w,
+/static/bed1d91f5cae75e0738e12d3973aa382/64756/2020-05-27-17-36-00.png 1200w,
+/static/bed1d91f5cae75e0738e12d3973aa382/bcfad/2020-05-27-17-36-00.png 1396w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>進行基本的設定，這邊要注意的就是 VM 大小了，建完後，就不可以改了 ( 只能改數量 )</p>
-<p><img src="2020-05-27-17-36-50.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/9270a2f99beb94603c12939b4a49b729/bcfad/2020-05-27-17-36-50.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABPklEQVQoz42ST3OCMBTEuSsEAoJB0ISiaPlTqtYDHjvjpd//82zzXnWmndHKYWcZCJu3+cWp23ds655Vd3sImcDzPJbruhBCwPd9VhAE/0pKCadtGrRNjWqzwXpdojDa+hplWbJnWYYwDHnxLfiRKNRRKsUiTfmn2SzG7rVGURTQWrOvVivkeY4kSZ5OSd+djZ2MJISHQEaIYsXPVPVe3Xuht3ccSLvntlZ0rbVc5pjP53baGeI4ZidFUTQukCoppTCZTCwIF8YYDiAoNOHvAx8VOJzPuFwuOJ1OOByOVgccjz8+DAO6rkPf96iq6s8GD89QF5botkFZWdLtHk3/gRcLg4AQZZqegFD9Z5Q5MFssIH2B6XQKGQbIlhr+Fci9ys/kmLdPmP2XDQsRE4BEQZkaSaotKMkw6EqRxgR+A+Wo/YMnbbMDAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="2020 05 27 17 36 50"
+        title="2020 05 27 17 36 50"
+        src="/static/9270a2f99beb94603c12939b4a49b729/78d47/2020-05-27-17-36-50.png"
+        srcset="/static/9270a2f99beb94603c12939b4a49b729/56d15/2020-05-27-17-36-50.png 200w,
+/static/9270a2f99beb94603c12939b4a49b729/d9f49/2020-05-27-17-36-50.png 400w,
+/static/9270a2f99beb94603c12939b4a49b729/78d47/2020-05-27-17-36-50.png 800w,
+/static/9270a2f99beb94603c12939b4a49b729/64756/2020-05-27-17-36-50.png 1200w,
+/static/9270a2f99beb94603c12939b4a49b729/bcfad/2020-05-27-17-36-50.png 1396w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>接著，這邊要決定是否要啟用虛擬節點，通常小弟我會在這邊就直接請用，後續也可以透過 AZ Cli 來啟用，其次，VM 擴展集也會在這邊勾起來，未來可以讓 Node 自動擴展。</p>
-<p><img src="2020-05-27-17-38-23.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/36524ee6fe07f48877e326631067c238/bcfad/2020-05-27-17-38-23.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABPUlEQVQoz42SSW7DMAxFtc/kKZZs2fKUWLYRue6i6x6g9z/PL6kigRFk6OJDFAE9fooU0zTBOYd5nrEsC4IgQJIkCMMQh8PhJs5z7nqudc1FUQRhbQ87jsjzHEVRoK5rNE3j4zRNoZTy5yvYuphozyOs+4KpmhuQIWVZom1bVFXl4ziOn7pc34XKNLp+RJwcPZDbY0daa2w3Gxhj/Bdw/l3L3qExFZSuPDDLlH8sCSilRBQn3h1/xz3kKZAHcuo6KAKwM275PAyQKkOYltgHEXa77f8dXgho7UDuMt9maWqUdYucYnbJeXbIxR7B7sHC9icsHw4jTbrpepwGRw6dn7QvQC3zYBi8dvJMQtcW0ti/XYuOaPsJdppp0hnl9qTgtoe8Z+8k9PQN8/lDlxix1KQCSdbQQI7k5nWLj/QL63b7856JNDcAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="2020 05 27 17 38 23"
+        title="2020 05 27 17 38 23"
+        src="/static/36524ee6fe07f48877e326631067c238/78d47/2020-05-27-17-38-23.png"
+        srcset="/static/36524ee6fe07f48877e326631067c238/56d15/2020-05-27-17-38-23.png 200w,
+/static/36524ee6fe07f48877e326631067c238/d9f49/2020-05-27-17-38-23.png 400w,
+/static/36524ee6fe07f48877e326631067c238/78d47/2020-05-27-17-38-23.png 800w,
+/static/36524ee6fe07f48877e326631067c238/64756/2020-05-27-17-38-23.png 1200w,
+/static/36524ee6fe07f48877e326631067c238/bcfad/2020-05-27-17-38-23.png 1396w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>這邊比較需要注意的，以前只有服務主體可以選擇，也就是說，以前選擇服務主體後，他會自動的幫忙建立一個 Service Principal，而現在，多了一個更方便的選項，就是系統指派的受控識別，選擇此功能，可以讓 AKS 服務自己來管理，也因此，不會多一個 Service Principal 了，甚至砍掉 AKS 的時候，以前會留下 Service Principal，使用受控識別，也不用自己處理了，砍掉的時候，會將受控識別一起砍掉。</p>
 <p>RBAC 是一定要起用的，後面有太多的功能會和 RBAC 相依。</p>
-<p><img src="2020-05-27-17-38-55.png" alt=""></p>
-<p>接下來是網路設定，通常配置如下就可以，提供 Node 使用的網段，VNode 使用的網段，還有 AKS 自己使用的網段，通常我都保持預設。</p>
-<p>而需要注意的就是下面那三個，目前私人叢集還有一些問題，所以我目前還不敢打開 XDDD<br>而網路原則我習慣用 Azure，HTTP 應用程式路由通常是拿來測試使用，再比較正式的環境上，通常會搭配 Ingress 等服務，所以通常會將此功能關閉。</p>
-<p><img src="2020-05-27-17-40-30.png" alt=""></p>
-<p>最後，現在可以和其他服務串再一起，也就是一開始設定 ACR 和 Log Analytics，這邊選定的 ACR，會直接在 ACR 裡面加上受控識別，來讓 AKS 未來可以撈取，當然不設定也可以，只是以後要自己加上去。</p>
-<p><img src="2020-05-27-17-41-11.png" alt=""></p>
-<p>然後就完成了～</p>
-<h2 id="建立-Azure-Kubernetes-Service-Az-Cli"><a href="#建立-Azure-Kubernetes-Service-Az-Cli" class="headerlink" title="建立 Azure Kubernetes Service - Az Cli"></a>建立 Azure Kubernetes Service - Az Cli</h2><p>如果想使用 AZ Cli 建立的，可以參考底下，目前底下的 AZ Cli 是需要建立 SP 的過程，若想讓他自己託管，可以將建立指令多加上，<a href="https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest#az-aks-create" target="_blank" rel="noopener">詳細可以參考</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--enable-managed-identity</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 填寫自己的 Resource Group、AKS名稱、地區</span></span><br><span class="line">RESOURCE_GROUP_NAME=Study4-Group</span><br><span class="line">CLUSTER_NAME=Study4AKS</span><br><span class="line"></span><br><span class="line"><span class="comment"># Service Principal</span></span><br><span class="line">SP_ID=貼上應用程式(用戶端)識別碼</span><br><span class="line">SP_PASSWORD=貼上上面複製的密碼</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取得virtual network resource ID</span></span><br><span class="line">VNET_ID=$(az network vnet show --resource-group <span class="variable">$RESOURCE_GROUP_NAME</span> --name Study4-VNet --query id -o tsv)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 給 VNET SP權限</span></span><br><span class="line">az role assignment create --assignee <span class="variable">$SP_ID</span> --scope <span class="variable">$VNET_ID</span> --role Contributor</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取得 virtual network subnet resource ID</span></span><br><span class="line">SUBNET_ID=$(az network vnet subnet show --resource-group <span class="variable">$RESOURCE_GROUP_NAME</span> --vnet-name Study4-VNet --name AKS-Node --query id -o tsv)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立 AKS </span></span><br><span class="line">az aks create \</span><br><span class="line">    --resource-group <span class="variable">$RESOURCE_GROUP_NAME</span> \</span><br><span class="line">    --name <span class="variable">$CLUSTER_NAME</span> \</span><br><span class="line">    --node-count 3 \</span><br><span class="line">    --generate-ssh-keys \</span><br><span class="line">--network-plugin azure \</span><br><span class="line">    --service-cidr 10.10.0.0/16 \</span><br><span class="line">    --dns-service-ip 10.10.0.105 \</span><br><span class="line">    --docker-bridge-address 172.17.0.1/16 \</span><br><span class="line">    --vnet-subnet-id <span class="variable">$SUBNET_ID</span> \</span><br><span class="line">    --service-principal <span class="variable">$SP_ID</span> \</span><br><span class="line">    --client-secret <span class="variable">$SP_PASSWORD</span> \</span><br><span class="line">    --network-policy azure \</span><br><span class="line">--kubernetes-version 1.15.10</span><br><span class="line">--max-pods 250 \</span><br><span class="line">--node-vm-size Standard_D4s_v3</span><br><span class="line"></span><br><span class="line"><span class="comment">#啟動 VNode</span></span><br><span class="line">az aks <span class="built_in">enable</span>-addons \</span><br><span class="line">    --resource-group <span class="variable">$RESOURCE_GROUP_NAME</span> \</span><br><span class="line">    --name <span class="variable">$CLUSTER_NAME</span> \</span><br><span class="line">    --addons virtual-node \</span><br><span class="line">    --subnet-name AKS-VNode</span><br></pre></td></tr></table></figure>
-
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a href="https://docs.microsoft.com/zh-tw/azure/active-directory/develop/active-directory-application-objects" target="_blank" rel="noopener">https://docs.microsoft.com/zh-tw/azure/active-directory/develop/active-directory-application-objects</a></li>
-<li><a href="https://docs.microsoft.com/zh-tw/azure/azure-resource-manager/resource-group-create-service-principal-portal" target="_blank" rel="noopener">https://docs.microsoft.com/zh-tw/azure/azure-resource-manager/resource-group-create-service-principal-portal</a></li>
-<li><a href="https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest#az-aks-create" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest#az-aks-create</a></li>
-<li><a href="https://docs.microsoft.com/zh-tw/azure/aks/use-managed-identity" target="_blank" rel="noopener">https://docs.microsoft.com/zh-tw/azure/aks/use-managed-identity</a></li>
-<li><a href="https://docs.microsoft.com/en-us/azure/aks/private-clusters" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/azure/aks/private-clusters</a></li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/AKS/" rel="tag">#AKS</a>
-          
-            <a href="/tags/Azure/" rel="tag">#Azure</a>
-          
-            <a href="/tags/Linux/" rel="tag">#Linux</a>
-          
-            <a href="/tags/Container/" rel="tag">#Container</a>
-          
-            <a href="/tags/Docker/" rel="tag">#Docker</a>
-          
-            <a href="/tags/Kubernetes/" rel="tag">#Kubernetes</a>
-          
-            <a href="/tags/Log-Analytics/" rel="tag">#Log Analytics</a>
-          
-            <a href="/tags/ACR/" rel="tag">#ACR</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2020/03/13/Dapr-Hello_Dapr/" rel="next" title="Dapr - Hello Dapr">
-                <i class="fa fa-chevron-left"></i> Dapr - Hello Dapr
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立-Create-Log-Analytics-工作區"><span class="nav-number">2.</span> <span class="nav-text">建立 Create Log Analytics 工作區</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立-Azure-Container-Registry"><span class="nav-number">3.</span> <span class="nav-text">建立 Azure Container Registry</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立-AAD-Service-Principal"><span class="nav-number">4.</span> <span class="nav-text">建立 AAD Service Principal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立-Azure-Kubernetes-Service"><span class="nav-number">5.</span> <span class="nav-text">建立 Azure Kubernetes Service</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Node-的-Pods-數"><span class="nav-number">5.1.</span> <span class="nav-text">Node 的 Pods 數</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AKS-IP-的規劃"><span class="nav-number">5.2.</span> <span class="nav-text">AKS IP 的規劃</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AKS-VNode-IP-的規劃"><span class="nav-number">5.3.</span> <span class="nav-text">AKS-VNode IP 的規劃</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AKS-Node-大小的規劃"><span class="nav-number">5.4.</span> <span class="nav-text">AKS Node 大小的規劃</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AKS-的私人叢集"><span class="nav-number">5.5.</span> <span class="nav-text">AKS 的私人叢集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#網路原則"><span class="nav-number">5.6.</span> <span class="nav-text">網路原則</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Azure-Cli-來建立"><span class="nav-number">5.7.</span> <span class="nav-text">使用 Azure Cli 來建立</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#開始建立"><span class="nav-number">5.8.</span> <span class="nav-text">開始建立</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立-Azure-Kubernetes-Service-Az-Cli"><span class="nav-number">6.</span> <span class="nav-text">建立 Azure Kubernetes Service - Az Cli</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">7.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/77d99584d9a5eeaf36e282aa743bd014/bcfad/2020-05-27-17-38-55.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 49.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABLUlEQVQoz5VSy07DMBD0HSWOX7FInUfjRpWdJg3iUA6VOPL/XzRsAqVF0AgOo90dy6PZB4sxou97jOOIaZqQZRm01pBCgHNO9RWCuPl9xpzfYuaklGBt2yKEAFdWKMsSTdOg3m5hiwJCKSidQxKE0neFLvwc2T4eFiFrczQktO86nGLAeTjg4Ftou0Fe1FDW/Sp4EbrkbOt3GI5P8L6DIMtlXWPwHqc+IlCulETG09WWvzls2g7T8wv2cUBPQq/HETsaw6aqUFH7zrmbz+sOF0FjDC1BIUkTGCI8tW5pKfNC0jRd4toyfgh+JJ8PhIRn4Hc+/gUs4wl48nB1sET+Vf8XzLodbB2WG1LaLGei80eqFUEs/H/AXDijOr6RXRLMN3QmJUzRQipzd2ZreAfr4fjfeCdW6wAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="2020 05 27 17 38 55"
+        title="2020 05 27 17 38 55"
+        src="/static/77d99584d9a5eeaf36e282aa743bd014/78d47/2020-05-27-17-38-55.png"
+        srcset="/static/77d99584d9a5eeaf36e282aa743bd014/56d15/2020-05-27-17-38-55.png 200w,
+/static/77d99584d9a5eeaf36e282aa743bd014/d9f49/2020-05-27-17-38-55.png 400w,
+/static/77d99584d9a5eeaf36e282aa743bd014/78d47/2020-05-27-17-38-55.png 800w,
+/static/77d99584d9a5eeaf36e282aa743bd014/64756/2020-05-27-17-38-55.png 1200w,
+/static/77d99584d9a5eeaf36e282aa743bd014/bcfad/2020-05-27-17-38-55.png 1396w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
   </a>
-</div>
+    </span></p>
+<p>接下來是網路設定，通常配置如下就可以，提供 Node 使用的網段，VNode 使用的網段，還有 AKS 自己使用的網段，通常我都保持預設。</p>
+<p>而需要注意的就是下面那三個，目前私人叢集還有一些問題，所以我目前還不敢打開 XDDD
+而網路原則我習慣用 Azure，HTTP 應用程式路由通常是拿來測試使用，再比較正式的環境上，通常會搭配 Ingress 等服務，所以通常會將此功能關閉。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/007d1f87e9e30fd62d6b4616842c6443/bcfad/2020-05-27-17-40-30.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABPklEQVQoz5WSzW6DMBCEObcK+N/GEAOJCSQIKrW5Vz32/R9ouk6bKFIbJT2M1ruWPmbWZMuy4LDfY5omLPMMzhikkFQ5OP8tRve3ZkIIZGVZQlDz/PyEgknshlcEH2BVCSMstDCX+hfw3KealHVti8pXKPIcWpfYv3ygjwfELsJRL5mC4pqA+q7DpCyEgL7vUVceUmoM0xHer+GMhdEGShKQ5qneA54cWmvRdR08RZdSIqxrcqpOZ6XURVLJx4DjOCK5zCkyo6EmZ5yWy0hpyfIkCSHF48AmNFgR0BuDKUYE51DpFPUbetYt4DU4a0INJRhWRYHBGcybDrttxEjRA8XML1/nN0HXykKcEA9HFFxgQ86G0KKlR9nSbj05LBLw55d4RFk7v2P79glLMFc38OsN6mYH5zwMrSA92n/0Bb9L+ckwIUflAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="2020 05 27 17 40 30"
+        title="2020 05 27 17 40 30"
+        src="/static/007d1f87e9e30fd62d6b4616842c6443/78d47/2020-05-27-17-40-30.png"
+        srcset="/static/007d1f87e9e30fd62d6b4616842c6443/56d15/2020-05-27-17-40-30.png 200w,
+/static/007d1f87e9e30fd62d6b4616842c6443/d9f49/2020-05-27-17-40-30.png 400w,
+/static/007d1f87e9e30fd62d6b4616842c6443/78d47/2020-05-27-17-40-30.png 800w,
+/static/007d1f87e9e30fd62d6b4616842c6443/64756/2020-05-27-17-40-30.png 1200w,
+/static/007d1f87e9e30fd62d6b4616842c6443/bcfad/2020-05-27-17-40-30.png 1396w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>最後，現在可以和其他服務串再一起，也就是一開始設定 ACR 和 Log Analytics，這邊選定的 ACR，會直接在 ACR 裡面加上受控識別，來讓 AKS 未來可以撈取，當然不設定也可以，只是以後要自己加上去。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/68f96db88b78dbcb01d0a0ff7332220a/bcfad/2020-05-27-17-41-11.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 49.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABQ0lEQVQoz5WSzW7CMBCEfW/zZydO4sQJIdSUJKUE1IpDhdRj3/+BpmujUqAQqYdPa63k8cyu2TAM6LoOfT9gHEdwzhHHsatRFF0QhuGf3k/fYu8wpXIYY9A0M8g0hSpKKKWcqO97CIKAqn8SOxe97tnK1psdPg6f2GzfUeoKlS5JvEFV1ajrGrNZg/m8hZTy4uKts4UVpQYXMR49n1ylaM2INMkhhURyRhzFiMJfN0KI2w774QW7tz3MqsdiYchVg5IeybLMuWzb1mHdXs/wpmC7GrFc7/G0ekVeaHo5cvG44M6FnaXl2tG9M9NaI88z+N4DReJ47rYwi6WLKUISoqi2usgTmz4JhrTJKPCOTftlspqEwyN3vscUTBa0QW3cH+IiISimVK5yEnH9f8DK7oBq80UOaGayIIcaiZo78al49/gGiIL6EYKzr5UAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="2020 05 27 17 41 11"
+        title="2020 05 27 17 41 11"
+        src="/static/68f96db88b78dbcb01d0a0ff7332220a/78d47/2020-05-27-17-41-11.png"
+        srcset="/static/68f96db88b78dbcb01d0a0ff7332220a/56d15/2020-05-27-17-41-11.png 200w,
+/static/68f96db88b78dbcb01d0a0ff7332220a/d9f49/2020-05-27-17-41-11.png 400w,
+/static/68f96db88b78dbcb01d0a0ff7332220a/78d47/2020-05-27-17-41-11.png 800w,
+/static/68f96db88b78dbcb01d0a0ff7332220a/64756/2020-05-27-17-41-11.png 1200w,
+/static/68f96db88b78dbcb01d0a0ff7332220a/bcfad/2020-05-27-17-41-11.png 1396w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>然後就完成了～</p>
+<h2>建立 Azure Kubernetes Service - Az Cli</h2>
+<p>如果想使用 AZ Cli 建立的，可以參考底下，目前底下的 AZ Cli 是需要建立 SP 的過程，若想讓他自己託管，可以將建立指令多加上，<a href="https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest#az-aks-create">詳細可以參考</a></p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">--enable-managed-identity</code></pre></div>
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash"><span class="token comment"># 填寫自己的 Resource Group、AKS名稱、地區</span>
+<span class="token assign-left variable">RESOURCE_GROUP_NAME</span><span class="token operator">=</span>Study4-Group
+<span class="token assign-left variable">CLUSTER_NAME</span><span class="token operator">=</span>Study4AKS
 
-        
+<span class="token comment"># Service Principal</span>
+<span class="token assign-left variable">SP_ID</span><span class="token operator">=</span>貼上應用程式<span class="token punctuation">(</span>用戶端<span class="token punctuation">)</span>識別碼
+<span class="token assign-left variable">SP_PASSWORD</span><span class="token operator">=</span>貼上上面複製的密碼
 
-        
-      </div>
-    </footer>
+<span class="token comment"># 取得virtual network resource ID</span>
+<span class="token assign-left variable">VNET_ID</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span>az network vnet show --resource-group $RESOURCE_GROUP_NAME --name Study4-VNet --query <span class="token function">id</span> -o tsv<span class="token variable">)</span></span>
 
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
+<span class="token comment"># 給 VNET SP權限</span>
+az role assignment create --assignee <span class="token variable">$SP_ID</span> --scope <span class="token variable">$VNET_ID</span> --role Contributor
 
-  
+<span class="token comment"># 取得 virtual network subnet resource ID</span>
+<span class="token assign-left variable">SUBNET_ID</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span>az network vnet subnet show --resource-group $RESOURCE_GROUP_NAME --vnet-name Study4-VNet --name AKS-Node --query <span class="token function">id</span> -o tsv<span class="token variable">)</span></span>
 
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
+<span class="token comment"># 建立 AKS </span>
+az aks create <span class="token punctuation">\</span>
+    --resource-group <span class="token variable">$RESOURCE_GROUP_NAME</span> <span class="token punctuation">\</span>
+    --name <span class="token variable">$CLUSTER_NAME</span> <span class="token punctuation">\</span>
+    --node-count <span class="token number">3</span> <span class="token punctuation">\</span>
+    --generate-ssh-keys <span class="token punctuation">\</span>
+--network-plugin azure <span class="token punctuation">\</span>
+    --service-cidr <span class="token number">10.10</span>.0.0/16 <span class="token punctuation">\</span>
+    --dns-service-ip <span class="token number">10.10</span>.0.105 <span class="token punctuation">\</span>
+    --docker-bridge-address <span class="token number">172.17</span>.0.1/16 <span class="token punctuation">\</span>
+    --vnet-subnet-id <span class="token variable">$SUBNET_ID</span> <span class="token punctuation">\</span>
+    --service-principal <span class="token variable">$SP_ID</span> <span class="token punctuation">\</span>
+    --client-secret <span class="token variable">$SP_PASSWORD</span> <span class="token punctuation">\</span>
+    --network-policy azure <span class="token punctuation">\</span>
+--kubernetes-version <span class="token number">1.15</span>.10
+--max-pods <span class="token number">250</span> <span class="token punctuation">\</span>
+--node-vm-size Standard_D4s_v3
 
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2020/03/21/Azure-Create_Azure_Kubernetes_Service/';
-      var disqus_title = 'Azure - 建立 Azure Kubernetes Service';
-      var disqus_url = 'http://skychang.github.io/2020/03/21/Azure-Create_Azure_Kubernetes_Service/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+<span class="token comment">#啟動 VNode</span>
+az aks enable-addons <span class="token punctuation">\</span>
+    --resource-group <span class="token variable">$RESOURCE_GROUP_NAME</span> <span class="token punctuation">\</span>
+    --name <span class="token variable">$CLUSTER_NAME</span> <span class="token punctuation">\</span>
+    --addons virtual-node <span class="token punctuation">\</span>
+    --subnet-name AKS-VNode</code></pre></div>
+<h2>參考資料</h2>
+<ul>
+<li><a href="https://docs.microsoft.com/zh-tw/azure/active-directory/develop/active-directory-application-objects">https://docs.microsoft.com/zh-tw/azure/active-directory/develop/active-directory-application-objects</a></li>
+<li><a href="https://docs.microsoft.com/zh-tw/azure/azure-resource-manager/resource-group-create-service-principal-portal">https://docs.microsoft.com/zh-tw/azure/azure-resource-manager/resource-group-create-service-principal-portal</a></li>
+<li><a href="https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest#az-aks-create">https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest#az-aks-create</a></li>
+<li><a href="https://docs.microsoft.com/zh-tw/azure/aks/use-managed-identity">https://docs.microsoft.com/zh-tw/azure/aks/use-managed-identity</a></li>
+<li><a href="https://docs.microsoft.com/en-us/azure/aks/private-clusters">https://docs.microsoft.com/en-us/azure/aks/private-clusters</a></li>
+</ul></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2020/03/21/Azure-Create_Azure_Kubernetes_Service/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>

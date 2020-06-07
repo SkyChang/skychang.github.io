@@ -1,405 +1,64 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="ASP.NET MVC,Azure," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="最近剛好寫到認證機制，就想到Windows Azure裡面還有Access Control Service還沒玩過，所以這次，就邊試玩這個認證機制，邊做個紀錄，另外黃忠成老師和小朱前輩，也有寫過這方面的文章，大家有興趣的話，也可以去讀讀看。 Windows Azure的Access Control Service小弟這邊就不做深入的介紹，簡單的說，這項服務，就是可以讓我們輕鬆的透過第三方的帳號驗證">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Windows Azure - 使用Access Control Service搭配Facebook來建立驗證機制 ( ASP.NET MVC )">
-<meta property="og:url" content="http://skychang.github.io/2012/08/20/Windows-Azure-%E4%BD%BF%E7%94%A8Access-Control-Service%E6%90%AD%E9%85%8DFacebook%E4%BE%86%E5%BB%BA%E7%AB%8B%E9%A9%97%E8%AD%89%E6%A9%9F%E5%88%B6-ASP-NET-MVC/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="最近剛好寫到認證機制，就想到Windows Azure裡面還有Access Control Service還沒玩過，所以這次，就邊試玩這個認證機制，邊做個紀錄，另外黃忠成老師和小朱前輩，也有寫過這方面的文章，大家有興趣的話，也可以去讀讀看。 Windows Azure的Access Control Service小弟這邊就不做深入的介紹，簡單的說，這項服務，就是可以讓我們輕鬆的透過第三方的帳號驗證">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://lh4.ggpht.com/-3r7GcnRe3t4/UDJZy2vW_mI/AAAAAAAAD_M/KDMjmdowHRg/image_thumb2.png?imgmax=800">
-<meta property="og:image" content="http://lh4.ggpht.com/-crUhyyGBEhM/UDJZ1eAwTpI/AAAAAAAAD_c/89SqHJ2eXMg/image_thumb4.png?imgmax=800">
-<meta property="og:image" content="http://lh5.ggpht.com/-edoPp_msdWI/UDJZ48pPdQI/AAAAAAAAD_s/aEMMVfh5W8s/image_thumb6.png?imgmax=800">
-<meta property="og:image" content="http://lh6.ggpht.com/-n4O4sZHaM2w/UDJZ7RIq2hI/AAAAAAAAD_8/j9t2Z8vigi8/image_thumb10.png?imgmax=800">
-<meta property="og:image" content="http://lh4.ggpht.com/-sBMedVC--vk/UDJZ-GsZv4I/AAAAAAAAEAM/J9VgBQ-iELY/image_thumb12.png?imgmax=800">
-<meta property="og:image" content="http://lh6.ggpht.com/-zz6yG4Qzy8s/UDJaA5vI0RI/AAAAAAAAEAc/RPC7FY-YT8M/image_thumb15.png?imgmax=800">
-<meta property="og:image" content="http://lh4.ggpht.com/-6oyZixMOeRE/UDJaDItdh_I/AAAAAAAAEAs/N4du0YH74Mo/image_thumb17.png?imgmax=800">
-<meta property="og:image" content="http://lh3.ggpht.com/-4QxiXEILwNE/UDJaFu0eDWI/AAAAAAAAEA8/DfBawd0AOMQ/image_thumb19.png?imgmax=800">
-<meta property="og:image" content="http://lh3.ggpht.com/-aC6tOZTCYAY/UDJaH-t1MAI/AAAAAAAAEBM/Fu6EfMaNih4/image_thumb21.png?imgmax=800">
-<meta property="og:image" content="http://lh6.ggpht.com/-22RV5gH-1aE/UDJaKQDqwVI/AAAAAAAAEBc/V94Ymhxgdlg/image_thumb23.png?imgmax=800">
-<meta property="og:image" content="http://lh6.ggpht.com/-AA_ZzKp7Byc/UDJaMvhV7rI/AAAAAAAAEBs/DP1o4mEb8Tg/image_thumb25.png?imgmax=800">
-<meta property="og:image" content="http://lh4.ggpht.com/-i6botVTKNpA/UDJaOwyKamI/AAAAAAAAEB8/7K0b4ucEvWs/image_thumb27.png?imgmax=800">
-<meta property="og:image" content="http://lh3.ggpht.com/-tCuKbVzGGZA/UDJaRKW0naI/AAAAAAAAECM/8WgmG58AJPY/image_thumb3.png?imgmax=800">
-<meta property="og:image" content="http://lh3.ggpht.com/-sxBNvUkL-B0/UDJaTQxfsPI/AAAAAAAAECc/wZGnGiOZuBk/image_thumb5.png?imgmax=800">
-<meta property="og:image" content="http://lh4.ggpht.com/-7GO6XqiVlpk/UDJaVgCDucI/AAAAAAAAECs/8-qjI7rhRr4/image_thumb36.png?imgmax=800">
-<meta property="og:image" content="http://lh5.ggpht.com/-jXfqt_7ay2U/UDJaZPBGi2I/AAAAAAAAEC8/Rsh_9hFtkmk/image_thumb41.png?imgmax=800">
-<meta property="og:image" content="http://lh6.ggpht.com/-kfhiZrJt8a8/UDJabkcd6hI/AAAAAAAAEDM/DFuNd7SsRTg/image1_thumb1.png?imgmax=800">
-<meta property="og:image" content="http://lh4.ggpht.com/-CzeM3TVtQWE/UDJaeD41UlI/AAAAAAAAEDc/ezmvLX8DKJk/image81_thumb.png?imgmax=800">
-<meta property="og:image" content="http://lh6.ggpht.com/-NosC3lJ2piE/UDJagpqRwzI/AAAAAAAAEDs/Wfg7oFmcwCQ/image_thumb7.png?imgmax=800">
-<meta property="og:image" content="http://lh3.ggpht.com/-22kddT7vatw/UDJajEJwz1I/AAAAAAAAED8/XAkpixyPahM/image_thumb10%25255B1%25255D.png?imgmax=800">
-<meta property="og:image" content="http://lh3.ggpht.com/-oaoabWp5yqQ/UDJalZBrYEI/AAAAAAAAEEM/Dd8HToT7lis/image_thumb12%25255B1%25255D.png?imgmax=800">
-<meta property="og:image" content="http://lh6.ggpht.com/-Hj3t4k2_hxU/UDJaoZ7KnQI/AAAAAAAAEEc/3oRwYPSRlP0/image_thumb%25255B2%25255D.png?imgmax=800">
-<meta property="og:image" content="http://lh6.ggpht.com/-HEG2BA53LiU/UDJaqwMMqDI/AAAAAAAAEEs/tv_ueXp4ylo/image_thumb%25255B4%25255D.png?imgmax=800">
-<meta property="article:published_time" content="2012-08-20T23:41:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:39.027Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="ASP.NET MVC">
-<meta property="article:tag" content="Azure">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://lh4.ggpht.com/-3r7GcnRe3t4/UDJZy2vW_mI/AAAAAAAAD_M/KDMjmdowHRg/image_thumb2.png?imgmax=800">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> Windows Azure - 使用Access Control Service搭配Facebook來建立驗證機制 ( ASP.NET MVC ) | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Windows Azure - 使用Access Control Service搭配Facebook來建立驗證機制 ( ASP.NET MVC )
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2012-08-20T23:41:00+00:00" content="2012-08-20">
-              2012-08-20
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2012/08/20/Windows-Azure-%E4%BD%BF%E7%94%A8Access-Control-Service%E6%90%AD%E9%85%8DFacebook%E4%BE%86%E5%BB%BA%E7%AB%8B%E9%A9%97%E8%AD%89%E6%A9%9F%E5%88%B6-ASP-NET-MVC/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/08/20/Windows-Azure-使用Access-Control-Service搭配Facebook來建立驗證機制-ASP-NET-MVC/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>最近剛好寫到認證機制，就想到Windows Azure裡面還有Access Control Service還沒玩過，所以這次，就邊試玩這個認證機制，邊做個紀錄，另外<a href="http://www.dotblogs.com.tw/code6421/category/6399.aspx" target="_blank" rel="noopener">黃忠成老師</a>和<a href="http://www.dotblogs.com.tw/regionbbs/archive/2012/06/17/implement.asp.net.mvc.application.to.integrate.windows.azure.acs.2.0.aspx" target="_blank" rel="noopener">小朱前輩</a>，也有寫過這方面的文章，大家有興趣的話，也可以去讀讀看。</p>
-<p>Windows Azure的Access Control Service小弟這邊就不做深入的介紹，簡單的說，這項服務，就是可以讓我們輕鬆的透過第三方的帳號驗證，來當作我們的驗證機制，OK!簡單的說，就是可以拿Facebook的帳號，來當作我們網站的登入；當然，不是要把Facebook的帳號密碼放在我們網站，而是利用Facebook所提供的API，當使用者登入的時候，會先轉到Facebook的網站，然後登入Facebook後，會再轉回我們的網站，我們的網站只會收到Facebook告訴我們說”不用擔心!!他是合格的使用者”；原本要處理這些東西，是很麻煩的，舉例來說，如果今天我們網站要整合Windows Live、Google、Facebook、Yahoo等帳號，就需要準備很多很多的東西 ( 想到就懶了- -||| )，而這邊，微軟的Windows Azure提供的Access Control Service搭配Identity and Access Tools 就可以輕鬆搞定喔!!我們就來實作看看吧!!</p>
-<p>P.S 目前因Windows Azure還沒支援.NET Framework 4.5，所以如果這個網站是要部屬到Azure上面去的話，使用新版的Identity and Access Tool會出問題，解決方法可以<a href="http://haishibai.blogspot.tw/2012/08/windows-azure-web-site-targeting-net.html" target="_blank" rel="noopener">參考此網站</a>，這篇的教學主要是將Web放在地上，並呼叫雲上的Access Control Service為主。</p>
-<h4 id="建立Windows-Azure-Access-Control"><a href="#建立Windows-Azure-Access-Control" class="headerlink" title="建立Windows Azure Access Control"></a>建立Windows Azure Access Control</h4><p>首先，我們要建立Windows Azure Access Control，目前新版的頁面還沒有此服務，所以只能回到舊版的頁面，<a href="http://blog.sanc.idv.tw/2012/07/windows-azure.html" target="_blank" rel="noopener">這邊</a>可以讓你了解到，如何切換回舊版。</p>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">Windows Azure - 使用Access Control Service搭配Facebook來建立驗證機制 ( ASP.NET MVC ) :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="最近剛好寫到認證機制，就想到Windows Azure裡面還有Access Control Service還沒玩過，所以這次，就邊試玩這個認證機制，邊做個紀錄，另外黃忠成老師和小朱前輩，也有寫過這方面的文章，大家有興趣的話，也可以去讀讀看。 Windows Azure…"/><meta data-react-helmet="true" property="og:title" content="Windows Azure - 使用Access Control Service搭配Facebook來建立驗證機制 ( ASP.NET MVC )"/><meta data-react-helmet="true" property="og:description" content="最近剛好寫到認證機制，就想到Windows Azure裡面還有Access Control Service還沒玩過，所以這次，就邊試玩這個認證機制，邊做個紀錄，另外黃忠成老師和小朱前輩，也有寫過這方面的文章，大家有興趣的話，也可以去讀讀看。 Windows Azure…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="Windows Azure - 使用Access Control Service搭配Facebook來建立驗證機制 ( ASP.NET MVC )"/><meta data-react-helmet="true" name="twitter:description" content="最近剛好寫到認證機制，就想到Windows Azure裡面還有Access Control Service還沒玩過，所以這次，就邊試玩這個認證機制，邊做個紀錄，另外黃忠成老師和小朱前輩，也有寫過這方面的文章，大家有興趣的話，也可以去讀讀看。 Windows Azure…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2012/08/20/Windows-Azure-使用Access-Control-Service搭配Facebook來建立驗證機制-ASP-NET-MVC/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">Windows Azure - 使用Access Control Service搭配Facebook來建立驗證機制 ( ASP.NET MVC )</h1><div class="post-module--meta--3YtjE">20 August 2012<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/ASP.NET-MVC/"><span class="post-module--tag--16U9p">#<!-- -->ASP.NET MVC</span></a><a href="/tag/Azure/"><span class="post-module--tag--16U9p">#<!-- -->Azure</span></a></div></div><div><p>最近剛好寫到認證機制，就想到Windows Azure裡面還有Access Control Service還沒玩過，所以這次，就邊試玩這個認證機制，邊做個紀錄，另外<a href="http://www.dotblogs.com.tw/code6421/category/6399.aspx">黃忠成老師</a>和<a href="http://www.dotblogs.com.tw/regionbbs/archive/2012/06/17/implement.asp.net.mvc.application.to.integrate.windows.azure.acs.2.0.aspx">小朱前輩</a>，也有寫過這方面的文章，大家有興趣的話，也可以去讀讀看。</p>
+<p>Windows Azure的Access Control Service小弟這邊就不做深入的介紹，簡單的說，這項服務，就是可以讓我們輕鬆的透過第三方的帳號驗證，來當作我們的驗證機制，OK!簡單的說，就是可以拿Facebook的帳號，來當作我們網站的登入；當然，不是要把Facebook的帳號密碼放在我們網站，而是利用Facebook所提供的API，當使用者登入的時候，會先轉到Facebook的網站，然後登入Facebook後，會再轉回我們的網站，我們的網站只會收到Facebook告訴我們說"不用擔心!!他是合格的使用者"；原本要處理這些東西，是很麻煩的，舉例來說，如果今天我們網站要整合Windows Live、Google、Facebook、Yahoo等帳號，就需要準備很多很多的東西 ( 想到就懶了- -||| )，而這邊，微軟的Windows Azure提供的Access Control Service搭配Identity and Access Tools 就可以輕鬆搞定喔!!我們就來實作看看吧!!</p>
+<p>P.S 目前因Windows Azure還沒支援.NET Framework 4.5，所以如果這個網站是要部屬到Azure上面去的話，使用新版的Identity and Access Tool會出問題，解決方法可以<a href="http://haishibai.blogspot.tw/2012/08/windows-azure-web-site-targeting-net.html">參考此網站</a>，這篇的教學主要是將Web放在地上，並呼叫雲上的Access Control Service為主。</p>
+<h4>建立Windows Azure Access Control</h4>
+<p>首先，我們要建立Windows Azure Access Control，目前新版的頁面還沒有此服務，所以只能回到舊版的頁面，<a href="http://blog.sanc.idv.tw/2012/07/windows-azure.html">這邊</a>可以讓你了解到，如何切換回舊版。</p>
 <p>首先，我們選擇存取控制與快取，然後選擇Services，並且點選新增。</p>
-<p><a href="http://lh5.ggpht.com/-KjjdsCqoLRA/UDJZx4tvUeI/AAAAAAAAD_E/WghbxqYNMGk/s1600-h/image4.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-3r7GcnRe3t4/UDJZy2vW_mI/AAAAAAAAD_M/KDMjmdowHRg/image_thumb2.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh5.ggpht.com/-KjjdsCqoLRA/UDJZx4tvUeI/AAAAAAAAD_E/WghbxqYNMGk/s1600-h/image4.png"><img src="http://lh4.ggpht.com/-3r7GcnRe3t4/UDJZy2vW_mI/AAAAAAAAD_M/KDMjmdowHRg/image_thumb2.png?imgmax=800" alt="image" title="image"></a></p>
 <p>因為目前我們只要使用到存取控制，所以我們這邊只要勾選存取控制就可以了，接下來，我們填入命名空間，選一個帥氣的名子吧!!，最後別忘了我們的地區是東亞，所以要選擇東亞。</p>
-<p><a href="http://lh6.ggpht.com/-E6hKA8pi4cY/UDJZ0DP38MI/AAAAAAAAD_U/ITMsohTnVUc/s1600-h/image8.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-crUhyyGBEhM/UDJZ1eAwTpI/AAAAAAAAD_c/89SqHJ2eXMg/image_thumb4.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh6.ggpht.com/-E6hKA8pi4cY/UDJZ0DP38MI/AAAAAAAAD_U/ITMsohTnVUc/s1600-h/image8.png"><img src="http://lh4.ggpht.com/-crUhyyGBEhM/UDJZ1eAwTpI/AAAAAAAAD_c/89SqHJ2eXMg/image_thumb4.png?imgmax=800" alt="image" title="image"></a></p>
 <p>然後他就會慢慢地啟用…</p>
-<p><a href="http://lh4.ggpht.com/-PNEBW9cAFXs/UDJZ2tivP8I/AAAAAAAAD_k/hhjvt5lBRMQ/s1600-h/image12.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-edoPp_msdWI/UDJZ48pPdQI/AAAAAAAAD_s/aEMMVfh5W8s/image_thumb6.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh4.ggpht.com/-PNEBW9cAFXs/UDJZ2tivP8I/AAAAAAAAD_k/hhjvt5lBRMQ/s1600-h/image12.png"><img src="http://lh5.ggpht.com/-edoPp_msdWI/UDJZ48pPdQI/AAAAAAAAD_s/aEMMVfh5W8s/image_thumb6.png?imgmax=800" alt="image" title="image"></a></p>
 <p>這時候，就讓他跑吧，我們先去Facebook建立App。</p>
-<h4 id="建立Facebook-App"><a href="#建立Facebook-App" class="headerlink" title="建立Facebook App"></a>建立Facebook App</h4><p><a href="http://developers.facebook.com/" target="_blank" rel="noopener" title="http://developers.facebook.com/">http://developers.facebook.com/</a></p>
-<p>上面那個是建立的網址，也是Facebook的Developer中心，當然，而我們就要在這邊建立Facebook App ( 聽起來有沒有覺得很帥氣的感覺!? )，但別忘了，在我們建立App之前，自己也要先有Facebook帳號喔!!( 然後可以從”應用程式”那邊開始建立，如下圖。 )</p>
-<p><a href="http://lh5.ggpht.com/-deqloBxYa-0/UDJZ6NXyBlI/AAAAAAAAD_0/oxgjWY9csmU/s1600-h/image20.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-n4O4sZHaM2w/UDJZ7RIq2hI/AAAAAAAAD_8/j9t2Z8vigi8/image_thumb10.png?imgmax=800" alt="image" title="image"></a></p>
-<p>接下來，選擇左邊的”建立新的應用程式”，就會跳出如下的視窗，基本上App Name之類的也可以隨便Key，例如小弟就是打Study4.TW_ACS；命名空間也可以隨便Key…</p>
-<p><a href="http://lh6.ggpht.com/-aEegicTYYcQ/UDJZ81uMDiI/AAAAAAAAEAE/C9rsiuwuVMs/s1600-h/image24.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-sBMedVC--vk/UDJZ-GsZv4I/AAAAAAAAEAM/J9VgBQ-iELY/image_thumb12.png?imgmax=800" alt="image" title="image"></a></p>
+<h4>建立Facebook App</h4>
+<p><a href="http://developers.facebook.com/" title="http://developers.facebook.com/">http://developers.facebook.com/</a></p>
+<p>上面那個是建立的網址，也是Facebook的Developer中心，當然，而我們就要在這邊建立Facebook App ( 聽起來有沒有覺得很帥氣的感覺!? )，但別忘了，在我們建立App之前，自己也要先有Facebook帳號喔!!( 然後可以從"應用程式"那邊開始建立，如下圖。 )</p>
+<p><a href="http://lh5.ggpht.com/-deqloBxYa-0/UDJZ6NXyBlI/AAAAAAAAD_0/oxgjWY9csmU/s1600-h/image20.png"><img src="http://lh6.ggpht.com/-n4O4sZHaM2w/UDJZ7RIq2hI/AAAAAAAAD_8/j9t2Z8vigi8/image_thumb10.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，選擇左邊的"建立新的應用程式"，就會跳出如下的視窗，基本上App Name之類的也可以隨便Key，例如小弟就是打Study4.TW_ACS；命名空間也可以隨便Key…</p>
+<p><a href="http://lh6.ggpht.com/-aEegicTYYcQ/UDJZ81uMDiI/AAAAAAAAEAE/C9rsiuwuVMs/s1600-h/image24.png"><img src="http://lh4.ggpht.com/-sBMedVC--vk/UDJZ-GsZv4I/AAAAAAAAEAM/J9VgBQ-iELY/image_thumb12.png?imgmax=800" alt="image" title="image"></a></p>
 <p>其實剛剛Key的東西也會帶過來到這頁，這邊比較重要的是，App ID和App Secret這兩樣，小弟這邊故意把它塗白了；另外App Domains和下面的網站位置要填入剛剛申請的Windows Azure Access Control Service網址喔!! ( 網址通常為剛剛我們申請Windows Access Control Service 時所填入的命名空間再加上accesscontrol.windows.net，例如剛剛小弟在申請Windows Access Control Service的時候，填入的命名空間為Study4ACS，所以出來的網址就是study4acs.accesscontrol.windows.net )；至於其他的Mobile Web等等部分，就可以不用管了。</p>
-<p><a href="http://lh6.ggpht.com/-8jF97uHxwbU/UDJZ_XlifRI/AAAAAAAAEAU/l4nlC8lRG9U/s1600-h/image29.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-zz6yG4Qzy8s/UDJaA5vI0RI/AAAAAAAAEAc/RPC7FY-YT8M/image_thumb15.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh6.ggpht.com/-8jF97uHxwbU/UDJZ_XlifRI/AAAAAAAAEAU/l4nlC8lRG9U/s1600-h/image29.png"><img src="http://lh6.ggpht.com/-zz6yG4Qzy8s/UDJaA5vI0RI/AAAAAAAAEAc/RPC7FY-YT8M/image_thumb15.png?imgmax=800" alt="image" title="image"></a></p>
 <p>到這邊，Facebook的建立App就算完成了!!</p>
-<h4 id="建立Windows-Access-Control-Service的識別提供者"><a href="#建立Windows-Access-Control-Service的識別提供者" class="headerlink" title="建立Windows Access Control Service的識別提供者"></a>建立Windows Access Control Service的識別提供者</h4><p>所謂的識別提供者，其實指的就是Facebook，意思就是說，由Facebook來提供我們識別身分的機制；所以Facebook就是識別提供者；換言之，就是用Facebook的帳號來當作我們網站的登入識別啦!!這邊，我們選擇剛剛建立好的Windows Azure Access Control Service，然後再選擇”存取控制服務”。</p>
-<p><a href="http://lh4.ggpht.com/-WOeCTTuMZzQ/UDJaB8eaM5I/AAAAAAAAEAk/5RzQhiMCV3w/s1600-h/image33.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-6oyZixMOeRE/UDJaDItdh_I/AAAAAAAAEAs/N4du0YH74Mo/image_thumb17.png?imgmax=800" alt="image" title="image"></a></p>
-<p>接下來，就會導到另外一頁，我們這邊選擇”識別提供者”，並選擇新增。( 大家應該也會看到，其實預設，Windows Azure就已經幫我們準備好Windows Live的識別提供者了喔!! )</p>
-<p><a href="http://lh3.ggpht.com/-2CtUXTb29UM/UDJaEB7QOPI/AAAAAAAAEA0/S4pAnT2rjNA/s1600-h/image37.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-4QxiXEILwNE/UDJaFu0eDWI/AAAAAAAAEA8/DfBawd0AOMQ/image_thumb19.png?imgmax=800" alt="image" title="image"></a></p>
+<h4>建立Windows Access Control Service的識別提供者</h4>
+<p>所謂的識別提供者，其實指的就是Facebook，意思就是說，由Facebook來提供我們識別身分的機制；所以Facebook就是識別提供者；換言之，就是用Facebook的帳號來當作我們網站的登入識別啦!!這邊，我們選擇剛剛建立好的Windows Azure Access Control Service，然後再選擇"存取控制服務"。</p>
+<p><a href="http://lh4.ggpht.com/-WOeCTTuMZzQ/UDJaB8eaM5I/AAAAAAAAEAk/5RzQhiMCV3w/s1600-h/image33.png"><img src="http://lh4.ggpht.com/-6oyZixMOeRE/UDJaDItdh_I/AAAAAAAAEAs/N4du0YH74Mo/image_thumb17.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來，就會導到另外一頁，我們這邊選擇"識別提供者"，並選擇新增。( 大家應該也會看到，其實預設，Windows Azure就已經幫我們準備好Windows Live的識別提供者了喔!! )</p>
+<p><a href="http://lh3.ggpht.com/-2CtUXTb29UM/UDJaEB7QOPI/AAAAAAAAEA0/S4pAnT2rjNA/s1600-h/image37.png"><img src="http://lh3.ggpht.com/-4QxiXEILwNE/UDJaFu0eDWI/AAAAAAAAEA8/DfBawd0AOMQ/image_thumb19.png?imgmax=800" alt="image" title="image"></a></p>
 <p>接下來，這邊我們要選擇Facebook應用程式，大家也可以發現，其實Windows Azure也提供了Google和Yahoo喔!!</p>
-<p><a href="http://lh3.ggpht.com/-LBH8zKL-Wxk/UDJaG2V9wYI/AAAAAAAAEBE/RHMBVxwHpGw/s1600-h/image41.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-aC6tOZTCYAY/UDJaH-t1MAI/AAAAAAAAEBM/Fu6EfMaNih4/image_thumb21.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh3.ggpht.com/-LBH8zKL-Wxk/UDJaG2V9wYI/AAAAAAAAEBE/RHMBVxwHpGw/s1600-h/image41.png"><img src="http://lh3.ggpht.com/-aC6tOZTCYAY/UDJaH-t1MAI/AAAAAAAAEBM/Fu6EfMaNih4/image_thumb21.png?imgmax=800" alt="image" title="image"></a></p>
 <p>當我們按下下一步的時候，就會到下面這個畫面，這邊，我們就要填入剛剛在Facebook Developer建立Facebook App說很重要的那兩樣!!此外，後面登入連結文字的地方，其實也可以隨便Key，到時候是用來顯示要登入Facebook用的超連結文字。( 反正到後面就會知道了=v= )</p>
-<p><a href="http://lh3.ggpht.com/-3w1-Axbpj30/UDJaIxipBfI/AAAAAAAAEBU/gz8DyMyUm90/s1600-h/image45.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-22RV5gH-1aE/UDJaKQDqwVI/AAAAAAAAEBc/V94Ymhxgdlg/image_thumb23.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh3.ggpht.com/-3w1-Axbpj30/UDJaIxipBfI/AAAAAAAAEBU/gz8DyMyUm90/s1600-h/image45.png"><img src="http://lh6.ggpht.com/-22RV5gH-1aE/UDJaKQDqwVI/AAAAAAAAEBc/V94Ymhxgdlg/image_thumb23.png?imgmax=800" alt="image" title="image"></a></p>
 <p>按下儲存後，就會發現多了一個Facebook了喔!!</p>
-<p><a href="http://lh5.ggpht.com/-xzcwXIYVTqc/UDJaLUu9OgI/AAAAAAAAEBk/iAbR8_5_7rQ/s1600-h/image49.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-AA_ZzKp7Byc/UDJaMvhV7rI/AAAAAAAAEBs/DP1o4mEb8Tg/image_thumb25.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh5.ggpht.com/-xzcwXIYVTqc/UDJaLUu9OgI/AAAAAAAAEBk/iAbR8_5_7rQ/s1600-h/image49.png"><img src="http://lh6.ggpht.com/-AA_ZzKp7Byc/UDJaMvhV7rI/AAAAAAAAEBs/DP1o4mEb8Tg/image_thumb25.png?imgmax=800" alt="image" title="image"></a></p>
 <p>到這邊，識別提供者的部分，就完成嚕!!</p>
-<h4 id="建立信賴憑證者應用程式"><a href="#建立信賴憑證者應用程式" class="headerlink" title="建立信賴憑證者應用程式"></a>建立信賴憑證者應用程式</h4><p>剛剛我們準備好了識別提供者，但只有識別提供者是不夠的!!就如剛剛說的，我們可能會有一堆識別提供者，但總要有個唯一的大門，讓使用者進去選擇到底要走哪一條路吧；所以這邊，我們就要設定信賴憑證者應用程式。</p>
-<p><a href="http://lh4.ggpht.com/-By6FtfY0ZzU/UDJaNk2DNcI/AAAAAAAAEB0/kd8CJHUEqJw/s1600-h/image53.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-i6botVTKNpA/UDJaOwyKamI/AAAAAAAAEB8/7K0b4ucEvWs/image_thumb27.png?imgmax=800" alt="image" title="image"></a></p>
-<p>首先，我們要輸入一下名稱，基本上可以隨便打沒關係；其次比較重要的是領域和傳回URL這兩項，領域代表著的是，發出請求網站的位置，例如我們這邊要給<a href="http://sutuy4.tw" target="_blank" rel="noopener">http://sutuy4.tw</a>這個網站使用Access Control Service，所以這邊要填寫<a href="http://study4.tw" target="_blank" rel="noopener">http://study4.tw</a> 這樣信賴憑證者應用程式，才不會任何網站提出來，都照單全收；同樣的，當認證結束後，Access Control Service會幫我們轉到某個URL，而那個URL就是傳回URL，而這邊，也可以填入<a href="http://localhost" target="_blank" rel="noopener">http://localhost</a> ；接下來，因為我們要使用Identity and Access Tools，所以必須要使用SAML2.0的權杖格式。( 如果使用的是SAML 2.0，就必須要使用X.509憑證，不過不用擔心，預設都幫你準備好了，所以X.509的憑證，我們也不需要做甚麼就是了。 )</p>
-<p><a href="http://lh3.ggpht.com/-Kt3Y-ALqsvc/UDJaP5S51nI/AAAAAAAAECE/YGhGSpbrUlI/s1600-h/image5.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-tCuKbVzGGZA/UDJaRKW0naI/AAAAAAAAECM/8WgmG58AJPY/image_thumb3.png?imgmax=800" alt="image" title="image"></a></p>
-<p>接下來要勾選識別提供者，我們就把Facebook和Windows Live ID給勾一勾吧，其他部分就如同下圖一樣，因為每個信賴憑證者應用程式都會有規則，所以如果已經有建立規則的，可以選擇自己想要的規則，但第一次建立，當然沒有規範，所以這邊要勾選建立新的規則群組，此外，如剛剛提的，SAML2.0使用的是X.509，不過預設也幫我們準備好了，我們只要選擇”使用服務命名空間憑證”就可以了，當然，如果想要自己建立一個X.509，也不是不行。</p>
-<p><a href="http://lh5.ggpht.com/-gnzZU_ccXMk/UDJaSReNWCI/AAAAAAAAECQ/5lUzSccYYeM/s1600-h/image9.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-sxBNvUkL-B0/UDJaTQxfsPI/AAAAAAAAECc/wZGnGiOZuBk/image_thumb5.png?imgmax=800" alt="image" title="image"></a></p>
+<h4>建立信賴憑證者應用程式</h4>
+<p>剛剛我們準備好了識別提供者，但只有識別提供者是不夠的!!就如剛剛說的，我們可能會有一堆識別提供者，但總要有個唯一的大門，讓使用者進去選擇到底要走哪一條路吧；所以這邊，我們就要設定信賴憑證者應用程式。</p>
+<p><a href="http://lh4.ggpht.com/-By6FtfY0ZzU/UDJaNk2DNcI/AAAAAAAAEB0/kd8CJHUEqJw/s1600-h/image53.png"><img src="http://lh4.ggpht.com/-i6botVTKNpA/UDJaOwyKamI/AAAAAAAAEB8/7K0b4ucEvWs/image_thumb27.png?imgmax=800" alt="image" title="image"></a></p>
+<p>首先，我們要輸入一下名稱，基本上可以隨便打沒關係；其次比較重要的是領域和傳回URL這兩項，領域代表著的是，發出請求網站的位置，例如我們這邊要給<a href="http://sutuy4.tw">http://sutuy4.tw</a>這個網站使用Access Control Service，所以這邊要填寫<a href="http://study4.tw">http://study4.tw</a> 這樣信賴憑證者應用程式，才不會任何網站提出來，都照單全收；同樣的，當認證結束後，Access Control Service會幫我們轉到某個URL，而那個URL就是傳回URL，而這邊，也可以填入<a href="http://localhost">http://localhost</a> ；接下來，因為我們要使用Identity and Access Tools，所以必須要使用SAML2.0的權杖格式。( 如果使用的是SAML 2.0，就必須要使用X.509憑證，不過不用擔心，預設都幫你準備好了，所以X.509的憑證，我們也不需要做甚麼就是了。 )</p>
+<p><a href="http://lh3.ggpht.com/-Kt3Y-ALqsvc/UDJaP5S51nI/AAAAAAAAECE/YGhGSpbrUlI/s1600-h/image5.png"><img src="http://lh3.ggpht.com/-tCuKbVzGGZA/UDJaRKW0naI/AAAAAAAAECM/8WgmG58AJPY/image_thumb3.png?imgmax=800" alt="image" title="image"></a></p>
+<p>接下來要勾選識別提供者，我們就把Facebook和Windows Live ID給勾一勾吧，其他部分就如同下圖一樣，因為每個信賴憑證者應用程式都會有規則，所以如果已經有建立規則的，可以選擇自己想要的規則，但第一次建立，當然沒有規範，所以這邊要勾選建立新的規則群組，此外，如剛剛提的，SAML2.0使用的是X.509，不過預設也幫我們準備好了，我們只要選擇"使用服務命名空間憑證"就可以了，當然，如果想要自己建立一個X.509，也不是不行。</p>
+<p><a href="http://lh5.ggpht.com/-gnzZU_ccXMk/UDJaSReNWCI/AAAAAAAAECQ/5lUzSccYYeM/s1600-h/image9.png"><img src="http://lh3.ggpht.com/-sxBNvUkL-B0/UDJaTQxfsPI/AAAAAAAAECc/wZGnGiOZuBk/image_thumb5.png?imgmax=800" alt="image" title="image"></a></p>
 <p>然後就會順利地建立起來了。</p>
-<p><a href="http://lh6.ggpht.com/-UXL2BdyyST8/UDJaUVZeBLI/AAAAAAAAECg/m1QnbYrBEbU/s1600-h/image70.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-7GO6XqiVlpk/UDJaVgCDucI/AAAAAAAAECs/8-qjI7rhRr4/image_thumb36.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh6.ggpht.com/-UXL2BdyyST8/UDJaUVZeBLI/AAAAAAAAECg/m1QnbYrBEbU/s1600-h/image70.png"><img src="http://lh4.ggpht.com/-7GO6XqiVlpk/UDJaVgCDucI/AAAAAAAAECs/8-qjI7rhRr4/image_thumb36.png?imgmax=800" alt="image" title="image"></a></p>
 <p>到這邊，就算把Windows Azure Access Control Service設定完畢，接下來我們要看程式段了。</p>
-<h4 id="ASP-NET-MVC程式"><a href="#ASP-NET-MVC程式" class="headerlink" title="ASP.NET MVC程式"></a>ASP.NET MVC程式</h4><p>我們這邊要使用的是Identity and Access Tool，這裡是他的<a href="http://visualstudiogallery.msdn.microsoft.com/e21bf653-dfe1-4d81-b3d3-795cb104066e" target="_blank" rel="noopener">解釋</a>，有興趣的人可以參考看看。( 這個版本支援於Visual Studio 2012 )</p>
+<h4>ASP.NET MVC程式</h4>
+<p>我們這邊要使用的是Identity and Access Tool，這裡是他的<a href="http://visualstudiogallery.msdn.microsoft.com/e21bf653-dfe1-4d81-b3d3-795cb104066e">解釋</a>，有興趣的人可以參考看看。( 這個版本支援於Visual Studio 2012 )</p>
 <p>我們可以使用Visual Studio 2012的擴充功能和更新，找到Identity And Access Tool ( 不是用NuGet找喔!! )</p>
-<p><a href="http://lh6.ggpht.com/-hPkDcqWME4M/UDJaWj3VSJI/AAAAAAAAEC0/tHLmu1dq4Uk/s1600-h/image79.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-jXfqt_7ay2U/UDJaZPBGi2I/AAAAAAAAEC8/Rsh_9hFtkmk/image_thumb41.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh6.ggpht.com/-hPkDcqWME4M/UDJaWj3VSJI/AAAAAAAAEC0/tHLmu1dq4Uk/s1600-h/image79.png"><img src="http://lh5.ggpht.com/-jXfqt_7ay2U/UDJaZPBGi2I/AAAAAAAAEC8/Rsh_9hFtkmk/image_thumb41.png?imgmax=800" alt="image" title="image"></a></p>
 <p>接下來，我們就可以在網頁專案上，按滑鼠右鍵找到Identity and Access的功能選單。</p>
-<p><a href="http://lh3.ggpht.com/-Al65Nyo7KFQ/UDJaaXE_frI/AAAAAAAAEDE/Wlg7EMq8vCg/s1600-h/image12%25255B1%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-kfhiZrJt8a8/UDJabkcd6hI/AAAAAAAAEDM/DFuNd7SsRTg/image1_thumb1.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh3.ggpht.com/-Al65Nyo7KFQ/UDJaaXE_frI/AAAAAAAAEDE/Wlg7EMq8vCg/s1600-h/image12%25255B1%25255D.png"><img src="http://lh6.ggpht.com/-kfhiZrJt8a8/UDJabkcd6hI/AAAAAAAAEDM/DFuNd7SsRTg/image1_thumb1.png?imgmax=800" alt="image" title="image"></a></p>
 <p>點下去後，我們要選擇Use the Windows Azure Access control Service，並且先設定Configure。</p>
-<p><a href="http://lh4.ggpht.com/-rfZD3xGmehk/UDJac_N2yZI/AAAAAAAAEDU/_WldjvvFStE/s1600-h/image811.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-CzeM3TVtQWE/UDJaeD41UlI/AAAAAAAAEDc/ezmvLX8DKJk/image81_thumb.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh4.ggpht.com/-rfZD3xGmehk/UDJac_N2yZI/AAAAAAAAEDU/_WldjvvFStE/s1600-h/image811.png"><img src="http://lh4.ggpht.com/-CzeM3TVtQWE/UDJaeD41UlI/AAAAAAAAEDc/ezmvLX8DKJk/image81_thumb.png?imgmax=800" alt="image" title="image"></a></p>
 <p>這裡需要填入一些東西，我們先回到Windows Azure Access Control Control的管理介面，並選擇下面的管理服務，然後再選擇ManagementClient。</p>
-<p><a href="http://lh4.ggpht.com/-x0BVxqBqVnE/UDJafpETorI/AAAAAAAAEDk/vDSs-j24CCY/s1600-h/image13.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-NosC3lJ2piE/UDJagpqRwzI/AAAAAAAAEDs/Wfg7oFmcwCQ/image_thumb7.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh4.ggpht.com/-x0BVxqBqVnE/UDJafpETorI/AAAAAAAAEDk/vDSs-j24CCY/s1600-h/image13.png"><img src="http://lh6.ggpht.com/-NosC3lJ2piE/UDJagpqRwzI/AAAAAAAAEDs/Wfg7oFmcwCQ/image_thumb7.png?imgmax=800" alt="image" title="image"></a></p>
 <p>然後點對稱金鑰。</p>
-<p><a href="http://lh6.ggpht.com/-OQF7hwBjGh8/UDJah14YTlI/AAAAAAAAED0/0j_Of_A10Io/s1600-h/image18.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-22kddT7vatw/UDJajEJwz1I/AAAAAAAAED8/XAkpixyPahM/image_thumb10%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh6.ggpht.com/-OQF7hwBjGh8/UDJah14YTlI/AAAAAAAAED0/0j_Of_A10Io/s1600-h/image18.png"><img src="http://lh3.ggpht.com/-22kddT7vatw/UDJajEJwz1I/AAAAAAAAED8/XAkpixyPahM/image_thumb10%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
 <p>然後把畫面上的東西，貼到Configure上面去，簡單的說，就是讓Visual Studio的Identity and Access擁有存取Windows Access Control Service的權限。</p>
-<p><a href="http://lh3.ggpht.com/-Uvq3vFCH_4k/UDJakcpviKI/AAAAAAAAEEE/mCMmBpGe9g4/s1600-h/image22.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-oaoabWp5yqQ/UDJalZBrYEI/AAAAAAAAEEM/Dd8HToT7lis/image_thumb12%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
-<p>完成後，我們就可以把Windows Live ID和Facebook勾選起來，然後要注意下面那兩個URL，也就是我們在前面設定的”領域”、”傳回URL”的部分 ( 這裡要特別注意一下，這邊的範例會用IIS Express並使用<a href="http://localhost" target="_blank" rel="noopener">http://localhost</a> 來跑，如果今天沒有特別設定的話，可能會用到別的Port喔 )，最後記得要勾選Overwrite existing rules configuration for this application；如果沒勾選的話，你回到Windows Azure Access Control Service管理畫面，可能就會發現，Identity and Access幫你多新增了一個新的信賴憑證應用程式了，這邊打勾的意思，就是代表要把原來的那個設定複寫掉，而不是新增。( 沒錯，或許有人會想到，那是不是可以不用透過剛剛麻煩的信賴憑證應用程式設定，而直接給Identity and Access Tool來設定就好了，小弟是沒有試過，但小弟覺得事有可能的，但畢竟這是個學習的過程，所以這樣的流程，會比較清楚。 )</p>
-<p><a href="http://lh4.ggpht.com/-ZW-3hRoHXIs/UDJamoK_HcI/AAAAAAAAEEU/WpaMy820ARs/s1600-h/image%25255B5%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-Hj3t4k2_hxU/UDJaoZ7KnQI/AAAAAAAAEEc/3oRwYPSRlP0/image_thumb%25255B2%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh3.ggpht.com/-Uvq3vFCH_4k/UDJakcpviKI/AAAAAAAAEEE/mCMmBpGe9g4/s1600-h/image22.png"><img src="http://lh3.ggpht.com/-oaoabWp5yqQ/UDJalZBrYEI/AAAAAAAAEEM/Dd8HToT7lis/image_thumb12%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>完成後，我們就可以把Windows Live ID和Facebook勾選起來，然後要注意下面那兩個URL，也就是我們在前面設定的"領域"、"傳回URL"的部分 ( 這裡要特別注意一下，這邊的範例會用IIS Express並使用<a href="http://localhost">http://localhost</a> 來跑，如果今天沒有特別設定的話，可能會用到別的Port喔 )，最後記得要勾選Overwrite existing rules configuration for this application；如果沒勾選的話，你回到Windows Azure Access Control Service管理畫面，可能就會發現，Identity and Access幫你多新增了一個新的信賴憑證應用程式了，這邊打勾的意思，就是代表要把原來的那個設定複寫掉，而不是新增。( 沒錯，或許有人會想到，那是不是可以不用透過剛剛麻煩的信賴憑證應用程式設定，而直接給Identity and Access Tool來設定就好了，小弟是沒有試過，但小弟覺得事有可能的，但畢竟這是個學習的過程，所以這樣的流程，會比較清楚。 )</p>
+<p><a href="http://lh4.ggpht.com/-ZW-3hRoHXIs/UDJamoK_HcI/AAAAAAAAEEU/WpaMy820ARs/s1600-h/image%25255B5%25255D.png"><img src="http://lh6.ggpht.com/-Hj3t4k2_hxU/UDJaoZ7KnQI/AAAAAAAAEEc/3oRwYPSRlP0/image_thumb%25255B2%25255D.png?imgmax=800" alt="image" title="image"></a></p>
 <p>按下ok後，Identity and Access Tool就會幫我們大刀闊斧地修改Web.config了，下面是針對Identity and Access所做的變動，在這邊做個紀錄，給大家參考看看。</p>
 <p>首先，他會在ConfigSections加入兩行，如下。</p>
 <pre class="brush: xml;">&lt;configuration&gt;
@@ -408,14 +67,12 @@
     &lt;section name="system.identityModel.services" type="System.IdentityModel.Services.Configuration.SystemIdentityModelServicesSection, System.IdentityModel.Services, Version=4.0.0.0, Culture=neutral, PublicKeyToken=B77A5C561934E089" /&gt;
   &lt;/configSections&gt;
 </pre>
-
 <p>接下來他會在appSettings底下加入這兩行</p>
 <pre class="brush: xml;">&lt;appSettings&gt;
   &lt;add key="ida:FederationMetadataLocation" value="https://study4acs.accesscontrol.windows.net/FederationMetadata/2007-06/FederationMetadata.xml" /&gt;
   &lt;add key="ida:ProviderSelection" value="ACS" /&gt;
 &lt;/appSettings&gt;
 </pre>
-
 <p>然後他會多加一個location path，並且把原本的認證機制註解掉，換成新的認證機制。</p>
 <pre class="brush: xml;">&lt;location path="FederationMetadata"&gt;
     &lt;system.web&gt;
@@ -434,12 +91,10 @@
     &lt;!--&lt;authentication mode="Forms"&gt;&lt;forms loginUrl="~/Account/Login" timeout="2880" /&gt;&lt;/authentication&gt;--&gt;
     &lt;pages
 </pre>
-
 <p>接下來他會在system.web上面加上httpRuntime標籤</p>
 <pre class="brush: xml;">    &lt;httpRuntime requestValidationMode="4.5" /&gt;
   &lt;/system.web&gt;
 </pre>
-
 <p>然後會在modules加上兩個新的Module。</p>
 <pre class="brush: xml;">  &lt;system.webServer&gt;
     &lt;modules&gt;
@@ -448,7 +103,6 @@
     &lt;/modules&gt;
   &lt;/system.webServer&gt;
 </pre>
-
 <p>最後，會再加上system.identityModel。</p>
 <pre class="brush: xml;">  &lt;system.identityModel&gt;
     &lt;identityConfiguration&gt;
@@ -471,317 +125,11 @@
   &lt;/system.identityModel.services&gt;
 &lt;/configuration&gt;
 </pre>
-
 <p>基本上就這樣，這時候，我們把程式Run起來，如下圖，就可以使用Windows Live ID或是Facebook當作帳號的登入了!!</p>
-<p><a href="http://lh4.ggpht.com/-1Sr8ipivd7Y/UDJapqx_nuI/AAAAAAAAEEk/naGVSeMN2HI/s1600-h/image%25255B9%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-HEG2BA53LiU/UDJaqwMMqDI/AAAAAAAAEEs/tv_ueXp4ylo/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
-<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>老實說，搭配Windows Azure Access Control Service，更加的方便了，讓我們省掉了很多的麻煩事，而這也是第一次實作，後續如果有甚麼新的應用，會再發佈出來給大家參考。最後，如果需要上傳到Windows Azure上，則請參考”參考網址”的最下面一篇，並且要把Identity and Access改成另外一個版本喔。</p>
-<h4 id="參考網址"><a href="#參考網址" class="headerlink" title="參考網址"></a>參考網址</h4><ul>
-<li><a href="https://www.windowsazure.com/en-us/develop/net/how-to-guides/access-control/#whats-next" target="_blank" rel="noopener" title="https://www.windowsazure.com/en-us/develop/net/how-to-guides/access-control/#whats-next">https://www.windowsazure.com/en-us/develop/net/how-to-guides/access-control/#whats-next</a><li><a href="http://msdn.microsoft.com/en-us/library/gg185906.aspx" target="_blank" rel="noopener" title="http://msdn.microsoft.com/en-us/library/gg185906.aspx">http://msdn.microsoft.com/en-us/library/gg185906.aspx</a><li><a href="http://www.dotblogs.com.tw/code6421/category/6399.aspx" target="_blank" rel="noopener" title="http://www.dotblogs.com.tw/code6421/category/6399.aspx">http://www.dotblogs.com.tw/code6421/category/6399.aspx</a><li><a href="http://www.dotblogs.com.tw/regionbbs/archive/2012/06/17/implement.asp.net.mvc.application.to.integrate.windows.azure.acs.2.0.aspx" target="_blank" rel="noopener" title="http://www.dotblogs.com.tw/regionbbs/archive/2012/06/17/implement.asp.net.mvc.application.to.integrate.windows.azure.acs.2.0.aspx">http://www.dotblogs.com.tw/regionbbs/archive/2012/06/17/implement.asp.net.mvc.application.to.integrate.windows.azure.acs.2.0.aspx</a><li><a href="http://www.microsoft.com/en-us/download/details.aspx?id=4451" target="_blank" rel="noopener" title="http://www.microsoft.com/en-us/download/details.aspx?id=4451">http://www.microsoft.com/en-us/download/details.aspx?id=4451</a><li><a href="http://haishibai.blogspot.tw/2012/08/windows-azure-web-site-targeting-net.html" target="_blank" rel="noopener" title="http://haishibai.blogspot.tw/2012/08/windows-azure-web-site-targeting-net.html">http://haishibai.blogspot.tw/2012/08/windows-azure-web-site-targeting-net.html</a></li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/ASP-NET-MVC/" rel="tag">#ASP.NET MVC</a>
-          
-            <a href="/tags/Azure/" rel="tag">#Azure</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2012/08/16/%E7%B4%80%E9%8C%84%E6%96%87-Windows-8%E5%92%8CVisual-Studio-2012-%E6%AD%A3%E5%BC%8F%E9%87%8B%E5%87%BA/" rel="next" title="紀錄文 -  Windows 8和Visual Studio 2012 正式釋出">
-                <i class="fa fa-chevron-left"></i> 紀錄文 -  Windows 8和Visual Studio 2012 正式釋出
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2012/08/21/Visual-Studio-%E4%BD%BF%E7%94%A8-NET-Framework%E5%8E%9F%E5%A7%8B%E7%A2%BC%E4%BE%86%E5%81%B5%E9%8C%AF/" rel="prev" title="Visual Studio - 使用.NET Framework原始碼來偵錯">
-                Visual Studio - 使用.NET Framework原始碼來偵錯 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#建立Windows-Azure-Access-Control"><span class="nav-number">1.</span> <span class="nav-text">建立Windows Azure Access Control</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立Facebook-App"><span class="nav-number">2.</span> <span class="nav-text">建立Facebook App</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立Windows-Access-Control-Service的識別提供者"><span class="nav-number">3.</span> <span class="nav-text">建立Windows Access Control Service的識別提供者</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立信賴憑證者應用程式"><span class="nav-number">4.</span> <span class="nav-text">建立信賴憑證者應用程式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ASP-NET-MVC程式"><span class="nav-number">5.</span> <span class="nav-text">ASP.NET MVC程式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">6.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考網址"><span class="nav-number">7.</span> <span class="nav-text">參考網址</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
-  </a>
-</div>
-
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2012/08/20/Windows-Azure-使用Access-Control-Service搭配Facebook來建立驗證機制-ASP-NET-MVC/';
-      var disqus_title = 'Windows Azure - 使用Access Control Service搭配Facebook來建立驗證機制 ( ASP.NET MVC )';
-      var disqus_url = 'http://skychang.github.io/2012/08/20/Windows-Azure-%E4%BD%BF%E7%94%A8Access-Control-Service%E6%90%AD%E9%85%8DFacebook%E4%BE%86%E5%BB%BA%E7%AB%8B%E9%A9%97%E8%AD%89%E6%A9%9F%E5%88%B6-ASP-NET-MVC/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+<p><a href="http://lh4.ggpht.com/-1Sr8ipivd7Y/UDJapqx_nuI/AAAAAAAAEEk/naGVSeMN2HI/s1600-h/image%25255B9%25255D.png"><img src="http://lh6.ggpht.com/-HEG2BA53LiU/UDJaqwMMqDI/AAAAAAAAEEs/tv_ueXp4ylo/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<h4>後記</h4>
+<p>老實說，搭配Windows Azure Access Control Service，更加的方便了，讓我們省掉了很多的麻煩事，而這也是第一次實作，後續如果有甚麼新的應用，會再發佈出來給大家參考。最後，如果需要上傳到Windows Azure上，則請參考"參考網址"的最下面一篇，並且要把Identity and Access改成另外一個版本喔。</p>
+<h4>參考網址</h4>
+<ul>
+<li><a href="https://www.windowsazure.com/en-us/develop/net/how-to-guides/access-control/#whats-next" title="https://www.windowsazure.com/en-us/develop/net/how-to-guides/access-control/#whats-next">https://www.windowsazure.com/en-us/develop/net/how-to-guides/access-control/#whats-next</a><li><a href="http://msdn.microsoft.com/en-us/library/gg185906.aspx" title="http://msdn.microsoft.com/en-us/library/gg185906.aspx">http://msdn.microsoft.com/en-us/library/gg185906.aspx</a><li><a href="http://www.dotblogs.com.tw/code6421/category/6399.aspx" title="http://www.dotblogs.com.tw/code6421/category/6399.aspx">http://www.dotblogs.com.tw/code6421/category/6399.aspx</a><li><a href="http://www.dotblogs.com.tw/regionbbs/archive/2012/06/17/implement.asp.net.mvc.application.to.integrate.windows.azure.acs.2.0.aspx" title="http://www.dotblogs.com.tw/regionbbs/archive/2012/06/17/implement.asp.net.mvc.application.to.integrate.windows.azure.acs.2.0.aspx">http://www.dotblogs.com.tw/regionbbs/archive/2012/06/17/implement.asp.net.mvc.application.to.integrate.windows.azure.acs.2.0.aspx</a><li><a href="http://www.microsoft.com/en-us/download/details.aspx?id=4451" title="http://www.microsoft.com/en-us/download/details.aspx?id=4451">http://www.microsoft.com/en-us/download/details.aspx?id=4451</a><li><a href="http://haishibai.blogspot.tw/2012/08/windows-azure-web-site-targeting-net.html" title="http://haishibai.blogspot.tw/2012/08/windows-azure-web-site-targeting-net.html">http://haishibai.blogspot.tw/2012/08/windows-azure-web-site-targeting-net.html</a></li>
+</ul></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2012/08/20/Windows-Azure-使用Access-Control-Service搭配Facebook來建立驗證機制-ASP-NET-MVC/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>

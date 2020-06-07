@@ -1,734 +1,549 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="ASP.NET Core,ASP.NET,macOS,Visual Studio Code,.NET Core," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="前言雖然，Docker 的文章，寫了第一篇後，就一直欠到現在….( 跪 )，然後現在又令開支線，( 跪到趴在地上了 )但既然打算在 macOS 上處理 ASP.NET Core. 就想說，當作一篇記錄，一路寫下去，而最近公司忙碌的程度，真的是太高了，所以請大家諒解…. 其實很久很久以前，大概就寫過類似的文章，那時候 .NET Core 也還在發展中，本來是想說，隨著發展中，就持續寫下去，但後來，不">
-<meta property="og:type" content="article">
-<meta property="og:title" content="ASP.NET Core - 在 macOS 上開發 ASP.NET Core - 環境準備篇">
-<meta property="og:url" content="http://skychang.github.io/2017/02/11/ASP-NET-Core-First_In_Mac/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="前言雖然，Docker 的文章，寫了第一篇後，就一直欠到現在….( 跪 )，然後現在又令開支線，( 跪到趴在地上了 )但既然打算在 macOS 上處理 ASP.NET Core. 就想說，當作一篇記錄，一路寫下去，而最近公司忙碌的程度，真的是太高了，所以請大家諒解…. 其實很久很久以前，大概就寫過類似的文章，那時候 .NET Core 也還在發展中，本來是想說，隨著發展中，就持續寫下去，但後來，不">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://skychang.github.io/2017/02/11/ASP-NET-Core-First_In_Mac/01.png">
-<meta property="og:image" content="http://skychang.github.io/2017/02/11/ASP-NET-Core-First_In_Mac/02.png">
-<meta property="og:image" content="http://skychang.github.io/2017/02/11/ASP-NET-Core-First_In_Mac/03.png">
-<meta property="og:image" content="http://skychang.github.io/2017/02/11/ASP-NET-Core-First_In_Mac/04.png">
-<meta property="og:image" content="http://skychang.github.io/2017/02/11/ASP-NET-Core-First_In_Mac/04-1.png">
-<meta property="og:image" content="http://skychang.github.io/2017/02/11/ASP-NET-Core-First_In_Mac/05.png">
-<meta property="og:image" content="http://skychang.github.io/2017/02/11/ASP-NET-Core-First_In_Mac/06.png">
-<meta property="og:image" content="http://skychang.github.io/2017/02/11/ASP-NET-Core-First_In_Mac/08.png">
-<meta property="og:image" content="http://skychang.github.io/2017/02/11/ASP-NET-Core-First_In_Mac/09.png">
-<meta property="og:image" content="http://skychang.github.io/2017/02/11/ASP-NET-Core-First_In_Mac/10.png">
-<meta property="og:image" content="http://skychang.github.io/2017/02/11/ASP-NET-Core-First_In_Mac/11.png">
-<meta property="og:image" content="http://skychang.github.io/2017/02/11/ASP-NET-Core-First_In_Mac/12.png">
-<meta property="og:image" content="http://skychang.github.io/2017/02/11/ASP-NET-Core-First_In_Mac/13.png">
-<meta property="og:image" content="http://skychang.github.io/2017/02/11/ASP-NET-Core-First_In_Mac/14.png">
-<meta property="article:published_time" content="2017-02-11T23:25:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:38.808Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="ASP.NET Core">
-<meta property="article:tag" content="ASP.NET">
-<meta property="article:tag" content="macOS">
-<meta property="article:tag" content="Visual Studio Code">
-<meta property="article:tag" content=".NET Core">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://skychang.github.io/2017/02/11/ASP-NET-Core-First_In_Mac/01.png">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> ASP.NET Core - 在 macOS 上開發 ASP.NET Core - 環境準備篇 | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                ASP.NET Core - 在 macOS 上開發 ASP.NET Core - 環境準備篇
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-02-11T23:25:00+00:00" content="2017-02-11">
-              2017-02-11
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/02/11/ASP-NET-Core-First_In_Mac/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/02/11/ASP-NET-Core-First_In_Mac/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>雖然，Docker 的文章，寫了第一篇後，就一直欠到現在….( 跪 )，然後現在又令開支線，( 跪到趴在地上了 )<br>但既然打算在 macOS 上處理 ASP.NET Core. 就想說，當作一篇記錄，一路寫下去，<br>而最近公司忙碌的程度，真的是太高了，所以請大家諒解….</p>
-<p>其實很久很久以前，大概就寫過類似的文章，那時候 .NET Core 也還在發展中，<br>本來是想說，隨著發展中，就持續寫下去，但後來，不幸的是，<br>在發展的過程中，我的 MacBook 既然先死掉了!! ( 抖抖 )</p>
-<p>於是，以前的文章也就不斷了流產了，後來筆電死掉後，心想，既然要換新筆電，<br>就等新的上市吧！！</p>
-<p>但沒想到，這次既然大改版，等了很久 ( 而且等到一個對開發人員非常難用的 Touch Bar 版本… )<br>總之，既然抱怨完畢，還是要抽空開始寫文章，所以這個系列，就又復活了….</p>
-<p>備註：<br>這篇主要是由 .NET <a href="https://www.microsoft.com/net/core#macos" target="_blank" rel="noopener">官方文件</a> 而來，<br>而寫這篇文章的時候，官方文件的 SDK 還落在 Preview2 ，而目前寫這篇文章最新的 SDK 為 RC4，<br>預計三月就會有 RTM 了，能忍的朋友，可以先忍一下。</p>
-<p>而 preview2 和 RC 3 後版本，最大的差異，就是陸續的將 project.json 移動到 .csporj 底下，<br>最後，RC 4 也有很多不穩定的地方，要使用者要多加留意。</p>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">ASP.NET Core - 在 macOS 上開發 ASP.NET Core - 環境準備篇 :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="前言 雖然，Docker 的文章，寫了第一篇後，就一直欠到現在....( 跪 )，然後現在又令開支線，( 跪到趴在地上了 )
+但既然打算在 macOS 上處理 ASP.NET Core…"/><meta data-react-helmet="true" property="og:title" content="ASP.NET Core - 在 macOS 上開發 ASP.NET Core - 環境準備篇"/><meta data-react-helmet="true" property="og:description" content="前言 雖然，Docker 的文章，寫了第一篇後，就一直欠到現在....( 跪 )，然後現在又令開支線，( 跪到趴在地上了 )
+但既然打算在 macOS 上處理 ASP.NET Core…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="ASP.NET Core - 在 macOS 上開發 ASP.NET Core - 環境準備篇"/><meta data-react-helmet="true" name="twitter:description" content="前言 雖然，Docker 的文章，寫了第一篇後，就一直欠到現在....( 跪 )，然後現在又令開支線，( 跪到趴在地上了 )
+但既然打算在 macOS 上處理 ASP.NET Core…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2017/02/11/ASP-NET-Core-First_In_Mac/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">ASP.NET Core - 在 macOS 上開發 ASP.NET Core - 環境準備篇</h1><div class="post-module--meta--3YtjE">11 February 2017<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/ASP.NET/"><span class="post-module--tag--16U9p">#<!-- -->ASP.NET</span></a><a href="/tag/macOS/"><span class="post-module--tag--16U9p">#<!-- -->macOS</span></a><a href="/tag/ASP.NET-Core/"><span class="post-module--tag--16U9p">#<!-- -->ASP.NET Core</span></a><a href="/tag/Visual-Studio-Code/"><span class="post-module--tag--16U9p">#<!-- -->Visual Studio Code</span></a><a href="/tag/.NET-Core/"><span class="post-module--tag--16U9p">#<!-- -->.NET Core</span></a></div></div><div><h2>前言</h2>
+<p>雖然，Docker 的文章，寫了第一篇後，就一直欠到現在....( 跪 )，然後現在又令開支線，( 跪到趴在地上了 )
+但既然打算在 macOS 上處理 ASP.NET Core. 就想說，當作一篇記錄，一路寫下去，
+而最近公司忙碌的程度，真的是太高了，所以請大家諒解....</p>
+<p>其實很久很久以前，大概就寫過類似的文章，那時候 .NET Core 也還在發展中，
+本來是想說，隨著發展中，就持續寫下去，但後來，不幸的是，
+在發展的過程中，我的 MacBook 既然先死掉了!! ( 抖抖 )</p>
+<p>於是，以前的文章也就不斷了流產了，後來筆電死掉後，心想，既然要換新筆電，
+就等新的上市吧！！</p>
+<p>但沒想到，這次既然大改版，等了很久 ( 而且等到一個對開發人員非常難用的 Touch Bar 版本... )
+總之，既然抱怨完畢，還是要抽空開始寫文章，所以這個系列，就又復活了....</p>
+<p>備註：
+這篇主要是由 .NET <a href="https://www.microsoft.com/net/core#macos">官方文件</a> 而來，
+而寫這篇文章的時候，官方文件的 SDK 還落在 Preview2 ，而目前寫這篇文章最新的 SDK 為 RC4，
+預計三月就會有 RTM 了，能忍的朋友，可以先忍一下。</p>
+<p>而 preview2 和 RC 3 後版本，最大的差異，就是陸續的將 project.json 移動到 .csporj 底下，
+最後，RC 4 也有很多不穩定的地方，要使用者要多加留意。</p>
 <p>最後，這篇文章會根據以上的內容，進行大量的補充，讓大家在過程中，可以更加地了解細節。</p>
-<h2 id="安裝-最新版本的-OpenSSL"><a href="#安裝-最新版本的-OpenSSL" class="headerlink" title="安裝 最新版本的 OpenSSL"></a>安裝 最新版本的 OpenSSL</h2><p>在開始安裝準備在 macOS 上開發 .NET Core 之前，我們第一步驟當然是要裝 .NET Core 啊！！<br>但是在裝 .NET Core 之前，我們必須先安裝最新版的 OpenSSL，<br>因為目前的 .Net Core 必須使用 1.0.1 以上的 OpenSSL 版本，<br>但 macOS 上，目前的版本為 0.9.8，而且未來應該也不會更新了<br>另外一個理由是因為到時候我們使用 Visual Studio Code 來進行 Debug 的時候，也必須要用到。</p>
-<p>至於使用 Brew 安裝新版的 OpenSSL 會不會對原本的 macOS 有影響，<br>根據 .NET Code CLI 的 GitHub 文章指出，因為來 Apple 不會再採用 OpenSSL，<br>而會採用 TLS 或是自家的加密技術，故並不會造成 macOS 的影響。</p>
-<p>原文可以<a href="https://github.com/dotnet/core/blob/master/cli/known-issues.md" target="_blank" rel="noopener">參考這邊</a></p>
+<h2>安裝 最新版本的 OpenSSL</h2>
+<p>在開始安裝準備在 macOS 上開發 .NET Core 之前，我們第一步驟當然是要裝 .NET Core 啊！！
+但是在裝 .NET Core 之前，我們必須先安裝最新版的 OpenSSL，
+因為目前的 .Net Core 必須使用 1.0.1 以上的 OpenSSL 版本，
+但 macOS 上，目前的版本為 0.9.8，而且未來應該也不會更新了
+另外一個理由是因為到時候我們使用 Visual Studio Code 來進行 Debug 的時候，也必須要用到。</p>
+<p>至於使用 Brew 安裝新版的 OpenSSL 會不會對原本的 macOS 有影響，
+根據 .NET Code CLI 的 GitHub 文章指出，因為來 Apple 不會再採用 OpenSSL，
+而會採用 TLS 或是自家的加密技術，故並不會造成 macOS 的影響。</p>
+<p>原文可以<a href="https://github.com/dotnet/core/blob/master/cli/known-issues.md">參考這邊</a></p>
 <blockquote>
 <p>Homebrew may also show the following warning:</p>
-<p>Apple has deprecated use of OpenSSL in favor of its own TLS and crypto libraries<br>This warning is meant for the software that uses OpenSSL (in this case, .NET Core) and not for the end-user that is installing said software. Homebrew installation doesn’t touch either the existing Apple crypto libraries or existing OpenSSL 0.9.8 version, so there is no impact on any software that<br>uses either one of those crypto solutions and is already installed.</p>
+<p>Apple has deprecated use of OpenSSL in favor of its own TLS and crypto libraries
+This warning is meant for the software that uses OpenSSL (in this case, .NET Core) and not for the end-user that is installing said software. Homebrew installation doesn't touch either the existing Apple crypto libraries or existing OpenSSL 0.9.8 version, so there is no impact on any software that
+uses either one of those crypto solutions and is already installed.</p>
 </blockquote>
-<p>而在安裝 OpenSSL 之前，我們必須先安裝 <a href="http://brew.sh/index_zh-tw.html" target="_blank" rel="noopener">Brew</a> 這個 macOS 的套件管理工具<br>( 好多之前又之前的前置作業….抖抖 )</p>
-<p>好吧，首先我們先到 <a href="http://brew.sh/index_zh-tw.html" target="_blank" rel="noopener">Brew</a> 的官網，<br>安裝的方式很簡單，官網也有中文，就把底下那段給複製貼上到終端機去執行就可以了。</p>
-<p><img src="01.png" alt=""></p>
-<p>接下來，我們要先 brew update 一下，更新 Brew 的套件列表 ( 其實剛裝完的朋友，理論上就是最新的了 )<br>然後使用 brew install openssl</p>
-<p><img src="02.png" alt=""></p>
-<p>接著，我依照 .NET Core 官網的指示，建立連結過去。<br>這邊要 Link 的原因，根據官方所敘述，是因為 brew 也不會自動的 Link OpenSSL 了。</p>
-<p><img src="03.png" alt=""></p>
+<p>而在安裝 OpenSSL 之前，我們必須先安裝 <a href="http://brew.sh/index_zh-tw.html">Brew</a> 這個 macOS 的套件管理工具
+( 好多之前又之前的前置作業....抖抖 )</p>
+<p>好吧，首先我們先到 <a href="http://brew.sh/index_zh-tw.html">Brew</a> 的官網，
+安裝的方式很簡單，官網也有中文，就把底下那段給複製貼上到終端機去執行就可以了。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/3533e1009af37e22b05a8f849f10dfb2/89066/01.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABdUlEQVQoz3VSy07CQBTth6ilpdCWvl88aooUAuWtRtAoEhOXGtloWLg0bvzq48zUIrS6OLkzd+acOffe4axaGXmYqrhby+IRlhcJFucJlPIxbE0q3NHlEi7nEyS9Nri/BDOCZ0gQ+RN8bHr42s4glng42u95JppGkYiOU0FTPXRmE9SqJUw6DraPA2zuIrw9nOFlFSOJLHbG7u9xaKROU4eF1zKnIvqRi9enNT7fnzGKA/KYyIQyXp7DZS8VxcowFBEGce/ZBgLXglIRoMkC6WOx31nk8kmTCQlQKzzipob1vIVF4uGq72A5DBC6ChSJJ+UJh7z/BB0yxYZTg2fK8C0Foa+j3bQwaLsYd1x0Q5vlQl9jEy84zE8r9BR0WzpOfZXkJFJiWnYSmZh2DMy7DqZxioZdZW3Zd1n4NvSCTkquW1UEP6Br36jA0SVWAQWddCa2j53DDAaBS4j3pHe30yZuxg1cj+pYzVosR/fLYZ39xzyX4hsAUDda/f6tlAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="01"
+        title="01"
+        src="/static/3533e1009af37e22b05a8f849f10dfb2/78d47/01.png"
+        srcset="/static/3533e1009af37e22b05a8f849f10dfb2/56d15/01.png 200w,
+/static/3533e1009af37e22b05a8f849f10dfb2/d9f49/01.png 400w,
+/static/3533e1009af37e22b05a8f849f10dfb2/78d47/01.png 800w,
+/static/3533e1009af37e22b05a8f849f10dfb2/64756/01.png 1200w,
+/static/3533e1009af37e22b05a8f849f10dfb2/89066/01.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接下來，我們要先 brew update 一下，更新 Brew 的套件列表 ( 其實剛裝完的朋友，理論上就是最新的了 )
+然後使用 brew install openssl</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/31f6f92c38a83976bc2fb8c4ca4d3cea/18841/02.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 62%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAAB80lEQVQoz31SXU8aQRQdEQQBWSS0kVaND9KC6PKxsLuwu8iXbRqN6UP70F9QfelL1ZoaRNoUk0ZL0mpi+meP9w4Kq6IPJ3dmd+6Zc84dcdD5jv3+bxz3L9Hu/0Pn7xUO+/+x9+cKvfMLnP78hc5xF532iay77R/YOeri89EJvnR72Ds9w9feCMKTcxArtxAxGwgWLHgr7+Hd/gaxfYil2ifEU1lEVzRMJ1W8TK5CLKQIaYhFwjytE8m7UPQ6EvYGEs4bPK80Mbe+ifmNj5hrfsBybQuq1UCGoNpNJM0aYgZBr0HRHITyJCCjY9IFoRgtUvIOC9W3eEHEUTqokNJZzUak6CCQt+FZNTBJ8K6ZmKI6tWZApDSIV/lBdSOqN5CwWvLWaLFKN1cRYVKqoVxFIpgtI0w1UrClKvG6cI/ItWdFs6V1xM06nkk0JGGYGgNqGT5S5LtR5VfNkbrHCAN0iOEj/4NmymKlBE+6OLA0DqzwjkrXOpitSBuhnIUZssR7Vsff/JQZY5osM/hi/s+XPqowSNnwYZnVcG0NCbiGXeT+G0fsYqTSRcjNihyGI4fCwXO9XfOwOGOOhPOb4KanhsK58SBYBQ8jxgMy6sO35icSb6aEibQ2ZhhjCEP0zuJEyNbYEmc0sEu58ZQz+qjpgbKHhNdCHWz43NxFeQAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="02"
+        title="02"
+        src="/static/31f6f92c38a83976bc2fb8c4ca4d3cea/78d47/02.png"
+        srcset="/static/31f6f92c38a83976bc2fb8c4ca4d3cea/56d15/02.png 200w,
+/static/31f6f92c38a83976bc2fb8c4ca4d3cea/d9f49/02.png 400w,
+/static/31f6f92c38a83976bc2fb8c4ca4d3cea/78d47/02.png 800w,
+/static/31f6f92c38a83976bc2fb8c4ca4d3cea/18841/02.png 894w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接著，我依照 .NET Core 官網的指示，建立連結過去。
+這邊要 Link 的原因，根據官方所敘述，是因為 brew 也不會自動的 Link OpenSSL 了。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/c53c0d7ee0de479aed8b6a6d9058f00c/b59ab/03.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 60%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAACFElEQVQoz42S228SQRTGh0oBoUC5LFcLtWopy51dFtpluWyLpbQx0Vj7osag8mLUaqKxNYoKUau++OK/45v/1ueZ3ZJYS5M+/PKdObvznXNmhr16f4Annz/h5fg79sdHeEFw3R8d4enHLxgcDtF//RaP3rwzeHwwNJTnn9H356OvJ2DsahEGSznSgqlX8mCXs2CXVsCSItgixckMWEI0NbZsEr12Gk+5jrmSCo+kYe449soNuIqqEXPclHeR8pwRk1ozCi4Q1v9g87TZS2a+iqmTmBfgBJQWeNHZrAJbrgrLigRLWgYjnYojv2ps4h2YZk0Eqjp8lHOXNTjyNbMyN+IbUmWTE0b/rHn7Qq0Ne7YKe64GZ06BMyvBIZZwkeIZsWL+ONVoCon1LURaPYOgqiPY60O4O0aY8LT3qFAFFt7hxGxifBbxJhlq1xFc24BH1uBWd2Bv7MGm3YFT0uESJdjIyD4hTd2fwSzBYtomwu0ehEYXQa2DgH4T/vvfEH3wA5nth4jlFSwUa0iUVg3CWfk0GRkCkSrQJAKZLfZuI7m9iziNH703RHL0B6kPv1G+MYBQVBCnW1+oNg2ict1YR6Q6YjQRX0fKKkIUF+Q1ervNLsLqBvzVNr1DemtKB9ZKF1apAy89FX+6BD+NfR58aX6GfGR9B6HWFo29icD6LQj9nwgNfsG3e4gZfiHL/MDPcSH0z19kfXQJZRR1fwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="03"
+        title="03"
+        src="/static/c53c0d7ee0de479aed8b6a6d9058f00c/78d47/03.png"
+        srcset="/static/c53c0d7ee0de479aed8b6a6d9058f00c/56d15/03.png 200w,
+/static/c53c0d7ee0de479aed8b6a6d9058f00c/d9f49/03.png 400w,
+/static/c53c0d7ee0de479aed8b6a6d9058f00c/78d47/03.png 800w,
+/static/c53c0d7ee0de479aed8b6a6d9058f00c/b59ab/03.png 922w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>到這邊，OpenSSL 就安裝完成了。</p>
-<h2 id="安裝-NET-Core-SDK"><a href="#安裝-NET-Core-SDK" class="headerlink" title="安裝 .NET Core SDK"></a>安裝 .NET Core SDK</h2><p>接著，我們到 .Net Code CLI 的 <a href="https://github.com/dotnet/cli" target="_blank" rel="noopener">GitHub</a> 進行下載，<br>目前這邊的版本為最新版本，但未來還是建議大家去.NET Core <a href="https://www.microsoft.com/net/download/core" target="_blank" rel="noopener">官網下載頁面</a> 看看。</p>
-<p>在官網，您可以選擇長期支援版本 LTS，或是現行版本 Current ，Current 的更新速度快，<br>也比較有新的 API 等等可以使用， 而如果是 LTS ，則只會專注於 Bug 的修訂等等<br>通常企業會比較使用 LTS 版本，如果是個人開發，通常玩一些新東西，就會使用 Current 版本。</p>
+<h2>安裝 .NET Core SDK</h2>
+<p>接著，我們到 .Net Code CLI 的 <a href="https://github.com/dotnet/cli">GitHub</a> 進行下載，
+目前這邊的版本為最新版本，但未來還是建議大家去.NET Core <a href="https://www.microsoft.com/net/download/core">官網下載頁面</a> 看看。</p>
+<p>在官網，您可以選擇長期支援版本 LTS，或是現行版本 Current ，Current 的更新速度快，
+也比較有新的 API 等等可以使用， 而如果是 LTS ，則只會專注於 Bug 的修訂等等
+通常企業會比較使用 LTS 版本，如果是個人開發，通常玩一些新東西，就會使用 Current 版本。</p>
 <p>至於 GitHub 的版本，目前看起來是包含 1.0.x 和 1.1 版本。</p>
-<p>另外，SDK 和 Runtime 的差異，簡單的說，<br>.NET Core 裡面只有 Runtime ，不包含 CLI 工具 ( 透過 CLI 可以使用指令建立專案，Build 之類的 )版本。<br>.Net Core SDK 就是 .Net Core ( Runtime ) 加上 CLI Tool。</p>
-<p>所以，如果是要裝在主機，只要裝 .NET Core 就好。<br>如果是要開發環境，就要裝 .NET Core SDK。</p>
-<p>官網的下載附圖如下，目前 SDK 只到 Preview2<br><img src="04.png" alt=""></p>
-<p>而 GitHub 的下載頁面，目前到 RC 4 ，新非常多。<br><img src="04-1.png" alt=""></p>
+<p>另外，SDK 和 Runtime 的差異，簡單的說，
+.NET Core 裡面只有 Runtime ，不包含 CLI 工具 ( 透過 CLI 可以使用指令建立專案，Build 之類的 )版本。
+.Net Core SDK 就是 .Net Core ( Runtime ) 加上 CLI Tool。</p>
+<p>所以，如果是要裝在主機，只要裝 .NET Core 就好。
+如果是要開發環境，就要裝 .NET Core SDK。</p>
+<p>官網的下載附圖如下，目前 SDK 只到 Preview2
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/b153b7c47cffed93d56f0f3cd9d08a6e/89066/04.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 49.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABj0lEQVQoz3WSXW7bMBCEc9ReoPcp0FPkoX3sAdIiD22AAEGN2LX+JVKkSEnUn6ezSmXYDUxgMSLF/Thc7h04TqcTNl2W5aydc/i9j+F0jb7WMHmGwWiovMTrPkLftuf9G+Puf+D2PU8jdi87fPj0FQ8PP4GMgD8HID3i/tt3fPz8Bcf9AfMy45JxBZTTvPeo6xpN0zAsvKlhrUHBtbxxyMsS5uUZFd0WRYkkTakFhmG4Bm5QYwxSbhKo1hqaaqyFIWj36wn54w/44wG+75ErjZTQhv9vAi1/yomiAhewpVvPudq/IjrGiGs6rS0ybdGwznKrcRxvA7Msg1IKVVWtKmueD9CFgKrxiKuaJTBQpllhjtCbQKldFEVIkwRxHKHkVQXYMlEZuqezRBkkK9RCW4e2vXC4wTZgoAs50dGR6/q1Nj3XJEF0DdYvhLf1eZ7ft83lmKZphYRxQj+9tcTCpBB6jEPAQD2xG/71ylXLnB1Ku0jIaRLbXBLbMPIRPArjkBmq5dVdh24YuWe+yhHWX7RFA2g+8rsaAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="04"
+        title="04"
+        src="/static/b153b7c47cffed93d56f0f3cd9d08a6e/78d47/04.png"
+        srcset="/static/b153b7c47cffed93d56f0f3cd9d08a6e/56d15/04.png 200w,
+/static/b153b7c47cffed93d56f0f3cd9d08a6e/d9f49/04.png 400w,
+/static/b153b7c47cffed93d56f0f3cd9d08a6e/78d47/04.png 800w,
+/static/b153b7c47cffed93d56f0f3cd9d08a6e/64756/04.png 1200w,
+/static/b153b7c47cffed93d56f0f3cd9d08a6e/89066/04.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>而 GitHub 的下載頁面，目前到 RC 4 ，新非常多。
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/840be96944aeb00dded8029da5248bd4/89066/04-1.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABhUlEQVQoz42S20rDQBCG+/6vJQjeWFC8EkUbYptkD9nszh7SNr8zWyoRVAwsSS7m2/8wG6yeZVm+vs/nM+acMM8FRmsE79H3Pbyf4NzIx2EYhjqzPpsrRN4CMcYg5wzrJmwbC+ULnI+YKGOvPULMmEKCnSI6E34HCux4PKJpmqpg0AZ3bwb7MTKQMDL0wEDPYBcytON/Q1h47iqoAtdWT6cT2ratwJEVPu0dNIMoTIgxwU0eMRXEXNBbQjOIwjNk/JvCNbDrOqQY0SuNmxeNziWUFFE4hkxiucD6xIoTFKsUhQv+ACqluIgZxo54bNn6lEDlCNO0eN8+IDgPyjMGVtiqfyjc7XZsMVTgfTNyKbmWVC27i2VRqfmimmEFLj8DpRRZjZwSukHh9lUsR46AkCqUastSkHbEwHCxvAau91CaFsuRMxSFW1aoudGZYYVjkIsi2w2sUvL70ASsdleejUDEqhzJzlpbBwX4fHAwvDKRqF5CFBCIdzJE3kOCGgO7mr/mhfUJmisH01+NtMcAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="04 1"
+        title="04 1"
+        src="/static/840be96944aeb00dded8029da5248bd4/78d47/04-1.png"
+        srcset="/static/840be96944aeb00dded8029da5248bd4/56d15/04-1.png 200w,
+/static/840be96944aeb00dded8029da5248bd4/d9f49/04-1.png 400w,
+/static/840be96944aeb00dded8029da5248bd4/78d47/04-1.png 800w,
+/static/840be96944aeb00dded8029da5248bd4/64756/04-1.png 1200w,
+/static/840be96944aeb00dded8029da5248bd4/89066/04-1.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>這邊小弟使用 RC 4 版本進行安裝。</p>
 <p>當然，安裝過程十分簡單，就不截圖嚕。</p>
-<h2 id="試玩-Hello-World"><a href="#試玩-Hello-World" class="headerlink" title="試玩 Hello World"></a>試玩 Hello World</h2><p>接著，在我們進入 ASP.NET Core 的開發之前，我們先建立一個純的 .NET Core Command Line 程式試試看。<br>我們這邊先建立一個新的資料夾 hwapp ( 使用 mkdir hwapp )，然後切換至那個資料夾，並執行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet new console</span><br></pre></td></tr></table></figure>
-
-<p>透過 dotnet new ，他會建立一個空的 Hello World 應用程式。<br>( Sky 的名言錄 ： 學一個應用程式，第一個一定要先 Hello World ，不然會被程式詛咒~~ 抖抖 )</p>
+<h2>試玩 Hello World</h2>
+<p>接著，在我們進入 ASP.NET Core 的開發之前，我們先建立一個純的 .NET Core Command Line 程式試試看。
+我們這邊先建立一個新的資料夾 hwapp ( 使用 mkdir hwapp )，然後切換至那個資料夾，並執行</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">dotnet new console</code></pre></div>
+<p>透過 dotnet new ，他會建立一個空的 Hello World 應用程式。
+( Sky 的名言錄 ： 學一個應用程式，第一個一定要先 Hello World ，不然會被程式詛咒~~ 抖抖 )</p>
 <p>備註：目前 RC 4 已經提供了許多的範本，可以參考最底下。</p>
-<p><img src="05.png" alt=""></p>
-<p>完成之後，我們要使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet restore</span><br></pre></td></tr></table></figure>
-
-<p>來下載必要的 package，在未來，.NET Core 的開發，都會將所有的 Lib ，包成一個小小的 package，<br>而不是以前那麼大一包的 .NET Framework 了..<br>這樣的用途，也讓每個 Package 可以很敏捷的開發與更新，至於缺點，可能就是相依性問題了吧….</p>
-<p>最後，我們執行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet run</span><br></pre></td></tr></table></figure>
-
-<p>就可以把 Hello World 給 run 起來了！！！</p>
-<p>至此，我們人生第一個 macOS C# 應用程式就完成了！！！ ( mono 表示 : …….)</p>
-<p><img src="06.png" alt=""></p>
-<h2 id="使用-Visual-Studio-Code-開發"><a href="#使用-Visual-Studio-Code-開發" class="headerlink" title="使用 Visual Studio Code 開發"></a>使用 Visual Studio Code 開發</h2><p>工欲善其事，必先利其器，既然要在 macOS 寫 .NET Code ，自然也要有一個好的 Tool，<br>所以我們這邊就要使用 <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">Visual Studio Code</a>，當然這個也不是什麼新玩意了，<br>小弟在這邊也不多作介紹，但值得一提的是，<br>Visual Studio Code 是 Disgin Pattern 這本書作者“四人幫” 的其中一位 Erich Gamma 所領導的團隊！！<br>而且，是使用 JS ( TypeScript ) 來撰寫完成的喔！！也是完全開源！！<br>( 神人做什麼都是神人啊!!!! )</p>
-<p>當我們使用 Visual Studio Code 開啟剛剛的專案後，他就會跳出一個資訊，建議我們來裝一下 C# 擴充套件。</p>
-<p>備註 :  您可以使用終端機，在專案的目錄下使用 Code . 來開啟專案，這樣他會自動載入當前位置，<br>如果 Code 這個指令沒有用，可以參考<a href="https://code.visualstudio.com/docs/setup/mac" target="_blank" rel="noopener">這邊</a>進行設定。</p>
-<p>接著，我們當然就選擇安裝嚕！！</p>
-<p><img src="08.png" alt=""></p>
-<p>如果一開始沒有安裝最新版的 OpenSSL ，則會出現底下的畫面。</p>
-<p><img src="09.png" alt=""></p>
-<p>如果安裝成功，會出現底下的畫面。</p>
-<p><img src="10.png" alt=""></p>
-<p>到這邊為止，.NET Core 就已經安裝完畢了，雖然還有很多 Visual Studio Code 的功能，<br>但這邊就暫時不提嚕。</p>
-<h2 id="建立-ASP-NET-Core-Hello-World"><a href="#建立-ASP-NET-Core-Hello-World" class="headerlink" title="建立 ASP.NET Core Hello World"></a>建立 ASP.NET Core Hello World</h2><p>既然，有 dotnet new 這個指令可以建立 Command Line Application，<br>那自然也會有可以建立 Web 的指令嚕！</p>
-<p>首先，我們要先建立一個新的目錄，來放置我們的新網站，<br>目錄建立完後，我們就可以用底下指令進行建立。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet new mvc</span><br></pre></td></tr></table></figure>
-
-<p><img src="11.png" alt=""></p>
-<p>完成後，一樣就是 dotnet restore 和 dotnet run 來執行，<br>預設的網站，會 run 在 5000 port。</p>
-<p><img src="12.png" alt=""></p>
-<p>接下來，我們就可以使用瀏覽器來看到熟悉的第一個網站。</p>
-<p><img src="13.png" alt=""></p>
-<p>至於 dotnet new ，目前可以建立的東西，可以<a href="https://docs.microsoft.com/zh-tw/dotnet/articles/core/tools/dotnet-new" target="_blank" rel="noopener">參考文件</a><br>但上面的網址，目前資訊還沒完全更新。<br>大家也可以參考底下此張截圖。</p>
-<p><img src="14.png" alt=""></p>
-<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>和以前比起來，隨著時間進步，現在在 macOS 上開發，真的超級友善了，<br>雖然這篇沒有提到什麼 ASP.NET Core 的高深技術，但至少我們先把環境搞定了，<br>後面，我們會隨著建立一個應用程式，一步一步的來了解 ASP.NET Core。</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a href="https://msdn.microsoft.com/zh-tw/virtualization/windowscontainers/quick_start/quick_start_windows_10" target="_blank" rel="noopener">https://msdn.microsoft.com/zh-tw/virtualization/windowscontainers/quick_start/quick_start_windows_10</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Erich_Gamma" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Erich_Gamma</a></li>
-<li><a href="https://code.visualstudio.com/docs/setup/mac" target="_blank" rel="noopener">https://code.visualstudio.com/docs/setup/mac</a></li>
-<li><a href="https://www.microsoft.com/net/download/core" target="_blank" rel="noopener">https://www.microsoft.com/net/download/core</a></li>
-<li><a href="https://docs.microsoft.com/en-us/aspnet/core/getting-started" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/aspnet/core/getting-started</a></li>
-<li><a href="https://github.com/dotnet/cli" target="_blank" rel="noopener">https://github.com/dotnet/cli</a></li>
-<li><a href="https://github.com/dotnet/core/tree/master/release-notes" target="_blank" rel="noopener">https://github.com/dotnet/core/tree/master/release-notes</a></li>
-<li><a href="https://github.com/dotnet/cli/blob/rel/1.0.0/Documentation/ProjectJsonToCSProj.md" target="_blank" rel="noopener">https://github.com/dotnet/cli/blob/rel/1.0.0/Documentation/ProjectJsonToCSProj.md</a></li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/ASP-NET-Core/" rel="tag">#ASP.NET Core</a>
-          
-            <a href="/tags/ASP-NET/" rel="tag">#ASP.NET</a>
-          
-            <a href="/tags/macOS/" rel="tag">#macOS</a>
-          
-            <a href="/tags/Visual-Studio-Code/" rel="tag">#Visual Studio Code</a>
-          
-            <a href="/tags/NET-Core/" rel="tag">#.NET Core</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/01/06/Docker-Docker_for_Windows_10_First/" rel="next" title="Docker - Docker for Windows 10 入門篇">
-                <i class="fa fa-chevron-left"></i> Docker - Docker for Windows 10 入門篇
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/02/12/ASP-NET-Core-Uninstall_Net_SDK/" rel="prev" title="ASP.NET Core - 移除在 macOS 上的 .Net Core SDK">
-                ASP.NET Core - 移除在 macOS 上的 .Net Core SDK <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-最新版本的-OpenSSL"><span class="nav-number">2.</span> <span class="nav-text">安裝 最新版本的 OpenSSL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-NET-Core-SDK"><span class="nav-number">3.</span> <span class="nav-text">安裝 .NET Core SDK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#試玩-Hello-World"><span class="nav-number">4.</span> <span class="nav-text">試玩 Hello World</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Visual-Studio-Code-開發"><span class="nav-number">5.</span> <span class="nav-text">使用 Visual Studio Code 開發</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立-ASP-NET-Core-Hello-World"><span class="nav-number">6.</span> <span class="nav-text">建立 ASP.NET Core Hello World</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">7.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">8.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/4d2b4c2464af359185827016ac577321/ef0cc/05.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 47%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAAsSAAALEgHS3X78AAAA8UlEQVQoz2Moaqr7X9Tf87+yf+r/ir6J/8sW7vrfuPrM/wk1Df+7Cwr+V5SU/08ur/2fXl7zP7G0+n9CadX/tOrG/9n1rf+z6luQMITPwGJk91/Q0vU/j7nTfx5Tu/9cvvn/eWN6/os7Rf83NzT7r6ul/19DXfe/hJLmfwZpdQiWUvvPIKmKHfObOfwXsXL5L2Th9F8YiEWcQv4Lu8f/F/ZM+i9g6vifS8/iP6eu+X8WLdP/zNpADKVZtM2ANCZmYFA3+o+CNUz+M2iaAmljNHFjPNgIQWOVBBtAyBBsBhpjM5AcTDMDjaBhSBUDjWjjQgBJdw3N2yBLGAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="05"
+        title="05"
+        src="/static/4d2b4c2464af359185827016ac577321/78d47/05.png"
+        srcset="/static/4d2b4c2464af359185827016ac577321/56d15/05.png 200w,
+/static/4d2b4c2464af359185827016ac577321/d9f49/05.png 400w,
+/static/4d2b4c2464af359185827016ac577321/78d47/05.png 800w,
+/static/4d2b4c2464af359185827016ac577321/ef0cc/05.png 962w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
   </a>
-</div>
-
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2017/02/11/ASP-NET-Core-First_In_Mac/';
-      var disqus_title = 'ASP.NET Core - 在 macOS 上開發 ASP.NET Core - 環境準備篇';
-      var disqus_url = 'http://skychang.github.io/2017/02/11/ASP-NET-Core-First_In_Mac/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+    </span></p>
+<p>完成之後，我們要使用</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">dotnet restore</code></pre></div>
+<p>來下載必要的 package，在未來，.NET Core 的開發，都會將所有的 Lib ，包成一個小小的 package，
+而不是以前那麼大一包的 .NET Framework 了..
+這樣的用途，也讓每個 Package 可以很敏捷的開發與更新，至於缺點，可能就是相依性問題了吧....</p>
+<p>最後，我們執行</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">dotnet run</code></pre></div>
+<p>就可以把 Hello World 給 run 起來了！！！</p>
+<p>至此，我們人生第一個 macOS C# 應用程式就完成了！！！ ( mono 表示 : .......)</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/69d5e7534966d8ea194a225fe9a828bd/6535c/06.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 56.49999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsSAAALEgHS3X78AAAB0klEQVQoz62STW8SURSGBwoFppZibFPQNibGQkEGmGFmYIaZ8lGoaaqLdtfoyl+gJsbEhfUD2lo1jSk7Eo07N/oD3Bp/1+OdoQJaa1y4ePLeSe555pyTKx287bE3OOH14COvBh98Dj995ejzNw6+fKfff8/Jsz2OX3Tpd7s87h3x4OUh95/v81DkkzfveHrcHyGFCzYXSg6yajOrOYTyJhG9w0x1C7l2m+tmk5xSJlMwWC0aRJUKUkZDSpeQVk5ZziItZYbMVxpccTok7TapWptLZoOk1WSxUidlNUi5GyTrmyy1tkiJvNrYZHntpo9Xs2ivI5dsAlmdqZyB5HU1V3ZJ6GvERXrMqA5hpcp0wSJaqBIT52i+QkR0Py3SIyzOQU/gdbtaHuOZI0WLmPiL7KWQxBSTWN7wCYpCKSsKV1QxpjYUTOKLJvKyViPttLlWWyeu14kbdWbdbRKtXeTmLmlrg1LJQFErzN/QfUlgsqMRp1LXcrHsOq7bYqHWISH2cnHnEQt3eszd3adw6x5KUSNTNEnkymdH/KVDQUh8hLJlpgQBsZNATieQF0tWHIICKW8NR01r58h+E57Zyc8nMUL1R/zzmOcJ/3r5X9DG/B/hmB/mJ1JZDkR1EwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="06"
+        title="06"
+        src="/static/69d5e7534966d8ea194a225fe9a828bd/78d47/06.png"
+        srcset="/static/69d5e7534966d8ea194a225fe9a828bd/56d15/06.png 200w,
+/static/69d5e7534966d8ea194a225fe9a828bd/d9f49/06.png 400w,
+/static/69d5e7534966d8ea194a225fe9a828bd/78d47/06.png 800w,
+/static/69d5e7534966d8ea194a225fe9a828bd/6535c/06.png 802w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>使用 Visual Studio Code 開發</h2>
+<p>工欲善其事，必先利其器，既然要在 macOS 寫 .NET Code ，自然也要有一個好的 Tool，
+所以我們這邊就要使用 <a href="https://code.visualstudio.com/">Visual Studio Code</a>，當然這個也不是什麼新玩意了，
+小弟在這邊也不多作介紹，但值得一提的是，
+Visual Studio Code 是 Disgin Pattern 這本書作者“四人幫” 的其中一位 Erich Gamma 所領導的團隊！！
+而且，是使用 JS ( TypeScript ) 來撰寫完成的喔！！也是完全開源！！
+( 神人做什麼都是神人啊!!!! )</p>
+<p>當我們使用 Visual Studio Code 開啟剛剛的專案後，他就會跳出一個資訊，建議我們來裝一下 C# 擴充套件。</p>
+<p>備註 :  您可以使用終端機，在專案的目錄下使用 Code . 來開啟專案，這樣他會自動載入當前位置，
+如果 Code 這個指令沒有用，可以參考<a href="https://code.visualstudio.com/docs/setup/mac">這邊</a>進行設定。</p>
+<p>接著，我們當然就選擇安裝嚕！！</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/75ebe86ac77b8d6e356ea8c9c200db49/89066/08.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 57.00000000000001%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsSAAALEgHS3X78AAACDUlEQVQoz3WRy27TQBiFsykFIUCVWMV2Yns8vsQXEl9zcYHmpghUIShCLChJhahChRAPwI4FSx4AUYJAAtSHPPwzblAQZfHpzPjy+Z/j2mQ4wcHiBNmDJdqzBZL9l5jde4gPH9/i6bPH6OY9lLu7KPIUvcRHlmUIghC+71MGlGuqfW08nGI4PUA52kfSn6A7mmF2f4p371/jyeEj5IMCaZqSKEWRJUiSRL74P2qDsoRpMNjWOZzBcR1wm9aOjSAMYTELJmNglIZhXIiu63SfoRaFESyLw+I2pS3XnEiKGEkeI87bcBwHruvC8zyYpglVVaFp2l+Ia5UwqoSchBLbpikdFOMY+V2S7kU0gflnEtNk9LwlEXshazQaMi8QcinTdQPtqINBv6TeChS9PrI8l12KDuM4lojJN4XNZvNfoUjRWRx3kOcZOkkKn2rxWy35J8XRxbEFore1cC0l4a2qO74BfcBpRXD9CNxxoTUN1Ot11BVFoigqoVRdCtE5Qko/JQCns3PqZA0zDXgtH7brU0+smkhvwiBMQ5eIZ8SEDU1FQ1WIKmthnIG5wQYhdO4h65Uo98bo3xkSI/RuV5l0S3TyPsKkAPNjaMyDanCJZnLUtDffcfXFKa4cfSZWuHz0Ddvzr7h2/AM7J2fYeXUm88byl0Rcv378E1vPv2Dr8BSX5itsL2g9/4SbyxV+A8STVb9ND56KAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="08"
+        title="08"
+        src="/static/75ebe86ac77b8d6e356ea8c9c200db49/78d47/08.png"
+        srcset="/static/75ebe86ac77b8d6e356ea8c9c200db49/56d15/08.png 200w,
+/static/75ebe86ac77b8d6e356ea8c9c200db49/d9f49/08.png 400w,
+/static/75ebe86ac77b8d6e356ea8c9c200db49/78d47/08.png 800w,
+/static/75ebe86ac77b8d6e356ea8c9c200db49/64756/08.png 1200w,
+/static/75ebe86ac77b8d6e356ea8c9c200db49/89066/08.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>如果一開始沒有安裝最新版的 OpenSSL ，則會出現底下的畫面。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/d3fdfa0c7c45b470992695ba36547fd6/89066/09.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 57.00000000000001%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsSAAALEgHS3X78AAACB0lEQVQoz22SW2/TQBCF81IB4o0HSHzdi9d3O3Fih6RJgVZCCPEfoOX+wh9CULVQ8TcPZzdJhVQePo1n13v2zM6MjjfHePXmJc7Wa7xeLXHG/NlywNNugdV8wLJtsGxq9HXlGNx3ja5uUacZym6DQioE3gRBEGC02XChLJBlOTKTomI0SiGRGkpIiDCA4I+HKMMQZZYi04q5Dx14iLg3nuwFt9sthFAwFEsSQ1II3qhMDqE0YiEQhhHCaEcUx9BJ4uJujZGXeJ63E2zb1glZQbOPig4VxaJY7ET22IMxhdI0hZTS5Xbd932Mx+O7goco+LMse8hqcIIBD1qXLjJPswxK6/36jsmh5P8JJnSnKapZrqYjFUd7Ypebf/YSVqMpbh1bt3cEbWPWbNILdvqUPB96bOcd2kQjj8JbMtKKGIs04VtbUTaJl1Bw6hrhBElOBjsW/YBZN3d08wWa6RRFVZEahiVbUmNQSgGfJdvy7VONWs6VoWXDziWMBeMiT9H3Cwx9j4azV9GxpSw4UnSa0I22oyUi1MS+Xeh7rC7BqOHw6rx2KJIVDWaFdbjC5uQU/eoEVdOhbueMM5T1FLHk2EhrgHPL8fKkgS80sqrFKPx2g4cXP3H//AcenF/i3vk1nry/RvyBfPwF9eUP5OebW8Sn34i4FxJBHl1c4ejdJY7efsfjr1f4C4VHSlSa+T4bAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="09"
+        title="09"
+        src="/static/d3fdfa0c7c45b470992695ba36547fd6/78d47/09.png"
+        srcset="/static/d3fdfa0c7c45b470992695ba36547fd6/56d15/09.png 200w,
+/static/d3fdfa0c7c45b470992695ba36547fd6/d9f49/09.png 400w,
+/static/d3fdfa0c7c45b470992695ba36547fd6/78d47/09.png 800w,
+/static/d3fdfa0c7c45b470992695ba36547fd6/64756/09.png 1200w,
+/static/d3fdfa0c7c45b470992695ba36547fd6/89066/09.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>如果安裝成功，會出現底下的畫面。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/a42196ef03694347485205c062ea580d/89066/10.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 57.00000000000001%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsSAAALEgHS3X78AAAB5klEQVQoz22SyXLaQBRF2WSwvc0CCnVLPWhAEyAEwoA3SeUzYrJLpZL8UAbbqXzozX0CkUW8OHVRoXf6dqtH+8Md3r19j6Zp0bZrbDZb5HkBn5UwPkMYhgiC4EIURciLAjZOMQ3NiekUk8kExhiMdrsdZStk2QzOeXgfc8jAuBihcdBa/0cSx3DWQgVThFpBKYXxeHwSdl2HoihPrSiL44R/WDbIYKyjPOwHRCQpjb33fQ4LKKX/Nazr+tJMZBchZTqM+gEZFtkgTJKkHx4Wki1LQ8vWvXCQDRnxZZO3ZA2lKTu3CEQqW05TWOf6Z31eSBqK/FlhzHaOLT3Fli8ZDhimDQVu2UTw/DiGv6Wpo1zyWWHK3Bc59s0Sd6sGXVWiyVLUzqKkqCCSM8qW1iDheYpwkFI4p+h0dp5kpKsq3B4O2O33uD2z2W5RVjWSLOuvTcRzLyiU5rL14Hyeo5oNPO2xfBhmxhXbWYrVukXXbbBmrtjUsaHWqkepAFNSRDwCHfTXR/NZGFXLdX+J/awiJRLmtl6ga9ZY1UuyQDtfYpFXyH2KGZHMyDzhxbcxAiN4aJdgFHz9A/XlCdG33zBk8vkJ1x9/4ub4A1f3v8gDXn845fXx8cINuSIvyavjA17cf8ebT4/4CwLVRvwuLDMFAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="10"
+        title="10"
+        src="/static/a42196ef03694347485205c062ea580d/78d47/10.png"
+        srcset="/static/a42196ef03694347485205c062ea580d/56d15/10.png 200w,
+/static/a42196ef03694347485205c062ea580d/d9f49/10.png 400w,
+/static/a42196ef03694347485205c062ea580d/78d47/10.png 800w,
+/static/a42196ef03694347485205c062ea580d/64756/10.png 1200w,
+/static/a42196ef03694347485205c062ea580d/89066/10.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>到這邊為止，.NET Core 就已經安裝完畢了，雖然還有很多 Visual Studio Code 的功能，
+但這邊就暫時不提嚕。</p>
+<h2>建立 ASP.NET Core Hello World</h2>
+<p>既然，有 dotnet new 這個指令可以建立 Command Line Application，
+那自然也會有可以建立 Web 的指令嚕！</p>
+<p>首先，我們要先建立一個新的目錄，來放置我們的新網站，
+目錄建立完後，我們就可以用底下指令進行建立。</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">dotnet new mvc</code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/f332560dace5e85edfc215784a1632c4/e5cc9/11.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsSAAALEgHS3X78AAAAw0lEQVQoz2Mo6O3+X9o98X9pz8T/xcuO/m+YseF/cWnV/8y8ov9RSWn/k5LTwezokqr/sYXl/+OAdFp1I07MwG/p+p/H3PE/t4Xzf47I9v9KMR3/lb0z/ksaWP7nVdP/L6pu8J9dQes/g5T6fwYZIJYGYik13JjTwPo/CHOAsInLfy4Lr/8Cll7/eXXN/3NqmYAxi5bpf2ZkrI0bMzCoG/2HYzWD/wyq+hAMFjOGYA1C2AjBxpQ0IcIAkgw0HjVwuBkIACmzQQSHNZOMAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="11"
+        title="11"
+        src="/static/f332560dace5e85edfc215784a1632c4/78d47/11.png"
+        srcset="/static/f332560dace5e85edfc215784a1632c4/56d15/11.png 200w,
+/static/f332560dace5e85edfc215784a1632c4/d9f49/11.png 400w,
+/static/f332560dace5e85edfc215784a1632c4/78d47/11.png 800w,
+/static/f332560dace5e85edfc215784a1632c4/e5cc9/11.png 1058w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>完成後，一樣就是 dotnet restore 和 dotnet run 來執行，
+預設的網站，會 run 在 5000 port。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/d236afac50dd1b1d58aa2358e5bc21b5/e5cc9/12.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 62%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAACF0lEQVQoz5VSTU8TURR9WKZ8tJ22FFtpEaJEZmg7hfnofLUzHaglEt2oGxcujCxMDAmkidoQkcQNuDDRlXt/gL/Bf3a8dzpgRRLj4mTufXPfueee+8Trk2McnJ9jePYZh5++Yvj9J46+/cDR2RccnHzEq+NTPB+O8OzwDV68fY+Xo1PCh2vB/4WkB5DtbeTaIWbtPnKP3yHzZAQ1eootTYemmZhZ0yBWGxDLKkRN+RvLCTguElHZ62Opc58wQMnZQdkfoNbdxUqwi6rfR8WjswSLzjYW3TE4v+nu0J0Ishkgs+VDZPQO8pQs2BEVR+BcNrsotnsxuLhE/xYo5ksFK4xJmaxCzZiQ6+Y2PaTqbYj5TR85gwiosGDR+LqPvO7FpDkzhEznF+RZvRvXzrZczLU8zJMiJmKOGc1BqkGEBe5Goy7ReJXwAaqP9lHc24cSPIRmOFhp2ZjasHBjAkI1IRQD4p4OsT4BPiu57FFE6OGWH+F2b4Byd4A7boi7hocaKWUbWB17xKoyibJ004HUHCuT4tiGyOoW8pZDo1hUYCK1YUKqkxKWX6cClRUZv1VxrIzzKT67CmbNkwr24HKcdf16KMa/ITXbl8ZmaTSOuQkjTU0mwVvkplc9/cNf2fTjDcq0PX4+HPMmL5CN/evEPsaeNWxME9KJZ9NJHougr6jQo5aJRKXFBH4PHqHjBqjS8xGK+d8j/wL5726lxK9TwwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="12"
+        title="12"
+        src="/static/d236afac50dd1b1d58aa2358e5bc21b5/78d47/12.png"
+        srcset="/static/d236afac50dd1b1d58aa2358e5bc21b5/56d15/12.png 200w,
+/static/d236afac50dd1b1d58aa2358e5bc21b5/d9f49/12.png 400w,
+/static/d236afac50dd1b1d58aa2358e5bc21b5/78d47/12.png 800w,
+/static/d236afac50dd1b1d58aa2358e5bc21b5/e5cc9/12.png 1058w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接下來，我們就可以使用瀏覽器來看到熟悉的第一個網站。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/3f2e94f672276d8d480033dcccf1b980/89066/13.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 47%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAAsSAAALEgHS3X78AAACJklEQVQoz1WS20sUYRjG96ojGJYphVLR0aWSQMpIKjtDUiqbRRdZiGVkQWzZdtB01zXLVUm8ikKiLiIjxf6S6CJvQlLXzRM7u+vMznF/fTszKX3w8sw77zy/eXhnPLinpLqNlaUPKKqMUHg+IrSHLRf6yDv5guLrb9nbMEjR5QE21fTjbRxgh6+HqruvWXPoId7KVjIux6NpGum0yoHq56w96Gf7xW521/QKjVDs62PzmU721b9hf+Mg2672U+jrZdftd+y59Io6/zNyyvwC+BRZSTtA0zRRNZ1SXzu5R5rZcCLExlNhCk6Hyc+qAK4/HiSvIkhBtheVXxESycOsLg+TWx6gpKoVRYSygZblAHeeDeApvsOKshZyjrYLQ8iGF57rZGtlF7WPPnAl8FHM2uzZumNBVh1uweNtoqjCvwzMJjQMk+buT1x78p6G0BcaOoa50faZmx1faXo5yr3ub9yPjNLUNUxj5wi3wiPUt4vngkPUCc/jniE03XCAhuFczM7EiE5NMvsniqHJJBISM/EkiuksW5Ikfk3G0Cxn/bKcYnwqxuz8wr/vSiaTwaPrut0kUzLjE1Gm5+KY4iWSYjAWSxKTFGTVYFHUz5iAzC2SSusouklUUkmkTXu2DHQTWpaFaRqYboKFVJrvE3F+TElIsk5CVhmbTvB7XhZAI+u2AZarS0BV/DZOs5TbFjtBXGEuqdomVexZFfd008IQ9d9xPdlQfwECaishfTnRZgAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="13"
+        title="13"
+        src="/static/3f2e94f672276d8d480033dcccf1b980/78d47/13.png"
+        srcset="/static/3f2e94f672276d8d480033dcccf1b980/56d15/13.png 200w,
+/static/3f2e94f672276d8d480033dcccf1b980/d9f49/13.png 400w,
+/static/3f2e94f672276d8d480033dcccf1b980/78d47/13.png 800w,
+/static/3f2e94f672276d8d480033dcccf1b980/64756/13.png 1200w,
+/static/3f2e94f672276d8d480033dcccf1b980/89066/13.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>至於 dotnet new ，目前可以建立的東西，可以<a href="https://docs.microsoft.com/zh-tw/dotnet/articles/core/tools/dotnet-new">參考文件</a>
+但上面的網址，目前資訊還沒完全更新。
+大家也可以參考底下此張截圖。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/9bb6b9fe45a0076cc7f4e12956fb7541/ef0cc/14.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 47%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAAsSAAALEgHS3X78AAABc0lEQVQoz3VRWU/CYBD8OD1QQFA0JkpiglKulNKD+9RfYnxR0PggSiIogoiJ/uZxtwWsig+TbzvbnZ3dFde9LtqTEW6GU9yO33E//cTd2we69Haexrh8HKIzGOGq/4KL3gDnD320nyf/4BVCxBS44ipENAFxlIY4USBiMpzxHBxxyiVUizuWKZ+h/5LWv4cSgd4DyYqjs3gjW0Kk0MK6XERArVLcxE6+iS2thiB9c96bMiC4gaTCmdCoyf8QK+k8PCndLHDOCkxQzLyHxDhezRSIV+FKapZjBtX8AbtgN+yEOzhmTjgOEc/OuSnH7DSk1xDW68QZNlGbeITG2y22aMwG5m7ZCSdDVMjizLMIN9krnZorYX6pICcZXLBtNExsKmVTNKBW6BhZeMmNjyZgkf3ymZln/ntUm6A/V/kxLl/VJeXgpl2x0Jyf7405d1L/tUOb0zXaEV85bNQR1Krwq3X4taZ54QA188lWs4XA0oMoC9Ev2FwRO2EPgwoAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="14"
+        title="14"
+        src="/static/9bb6b9fe45a0076cc7f4e12956fb7541/78d47/14.png"
+        srcset="/static/9bb6b9fe45a0076cc7f4e12956fb7541/56d15/14.png 200w,
+/static/9bb6b9fe45a0076cc7f4e12956fb7541/d9f49/14.png 400w,
+/static/9bb6b9fe45a0076cc7f4e12956fb7541/78d47/14.png 800w,
+/static/9bb6b9fe45a0076cc7f4e12956fb7541/ef0cc/14.png 962w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>後記</h2>
+<p>和以前比起來，隨著時間進步，現在在 macOS 上開發，真的超級友善了，
+雖然這篇沒有提到什麼 ASP.NET Core 的高深技術，但至少我們先把環境搞定了，
+後面，我們會隨著建立一個應用程式，一步一步的來了解 ASP.NET Core。</p>
+<h2>參考資料</h2>
+<ul>
+<li><a href="https://msdn.microsoft.com/zh-tw/virtualization/windowscontainers/quick_start/quick_start_windows_10">https://msdn.microsoft.com/zh-tw/virtualization/windowscontainers/quick_start/quick_start_windows_10</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Erich_Gamma">https://en.wikipedia.org/wiki/Erich_Gamma</a></li>
+<li><a href="https://code.visualstudio.com/docs/setup/mac">https://code.visualstudio.com/docs/setup/mac</a></li>
+<li><a href="https://www.microsoft.com/net/download/core">https://www.microsoft.com/net/download/core</a></li>
+<li><a href="https://docs.microsoft.com/en-us/aspnet/core/getting-started">https://docs.microsoft.com/en-us/aspnet/core/getting-started</a></li>
+<li><a href="https://github.com/dotnet/cli">https://github.com/dotnet/cli</a></li>
+<li><a href="https://github.com/dotnet/core/tree/master/release-notes">https://github.com/dotnet/core/tree/master/release-notes</a></li>
+<li><a href="https://github.com/dotnet/cli/blob/rel/1.0.0/Documentation/ProjectJsonToCSProj.md">https://github.com/dotnet/cli/blob/rel/1.0.0/Documentation/ProjectJsonToCSProj.md</a></li>
+</ul></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2017/02/11/ASP-NET-Core-First_In_Mac/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>

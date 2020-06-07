@@ -1,719 +1,658 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Visual Studio,C#,iOS,Xamarin,XCode," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="前言在今年的 Build 裡面，其中一個大新聞就是，Microsoft 併購了 Xamarin，而且不單是併購而已，也把許多項目給開源出來，處此之外，如果使用 Visual Studio Community 的朋友們，也提供了免費的使用，而使用 Enterprise 的朋友，也可以進階的對應到 Xamarin professional 和 enterprise 的功能。( 詳細授權方式，請參考這邊">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Xamarin - 準備使用 Xamarin 開發 iOS">
-<meta property="og:url" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="前言在今年的 Build 裡面，其中一個大新聞就是，Microsoft 併購了 Xamarin，而且不單是併購而已，也把許多項目給開源出來，處此之外，如果使用 Visual Studio Community 的朋友們，也提供了免費的使用，而使用 Enterprise 的朋友，也可以進階的對應到 Xamarin professional 和 enterprise 的功能。( 詳細授權方式，請參考這邊">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/XMA2.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/01.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/02.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/03.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/04.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/05.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/06.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/07.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/08.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/11.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/12.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/20.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/21.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/30.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/31.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/22.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/32.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/33.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/34.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/35.png">
-<meta property="article:published_time" content="2016-04-10T23:20:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:39.031Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="Visual Studio">
-<meta property="article:tag" content="C#">
-<meta property="article:tag" content="iOS">
-<meta property="article:tag" content="Xamarin">
-<meta property="article:tag" content="XCode">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/XMA2.png">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> Xamarin - 準備使用 Xamarin 開發 iOS | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Xamarin - 準備使用 Xamarin 開發 iOS
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-04-10T23:20:00+00:00" content="2016-04-10">
-              2016-04-10
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在今年的 Build 裡面，其中一個大新聞就是，Microsoft 併購了 Xamarin，而且不單是併購而已，也把許多項目給開源出來，處此之外，如果使用 Visual Studio Community 的朋友們，也提供了免費的使用，而使用 Enterprise 的朋友，也可以進階的對應到 Xamarin professional 和 enterprise 的功能。<br>( 詳細授權方式，請參考<a href="https://blogs.msdn.microsoft.com/visualstudio/2016/03/31/mobile-app-development-made-easy-with-visual-studio-and-xamarin/" target="_blank" rel="noopener">這邊</a> )<br>以前 Xamarin 是有錢人的玩具 (笑) ，而現在既然開放出來了，小弟當然就趕快來測試寫個 Hello World 試試看了~~</p>
-<p>P.S 既然是要寫 iOS 的 Hello World ，那當然還是要準備一台 MAC ，<br>而且必須讓 Visual Studio 這台電腦，和 MAC 在同一個網域裡面，並且安裝好 Xcode。<br>( 當然，要用 VM 也是 OK 滴 ~~ )</p>
-<p>p.s II 目前因為 Microsoft 才剛剛宣布 Xamarin 的計畫，而未來在帳號的處理上，或是流程上，是否會變得更加簡單，<br>目前不得而知，所以有參考到這篇文章的朋友們，還是別忘了去官網比對一下，也要注意一下這篇文章的日期。</p>
-<p>原文教學可以參考<a href="https://developer.xamarin.com/guides/ios/getting_started/installation/windows/#Configuration" target="_blank" rel="noopener">這篇</a>和<a href="https://developer.xamarin.com/guides/ios/getting_started/installation/mac/" target="_blank" rel="noopener">這篇</a></p>
-<h2 id="準備-MAC-環境"><a href="#準備-MAC-環境" class="headerlink" title="準備 MAC 環境"></a>準備 MAC 環境</h2><p>為什麼要準備 MAC 環境，其實我們可以從 Xamarin 官網的這張圖看到，如下圖；<br>從下圖可以發現，其實 Visual Studio 裝上去的 Xamarin 套件，<br>會透過 SSH ( 網路 ) 的方式，和 Mac OSX 的 Agent 與 Xcode 進行存取，所以 Mac 那台上面，必須裝上 Xamarin 提供的 Agent<br>與 Xcode。</p>
-<p><img src="XMA2.png" alt=""></p>
-<p>首先，我們要先去下載 Xamarin for OSX 的工具，可以到這邊<a href="https://www.xamarin.com/download" target="_blank" rel="noopener">下載</a>。</p>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">Xamarin - 準備使用 Xamarin 開發 iOS :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="前言 在今年的 Build 裡面，其中一個大新聞就是，Microsoft 併購了 Xamarin，而且不單是併購而已，也把許多項目給開源出來，處此之外，如果使用 Visual Studio Community 的朋友們，也提供了免費的使用，而使用 Enterprise…"/><meta data-react-helmet="true" property="og:title" content="Xamarin - 準備使用 Xamarin 開發 iOS"/><meta data-react-helmet="true" property="og:description" content="前言 在今年的 Build 裡面，其中一個大新聞就是，Microsoft 併購了 Xamarin，而且不單是併購而已，也把許多項目給開源出來，處此之外，如果使用 Visual Studio Community 的朋友們，也提供了免費的使用，而使用 Enterprise…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="Xamarin - 準備使用 Xamarin 開發 iOS"/><meta data-react-helmet="true" name="twitter:description" content="前言 在今年的 Build 裡面，其中一個大新聞就是，Microsoft 併購了 Xamarin，而且不單是併購而已，也把許多項目給開源出來，處此之外，如果使用 Visual Studio Community 的朋友們，也提供了免費的使用，而使用 Enterprise…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">Xamarin - 準備使用 Xamarin 開發 iOS</h1><div class="post-module--meta--3YtjE">10 April 2016<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/iOS/"><span class="post-module--tag--16U9p">#<!-- -->iOS</span></a><a href="/tag/Xamarin/"><span class="post-module--tag--16U9p">#<!-- -->Xamarin</span></a><a href="/tag/C#/"><span class="post-module--tag--16U9p">#<!-- -->C#</span></a><a href="/tag/Visual-Studio/"><span class="post-module--tag--16U9p">#<!-- -->Visual Studio</span></a><a href="/tag/XCode/"><span class="post-module--tag--16U9p">#<!-- -->XCode</span></a></div></div><div><h2>前言</h2>
+<p>在今年的 Build 裡面，其中一個大新聞就是，Microsoft 併購了 Xamarin，而且不單是併購而已，也把許多項目給開源出來，處此之外，如果使用 Visual Studio Community 的朋友們，也提供了免費的使用，而使用 Enterprise 的朋友，也可以進階的對應到 Xamarin professional 和 enterprise 的功能。
+( 詳細授權方式，請參考<a href="https://blogs.msdn.microsoft.com/visualstudio/2016/03/31/mobile-app-development-made-easy-with-visual-studio-and-xamarin/">這邊</a> )
+以前 Xamarin 是有錢人的玩具 (笑) ，而現在既然開放出來了，小弟當然就趕快來測試寫個 Hello World 試試看了~~</p>
+<p>P.S 既然是要寫 iOS 的 Hello World ，那當然還是要準備一台 MAC ，
+而且必須讓 Visual Studio 這台電腦，和 MAC 在同一個網域裡面，並且安裝好 Xcode。
+( 當然，要用 VM 也是 OK 滴 ~~ )</p>
+<p>p.s II 目前因為 Microsoft 才剛剛宣布 Xamarin 的計畫，而未來在帳號的處理上，或是流程上，是否會變得更加簡單，
+目前不得而知，所以有參考到這篇文章的朋友們，還是別忘了去官網比對一下，也要注意一下這篇文章的日期。</p>
+<p>原文教學可以參考<a href="https://developer.xamarin.com/guides/ios/getting_started/installation/windows/#Configuration">這篇</a>和<a href="https://developer.xamarin.com/guides/ios/getting_started/installation/mac/">這篇</a></p>
+<h2>準備 MAC 環境</h2>
+<p>為什麼要準備 MAC 環境，其實我們可以從 Xamarin 官網的這張圖看到，如下圖；
+從下圖可以發現，其實 Visual Studio 裝上去的 Xamarin 套件，
+會透過 SSH ( 網路 ) 的方式，和 Mac OSX 的 Agent 與 Xcode 進行存取，所以 Mac 那台上面，必須裝上 Xamarin 提供的 Agent
+與 Xcode。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/732d3d9448255a1b001cc9f3b0beefd6/92aea/XMA2.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 37%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAAsSAAALEgHS3X78AAABP0lEQVQoz4XQy0sCARDH8f71DoWlHfoTOkRgUhcf9Fg1V0sNJRVt21e66xprZayo+0j2m2IYQdgc5jI/PszMljk8ovSe4cY8pzBIUnuLM3OKzOcw9VwcWaGTlWnlFBpZjZdKGz5dQiAMl/13bT3bcQ4Nh1jHYl9xSAyaeE6B8STA9X1cXUfJtZHybR5zEsNKcwF6G8DhKfuyzU79mYg6WYAtph95PH8VmGkaekFCLcooosJr9V8wzoFqE2ksQGlEwnrAH4vf45CJ1qV+ZVJMa1QFm35Z3nyyvjg5anjEuh67PTixOnjjwg+oG5RSXS7PJG7SA3p36mbQtI9JDVtk7CZJu4NoX+M64jqw3LCRNagJBveChVV52gzOjChBP0JgRvjs7+H1tvFHwjoQqG1m4gVuOY97K+BWcoTB6sF/gV+HEwQxqEwzVAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="XMA2"
+        title="XMA2"
+        src="/static/732d3d9448255a1b001cc9f3b0beefd6/78d47/XMA2.png"
+        srcset="/static/732d3d9448255a1b001cc9f3b0beefd6/56d15/XMA2.png 200w,
+/static/732d3d9448255a1b001cc9f3b0beefd6/d9f49/XMA2.png 400w,
+/static/732d3d9448255a1b001cc9f3b0beefd6/78d47/XMA2.png 800w,
+/static/732d3d9448255a1b001cc9f3b0beefd6/64756/XMA2.png 1200w,
+/static/732d3d9448255a1b001cc9f3b0beefd6/42cbc/XMA2.png 1600w,
+/static/732d3d9448255a1b001cc9f3b0beefd6/92aea/XMA2.png 1720w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>首先，我們要先去下載 Xamarin for OSX 的工具，可以到這邊<a href="https://www.xamarin.com/download">下載</a>。</p>
 <p>這邊必須要填一下基本資料，因為是下載 OSX 版本，所以 I already have Visual Studio installed 就可以勾選起來了。</p>
-<p><img src="01.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/ba316f64669984e5f1e005205f079c4c/bbbf7/01.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAACI0lEQVQoz5WR3UuTURjA97dEpma1+RVdVRrmbgqy7uw6Nd0U0ZlkgWmR+1Jft7b3naOMCrrSTakuiqIs3T+gQYSECrZp0/b91a/zvrMaBEEHfpxznvM8P55zju6UsYXmC60MO5yM2CYZvjvOqMONpMwgyQ+Ks2Dcc19jUhZrtw/pngerpOAUsTsTXs63tNJgvIiuutfF0W6JqqtOjnQVMXRPoDdPUNZm0yhvt3HwivX3Xm8ax2ByUNlhp6rTweFOJ5UmicYhH7oai4+aAR+11/wadYN+9CJ2eWoO50KIscAS1uAStvllrAK74NzYUwyWaeoHi/kqhn4F4+3HQtgvUy2o2adeyMtMU7ifh1BHKhEnk0ySFnMqHtdiZv8zKrpd1A0oxTqLgr7PS9PwjNqhQil1QnjI7MIRfA+FHLFEklQ6QzKV1ijk83QoC0Lo1nJ/1anCs7ce/kMYWIQfBTLZLPl8QZAnJxBGOuT5/xfa5xZJiu7C2zvsRKNsf4sSiyfIZTO0y0EqetzFK5cIm0cf/S1U37BcvI919h2JvT12traICmk0EiG9FyWbStDuDVLZ86fD2n2hURUe65MppVocHuhyYZt9y9fd77z4tMnLtQiv1sK8+RJmNxajzROgzOzWflat0Quqej00jQjh6aFpSjlz089xixdp9jUf1zeZ/LCCN7SKZ3kV19IKn9c36PUFODEg0yhy1ZqGG9OcvO7j0tgTfgJkyBUAoGlkrAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="01"
+        title="01"
+        src="/static/ba316f64669984e5f1e005205f079c4c/78d47/01.png"
+        srcset="/static/ba316f64669984e5f1e005205f079c4c/56d15/01.png 200w,
+/static/ba316f64669984e5f1e005205f079c4c/d9f49/01.png 400w,
+/static/ba316f64669984e5f1e005205f079c4c/78d47/01.png 800w,
+/static/ba316f64669984e5f1e005205f079c4c/64756/01.png 1200w,
+/static/ba316f64669984e5f1e005205f079c4c/bbbf7/01.png 1280w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>熟悉 OSX 的朋友，應該就會很清楚，點兩下，繼續安裝吧。</p>
-<p><img src="02.png" alt=""></p>
-<p>當然會有一些條款，請您同意…</p>
-<p><img src="03.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 397px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/5a02c5e40778bdecd1a0ce3c58f019e1/b323d/02.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 114.00000000000001%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAXCAYAAAALHW+jAAAACXBIWXMAAAsSAAALEgHS3X78AAAD0ElEQVQ4y61UW29bRRD2zwBFCFQoRI0Sk7QgJERbhHip1D4hwQsSPwJF4gnRRmqbpHUucpOSJk1TCaQiQaCpADUhdS6NL41dx46v52L73I/t1LGT2M7FH7tbbNlx0idW+rQzuzvfzuzOjCWdTiObzSKTySCfz2N7e5shly8gKmdhmiYMw2D7VNZ0HYVCgZ3Z2tqqgeoFMlvK5TJKpRIDletRLBYZdnZ2GuRSqdx0lmJ3dxcW/M/DUqlUmLBH2KuhbG7miCfb7Faq05nqVC4Wd8j+JvOUgq4dHBwwDspVI6QGkiQhlUqC5+KQiWyQd4sROSUr0AwdsqJCSIgQEwloqgKOj4PnBfYUdFBiS5WZjlwuB0VRoGo60rqKQlpD3lSRM2RsmgqT82kVL0wNiqpBliX2YVV7RkiV6oKmaYhzHOSkgCdrInpmk+idl9C/IDP0PZFwZTaF6WciFHKGI97RqI4l1MltgiBAFBP46kESbT/K+HBSQdeEgk4CKlvvyPj0XhLeiAiJhC/Jcu1DmghV3YCREjDiENA+wuOTCRHWURGf35dw4ScZ798W8fG4iI5RAd0POWTUFJxuD/skOvb39xsJs6YBb4jH+bEorPYYTo/GMeYysBLXsRjRMB1I4+w4j85bMXTao/hzlYOhJFHe3Wv2kFJuZQ10/xbCyZtBgnXYlyQ88iVwaTyASxNB3HZwmFlTcWowhPds6/hyah26KjPbSj3h/sFLDxfDMlr7VtF6w48zwwHMk485Pfgc3b9HcGchhparPsz5BVy8G8K7/X68dc2Lu4vcy3ArRxD+5U+h5YoTJ3u96LJ58cgdRseNVYz87cOs048TVz34dSWMi2M+nLjuxWuXXRh4HG0mrOVhxsDXk/SgE6//4ITt4TOMzIXQ2fsUZ64v4rvpdfzieI43e1bIxS6cG3KTRE+xgCtHvWEuY8Lhi6H1mgtvUE97ljDxTwALIQlzQRl/OCP4oG+Z7bVcXsF9RwgvDAV7B5Xj00ZP8vh+JoLWoSi67GS2BdmbfTEVRvtAANbhMNqGo/jm5zAkkWd5WLWv1XJDYvMcHjuW8dGQD6fsPKy34nhnMIq3B6Jot8fRQfKzbSCIqRkHElz01YS09GJxDrH1NfQ/mMe5m8v4zLbUgLO2p/h2ch5rXg8pU540k9TxhBsbG6w5UE+zpg4pSToL6TYCF2OgclIgFWJopCmYUFWVdfEGwmodVhfrB2/m4PH54XG7ser1wu1yIxyOoHJEY63aN3hY+/HD+K8Sjt0/7GEzIWpE9es4pB9JWK8cNn6VN8c9078ZU24e74t8AAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="02"
+        title="02"
+        src="/static/5a02c5e40778bdecd1a0ce3c58f019e1/b323d/02.png"
+        srcset="/static/5a02c5e40778bdecd1a0ce3c58f019e1/56d15/02.png 200w,
+/static/5a02c5e40778bdecd1a0ce3c58f019e1/b323d/02.png 397w"
+        sizes="(max-width: 397px) 100vw, 397px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>當然會有一些條款，請您同意...</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 795px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/139f3279f5f29074e08a08bd60cc2c25/c8388/03.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 64.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAAsSAAALEgHS3X78AAACyUlEQVQ4y11TS08TURjtryG6MSJKVBJZGESiLFxoNCSsjAsBH5QQEwNxYdSo8blwoe6MMTExRh4RcUErLe200w6dQgc608eUUvrEENpCS3v8vluqiTc5+aZ3puc757vnWt7ff4PXjz7g1cNPePvyC9xOGRHDgB7WYegGtGUNPq8PXo8XakCldxGElkPQV8PQQiviu2wm+xeW4y2DGLv5Do/HP6KjZQCz0wtIZ9YRj5tIJEwkk+tYW1tDLpcT2NzcpD9mRE2n0ygUCmiuWq0GS88xK35OeaD6DVzovIvprzYoigy3y40VjRToOikJEXlCEDJBPs/IIZslVdkcNU3iNzUolUqwdLdZce3SE9zofwF+npmch6YtwSfLUNUgYtEoDBpBNBIR9rhBhJ4NquFwWFRdDyOTzmBvbw+Wy93juHrxAfrO3UPvyTuY++EhuxGhjpWZpolYLIYoESfMhBgF78XjcdonRPldTIxld3cXlt6OUVzpGUNPuxWnD93CzIQdsiwJy3abHYvKolDBthKmKSrDNOMEahBrVG66vV2kGbaP4PyJUbI7jK7WYcxOOaAGFXgkCX6/H16vTKQKQqR2lU6W7fNp65SAjY0NbKRSyNEseQnLXa230XWYwJUIZyZ+IaAqkNySmKO8D4fDAYlUO6ky4dLSsoiPpmlipvl8vmH5zJFhNNAknMeiygo9gtBNxBKp9VAO3e5/hMFgEIFAAClSyNHa2tpCtVptnPLZo1Z0M9pG8P2bnT70wbXgEpDcLsheL0VJEYQLTqdQa5uziQQ0CJMiVsUizfDUwUE00XngOj5PBmEkUogajVjwibKdnMhcVmSNre2Ud/D/qtfrsAz1P8NQ/3OBgb6nUPxRVOs10a1cLguCUrEkfjMqlaoYPqNSqQibXLmJsMzpZwVCBaGQ59uQ378NjX2+HU00ryDvs2Le48q2ee8PXp5nIhRHROwAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="03"
+        title="03"
+        src="/static/139f3279f5f29074e08a08bd60cc2c25/c8388/03.png"
+        srcset="/static/139f3279f5f29074e08a08bd60cc2c25/56d15/03.png 200w,
+/static/139f3279f5f29074e08a08bd60cc2c25/d9f49/03.png 400w,
+/static/139f3279f5f29074e08a08bd60cc2c25/c8388/03.png 795w"
+        sizes="(max-width: 795px) 100vw, 795px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>接著，你可以勾選你要安裝的東西，小弟我這邊是為了讓 Mac 也能進行開發 Android ，所以 Xamarin.Android 也勾起來了。</p>
-<p><img src="04.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 795px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/9a23eabd0bb7d33ba1767de60686aa66/c8388/04.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 64.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAAsSAAALEgHS3X78AAAB10lEQVQ4y52T30tTURzA7z+TUFRYFIWhsZylUiT9gFLyoV5qTc2MMqL1YJBIP0gfBKm3iJ56jB7qLZlNm0tc5Daz5I7L7q8cW+zezXs/3XuZoxG64YEP597zPefD+Z7zPcLLh5NMjL5i/NEbpp6/5fP0F34sp1j6niCVTBFfjBOLxpiLzHr/mqqhZBQU+X9kB+FwQ5D7Ay8YC73mSEOAD+9nkTWF1dVfpNNpRFFEURQymQyFQoFaTeg4OMTHd3PEv67Q1TzMTHiZPzZIskg+nyebXWMtm60ssG17S4S2fYNcOTtKoPsJrXv6CYeT5AwLWZTQf+tOGjLFYrEiqyUVLp0c4XrPY65eGKOn/QHTnxIoBYvkzzSapiJJEoZhVIm2TPlU020udoQ4779H694BopGkF8jl8pRKJUzTxLKs+oVnfHe5fG6E08138O3uJxZJlBdXT6wlqgi7Wobp7gzReegWPucM58vC9XWr6mzqlXqX4m8c5Pj+mxxzUv5XuJ0mnDgwRHsZf+ONTXdYL0LLziAuR3cFadpxjejMkie0LHt7O+zrfUpf7zOPgFM+3xZWvIBpmF791cKtBLd3q8H9FlRVdepNq8Id24yNuK7r3pPc6N1n6sb+Av4Lne3EEMxkAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="04"
+        title="04"
+        src="/static/9a23eabd0bb7d33ba1767de60686aa66/c8388/04.png"
+        srcset="/static/9a23eabd0bb7d33ba1767de60686aa66/56d15/04.png 200w,
+/static/9a23eabd0bb7d33ba1767de60686aa66/d9f49/04.png 400w,
+/static/9a23eabd0bb7d33ba1767de60686aa66/c8388/04.png 795w"
+        sizes="(max-width: 795px) 100vw, 795px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>接著，就繼續吧，如果想改變路徑，也可以自己改變路徑。</p>
-<p><img src="05.png" alt=""></p>
-<p>底下這張圖是題外話，通常裝 Xamarin 會順便裝 Mono 上去，而小弟我這邊的 Mono 是自己獨立裝上去的，<br>所以如果大家要自己裝 Mono 可以去 Mono 的官網進行安裝，或是讓 Xamarin 來協助安裝。</p>
-<p><img src="06.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 795px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/3bfe1bc6b26621394a036b7e976c4ed7/c8388/05.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 64.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAAsSAAALEgHS3X78AAACFklEQVQ4y42T22sTQRTG959RUbBUURQpvVEvRBRNBaVKHlRQa2qsFVFL+2ALLfWKPgiibyI++eCD6IOCYl1NStJGuommyeZiHrK7yWY3F7LJJp8zk2wRk5AO/DjMnJlvvnOY4V7MPsWT+Zd4PPcazx69wY9vXkTCYQSEIIKBIIRVAR63B/wij/BaGIqsQEpJ68iSDDkls0jn3N7NTky5nmNh+hV6tlzG+7dfoaRTSKfTkCQJWjaLTCYDWZZRqVTQaXC23RP4+G4Jq8sRHO+bxKcPbiT+xBCPx5FIJBixWLwRYxAjIqJRgigiRRypqsoupKhqFtz+HeM4Z5/H6Mh9DG6/As+igGqtzJKapkHX9XVyuRzy+TyLNGfNLQqFArgzh2dw8dRdXDi5gOGBSfCffxLjJtlc30A31gWpgM6EisUiTNNkLfgfzt5/G+dPzMFxZAbULf/FT8qLYi0Ugn9lBT6vj/Qzw9wwYU1HqVRi/arVas09tPffwtnhOzjac4OU7MISH0DFNMjhHLKN/rQaVKwV3LHemxixTcO25zoGSA+XPaGm21sdbOuQljnUPY4DO69hsMsFn/s3S5hmdUMCTYIHd03gUIOh7qttBTcK17vVCUrfNif2bboE7/dfTLBa7eympcMxxwOMOR4yRk/fg+AXWcIoGSiXyx2hT4VGwzDqz0ZRFPbN/oWutcPKW9/RislkkuX+AlY/lfZBL9XfAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="05"
+        title="05"
+        src="/static/3bfe1bc6b26621394a036b7e976c4ed7/c8388/05.png"
+        srcset="/static/3bfe1bc6b26621394a036b7e976c4ed7/56d15/05.png 200w,
+/static/3bfe1bc6b26621394a036b7e976c4ed7/d9f49/05.png 400w,
+/static/3bfe1bc6b26621394a036b7e976c4ed7/c8388/05.png 795w"
+        sizes="(max-width: 795px) 100vw, 795px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>底下這張圖是題外話，通常裝 Xamarin 會順便裝 Mono 上去，而小弟我這邊的 Mono 是自己獨立裝上去的，
+所以如果大家要自己裝 Mono 可以去 Mono 的官網進行安裝，或是讓 Xamarin 來協助安裝。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/0490b73a2849030f34258c7368b8a3f7/bbbf7/06.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAACH0lEQVQoz2WSS08TURiG+7uMqUI7tNKNiQtJhAQ2KIaFJe7UUOKFVqxcInGhYSEYYyIuiBgTNYSlJtIoTSyXTi2tobbTdqYj02l6eTxnaBXwJO98Z+bMPN973jmu024FxX+e0MRdJm7f48bNELdCd5iKzhKJzhF+9JTI9DzhqRkm70+LOks4EmU6+oCZucfMzT9hfPIhPqUX9xkfrkAggKIoDA4OMXz5Ch6vF/fZLpTubrwXLnFqYpGugav0+n0oPX56fH48Hi8D/f0sLS7x7OUy54ZG8Yj3L/b14arX60gZuk5ufx+9XKbZbFKr2TQaDf6NVluytDg6muK+IRi1Wg1X52E2myUej5NIJEin0+znchQKBcrlktPENE0qlYrT2LRsrKrNgV0/DhZGXPIix8LCAsFgkJGREd69XcXQ8vz6mSUnwJlMBjWloqoqu7s7pPf2yOfFupCslmU5DLlTV6ttXy7EYjEywl1sO8WL9Q1Wv2yx/DnBRjKLaRiUSiXHtazFYtGRpml/gY7DDrBSMUilfmDqZdY2k1x//pHxV+uMLb1n5VMcq6ILmOZA5NZlBFKGaGTbdjva1mGGrRMha8US33eSbCVTbKsp4mL+NbEjGqrOdnWRo4Q6mQpgtVr936GsjXaeH7ZzDL+OMbYa59qbTUZXvhFeSwhHhxBdQIy2JPwY8KizDtyq1SmYVbTfh5Lz8oFN54idVOfHyu//AEXQskL8PsKsAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="06"
+        title="06"
+        src="/static/0490b73a2849030f34258c7368b8a3f7/78d47/06.png"
+        srcset="/static/0490b73a2849030f34258c7368b8a3f7/56d15/06.png 200w,
+/static/0490b73a2849030f34258c7368b8a3f7/d9f49/06.png 400w,
+/static/0490b73a2849030f34258c7368b8a3f7/78d47/06.png 800w,
+/static/0490b73a2849030f34258c7368b8a3f7/64756/06.png 1200w,
+/static/0490b73a2849030f34258c7368b8a3f7/bbbf7/06.png 1280w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>所以可以看到安裝程式預計安裝的清單，如上面所說的，因為小弟我已經自己安裝了 Mono ，所以清單就看不到 Mono 了。</p>
-<p><img src="07.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 795px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/fd889b75d73b6140c5cd1fa9d4fd9e5b/c8388/07.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 64.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAAsSAAALEgHS3X78AAAB7ElEQVQ4y5WT70sTcRzH759ZYFBZFESyRLvMPTJYM8oQRCNck2V7ENEMgshZVmIPgqhnET3qYQ8EqR7kbK6Rwra06d2M3dbublu3OHfb3d59v19NlP1Iv/Dic9yHz/ven/t8vtyr+8/xLPAa0+Nv8WLqHUJzEawmEohF48ikM8j+ykIUkgQRaSkNVVEhZ+W6ZAncyQMejHlf4uHdN2izufFhZgGyksHa6ho0TUOlYhLKMM0KymUSLQvNDuc44cPs+zCiiwJ67LexMPcduv4HK8sr7Kv5fIG5yuVyDF3fYIXVarUu3NmjoxhyBnC97zE6D3kRDsZglDUIgoBcPl/XBS1sJMpddtzD1QsBDDrH4eq4g4+foojLBayLIiRJIu1Waop3ita07Ozw49rFRxg4/wD8ES+Cn+OQChp+JteRSqVIi3pTgRpBF++H+8oEevkxdB724mswjpKuQRSTUFV1l7s9CfbYb+GSw49uMhwqSIfyu1gkguIuwb0eNhS+dRRdx27iDHX4ZZklTLIu+xVjgueO+9C9Bd96A99CPzYFTavhajSDO93iAaX9oAenbMOIzG86tKz9Odt2ONL/BCP9TxnuvknElgSWMEoGuxn/g64VjYZhsGdOURT283dC3zXiX57eGlmWtyNdMZr7C2/snSmO9m8xAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="07"
+        title="07"
+        src="/static/fd889b75d73b6140c5cd1fa9d4fd9e5b/c8388/07.png"
+        srcset="/static/fd889b75d73b6140c5cd1fa9d4fd9e5b/56d15/07.png 200w,
+/static/fd889b75d73b6140c5cd1fa9d4fd9e5b/d9f49/07.png 400w,
+/static/fd889b75d73b6140c5cd1fa9d4fd9e5b/c8388/07.png 795w"
+        sizes="(max-width: 795px) 100vw, 795px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>安裝過程，可以去喝個可樂，抬槓一下~~</p>
-<p><img src="08.png" alt=""></p>
-<p>基本上，這樣就裝完了，而如果你打開 Xamarin Studio 的話，他會要你的 account ，<br>因為小弟也會在 Mac 上使用 Xamarin Studio 進行開發(娛樂)，所以等下會順便教大家註冊 ( 需要 MSDN 帳號 )。</p>
-<h3 id="啟用-MSDN-提供的-Xamarin-訂閱"><a href="#啟用-MSDN-提供的-Xamarin-訂閱" class="headerlink" title="啟用 MSDN 提供的 Xamarin 訂閱"></a>啟用 MSDN 提供的 Xamarin 訂閱</h3><p>完成了 Mac 上的 Xamarin 安裝後，因為小弟還希望能擁有 Xamarin Studio 的訂閱，所以小弟必須回到 MSDN 裡面，<br>啟動 Xamarin 的訂閱。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 795px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/c0088c103c1661adcc6019153a466c11/c8388/08.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 64.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAAsSAAALEgHS3X78AAACkUlEQVQ4y51TW2sTURDeX1MRVCpYENRCS9W2L4pRfIj0oRaR2isV8S71QqpgFUXE24Mgoj7ogyC+NEWLJmqb9JY2aYxpss0m2WSzm2z21iT9nLMlWhFBHfiYc5nzMeebGe7R5bu4PfQEt1zPcP/mS4x7J7EQChEWEP0WRWBmFsH5IGLRGISEACkrIZvJ/gKJgc4zYhbc1pounOt9iGvnn2JbTSfcbz8hlUogHouTTyESiUCWZaysrKBUKsGyLCwvL/8A21vW6rpcLoNrqRvAyJtxBKai2LP9FHzeEJipqgrTMFEyy9CKRRTyCgoFFZpaQFHVCCqd0VorIk9ekRUYhgFu5+Z+dDiGcMx5HY0bezDuCcIwNSLRYVg6Qqk5mJTFgwkZl96lIWkVCGIMYk5EpVIBH+Zh6AaqxjlbB3HkwFV07HfB0XAWY24/ZgPT+BqOIJ6M4YX3MRaTabQ/X8Due35MLxXhmRqBP+izMx57NQaBF2wyJgu3t/402ve54GwZROOmXkxQhrIikX5pqPQgQcGWrsEXFTESSFA2GtJ0x4qg6zqSqSTUovqT0Nl6ESeO3sHBXRfQsKEHk1/CdGPCIj1M00Qmk4Gm0ffVPExVRpH0zOVyUJRVzRhx9cs2oaPxDA47rlBBTlKGffC+n4Z7fgmBqIB/MUZma9hU22d/tam238aH0Um8/uiHLxC2A5jwLPhvwTVvGUBz3XEwzyo+4ZlHSZdJvzz+x7j69V2oYse6Toy6ZxBKSBCSIuml2sKvbWLW3KyB/wSuu20Y3W03bHQdGsZnzxz4VAaLi3HwPI+kINiFYeKLaZGaOL9mQn4Hl83SHEqSDbZmFcwrMnW+TCOn2GPHztaCxTLP5ri6r/J8ByBrix32W4+/AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="08"
+        title="08"
+        src="/static/c0088c103c1661adcc6019153a466c11/c8388/08.png"
+        srcset="/static/c0088c103c1661adcc6019153a466c11/56d15/08.png 200w,
+/static/c0088c103c1661adcc6019153a466c11/d9f49/08.png 400w,
+/static/c0088c103c1661adcc6019153a466c11/c8388/08.png 795w"
+        sizes="(max-width: 795px) 100vw, 795px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>基本上，這樣就裝完了，而如果你打開 Xamarin Studio 的話，他會要你的 account ，
+因為小弟也會在 Mac 上使用 Xamarin Studio 進行開發(娛樂)，所以等下會順便教大家註冊 ( 需要 MSDN 帳號 )。</p>
+<h3>啟用 MSDN 提供的 Xamarin 訂閱</h3>
+<p>完成了 Mac 上的 Xamarin 安裝後，因為小弟還希望能擁有 Xamarin Studio 的訂閱，所以小弟必須回到 MSDN 裡面，
+啟動 Xamarin 的訂閱。</p>
 <p>前往 MSDN 的網站裡面，基本上我們已經可以看到現在有提供 Xamarin 的相關訂閱服務了。</p>
 <p>( 搞不好以前就有了，但我沒特別注意 XDD )</p>
 <p>除此之外，也還有免費教學；和 Xamarin Test Cloud 的 25% 折扣</p>
 <p>( Xamarin Test Cloud 是一個 Xamarin 提供的雲端服務，可以協助幫忙測試不同手機畫面功能是否正常 )</p>
-<p><img src="11.png" alt=""></p>
-<p>接著，會被導到 Xamarin 的官網，其實我們可以看到，完全不用付任何錢 ( 一年 )</p>
-<p><img src="12.png" alt=""></p>
-<h3 id="啟用-Xamarin-Studio"><a href="#啟用-Xamarin-Studio" class="headerlink" title="啟用 Xamarin Studio"></a>啟用 Xamarin Studio</h3><p>之後，回到 Mac 上，我們就可以打開 Xamarin Studio 進行登入。</p>
-<p><img src="20.png" alt=""></p>
-<p>成功之後，就可以看到，授權方案是 Visual Studio Enterprise。</p>
-<p><img src="21.png" alt=""></p>
-<h3 id="使用-Visual-Studil-寫-iOS-的-Hello-World"><a href="#使用-Visual-Studil-寫-iOS-的-Hello-World" class="headerlink" title="使用 Visual Studil 寫 iOS 的 Hello World"></a>使用 Visual Studil 寫 iOS 的 Hello World</h3><p>最後，回到 Visual Studio，我們就可以來寫個 Hello World；首先，我們要先在 Visual Studio 登入 Xamarin 帳號。</p>
-<p><img src="30.png" alt=""></p>
-<p>登入完成後，這邊我們就選擇 C# ，並且選擇 Single View App (iPhone )<br>( 如果登入發生 There was an internal error in the activation system. 的錯誤，請先往下看，後面會解釋 )</p>
-<p><img src="31.png" alt=""></p>
-<p>通常建置完畢後，會跳出要我們去打開 Mac 的遠端登入權限，如下圖，要勾選起來。</p>
-<p><img src="22.png" alt=""></p>
-<p>回到 Visual Studio 後，我們就可以 Add Mac</p>
-<p><img src="32.png" alt=""></p>
-<p>輸入 Mac 那台的 ip 位置，按下連線，就可以了。</p>
-<p><img src="33.png" alt=""></p>
-<p>好吧，說可以是騙人的….<br>如果你使用的是 Visual Studio 2015 Update 2 內建的 Xamarin，<br>你應該會發現，怎麼連都連不上!!!!!</p>
-<p>而如果重新登出 Xamarin Account ，並且重新登入後，你應該會得到底下畫面….</p>
-<p><img src="34.png" alt=""></p>
-<p>沒錯!!! 那是因為 Visual Studio 2015 Update 2 內建的 Xamarin 是 4.0.0 版本，但是現在官網已經到 4.0.3 版本了，<br>而 Mac 的 Agent 也是最新版本，所以內建的版本連不起來…也造成無法登入….<br>解決的方式，就是在回到 Xamarin 官網，下載 Windows 版本的安裝套件，並且安裝最新版本，就可以了…</p>
-<p>成功安裝新版完成後，我們重新開啟專案，原則上 Mac 應該也可以連線上，這時，我們點選 Mainstoryboard ，就可以看到如同 Xcode 的設計畫面了。<br>我們可以簡單的拉一個 Label，並且寫一個 Hello World，並且進行偵錯!! ( 模擬器會出現在 Mac 上 )</p>
-<p><img src="35.png" alt=""></p>
-<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>基本上，這樣就完成了，比較要注意的是版本問題，但相信這個部分，未來會跟著改進，祝大家用 C# 寫 Code 愉快!!~</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a href="https://blogs.msdn.microsoft.com/visualstudio/2016/03/31/mobile-app-development-made-easy-with-visual-studio-and-xamarin/" target="_blank" rel="noopener">https://blogs.msdn.microsoft.com/visualstudio/2016/03/31/mobile-app-development-made-easy-with-visual-studio-and-xamarin/</a></li>
-<li><a href="https://developer.xamarin.com/guides/ios/getting_started/installation/windows/#Configuration" target="_blank" rel="noopener">https://developer.xamarin.com/guides/ios/getting_started/installation/windows/#Configuration</a></li>
-<li><a href="https://developer.xamarin.com/guides/ios/getting_started/installation/mac/" target="_blank" rel="noopener">https://developer.xamarin.com/guides/ios/getting_started/installation/mac/</a></li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Visual-Studio/" rel="tag">#Visual Studio</a>
-          
-            <a href="/tags/C/" rel="tag">#C#</a>
-          
-            <a href="/tags/iOS/" rel="tag">#iOS</a>
-          
-            <a href="/tags/Xamarin/" rel="tag">#Xamarin</a>
-          
-            <a href="/tags/XCode/" rel="tag">#XCode</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/01/01/Angular2-First_Angular2/" rel="next" title="Angular2 - 第一次的 Angular2 初體驗">
-                <i class="fa fa-chevron-left"></i> Angular2 - 第一次的 Angular2 初體驗
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/04/11/iOS-Study_Note_Lession_1/" rel="prev" title="iOS - 學習筆記 - Lession 1">
-                iOS - 學習筆記 - Lession 1 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#準備-MAC-環境"><span class="nav-number">2.</span> <span class="nav-text">準備 MAC 環境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#啟用-MSDN-提供的-Xamarin-訂閱"><span class="nav-number">2.1.</span> <span class="nav-text">啟用 MSDN 提供的 Xamarin 訂閱</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#啟用-Xamarin-Studio"><span class="nav-number">2.2.</span> <span class="nav-text">啟用 Xamarin Studio</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Visual-Studil-寫-iOS-的-Hello-World"><span class="nav-number">2.3.</span> <span class="nav-text">使用 Visual Studil 寫 iOS 的 Hello World</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">3.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">4.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/674f3773da22d7cb73b384ffff09947c/bbbf7/11.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 49.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABxElEQVQoz2WSW2/jIBCF/f//1Ur71NdEdXOp48RgbIgN2AbfkpwdiFq1WaRjwKBvzsyQ9M7DjROkVHh/f0ee5zhlGbIzxyb9wGa7BWMFOIkxBiEEyrIE5zwq/Gu1hvMTut4hsf2AIGMtuq7DPM9PURDRdzgWHKJSqFQLrQ38OGJZVvwczvvIaLVF0poOQQE4jZ4uL1HzOqPOJHhpULU9CjWgc1M8W9cV9/v9W/3gIkM1GomkT9S1Qbo7IGMK2lgMrsdlJ/B5sSiakaAe7UDBbg88Ho9vWFjbvo+MSl2RCNlAyCsEpfRnU+Ntm0MqiWno8LeZ8UHOmpbc+RXLev/l7AtobIeyvqIiVsKoPpeyRqM7WLdS/ZZYw5VSM37BsXJIuUeuRgzTjSr2dPilMDSlGxicWMmZ15RWCW17vI6j8siyCorOB2PI0e2Xu9vtub+2BlkhIjQJsP2JkUMbIT8jc0FNYRJt3cBRnUI3nRtILs6e9sGxajUOOcOJoMmeFunxHKO8AouyApMWxs2Y5gkjPZnQ4eAsaCXRZWpoi/TzgiO93STNLtjuT9Sl/4FlJVFUBjV1uDE+QkOKr/dqAm4POXanAv8AwT77X1gfRYgAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="11"
+        title="11"
+        src="/static/674f3773da22d7cb73b384ffff09947c/78d47/11.png"
+        srcset="/static/674f3773da22d7cb73b384ffff09947c/56d15/11.png 200w,
+/static/674f3773da22d7cb73b384ffff09947c/d9f49/11.png 400w,
+/static/674f3773da22d7cb73b384ffff09947c/78d47/11.png 800w,
+/static/674f3773da22d7cb73b384ffff09947c/64756/11.png 1200w,
+/static/674f3773da22d7cb73b384ffff09947c/bbbf7/11.png 1280w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
   </a>
-</div>
-
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/';
-      var disqus_title = 'Xamarin - 準備使用 Xamarin 開發 iOS';
-      var disqus_url = 'http://skychang.github.io/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+    </span></p>
+<p>接著，會被導到 Xamarin 的官網，其實我們可以看到，完全不用付任何錢 ( 一年 )</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/c6e25d9c16b8e9e113ddc4e38904b90e/bbbf7/12.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 49.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABWUlEQVQoz32Sa27DIBCEc/+79B49QSNFjZKof1rbYDAPPwBPGVxSR0prab2LYb+dXXxoewU5DBjHEX3fQylVfDX147mfUsI8z1iWBeu67ixBKA2yDnwpYyGFwPF4xOl0wvl8xvV6xe12w+VywXtesxBhTdOUAoTSQgjFC63x1YkN2A8GJqsUXQchOkgpC6DLa+tcUUZjorW2mM4A732xMZvUAz5/gQOM82ilhszSu16XeDAGLgOZRNg0TRm0jYffp6yYMQs8ALnw4ww/BYS0Yokr5pCyOl9aqrOqClmA7acUS0z4c+CYVcwR05KHv8SSNM/bnGKMRQ3HQU84v5ncRdu2ZWyN7HfAe1XCtvYYM5kxkwmu8L0PvJT9LfO3cc6WaoT4cRt2VeX8Y+t7i4keRdQdKPKi3iStHn4W//UI9QDU/x6ue/RUPlgPM0V0NuDlTeH1w8FYzlDhGwKgBeclkHwQAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="12"
+        title="12"
+        src="/static/c6e25d9c16b8e9e113ddc4e38904b90e/78d47/12.png"
+        srcset="/static/c6e25d9c16b8e9e113ddc4e38904b90e/56d15/12.png 200w,
+/static/c6e25d9c16b8e9e113ddc4e38904b90e/d9f49/12.png 400w,
+/static/c6e25d9c16b8e9e113ddc4e38904b90e/78d47/12.png 800w,
+/static/c6e25d9c16b8e9e113ddc4e38904b90e/64756/12.png 1200w,
+/static/c6e25d9c16b8e9e113ddc4e38904b90e/bbbf7/12.png 1280w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h3>啟用 Xamarin Studio</h3>
+<p>之後，回到 Mac 上，我們就可以打開 Xamarin Studio 進行登入。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/04089ee00c706150910cb9e28fae464e/2561a/20.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 58.50000000000001%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAAC4ElEQVQoz02T3U/bVhiH82/tcu1YYeGrBCgRVOzjchdrtd1N2tRp3apNW7Vp03YxqYLB6Ear0u4DVSsV0JIERAOjKlkVEuLETuIY27XjJI6d8uzYAWnHevQevbZ+fo5fObK0/4I7z0zuPdO5s2+xsKsz90RldqvMzJYiKDO3XWEhXT1B5eZOl6WnNVazBus5M9wHvcjgJ/MMXZnl4rVf6Plwhsu/pvl8rczVFZmrD7t8Jri+rvDVaokvV2W+faTw0X2JS3dzfLNywPUHWd5bOuD9u1kib0+/SXziArGxcd6ZnmYnsUJNLaHJRTSlGFa1JKGVZUxNxaypYKssPy1z5tPfGZx6l1eik5y9ssiPGyUiw+NxRiamGB6LM3HxLdYSKQ6LJXL5PPn8IQURWJAl5LKCbpjUjnTadZMbG4f0ffEX9//8g63df4n/sMbHyzkROHpBhE0wODLGWHyKgiQRLM/zeSmuynaV/PIhVsnCp0Oz1RZ3Oyw+Ubj88xq1/C5aReKDhSTX/s4TGTg/GoZFh2LEhG2xWAwDfc/jWATKj2Ry93KYebPb932OX4p+VSOR08lrdWynTst1UWoGkejQCNHhGH0DwwS2ktQNtOsNmq5Hq90R+GFtCLtGs4VIpKBUubVT4fbeEZsFi6LeRDUdIr39Q2HY628MhKbSyZGDb2XZNp4wctsebS8Ib58c+Zjb2xKjsxn2pSrpXIXYXJbvExUiQdC56CCv9UbpF6anhp2Oh20F+DSbPrru4bp++IJg3dySiP60R8ux8dsu4/NZvl4vE+np6w/tzorA4PiZTAbHcTAMA00zQ3RdTLdmoqoaR7pBp2Ex//g5kzP/0G462Hadybl9vnssdw1PCSx/W7xFOp0mkUiwuZkKSaW6NZlMkhT7lKjbexkeHlgUDBdHmBsNj5rV7BqeWr7a08uGeDhYjiOGIgYQ0Gr9rwpcQeXoBQ+e6+KX08RQTBTDoWbY/Ae0Dgx7smHZMAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="20"
+        title="20"
+        src="/static/04089ee00c706150910cb9e28fae464e/78d47/20.png"
+        srcset="/static/04089ee00c706150910cb9e28fae464e/56d15/20.png 200w,
+/static/04089ee00c706150910cb9e28fae464e/d9f49/20.png 400w,
+/static/04089ee00c706150910cb9e28fae464e/78d47/20.png 800w,
+/static/04089ee00c706150910cb9e28fae464e/2561a/20.png 1180w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>成功之後，就可以看到，授權方案是 Visual Studio Enterprise。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/a1f5b213761b6999dd1918830b17d225/2561a/21.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 58.50000000000001%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAAC5klEQVQoz1WS608TaRTG5+/aTUy8V8ptgQpoo0T9YMx+WjXZ7Cbedcmu2ajRGL8YtVRkYRUUYzasNwQVRCjSst0thV6gU+bWTltKO6X8fGeQTZzkmZNz5p3nPOc8r9Q/m6U/lOFxSOfhrEl3QMU3kebu+BJ3x5ac6Psgi5qM/6PMg8k09wX+mFrmz2mFnoDC8H8KT0MK3ZPLSPXn/DScvYe308/Wn+5wvG+G394oXHqZovOVzC8OUg4uD8tcG0lxReDC30mOPZzjaE+QzqdBfhyc4/hABOnQwQ7a21ppafFw5FAHocAEK6ZBTl92YGppsqpMThO5oVLMZcEyGQprbL84iKfje76p9bLtTC+3RpNIjXvbaWrz0uhpZ9/Bw7x++475eJzo/AKRSIRYcolESnHyeDyBohmUTB2fWEXN5b94NviE8UCYfTdfc/pZVBC2tAqyNuqaPLTuP0AikcR+LMtyYiISJDj6hHw+x7rIi6WSeFd4NKPxg38EZT6Amo5zovsdnUPzSHXftVAvyNwNTXjavSSTiw6R/XMqFqH/tJvn57cw3ncOqwprlQrVtTXUTI73sSxRNU+ukGdVNFpSDCSbyN3YjKuukWYxfiKZ/EIH08MDDPz8LVO9J3lxtQYzX6RarQrCCrKW4dEnhb5pjbGYSUIvspwpILlqG9gjyHbV1GGPvzlyRShZLZV54TvF4K8uwh+HnHqpXHYaDnxK4+n6l9l4msmoTHNXhBtvZSSbaLe7nh0utzP6hkJBKMYqF7IUhQErwtliVsUqr2KtVZ3vvVNpam+HWC3kqIgme/0Rfh9OIe3cU+uo2767Bnuf/4TDwoA8uq5jGIbA11HTN1zuGVvA6wtSLuad8/u7Zrk+srihcBM2+cjoKIVCAUVR0DTtK9hNNBuqwkJK5WXUJGaUKJQqGCsWilncULipcutOF+MfJv7foWPAF6yvrztXyRJ1e4dKJu9c7v4ZlbGFDIu6EGHk+AxNCQh7kGm8/gAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="21"
+        title="21"
+        src="/static/a1f5b213761b6999dd1918830b17d225/78d47/21.png"
+        srcset="/static/a1f5b213761b6999dd1918830b17d225/56d15/21.png 200w,
+/static/a1f5b213761b6999dd1918830b17d225/d9f49/21.png 400w,
+/static/a1f5b213761b6999dd1918830b17d225/78d47/21.png 800w,
+/static/a1f5b213761b6999dd1918830b17d225/2561a/21.png 1180w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h3>使用 Visual Studil 寫 iOS 的 Hello World</h3>
+<p>最後，回到 Visual Studio，我們就可以來寫個 Hello World；首先，我們要先在 Visual Studio 登入 Xamarin 帳號。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 376px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/a8a6e1a902e27fbc2c11f838803584cd/1075d/30.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 132%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAaCAYAAAC3g3x9AAAACXBIWXMAAA7EAAAOxAGVKw4bAAADhklEQVRIx5VV/XKieBDkFa4uGiOKgkYioHwJKCgqmmwSr27rait3VXfv/xx9PT+Ojckm2dwfU3z3zHT3DNrcj1AUJfx5iCCIsdsdkKZL+DzfbisssxxzPsuWBfJ8w/cidSzLPaIoYaTqmyxdYTYLoI3HExT5Gu7UIUiE0+l3gizhTD3c3d1jsy5xc+MgLzZMsIfrzLDebNWzOFpg7of48uUB+aqA43jQulc6Wpcd+HwYxAsYQxO/ti/Rvuril4sWWjzvdnW05R7jivfl2Gq10elcqbjge5fEME0LWq/Xx5QnxyzD3DThGIaKab8PbzCA2TfQ1XuQ9yT0V+fP1z2MRmNosTfHU5ri6fYWT4cDvu0rxh5PxyO+5jm+LmLMghBhIBx/HL5PDl3HwV0Y4q+qwj8E/XO3w98E+6PIcXBdpBMb1uga4/HHIdWJHprne/AJuN/t8dvphGpX4fHhHsHcR4e8XJIj4e1nIVxK65pHZUWQ1SrHpiyxXm9QsW3P9TAghwY5bLj6KEQ4wxhAGzgJLDfG3PPgkc/FIlGRphke7h/pt1IBN+Treh2NMOcC9fsErDP0FamuO6OJfejMdkFbSCuS+ceKaoC6Xf1725Y1gjayxhiRVKmqKAokScqpWCFZpDSxe2aP58rk2hgMMeUwXF9PaPwpJtd27UPLHClA4TCnTQTweLwljwcljPBy3u4zoMlu5uzKg+vNVPIBk2jSUp/EV9WB40NhOFbbcktPhRjyBWnl3MTnLXc6L1VWHPb+IzOKYkRxwkpXrPCIx8cTZ3cHi9PzWpC3RJGwSJ8aPalQOBSnC/CCM93wI8+li8+E4lBKlQvhLiaQQy7EMu12Ww382yq/7UNVoUdCb1jNkspmXFsCduBM21TN4JL4bHUSQ24q7XA4YpXXdhGw5TJXosiStTnH5xV2u+9VeGZsaVkuAo5gGEaKQ+FSeJQEHs0ups+43pIkw4wd1Un6PwCr0WumISSQbd9wxfsk11QL9NkOhnp5wJbk/L2W5Zkm2UXRmCrHtM2O66so1mr7lGw9CAKldJ24+65INSArnJCnEfedVCj/FvGg4pORsGWH+7KxTvPhhxVKZp0fCH8CIiNo27aqSGwj0/CekV9vG8MY1tvG5DyLbXK2Wm5Ktr3HimpblvW/fPhdFLkh1pH/hrj9pVV+7r8XHDYjJ//cNSsUwCbJZ6s7B/wXU27tSOHz9aAAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="30"
+        title="30"
+        src="/static/a8a6e1a902e27fbc2c11f838803584cd/1075d/30.png"
+        srcset="/static/a8a6e1a902e27fbc2c11f838803584cd/56d15/30.png 200w,
+/static/a8a6e1a902e27fbc2c11f838803584cd/1075d/30.png 376w"
+        sizes="(max-width: 376px) 100vw, 376px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>登入完成後，這邊我們就選擇 C# ，並且選擇 Single View App (iPhone )
+( 如果登入發生 There was an internal error in the activation system. 的錯誤，請先往下看，後面會解釋 )</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/ae8d5484b3dd6f77009c89d862e33f9f/b4b29/31.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 64%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACc0lEQVQ4y21TOXIUQRDcjwgpNHfP2T1X75w7O5ICWYQwBK4weIE4AgeLj+BgiCCQ2EsHwdOS6gYtIsDI6J2q7qyqrNzJx0+fcfHlElfLDS6/rXC5WGO5vsVyc4vF6horOm/ufmB9/V3HF6sbLDZ3dP9a55dr+iZc0duviw0mZfcYiZAw3Qg2S+CFKUSWIstyJImAzwIEfgjP9WFbLixCEHLYtoeprCHLCnEswDy6FwkirHq0bY+EZ2B+hLabYdpWCMMInKd0OYHjuDBME6ZpEZGDOIrheYzeDRiGA8xmI2EOkUpMWMB/Bfu5rtQ0HYqq1GR5VlCXXJNYloKtyYVINWEQxFQ4QRRxQoIwSjHxQ4G6bqnajEaL0bQdZC11h6q7KIqwv2/AMAx9mtRpRDlV5J5QnRpqZEXYNQ0Ox0MdVB0O44iStKmqDtW0pS4zQqrBSZopxTjPt4QaW8IgQT0+geyO9AKyXKJqW3TdHMPsAH0/0oiFJlLE6rfKpWn5p8OHhGoR/clLdMfPwVwPORHmsqDLgR5NaaVG3TfM36Ob8P2ARrb/T+jRUrq6xtD1YCxEUUiUldT6cS4QE6lF+ilst0w512XbhfxFmOYVrbugJNcVlU73IodBBCZq2OUhnHwAI3l88qQi8sh3ypMu+XO7GEUoSXhGYzHSr2l6lAWZVTZkbKn1EtkUomgh8oZ0k1o7FVdLOzl5Spabazu5JJfj+Zhk5ZS6ohGItK7Jg0WlL6tH95tNyJ8a+jvTfpWywtnZC5yePoNFMuzsPMLunoGJ6TD6S9m6ioJhWBpKL+tB/F842N3dw3h0jHfvP+D81Vucv36DnztjuQGwXeyxAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="31"
+        title="31"
+        src="/static/ae8d5484b3dd6f77009c89d862e33f9f/78d47/31.png"
+        srcset="/static/ae8d5484b3dd6f77009c89d862e33f9f/56d15/31.png 200w,
+/static/ae8d5484b3dd6f77009c89d862e33f9f/d9f49/31.png 400w,
+/static/ae8d5484b3dd6f77009c89d862e33f9f/78d47/31.png 800w,
+/static/ae8d5484b3dd6f77009c89d862e33f9f/b4b29/31.png 941w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>通常建置完畢後，會跳出要我們去打開 Mac 的遠端登入權限，如下圖，要勾選起來。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 668px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/d4c7feba01e012caf12ab63615593317/1d36f/22.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 79.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAAAsSAAALEgHS3X78AAACa0lEQVQ4y31TyXLTQBDVP3PhRMGHUMUVTlzI1RCcC9hlVbwqspbRMqPdS+wEsONHdycidpFkql5pujXz5vW8HkvZfYTTPkxWosgLxFGMMAjhuR78uY/AC+BMHYxHY5lzrgWvz7MckYrQ1I3Elo5j+nkFx3GgtUZRFPQjR34EzqdpCmMMjDbIsux+HSEzmcT8j9dZi+US3tyDbduUzCSptflHkucZrq+vsd1usdlssL3ZoixLxCSED+Nc3dRYr9eoqgpWSacsmgYrItZE4DgzzGYzXJFi98pFEASykUlaZb7nYzgcwfcDyXF1TMZrLE9pTLwErjKIsgZxvkBSLKFMibmaYzKZwHVdAatOkkS+bYltzIp5boW6RFk1VPIAXL6MAxCXS3QuvuLsyxm63S7Ov52LMe3GFlEUncBSpsb21w6DwQBeoHBHZPs7IiSVaaKlXDGDEBEZb2LS52Cd9Q3efK7x7kMfr96P8Zbmrz8V+HhhkEYB5mSY53lylzqJoJSSjUzM8/8UhrpGs77FcDQjhTGKaoHfe0BlC9gDG72ffVx0v8O+HOLHyEen0xEw2ZMlx2TEzc0txsNLcZdbhEfKxtCCx/tKMZj46PV65PBQnOVrqOtaHOYvx0K42x+wIaI/ux3awU6HR+XJHakA0+kUSzKP+7OhduP+43i1WkkLCeEBj+NwuLtXSC6399WSsoKXBhNbihWKswfsHxzmA+JihTB8VNiq5PJYGZd4DM5JyWGSIeJmzrmp75FQHCT5Sb8dI36qfeS+qW0qei5lWZyCnpfkH55TC1b3HMqqpg6p6S0/u6B6keAUfGAl+Au5jJvzvVwtkQAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="22"
+        title="22"
+        src="/static/d4c7feba01e012caf12ab63615593317/1d36f/22.png"
+        srcset="/static/d4c7feba01e012caf12ab63615593317/56d15/22.png 200w,
+/static/d4c7feba01e012caf12ab63615593317/d9f49/22.png 400w,
+/static/d4c7feba01e012caf12ab63615593317/1d36f/22.png 668w"
+        sizes="(max-width: 668px) 100vw, 668px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>回到 Visual Studio 後，我們就可以 Add Mac</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 586px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/5449efd00b86133c5eb7af9c9a78e7e9/52581/32.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 92.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABZUlEQVQ4y62T23KCMBCGef+n6X2vbZ1OHVsPWCIiDlQL5MRBrU6dv4HQgxRHoV58syGb/XfJbgx/GeE1oPDfInirENnuA5v9AZvdQdtTlP50uy+Q2RYPixQGZxKMCjBlqbKxTBHH2eV8nVe2a3MYQiRgPAEvYSxuTceiSrAiwn+JN+VIsK3IV+zJCttQK3hJFXr9985rBPUGpbKg2iC9VvsKwdV3efYn0YmmeN4K06mD8djCcPSC0WgCYtkgxEF/aOPZdDCcLGBaCzgzF0HIjxJXfllno5EohHPIzEPvyUR/MMGALGF7AnOfqwcgvqs625TcKYQe2mUoYRIXY8uB6weFL5YJpNDXdLbLvEZcyrUSX6t1WvE16HKdeDX47BxefbCvLJj8S/BobPRAK1hDypi8WflU5LZjMRjv6wzbrB2bNAWnFFEQgEURuiSE4YYp5mHSmDxutpJ4NOe4ve/jbjDFTc/HJ8wgmPk2qkaPAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="32"
+        title="32"
+        src="/static/5449efd00b86133c5eb7af9c9a78e7e9/52581/32.png"
+        srcset="/static/5449efd00b86133c5eb7af9c9a78e7e9/56d15/32.png 200w,
+/static/5449efd00b86133c5eb7af9c9a78e7e9/d9f49/32.png 400w,
+/static/5449efd00b86133c5eb7af9c9a78e7e9/52581/32.png 586w"
+        sizes="(max-width: 586px) 100vw, 586px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>輸入 Mac 那台的 ip 位置，按下連線，就可以了。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 586px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/f257a235aea2881e864a94e24edf24e4/52581/33.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 92.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABqElEQVQ4y+2UaW/TQBCG8///DHxslaIKAuSoANGmOdqQw/G1ju04vpPYfth1QyIKElLJFyRWevTOeHdejUf2NkzbxXR8DOFiyDjZVWR7JNUBSHclybaQe08a508k25Iw3daso4yeFtMwlwa6ZmAZFqZu4ogVwhIHHGzTxnfXxGFCGERkSco2y8mzTGpGnmbscmkabHg/cmg8LGzGc5PRTDLVGU4N7icag8mSwTedu/GcydJBEwELS76Ju8HyIywvPCFzTfhc920aF7czWtMVN3ZK10roPUc9N2M6RlTT1hXhQU/5B6lXfUHjVbfPm5FRm9UHVdEzOn+ga0a1YVN1GBcQyAEHcvpB/gKyk74dyBlyxtUaHgzLqqI6A0dDlbx0/aj9b/gvGP4N0uF8Hf7+wy4rCkVRHNkr9r9SFGXdgPoZyrKsa1U/St8pQ08IXMdhs/ZJovhIGsfkSfIT2zQhCiNWKw/X9fD9gLUnY0fIO9Ol8yANL1s3XLW/8Hm8pDfx6T76csPjdhEwdyJmIjyi8jvNp9kbcdm5pz3U6Q3mNGX9x6+PvP6k8x2/ebg3V3swnAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="33"
+        title="33"
+        src="/static/f257a235aea2881e864a94e24edf24e4/52581/33.png"
+        srcset="/static/f257a235aea2881e864a94e24edf24e4/56d15/33.png 200w,
+/static/f257a235aea2881e864a94e24edf24e4/d9f49/33.png 400w,
+/static/f257a235aea2881e864a94e24edf24e4/52581/33.png 586w"
+        sizes="(max-width: 586px) 100vw, 586px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>好吧，說可以是騙人的....
+如果你使用的是 Visual Studio 2015 Update 2 內建的 Xamarin，
+你應該會發現，怎麼連都連不上!!!!!</p>
+<p>而如果重新登出 Xamarin Account ，並且重新登入後，你應該會得到底下畫面....</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 602px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/d773f8677239617dc1ccf02d26a0b928/d1b94/34.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 79.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACSElEQVQ4y6VU25KaUBDk/78oT8kX5EVR1wgiNwE5XA535dKZGVc3W7W7lVSs6jojcPp0zzQY1kFhuM3oxwU9rcMEwvK64n6d0F6nL8F7U93CCGMF62gjThKo9IJzGCA6nwmhrHEU4XK5oCwLlMXn0HQ/zXIYm8MR3358x8/VCq7rwjTX2G532O12tG6xf3nB0XGglEKaph9ACfh+dFEwvHMCkza7vo+qqlDX9XN91JXWoqJ4onzWZZELdJkjSTMYuh0wTyPGcSRbpZyaqfuJjIxspCqlOpM6z3O5n2UZFP2PswZJ3gp008NohhETEc7zIgTO6QSPrHuuhzAI4ZNyhyznpKZpmrviSov6pmlRdSN0O6Kor2iJy6j7mxBO0yzWPI+IaBiue0LgBzidHKzXa1iWRQMLsd/vcaDapYOrikhrjb5rwb/hNt0J2fI0z9KnIAhwpgmHtDkgnJncc2Xle3w9jmNR2/e9KO2HQQiv4/xGOL8S8sMpxYcjk3CUqA1sN88z5NS3gnrItjW5KXIaTHkfDj9Xd/2bZSbkZm82Jg6HX9iYJlYUJdu2EMWRDOERFT4oSWLKJx+YkogEA6l8KnwjTGUIvIEtslq2qTIlFuuqloFw3XWdqNSktqW6bVt0w+09IVvmofgE5+hI7fGUaTC+70kbbNuW+LAijhkTdtxLJu6vjx5OksNlWfA/P7HMOVxIHROyyq/AB3507R1hEN/fDO4HW/hX8HQlThy3+ALj6AUSWHmV/njl/ga8J6KvEYedPyQn4voNaQO+0/ltkPsAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="34"
+        title="34"
+        src="/static/d773f8677239617dc1ccf02d26a0b928/d1b94/34.png"
+        srcset="/static/d773f8677239617dc1ccf02d26a0b928/56d15/34.png 200w,
+/static/d773f8677239617dc1ccf02d26a0b928/d9f49/34.png 400w,
+/static/d773f8677239617dc1ccf02d26a0b928/d1b94/34.png 602w"
+        sizes="(max-width: 602px) 100vw, 602px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>沒錯!!! 那是因為 Visual Studio 2015 Update 2 內建的 Xamarin 是 4.0.0 版本，但是現在官網已經到 4.0.3 版本了，
+而 Mac 的 Agent 也是最新版本，所以內建的版本連不起來...也造成無法登入....
+解決的方式，就是在回到 Xamarin 官網，下載 Windows 版本的安裝套件，並且安裝最新版本，就可以了...</p>
+<p>成功安裝新版完成後，我們重新開啟專案，原則上 Mac 應該也可以連線上，這時，我們點選 Mainstoryboard ，就可以看到如同 Xcode 的設計畫面了。
+我們可以簡單的拉一個 Label，並且寫一個 Hello World，並且進行偵錯!! ( 模擬器會出現在 Mac 上 )</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/ca2752bfe1ed18e13505f96e76f5e25c/bbbf7/35.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 59.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAA7EAAAOxAGVKw4bAAACLUlEQVQoz42R34sSURTH5w9xEnVmdHRHdxx/rGYhVFs5urLVSw8b9bTQxv6wotLcoJ7DLV2WiPUhor8lIoKKDTZ2lyDraVVIRwVHv917bcjd2KUDX+65h3M+95x7uMSpJPx+FWowigllEv5AEIqiwuPxMclEPp/CfLfby0R9r3cCgYAGTYuQ+iBCoShRBNy1G/MorVdR2niFp5Uqyi9eY/3lGzxcfYx8oYhCYZX4j/AgX8RK7i4Wl1Zw+8495k+fT0FVNaIwQuEYYvHT4DY3q6DW6/XQNwdEJo6zX60Wut0u2u025uauIxqNIxyZYtNppEuuXK6wxEajgU7HwGAwwJBqaGl4QCZ5kML29+uYmckiFotBnVThcDghSW5wpdIzBmw2m6xLalaxZeNA+mCn02EN6Hoa4ZCGxMkEgUnkfz3g1tae/wOkRgvpaPS0oFbcAmazs4hOxXH2zDRZkEqW5z8eSEfr9/tHAunILkEgWw6QDj2QZd9fYK1WY4Dx4sMjHwam0xnYbDxEUYLLJYxGtv6wXq+zRFpgyTQHB+6jmAnDMFi+rmfAn7AzkCCI5JTJlisbDGh0exji/8wkia22gQsXddh4O0QyrtMlQvJ4wT0p5vHz2w62PrzDztZHfN/dxo+9r0eqtreN3S+f8Pn9W5xLJuGy8/C7BSiSC17BCc57JQfl6n2I2UUIRNLsMmQSky/nRue4/sTcl5ZZLp9aAK8vwJm+CWfmFhypefwGqRe8o64Inh4AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="35"
+        title="35"
+        src="/static/ca2752bfe1ed18e13505f96e76f5e25c/78d47/35.png"
+        srcset="/static/ca2752bfe1ed18e13505f96e76f5e25c/56d15/35.png 200w,
+/static/ca2752bfe1ed18e13505f96e76f5e25c/d9f49/35.png 400w,
+/static/ca2752bfe1ed18e13505f96e76f5e25c/78d47/35.png 800w,
+/static/ca2752bfe1ed18e13505f96e76f5e25c/64756/35.png 1200w,
+/static/ca2752bfe1ed18e13505f96e76f5e25c/bbbf7/35.png 1280w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>後記</h2>
+<p>基本上，這樣就完成了，比較要注意的是版本問題，但相信這個部分，未來會跟著改進，祝大家用 C# 寫 Code 愉快!!~</p>
+<h2>參考資料</h2>
+<ul>
+<li><a href="https://blogs.msdn.microsoft.com/visualstudio/2016/03/31/mobile-app-development-made-easy-with-visual-studio-and-xamarin/">https://blogs.msdn.microsoft.com/visualstudio/2016/03/31/mobile-app-development-made-easy-with-visual-studio-and-xamarin/</a></li>
+<li><a href="https://developer.xamarin.com/guides/ios/getting_started/installation/windows/#Configuration">https://developer.xamarin.com/guides/ios/getting_started/installation/windows/#Configuration</a></li>
+<li><a href="https://developer.xamarin.com/guides/ios/getting_started/installation/mac/">https://developer.xamarin.com/guides/ios/getting_started/installation/mac/</a></li>
+</ul></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2016/04/10/Xamarin-Use_Xamarin_Develop_iOS_Environment/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>

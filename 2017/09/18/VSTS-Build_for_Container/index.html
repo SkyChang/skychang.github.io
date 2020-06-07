@@ -1,707 +1,350 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="TFS,Azure,Git,Linux,Container,Docker,VSTS," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="前言在 2015 年底左右，因為 VSTS 的 Build 和 Release 改得太好用了，所以那時候寫了一些文章，而快過了兩年，技術的腳步一直都沒停過：因 Docker Container 的起來，再加上 MS 也開始支援 Windows Container ，所以對於整個 App 的開發，也逐漸朝向 Container 的技術進行發展：既然開發要 App ，那自然而然，整個 Build 的流">
-<meta property="og:type" content="article">
-<meta property="og:title" content="VSTS - Container 的 Auto Build ( CI )">
-<meta property="og:url" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="前言在 2015 年底左右，因為 VSTS 的 Build 和 Release 改得太好用了，所以那時候寫了一些文章，而快過了兩年，技術的腳步一直都沒停過：因 Docker Container 的起來，再加上 MS 也開始支援 Windows Container ，所以對於整個 App 的開發，也逐漸朝向 Container 的技術進行發展：既然開發要 App ，那自然而然，整個 Build 的流">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/01.png">
-<meta property="og:image" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/02.png">
-<meta property="og:image" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/02.png">
-<meta property="og:image" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/04.png">
-<meta property="og:image" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/05.png">
-<meta property="og:image" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/06.png">
-<meta property="og:image" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/07.png">
-<meta property="og:image" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/08.png">
-<meta property="og:image" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/09.png">
-<meta property="article:published_time" content="2017-09-18T21:48:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:38.987Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="TFS">
-<meta property="article:tag" content="Azure">
-<meta property="article:tag" content="Git">
-<meta property="article:tag" content="Linux">
-<meta property="article:tag" content="Container">
-<meta property="article:tag" content="Docker">
-<meta property="article:tag" content="VSTS">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/01.png">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> VSTS - Container 的 Auto Build ( CI ) | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                VSTS - Container 的 Auto Build ( CI )
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-09-18T21:48:00+00:00" content="2017-09-18">
-              2017-09-18
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/09/18/VSTS-Build_for_Container/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/18/VSTS-Build_for_Container/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 2015 年底左右，因為 VSTS 的 Build 和 Release 改得太好用了，所以那時候寫了<a href="http://skychang.github.io/alm/">一些文章</a>，而快過了兩年，技術的腳步一直都沒停過：因 Docker Container 的起來，再加上 MS 也開始支援 Windows Container ，所以對於整個 App 的開發，也逐漸朝向 Container 的技術進行發展：既然開發要 App ，那自然而然，整個 Build 的流程，也要跟上時代：所以這篇，我們來談談透過 VSTS Auto Build Container ( CI 持續整合 )</p>
-<h2 id="在開始前"><a href="#在開始前" class="headerlink" title="在開始前"></a>在開始前</h2><p>首先，我們這篇文章當然不會再談什麼是 CI 了，更不會重頭開始講解 VSTS 使用 Build 的過程：而希望放在談論 CI 和 Container 大致上會怎樣做。在開始前，讓我們先回憶一下，在一兩年前，沒有 Container 的 CI 時代，大家是怎樣進行 CI 這個動作。</p>
-<h2 id="ASP-NET-與-CI"><a href="#ASP-NET-與-CI" class="headerlink" title="ASP.NET 與 CI"></a>ASP.NET 與 CI</h2><p>其實大致上就和下圖一樣：下面是一個很典型的 ASP.NET Core 的例子，第一步透過取得 Source 後，然後透過 NuGet 取得套件，然後進行 Build 的動作，Build 完後，透過 Auto Test Run Unit Test：當然，如果要串後面的 Release，那可能還要把編譯好的檔案，放到指定位置等等。</p>
-<p><img src="01.png" alt=""></p>
-<h2 id="Container-與-CI"><a href="#Container-與-CI" class="headerlink" title="Container 與 CI"></a>Container 與 CI</h2><p>那如果是 Container 呢？ 當然，也可以執行上面的步驟，然後再透過 Docker Build 的方式，打包成 image 檔案，最後在上傳到 Repo 去：其實現在的文章多半是透過這種方式來處理；因為這種方式最容易理解，每個步驟也很單純。</p>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">VSTS - Container 的 Auto Build ( CI ) :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="前言 在 2015 年底左右，因為 VSTS 的 Build 和 Release 改得太好用了，所以那時候寫了一些文章，而快過了兩年，技術的腳步一直都沒停過：因 Docker Container 的起來，再加上 MS 也開始支援 Windows Container…"/><meta data-react-helmet="true" property="og:title" content="VSTS - Container 的 Auto Build ( CI )"/><meta data-react-helmet="true" property="og:description" content="前言 在 2015 年底左右，因為 VSTS 的 Build 和 Release 改得太好用了，所以那時候寫了一些文章，而快過了兩年，技術的腳步一直都沒停過：因 Docker Container 的起來，再加上 MS 也開始支援 Windows Container…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="VSTS - Container 的 Auto Build ( CI )"/><meta data-react-helmet="true" name="twitter:description" content="前言 在 2015 年底左右，因為 VSTS 的 Build 和 Release 改得太好用了，所以那時候寫了一些文章，而快過了兩年，技術的腳步一直都沒停過：因 Docker Container 的起來，再加上 MS 也開始支援 Windows Container…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2017/09/18/VSTS-Build_for_Container/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">VSTS - Container 的 Auto Build ( CI )</h1><div class="post-module--meta--3YtjE">18 September 2017<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/Azure/"><span class="post-module--tag--16U9p">#<!-- -->Azure</span></a><a href="/tag/VSTS/"><span class="post-module--tag--16U9p">#<!-- -->VSTS</span></a><a href="/tag/TFS/"><span class="post-module--tag--16U9p">#<!-- -->TFS</span></a><a href="/tag/Git/"><span class="post-module--tag--16U9p">#<!-- -->Git</span></a><a href="/tag/Container/"><span class="post-module--tag--16U9p">#<!-- -->Container</span></a><a href="/tag/Docker/"><span class="post-module--tag--16U9p">#<!-- -->Docker</span></a><a href="/tag/Linux/"><span class="post-module--tag--16U9p">#<!-- -->Linux</span></a></div></div><div><h2>前言</h2>
+<p>在 2015 年底左右，因為 VSTS 的 Build 和 Release 改得太好用了，所以那時候寫了<a href="http://skychang.github.io/alm/">一些文章</a>，而快過了兩年，技術的腳步一直都沒停過：因 Docker Container 的起來，再加上 MS 也開始支援 Windows Container ，所以對於整個 App 的開發，也逐漸朝向 Container 的技術進行發展：既然開發要 App ，那自然而然，整個 Build 的流程，也要跟上時代：所以這篇，我們來談談透過 VSTS Auto Build Container ( CI 持續整合 )</p>
+<h2>在開始前</h2>
+<p>首先，我們這篇文章當然不會再談什麼是 CI 了，更不會重頭開始講解 VSTS 使用 Build 的過程：而希望放在談論 CI 和 Container 大致上會怎樣做。在開始前，讓我們先回憶一下，在一兩年前，沒有 Container 的 CI 時代，大家是怎樣進行 CI 這個動作。</p>
+<h2>ASP.NET 與 CI</h2>
+<p>其實大致上就和下圖一樣：下面是一個很典型的 ASP.NET Core 的例子，第一步透過取得 Source 後，然後透過 NuGet 取得套件，然後進行 Build 的動作，Build 完後，透過 Auto Test Run Unit Test：當然，如果要串後面的 Release，那可能還要把編譯好的檔案，放到指定位置等等。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/ca60c904782f92000a361dfb2fad47f6/89066/01.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 47.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABJUlEQVQoz4WSW2+DMAyF8/9/2x6mve1tUqXSlUKBXCAXOPOxlmpjbWfpU4J94jjGpu97XC4XtG2L8/mMpmkwTRNijFiWRdcKv0MImOcZQbDOwwn0qVYw3gdN4JxTrLXIOYO2bRvWdUUpRdf6zZXQn4WUC8oqMfEZ3qYBSfIT+lgVL6GG+2o1IY1J5rRiziuiYI7yRB5gkiqsMEnw/nZ4H1e/xrbbZebl9Q12GvUpe0spaW9rG1j1M6gxkw2SrPypoCbsug7jMMBLpfu27KHefB5PIna4ZxSxOgrrgWdohYemxantMfpFmxvYYMFF2S9RJmBUMVvyH3y2eT+0OHQBzZS/KTjZgo8+YfARKS4yFvnhT9ljhutV++NlPH5jdVjvjdQjqP0CJ7UPIW42+ncAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="01"
+        title="01"
+        src="/static/ca60c904782f92000a361dfb2fad47f6/78d47/01.png"
+        srcset="/static/ca60c904782f92000a361dfb2fad47f6/56d15/01.png 200w,
+/static/ca60c904782f92000a361dfb2fad47f6/d9f49/01.png 400w,
+/static/ca60c904782f92000a361dfb2fad47f6/78d47/01.png 800w,
+/static/ca60c904782f92000a361dfb2fad47f6/64756/01.png 1200w,
+/static/ca60c904782f92000a361dfb2fad47f6/89066/01.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>Container 與 CI</h2>
+<p>那如果是 Container 呢？ 當然，也可以執行上面的步驟，然後再透過 Docker Build 的方式，打包成 image 檔案，最後在上傳到 Repo 去：其實現在的文章多半是透過這種方式來處理；因為這種方式最容易理解，每個步驟也很單純。</p>
 <p>而小弟這篇文章，則會用另外一種方式來處理，我們先看看下圖：我們從下圖可以發現，這邊第一步是 Build .NET Core，第二步是 Build Image ，第三步是 Push Image：基本上的步驟，和前面說到的都差不多，只是我們把 Get Source、Get NuGet Package、Build 等等的步驟，通通整合到第一個步驟 Build .NET Core 裡面去了。</p>
-<p><img src="02.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/f36172b4a648dd21ed06943fec0ebc95/89066/02.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 47.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABGElEQVQoz5WSa4rEIBCEvf/JQg4xLMzsj2wSH1Gj5lVrOZMQwi7DNHx0g013WSqMMRgGC9n36NoWXddCKwVnLYzRCCEgxlhgPY7jM2es83AZ7/3RI5SLkC5BGodWGsjBQ9sR2gX4MeAa27YdLMuaWbCu63Euvn4sHirgLiPuKiMDvnN+6ATjE2JWMk0TUkpF2TzPZcB/iKZpilRuymsL2ytzkJQSKqv2ISLlvn0g+6+wX9R1Da31IXt7wWADPaVXy0vBX4MIFxFRVVUx9eoPI00zem3L4P3ae32FZ+XKt9stv/JwDDnZ/xyOz0LY/D3o4XkbpTMXXy/K3yGcc9ihUi5gzcyhn4bgg+zwk++1yp+bn/hs+DvY+wv/uw5bwYv6PgAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="02"
+        title="02"
+        src="/static/f36172b4a648dd21ed06943fec0ebc95/78d47/02.png"
+        srcset="/static/f36172b4a648dd21ed06943fec0ebc95/56d15/02.png 200w,
+/static/f36172b4a648dd21ed06943fec0ebc95/d9f49/02.png 400w,
+/static/f36172b4a648dd21ed06943fec0ebc95/78d47/02.png 800w,
+/static/f36172b4a648dd21ed06943fec0ebc95/64756/02.png 1200w,
+/static/f36172b4a648dd21ed06943fec0ebc95/89066/02.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>從上圖可以看到，其實這三個都是 Docker 的命令 ( Docker Cli )，但大家可能會有一個疑惑，疑？為什麼 Docker 命令可以 Build .NET Core ? 又是怎樣一步完成多個步驟。</p>
-<h2 id="VS-產生的-Docker-Compose-File"><a href="#VS-產生的-Docker-Compose-File" class="headerlink" title="VS 產生的 Docker-Compose File"></a>VS 產生的 Docker-Compose File</h2><p>其實這種做法，並不是小弟自己想出來的，如果大家有玩過 Visual Studio 2017 和 Docker，我們使用 Visual Studio 2017 產生的 Docker File，其實是三個 Docker Compose File，如下圖。( 因小弟在 MacOS 下工作，請原諒小弟沒有截 VS 2017 的圖….，就讓小弟直接用 VS Code 講解吧。 )</p>
+<h2>VS 產生的 Docker-Compose File</h2>
+<p>其實這種做法，並不是小弟自己想出來的，如果大家有玩過 Visual Studio 2017 和 Docker，我們使用 Visual Studio 2017 產生的 Docker File，其實是三個 Docker Compose File，如下圖。( 因小弟在 MacOS 下工作，請原諒小弟沒有截 VS 2017 的圖....，就讓小弟直接用 VS Code 講解吧。 )</p>
 <p>這三個檔案分別</p>
 <ul>
 <li>docker-compose.ci.build.yml</li>
 <li>docker-compose.override.yml</li>
 <li>docker-compose.yml</li>
 </ul>
-<p><img src="02.png" alt=""></p>
-<p>當然，docker-compose.yml 就是定義了要怎樣跑出 Container，而共用的設定則會放到 docker-compose.override.yml。<br>而如果我們仔細看 VS 2017 使用 Docker Build 的 Log，其實我們可以發現 docker-compose.ci.build.yml 根本沒用到…. ( 如果小弟眼殘了請多見諒。 )</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/f36172b4a648dd21ed06943fec0ebc95/89066/02.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 47.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABGElEQVQoz5WSa4rEIBCEvf/JQg4xLMzsj2wSH1Gj5lVrOZMQwi7DNHx0g013WSqMMRgGC9n36NoWXddCKwVnLYzRCCEgxlhgPY7jM2es83AZ7/3RI5SLkC5BGodWGsjBQ9sR2gX4MeAa27YdLMuaWbCu63Euvn4sHirgLiPuKiMDvnN+6ATjE2JWMk0TUkpF2TzPZcB/iKZpilRuymsL2ytzkJQSKqv2ISLlvn0g+6+wX9R1Da31IXt7wWADPaVXy0vBX4MIFxFRVVUx9eoPI00zem3L4P3ae32FZ+XKt9stv/JwDDnZ/xyOz0LY/D3o4XkbpTMXXy/K3yGcc9ihUi5gzcyhn4bgg+zwk++1yp+bn/hs+DvY+wv/uw5bwYv6PgAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="02"
+        title="02"
+        src="/static/f36172b4a648dd21ed06943fec0ebc95/78d47/02.png"
+        srcset="/static/f36172b4a648dd21ed06943fec0ebc95/56d15/02.png 200w,
+/static/f36172b4a648dd21ed06943fec0ebc95/d9f49/02.png 400w,
+/static/f36172b4a648dd21ed06943fec0ebc95/78d47/02.png 800w,
+/static/f36172b4a648dd21ed06943fec0ebc95/64756/02.png 1200w,
+/static/f36172b4a648dd21ed06943fec0ebc95/89066/02.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>當然，docker-compose.yml 就是定義了要怎樣跑出 Container，而共用的設定則會放到 docker-compose.override.yml。
+而如果我們仔細看 VS 2017 使用 Docker Build 的 Log，其實我們可以發現 docker-compose.ci.build.yml 根本沒用到.... ( 如果小弟眼殘了請多見諒。 )</p>
 <p>那 docker-compose.ci.build.yml 是做什麼的呢?</p>
-<h2 id="docker-compose-ci-build-yml"><a href="#docker-compose-ci-build-yml" class="headerlink" title="docker-compose.ci.build.yml"></a>docker-compose.ci.build.yml</h2><p>docker-compose.ci.build.yml，看名子就知道，一定是和 ci build 有關啊！！，我們可以打開內容來看看。</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">ci-build:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">microsoft/aspnetcore-build:2.0.0-stretch</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">.:/src</span></span><br><span class="line">    <span class="attr">working_dir:</span> <span class="string">/src</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">/bin/bash</span> <span class="string">-c</span> <span class="string">"dotnet restore ./Study4Demo.Api.sln &amp;&amp; dotnet publish ./Study4Demo.Api.sln -c Release -o ./obj/Docker/publish"</span></span><br></pre></td></tr></table></figure>
+<h2>docker-compose.ci.build.yml</h2>
+<p>docker-compose.ci.build.yml，看名子就知道，一定是和 ci build 有關啊！！，我們可以打開內容來看看。</p>
+<div class="gatsby-highlight" data-language="yml"><pre class="language-yml"><code class="language-yml"><span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">'3'</span>
 
+<span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">ci-build</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> microsoft/aspnetcore<span class="token punctuation">-</span>build<span class="token punctuation">:</span>2.0.0<span class="token punctuation">-</span>stretch
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> .<span class="token punctuation">:</span>/src
+    <span class="token key atrule">working_dir</span><span class="token punctuation">:</span> /src
+    <span class="token key atrule">command</span><span class="token punctuation">:</span> /bin/bash <span class="token punctuation">-</span>c "dotnet restore ./Study4Demo.Api.sln <span class="token important">&amp;&amp;</span> dotnet publish ./Study4Demo.Api.sln <span class="token punctuation">-</span>c Release <span class="token punctuation">-</span>o ./obj/Docker/publish"</code></pre></div>
 <p>從裡面其實就可以看到，他用的是 image，是 aspnetcore-build，換言之，其實這個 docker-compose 就是提供 Build 的檔案：我們繼續看下去，他的 volumes 參數，會建立一個 src 的目錄，並且把目前我們 Local 的資料掛載過去：然後進入 src 裡面，並執行很長的一串命令。</p>
 <p>但其實這個命令就是</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dotnet restore ./Study4Demo.Api.sln</span><br><span class="line">dotnet publish ./Study4Demo.Api.sln -c Release -o ./obj/Docker/publish</span><br></pre></td></tr></table></figure>
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash">dotnet restore ./Study4Demo.Api.sln
+dotnet publish ./Study4Demo.Api.sln -c Release -o ./obj/Docker/publish</code></pre></div>
 <p>更簡單的說法，就是，先 restore，並且透過 publish ( 包含 build )，將產生出來的檔案 ( Release Mode )，放到 obj/docker/publish 底下。</p>
 <p>而又因為這個目錄是透過 volumes 掛載進來的，所以等同執行完 publish 後，本機的目錄就會有 obj/docker/publish 這些編譯好的檔案。</p>
 <p>說得更簡單一點，就是透過這個 Container 執行 Build 的動作，並透過掛載本機開發目錄這個技巧，又把編譯好的檔案放回本機去。</p>
-<h2 id="進行實際設定-Build-NET-Core"><a href="#進行實際設定-Build-NET-Core" class="headerlink" title="進行實際設定 - Build .NET Core"></a>進行實際設定 - Build .NET Core</h2><p>知道原理之後，我們就可以開始進行設定:這邊我們主要使用的 Task ，自然就是 Docker-compose，而非 Docker，原因也很簡單了，畢竟我們都準備好Docker-Compose 的設定了。（ 我們一共要有三個 Docker-Compose Task 來 Build、Create Image 和 Push )</p>
-<p><img src="04.png" alt=""></p>
-<p>這邊的設定還滿簡單的，除了名稱別忘了取響亮一點外，Container Registry Type 我們要選擇 Container Registry，表示從 Docker Hub 下載：當然如果覺得這樣耗費時間，也可以改用 Azure Container Registry，但別忘了要自己把 Build 的 Image 放上去就是了….</p>
-<p>Docker Compose File 自然就是選擇剛剛的 yml 檔案嚕。</p>
-<p><img src="05.png" alt=""></p>
-<p>接下來，我們要 Run Docker Compose Command，而這個命令就是 up，透過此命令可以把 Container run 起來，並且執行。</p>
-<p><img src="06.png" alt=""></p>
-<h2 id="進行實際設定-Build-an-Image"><a href="#進行實際設定-Build-an-Image" class="headerlink" title="進行實際設定 - Build an Image"></a>進行實際設定 - Build an Image</h2><p>接下來，就是要 Build Image：這邊比較簡單，主要選擇主要的 Docker-Compose 檔案，並且選擇 Build Image。</p>
-<p>Docker-Compose 的主要內容如下 ( Override 小弟就不列了. )</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">WebApi:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">study4demo.azurecr.io/api/study4demo-api:latest</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">      <span class="attr">context:</span> <span class="string">./Service</span></span><br><span class="line">      <span class="attr">dockerfile:</span> <span class="string">Dockerfile</span></span><br></pre></td></tr></table></figure>
-
-<p>比較重要的為產生的 image 名稱，因為我們未來要放到 Azure Container Registry，所以勢必前面要加上特定的名稱 study4demo.azurecr.io，而中間的 api 是小弟故意加的，用來區分為後台的 Image，最後每次 Build 完後的版本為預設的 latest。</p>
-<p><img src="07.png" alt=""></p>
-<h2 id="進行實際設定-Publish-an-Image"><a href="#進行實際設定-Publish-an-Image" class="headerlink" title="進行實際設定 - Publish an Image"></a>進行實際設定 - Publish an Image</h2><p>接下來，就是要 Publish Image：再放上去之前，記得要先去 Azure Containere Registry 花錢<a href="https://docs.microsoft.com/zh-tw/azure/container-registry/" target="_blank" rel="noopener">開啟 Container Repo 服務</a>，當然，也必須先把 VSTS 與 Azure <a href="https://docs.microsoft.com/en-us/vsts/build-release/concepts/library/government-cloud" target="_blank" rel="noopener">關聯</a>，完成之後，主要是在下面，Actuon 選擇 Push an image，而你要 push 的 image 名稱為 api/study4demo-api:latest，然後 Qualify Image Name 要打勾，這樣他會自動幫我們帶 study4demo.azurecr.io 這個名稱。</p>
-<p><img src="08.png" alt=""></p>
-<h2 id="如果要接-Release"><a href="#如果要接-Release" class="headerlink" title="如果要接 Release"></a>如果要接 Release</h2><p>如果要接 Release，我們也必須先把 config 放到特定的位置，這邊小弟因為要 Release 到 K8S，所以設定檔是 K8S。</p>
-<p><img src="09.png" alt=""></p>
-<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>基本上，兩種方式都有各自的好，但對小弟來說，小弟比較喜歡透過 Container 來進行 Build，原因是因為這樣就可以無視 Build Server 上的 .NET Core 版本：甚至也可以透過同樣手段來進行 Node.js、npm 等的 Build：但這種方式也有缺點，如果 image 放在 Docker Hub 的情況下，拉回來的速度還是有點落差。</p>
-<p>最後，大家喜歡用哪一種方式，就看大家習慣吧！～</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a href="https://docs.microsoft.com/zh-tw/azure/container-registry/" target="_blank" rel="noopener">https://docs.microsoft.com/zh-tw/azure/container-registry/</a></li>
-<li><a href="https://docs.microsoft.com/en-us/vsts/build-release/concepts/library/service-endpoints#sep-azure-rm" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/vsts/build-release/concepts/library/service-endpoints#sep-azure-rm</a></li>
-<li><a href="https://docs.microsoft.com/en-us/vsts/build-release/concepts/library/government-cloud" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/vsts/build-release/concepts/library/government-cloud</a></li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/TFS/" rel="tag">#TFS</a>
-          
-            <a href="/tags/Azure/" rel="tag">#Azure</a>
-          
-            <a href="/tags/Git/" rel="tag">#Git</a>
-          
-            <a href="/tags/Linux/" rel="tag">#Linux</a>
-          
-            <a href="/tags/Container/" rel="tag">#Container</a>
-          
-            <a href="/tags/Docker/" rel="tag">#Docker</a>
-          
-            <a href="/tags/VSTS/" rel="tag">#VSTS</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/09/09/VSTS-Resolve_Git_connection_failure/" rel="next" title="VSTS - 解決 Git 無法同步之問題">
-                <i class="fa fa-chevron-left"></i> VSTS - 解決 Git 無法同步之問題
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/11/24/Kubernetes-Dashboard_broken/" rel="prev" title="Kubernetes - Dashboard 一片空白">
-                Kubernetes - Dashboard 一片空白 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在開始前"><span class="nav-number">2.</span> <span class="nav-text">在開始前</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ASP-NET-與-CI"><span class="nav-number">3.</span> <span class="nav-text">ASP.NET 與 CI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Container-與-CI"><span class="nav-number">4.</span> <span class="nav-text">Container 與 CI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VS-產生的-Docker-Compose-File"><span class="nav-number">5.</span> <span class="nav-text">VS 產生的 Docker-Compose File</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-compose-ci-build-yml"><span class="nav-number">6.</span> <span class="nav-text">docker-compose.ci.build.yml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#進行實際設定-Build-NET-Core"><span class="nav-number">7.</span> <span class="nav-text">進行實際設定 - Build .NET Core</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#進行實際設定-Build-an-Image"><span class="nav-number">8.</span> <span class="nav-text">進行實際設定 - Build an Image</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#進行實際設定-Publish-an-Image"><span class="nav-number">9.</span> <span class="nav-text">進行實際設定 - Publish an Image</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果要接-Release"><span class="nav-number">10.</span> <span class="nav-text">如果要接 Release</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">11.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">12.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
+<h2>進行實際設定 - Build .NET Core</h2>
+<p>知道原理之後，我們就可以開始進行設定:這邊我們主要使用的 Task ，自然就是 Docker-compose，而非 Docker，原因也很簡單了，畢竟我們都準備好Docker-Compose 的設定了。（ 我們一共要有三個 Docker-Compose Task 來 Build、Create Image 和 Push )</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/0a51d77841ca4dc6bbfc5bbc1bf08de6/89066/04.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 47.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABmklEQVQoz4WSaW7bMBCFef+7pHfIj9YN0gBNDRQJ5DWKLYvaKEoUJZLSy5COBbsIUEIfBuAy82b0mKhrCNmgyHNwzpFlGcqyhJQSQgj0fX9D13XQWqMjmlahbduwdzlnuh/QDQZKKTRNMz8YhiFccM7hek3TNOPcGLB0J+zROfMJrDUwxlC0n9GFRB6vUuse2jio3tLjcU7ol6PYDRaDpcTjBJam6azkuvpZgaMCNpyHTrRvazjfvVFLiSmZh/34+YCirGBIlQ3yPROMV0KPaupAqRajs5RhxP8WWywWUDTYf+fjl6X9KNrh5W+E9esGu02M9/0Rh7eEYoLTgSM95qjSHN+XCe6fE7BotYGoZVBG3yzda1FZgYc/WyyWOzy9HPF7xfG8zog8sNyWWO4qvMYC335x3D2ewFaJwD5XiEt9w54QVYuYCm6jDd7We/BDCpGVKHlxJvXkKAhJxVVegDXUlveSj03zGQnvQ0tzO8USVSVQy5rmbEj9xSLT1zOsydhfIURFnuyhajI7TymhnD3qrXWx2TWOfuwH7VIBudt8mq8AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="04"
+        title="04"
+        src="/static/0a51d77841ca4dc6bbfc5bbc1bf08de6/78d47/04.png"
+        srcset="/static/0a51d77841ca4dc6bbfc5bbc1bf08de6/56d15/04.png 200w,
+/static/0a51d77841ca4dc6bbfc5bbc1bf08de6/d9f49/04.png 400w,
+/static/0a51d77841ca4dc6bbfc5bbc1bf08de6/78d47/04.png 800w,
+/static/0a51d77841ca4dc6bbfc5bbc1bf08de6/64756/04.png 1200w,
+/static/0a51d77841ca4dc6bbfc5bbc1bf08de6/89066/04.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
   </a>
-</div>
+    </span></p>
+<p>這邊的設定還滿簡單的，除了名稱別忘了取響亮一點外，Container Registry Type 我們要選擇 Container Registry，表示從 Docker Hub 下載：當然如果覺得這樣耗費時間，也可以改用 Azure Container Registry，但別忘了要自己把 Build 的 Image 放上去就是了....</p>
+<p>Docker Compose File 自然就是選擇剛剛的 yml 檔案嚕。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/042d9296fd8c5c5169c1c6997f078ecd/89066/05.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 57.00000000000001%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsSAAALEgHS3X78AAAB9ElEQVQoz3XSS2vUUBTA8Xwpd+7cTK0FEUE/gSAu3VSwq1bQhSAuXFpwqa6d4ujehVa6GNDpY+xkmkwek0zeN8+/JxkLtY/Aj3tzcnLuubnRbtx7xPWHr+g9fsPNjQ+sPeuzuvmJOy8G3H/5ldvPBxLbYWWzz8rWDr2tAasb77n7dJu19W1urb9l9ck7ehsfufbgNZrrB5z4KbobcXDicmh4nYkTdTEzLPALmCtwMrCSBjsuceMCY5Ex9RJmgWIhOVEFWpJmFEVOVZWUuaJQGVWhaOqKpqnILINY5HMbQp868KjCxVLg/+NRt888Fy0OQ1Qc0UjRFmVB05Li9WSMd3iAsT/CmxzjGSbRzCLRJyTWjNS2Ou08ErHkaPt7Q3a/fWc8GqMfTZn+MTr60QlHP4cEUx1fhKZB4jikjk0y+kUmhTLXFctYYJrEMxNt98ceX/qf0cc6c2vO3PaEjI6Pa9q4o9+Y0qF1sE9kTEmlk6QtKi//p+12OkE7li0Mh0OUbPGyK88ysjhGpQmFzMs8p1RqKT+ju8/RHNvGsuQ7JAl1XV+QFwVK5RRlSSML1E0jh9V041ldTPK1NE1pKVnhdH4qk46UaOdVVXV/wnK8mhbKKV8limIMN8CWw4ii6NIdnKc5kuzKaZ13GredOWEQXOj+Kn8Bl9sufwgMtVkAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="05"
+        title="05"
+        src="/static/042d9296fd8c5c5169c1c6997f078ecd/78d47/05.png"
+        srcset="/static/042d9296fd8c5c5169c1c6997f078ecd/56d15/05.png 200w,
+/static/042d9296fd8c5c5169c1c6997f078ecd/d9f49/05.png 400w,
+/static/042d9296fd8c5c5169c1c6997f078ecd/78d47/05.png 800w,
+/static/042d9296fd8c5c5169c1c6997f078ecd/64756/05.png 1200w,
+/static/042d9296fd8c5c5169c1c6997f078ecd/89066/05.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接下來，我們要 Run Docker Compose Command，而這個命令就是 up，透過此命令可以把 Container run 起來，並且執行。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/2ce28fbe73cc02a8f4882a8097555972/89066/06.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 47.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABTUlEQVQoz42S2XKDMAxF/f+/1Lc+Jd/QJn3JRoiDA3jBC7dXzjLtTLowHGQkWZYlKWMuMP0ArTXatq10XYe+72GMQQgB0zRVKTjn4L2HI8NoMRJr3cOuXJhgQ6TS1iD2tkGMImOMyDmjlIJ5nh9rIaVMUtWJTVDBO5ScHmQ6zCWDHzqmGtTzkPvGr5RyC37X0Ud9bPbQvYNxEX3IlYF0LsFNkZkySzoWnv4bfJEZXL28LrDan3HoI5ohV45jxuaSsNMjdpstdHOAHwYkKQGzjf4JcgtKtVwueCWL6zN/k7ZpcFivYfa7itcnhO6McNZPOMPRrlardW2GpH0PVQtMmXQLfzFI0hh2ulCW9BMJiT5q4FUCF9JNKbzIumY9bHtE8/6GbruBP7Vw/P8LNY4jniEHWdZMmGK6Zv4PlAzvM2S4HWdzLqWOhGT/F+L3CbPrCImX1sNfAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="06"
+        title="06"
+        src="/static/2ce28fbe73cc02a8f4882a8097555972/78d47/06.png"
+        srcset="/static/2ce28fbe73cc02a8f4882a8097555972/56d15/06.png 200w,
+/static/2ce28fbe73cc02a8f4882a8097555972/d9f49/06.png 400w,
+/static/2ce28fbe73cc02a8f4882a8097555972/78d47/06.png 800w,
+/static/2ce28fbe73cc02a8f4882a8097555972/64756/06.png 1200w,
+/static/2ce28fbe73cc02a8f4882a8097555972/89066/06.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>進行實際設定 - Build an Image</h2>
+<p>接下來，就是要 Build Image：這邊比較簡單，主要選擇主要的 Docker-Compose 檔案，並且選擇 Build Image。</p>
+<p>Docker-Compose 的主要內容如下 ( Override 小弟就不列了. )</p>
+<div class="gatsby-highlight" data-language="yml"><pre class="language-yml"><code class="language-yml"><span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">'3'</span>
 
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2017/09/18/VSTS-Build_for_Container/';
-      var disqus_title = 'VSTS - Container 的 Auto Build ( CI )';
-      var disqus_url = 'http://skychang.github.io/2017/09/18/VSTS-Build_for_Container/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+<span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">WebApi</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> study4demo.azurecr.io/api/study4demo<span class="token punctuation">-</span>api<span class="token punctuation">:</span>latest
+    <span class="token key atrule">build</span><span class="token punctuation">:</span>
+      <span class="token key atrule">context</span><span class="token punctuation">:</span> ./Service
+      <span class="token key atrule">dockerfile</span><span class="token punctuation">:</span> Dockerfile</code></pre></div>
+<p>比較重要的為產生的 image 名稱，因為我們未來要放到 Azure Container Registry，所以勢必前面要加上特定的名稱 study4demo.azurecr.io，而中間的 api 是小弟故意加的，用來區分為後台的 Image，最後每次 Build 完後的版本為預設的 latest。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/ed74d32951bd1feff1ec23cd16c787fe/89066/07.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 47.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABUUlEQVQoz4WS3XKCMBCFef9X6vTGm/a+vaoWsTqiYiCQBEJION2sqNWObWa+ybAkJ2d/EilryEZBCIGiKJiqqtA0DaSU6LoO1toLbdtyrCWUNtCEMYb/9X2PpLM9Wus4GEXOF1iADvxcIxFCwDiOjPeeOcfinkSBYRjgHMG7429Pl7vigONiDpGl0Js1vNHwN0KEPxHvsMPisIfrLT3tJw/sgx3ZUmA7/0CefqJcf8FRFiFcBe+JosnT7BXZrsRRDxDGM2UbsK0H1HZAGAMGH9hZmNJ6RBRNnmcv2ArFIldBj70iQWPhqJaxpvHw+IfYRTBbpjBaTanerpHK0KiGO+qmGj0i1p5rqJQ6tZwC3BjeHb1GJZAa2WqD4y6HoQnwJDr8Q6K1xi/oEU2uZJYhf39DlS7QrZacMrdtGpt7eGzi8D6iLkuU5E7kObSs/kz5zDfyCAkjT6bwuAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="07"
+        title="07"
+        src="/static/ed74d32951bd1feff1ec23cd16c787fe/78d47/07.png"
+        srcset="/static/ed74d32951bd1feff1ec23cd16c787fe/56d15/07.png 200w,
+/static/ed74d32951bd1feff1ec23cd16c787fe/d9f49/07.png 400w,
+/static/ed74d32951bd1feff1ec23cd16c787fe/78d47/07.png 800w,
+/static/ed74d32951bd1feff1ec23cd16c787fe/64756/07.png 1200w,
+/static/ed74d32951bd1feff1ec23cd16c787fe/89066/07.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>進行實際設定 - Publish an Image</h2>
+<p>接下來，就是要 Publish Image：再放上去之前，記得要先去 Azure Containere Registry 花錢<a href="https://docs.microsoft.com/zh-tw/azure/container-registry/">開啟 Container Repo 服務</a>，當然，也必須先把 VSTS 與 Azure <a href="https://docs.microsoft.com/en-us/vsts/build-release/concepts/library/government-cloud">關聯</a>，完成之後，主要是在下面，Actuon 選擇 Push an image，而你要 push 的 image 名稱為 api/study4demo-api:latest，然後 Qualify Image Name 要打勾，這樣他會自動幫我們帶 study4demo.azurecr.io 這個名稱。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/9a5eae2f4aa08cbdd3c2bd2e75042219/89066/08.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 47.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABd0lEQVQoz32Sy27bMBBF+f9f1GVXXTTbpkCQNoidNJL1sERSFt+6vUPbQRsYIXDAITmct5pnjdlYjOOIvu8r0zTBGAOtNXwICDFWRF6dg/O+sqxrRe6qXohQzlPJR5xOp2pkpYK7KKzLgshz4ufMcyGJb1nOJFKObq13JYaKEgMppXciI5G9AHBtg+7XI/rdM5rnPeyhhR8HuKE/IzJZ+w6Gb3q/g2rbtoafUkbZtjOlVINhOsIwbUunIZ6dbDeQ+8x/nhmpu7vvsEZfnq7rLIfjgGkYatQl589hENEaqC9fv2HXWxxsJqnSkb3O6F8b6OMILwYlku0CPiBZSZTMRN0//EYzaGiXYUOB8QWWmAg0Lwc8/fiJt8cH6Lc/8Kyb1MtxEv6nqzVdWXN1WiwSu5OTpJXe2Yhnba1m561F9K52OgV/k+ubWljIK/aCyIZGApUiOy5zlkv5p7q3l6Su5nnGLa7D3XUdBjZGopXmRHEi+wfEuYzbXwWyBw10SOkzAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="08"
+        title="08"
+        src="/static/9a5eae2f4aa08cbdd3c2bd2e75042219/78d47/08.png"
+        srcset="/static/9a5eae2f4aa08cbdd3c2bd2e75042219/56d15/08.png 200w,
+/static/9a5eae2f4aa08cbdd3c2bd2e75042219/d9f49/08.png 400w,
+/static/9a5eae2f4aa08cbdd3c2bd2e75042219/78d47/08.png 800w,
+/static/9a5eae2f4aa08cbdd3c2bd2e75042219/64756/08.png 1200w,
+/static/9a5eae2f4aa08cbdd3c2bd2e75042219/89066/08.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>如果要接 Release</h2>
+<p>如果要接 Release，我們也必須先把 config 放到特定的位置，這邊小弟因為要 Release 到 K8S，所以設定檔是 K8S。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/77c7dc15504b94ef2d6c28ad81cc774a/89066/09.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 47.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABJklEQVQoz42S2U7DMBBF/f8f1kp55BUknoCqS+J9S5zLjBunARVaS0ce2cm9s1hIpSC1weV8xvF4xOl0Qt/30FpDSokYI1JKFY699wghwBPGOlhr6cwh1e8iRIgJPmU452CMWX9oAtM0oZRSmed53ZlpKpVM30yF7uhMsMA4ZmKs5JxXEY7ZqBls17zspIOQC8JYkAhxOBwQlkyac4MNPAneu9uCDaLrOiglMVNGvxdneKaeGuoniz6CExC73Z4a62oJN9eb4DAM1zaU8pzg/uUVb18DPlTGpx6vUPx+ybjogEAlt74+gxiUgfURLiS4mK9QbAkfYi2XBduk/6MKOmfrJOtuF2ps6ruKNF0uBT9a8sdwaImBHq+8Q0+9YyN2bk/qEZzhNzpKDejadE+KAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="09"
+        title="09"
+        src="/static/77c7dc15504b94ef2d6c28ad81cc774a/78d47/09.png"
+        srcset="/static/77c7dc15504b94ef2d6c28ad81cc774a/56d15/09.png 200w,
+/static/77c7dc15504b94ef2d6c28ad81cc774a/d9f49/09.png 400w,
+/static/77c7dc15504b94ef2d6c28ad81cc774a/78d47/09.png 800w,
+/static/77c7dc15504b94ef2d6c28ad81cc774a/64756/09.png 1200w,
+/static/77c7dc15504b94ef2d6c28ad81cc774a/89066/09.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>後記</h2>
+<p>基本上，兩種方式都有各自的好，但對小弟來說，小弟比較喜歡透過 Container 來進行 Build，原因是因為這樣就可以無視 Build Server 上的 .NET Core 版本：甚至也可以透過同樣手段來進行 Node.js、npm 等的 Build：但這種方式也有缺點，如果 image 放在 Docker Hub 的情況下，拉回來的速度還是有點落差。</p>
+<p>最後，大家喜歡用哪一種方式，就看大家習慣吧！～</p>
+<h2>參考資料</h2>
+<ul>
+<li><a href="https://docs.microsoft.com/zh-tw/azure/container-registry/">https://docs.microsoft.com/zh-tw/azure/container-registry/</a></li>
+<li><a href="https://docs.microsoft.com/en-us/vsts/build-release/concepts/library/service-endpoints#sep-azure-rm">https://docs.microsoft.com/en-us/vsts/build-release/concepts/library/service-endpoints#sep-azure-rm</a></li>
+<li><a href="https://docs.microsoft.com/en-us/vsts/build-release/concepts/library/government-cloud">https://docs.microsoft.com/en-us/vsts/build-release/concepts/library/government-cloud</a></li>
+</ul></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2017/09/18/VSTS-Build_for_Container/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>

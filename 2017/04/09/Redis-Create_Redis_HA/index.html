@@ -1,449 +1,871 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Redis,Windows," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="前言首先，這篇要感謝公司的架構師 Harry、好友饅頭和 Jamis，提供了非常的多 Redis 經驗。 其實 Redis 的相關文章已經有非常非常非常多，不光是對岸，甚至國內大家也已經有大量的文章產出了，也已經是一個非常成熟的 Open Source 產品，而最近，因為剛好有要建立高可用性的 Redis 的需求，所以就在這邊，把整個過程寫下來，畢竟人年紀大了，很容易忘東忘西… Redis HA在">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Redis - 在 Windows 上建立高可用性的 Redis">
-<meta property="og:url" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="前言首先，這篇要感謝公司的架構師 Harry、好友饅頭和 Jamis，提供了非常的多 Redis 經驗。 其實 Redis 的相關文章已經有非常非常非常多，不光是對岸，甚至國內大家也已經有大量的文章產出了，也已經是一個非常成熟的 Open Source 產品，而最近，因為剛好有要建立高可用性的 Redis 的需求，所以就在這邊，把整個過程寫下來，畢竟人年紀大了，很容易忘東忘西… Redis HA在">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/00.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/01.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/02.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/03.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/04.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/05.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/06.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/07.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/08.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/09.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/10.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/11.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/12.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/13.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/14.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/15.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/16.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/17.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/18.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/19.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/20.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/21.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/22.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/23.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/24.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/25.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/25.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/27.png">
-<meta property="og:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/28.png">
-<meta property="article:published_time" content="2017-04-09T23:11:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:38.928Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="Redis">
-<meta property="article:tag" content="Windows">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/00.png">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> Redis - 在 Windows 上建立高可用性的 Redis | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Redis - 在 Windows 上建立高可用性的 Redis
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-04-09T23:11:00+00:00" content="2017-04-09">
-              2017-04-09
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/04/09/Redis-Create_Redis_HA/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/04/09/Redis-Create_Redis_HA/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>首先，這篇要感謝公司的架構師 Harry、好友饅頭和 Jamis，提供了非常的多 Redis 經驗。</p>
-<p>其實 Redis 的相關文章已經有非常非常非常多，不光是對岸，甚至國內大家也已經有大量的文章產出了，<br>也已經是一個非常成熟的 Open Source 產品，而最近，因為剛好有要建立高可用性的 Redis 的需求，<br>所以就在這邊，把整個過程寫下來，畢竟人年紀大了，很容易忘東忘西…</p>
-<h2 id="Redis-HA"><a href="#Redis-HA" class="headerlink" title="Redis HA"></a>Redis HA</h2><p>在 Redis 的建置上，最簡單的，當然就是單機一台，單機一台只要去官網下載，下載完畢後，安裝，<br>並且把設定檔設定完，基本上就可以進行運作。</p>
-<p>接下來比較複雜的建設，大概就是 Cluster 和 HA 了；在 Redis Cluster 指的是當資料 I/O 過於龐大，<br>如果一台沒辦法處理如此龐大的資料量，這個時候，就可以透過 Cluster 的機制，將資料做切分，<br>並依據 Redis 內部的機制，算出要放到哪一台 Redis Server；換言之，在 Redis 的 Cluster，<br>指的是多台資料做分流，而非當作備援。</p>
-<p>說到備援，也就是今天的主題，Redis 的高可用性 ( HA )，目的是希望當我們使用 Redis 的情況下，<br>當主要進行資料處理的那台 Server 掛掉的時候，可以快速的切換到備援機而不中斷<br>( 其實還是可能會有短暫的中斷和出錯 )，讓服務能持續地進行，而不影響；<br>其次，因為 Redis 主要是將資料存放於 Memory ，所以當整台機器服務當掉的時候，也可能會有資料遺失，<br>所以透過 HA，也可以自動地將 主 ( Master ) 和 從 ( Slave ) 的資料進行同步。</p>
-<p>當然，如果要更複雜，就可以搭配 Cluster 和 HA ，這樣就可以規劃出，既可以處理大量 I/O ，<br>又可以擁有高可用性的服務環境。</p>
-<p>有興趣的可以參考這篇<a href="http://stackoverflow.com/questions/31143072/redis-sentinel-vs-clustering" target="_blank" rel="noopener">文章</a> </p>
-<p>最後，在 Redis HA 的架構下，其實大家習慣稱為 Reids Sentinel ( 哨兵 )，為什麼稱為 Sentinel (哨兵)，<br>其實原因很簡單，因為要有一台 Sentinel (哨兵) Server，來幫忙仲裁，決定目前哪台還活著，哪台可以提供服務，<br>換言之，以 Redis Sentinel 的架構來說，至少需要三台 Server，Master、Slave 和 Sentinel，<br>由 Sentinel 來進行 Master 與 Slave 的監控，當 Master 掛點的時候， Sentinel 會將 Slave 變更為 Master，<br>而原本死翹翹的 Master 經過修復重新開機後，復活後，Sentinel 會將原本的 Master 改為 Slave。</p>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">Redis - 在 Windows 上建立高可用性的 Redis :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="前言 首先，這篇要感謝公司的架構師 Harry、好友饅頭和 Jamis，提供了非常的多 Redis 經驗。 其實 Redis 的相關文章已經有非常非常非常多，不光是對岸，甚至國內大家也已經有大量的文章產出了，
+也已經是一個非常成熟的 Open Source…"/><meta data-react-helmet="true" property="og:title" content="Redis - 在 Windows 上建立高可用性的 Redis"/><meta data-react-helmet="true" property="og:description" content="前言 首先，這篇要感謝公司的架構師 Harry、好友饅頭和 Jamis，提供了非常的多 Redis 經驗。 其實 Redis 的相關文章已經有非常非常非常多，不光是對岸，甚至國內大家也已經有大量的文章產出了，
+也已經是一個非常成熟的 Open Source…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="Redis - 在 Windows 上建立高可用性的 Redis"/><meta data-react-helmet="true" name="twitter:description" content="前言 首先，這篇要感謝公司的架構師 Harry、好友饅頭和 Jamis，提供了非常的多 Redis 經驗。 其實 Redis 的相關文章已經有非常非常非常多，不光是對岸，甚至國內大家也已經有大量的文章產出了，
+也已經是一個非常成熟的 Open Source…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2017/04/09/Redis-Create_Redis_HA/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">Redis - 在 Windows 上建立高可用性的 Redis</h1><div class="post-module--meta--3YtjE">09 April 2017<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/Redis/"><span class="post-module--tag--16U9p">#<!-- -->Redis</span></a><a href="/tag/Windows/"><span class="post-module--tag--16U9p">#<!-- -->Windows</span></a></div></div><div><h2>前言</h2>
+<p>首先，這篇要感謝公司的架構師 Harry、好友饅頭和 Jamis，提供了非常的多 Redis 經驗。</p>
+<p>其實 Redis 的相關文章已經有非常非常非常多，不光是對岸，甚至國內大家也已經有大量的文章產出了，
+也已經是一個非常成熟的 Open Source 產品，而最近，因為剛好有要建立高可用性的 Redis 的需求，
+所以就在這邊，把整個過程寫下來，畢竟人年紀大了，很容易忘東忘西...</p>
+<h2>Redis HA</h2>
+<p>在 Redis 的建置上，最簡單的，當然就是單機一台，單機一台只要去官網下載，下載完畢後，安裝，
+並且把設定檔設定完，基本上就可以進行運作。</p>
+<p>接下來比較複雜的建設，大概就是 Cluster 和 HA 了；在 Redis Cluster 指的是當資料 I/O 過於龐大，
+如果一台沒辦法處理如此龐大的資料量，這個時候，就可以透過 Cluster 的機制，將資料做切分，
+並依據 Redis 內部的機制，算出要放到哪一台 Redis Server；換言之，在 Redis 的 Cluster，
+指的是多台資料做分流，而非當作備援。</p>
+<p>說到備援，也就是今天的主題，Redis 的高可用性 ( HA )，目的是希望當我們使用 Redis 的情況下，
+當主要進行資料處理的那台 Server 掛掉的時候，可以快速的切換到備援機而不中斷
+( 其實還是可能會有短暫的中斷和出錯 )，讓服務能持續地進行，而不影響；
+其次，因為 Redis 主要是將資料存放於 Memory ，所以當整台機器服務當掉的時候，也可能會有資料遺失，
+所以透過 HA，也可以自動地將 主 ( Master ) 和 從 ( Slave ) 的資料進行同步。</p>
+<p>當然，如果要更複雜，就可以搭配 Cluster 和 HA ，這樣就可以規劃出，既可以處理大量 I/O ，
+又可以擁有高可用性的服務環境。</p>
+<p>有興趣的可以參考這篇<a href="http://stackoverflow.com/questions/31143072/redis-sentinel-vs-clustering">文章</a> </p>
+<p>最後，在 Redis HA 的架構下，其實大家習慣稱為 Reids Sentinel ( 哨兵 )，為什麼稱為 Sentinel (哨兵)，
+其實原因很簡單，因為要有一台 Sentinel (哨兵) Server，來幫忙仲裁，決定目前哪台還活著，哪台可以提供服務，
+換言之，以 Redis Sentinel 的架構來說，至少需要三台 Server，Master、Slave 和 Sentinel，
+由 Sentinel 來進行 Master 與 Slave 的監控，當 Master 掛點的時候， Sentinel 會將 Slave 變更為 Master，
+而原本死翹翹的 Master 經過修復重新開機後，復活後，Sentinel 會將原本的 Master 改為 Slave。</p>
 <p>沒錯，這就是 Sentinel 的功能，監控著哪台活著，哪台死掉。</p>
-<p>看到這邊，對，聰明的你，你一定會有一個疑問，如果 Sentinel 自己偷懶，或是死掉怎麼辦!?<br>所以，在官方文件裡面，官方也建議要有 “奇數” 的 Sentinel 來保持 Sentinel 的可用性。</p>
-<p>為何要 “奇數” 呢，那是因為，仲裁機制的關係，如果是 2台 Sentinel 的情況下，其中一台說 Master 死掉了，<br>另外一台說，沒有，他活著好好的，那…到底要聽誰的呢 ??</p>
-<p>所以才會需要 “奇數” 的 Sentinel，目的就是希望可以透過表決的方式，來證明 Master 死掉了。<br>( 所以如果有三台，只要兩台投 Master 掛了，那就符合了切換的程序，其實官方也建議 Sentinel 至少三台… )</p>
-<p>所以這又衍生一個問題，所以我們建立高可用性，是否至少要 5 台 Server …<br>其實也不然，就如這篇<a href="http://stackoverflow.com/questions/31143072/redis-sentinel-vs-clustering" target="_blank" rel="noopener">文章</a> 的發問者問的一樣，<br>我們也可以把 Sentinel 裝在 Master 和 Slave 裡面，這樣只要三台 Server 一樣可以完成，<br>但也如同那篇文章所敘述的，這不一定是個好主意，也可能有很多不確定的因子…<br>同樣的，透過 Docker run Redis 也不失為一種手法，但無論怎樣的手法，都會有優缺點，這邊小弟就不探討此塊。</p>
-<p>而這篇文章，主要會用三台 Server 來進行 Reids Sentinel ( HA ) 的建置。<br>其中兩台就是單純的 Master 和 Slave，最後一台則是只裝 Sentinel。</p>
+<p>看到這邊，對，聰明的你，你一定會有一個疑問，如果 Sentinel 自己偷懶，或是死掉怎麼辦!?
+所以，在官方文件裡面，官方也建議要有 "奇數" 的 Sentinel 來保持 Sentinel 的可用性。</p>
+<p>為何要 "奇數" 呢，那是因為，仲裁機制的關係，如果是 2台 Sentinel 的情況下，其中一台說 Master 死掉了，
+另外一台說，沒有，他活著好好的，那...到底要聽誰的呢 ??</p>
+<p>所以才會需要 "奇數" 的 Sentinel，目的就是希望可以透過表決的方式，來證明 Master 死掉了。
+( 所以如果有三台，只要兩台投 Master 掛了，那就符合了切換的程序，其實官方也建議 Sentinel 至少三台... )</p>
+<p>所以這又衍生一個問題，所以我們建立高可用性，是否至少要 5 台 Server ...
+其實也不然，就如這篇<a href="http://stackoverflow.com/questions/31143072/redis-sentinel-vs-clustering">文章</a> 的發問者問的一樣，
+我們也可以把 Sentinel 裝在 Master 和 Slave 裡面，這樣只要三台 Server 一樣可以完成，
+但也如同那篇文章所敘述的，這不一定是個好主意，也可能有很多不確定的因子...
+同樣的，透過 Docker run Redis 也不失為一種手法，但無論怎樣的手法，都會有優缺點，這邊小弟就不探討此塊。</p>
+<p>而這篇文章，主要會用三台 Server 來進行 Reids Sentinel ( HA ) 的建置。
+其中兩台就是單純的 Master 和 Slave，最後一台則是只裝 Sentinel。</p>
 <p>小弟這邊使用 Azure，開了三台 VM 來完成這次的實作，分別是 </p>
 <ul>
 <li>Cache-1 - 10.0.0.4</li>
 <li>Cache-2 - 10.0.0.5</li>
 <li>Sentinel - 10.0.0.6</li>
 </ul>
-<p><img src="00.png" alt=""></p>
-<h2 id="安裝第一台-Redis-Server"><a href="#安裝第一台-Redis-Server" class="headerlink" title="安裝第一台 Redis Server"></a>安裝第一台 Redis Server</h2><p>每次要安裝程式，第一步驟是甚麼?，當然就是要去官網進行下載，所以我們可以先去 Redis 的<a href="https://redis.io/" target="_blank" rel="noopener">官網</a>溜溜，<br>而我們可以從官網的地方，找到<a href="https://redis.io/download" target="_blank" rel="noopener">官網下載</a>，但是大家可能會發現，<br>基本上官網只提供的是 Linux 的版本；這是正確的；因為 Redis 最初的發展，就是在 Linux 上，<br>而官網提供的，基本上也只有 Linux 的相關版本；甚至，如果有任何的問題與服務，官方也只 support Linux 而已喔。</p>
-<p><img src="01.png" alt=""></p>
-<p>但我們今天要裝的是 Windows 版本，那 Windows 版本在哪邊勒？<a href="https://github.com/MSOpenTech/redis" target="_blank" rel="noopener">Windows 版本的位置在此</a></p>
-<p>其實大家也不用擔心，雖然是 Windows 版本，但是整個團隊，是 Microsoft 的 Open Tech 團隊所維護，<br>甚至所有的 Redis for Windows 的 Source Code，全部都放在 GitHub 上，也是完全的 Open Source。<br>相同的，如果是使用 Windows 版本的 Redis ，就必須要來此 GitHub 尋求支援了喔。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/97f02c699cd30ac8021b143a9d3685c5/450ce/00.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 64.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAB2HAAAdhwGP5fFlAAACV0lEQVQ4y01STW/TQBDNH2mT2LF3Hdvrb5u6+W5DaRAiUKkqICHgUrVC4oCokBBHLpz4x483m7jNYTS7s7Nv5s2bXlVVWK/XWCwWyLIMSikE4wBB8GTj8djGy7JEkiSYzWY2prW2795IIY4NiqJAT5I2m41NlkfXdeE4jrXuPBwOrTfGWKA5i4uX2Gg0QtF4iE24A/R9//GjeLm3kzlmizOcTE5gEoP5co3z55dQ7Eh5HnzmaXo5h4xtrwrkWYQ83wNKFU8SfQ/9oyHuf77Gx7tLTBY13n/6gC+39/j89Zq0fGS+Rh3HKMIQhn8TGVHfQRNGqMjyEbADlS7LZzHmZy0p1Hi1vcb2ZoXN1QTKJYBWaNoWOemNmC+m0wwVx1EJZRm2AHUmBQbHDpbrKUwaI01zDPsu5usWk2mByPWQpCnp5VitVhBRz67e4bSsUFLUnigloErpvSmqpwisLLjnjeB7PoJQw0QBMh1YQFFbhBEhh/0jVBxB3VG2ovSP4fKho67UbhTyrnl2HBeK95TF6qaxior6LsXUcYKKc7WUfaHsOri4fcD21z8MmCTiiKLOoI+8neHl3YMtqhkXEcwhZXa1entA2WHiOR+2337jxY+/cNx9hwLIruvzDS6+/4HHcWh2mDFuSFcoy16GpCrFqijadSifZQ5VkaOmSYJQ7cQqmVTkGRfX2P3LmNuQsnQ2GAzs/qpg/ES5WxWPgz9coW623V3OMkO7e6QrazNfLnf+zQ3aokTJwr2IrUpXhyaxmBUfY/ucmL6hnZBuS5sSTLws+oRe2PwHvMuS8BdIo+MAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="00"
+        title="00"
+        src="/static/97f02c699cd30ac8021b143a9d3685c5/78d47/00.png"
+        srcset="/static/97f02c699cd30ac8021b143a9d3685c5/56d15/00.png 200w,
+/static/97f02c699cd30ac8021b143a9d3685c5/d9f49/00.png 400w,
+/static/97f02c699cd30ac8021b143a9d3685c5/78d47/00.png 800w,
+/static/97f02c699cd30ac8021b143a9d3685c5/450ce/00.png 1171w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>安裝第一台 Redis Server</h2>
+<p>每次要安裝程式，第一步驟是甚麼?，當然就是要去官網進行下載，所以我們可以先去 Redis 的<a href="https://redis.io/">官網</a>溜溜，
+而我們可以從官網的地方，找到<a href="https://redis.io/download">官網下載</a>，但是大家可能會發現，
+基本上官網只提供的是 Linux 的版本；這是正確的；因為 Redis 最初的發展，就是在 Linux 上，
+而官網提供的，基本上也只有 Linux 的相關版本；甚至，如果有任何的問題與服務，官方也只 support Linux 而已喔。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/4eb43c2eb706e35e1fa9135a74dec4bd/f9c26/01.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 53.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAB2HAAAdhwGP5fFlAAABFElEQVQoz32Tia6EMAhF/f//dGnrvu88D0lNR+cNSUMFerhojc7zFOw4DqmqSsqylDzPpSgK3WdZJkmSaKyua60h17SN+LMY+2VZJPJB/DAMMs+zbNumfhxHLfJGnBVaeJ5mUagwjmNVBYi4NVbVtG2rDchR03WdNtezwXnn3KdCa62OaIxRiB85TdML0CvIP1O77/ut9AUkAIiVXWuaphtoLqV9399NAPN8PkZumuYT6JwVg8oLyNiM65vwUailjmYeEgJ5vw+g01FYfFEOruuqhXgMTy4EeU/uBdSRrzEZCxAeMP5pT4UvICOijvGAkOPFk2OFkJ8KfZA7x/Xwd/Gbil+xFxAQyvgg7P9T9PxDwj/lD5qnWjOoSqPDAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="01"
+        title="01"
+        src="/static/4eb43c2eb706e35e1fa9135a74dec4bd/78d47/01.png"
+        srcset="/static/4eb43c2eb706e35e1fa9135a74dec4bd/56d15/01.png 200w,
+/static/4eb43c2eb706e35e1fa9135a74dec4bd/d9f49/01.png 400w,
+/static/4eb43c2eb706e35e1fa9135a74dec4bd/78d47/01.png 800w,
+/static/4eb43c2eb706e35e1fa9135a74dec4bd/64756/01.png 1200w,
+/static/4eb43c2eb706e35e1fa9135a74dec4bd/42cbc/01.png 1600w,
+/static/4eb43c2eb706e35e1fa9135a74dec4bd/f9c26/01.png 2880w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>但我們今天要裝的是 Windows 版本，那 Windows 版本在哪邊勒？<a href="https://github.com/MSOpenTech/redis">Windows 版本的位置在此</a></p>
+<p>其實大家也不用擔心，雖然是 Windows 版本，但是整個團隊，是 Microsoft 的 Open Tech 團隊所維護，
+甚至所有的 Redis for Windows 的 Source Code，全部都放在 GitHub 上，也是完全的 Open Source。
+相同的，如果是使用 Windows 版本的 Redis ，就必須要來此 GitHub 尋求支援了喔。</p>
 <p>我們可以從底下位置，找到 Windows 版本的下載。</p>
-<p><img src="02.png" alt=""></p>
-<p><a href="https://github.com/MSOpenTech/redis/releases" target="_blank" rel="noopener">Windows 版本 Redis 下載</a>點進去後，我們就可以看到兩個，<br>一個是 msi，一個是 zip，兩個內容很雷同，唯一的差別是， msi 會自動幫你把 Redis 註冊到 Windows Service 服務，<br>未來你就可以透過 UI 來停止或啟動，而 zip 裡面則是解開就可以直接執行 exe 使用<br>( 當然，你也可以下載 zip ，然後自己註冊成 Windows Service )</p>
-<p><img src="03.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/9ac0950d3575790fd4e1b28b60c92879/f9c26/02.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 53.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAB2HAAAdhwGP5fFlAAABT0lEQVQoz4WTcU+DMBDF9/2/nMb4x6LRGI1uQGkpA1pK4XmvCqtx07LLrR3367vXbodlAYdtTzDGYPABvRvRDT7F4B3GMF2NeZ5T/SKccRyxW76BXT+g2t/j9uEVN49vuHv+wO3TO17KPRZ50mf5yuvgfK1nDiGcgd57lGWJQ1GgUjXcGOBDRJzjVkg1hK/zi8B8p6axUHUNJcCyUqi1kbUGWmsJAy3r1VHBKJ2KryrMgbUU00vClLHQtkPbDXDOYeh7nEyDXvxmR0lxBuTGW8ukH6XdQtouijJlmp5Z9mvkCgmnZbt8YVXItitp2aR2jSiWLKoZmwXynSJyeNu2Zw85+OLhcBQPFaxtEzCFALkZYcyEsXiaph9KOd8Uxhg3Jas/a/C3yJzNc+8uXhteykqUMXggzvntJP/y7yqQ2Vq2I1enHWH7sJ3if5H/Uz4BOTJZ40iBg9kAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="02"
+        title="02"
+        src="/static/9ac0950d3575790fd4e1b28b60c92879/78d47/02.png"
+        srcset="/static/9ac0950d3575790fd4e1b28b60c92879/56d15/02.png 200w,
+/static/9ac0950d3575790fd4e1b28b60c92879/d9f49/02.png 400w,
+/static/9ac0950d3575790fd4e1b28b60c92879/78d47/02.png 800w,
+/static/9ac0950d3575790fd4e1b28b60c92879/64756/02.png 1200w,
+/static/9ac0950d3575790fd4e1b28b60c92879/42cbc/02.png 1600w,
+/static/9ac0950d3575790fd4e1b28b60c92879/f9c26/02.png 2880w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p><a href="https://github.com/MSOpenTech/redis/releases">Windows 版本 Redis 下載</a>點進去後，我們就可以看到兩個，
+一個是 msi，一個是 zip，兩個內容很雷同，唯一的差別是， msi 會自動幫你把 Redis 註冊到 Windows Service 服務，
+未來你就可以透過 UI 來停止或啟動，而 zip 裡面則是解開就可以直接執行 exe 使用
+( 當然，你也可以下載 zip ，然後自己註冊成 Windows Service )</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/5d213f9122d52452b935fa09a7bc682b/f9c26/03.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 53.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAB2HAAAdhwGP5fFlAAABJUlEQVQoz42T2U7EMAxF5/8/iC8B8cYDgkHTvWkWZ+vF7iJKCQyRrhxZ8dG13V5iSogp4+mlxnul4L2HdQRjCY6jIwJxTuTIw4ewvF/rdmWEmND1PS7gM88zHh4Nnq8O/znyfhdEW65tW1yOSZc0BqfQ64RKhSV/LM45r5ATeL8Hds8Ot8ecl3bIE8bJoGoHKDVhmiYMwwhjDI+D241xAYvOrjfgV2I/Aun7bmmhrhuO3aKu66G1XuASE8/vB3A+tSUalcKNQQ1DBL4CVoi1lpflOGdBvLC7DiUaLhyV4WL65uLeospAnk31UeH17QareespotSFSOZZWMppWzmhqUdcG4KediCKQAEUgeeWHQVoE5iVfnV3XGLR4dlp6SP+CyxR/rJP9Vxhd6JuGzIAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="03"
+        title="03"
+        src="/static/5d213f9122d52452b935fa09a7bc682b/78d47/03.png"
+        srcset="/static/5d213f9122d52452b935fa09a7bc682b/56d15/03.png 200w,
+/static/5d213f9122d52452b935fa09a7bc682b/d9f49/03.png 400w,
+/static/5d213f9122d52452b935fa09a7bc682b/78d47/03.png 800w,
+/static/5d213f9122d52452b935fa09a7bc682b/64756/03.png 1200w,
+/static/5d213f9122d52452b935fa09a7bc682b/42cbc/03.png 1600w,
+/static/5d213f9122d52452b935fa09a7bc682b/f9c26/03.png 2880w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>了解下載位置後，接下來，我們進入　Cache-1 的 VM 裡面，並且下載 msi，然後，我們將下載下來的 msi 點兩下進行安裝。</p>
-<p><img src="04.png" alt=""></p>
-<p>到這一步的時候，記得勾選 [Add the Redis Installation folder to the PATH environment variable.]，<br>因為等下我們會使用到 Redis 的 Cli ，所以把 Redis 加入到環境變數 PATH 裡面，就可以不用到 Redis 底下的目錄來執行。</p>
-<p><img src="05.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/117b1785fd6012e32d90929f56b287f8/d28e0/04.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 77.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAAB2HAAAdhwGP5fFlAAACKElEQVQ4y51U246aUBQl6ff1sX/Spkm/ZB76CfPS55k6xiY2VSdyEWSgIwoVUOSmOIyCrO5z0I7TsaktycraNxbZ5+yN0BJ1mCMbjjfHyJ7CclzOjr/AelMieyyecOSzXLJ+xCrfIn3Y8FgQLyGs8w2ACtVuh2K7wWq15PaW7DRJkKYJ5ySOEEcR5ySOOeIorO0kruPEQk5yKAuceob6EM1mE7e9W0iyDEkU0e128a3TwXA4RL/fR6/Xgywr+NpuU0yHML68hPHmNayPFzAmNmRJRqNxA8/zYVkj3DQa0OjlIAgwm83g+z7lPMzn81/+ATOKCZ33b/HplQDpwzvIholWq4Xrz7VInud0BBmyLCNeYblcItv7zGaxA5gfU/tCSgc5a39BkecvWnZsG5IkQVFkiMSsTZHaFiWRbI1yIjRNg6qq1I2FxSKE8FA+CbDLqKoKO2L2aFR4dX3FX1YUhQtqmooBxXVdx2Aw4DFVHfAadhQCu37sSi5UMdGq4mJlWdIXF1iEIW+HIU3Tl/aemR/RFNSCR0LHgqyAISTRc/FXQVZ0LHyw/4R/EjwHzwQPOCV4fsvb3ckt+W/BFS01zQsflWMURfFMKOF7ne53O6bbrZntNxtoluOD7c5DvtQRW/bfEO2LmaBpmlBp7vQ7A9q9A1GreeoHsCcTvseO40Dwgoj/TWL+10hOguXG4zFMw8D9yMJ324NqjGBOXPhBCHf6AwblXNfFT62TrvmJBNe8AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="04"
+        title="04"
+        src="/static/117b1785fd6012e32d90929f56b287f8/78d47/04.png"
+        srcset="/static/117b1785fd6012e32d90929f56b287f8/56d15/04.png 200w,
+/static/117b1785fd6012e32d90929f56b287f8/d9f49/04.png 400w,
+/static/117b1785fd6012e32d90929f56b287f8/78d47/04.png 800w,
+/static/117b1785fd6012e32d90929f56b287f8/d28e0/04.png 990w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>到這一步的時候，記得勾選 [Add the Redis Installation folder to the PATH environment variable.]，
+因為等下我們會使用到 Redis 的 Cli ，所以把 Redis 加入到環境變數 PATH 裡面，就可以不用到 Redis 底下的目錄來執行。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/2f7f9b75fe6e8094e5e72ebc1fd3cb57/d28e0/05.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 77.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAAB2HAAAdhwGP5fFlAAACJ0lEQVQ4y41U247TQAzNt/KEkPg2PgEkJCRe2m13k0nSJEubmcn92qRdCvRgD6kIq+3SSEe2c/HYPsexPq89fJMJ0qrFTmeIkxxbiuO0wOH0C+P3nxgI44RhFnfjE4bjCcOPM44Aym6EVTYdXOFAODaiMIQgvypL3HSdz8b0X7/AffcGpyKD1Q5H7LZbBJRsF8dkA2itkee5sUmSoGlaE6dpioIOy/IMWZaZmC/v00d8eP8WKgphFe0eT8cDxgNhHDEMg7Fd16FtWwP25zGjmeyw30MXBXydQFIBls4rPFJm23Gw2WwQUqWu65rq5gmuoWkac9hA6AlWUtSoqwpFUaKkduq6Jr8wPr98C/gbBvumwiTRkEpBEcIogpTStL6ndm5F3/d/Eyoig9uNyfKguboDzfFAc72KZ8957iZhQvrTxOT64cGw3PGJTAqd+D8wMc3UKoNnaikSc0akpNSqCgJI38fO84xl6OmepA7UBPYlvVOTdFpmf0pmKoyDR3jLBcR6DbFawSVrL5fGitUdQmKf73sUb2wb/v09PIK7WKAk/bbT7C6sW4pWrZYxaiLkgmbm10TQNb8isXOFc8atpGz+MMSlv4LmJUxt/pOQWeYZzIf7Ejr6eM9ksO14Q3qKOxOzsFk6bC01JbyI8xpYUkIIUoKEiCTuHB9OGEPRX4n/BUK45h2zKd1sN6+tF/8kgoBYpp0N4xS2H2Gz1UiLClpJ+KwIWtff5Aqu09BXa+wAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="05"
+        title="05"
+        src="/static/2f7f9b75fe6e8094e5e72ebc1fd3cb57/78d47/05.png"
+        srcset="/static/2f7f9b75fe6e8094e5e72ebc1fd3cb57/56d15/05.png 200w,
+/static/2f7f9b75fe6e8094e5e72ebc1fd3cb57/d9f49/05.png 400w,
+/static/2f7f9b75fe6e8094e5e72ebc1fd3cb57/78d47/05.png 800w,
+/static/2f7f9b75fe6e8094e5e72ebc1fd3cb57/d28e0/05.png 990w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>預設的 Port 是 6379 ，勾選下面的按鈕，就可以順便加入防火牆。</p>
-<p><img src="06.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/deb1072a2faf05a905ef77dd9dc90420/d28e0/06.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 77.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAAB2HAAAdhwGP5fFlAAACHElEQVQ4y5VU247TMBTMt/KEkPg2/gAhISHxgLSwW3Jrbk1zvzhOnZZt6Q5jb1PKsheINJqc2B4fzzmO9fGbhyjNUTQCaVEbrLISZTfg9gjs72B4uv35F+T0A2q3hzrcYQeglROsVkgEyyV8z4XrOkjiGEvfY+yZ765jI0kSPPocj4bGz5/gvHmFfVPBmvZHFEWOMAwRRhHS9doIaARBYDhOYs4p0DQNqqpGXdcmPhwORtD98B7v3r7GOgyYoVTYbbeYpglCCIzjiM1mY3iUEkopEw/DAMn4khXXKI7l3MjLC6zzHFZWtYiYWcxMPB7T8310fY9BLzotPPMMbqxZJ6Ah5YAN5+gErKLp0dcVKqrP6HiknruewVh03R9il5iFNaw0pFdXV6hZjD5N0TLTRoPxDD3W0GOhMz8JPBSdYaXLCE1ZQm13GNUGQh+P/p2hY/rYrVYQbfuy4JoZjtz50nA58+l9pPH/JdiUBUr6VNOvsqrOXPGbRsm4/VdBfeRgcQPfcRCxwu5igUg3OuMlGz1wXXh8r9mTc2Gez3CVoWMRejZ0x6Jc8uW7LpR40C6PwSpaYYzvxYB+eBq6WM8JnQXzuqPxL0/UBdI3xvAoMbEj1Pi7gPOYlVFQN2vPSj+HlEe37e9IVilu/ARfrm1ce/H934l22LZj5piboncRT5g8e6Z/Bj6LlvEmeXGGr7YPJ0xR1C3yLDPXNufYL3eAr8IX7NIWAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="06"
+        title="06"
+        src="/static/deb1072a2faf05a905ef77dd9dc90420/78d47/06.png"
+        srcset="/static/deb1072a2faf05a905ef77dd9dc90420/56d15/06.png 200w,
+/static/deb1072a2faf05a905ef77dd9dc90420/d9f49/06.png 400w,
+/static/deb1072a2faf05a905ef77dd9dc90420/78d47/06.png 800w,
+/static/deb1072a2faf05a905ef77dd9dc90420/d28e0/06.png 990w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>如果想限制 Memory 的大小，可以在這邊進行設定，在正式環境建議設定一下。</p>
-<p><img src="07.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/e8f9b0a47ab2dd06f024f217101e3fe1/d28e0/07.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 77.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAAB2HAAAdhwGP5fFlAAABrUlEQVQ4y5VU206DQBDlW30yJn6bn6CJiYkPPmhVWqgtFFiuLbuw1LSlHGdXSLW2xW5yMoRhz5y5Ydy/jOD4EcJ0gRmL9fPE9eFFKar1FtWqPgzyieUK8nMNuWnwCSATFYw05xiZb3BdFx9jG3meQ5+mQe/Z1toUjw8YXl1gncYwVCQW+JhOp5g6DqI4RpZlSAlJmmI+n2ts6voPX9MGHd3d4ub6Ev7kA0YmJJZVBSklqtYWRQEhCnDOyQqNzr8PWZZgFNhiIXzGYATJHA6psywLtm1rOx6PdQk4zzWpgirFMQjBUVLQgmCoZnB6qdLskLapdkQd6TH8JDcYKUziCCwMdd2CIPgmTRJNvH+hj9xgpDCji6oZiiAmu1gsSGH2R+W/CFXKKneu0DZhP51zSLVCcaDoyqmURlH0i6yXMPxBeEiVIj2L8JjC/cunxuZXl3cK/z8aJwnV2Aje/6FqVklboW0hUMkSkqxoG9n59Kbwtlan4HkeTPMd7szDq+3iaWBiYDnwwgQz2irTHOpvdin3pBvS4KvVDGhfLSfAs2ljOPEQJhn9XAK9sox8X3SouaJRb+zxAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="07"
+        title="07"
+        src="/static/e8f9b0a47ab2dd06f024f217101e3fe1/78d47/07.png"
+        srcset="/static/e8f9b0a47ab2dd06f024f217101e3fe1/56d15/07.png 200w,
+/static/e8f9b0a47ab2dd06f024f217101e3fe1/d9f49/07.png 400w,
+/static/e8f9b0a47ab2dd06f024f217101e3fe1/78d47/07.png 800w,
+/static/e8f9b0a47ab2dd06f024f217101e3fe1/d28e0/07.png 990w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>安裝完成後，我們就可以從[服務]底下看到 Redis 的服務已經註冊且已經啟動了。</p>
-<p><img src="08.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/cde8e12c003f539012a7b5ad56ec35f1/a7fe5/08.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 59.00000000000001%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAB2HAAAdhwGP5fFlAAAC6ElEQVQozz2S24tVZRjGP/oHgi4Suqi7brrowtNdUOTM3JQOVCNBUdaFZoSB5AEGBRO9LC8EBUlShHZGpk0wsxV0VGpGiKw8zIz7MLP2aa2912mv815rz693rRlb8PCtw7d+7/s876cOfv0tU9fv8OOvN7gyPUt5do7yrT+4PjvPzK25QsU7eS7fvsfMnT/57eY9bs/f58tjp1HPbkI9txH1vKwvbEWdvfATvu8SxSFPtC6Pam0qzR4d08cJEhw/wfIirH6E6fq4fY90MCC/bsz9yxufHuetPcfZsGUC9eLrqO9L16hVFjFNi5qAGrpNGKe0ujbV+godo0erY9DOV72L1urQ1Hv0PY8oismyrIDvOHAO9dIO1MWfZ9CWa+i6Qc+08XyfYTrA7vvUajUc26bX6xLHMbbcB1FC21rbkyQD0mwouIzt5zXUrmnUd6Upqk8WMAz5KUlI05ThMBNgQL2+jOu4UkzHdhws26Hfd4mjkDCMig4LYJawfSpEnUE6FGBzaYlutUriujy9HD9EazTxxZphGFiWjSmyLasonnfrSJGeRBU4NpMPMt65u4oq/TJTAAZxQtjtkoqkPLYMoFKpFtCOxBGKZVMAoXwLgoCBDCaKokJZEnHyr5Av7kqXpSvTa8BBSiJ2V4dDVsVWZ7nB0sNHWPU6eqWCJbabWkNiqLOyslLIkOKmdOw5Fgd/t5mY6qJ+uFougInklwe/um7Z9gKqEkNDAJqs7YVFvJ5JJgXzyeY553vT9R+OPMz4eF4yLF1dtyzd5VPjf2DIwuISmnSlS4auTD+MBwJLCzf9QI5MmuRIUcTOcoA6l6EuXb5WADwJPx9AEPhiO5PDHtBqNTH0TiFXgl+bcl/goRx8h5v/aOy/9DeHLz/m5VNt1ORj1KuvjTM2sYdt7+5m23ufFRp5fx+jH+xn7MOvGP3oEKO7Jhn55Cgju08y+vk3jO07zfjh87yy9wLqbdH4RdSbJ3hm817+A+/8ODP/sqemAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="08"
+        title="08"
+        src="/static/cde8e12c003f539012a7b5ad56ec35f1/78d47/08.png"
+        srcset="/static/cde8e12c003f539012a7b5ad56ec35f1/56d15/08.png 200w,
+/static/cde8e12c003f539012a7b5ad56ec35f1/d9f49/08.png 400w,
+/static/cde8e12c003f539012a7b5ad56ec35f1/78d47/08.png 800w,
+/static/cde8e12c003f539012a7b5ad56ec35f1/64756/08.png 1200w,
+/static/cde8e12c003f539012a7b5ad56ec35f1/42cbc/08.png 1600w,
+/static/cde8e12c003f539012a7b5ad56ec35f1/a7fe5/08.png 2606w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>接下來，我們可以從 cmd 裡面輸入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli info</span><br></pre></td></tr></table></figure>
-
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">redis-cli info </code></pre></div>
 <p>來查看目前 Redis 的狀況。</p>
-<p><img src="09.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/c54ed9529d4723d5b021de1403049d16/7c5ed/09.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAB2HAAAdhwGP5fFlAAABGElEQVQoz6WSy0rDQBSGJ7fJPaZJJpOkz+FaKbgQuhBfyYVgpW16sUXcu/QRf88MaagQscHFxznMkG/O/BP29PyC5brFqt1gTSxXLbb7A96O79gdjn1tt3tsdsO0xGLxio/PLzDXD2BZFkLOEdk2Auo90wBjbDTXN3dgsm6QpimkEJBZBt9xwElqGAYM0+yrSWumqgM4NIwSzuaPYGVVQxQF8rxAGEWwacqxk6nDVL29fwCrmimEIFkYIggCeJ6nIzidPlpYVk03Yd4LT/DuKqOEsp7iKkmQEFa3cY7O8Iw/hbmQWphOJogowyROdI3jmPpY9wrOHTiU75D0hzArSv2x7/twXffi3H4VCllTfpn+ddTD/PeVvwEFTfpfUoP+ZwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="09"
+        title="09"
+        src="/static/c54ed9529d4723d5b021de1403049d16/78d47/09.png"
+        srcset="/static/c54ed9529d4723d5b021de1403049d16/56d15/09.png 200w,
+/static/c54ed9529d4723d5b021de1403049d16/d9f49/09.png 400w,
+/static/c54ed9529d4723d5b021de1403049d16/78d47/09.png 800w,
+/static/c54ed9529d4723d5b021de1403049d16/64756/09.png 1200w,
+/static/c54ed9529d4723d5b021de1403049d16/42cbc/09.png 1600w,
+/static/c54ed9529d4723d5b021de1403049d16/7c5ed/09.png 1957w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>亦可以使用 Get、Set 等指令來塞入值和取得值</p>
-<p><img src="10.png" alt=""></p>
-<p>到這邊，最簡單的第一台算是建立完成了；但此時的設定是僅支援 Localhost 的，換言之，<br>當你想從外面來存取，是會完全被擋住的。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/0d9ae78d458ecaace0cfb7a1ad0634e6/7c5ed/10.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAA7ElEQVQoz62SzWrCQBSFJ5OfyZgwmU5nEoOIT9FtkUIXhS6Kb+SiYhr7J+rKvUsf8XgTXCgUwdjF4WwuH+dwLpu+z7H4+ib9oCafzSvMqg9U9SeWqw1+V2vyy2pu6nqB7W4PJpMUPvfAGLtZD4/PYIPhCGVZIs8LJEkC3/fBeSN+4pcVRlELfHqdgNmiD2ctsiyDMQZCCHjedYk5hWh8/PIGpo2FlBIxqWvVM6DN+1TXtemUyhAd43cGKn0HrXUn0J/AVGnIOEYQBP9VuYB1DiNa2tDKKY0ibhnl3uXtu1iloHo9iDBETK/QFXgA5rP3gxBBaBUAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="10"
+        title="10"
+        src="/static/0d9ae78d458ecaace0cfb7a1ad0634e6/78d47/10.png"
+        srcset="/static/0d9ae78d458ecaace0cfb7a1ad0634e6/56d15/10.png 200w,
+/static/0d9ae78d458ecaace0cfb7a1ad0634e6/d9f49/10.png 400w,
+/static/0d9ae78d458ecaace0cfb7a1ad0634e6/78d47/10.png 800w,
+/static/0d9ae78d458ecaace0cfb7a1ad0634e6/64756/10.png 1200w,
+/static/0d9ae78d458ecaace0cfb7a1ad0634e6/42cbc/10.png 1600w,
+/static/0d9ae78d458ecaace0cfb7a1ad0634e6/7c5ed/10.png 1957w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>到這邊，最簡單的第一台算是建立完成了；但此時的設定是僅支援 Localhost 的，換言之，
+當你想從外面來存取，是會完全被擋住的。</p>
 <p>是低，Redis 的 config ，預設只開放 Localhost，所以接下來，我們要修改一下設定。</p>
-<p>我們要去 Redis 的安裝目錄下，修改 redis.windows-service.conf 這個檔案，<br>並且在原本的 bind 127.0.0.1 後面加上這台的私有 ip。</p>
-<p>在預設的情況下，為了安全，Redis 只會監聽 127.0.0.1 這個 IP 位置，所以為了讓他能支援內網，<br>所以我們在 127.0.0.1 後面加上這台 ( Cache-1 ) 的私有 IP。</p>
-<p><img src="11.png" alt=""></p>
-<p>雖然加上上面那個步驟後，就可以從私有網域進行連線，但我們還是希望多加上一下密碼，<br>所以我們可以把如下圖的地方註解掉；將 requirepass foobared 給註解掉，<br>其中，foobared 就是密碼；這邊小弟就懶得改嚕。</p>
-<p><img src="12.png" alt=""></p>
+<p>我們要去 Redis 的安裝目錄下，修改 redis.windows-service.conf 這個檔案，
+並且在原本的 bind 127.0.0.1 後面加上這台的私有 ip。</p>
+<p>在預設的情況下，為了安全，Redis 只會監聽 127.0.0.1 這個 IP 位置，所以為了讓他能支援內網，
+所以我們在 127.0.0.1 後面加上這台 ( Cache-1 ) 的私有 IP。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/263c90a38dfb52d702f8064658930a45/4c1d5/11.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 68%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAB2HAAAdhwGP5fFlAAACXUlEQVQ4y3WTCW/bMAyF/f//1YBtWDu0ado0TZsmdXzLh2T5jo+8kXJcFBsm4IG0In8m+RTrGGlIpZApjbwooXSJoqrRjxPOA2kEaULbj+iGkfZG82x+u6rtB7TdGfdOASvJFKTM0bZn1KS8qJDpCnGWE7zAMUzx4Xh4/vDw7gV0VtHZDk3bEqT71Pl8xkEQME4V4jRHGEu4YUK5RKIqeEJC0H5CYNcPEcWpOSMSSR00UPxhVVxVQuYl9oGC9f3uADeSpjpJbYs4IaUmRiIxexl1EPFzFCO8SiQZdNka2O3TCT/uj/j2YMP6ubKR5RV41XWFIAgghKCXI4RhaKIQEe370FrjcpkwjqOJvMZpwt3WBXNutg6sm8cTUjUDy7JEmqZQbFKWmZyjlNLkdV1jWZdr7MmQ1c7Hr7WD+30E6/fGpQrng1VVGUBHQx6GAf9bl8vFyADJ9fVbgNuNNwPvtj6knoFN0xggt9aSi+xcd3Vw0TRNn9AF+PQeUdsBVu8C1moXEbAxPxZFAd/3zRw5Oo5j5HmeiTwKBn6tcCDg8yHG6jXCw4GA631MV2AGcmWu4xoz2Jg4jq+mzCZxhX8vBr58JHgkzvoYw9ocyISinWdIQ09o+JoqLWmemi720j6Po21ak7M5C5yBr6cMm0OGRwJbWztDXnazy0mCxHUR2TYUVcSus5b58TxZDF1M6ynuXYUXW+LJTmHtTgq6mr9W0PUQNLuUYJryBcjiSvu+/6dlvodHP8ebq2egJ3Lz/+UKCnpR5blpmZVT/lXc9lIhR75mSmbYUYXbU4qXk8AfIhwo4zcq0xoAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="11"
+        title="11"
+        src="/static/263c90a38dfb52d702f8064658930a45/78d47/11.png"
+        srcset="/static/263c90a38dfb52d702f8064658930a45/56d15/11.png 200w,
+/static/263c90a38dfb52d702f8064658930a45/d9f49/11.png 400w,
+/static/263c90a38dfb52d702f8064658930a45/78d47/11.png 800w,
+/static/263c90a38dfb52d702f8064658930a45/64756/11.png 1200w,
+/static/263c90a38dfb52d702f8064658930a45/42cbc/11.png 1600w,
+/static/263c90a38dfb52d702f8064658930a45/4c1d5/11.png 2138w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>雖然加上上面那個步驟後，就可以從私有網域進行連線，但我們還是希望多加上一下密碼，
+所以我們可以把如下圖的地方註解掉；將 requirepass foobared 給註解掉，
+其中，foobared 就是密碼；這邊小弟就懶得改嚕。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/b05015076bf21f16e610641ce4584478/4c1d5/12.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 67.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAB2HAAAdhwGP5fFlAAACS0lEQVQ4y2WTiXLiMBBE/f+/tUelNkVICEsIJASw8S3L94ExvT3yOpVDVV26rKeeGdnaBznSNIVOM+RFiYwqqxqX4UoN6AeYcddf0F9Eg1kf98Ze9s7nMx6cHFakNOIkRdV0RmleQmUlglguybHzYuyODlZvDl4cF4rfN02LumlMP6nrOuzCAlYYa4QqhRcmsL0IMo/TEqcgIVRDLjw6Hrwggss1P0oYSQ3NS5XO/6tAkhbYuhrWz9krQYlxJ46iOKGUcZLlBZ10VMs0NCjKimvlqIJjghUvv3084NfdDj8ej7B+z/dcrCCtYRhRFBGmjJKEbjLmNs+QTHOOZa1nzqQNzOHdk0PgG2YbD9bNw97kS1peFPA8DzEPh2EI3/fhui601gTlRtfrFR/bmQW5X59w83AYgbdLG7EuzWZZltB0kdHBBJEXIPO2bU0Efd+bbydwT+CCIOHMX3xYs9XpPeSCQD8IEDJs04voVCQXCFRC/ATkU1oSNFu5+PNkw5qvfSRZPYbMYgS2jZDScfzuTiRjcTgM12/A1S7E/NnHvThcbHl73owOGa5iDjWd4UuuPjaBfQSu9zEW2wgLgq3la/QOLPksAoYX0d1UFFHAC0SS07btvjncHBWWr4S+RbBWe4W0GIFyQKqsVIyYUMlbVVWmWHVdm4JcCPjkkEV5sROs9gke6dRaH/mAy9ZsyiE5fJH/locngBRCetHXJjnduRk2doblgUAnSM3/23UtCr7DqQBaRIcimU+SS6U4UvHxmSk8Oxp/CXs6BPgHNt4rMnRSHPwAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="12"
+        title="12"
+        src="/static/b05015076bf21f16e610641ce4584478/78d47/12.png"
+        srcset="/static/b05015076bf21f16e610641ce4584478/56d15/12.png 200w,
+/static/b05015076bf21f16e610641ce4584478/d9f49/12.png 400w,
+/static/b05015076bf21f16e610641ce4584478/78d47/12.png 800w,
+/static/b05015076bf21f16e610641ce4584478/64756/12.png 1200w,
+/static/b05015076bf21f16e610641ce4584478/42cbc/12.png 1600w,
+/static/b05015076bf21f16e610641ce4584478/4c1d5/12.png 2138w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>設定完成後，我們這邊重新啟動一下 Redis 後，新的設定檔就會生效了。</p>
-<p>接下來，大家可以趕快裝一下 Cache-2 這台機器 ( 裝法同上 ) ，裝完後，我們也先不用進行任何設定，<br>我們可以直接透過底下命令，連線到 Cache-1 ，並且取得剛剛送進去的 Hello。<br>( 備註: Key 值的大小寫是有差的喔 )</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -h 10.0.0.4 -a foobared</span><br></pre></td></tr></table></figure>
-
-<p><img src="13.png" alt=""></p>
+<p>接下來，大家可以趕快裝一下 Cache-2 這台機器 ( 裝法同上 ) ，裝完後，我們也先不用進行任何設定，
+我們可以直接透過底下命令，連線到 Cache-1 ，並且取得剛剛送進去的 Hello。
+( 備註: Key 值的大小寫是有差的喔 )</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">redis-cli -h 10.0.0.4 -a foobared</code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/742608048a993ef8c87a139cbd729259/8d416/13.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAAp0lEQVQoz+3OPQrCQBCG4clsNpKgZkEU8SK2io0g2Ii3sRBsJJt/k1QewNYTfi6LhUGbgIWFxcMHU7wMHY4nnHWMSCdIoxh5nOCS5laVFfamkwxl3aCoapRV86YwtNa43u6g/iBEEPhQPQ8jKSGJ4Dy5BnUwX6xBk+kMKgwxVgpD34dgBjlOC5sbs3jZNul5Nrja7s2y2+mLT4QQdpeb3XeC/A/+dvABZE/y57DKWLkAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="13"
+        title="13"
+        src="/static/742608048a993ef8c87a139cbd729259/78d47/13.png"
+        srcset="/static/742608048a993ef8c87a139cbd729259/56d15/13.png 200w,
+/static/742608048a993ef8c87a139cbd729259/d9f49/13.png 400w,
+/static/742608048a993ef8c87a139cbd729259/78d47/13.png 800w,
+/static/742608048a993ef8c87a139cbd729259/64756/13.png 1200w,
+/static/742608048a993ef8c87a139cbd729259/42cbc/13.png 1600w,
+/static/742608048a993ef8c87a139cbd729259/8d416/13.png 1958w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>如果，如果，真的想讓這台開放給全世界服務(攻擊)，那必須把 bind 前面加上 # 來註解掉 ( 例: # bind 127.0.0.1 )。</p>
-<p>另外，這邊要特別注意一點，Redis 目前有一個參數為　protected-mode yes ，這是一個 Redis 預設的保護參數，<br>如果把 bind 給註解掉 ( 表示開放 )，且又沒設定 Password，那外部怎樣連都會連不通喔。</p>
-<p>所以，要不就是把 protected-mode 設定 no ，要不就是乖乖地給個密碼吧。<br>( 把 Protected-mode yes 給註解掉是沒用的喔～ )</p>
+<p>另外，這邊要特別注意一點，Redis 目前有一個參數為　protected-mode yes ，這是一個 Redis 預設的保護參數，
+如果把 bind 給註解掉 ( 表示開放 )，且又沒設定 Password，那外部怎樣連都會連不通喔。</p>
+<p>所以，要不就是把 protected-mode 設定 no ，要不就是乖乖地給個密碼吧。
+( 把 Protected-mode yes 給註解掉是沒用的喔～ )</p>
 <p>當然，最理想的狀況，就是只提供私有網域，真的想開放，建議還是設定一個密碼比較好喔。</p>
 <p>P.S 如果使用 Azure VM，也別忘了開 Azure VM 的 Endpoint 喔~</p>
-<p><img src="14.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/0a4ba6b4ce60509a6d469e1529714259/4c1d5/14.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 67.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAB2HAAAdhwGP5fFlAAACRklEQVQ4y4WTh27bMBRF9f9/VaAp0haxG8dVHDtekWwtUqS2NW/fo6yMNkAJXHAIPLxvyNr6CWKlIFUCnWZQSYY0L9B0PeqW1A2kHlXT0f6q6dtVVdOiutSYOyksLxCQsUZZNSiqmqA54iRHKBMkSYq9J7B/cWHvXWxPHuJY0eULquoyzlfVdY1dmMEKRYxAaHhhDMeLEAqFSOVwfWnWgh5zCMQPnwKJM83mUZ1RVOlVmdlvzgrW17stHF+hKGsKPYGQMaRURoJnArJ4nRcluWmM8vICnZWQBPrxcMTNbI8v9wdY3+YHOszBI89zBIFPoSbI0hQpKUk0siwzZxcKbeh7dF2LYejNnZ72M9vFDXG+2y+wbhdHCDUC+WIYhvB9H0JIyhe5JZVlaVQUhXlE6xHOo2lb/FqdcHt/xGzjw/q5dMhhYT7yBSEEFFWd3fL+/dzS5b9HS1VfrD0wxwDv7DNV9Q2otTYuxnATA2Kx+wk4DIPRBFw++2DO/DmANV/5BCw/OOTWYPDkisNjcb4+A9q7EPMnH/dbAi42IVRavQKjKDJ5m4rA/fU/4OogwJwFga3lVrwCOayIHI6JH0Pns6nK7Pg9dAKujxLLHUH3ESz7IKmf3hzGkhpXcx/K1wLxzGqa5lOHGyeGfYjxQE6t1QvlKx9bIPIj3M1sPP5eI/DO1JOBSQE7ZLdd1/1T5a4fsDsnWDsJlkcCuoGGpn+3aWrqQYHV9gT3FKKuKtTkiHPIzlgX8w9XRrzmFCjK95OrYBPs8RjgD0C1K3H3N+IIAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="14"
+        title="14"
+        src="/static/0a4ba6b4ce60509a6d469e1529714259/78d47/14.png"
+        srcset="/static/0a4ba6b4ce60509a6d469e1529714259/56d15/14.png 200w,
+/static/0a4ba6b4ce60509a6d469e1529714259/d9f49/14.png 400w,
+/static/0a4ba6b4ce60509a6d469e1529714259/78d47/14.png 800w,
+/static/0a4ba6b4ce60509a6d469e1529714259/64756/14.png 1200w,
+/static/0a4ba6b4ce60509a6d469e1529714259/42cbc/14.png 1600w,
+/static/0a4ba6b4ce60509a6d469e1529714259/4c1d5/14.png 2138w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>底下是無法存取的情況。</p>
-<p><img src="15.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/acd5912fc420f0682088cd6ac3f60faf/99ac4/15.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAB2HAAAdhwGP5fFlAAABx0lEQVQoz01Sy27UQBAc2ePxPrx+e8Ze80j4FcQBoQCKIoJ4CcSfcOGAomRxIIQQonwCZz6uqJ61VxxK5enuqe5qj/r0+Qs2wzecnH3FyenG8xnPm/PvON0MOL+4xOWv3/hxde0h34KfI66ub3x8GAbc/vkLlWUFVosF0mSJZD7HYhZjZgzmsUGstf+OwhBRECCOtIfRoc9JLAoD1sZQSuHR4SuoB+s76K3FXt9j3TSwRYF8uUSRJChXqx1XaUpOfa7kt8QlJmdblDAUPDh6A3WPgjWFGqKqa8+WDZxzPu7aFg3PEq/HGjuep5jUzEyEg+N3UHfXPaxcZqEUV1XlxQRyoes6nys4eT02rOtRjGcfYwMThXj++iPUfre1ep8X+4ads2xnuRAmvM3RovA2l+xyTV4gouVnL95CWdehYZeWY1dliZKTZLIbCgtn0oAo8tzzimI5v6eaVPZLVyEFHx9R0HFCx5GrahyfdkRcrIrtnj9Ldjbtd9rxxHLHuXGHLz9ANW3nBZ11Xky6CWpi2puwTDXlxIlwKY6IhqsyOsDT4/e03K69HSmQSzO+w4DvK+Tbm6BDDa23+D8esk5qjdm+w4dPDvEPxSwTTlrboXIAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="15"
+        title="15"
+        src="/static/acd5912fc420f0682088cd6ac3f60faf/78d47/15.png"
+        srcset="/static/acd5912fc420f0682088cd6ac3f60faf/56d15/15.png 200w,
+/static/acd5912fc420f0682088cd6ac3f60faf/d9f49/15.png 400w,
+/static/acd5912fc420f0682088cd6ac3f60faf/78d47/15.png 800w,
+/static/acd5912fc420f0682088cd6ac3f60faf/64756/15.png 1200w,
+/static/acd5912fc420f0682088cd6ac3f60faf/42cbc/15.png 1600w,
+/static/acd5912fc420f0682088cd6ac3f60faf/99ac4/15.png 1959w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>最後，我們還是把設定還原到底下這三個狀態。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bind 127.0.0.1 10.0.0.4</span><br><span class="line">protected-mode yes</span><br><span class="line">requirepass foobared</span><br></pre></td></tr></table></figure>
-
-<h2 id="設定-Master-和-Slave"><a href="#設定-Master-和-Slave" class="headerlink" title="設定 Master 和 Slave"></a>設定 Master 和 Slave</h2><p>目前我們已經裝完了 Master 和 Slave，其中 Master 有簡單的設定一些參數，<br>而 Slave 目前還沒設定任何參數；然後 Sentinel 連裝都還沒裝…</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">bind 127.0.0.1 10.0.0.4
+protected-mode yes
+requirepass foobared</code></pre></div>
+<h2>設定 Master 和 Slave</h2>
+<p>目前我們已經裝完了 Master 和 Slave，其中 Master 有簡單的設定一些參數，
+而 Slave 目前還沒設定任何參數；然後 Sentinel 連裝都還沒裝...</p>
 <p>在開始前，我們先回到 Master ，我們可以先下一下這個指令，來查看複寫的資訊。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -h 127.0.0.1 -a foobared  info replication</span><br></pre></td></tr></table></figure>
-
-<p>如下圖，我們可以看到，目前這台是 Master，而連線的 Slave 為 0<br>( Connected_Slave:0)</p>
-<p><img src="16.png" alt=""></p>
-<p>接著，我們也可以觀察一下，預計要變成 Slave 的這台電腦的狀況，我們可以發現，<br>目前她還是 Master。</p>
-<p><img src="17.png" alt=""></p>
-<p>所以目前沒有任何一台 Slave 與我們的 Master 連線 ( 兩台目前都是 Master )，<br>所以我們將開始進行 Slave 的設定，我們進入 Slave，並且打開 redis.windows-service.conf 這個檔案，<br>並切找到 # slaveof 這行，拿掉註解，修改成 slaveof 10.0.0.4 6379 ( 代表 Master 的 ip 位置和 Port )，<br>接著，找到 # masterauth，改成 masterauth foobared ( 代表 Master 的密碼 )。<br>另外，Bind 127.0.0.1 也要改成 Bind 127.0.0.1 10.0.0.5，也別忘記把 requirepass foobared 取消註解，<br>讓 Slave 也可以透過 10.0.0.5 並且搭配密碼 foobred 來連入喔。</p>
-<p><img src="18.png" alt=""></p>
-<p>是低，就是那麼簡單，就完成了，然後我們重開 Slave 後，回到 Master 看一下狀態。<br>可以發現，目前 Slave 已經連上了!!</p>
-<p><img src="19.png" alt=""></p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">redis-cli -h 127.0.0.1 -a foobared  info replication</code></pre></div>
+<p>如下圖，我們可以看到，目前這台是 Master，而連線的 Slave 為 0
+( Connected_Slave:0)</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/ec3bfb39d3701119b9208dfaf1c59c26/8d416/16.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAAyElEQVQoz+WQuQ7CMBBE1zY4JhICRUAQQvwGLUdBEVFwfA4FEg0ioUBcSaCn5BMH26IIdBA6iqdZra3Z2aXFcoX1JkIUbXE6HJHGCZKzIbZ1+qyvycX2d/sDdvrfO2EY4nK7g8qVKqSUEESgnHR7I1Cr3UHT91Gr11FyXXAhwDi3EGMvmJ5550YzFHUgYzgcz0GNZssaep5nUY4DZgw+SCb0EKODYAqSyrUrK6XstG9W5U/DfjDTykXu2/FsQuKFnxn2g8k/Gj4AUtb04tu95WoAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="16"
+        title="16"
+        src="/static/ec3bfb39d3701119b9208dfaf1c59c26/78d47/16.png"
+        srcset="/static/ec3bfb39d3701119b9208dfaf1c59c26/56d15/16.png 200w,
+/static/ec3bfb39d3701119b9208dfaf1c59c26/d9f49/16.png 400w,
+/static/ec3bfb39d3701119b9208dfaf1c59c26/78d47/16.png 800w,
+/static/ec3bfb39d3701119b9208dfaf1c59c26/64756/16.png 1200w,
+/static/ec3bfb39d3701119b9208dfaf1c59c26/42cbc/16.png 1600w,
+/static/ec3bfb39d3701119b9208dfaf1c59c26/8d416/16.png 1958w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接著，我們也可以觀察一下，預計要變成 Slave 的這台電腦的狀況，我們可以發現，
+目前她還是 Master。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/d323549e5749010a9847de08274ac6a0/99ac4/17.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAAvklEQVQoz9WRzQ7BQBSF73SaMZoIaVKaRjwOHgCteBULCwn9Qap/dhYSr3m0Q4TERmpj8eWczf3uzQwtV2v4QYRtySYIsfFD7A4xkrxAmp9UPntWIE4zHNP8jTjJEER7nC9XUKvdQUMIEFFthqMxyOkPYPd6sCwLhmFA07QnjLEPnb/kHfE4yJsvQF3bUULTNBVSSjX8zWWcc5VT1wMJaagNUjaVqOq1hKTptd/u34SM/0w4mZVCXVS/+iuhixsj2/WxJ4FjfgAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="17"
+        title="17"
+        src="/static/d323549e5749010a9847de08274ac6a0/78d47/17.png"
+        srcset="/static/d323549e5749010a9847de08274ac6a0/56d15/17.png 200w,
+/static/d323549e5749010a9847de08274ac6a0/d9f49/17.png 400w,
+/static/d323549e5749010a9847de08274ac6a0/78d47/17.png 800w,
+/static/d323549e5749010a9847de08274ac6a0/64756/17.png 1200w,
+/static/d323549e5749010a9847de08274ac6a0/42cbc/17.png 1600w,
+/static/d323549e5749010a9847de08274ac6a0/99ac4/17.png 1959w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>所以目前沒有任何一台 Slave 與我們的 Master 連線 ( 兩台目前都是 Master )，
+所以我們將開始進行 Slave 的設定，我們進入 Slave，並且打開 redis.windows-service.conf 這個檔案，
+並切找到 # slaveof 這行，拿掉註解，修改成 slaveof 10.0.0.4 6379 ( 代表 Master 的 ip 位置和 Port )，
+接著，找到 # masterauth，改成 masterauth foobared ( 代表 Master 的密碼 )。
+另外，Bind 127.0.0.1 也要改成 Bind 127.0.0.1 10.0.0.5，也別忘記把 requirepass foobared 取消註解，
+讓 Slave 也可以透過 10.0.0.5 並且搭配密碼 foobred 來連入喔。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/3891667e54739afdb34bef932e48812a/c371b/18.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAB2HAAAdhwGP5fFlAAABNElEQVQoz4VSi46DMAzj/79y0mgpfcAGbOsD8JLs2NDuTlSyHGjiOk2rYXoglxkxFWjT4lxrKG1Qq4a4gTEWprVoiHVj4EOPlMufeMSMKqUMXus8I1gLa6jIOXRdh+F6RU4JSRARY8RMef+tdV1RxfgSzLcbvFIIWku8T2Jsa1kWLPLvsyegvZn2qvjjkBM1CSqCddRioyVWdIAh13VdQ2uFtm1RSnkftudlLzhTUn0+SzEL932PaZoEN3I8jqPE9/tdCg8FMyW2pxM8OQmEQve1bi0SuIiZ3R0IvuzzZTsaSghBBsLsvRd2NKQQupdjcnrQcnl/XC4XXGmyzFs8DIMcwFcwUvwt9kswpU+C947cWHHEd8ls+SlZHlIjvBc8bHlrjwsdtbu1Hoi3t8lv8VtoL/gEg+MIPcDXXCEAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="18"
+        title="18"
+        src="/static/3891667e54739afdb34bef932e48812a/78d47/18.png"
+        srcset="/static/3891667e54739afdb34bef932e48812a/56d15/18.png 200w,
+/static/3891667e54739afdb34bef932e48812a/d9f49/18.png 400w,
+/static/3891667e54739afdb34bef932e48812a/78d47/18.png 800w,
+/static/3891667e54739afdb34bef932e48812a/64756/18.png 1200w,
+/static/3891667e54739afdb34bef932e48812a/42cbc/18.png 1600w,
+/static/3891667e54739afdb34bef932e48812a/c371b/18.png 1654w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>是低，就是那麼簡單，就完成了，然後我們重開 Slave 後，回到 Master 看一下狀態。
+可以發現，目前 Slave 已經連上了!!</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/967ce012ac4e4f8bff3fd47c5971a0de/8d416/19.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAAzUlEQVQoz+2QPQ/BQBzG/73SVrXVViL1PvgQVmIwiIH4NhaJRZSIvhrsVt/w8S8GJokaDb88d5e73z13tFytsdnusPH3OAQhwji9E8QJwiR9wPMoOSGIEhyjmPOdbM33fZwvV1DVdlDWVMhEoJz0B2NQr9NF2/PQYhzThFUqMTosXX+MOQ1VhSRJEEJAyDLnO0VFuQtH0wWo5jXQbNRRZ6HrutA0DYIPZxukJ5+ayXxJlsPJHGRUbJjcLEPlJt88VbwKSRRy/91f+EvhDDcwDvXSU+xn4gAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="19"
+        title="19"
+        src="/static/967ce012ac4e4f8bff3fd47c5971a0de/78d47/19.png"
+        srcset="/static/967ce012ac4e4f8bff3fd47c5971a0de/56d15/19.png 200w,
+/static/967ce012ac4e4f8bff3fd47c5971a0de/d9f49/19.png 400w,
+/static/967ce012ac4e4f8bff3fd47c5971a0de/78d47/19.png 800w,
+/static/967ce012ac4e4f8bff3fd47c5971a0de/64756/19.png 1200w,
+/static/967ce012ac4e4f8bff3fd47c5971a0de/42cbc/19.png 1600w,
+/static/967ce012ac4e4f8bff3fd47c5971a0de/8d416/19.png 1958w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>然後回到 Slave 看一下，也可以發現，他從 Master 變成 Slave 了!!</p>
-<p><img src="20.png" alt=""></p>
-<p>接下來，我們從 Master 塞一個 HelloWorld ，然後連到 Slave，取得資料看看。<br>我們全部都用 Slave 這台來操作，結果可以參考如下圖；所以這樣設定完，兩台 Redis 就會擁有複寫的功能了，<br>而且我們可以透過 Master 來讀寫，而 Slave 來進行讀的動作了，不過這邊要特別注意，<br>Master 提供了讀寫，但 Slave 是僅供讀取而已，是不能寫入的…</p>
-<p><img src="21.png" alt=""></p>
-<p>所以，到這邊，如果 Master 掛掉了，會自動把 Slave 切換成 Master 嗎!?<br>當然不…所以下一個章節，就是第三台機器登場。</p>
-<h2 id="設定-Sentinel"><a href="#設定-Sentinel" class="headerlink" title="設定　Sentinel"></a>設定　Sentinel</h2><p>我們完成了 Master 和 Slave 的複寫，接下來，就是要建構 Sentinel，Sentinel 的其中兩個功能，<br>就是監控和切換，他會監控 Master 是否死掉，死了之後，就會把 Slave 變成 Master ( 這樣就可以持續寫入 )，<br>而原本的 Master 復活後，就會被改成 Slave。</p>
-<p>同樣的，我們到 Windows 版本的 GitHub <a href="https://github.com/MSOpenTech/redis/releases" target="_blank" rel="noopener">下載</a>，<br>但這次我們下載 zip 檔案，下載回來後，找個地方解壓縮，小弟是直接丟在桌面 ( 不好習慣喔~ )<br>這邊不使用 msi 的原因是因為，使用 msi ，他會自動幫我們註冊到 Windows 的服務，<br>但我們要啟動 Sentinel ，需要不同的參數，所以我們就不使用 msi 了，<br>然果真的覺得 Windows 服務比較威，那可以<a href="http://hadb.me/2016/10/23/redis-windows-sentinel/" target="_blank" rel="noopener">參考這邊</a>，註冊進 Windows 服務。</p>
-<p><img src="22.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/5476e20408e2da358f2681d8e0f905be/8d416/20.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAA7UlEQVQoz6WSwWrCQBRFZzKTOBBIJ8lIkrH2N7qtuCkIbsTPEVwUqo6lxMbYRT/ArV94O5lKUQRBs7jcx1sc7n08Mpu/YWXWWKzWeF8ap4/PEl/1DlX97fx/3u5QVltsqvpMpZUxBj/7A0guY0jRAScEpKWeX15Beo9P6CqFoigghABjDNTz4FlRSp2fz+zE/+QHgQMOx1OQbq6RJgm01pBSwvf9m5M1IRofjCYWmBVQKkViofdW9U6Bue4jzzILVTZhDM55O+BDnCK2VaMoQhiGrnJzr7uBPBDgdhEcD9u6MqGs9btcJLy14jXgL03S9tiqOq/UAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="20"
+        title="20"
+        src="/static/5476e20408e2da358f2681d8e0f905be/78d47/20.png"
+        srcset="/static/5476e20408e2da358f2681d8e0f905be/56d15/20.png 200w,
+/static/5476e20408e2da358f2681d8e0f905be/d9f49/20.png 400w,
+/static/5476e20408e2da358f2681d8e0f905be/78d47/20.png 800w,
+/static/5476e20408e2da358f2681d8e0f905be/64756/20.png 1200w,
+/static/5476e20408e2da358f2681d8e0f905be/42cbc/20.png 1600w,
+/static/5476e20408e2da358f2681d8e0f905be/8d416/20.png 1958w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接下來，我們從 Master 塞一個 HelloWorld ，然後連到 Slave，取得資料看看。
+我們全部都用 Slave 這台來操作，結果可以參考如下圖；所以這樣設定完，兩台 Redis 就會擁有複寫的功能了，
+而且我們可以透過 Master 來讀寫，而 Slave 來進行讀的動作了，不過這邊要特別注意，
+Master 提供了讀寫，但 Slave 是僅供讀取而已，是不能寫入的...</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/86c2e50a88103ee46d19576f8044d50c/8d416/21.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAAyUlEQVQoz63PuwrCMBiG4T+HtmoNtEFFvBFXxUUQXMS7cXAQtE2rtKiTF+DqFX6GgFAPIJQOL9+SPCS02e6QZjkSk+OQZm7T7Ogy+Qn7JHVbXq4ozheU5+tXhc0Yg9v9AWqHClJwSClARGA2qtl4Mgf1hyNorRHFMZRSIMYghADn/CNR2fc833fgbLkG6d7AgjFiC4ad0L5UwvM8t0EQOPzfy15nposVSEUaqtt1l+t+lVdBYrw29BsUsmGQNw0y0Swo/RYYaw58Auv38+FwzYV4AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="21"
+        title="21"
+        src="/static/86c2e50a88103ee46d19576f8044d50c/78d47/21.png"
+        srcset="/static/86c2e50a88103ee46d19576f8044d50c/56d15/21.png 200w,
+/static/86c2e50a88103ee46d19576f8044d50c/d9f49/21.png 400w,
+/static/86c2e50a88103ee46d19576f8044d50c/78d47/21.png 800w,
+/static/86c2e50a88103ee46d19576f8044d50c/64756/21.png 1200w,
+/static/86c2e50a88103ee46d19576f8044d50c/42cbc/21.png 1600w,
+/static/86c2e50a88103ee46d19576f8044d50c/8d416/21.png 1958w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>所以，到這邊，如果 Master 掛掉了，會自動把 Slave 切換成 Master 嗎!?
+當然不...所以下一個章節，就是第三台機器登場。</p>
+<h2>設定　Sentinel</h2>
+<p>我們完成了 Master 和 Slave 的複寫，接下來，就是要建構 Sentinel，Sentinel 的其中兩個功能，
+就是監控和切換，他會監控 Master 是否死掉，死了之後，就會把 Slave 變成 Master ( 這樣就可以持續寫入 )，
+而原本的 Master 復活後，就會被改成 Slave。</p>
+<p>同樣的，我們到 Windows 版本的 GitHub <a href="https://github.com/MSOpenTech/redis/releases">下載</a>，
+但這次我們下載 zip 檔案，下載回來後，找個地方解壓縮，小弟是直接丟在桌面 ( 不好習慣喔~ )
+這邊不使用 msi 的原因是因為，使用 msi ，他會自動幫我們註冊到 Windows 的服務，
+但我們要啟動 Sentinel ，需要不同的參數，所以我們就不使用 msi 了，
+然果真的覺得 Windows 服務比較威，那可以<a href="http://hadb.me/2016/10/23/redis-windows-sentinel/">參考這邊</a>，註冊進 Windows 服務。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/1244a706cd8b88276073397d475bb28a/07e0b/22.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 63%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAB2HAAAdhwGP5fFlAAABgklEQVQ4y5VTDXOjIBDN//93N9PO3bSJSU0CGFEEREDRVyQmaXrTTrLO42OXeexzlxWVJdb1OzKxwU5tsZUbFIZBtx3azkKl2cFYjz5M8F9w3o/ofJ/OrPcZVtorlIaAdwzcMqzpP2QkQ34gKDmHMS36vscwDPjZpjRujgSr737XeeguQNrpnF3bLsdjeJoiLvP9erY/2WkmXILxCyGkrAg5QtTV7Z4rwc+Y7XXHzhleHH3vUfAGrDaglUHnwhx8mJCK9p4wOIvjoUR+lPg4CCihcVXwAHKu7gmnMaBSDkwO4HpAGKenMjxU+kaYMI4wboC2I9oo91nCQuhvVb7W8/FifCWs5fIPfewzpTSs60Gj3L/EQZjwFGkiVAthiFI7a2OVh+i02J8UZGvhvU/4valvlvP/JANaR7JGgMd+nHuSJ1Soa4Gy5FGJSpfMr2dW5uLapb3HG5VYSSlxQdM02O52yPd7UMZAKY1gYGxGsfhYbHyKoiiSn5D4bKsqXfSyZfgEfFv2Du3x2FAAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="22"
+        title="22"
+        src="/static/1244a706cd8b88276073397d475bb28a/78d47/22.png"
+        srcset="/static/1244a706cd8b88276073397d475bb28a/56d15/22.png 200w,
+/static/1244a706cd8b88276073397d475bb28a/d9f49/22.png 400w,
+/static/1244a706cd8b88276073397d475bb28a/78d47/22.png 800w,
+/static/1244a706cd8b88276073397d475bb28a/64756/22.png 1200w,
+/static/1244a706cd8b88276073397d475bb28a/42cbc/22.png 1600w,
+/static/1244a706cd8b88276073397d475bb28a/07e0b/22.png 1929w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>接下來，我們在解開壓縮的那個目錄，增加一個 sentinel.conf 檔案，到時候 Sentinel 的設定就會寫在裡面，如下。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">port 26379</span><br><span class="line">bind 127.0.0.1 10.0.0.6</span><br><span class="line">sentinel monitor master1 10.0.0.4 6379 1</span><br><span class="line">sentinel down-after-milliseconds master1 5000</span><br><span class="line">sentinel failover-timeout master1 900000</span><br><span class="line">sentinel parallel-syncs master1 2</span><br><span class="line">sentinel auth-pass master1 foobared</span><br></pre></td></tr></table></figure>
-
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">port 26379
+bind 127.0.0.1 10.0.0.6
+sentinel monitor master1 10.0.0.4 6379 1
+sentinel down-after-milliseconds master1 5000
+sentinel failover-timeout master1 900000
+sentinel parallel-syncs master1 2
+sentinel auth-pass master1 foobared</code></pre></div>
 <ul>
 <li>port : 代表 Sentinel Port 的位置，通常大家都會用 26379</li>
 <li>bind : 這很重要，至少要加上 127.0.0.1，不然會因為通訊的原因，而造成不斷的去嘗試切換 Master 和 Slave，如果有三台 Sentinel ，後面也要加上這台的 IP，真的不想加這行，也可以把安全模式關閉，改成　protected-mode no </li>
@@ -452,348 +874,237 @@
 <li>failover-timeout : 轉移過程多久沒完成，算失敗。</li>
 <li>parallel-syncs 在轉移過程，有多少台會和 Master 同步資料， 數字越小，完成轉移的時間越長 </li>
 </ul>
-<p><img src="23.png" alt=""></p>
-<p>上面完成後，我們還要回到 Master 的機器，設定 redis.windows-service.conf，<br>找到 # masterauth，改成 masterauth foobared ( 代表 Master 的密碼 )。<br>需要這樣的原因，是因為，到時候 Master 會被切換成 Slave，如果沒有設定 masterauth foobared，<br>到時候這台機器會無法和未來的 Master 進行連線。<br>( 設定完也不忘記重新啟動 )</p>
-<p>完成後，我們就可以啟動 Sentinel</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-server.exe sentinel.conf --sentinel</span><br></pre></td></tr></table></figure>
-
-<p><img src="24.png" alt=""></p>
-<h2 id="測試轉移"><a href="#測試轉移" class="headerlink" title="測試轉移"></a>測試轉移</h2><p>接下來，我們可以測試看看轉移，我們可以先關閉 Master，然後可以從 Sentinel 看到此變化。<br>馬上就可以看到，他已經把 Salve 切換到 Master 了。</p>
-<p><img src="25.png" alt=""></p>
-<p>我們也可以看看原本的 Salve，已經變成 Master 了，而且因為原本的 Master 沒啟動，<br>所以現在沒有任何一台 Salve。</p>
-<p><img src="25.png" alt=""></p>
-<p>如果再把 Master 啟動回來，我們可以發現，原本這台的資訊還是 Master ，但沒過多久，<br>Sentinel 就會把 Master 變成 Salve。</p>
-<p><img src="27.png" alt=""></p>
-<p>回到新的 Master ，我們依樣可以看到，和新的 Salve 連線也從新連好了。</p>
-<p><img src="28.png" alt=""></p>
-<p>接下來，我們可以看看程式如何搭配。</p>
-<h2 id="程式連線"><a href="#程式連線" class="headerlink" title="程式連線"></a>程式連線</h2><p>待補</p>
-<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>待補</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a href="http://stackoverflow.com/questions/31143072/redis-sentinel-vs-clustering" target="_blank" rel="noopener">http://stackoverflow.com/questions/31143072/redis-sentinel-vs-clustering</a></li>
-<li><a href="https://dotblogs.com.tw/supershowwei/2016/02/03/123740" target="_blank" rel="noopener">https://dotblogs.com.tw/supershowwei/2016/02/03/123740</a></li>
-<li><a href="http://blog.mkfree.com/posts/5257683d479e1dd72e7c1b4e" target="_blank" rel="noopener">http://blog.mkfree.com/posts/5257683d479e1dd72e7c1b4e</a></li>
-<li><a href="https://segmentfault.com/a/1190000002680804" target="_blank" rel="noopener">https://segmentfault.com/a/1190000002680804</a></li>
-<li><a href="https://segmentfault.com/a/1190000002685515" target="_blank" rel="noopener">https://segmentfault.com/a/1190000002685515</a></li>
-<li><a href="http://mrcto.blog.51cto.com/1923168/1319542" target="_blank" rel="noopener">http://mrcto.blog.51cto.com/1923168/1319542</a></li>
-<li><a href="https://dotblogs.com.tw/supershowwei/2016/02/03/123740" target="_blank" rel="noopener">https://dotblogs.com.tw/supershowwei/2016/02/03/123740</a></li>
-<li><a href="http://www.jianshu.com/p/51f0cf57df7d" target="_blank" rel="noopener">http://www.jianshu.com/p/51f0cf57df7d</a></li>
-<li><a href="https://redis.io/topics/sentinel" target="_blank" rel="noopener">https://redis.io/topics/sentinel</a></li>
-<li><a href="http://www.redis.cn/topics/sentinel.html" target="_blank" rel="noopener">http://www.redis.cn/topics/sentinel.html</a></li>
-<li><a href="http://www.voidcn.com/blog/fighterandknight/article/p-6338983.html" target="_blank" rel="noopener">http://www.voidcn.com/blog/fighterandknight/article/p-6338983.html</a></li>
-<li><a href="http://hadb.me/2016/10/23/redis-windows-sentinel/" target="_blank" rel="noopener">http://hadb.me/2016/10/23/redis-windows-sentinel/</a></li>
-<li><a href="http://www.voidcn.com/blog/fighterandknight/article/p-6338983.html" target="_blank" rel="noopener">http://www.voidcn.com/blog/fighterandknight/article/p-6338983.html</a></li>
-<li><a href="http://www.redis.cn/topics/sentinel.html" target="_blank" rel="noopener">http://www.redis.cn/topics/sentinel.html</a></li>
-<li><a href="http://bbs.redis.cn/forum.php?mod=viewthread&amp;tid=715" target="_blank" rel="noopener">http://bbs.redis.cn/forum.php?mod=viewthread&amp;tid=715</a></li>
-<li><a href="https://redis.io/topics/sentinel" target="_blank" rel="noopener">https://redis.io/topics/sentinel</a></li>
-<li><a href="https://dotblogs.com.tw/supershowwei/2017/02/27/163018" target="_blank" rel="noopener">https://dotblogs.com.tw/supershowwei/2017/02/27/163018</a></li>
-<li><a href="https://github.com/StackExchange/StackExchange.Redis" target="_blank" rel="noopener">https://github.com/StackExchange/StackExchange.Redis</a></li>
-<li><a href="https://dotblogs.com.tw/supershowwei/2017/02/27/163018" target="_blank" rel="noopener">https://dotblogs.com.tw/supershowwei/2017/02/27/163018</a></li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Redis/" rel="tag">#Redis</a>
-          
-            <a href="/tags/Windows/" rel="tag">#Windows</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/02/12/ASP-NET-Core-Uninstall_Net_SDK/" rel="next" title="ASP.NET Core - 移除在 macOS 上的 .Net Core SDK">
-                <i class="fa fa-chevron-left"></i> ASP.NET Core - 移除在 macOS 上的 .Net Core SDK
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/" rel="prev" title="Azure - 在 Azure 上使用 Azure Container Service 來執行 Kubernetes">
-                Azure - 在 Azure 上使用 Azure Container Service 來執行 Kubernetes <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-HA"><span class="nav-number">2.</span> <span class="nav-text">Redis HA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝第一台-Redis-Server"><span class="nav-number">3.</span> <span class="nav-text">安裝第一台 Redis Server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定-Master-和-Slave"><span class="nav-number">4.</span> <span class="nav-text">設定 Master 和 Slave</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定-Sentinel"><span class="nav-number">5.</span> <span class="nav-text">設定　Sentinel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#測試轉移"><span class="nav-number">6.</span> <span class="nav-text">測試轉移</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程式連線"><span class="nav-number">7.</span> <span class="nav-text">程式連線</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">8.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">9.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/366d6708e9934adc9d386e6d6e177b41/b13f9/23.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 48.50000000000001%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAB2HAAAdhwGP5fFlAAABl0lEQVQoz5WS627UMBCF8/6PhMQvQCoSErRIBbrQdpuNs7G9iZ37ZeOPSSBtxUWIkY7G8tjnnBk7evFR0bQ1bdsyDCMw8/qL4e2NJi8cNve4sqHpBpp+lDzi6hbf9Cu2/aodBD3RTWwwRuOdWwlDCCjjOGpL4Ty+ajkVJVaQ6ILU5DykmuvdHbs4QWWatuvEULfmqCgs3nvO5zNaa1Si2CdGLiQcjjnaOrLMkufiVtZOiL0rRUxyWa9Ci2juKvTJE1WVo+87cQbaWOL4gQ+fY15e7IgzxxL6eESplKIoVvGubkDOh0cE5jlwnmei3FeM47RezKTNJDlwfXvkzVVMqixiCa2UCMUcBEsXo7S2Mq2x5R8RbWTLtkozTtawP5y4eHVF+m0P08jUD4KeaRgI00SQ8SyuNnfPEU3T+adQIBMH6v6O2093vLu8x/j2Dx6eIoTfK0I4PRZnmcFCHJua9zsjA2/W2jKfX538DdHyuhvhpqdsw+VXy8l3/G9EddOtDp63YKXVfZqT+1r+Zk/X9fIT/o2yLPkOfDsDXd37zIMAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="23"
+        title="23"
+        src="/static/366d6708e9934adc9d386e6d6e177b41/78d47/23.png"
+        srcset="/static/366d6708e9934adc9d386e6d6e177b41/56d15/23.png 200w,
+/static/366d6708e9934adc9d386e6d6e177b41/d9f49/23.png 400w,
+/static/366d6708e9934adc9d386e6d6e177b41/78d47/23.png 800w,
+/static/366d6708e9934adc9d386e6d6e177b41/64756/23.png 1200w,
+/static/366d6708e9934adc9d386e6d6e177b41/42cbc/23.png 1600w,
+/static/366d6708e9934adc9d386e6d6e177b41/b13f9/23.png 2557w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
   </a>
-</div>
-
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2017/04/09/Redis-Create_Redis_HA/';
-      var disqus_title = 'Redis - 在 Windows 上建立高可用性的 Redis';
-      var disqus_url = 'http://skychang.github.io/2017/04/09/Redis-Create_Redis_HA/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+    </span></p>
+<p>上面完成後，我們還要回到 Master 的機器，設定 redis.windows-service.conf，
+找到 # masterauth，改成 masterauth foobared ( 代表 Master 的密碼 )。
+需要這樣的原因，是因為，到時候 Master 會被切換成 Slave，如果沒有設定 masterauth foobared，
+到時候這台機器會無法和未來的 Master 進行連線。
+( 設定完也不忘記重新啟動 )</p>
+<p>完成後，我們就可以啟動 Sentinel</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">redis-server.exe sentinel.conf --sentinel</code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/d8831c45665c7bbbe6c0672680f87b43/8d416/24.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAB2HAAAdhwGP5fFlAAABEUlEQVQoz5WRwU6EMBCGS0tboYABjPFNvGq8mJh4MT7NXjyY7K5lN1kDePEBvPqEvzNkIbsioiRfOkwnHzODWDw9Y+0rLNceq5eqi7fVFpXfHLGhXNu8oW5a7OoGr3U7sCO893j/+ISgBz+hCBMEQxzsEb9weXULEZoTKKWgwhBaa8JASoksy3BWlt1ZFAVO6TR0x7V8L6Ua0MZ0wpv7RwhtIygq4MKQpAzHhopYxh8RM51xPZ/Xdw/Hwh6WckFAI7Owf59CHgqVtiMhjzTX1aRQhhqSOuk7O5RxhwznvseTwvL8Ai6O4ZyDSxySJOl2F1MuS1Oke/I874iiaLSC0ch/GYt/krV2fmQh1b/2NSf8Ai9e9hKXSe+kAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="24"
+        title="24"
+        src="/static/d8831c45665c7bbbe6c0672680f87b43/78d47/24.png"
+        srcset="/static/d8831c45665c7bbbe6c0672680f87b43/56d15/24.png 200w,
+/static/d8831c45665c7bbbe6c0672680f87b43/d9f49/24.png 400w,
+/static/d8831c45665c7bbbe6c0672680f87b43/78d47/24.png 800w,
+/static/d8831c45665c7bbbe6c0672680f87b43/64756/24.png 1200w,
+/static/d8831c45665c7bbbe6c0672680f87b43/42cbc/24.png 1600w,
+/static/d8831c45665c7bbbe6c0672680f87b43/8d416/24.png 1958w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>測試轉移</h2>
+<p>接下來，我們可以測試看看轉移，我們可以先關閉 Master，然後可以從 Sentinel 看到此變化。
+馬上就可以看到，他已經把 Salve 切換到 Master 了。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/5b1353db85f6bf8dc8485241fd1018a4/8d416/25.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAB2HAAAdhwGP5fFlAAABZUlEQVQoz61R207CUBAsPb2SQm+0FExA9CN89ZIYEy8xURP/xRcTEwWKiRLkyQ/w1S8czyxQQF9tMpnZ7Z7ZPXuMh8cnDMcTPA/HeBmVglE5EWaeGJWvwm/TGaazOd5nHwLqRTxHWZb4/PqGoT/8Fw4Oz2Ao24VlWbBtW0CtlIJpmlJEXavV1tB5/qNut9vw63UofYa1J1d3MCzXkwIabZoR1HV9wHGc6j+xakZNY1PXMT46v4HRG+whTRKkaYosywRFUVS5OE4k12q10Gw24fu+NNq86rbh7tqw0+nI4TzPK4MwDIWjKBL+bfbHsD/YFzMx7HYrMyLPcom5K4I60c3jOKrWwAZKLXd4qXeYF10EQYCg0dCFMRqaOYnkNKgJ5hlz4sW0odQz5sPQ8PT6fvvKnILMSVZTy7RLZkwzgrv0PE/gOK4YHl/cwtjp9aVTsjSNdEfyKt7UZE5KExryhWWH5nqHP5kTBWHHeMmvAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="25"
+        title="25"
+        src="/static/5b1353db85f6bf8dc8485241fd1018a4/78d47/25.png"
+        srcset="/static/5b1353db85f6bf8dc8485241fd1018a4/56d15/25.png 200w,
+/static/5b1353db85f6bf8dc8485241fd1018a4/d9f49/25.png 400w,
+/static/5b1353db85f6bf8dc8485241fd1018a4/78d47/25.png 800w,
+/static/5b1353db85f6bf8dc8485241fd1018a4/64756/25.png 1200w,
+/static/5b1353db85f6bf8dc8485241fd1018a4/42cbc/25.png 1600w,
+/static/5b1353db85f6bf8dc8485241fd1018a4/8d416/25.png 1958w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>我們也可以看看原本的 Salve，已經變成 Master 了，而且因為原本的 Master 沒啟動，
+所以現在沒有任何一台 Salve。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/5b1353db85f6bf8dc8485241fd1018a4/8d416/25.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAB2HAAAdhwGP5fFlAAABZUlEQVQoz61R207CUBAsPb2SQm+0FExA9CN89ZIYEy8xURP/xRcTEwWKiRLkyQ/w1S8czyxQQF9tMpnZ7Z7ZPXuMh8cnDMcTPA/HeBmVglE5EWaeGJWvwm/TGaazOd5nHwLqRTxHWZb4/PqGoT/8Fw4Oz2Ao24VlWbBtW0CtlIJpmlJEXavV1tB5/qNut9vw63UofYa1J1d3MCzXkwIabZoR1HV9wHGc6j+xakZNY1PXMT46v4HRG+whTRKkaYosywRFUVS5OE4k12q10Gw24fu+NNq86rbh7tqw0+nI4TzPK4MwDIWjKBL+bfbHsD/YFzMx7HYrMyLPcom5K4I60c3jOKrWwAZKLXd4qXeYF10EQYCg0dCFMRqaOYnkNKgJ5hlz4sW0odQz5sPQ8PT6fvvKnILMSVZTy7RLZkwzgrv0PE/gOK4YHl/cwtjp9aVTsjSNdEfyKt7UZE5KExryhWWH5nqHP5kTBWHHeMmvAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="25"
+        title="25"
+        src="/static/5b1353db85f6bf8dc8485241fd1018a4/78d47/25.png"
+        srcset="/static/5b1353db85f6bf8dc8485241fd1018a4/56d15/25.png 200w,
+/static/5b1353db85f6bf8dc8485241fd1018a4/d9f49/25.png 400w,
+/static/5b1353db85f6bf8dc8485241fd1018a4/78d47/25.png 800w,
+/static/5b1353db85f6bf8dc8485241fd1018a4/64756/25.png 1200w,
+/static/5b1353db85f6bf8dc8485241fd1018a4/42cbc/25.png 1600w,
+/static/5b1353db85f6bf8dc8485241fd1018a4/8d416/25.png 1958w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>如果再把 Master 啟動回來，我們可以發現，原本這台的資訊還是 Master ，但沒過多久，
+Sentinel 就會把 Master 變成 Salve。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/8d8f810b99148c5b1cc38c661e5f1339/8d416/27.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAA70lEQVQoz62STU/CQBCGp/tRlZK2tAt1V0z4F1wxHjwYL4R/44WEC7EkRlpaD9y9+g9ftxsQ8Wbr4clM5vDsO5Ol5+UK65cN1vkGr9sCZfWOoqpR7GrXl1X9zbas8FbubD2nmeV5jv3HJygJY/SvLiE9D0TUiensATS5ucXYGOgsQ9TrQXAOjzEwi2cfafojzMEP9YT0fSe8f1qAjDZQcQw9GmGYphBC/DkZtyGaevc4B6lMQymFxMrarsp+CrUZ49qu20gHNmmbhGfCaJA6URiGCIIAUkp3u9ZC7l+4G/iHw3ZemRjv/F1+CcW/Cr8AQrX3GKLmZRsAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="27"
+        title="27"
+        src="/static/8d8f810b99148c5b1cc38c661e5f1339/78d47/27.png"
+        srcset="/static/8d8f810b99148c5b1cc38c661e5f1339/56d15/27.png 200w,
+/static/8d8f810b99148c5b1cc38c661e5f1339/d9f49/27.png 400w,
+/static/8d8f810b99148c5b1cc38c661e5f1339/78d47/27.png 800w,
+/static/8d8f810b99148c5b1cc38c661e5f1339/64756/27.png 1200w,
+/static/8d8f810b99148c5b1cc38c661e5f1339/42cbc/27.png 1600w,
+/static/8d8f810b99148c5b1cc38c661e5f1339/8d416/27.png 1958w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>回到新的 Master ，我們依樣可以看到，和新的 Salve 連線也從新連好了。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/21c08429801d56e4b21ff5623d1a88c7/8d416/28.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAAyklEQVQoz+3QwQ7BMBwG8K5l6xYR68xsEeEpXImLRJzEyzhJJMZKZMw4eABXT/ipLcRV5ujwy5e06ff/p2S+WCKMpLJFuJFYrSPs9jGO6Tl3yiXpBYckRZycsvwUK1JKXG93ELcmUOUcuqaBEFJIrz8C6bY7aHkegkYDjhAwDEPh4DxnWVZ2pqmBlFJQxvKk7K2s61nhcDJTGzYD+L4Px6mj7rowTTN7/M1mTA155mA8BalUaxC2DVt5lr0uv0E/CwktFf67f+FvCx8ipfWFhtV0HQAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="28"
+        title="28"
+        src="/static/21c08429801d56e4b21ff5623d1a88c7/78d47/28.png"
+        srcset="/static/21c08429801d56e4b21ff5623d1a88c7/56d15/28.png 200w,
+/static/21c08429801d56e4b21ff5623d1a88c7/d9f49/28.png 400w,
+/static/21c08429801d56e4b21ff5623d1a88c7/78d47/28.png 800w,
+/static/21c08429801d56e4b21ff5623d1a88c7/64756/28.png 1200w,
+/static/21c08429801d56e4b21ff5623d1a88c7/42cbc/28.png 1600w,
+/static/21c08429801d56e4b21ff5623d1a88c7/8d416/28.png 1958w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接下來，我們可以看看程式如何搭配。</p>
+<h2>程式連線</h2>
+<p>待補</p>
+<h2>後記</h2>
+<p>待補</p>
+<h2>參考資料</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/31143072/redis-sentinel-vs-clustering">http://stackoverflow.com/questions/31143072/redis-sentinel-vs-clustering</a></li>
+<li><a href="https://dotblogs.com.tw/supershowwei/2016/02/03/123740">https://dotblogs.com.tw/supershowwei/2016/02/03/123740</a></li>
+<li><a href="http://blog.mkfree.com/posts/5257683d479e1dd72e7c1b4e">http://blog.mkfree.com/posts/5257683d479e1dd72e7c1b4e</a></li>
+<li><a href="https://segmentfault.com/a/1190000002680804">https://segmentfault.com/a/1190000002680804</a></li>
+<li><a href="https://segmentfault.com/a/1190000002685515">https://segmentfault.com/a/1190000002685515</a></li>
+<li><a href="http://mrcto.blog.51cto.com/1923168/1319542">http://mrcto.blog.51cto.com/1923168/1319542</a></li>
+<li><a href="https://dotblogs.com.tw/supershowwei/2016/02/03/123740">https://dotblogs.com.tw/supershowwei/2016/02/03/123740</a></li>
+<li><a href="http://www.jianshu.com/p/51f0cf57df7d">http://www.jianshu.com/p/51f0cf57df7d</a></li>
+<li><a href="https://redis.io/topics/sentinel">https://redis.io/topics/sentinel</a></li>
+<li><a href="http://www.redis.cn/topics/sentinel.html">http://www.redis.cn/topics/sentinel.html</a></li>
+<li><a href="http://www.voidcn.com/blog/fighterandknight/article/p-6338983.html">http://www.voidcn.com/blog/fighterandknight/article/p-6338983.html</a></li>
+<li><a href="http://hadb.me/2016/10/23/redis-windows-sentinel/">http://hadb.me/2016/10/23/redis-windows-sentinel/</a></li>
+<li><a href="http://www.voidcn.com/blog/fighterandknight/article/p-6338983.html">http://www.voidcn.com/blog/fighterandknight/article/p-6338983.html</a></li>
+<li><a href="http://www.redis.cn/topics/sentinel.html">http://www.redis.cn/topics/sentinel.html</a></li>
+<li><a href="http://bbs.redis.cn/forum.php?mod=viewthread&#x26;tid=715">http://bbs.redis.cn/forum.php?mod=viewthread&#x26;tid=715</a></li>
+<li><a href="https://redis.io/topics/sentinel">https://redis.io/topics/sentinel</a></li>
+<li><a href="https://dotblogs.com.tw/supershowwei/2017/02/27/163018">https://dotblogs.com.tw/supershowwei/2017/02/27/163018</a></li>
+<li><a href="https://github.com/StackExchange/StackExchange.Redis">https://github.com/StackExchange/StackExchange.Redis</a></li>
+<li><a href="https://dotblogs.com.tw/supershowwei/2017/02/27/163018">https://dotblogs.com.tw/supershowwei/2017/02/27/163018</a></li>
+</ul></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2017/04/09/Redis-Create_Redis_HA/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>

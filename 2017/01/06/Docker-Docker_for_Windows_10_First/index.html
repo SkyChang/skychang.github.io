@@ -1,745 +1,609 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Container,Docker,Windows," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="前言大概是兩年前，稍微玩了一點點的 Docker，不過當時的 Docker ，底層還是使用 Linux 核心，所以不用說，自然也只有 Linux 的相關應用可以完美整合；所有很多寫 Node.js 的朋友，也就早早的整合進去使用了。 而那個時候，小弟我就覺得這東西還滿好玩的，所以當初就使用 Hyper-V Run Ubuntu 再 run Docker( 因為底層必須是 Linux API ) 後">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Docker - Docker for Windows 10 入門篇">
-<meta property="og:url" content="http://skychang.github.io/2017/01/06/Docker-Docker_for_Windows_10_First/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="前言大概是兩年前，稍微玩了一點點的 Docker，不過當時的 Docker ，底層還是使用 Linux 核心，所以不用說，自然也只有 Linux 的相關應用可以完美整合；所有很多寫 Node.js 的朋友，也就早早的整合進去使用了。 而那個時候，小弟我就覺得這東西還滿好玩的，所以當初就使用 Hyper-V Run Ubuntu 再 run Docker( 因為底層必須是 Linux API ) 後">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://skychang.github.io/2017/01/06/Docker-Docker_for_Windows_10_First/01.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/06/Docker-Docker_for_Windows_10_First/02.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/06/Docker-Docker_for_Windows_10_First/03.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/06/Docker-Docker_for_Windows_10_First/04.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/06/Docker-Docker_for_Windows_10_First/05.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/06/Docker-Docker_for_Windows_10_First/06.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/06/Docker-Docker_for_Windows_10_First/07.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/06/Docker-Docker_for_Windows_10_First/08.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/06/Docker-Docker_for_Windows_10_First/09.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/06/Docker-Docker_for_Windows_10_First/10.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/06/Docker-Docker_for_Windows_10_First/11.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/06/Docker-Docker_for_Windows_10_First/12.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/06/Docker-Docker_for_Windows_10_First/13.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/06/Docker-Docker_for_Windows_10_First/14.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/06/Docker-Docker_for_Windows_10_First/15.png">
-<meta property="article:published_time" content="2017-01-06T23:11:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:38.900Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="Container">
-<meta property="article:tag" content="Docker">
-<meta property="article:tag" content="Windows">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://skychang.github.io/2017/01/06/Docker-Docker_for_Windows_10_First/01.png">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> Docker - Docker for Windows 10 入門篇 | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Docker - Docker for Windows 10 入門篇
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-01-06T23:11:00+00:00" content="2017-01-06">
-              2017-01-06
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/01/06/Docker-Docker_for_Windows_10_First/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/01/06/Docker-Docker_for_Windows_10_First/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>大概是兩年前，稍微玩了一點點的 Docker，不過當時的 Docker ，底層還是使用 Linux 核心，<br>所以不用說，自然也只有 Linux 的相關應用可以完美整合；所有很多寫 Node.js 的朋友，<br>也就早早的整合進去使用了。</p>
-<p>而那個時候，小弟我就覺得這東西還滿好玩的，所以當初就使用 Hyper-V Run Ubuntu 再 run <a href="http://skychang.github.io/2015/07/30/%E5%9C%A8Ubuntu%E9%81%8B%E8%A1%8CDocker/">Docker</a><br>( 因為底層必須是 Linux API )</p>
-<p>後來… 今年 3月 . Docker 推出原生版本的管理工具 Docker for Window</p>
-<p>而當時，( 沒記錯的話 )，工具底層直接使用了 Alpine Linux<br>( Alpine Linux 當然是 Run 在 Hyper-V 下.. 只是這個 VM 的控管，是由 Docker 管理工具控管 Hyper-V 的 VM , 不用我們去處理 )<br>所以簡單的說，這裡的原生，指的不是原生的 Windows API，而是不使用 VirtualBox.<br>而是使用 Hyper-V…但骨子裡，還是使用 Linux API . </p>
-<p>而近年因 CEO 大換，而大走 Open Source 的 MS ，當然也很努力地在做這塊，<br>但這次，不是像以前一樣，是做一個新的 Container 來打 Docker，<br>這次，是和 Docker 合作，實作出以 Win 平台為核心的 Docker。</p>
-<p>於是，底層不再只有 Linux API , 而是多了一種 Windows API 的形式，<br>只是引擎還是使用 Docker .<br>也因此，底層是使用 Linux API 的 Docker 容器，是不能拿到 Windows 上面跑的。<br>但相同的，使用 Windows API 這種底層的 Docker Container，<br>就可以在上面執行 IIS，SQL Server Express 等等。</p>
-<p>而在 Windows Server 2016 上，除了用 Hypver-V 模擬 Linux API ( 透過 Docker 命令 ) 外，<br>還包含了使用 Hypver-V Run Windows API 的 Container ( 透過 Docker 命令 ) ，<br>更提供了 Native 模式，來 Run Docker Container ( 透過 Docker 命令，但不用 Hyper-V )，<br>能運行那麼多種的 Docker Container，目前只有 Windows 辦的到喔.. ( 抖抖 )</p>
-<p>( 這種感覺，就像是 OneDrive , SharePoint , O365 一樣的複雜.. )<br>( 備註，上面提到的 Docker 命令，指的是，我們只要再 cmd 下 docker xxx 命令，<br>就可以 run 起 Docker Container，而不是像以前依樣，要先啟動 Hyper-V ，<br>然後再 Hyper-V 上 RUN Linux ，然後再 run Docker ，另外，雖然是下命令，<br>但部份的底層還是使用 Hyper-V )</p>
-<p>當然，這裡面有太多底層的技術，小弟就不在這邊獻醜了，畢竟這塊已經有很多人寫得很詳細也寫得很好；<br>而今天，只是來看看，在 Windows 10 上，初體驗 Docker for Windows</p>
-<p>目前想在   Windows 10  上實現 Docker，Docker  官方則提供了兩個方案，一個是舊的；<br>Docker Toolbox ，一個則是新的 Docker for Windows。</p>
-<p>基本上，舊的 Docker Toolbox 就不用提了，就讓它變成時代的眼淚吧…<br>( 舊的就是使用 VirtualBox 來虛擬.. )</p>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">Docker - Docker for Windows 10 入門篇 :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="前言 大概是兩年前，稍微玩了一點點的 Docker，不過當時的 Docker ，底層還是使用 Linux 核心，
+所以不用說，自然也只有 Linux 的相關應用可以完美整合；所有很多寫 Node.js…"/><meta data-react-helmet="true" property="og:title" content="Docker - Docker for Windows 10 入門篇"/><meta data-react-helmet="true" property="og:description" content="前言 大概是兩年前，稍微玩了一點點的 Docker，不過當時的 Docker ，底層還是使用 Linux 核心，
+所以不用說，自然也只有 Linux 的相關應用可以完美整合；所有很多寫 Node.js…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="Docker - Docker for Windows 10 入門篇"/><meta data-react-helmet="true" name="twitter:description" content="前言 大概是兩年前，稍微玩了一點點的 Docker，不過當時的 Docker ，底層還是使用 Linux 核心，
+所以不用說，自然也只有 Linux 的相關應用可以完美整合；所有很多寫 Node.js…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2017/01/06/Docker-Docker_for_Windows_10_First/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">Docker - Docker for Windows 10 入門篇</h1><div class="post-module--meta--3YtjE">06 January 2017<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/Docker/"><span class="post-module--tag--16U9p">#<!-- -->Docker</span></a><a href="/tag/Container/"><span class="post-module--tag--16U9p">#<!-- -->Container</span></a><a href="/tag/Windows/"><span class="post-module--tag--16U9p">#<!-- -->Windows</span></a></div></div><div><h2>前言</h2>
+<p>大概是兩年前，稍微玩了一點點的 Docker，不過當時的 Docker ，底層還是使用 Linux 核心，
+所以不用說，自然也只有 Linux 的相關應用可以完美整合；所有很多寫 Node.js 的朋友，
+也就早早的整合進去使用了。</p>
+<p>而那個時候，小弟我就覺得這東西還滿好玩的，所以當初就使用 Hyper-V Run Ubuntu 再 run <a href="http://skychang.github.io/2015/07/30/%E5%9C%A8Ubuntu%E9%81%8B%E8%A1%8CDocker/">Docker</a>
+( 因為底層必須是 Linux API )</p>
+<p>後來... 今年 3月 . Docker 推出原生版本的管理工具 Docker for Window</p>
+<p>而當時，( 沒記錯的話 )，工具底層直接使用了 Alpine Linux
+( Alpine Linux 當然是 Run 在 Hyper-V 下.. 只是這個 VM 的控管，是由 Docker 管理工具控管 Hyper-V 的 VM , 不用我們去處理 )
+所以簡單的說，這裡的原生，指的不是原生的 Windows API，而是不使用 VirtualBox.
+而是使用 Hyper-V...但骨子裡，還是使用 Linux API . </p>
+<p>而近年因 CEO 大換，而大走 Open Source 的 MS ，當然也很努力地在做這塊，
+但這次，不是像以前一樣，是做一個新的 Container 來打 Docker，
+這次，是和 Docker 合作，實作出以 Win 平台為核心的 Docker。</p>
+<p>於是，底層不再只有 Linux API , 而是多了一種 Windows API 的形式，
+只是引擎還是使用 Docker .
+也因此，底層是使用 Linux API 的 Docker 容器，是不能拿到 Windows 上面跑的。
+但相同的，使用 Windows API 這種底層的 Docker Container，
+就可以在上面執行 IIS，SQL Server Express 等等。</p>
+<p>而在 Windows Server 2016 上，除了用 Hypver-V 模擬 Linux API ( 透過 Docker 命令 ) 外，
+還包含了使用 Hypver-V Run Windows API 的 Container ( 透過 Docker 命令 ) ，
+更提供了 Native 模式，來 Run Docker Container ( 透過 Docker 命令，但不用 Hyper-V )，
+能運行那麼多種的 Docker Container，目前只有 Windows 辦的到喔.. ( 抖抖 )</p>
+<p>( 這種感覺，就像是 OneDrive , SharePoint , O365 一樣的複雜.. )
+( 備註，上面提到的 Docker 命令，指的是，我們只要再 cmd 下 docker xxx 命令，
+就可以 run 起 Docker Container，而不是像以前依樣，要先啟動 Hyper-V ，
+然後再 Hyper-V 上 RUN Linux ，然後再 run Docker ，另外，雖然是下命令，
+但部份的底層還是使用 Hyper-V )</p>
+<p>當然，這裡面有太多底層的技術，小弟就不在這邊獻醜了，畢竟這塊已經有很多人寫得很詳細也寫得很好；
+而今天，只是來看看，在 Windows 10 上，初體驗 Docker for Windows</p>
+<p>目前想在   Windows 10  上實現 Docker，Docker  官方則提供了兩個方案，一個是舊的；
+Docker Toolbox ，一個則是新的 Docker for Windows。</p>
+<p>基本上，舊的 Docker Toolbox 就不用提了，就讓它變成時代的眼淚吧…
+( 舊的就是使用 VirtualBox 來虛擬.. )</p>
 <p>所以這篇主要會來介紹 Docker for Windows .</p>
-<p>p.s 這篇主要是由 Docker <a href="https://docs.docker.com/docker-for-windows/" target="_blank" rel="noopener">官方文件</a> 而來，<br>並且根據裡面的內容，進行大量的補充，讓大家在過程中，可以更加地了解細節。</p>
-<h2 id="安裝-Docker-for-Windows"><a href="#安裝-Docker-for-Windows" class="headerlink" title="安裝 Docker for Windows"></a>安裝 Docker for Windows</h2><p>Docker Windows 的所需條件，自然就是  Windows 10 ，且必須為 Build 10586 以上版本，<br>而且必須啟用 Hyper-V 和容器功能；如下圖。</p>
-<p>是低，您沒有看錯，基本上，到目前為止，Windows 10 上運行 Docker for Windows ，<br>是依賴著 Hyper-V　的，而且是沒有 Native 模式的.</p>
-<p><img src="01.png" alt=""></p>
-<p>當啟動後，我們就可以到底下這個位置下載 <a href="https://docs.docker.com/docker-for-windows/" target="_blank" rel="noopener">Docker for Windows</a><br>會到這個位置下載的原因是因為，目前如果要 run Windows Container，只能下載 Beta 版本。</p>
-<p><img src="02.png" alt=""></p>
-<p>然後就進入快樂的安裝。</p>
-<p><img src="03.png" alt=""></p>
-<p>成功之後，會出現如下的視窗。<br>另外，請注意，小弟在後來的 Mac 下，使用 Parallels 虛擬 Windows 10 ，<br>再裝 Docker for Windows，在 Linux 模式下會出錯，<br>而 Windows 模式下，則是正常的；根據官方的文件敘述，目前在 Mac 底下，<br>又模擬 Windows 10 下再安裝 Docker 的這種情境，是不被正式當作 Issue 支援的；<br>另外根據官方所敘述，他建議，如果真的想在 Mac 模擬 Windows ，<br>在上 Docker，可以使用 Windows 2016，因為 Windows 2016 有原生版本的，<br>而 Windows 10 目前只有 Hyper-V 版本。<br>( Switch 模式的說明，在下面會敘述 )</p>
-<p><img src="04.png" alt=""></p>
-<h2 id="初體驗"><a href="#初體驗" class="headerlink" title="初體驗"></a>初體驗</h2><p>接下來，如官方教學，我們可以試著下底下指令。<br>從底下指令，我們可以看到 Docker 的版本。<br>其中 docker ps 可以看到目前有哪些容器在運作中，現在自然沒有任何容器可以運作。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker --version Docker version </span><br><span class="line">docker-compose --version </span><br><span class="line">docker-machine --version </span><br><span class="line">docker ps</span><br><span class="line">docker version</span><br><span class="line">docker info</span><br></pre></td></tr></table></figure>
-
-<p><img src="05.png" alt=""></p>
-<p>接下來，我們可以下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run hello-world</span><br></pre></td></tr></table></figure>
-
-<p>這邊會下一個 Ubuntu 的 Images，並且會把這個 Container run 起來；<br>這個容器是 Linux Container 的，所以如果已經 switch 到 Windows Container，請要先切回 Linux Container</p>
-<p><img src="06.png" alt=""></p>
-<p>在 Docker 裡面，其實是有分 Detached 和 foreground，所謂的 Detached 就是所謂的背景執行 ( -d 參數 )，<br>背景執行的時候，基本上，要和 Container 溝通，就只能靠網路芳鄰等機制了；<br>也就是說，沒辦法用終端機進行溝通，除非我們再把他給 attach 。</p>
-<p>而如果要使用 foreground，我們則要使用 -it 這個參數。</p>
-<p>所以我們要下 docker run -it ubuntu bash 這個命令的意思就是，我們要運行 ubuntu，<br>並使用 foreground 模式，並且於啟動後，進入 bash .</p>
-<p>當然，大家也可以試試看，如果沒有加 -it ，基本上，只 run 一下，馬上就跳回來了 XDD</p>
-<p>那 -it 是甚麼意思呢，根據官方文件如下。<br>-i : Keep STDIN open even if not attached<br>-t : Allocate a pseudo-tty</p>
-<p>簡單的說，加上 -I   ，無論有無 Attach ，都會確保 STDIN 有持續開啟，而使用 -t ，則會分配一個 tty 。<br>( 何謂 STDIN <a href="http://blog.csdn.net/qq_21792169/article/details/50470424" target="_blank" rel="noopener">http://blog.csdn.net/qq_21792169/article/details/50470424</a> )<br>所以如果只輸入 -t ，沒有 STDIN ，那畫面就會顯示在那邊，一動也不動，也沒辦法輸入；<br>所以通常我們必須使用 -it ，才能進行操作。</p>
-<p><img src="07.png" alt=""></p>
-<p>我們也可以使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
-
-<p>來看看目前已經下載了那些 images。</p>
-<p><img src="08.png" alt=""></p>
-<h2 id="試玩-Windows-Container"><a href="#試玩-Windows-Container" class="headerlink" title="試玩 Windows Container"></a>試玩 Windows Container</h2><p>接下來，我們要下載 Windows Container，<br>使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull microsoft&#x2F;nanoserver</span><br></pre></td></tr></table></figure>
-
-<p>正常情況下，應該會出現底下錯誤</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Using default tag: latest</span><br><span class="line">latest: Pulling from microsoft&#x2F;nanoserver</span><br><span class="line"></span><br><span class="line">如果出現以下訊息：</span><br><span class="line">5496abde368a: Downloading</span><br><span class="line">482ab31872a2: Downloading</span><br><span class="line">unknown blob</span><br></pre></td></tr></table></figure>
-
-<p>那表示目前你使用的是 Linux Containers ， Linux Container 和  Windows Container 是無法共用的，<br>也因此，當我們要使用 nanoserver 這個 Container，是 Windows 的 Contaniner ，<br>所以如果在 Linux Container 模式底下，是無法使用的，故我們要進行切換一下。<br>( 如果看不到這個切換指令，那表示你安裝的是標準版的 Docker for Windows ，請改安裝 Beta 版本 )</p>
-<p><img src="09.png" alt=""></p>
-<p>切完後，再下載一次。</p>
-<p><img src="10.png" alt=""></p>
-<p>接著，我們就可以把 Windows Container run 起來</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it microsoft&#x2F;nanoserver cmd</span><br></pre></td></tr></table></figure>
-
-<p><img src="11.png" alt=""></p>
-<h2 id="管理-Container-與建立-Image"><a href="#管理-Container-與建立-Image" class="headerlink" title="管理 Container 與建立 Image"></a>管理 Container 與建立 Image</h2><p>接著，我們依據官方的教學，來建立一個新的檔案，只要執行這個 ps，他就會於畫面顯示<br>Hello World.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Powershell.exe Add-Content c:\helloworld.ps1 &#39;Write-Host &quot;Hello World&quot;&#39;</span><br></pre></td></tr></table></figure>
-
-<p><img src="12.png" alt=""></p>
-<p>還記得一開始我們執行過 docker ps 嗎，現在我們使用另外一個指令。 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
-<p>透過這個指令，我們可以看到已經被”終止”的 Container；是的，沒看錯，是被終止。<br>如下圖，我們可以看到，小弟我其實執行了兩次 docker run -it microsoft/nanoserver cmd，<br>第一次的時候，直接在 cmd 下 exit 離開。<br>第二次的時候，則是我們剛剛的上一步範例，使用 PowerShell.exe 建立了一個新的檔案。</p>
-<p>所以，其實我們每次執行  docker run -it microsoft/nanoserver cmd<br>都是會產生一個全新的 Windows Container 喔!!<br>而離開的時候，其實那個 Container 還是存在的。<br>但是，如果關機了，這個 Container 就會消失了，換言之，剛剛你做的一些事情<br>( 例如使用 PowerShell.exe 建立的檔案 )<br>就等同於不存在了。</p>
-<p>所以，我們必須要使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Docker commit [CONTAINER ID] [名稱]</span><br></pre></td></tr></table></figure>
-
-<p>來將剛剛改變的容器，變成映像檔 ( Image )</p>
-<p>所以如下圖，當我們下完 commit 後，我們就可以看到，新的 Image hellowold 產生了；<br>當產生了這個 Image 後，我們就可以像影分身之術一樣，產生多個鳴人；<br>阿不是，是多個 Container。˙</p>
-<p>p.s 如果已經離開，被終止了，而想重新啟動，可以使用 Start，然後用 attach 進入此容器</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Docker start [CONTAINER ID]</span><br><span class="line">docker attach [CONTAINER ID]</span><br></pre></td></tr></table></figure>
-
-<p>如果想刪除其中一個 Container，可以用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Docker rm [CONTAINER ID]</span><br></pre></td></tr></table></figure>
-
-<p><img src="13.png" alt=""></p>
-<p>當我們產生一個新的 image 後，我們就可以使用 run 的方式，在 run 出一個 Container，<br>但這邊加上了 –rm 的參數，<br>表示當我們 run 起來這個 Container 並且執行完 helloworld.ps1 後，<br>會自動刪除這個 Container。</p>
-<p><img src="14.png" alt=""></p>
-<p>最後，如果覺得連 Image 都不需要，那可以直接下 rmi 來刪除 Image.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Docker rmi [REPOSITORY]</span><br></pre></td></tr></table></figure>
-
-<p><img src="15.png" alt=""></p>
-<p>到這邊，基本上，大家應該就會對於 Docker 有了一個基礎的認識，接下來，<br>我們就會開始進入，IIS 等相關服務嚕!</p>
-<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>等了很久，終於看到 ( 也終於比較有時間 ) 可以好好的測試一下 Windows Container，<br>後續，就讓我們持續看下去!!</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a href="https://msdn.microsoft.com/zh-tw/virtualization/windowscontainers/quick_start/quick_start_windows_10" target="_blank" rel="noopener">https://msdn.microsoft.com/zh-tw/virtualization/windowscontainers/quick_start/quick_start_windows_10</a></li>
-<li><a href="https://docs.docker.com/docker-for-windows/" target="_blank" rel="noopener">https://docs.docker.com/docker-for-windows/</a></li>
-<li><a href="https://hub.docker.com/r/microsoft/nanoserver/" target="_blank" rel="noopener">https://hub.docker.com/r/microsoft/nanoserver/</a></li>
-<li><a href="https://forums.docker.com/t/unknown-blob-when-pulling-microsoft-nanoserver/20291/5" target="_blank" rel="noopener">https://forums.docker.com/t/unknown-blob-when-pulling-microsoft-nanoserver/20291/5</a></li>
-<li><a href="https://docs.docker.com/engine/reference/run/" target="_blank" rel="noopener">https://docs.docker.com/engine/reference/run/</a></li>
-<li><a href="http://dockone.io/article/152" target="_blank" rel="noopener">http://dockone.io/article/152</a></li>
-<li><a href="https://philipzheng.gitbooks.io/docker_practice/content/container/" target="_blank" rel="noopener">https://philipzheng.gitbooks.io/docker_practice/content/container/</a></li>
-<li><a href="https://docs.docker.com/engine/reference/commandline/" target="_blank" rel="noopener">https://docs.docker.com/engine/reference/commandline/</a></li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Container/" rel="tag">#Container</a>
-          
-            <a href="/tags/Docker/" rel="tag">#Docker</a>
-          
-            <a href="/tags/Windows/" rel="tag">#Windows</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/01/02/TFS-TFS_Self_SSL/" rel="next" title="TFS - 使用自簽憑證與 SSL 對外提供網站服務">
-                <i class="fa fa-chevron-left"></i> TFS - 使用自簽憑證與 SSL 對外提供網站服務
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/02/11/ASP-NET-Core-First_In_Mac/" rel="prev" title="ASP.NET Core - 在 macOS 上開發 ASP.NET Core - 環境準備篇">
-                ASP.NET Core - 在 macOS 上開發 ASP.NET Core - 環境準備篇 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-Docker-for-Windows"><span class="nav-number">2.</span> <span class="nav-text">安裝 Docker for Windows</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初體驗"><span class="nav-number">3.</span> <span class="nav-text">初體驗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#試玩-Windows-Container"><span class="nav-number">4.</span> <span class="nav-text">試玩 Windows Container</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#管理-Container-與建立-Image"><span class="nav-number">5.</span> <span class="nav-text">管理 Container 與建立 Image</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">6.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">7.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
+<p>p.s 這篇主要是由 Docker <a href="https://docs.docker.com/docker-for-windows/">官方文件</a> 而來，
+並且根據裡面的內容，進行大量的補充，讓大家在過程中，可以更加地了解細節。</p>
+<h2>安裝 Docker for Windows</h2>
+<p>Docker Windows 的所需條件，自然就是  Windows 10 ，且必須為 Build 10586 以上版本，
+而且必須啟用 Hyper-V 和容器功能；如下圖。</p>
+<p>是低，您沒有看錯，基本上，到目前為止，Windows 10 上運行 Docker for Windows ，
+是依賴著 Hyper-V　的，而且是沒有 Native 模式的.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/0d6df6883dc076c917cf3e4030e03ae7/e2f49/01.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 53.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABPUlEQVQoz5XPWW+DMAwAYP7/39rrhtimlh4EyhEgBzlKOAIkGbTSpj1s6yzHUhR9tuN1Xaf1uNZxHKxd3JrGbHmLxZhTUh4AhIhRJoW81pQXiJllNsZ4QihKhXNWXK/HEuUgq+ISXyCOi7YoFy4O+134HrwFr0EQpGlaVjUizdrXOueVFeWiXS+klQAz1k6ym1irGe+k7GheF7vA9314BqyuVqC1xoRu2FoPE0G2yfde2/nM29oWpWcQBtkZKM71NA3D+IXHcdLT7H4IYx0haZGGIL7QhgohvmH3a2wYZ+AURFGs1Pa7UWv0OG5IniV72ohlmf+NCV7XPiZJppTa8KgRJo/iGkbn8LmukJkXM89D3xPaPIaNK3Z+8vLE07wt8h4WPUJCtvfXP7HFuK5g1inFuIxyBGHVMH6b7D4Apcd35gVJpQ0AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="01"
+        title="01"
+        src="/static/0d6df6883dc076c917cf3e4030e03ae7/78d47/01.png"
+        srcset="/static/0d6df6883dc076c917cf3e4030e03ae7/56d15/01.png 200w,
+/static/0d6df6883dc076c917cf3e4030e03ae7/d9f49/01.png 400w,
+/static/0d6df6883dc076c917cf3e4030e03ae7/78d47/01.png 800w,
+/static/0d6df6883dc076c917cf3e4030e03ae7/64756/01.png 1200w,
+/static/0d6df6883dc076c917cf3e4030e03ae7/e2f49/01.png 1366w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
   </a>
-</div>
+    </span></p>
+<p>當啟動後，我們就可以到底下這個位置下載 <a href="https://docs.docker.com/docker-for-windows/">Docker for Windows</a>
+會到這個位置下載的原因是因為，目前如果要 run Windows Container，只能下載 Beta 版本。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/d9432c5cdcc7a3b6637ff08512a54d81/e2f49/02.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 46.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABgUlEQVQozzWRyW7cMBBE9f+AA9i55BL4RwwYuWaZ+BBgjAAeWZZIURyJI+5kc1F6NEijDtTyVNWlJobovU8pBUgXZVa9y3rpgrBeaBsA6v/ZtqpT6W1coKgAzRULoZYSIfXT3LEz4fM7nYaJ46Ed+aIMxOj8dTLACvnv6keXFKQGSedcKSXnPPQ9G+lFCO+cxTFmpJRxHoLHx2hTS1YIS09dkjE1cZ9t2xCmlBJC5nneQWOs+RhIRyimYOeFc+6dVamg82BBhNS43QRh/DCbJo7oIlB4lFISxjs6Io/qCdFK4s6diTpvNuWrM3reYCXmaGTQMmop14tcV9a14/sJNX20Q9fhOi5XtF1i0ZAbrAEAEIZcHl/Yww/y5TDefydvMm5q/frt9e7p+Pn59dPT8XQi2LZJBdvSuWrYY9/gXMrxbH8z/TKqA5Uyli2EPx3/eeKHdvrVcoyMryE8+RTqLXbAH5zwLqb3WjopasHLa/tpXwfdbioVy864M7bd6igC/ANz9fuzLTs+jgAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="02"
+        title="02"
+        src="/static/d9432c5cdcc7a3b6637ff08512a54d81/78d47/02.png"
+        srcset="/static/d9432c5cdcc7a3b6637ff08512a54d81/56d15/02.png 200w,
+/static/d9432c5cdcc7a3b6637ff08512a54d81/d9f49/02.png 400w,
+/static/d9432c5cdcc7a3b6637ff08512a54d81/78d47/02.png 800w,
+/static/d9432c5cdcc7a3b6637ff08512a54d81/64756/02.png 1200w,
+/static/d9432c5cdcc7a3b6637ff08512a54d81/e2f49/02.png 1366w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>然後就進入快樂的安裝。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 495px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/5e129af5ce0b349c94622884f83dadd2/68bae/03.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 77.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAIAAACZeshMAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACYklEQVQoz31Sy27TUBD1L/BJ/AMsWLMDVQjUChALQJQ/gBWiqgobEBIgsUIsaFGc9JE0TuIkfjaxff26D9+HHZGqRdzrPtIi1OPR1Rl7xnPuzGg/9y13Gh9EqRcmuJyXh3+q+XFtR2fkuJwfSasOj1k1l4TPDuUJqdBaAdlPWAuURkw8iPq5IIxXgldVWZWiFBJcEsWVy6UrieBccKb9Cmg/xYMU7cZMB7wRcViwMAj2O512u9MzjMHANIxuvz8wzYHRNSTv9fp5Dill2gCkVgaNhOzFtAW4JKgoKC0QghAhgjEhBCGEFcEnJM/zQsXQU9l6JHQg2jGVP8JFoSKyLFfI5AMhVEy9yCRnjNEamh4KB8/MvBzDcoxn7URI2QBEtmW7rmvb8vQOfN91JJTr+74UfJrcCukwLx1cefS3icpexmVp1Y8FLnL5hdMzaDsh3Qvgm23n9Y9u08kaTo7Vla/CItkA9OuOd33Durb04cbLxpcmYIJeCFjg/KqL5N40Wf2YrrzDD96699ZiG+TkP4lKSj2ey8nr3ezFZ/Php+zmK3p7bbLezwEqOKPkskhJAACEXJKkLW2R5c30zjdw6/3k7newohdeSgRTInmNq2Tf38IrOl1u4EfbxbJOHzfwBNI4Ckcjy7UdObCTanUT6T+t0J400PMWftbET5tI2uo2PsgIK4jaDAjlep3UrwSblbzkasS8HqQUonkxThCJ4cLqjVRXlnsm92Q4NEe20xqFm+3xrhVNQWZbY9M0Pc/TMiRXgsoOndvFDgdB4PveJAiHk7Qz9MdBlkA8nU5kZhRFfwESX1aULrM4CwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="03"
+        title="03"
+        src="/static/5e129af5ce0b349c94622884f83dadd2/68bae/03.png"
+        srcset="/static/5e129af5ce0b349c94622884f83dadd2/56d15/03.png 200w,
+/static/5e129af5ce0b349c94622884f83dadd2/d9f49/03.png 400w,
+/static/5e129af5ce0b349c94622884f83dadd2/68bae/03.png 495w"
+        sizes="(max-width: 495px) 100vw, 495px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>成功之後，會出現如下的視窗。
+另外，請注意，小弟在後來的 Mac 下，使用 Parallels 虛擬 Windows 10 ，
+再裝 Docker for Windows，在 Linux 模式下會出錯，
+而 Windows 模式下，則是正常的；根據官方的文件敘述，目前在 Mac 底下，
+又模擬 Windows 10 下再安裝 Docker 的這種情境，是不被正式當作 Issue 支援的；
+另外根據官方所敘述，他建議，如果真的想在 Mac 模擬 Windows ，
+在上 Docker，可以使用 Windows 2016，因為 Windows 2016 有原生版本的，
+而 Windows 10 目前只有 Hyper-V 版本。
+( Switch 模式的說明，在下面會敘述 )</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 356px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/c17f1ee5ef8f2922ea0f59188383d159/323b2/04.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 169.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAiCAIAAADQyG7qAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAFnUlEQVRIx41Va2wUVRQe5WXUX+gPA0KD8mhBEDSSaEgkShQogdIoUjBRjAZNKEJLwJbwaC2QKAkVJCCJNtUCidEfPNqgQGpRA+XRx+52HzO73Z3dne5zdt7PnZnrmZmlrUGNN2dvzr3nfvc87pxvsTvBkUCckUWOZVmBF1RV1e4PVx3dcRTVXRaLxZFUCoum2BynF3XVMAzTNNH/GJZlwcywLKaoGmiKomTS6Vwul8/nGIZhGcZVOI4tMEwmkwG9QNNZZwiCCBBJVjHVAUMkVDJBxuNJKpnL5rKZTDweT6fTiTiZSFLxeCKTzlBUMpUaIXCc5XjHnwqeddMwAOwG4w6I37TsAblYjmqahmmZ7hFn0xBkDdP1oijwgYAfxwleEMLhMPinaXpoyBeNRXz+AMsyZIwkQkQkEg4PR/PZrNfrhaD0ooHBNTzHeXy+BJUMEyGv1xcOR4YjYQIngiE8SVGpEQp2CCIMWL8/kE6l3eig7OAZwtY5lpFkBV6rUGAZyIkXYKYZlhdEjuNAhyIWHIFUi4ZZAsPT8SrK8SayipCYnR2kZxr/+k7IzrtoGJIsY7A8d8XzcdPZpmPfN3zR3vhl+54j3x5s7TjWdrm1vetYW+fJjl9On796CuTcr6Afb+888cOVtp+ucxwPYLRl90nsqTXTXt46f+WOOStqn3m19pHyzbOWb3t2ee28N3Y8vmAzNm0t9nSVKw+XVWNPrl6yug6qa4M/aDiNlVVPf2Xr/De3z3mtFjCTK2oAvGTNnqXVDVNf2PLQ7A0T5m50ZVJ5DTaz+qWq3YIL3vLZaeyJlRNnb8BmrAcDNnM9BnqZo8yowma9BeBRmTD3HfD/4rr74A8bv4GwH13wLjicXG7LpHkbbaWiZkrFpknlG2E5KlMqauDepev3lMDv132NPfb6RHA1fR02vWqcrBunuFL1MEQ3ddXilTtLOe9r/XHGsq2L1+xaBFJZ/9yqnQsr6xeuroMl6LCzqHLX87bV2aysn7Ni+9vbjtqeNV2DHoOW1DWF51hJFEBRFUmRJYFnYV+WREUSmEJB4Dkw6aoCJkO3OxsTBcl9fU2VYyQZDBGSKJJkHL4tPBSCzysWi4WC/kGPPxaNAmMkkxSO45Iow6eJqYpG0/menh5d0+Ec9ANOhIPBABkbhr6FcyRJpigqn8tB9/uHhoKhkD8QBCQ0IiZJiiiK0WgUcggFg0H7FwhHImScjEIz4fZIJpLR4UhkeNi2h3BoEmAdG8zzohs2XAZkkskCEdiUUigAcxRsAinAXMhm0nmazuWy2VwO8io1hguGLi/qGrQuFAiYB8oh8owAhCgIdD5P52lN13mOh96CasEMOdqeBb5UMEGUfUQyEs/4CTJE5m8N4j6CBFeJBHQ6BZUDggPGBFajRkZcDi1xmB1G0crzRoYzWNnK8kVoUlm3/oND3X7W/qFnEaJ5uRen/PGMTWmWYY0bLkOXmGSM95xOty2WWdcZKGu9ObO27aufg2cuxTlBcUvzN8/A2GNE7uBhdPflt3XQm76jFu2/sayht+tWzj1hjQZWCltVbG8ONqsi1eYfq+ls5KN21HjqbvMF9tN2NkzmXQd8EXF6Ca/YTyWXck5I6LAPXRuxb+n+w3f+WmJ3F7/2gll/Lik5fxGaYbWF0RkCKcZ9zyd92tUUuphAh7zowADaN4A6oqgzqhy9LXzSo793RTpwV7k8ApeiE0HbCnI8gK6l0cWoijX3aXsH0N5+1ORBzR70ucc27x1E+0D3ocN+1OxDDf0IzhwYtK0g4KMRlvdU7FC/1uJFLQ7SAVsHPajTm/jz3uDlntsXf7vZ3dt33Rc77DWbx87Y9x4ZULGWfm101wXv96AuT+Lmnb4LV3suXf/9Ru+9bm+0xWM2jTvW5EWH+h8Aj90C5iFbQHnQ6oL/AiFDSLEEfPaKAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="04"
+        title="04"
+        src="/static/c17f1ee5ef8f2922ea0f59188383d159/323b2/04.png"
+        srcset="/static/c17f1ee5ef8f2922ea0f59188383d159/56d15/04.png 200w,
+/static/c17f1ee5ef8f2922ea0f59188383d159/323b2/04.png 356w"
+        sizes="(max-width: 356px) 100vw, 356px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>初體驗</h2>
+<p>接下來，如官方教學，我們可以試著下底下指令。
+從底下指令，我們可以看到 Docker 的版本。
+其中 docker ps 可以看到目前有哪些容器在運作中，現在自然沒有任何容器可以運作。</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">docker --version Docker version 
+docker-compose --version 
+docker-machine --version 
+docker ps
+docker version
+docker info</code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/74e6c7390b1fc9078ab7a005123df768/e2f49/05.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 53.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABUUlEQVQoz42SbW+CMBCA+y/EaVHeKS0UcIhMdMncS+Lv2CcNDpTModt/30ENms0lS540d+09XI4WrdavhyrflZt8uym2b3mRtRQNf+1kmxWac/2JG7E11FWsanIfS33ckeUuliV52B0oN1juwg7QBFIPd3pNCjFaJHyZBss4mIYeDxjnhDKDMhNwqAEQp0bEZ5wa9DwNHiduMqJhrZket22iEkcDILCJZtl16nq2xwmsNa7FmOkyE72k4UNEKNWsuk4BH6phJY4OJjQRKTjcdwAhC9BiFs/HfhQyKG1a1Y5pKeBcAg6DhuBcypO7yAvoeBLCV5sJ9R9aK59p5TSNfZ/eRr4fUDgQQ/5Xnt8ncRJMZ3E4cuGXiOa/EQOf4ESADAsrujQYSnCxzWVKV1G1/gkdngPWGlBZFlW1Pxw/gOPndQ5t/FXtP8r3Ms9262KXfQNNo4usKIA51QAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="05"
+        title="05"
+        src="/static/74e6c7390b1fc9078ab7a005123df768/78d47/05.png"
+        srcset="/static/74e6c7390b1fc9078ab7a005123df768/56d15/05.png 200w,
+/static/74e6c7390b1fc9078ab7a005123df768/d9f49/05.png 400w,
+/static/74e6c7390b1fc9078ab7a005123df768/78d47/05.png 800w,
+/static/74e6c7390b1fc9078ab7a005123df768/64756/05.png 1200w,
+/static/74e6c7390b1fc9078ab7a005123df768/e2f49/05.png 1366w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接下來，我們可以下</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">docker run hello-world</code></pre></div>
+<p>這邊會下一個 Ubuntu 的 Images，並且會把這個 Container run 起來；
+這個容器是 Linux Container 的，所以如果已經 switch 到 Windows Container，請要先切回 Linux Container</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/8928c37373ad345c84570e5145997231/249e2/06.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 87.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAIAAADUsmlHAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACFklEQVQ4y5WS227TQBCG/R5QbrDj+Lxe78mO7eBDDqTAG3BDhXgMbhGVkJBAbaiQgmgrIREeAG4CaZoDL8Vs0lqJBVWRPo121/vP/DNe5cdk+muxmlwufy6Ws9Xv+RaXy1XFbAEsgel8PpnOphcXr8YrpcebJdNLZhSeFdgNw1JNiVZhXG8tu6JhW6o2OFAeJWy/LQapKClinmm7TdczHLfpeIbt6I5ruMiENRxaWxlN8742eKawkPCQUhFgjgjzOcdCBIz7YUQoQ4xjQhEOnIC4V0k3OA3j8XOlLNM8T7M8Loq0KNsPslaWJ1kWdzpZkoZcYExcUGJs18RNEHe6Wf9h2QP6ea9fFGXa7WVwCCngpOxkg/1uXqRxwhlDdbEIgzCiSSII9XxsA1DE922ELHB7dbJeIN+qi5NUtGIetaQ+bUfQJ5iERIR4lPuybYEhQq71/HbFaRrGMQdXELkIAtmhB7dhTpACBgbDo/AjmP+XnqOIrivzMCRwlTIfTHrIhDoVcHun7FbPvoiwCGUFEVEYr5xw4Di12zU2YkRURDQvkO+mwr5ZWYmlMRtc7XyrrP4zy0bsuHpN5mMHbNu3sV0TX2Pcyja8exdZ/41nNJ+8UHT1bmODdhO6ttfQ9nTJPRnVO2rvqfL249nw/Nvx2fjo9OvRqYywXm/XwOJ8/O7Tl9fHI4iHJ6OXH4ZvTj4fDkcH77//AZnwCdQfapivAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="06"
+        title="06"
+        src="/static/8928c37373ad345c84570e5145997231/78d47/06.png"
+        srcset="/static/8928c37373ad345c84570e5145997231/56d15/06.png 200w,
+/static/8928c37373ad345c84570e5145997231/d9f49/06.png 400w,
+/static/8928c37373ad345c84570e5145997231/78d47/06.png 800w,
+/static/8928c37373ad345c84570e5145997231/249e2/06.png 810w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>在 Docker 裡面，其實是有分 Detached 和 foreground，所謂的 Detached 就是所謂的背景執行 ( -d 參數 )，
+背景執行的時候，基本上，要和 Container 溝通，就只能靠網路芳鄰等機制了；
+也就是說，沒辦法用終端機進行溝通，除非我們再把他給 attach 。</p>
+<p>而如果要使用 foreground，我們則要使用 -it 這個參數。</p>
+<p>所以我們要下 docker run -it ubuntu bash 這個命令的意思就是，我們要運行 ubuntu，
+並使用 foreground 模式，並且於啟動後，進入 bash .</p>
+<p>當然，大家也可以試試看，如果沒有加 -it ，基本上，只 run 一下，馬上就跳回來了 XDD</p>
+<p>那 -it 是甚麼意思呢，根據官方文件如下。
+-i : Keep STDIN open even if not attached
+-t : Allocate a pseudo-tty</p>
+<p>簡單的說，加上 -I   ，無論有無 Attach ，都會確保 STDIN 有持續開啟，而使用 -t ，則會分配一個 tty 。
+( 何謂 STDIN <a href="http://blog.csdn.net/qq_21792169/article/details/50470424">http://blog.csdn.net/qq_21792169/article/details/50470424</a> )
+所以如果只輸入 -t ，沒有 STDIN ，那畫面就會顯示在那邊，一動也不動，也沒辦法輸入；
+所以通常我們必須使用 -it ，才能進行操作。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/6cad8aa068fb50e499431770bc78c3e6/249e2/07.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 87.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAIAAADUsmlHAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACaElEQVQ4y42Sy27TQBSG/RwtsGjjJL7FM7Zn7PFcfEt6iQQrhLrphgrxGGwRFaxAvW0KFCQkskJQVLFAaqM04aU4Y5emLSBV+nR0PPY/55/xb3w9/v7l2/HxyY/x+XQym02mvyZTqLMxcA5Mx5Mp1LO6AqeTyc/T8enZ2fPRzCDET1hIKHa9DuD1Oj3f8npdjQd918c2rPjIdt2245qOZzpu23Va5nDLUBmTinERp5wyTlNOuIxZSlSWkhgTinDg+shB2LEdc469bA4fG0UpikJTVarqZ1meFqWExbJSWc4ZJyyNEhbFcQDDLxxpU23r/hOjrCRo+oM8L0ReCjACDciEiGEL6AeDHKzF9dGuirsg5oLKWgAT6i8QEAEExUlACDxq80Ho3ZisxUJQ7SoJOKdCJmHUw9jFgQeAIAh7sNIo6+u8LpYyETIGwAJMuxSERFc9lmgXlOL5X7gUK5XCCbMslSoR9bWDedDPv/snjTgILRzaKLBgY4xsH1kIu75v30q8WbGHGdko2SOVbqh0yCIUuFHkXzP5P7FkEU8iJWLJiUyp4ASODcNvJV4fDiAPXCX9lUJmaae7BAHSAazT6uhIzrkpXl2rmmCtrQ/ygsMvpTFu8gjBrC/fa/4cDr0rsa/FeckhXoOVIst4pnPK81wnTCkGu9A4gAhAQ3SP5zlpxFS/CwEfzomcHrJroHE8mKNH2ReNbzXrGt/qPnhqmMsLreUFc2mx3brTNv/mLtAB2nXV3NO1tdha3TRe7r/b/TACdo4+7xzp+uexBpqPo9dvP73YPYS6fXD4bH/v1cH77b3DrTcnvwHe6hDjo/3wfwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="07"
+        title="07"
+        src="/static/6cad8aa068fb50e499431770bc78c3e6/78d47/07.png"
+        srcset="/static/6cad8aa068fb50e499431770bc78c3e6/56d15/07.png 200w,
+/static/6cad8aa068fb50e499431770bc78c3e6/d9f49/07.png 400w,
+/static/6cad8aa068fb50e499431770bc78c3e6/78d47/07.png 800w,
+/static/6cad8aa068fb50e499431770bc78c3e6/249e2/07.png 810w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>我們也可以使用</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">docker images</code></pre></div>
+<p>來看看目前已經下載了那些 images。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/0cd414c3d0e2fdef117c43199718824f/249e2/08.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 87.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAIAAADUsmlHAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACtElEQVQ4y13SyW4URxwG8H4KYyOYXmuvru6q6u7qbcbjcRK2N0AcLDA8Aw9gESkSYpHjHGLFXBAccs01SuIlxoZ34t8zY2Ms/VT6evmqlyrvn6Pjk7Pzo9Oz40/nJ+dfTs4+XzpehvPF4eH/n8B/J6d/Hx7/e3j04s8zr24KVxeuKUpnMy1VxkG6HBmcyXKhMgEj5QlhMWUxYQmhYXRny7OlLt3QLEpTVMYUORSYIAkOr4gAIvE3OAx+2vKEikWGmIJZERMYcEkoR5jGc8mAAXQRFjkO7z722nVTtqrudeVsVdvcKCiLlMG7LZuX5SWMOYaT4d0nXlXZsrJN61xT1S18f57nTGVEiITz+Bo2R6DMUHhv25tMu7Z3rrZN3zinKbnFmc/pSDBf8OukCMGyfH/bm/0wnW5MunGz+ePmdKO3hhaFsJYZTYE1bA7yEFIZSREQSbDA4YOnXj9p1zcms81pDzOM667Nu86Me9u1Zl7jheUXUzAlYyjTy3KaYZFhqTCisHrB8LYsYHQEBA8Apz5nywwkv1LuN6q84kgEqU6logzuFqGxzBZikbWh8BUQ4DDXRGuCYCH5vDw2spLYsqS3OeRaRI2MO4W6DNVyyC1khSAMOU16lWhJ0OLJ3VR3vcoNkoJKHisRgULTynKdJoqHkJ1lmYxSHlpNTJY0Kb0oN06ngqKob8sSdgiNOU3aptycTdq64Ay5ys6mE+cKxrCry/Vx2ysBP2hYZ6ej2sQujw1NDENXWY4NGAKxnBpOQCGphWctNgkWCZYYCdjenKY0YQhxfAWZm2foLEhGBInuP/OC0Yo/uuGPVuLoZhSuBf5K4N/4zmg18FeDYG0hDG4GwF+9PXvo/fLbu7fvPr45+PD6j8Gbg4/XwNWXv7/febs/jHv7z3d//XnvYGd3/9Grv74CYMn6I/8ZJRAAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="08"
+        title="08"
+        src="/static/0cd414c3d0e2fdef117c43199718824f/78d47/08.png"
+        srcset="/static/0cd414c3d0e2fdef117c43199718824f/56d15/08.png 200w,
+/static/0cd414c3d0e2fdef117c43199718824f/d9f49/08.png 400w,
+/static/0cd414c3d0e2fdef117c43199718824f/78d47/08.png 800w,
+/static/0cd414c3d0e2fdef117c43199718824f/249e2/08.png 810w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>試玩 Windows Container</h2>
+<p>接下來，我們要下載 Windows Container，
+使用</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">docker pull microsoft/nanoserver</code></pre></div>
+<p>正常情況下，應該會出現底下錯誤</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">Using default tag: latest
+latest: Pulling from microsoft/nanoserver
 
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2017/01/06/Docker-Docker_for_Windows_10_First/';
-      var disqus_title = 'Docker - Docker for Windows 10 入門篇';
-      var disqus_url = 'http://skychang.github.io/2017/01/06/Docker-Docker_for_Windows_10_First/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+如果出現以下訊息：
+5496abde368a: Downloading
+482ab31872a2: Downloading
+unknown blob</code></pre></div>
+<p>那表示目前你使用的是 Linux Containers ， Linux Container 和  Windows Container 是無法共用的，
+也因此，當我們要使用 nanoserver 這個 Container，是 Windows 的 Contaniner ，
+所以如果在 Linux Container 模式底下，是無法使用的，故我們要進行切換一下。
+( 如果看不到這個切換指令，那表示你安裝的是標準版的 Docker for Windows ，請改安裝 Beta 版本 )</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 319px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/4671658bad68d57408f66cc2ddfa8b82/759af/09.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 68%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAIAAACgpqunAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACxUlEQVQoz2WSyU8TcRTH578QSi2tVSwFD54kJmqMICUtrWCA2GJioomICZEIksjRuxfPVCkEl7gekBACRIOSrhdE6DbTznSZrVPaTqed6czUFxAi8ZOXl29+28vvfR9SLBaTyUQsFk8AyUR4J0xSTKVS4Y9TLpc5jsvn8/V/QGRZpigymcTTqTRJUSmCYNhcVRTV48BRQRBIkgShHIKIopTnuASWJIgURdM4jod3drZ3dvmyANvyIaqqQHk2xx2vXBNLhTxDZrgcWxV4VZYglJooS9WDLEsiCFiUqsKHtwuv3DMej8ftds/NzSFkUf6NkoFfqHcLDRMcXVLIgkzzKsOrVEmhy38Fxas5vjY49eJCp905NDTxeMrS3Y2sYfXPodzrDfzdj9T7AD3/LelZjS1s4G9+ZufXIrNLW7Pr6OK2sIrWV2Kqc/yZ1dHncrnGRh/e7O9HUnu1aGZvl8hHM4VIeg+KQ45TJYwWMLK4HUmgVDnJVglOxDnx6eS0o9dmt9stFovVakVURWKpbDadojLpNJ7AohEqnYEO7XdE3Q+lriogoDsvn8/cGhy+0uMYuPOgo9OOiJLEMEw8joFVAE6kwO7Ibjgai9E0q6hqTZFr8Bh0XlGmnkxarbbzV3sNHT1tl3sRSZJyLBONRjEUAyiSxHGCZVkYibIAbqkHhkEGt8Ympq91WQact++OPuq09iEwTAxNYyiayWRxGDIUi6NYpSrCaXhXFMXqISDvjY53XLzUd8MxMnL/elcXAj/j+VKpVORLxUKhINVq9f84GrJhp0vffMpsbjcaW1pb25HNTe/KyurXxaXlpeVPH7+srX/3+QJeb8DnC/r9gVAw5Pf7g8FgKBQKBAI2m12vN5rN5+CmydSGnGg4rWk626Q1abSmkzpzo6YFVhoazkBomgxanV6jbdbqQBgatTqd3thsOH0UfwBh3H2MRLmE0QAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="09"
+        title="09"
+        src="/static/4671658bad68d57408f66cc2ddfa8b82/759af/09.png"
+        srcset="/static/4671658bad68d57408f66cc2ddfa8b82/56d15/09.png 200w,
+/static/4671658bad68d57408f66cc2ddfa8b82/759af/09.png 319w"
+        sizes="(max-width: 319px) 100vw, 319px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>切完後，再下載一次。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/c955c7d074e6f80769cae3c8a6070137/249e2/10.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 60.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAIAAADtbgqsAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACLElEQVQoz3WRTW/TMByH8xW4sL6sL2ub2LEd23HSJk7iNJ1abUK7oElcEBPjjIQYICEYlx0QHNaxXVhfuCLEEXGa1lV02xfgE+GsCC4gPfrpsZOf/JdtTL98PZvPL66uZ5dXs8XV+eLyPM/c/8n5j8uz+WI2v/h2/dPwE0cEphu2eNuyEcAEYgKA3TKRaf0HSGCjUd7de21sKnmvG25n4XZX3o3lVuhvdYRHkYmBhazf2OZfxwASu9FcffDkpZEO+oONfraepT012BzEKnJ9Ljoe4cR2EKI5mGF8k9qBLju6XHn49JUR9zKpoiRTmqzfS3oqiANNmMgojZYZRAETjPuceexm7Ly8+2zfYPqkhLEA2dwC2NZTWQRqkD6ZIr0EBGgBBLaQ2UKWTTGkWI+dl9OuylLpckywpRLpC0qQ5WDQabuCOwQBSrRzwbDepMRue5wz0tTlvX1jI/aSyFERaQtL6G/U9h3oE+jpDkOeAzkGLoE+w4JAgQEnUFKMW5UdXb6Tpd2eUkp6PueuI6XPKaQOaPu0v65U3EG64DqJkn7btZGlrzOLOqhZ3tFP1Y1FEiAlSRo6IXekm+cfpKBLCTiRLl1KJBiCa49evDFWzUZprVSsl4q1YqFaKtRyVqrFSrNabdVXKoXlTrFeLuqslUr11fJa9Xbh1v3Hz433h8Pjk6PJdDyejMbT0XhyOroh9+lo6ZNPY/3P8MPh6enHg+HBwdG7k+Hb48/ffwGHWcOSOyLF2AAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="10"
+        title="10"
+        src="/static/c955c7d074e6f80769cae3c8a6070137/78d47/10.png"
+        srcset="/static/c955c7d074e6f80769cae3c8a6070137/56d15/10.png 200w,
+/static/c955c7d074e6f80769cae3c8a6070137/d9f49/10.png 400w,
+/static/c955c7d074e6f80769cae3c8a6070137/78d47/10.png 800w,
+/static/c955c7d074e6f80769cae3c8a6070137/249e2/10.png 810w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接著，我們就可以把 Windows Container run 起來</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">docker run -it microsoft/nanoserver cmd</code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/abf25f8b051e7500f8e2badaaf350087/249e2/11.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 60.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAIAAADtbgqsAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABVUlEQVQoz5WQy07CUBCG+xgmXgicQmnPpZdTilBoFz6Xa2J0AbaGxFguLk1M3IkUCWkpz+XUUiRQFiZfTmbmP3/+yQiv7x/hYjFffIfL5efXHJiF4SqKoySJ1km82RwA81W8XsfR2zwROo7tui3HbXe6Tddtd51r27bsjmVwajaYqskKrmJSI3QPVqdKGbccQTM1Cg2rkxQZXkylVFYVpilZm032kAmuKC1XICqhTNr64ROVdkVWF6DKFCOcmrU/M6z3uyHY0qLYWWjepW055TyVTPb3Z9J/kjPy2xwdCaS8UOFgSDlI3sFUWdPx4cHoUbLe0A1OuMkMDlBAN4jZ0KymAQW0nDOeS6kKr8m4LqnOjYBqCImXFZRxkVGuAOd5m0pIvMq+iWJJrJZQ+QzpltD3Hn1vMJkE40kwGgfjIqbT0XDoe/5gFLzceb2ef//89HDbD34ASDe4JCmpsZMAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="11"
+        title="11"
+        src="/static/abf25f8b051e7500f8e2badaaf350087/78d47/11.png"
+        srcset="/static/abf25f8b051e7500f8e2badaaf350087/56d15/11.png 200w,
+/static/abf25f8b051e7500f8e2badaaf350087/d9f49/11.png 400w,
+/static/abf25f8b051e7500f8e2badaaf350087/78d47/11.png 800w,
+/static/abf25f8b051e7500f8e2badaaf350087/249e2/11.png 810w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>管理 Container 與建立 Image</h2>
+<p>接著，我們依據官方的教學，來建立一個新的檔案，只要執行這個 ps，他就會於畫面顯示
+Hello World.</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">Powershell.exe Add-Content c:\helloworld.ps1 &#39;Write-Host &quot;Hello World&quot;&#39;</code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/14b7c9b3c65ff1376c7dbc3b9e19e1f3/249e2/12.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 60.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAIAAADtbgqsAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACAUlEQVQoz12Qy27aQBSG/Ra9AIGAPeO5eC6MGdvYmDSpREnU9+myqrpJlSakmxSabdVFF1EJJU1IgKQv1sOl9GJ9Gp2x5jv/mXE+ffk6/D4ejq8ur64vLkcXw9G30fjH7d1kNr+Zzm5m88nsfsH8YTK/v53/hOJ6Or+bTj+PH5wotnkW5a24mTTyLM7SKIlNmjTqitd1IAKfEpcSj1GPUs/3a94CF3llZDMnVeKlkR0ddCTbN7Jblx3JD4w6aOiukftGvdACfnaN6mqRMewSzyPIQxUc5U6Y2DgOtQ4aVpu6iBMbRaGLthG0X+Bh4sGKCEIEI7bCR34Vx21HGGUaShspdEADwgWF1cM1F1ddVPVAo3jNSuMAQaS2kKM0TprWNLSNTCBAcyFKGRmnNm7aQPHFDSn6x2dLGcZO263dvTzLm1meCsWixGLiMkGePd9JWwk05ZIhshybonUXCPeXsrbGxgYOwdHQakijHOtQ7ey2uVhomG40tA7fjI2h8qvQSSgu6wELCIwa2roONbyCDwLEbky6uvZvGR6MBz4XhHIfMkFmnBCOCWzh/STjknPFmQQCplYILjBr7TmFSqlYelz4nyeFLeDphmK5UKwUC5ViqVIqbW8VS4/KInQO38N31B98/Iv+kj/14HzQO+0dnRyfnfXfHL99fXL4offu1fH5L2ndtg1ZiEVYAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="12"
+        title="12"
+        src="/static/14b7c9b3c65ff1376c7dbc3b9e19e1f3/78d47/12.png"
+        srcset="/static/14b7c9b3c65ff1376c7dbc3b9e19e1f3/56d15/12.png 200w,
+/static/14b7c9b3c65ff1376c7dbc3b9e19e1f3/d9f49/12.png 400w,
+/static/14b7c9b3c65ff1376c7dbc3b9e19e1f3/78d47/12.png 800w,
+/static/14b7c9b3c65ff1376c7dbc3b9e19e1f3/249e2/12.png 810w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>還記得一開始我們執行過 docker ps 嗎，現在我們使用另外一個指令。 </p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">docker ps -a</code></pre></div>
+<p>透過這個指令，我們可以看到已經被"終止"的 Container；是的，沒看錯，是被終止。
+如下圖，我們可以看到，小弟我其實執行了兩次 docker run -it microsoft/nanoserver cmd，
+第一次的時候，直接在 cmd 下 exit 離開。
+第二次的時候，則是我們剛剛的上一步範例，使用 PowerShell.exe 建立了一個新的檔案。</p>
+<p>所以，其實我們每次執行  docker run -it microsoft/nanoserver cmd
+都是會產生一個全新的 Windows Container 喔!!
+而離開的時候，其實那個 Container 還是存在的。
+但是，如果關機了，這個 Container 就會消失了，換言之，剛剛你做的一些事情
+( 例如使用 PowerShell.exe 建立的檔案 )
+就等同於不存在了。</p>
+<p>所以，我們必須要使用</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">Docker commit [CONTAINER ID] [名稱]</code></pre></div>
+<p>來將剛剛改變的容器，變成映像檔 ( Image )</p>
+<p>所以如下圖，當我們下完 commit 後，我們就可以看到，新的 Image hellowold 產生了；
+當產生了這個 Image 後，我們就可以像影分身之術一樣，產生多個鳴人；
+阿不是，是多個 Container。˙</p>
+<p>p.s 如果已經離開，被終止了，而想重新啟動，可以使用 Start，然後用 attach 進入此容器</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">Docker start [CONTAINER ID]
+docker attach [CONTAINER ID]</code></pre></div>
+<p>如果想刪除其中一個 Container，可以用</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">Docker rm [CONTAINER ID]</code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/367fda303ed6ab0bb94ae1746caddfaa/e19bc/13.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 36.50000000000001%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAIAAACHqfpvAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABgElEQVQY0yWNy27bMBRE9QVdFant6umIIilSpEjJVmynimBZLwcB4j42aZqi+6zyCy3SyLZiOUWXXfVHS6DAwWDmXmBG+95uu8Nh23Vd37fdvusPj+1Tu991x/7nTulx+/zcdp1it1d5//L71+Glf3z6cfzzV/MZHHsj3XxjO7ppjUx7NBi+1o2B7RhvjaGljo5ujc2hPjCsofoCaAPPPjl5VVy/1/J0Op8FgmNBUUhRIrnSiQwiTiSnsWCCkUgw5ReTMJRUSCojhrHz4cs37TKbr5PwMuZZEqWSn0kWYhAzfD6NYkYW02gWy7NYxGGQBJhxPJtPpomEnrn5fKetEr55Jz4m8lMsSjUX4ID5CkwgxMDDAPkQEYQIpMF/EAt9Dxib2zstW0zSOEiIR4jnuJaIOOU+pohJBn1IOD2F7ikCLgLYd30CFKrCHY+ub261/KouroqsXuVNfZEv87pa1lVWFvm6uSjLZdOkRZmWpfKrpizWVV4VeVOdZ4uv9w//AJI5Z0y/xFDuAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="13"
+        title="13"
+        src="/static/367fda303ed6ab0bb94ae1746caddfaa/78d47/13.png"
+        srcset="/static/367fda303ed6ab0bb94ae1746caddfaa/56d15/13.png 200w,
+/static/367fda303ed6ab0bb94ae1746caddfaa/d9f49/13.png 400w,
+/static/367fda303ed6ab0bb94ae1746caddfaa/78d47/13.png 800w,
+/static/367fda303ed6ab0bb94ae1746caddfaa/64756/13.png 1200w,
+/static/367fda303ed6ab0bb94ae1746caddfaa/e19bc/13.png 1346w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>當我們產生一個新的 image 後，我們就可以使用 run 的方式，在 run 出一個 Container，
+但這邊加上了 --rm 的參數，
+表示當我們 run 起來這個 Container 並且執行完 helloworld.ps1 後，
+會自動刪除這個 Container。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/aa71b8b4120e8b2a8ba4da49ebae2b7d/e19bc/14.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 36.50000000000001%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAIAAACHqfpvAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABXElEQVQY0y2O227aQBCG/RQRobY5rdc7O3vyAeIWSho7Xg5Kb/pAuYnUgo0NJOr7doMqfRrNL803M97bsenO/fHUtuf+cGpOl/Pv48HF7nr507p6bfr+6Oi6tnP59P73o7+em/bw2lw8UJTyEaHjGIir4Xg4/HLnB/fjaTgMBuHEDydBMPaH/sAPB+HonsaTWTQKg7sQuLdY5V/XqcmkSqROpMm0TpVOtTQSJAeJTACTwBVXCeoElQZt0GimiqX3bfUwz2ViMDFuihRFnmVKSEjnKZfcbaE8pshiwVBSqdgNkCLCReFVC/00x6WCpeLfjSiQrdxJILN4FrHI8V/GT1nIT1ncZOHkYpmnOacwAx5Nych9jpKBiHWiQIAwgjBCbluAE44RYsSRIkwhm3vPL9vNT1tt7ZOt11VZbTeOH7au9vtHa8vdbm2tw/XPO1vvN9WmLrd1acvHl1//AD32YqW2M0CqAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="14"
+        title="14"
+        src="/static/aa71b8b4120e8b2a8ba4da49ebae2b7d/78d47/14.png"
+        srcset="/static/aa71b8b4120e8b2a8ba4da49ebae2b7d/56d15/14.png 200w,
+/static/aa71b8b4120e8b2a8ba4da49ebae2b7d/d9f49/14.png 400w,
+/static/aa71b8b4120e8b2a8ba4da49ebae2b7d/78d47/14.png 800w,
+/static/aa71b8b4120e8b2a8ba4da49ebae2b7d/64756/14.png 1200w,
+/static/aa71b8b4120e8b2a8ba4da49ebae2b7d/e19bc/14.png 1346w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>最後，如果覺得連 Image 都不需要，那可以直接下 rmi 來刪除 Image.</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">Docker rmi [REPOSITORY]</code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/8c4be074b1860ffb21b2f1b6f3f42a86/e76f9/15.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 49%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAA+0lEQVQoz4WRi07DMAxF+y+o6yNO4rwfdGth0gDx///DpRsMTXSTrqwk8nF87SYmS7KLyfigNY8j7UZq13hPg2j74amZl6kUPx0yYDZCqh61IBweqtkfUiqm1OC8YhZS9mf+b9JWrWa/+PQs2Qy4KD2wJSE7xPMVRkAaS6R69KVZkLoWauZjDYXZCue1oK7W4CMjG70gG7OQaths+/MlfyzxfUreK6mHEDmsMCJgs7awCb+91tOST0st1UMp25htLj4Vh29H0d6D52Mqs2VH5tvtDrBzyhhK2cEzvFxmtuoW1gZTwWx+ny4OQd6k/gMTdiOvKxE/WyH5eM9fmCxsgMPkxhIAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="15"
+        title="15"
+        src="/static/8c4be074b1860ffb21b2f1b6f3f42a86/78d47/15.png"
+        srcset="/static/8c4be074b1860ffb21b2f1b6f3f42a86/56d15/15.png 200w,
+/static/8c4be074b1860ffb21b2f1b6f3f42a86/d9f49/15.png 400w,
+/static/8c4be074b1860ffb21b2f1b6f3f42a86/78d47/15.png 800w,
+/static/8c4be074b1860ffb21b2f1b6f3f42a86/64756/15.png 1200w,
+/static/8c4be074b1860ffb21b2f1b6f3f42a86/e76f9/15.png 1344w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>到這邊，基本上，大家應該就會對於 Docker 有了一個基礎的認識，接下來，
+我們就會開始進入，IIS 等相關服務嚕!</p>
+<h2>後記</h2>
+<p>等了很久，終於看到 ( 也終於比較有時間 ) 可以好好的測試一下 Windows Container，
+後續，就讓我們持續看下去!!</p>
+<h2>參考資料</h2>
+<ul>
+<li><a href="https://msdn.microsoft.com/zh-tw/virtualization/windowscontainers/quick_start/quick_start_windows_10">https://msdn.microsoft.com/zh-tw/virtualization/windowscontainers/quick_start/quick_start_windows_10</a></li>
+<li><a href="https://docs.docker.com/docker-for-windows/">https://docs.docker.com/docker-for-windows/</a></li>
+<li><a href="https://hub.docker.com/r/microsoft/nanoserver/">https://hub.docker.com/r/microsoft/nanoserver/</a></li>
+<li><a href="https://forums.docker.com/t/unknown-blob-when-pulling-microsoft-nanoserver/20291/5">https://forums.docker.com/t/unknown-blob-when-pulling-microsoft-nanoserver/20291/5</a></li>
+<li><a href="https://docs.docker.com/engine/reference/run/">https://docs.docker.com/engine/reference/run/</a></li>
+<li><a href="http://dockone.io/article/152">http://dockone.io/article/152</a></li>
+<li><a href="https://philipzheng.gitbooks.io/docker_practice/content/container/">https://philipzheng.gitbooks.io/docker_practice/content/container/</a></li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/">https://docs.docker.com/engine/reference/commandline/</a></li>
+</ul></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2017/01/06/Docker-Docker_for_Windows_10_First/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>

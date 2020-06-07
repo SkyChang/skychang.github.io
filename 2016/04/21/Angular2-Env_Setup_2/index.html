@@ -1,704 +1,610 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="JavaScript,Angular2,Webpack,TypeScript," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="前言前篇介紹到，透過 Webpack 進行 ts 的編譯，這篇，我們就來談談 Hot Reload. 注意事項 此文章的版本為 angular2 beta 15 ，未來應該也不會跟著版本更新…請看的朋友注意 裡面 Webpack 版本為 1.x , 2.x 可能會有幅度變動，請直接參考 angular2-webpack-stater 此文章壟長，且未必能 100% 成功 ( 因 Package 相">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Angular2 - 與 Webpack 整合環境設定 - 2">
-<meta property="og:url" content="http://skychang.github.io/2016/04/21/Angular2-Env_Setup_2/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="前言前篇介紹到，透過 Webpack 進行 ts 的編譯，這篇，我們就來談談 Hot Reload. 注意事項 此文章的版本為 angular2 beta 15 ，未來應該也不會跟著版本更新…請看的朋友注意 裡面 Webpack 版本為 1.x , 2.x 可能會有幅度變動，請直接參考 angular2-webpack-stater 此文章壟長，且未必能 100% 成功 ( 因 Package 相">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://skychang.github.io/2016/04/21/Angular2-Env_Setup_2/01.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/21/Angular2-Env_Setup_2/02.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/21/Angular2-Env_Setup_2/03.png">
-<meta property="article:published_time" content="2016-04-21T23:50:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:38.840Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="JavaScript">
-<meta property="article:tag" content="Angular2">
-<meta property="article:tag" content="Webpack">
-<meta property="article:tag" content="TypeScript">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://skychang.github.io/2016/04/21/Angular2-Env_Setup_2/01.png">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> Angular2 - 與 Webpack 整合環境設定 - 2 | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Angular2 - 與 Webpack 整合環境設定 - 2
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-04-21T23:50:00+00:00" content="2016-04-21">
-              2016-04-21
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/21/Angular2-Env_Setup_2/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/04/21/Angular2-Env_Setup_2/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前篇介紹到，透過 Webpack 進行 ts 的編譯，這篇，我們就來談談 Hot Reload.</p>
-<h2 id="注意事項"><a href="#注意事項" class="headerlink" title="注意事項"></a>注意事項</h2><ul>
-<li>此文章的版本為 angular2 beta 15 ，未來應該也不會跟著版本更新…請看的朋友注意</li>
-<li>裡面 Webpack 版本為 1.x , 2.x 可能會有幅度變動，請直接參考 <a href="https://github.com/angularclass/angular2-webpack-starter" target="_blank" rel="noopener">angular2-webpack-stater</a></li>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">Angular2 - 與 Webpack 整合環境設定 - 2 :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="前言 前篇介紹到，透過 Webpack 進行 ts 的編譯，這篇，我們就來談談 Hot Reload. 注意事項 此文章的版本為 angular2 beta 15 ，未來應該也不會跟著版本更新...請看的朋友注意 裡面 Webpack 版本為 1.x , 2.x…"/><meta data-react-helmet="true" property="og:title" content="Angular2 - 與 Webpack 整合環境設定 - 2"/><meta data-react-helmet="true" property="og:description" content="前言 前篇介紹到，透過 Webpack 進行 ts 的編譯，這篇，我們就來談談 Hot Reload. 注意事項 此文章的版本為 angular2 beta 15 ，未來應該也不會跟著版本更新...請看的朋友注意 裡面 Webpack 版本為 1.x , 2.x…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="Angular2 - 與 Webpack 整合環境設定 - 2"/><meta data-react-helmet="true" name="twitter:description" content="前言 前篇介紹到，透過 Webpack 進行 ts 的編譯，這篇，我們就來談談 Hot Reload. 注意事項 此文章的版本為 angular2 beta 15 ，未來應該也不會跟著版本更新...請看的朋友注意 裡面 Webpack 版本為 1.x , 2.x…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2016/04/21/Angular2-Env_Setup_2/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">Angular2 - 與 Webpack 整合環境設定 - 2</h1><div class="post-module--meta--3YtjE">21 April 2016<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/JavaScript/"><span class="post-module--tag--16U9p">#<!-- -->JavaScript</span></a><a href="/tag/Angular2/"><span class="post-module--tag--16U9p">#<!-- -->Angular2</span></a><a href="/tag/Webpack/"><span class="post-module--tag--16U9p">#<!-- -->Webpack</span></a><a href="/tag/TypeScript/"><span class="post-module--tag--16U9p">#<!-- -->TypeScript</span></a></div></div><div><h2>前言</h2>
+<p>前篇介紹到，透過 Webpack 進行 ts 的編譯，這篇，我們就來談談 Hot Reload.</p>
+<h2>注意事項</h2>
+<ul>
+<li>此文章的版本為 angular2 beta 15 ，未來應該也不會跟著版本更新...請看的朋友注意</li>
+<li>裡面 Webpack 版本為 1.x , 2.x 可能會有幅度變動，請直接參考 <a href="https://github.com/angularclass/angular2-webpack-starter">angular2-webpack-stater</a></li>
 <li>此文章壟長，且未必能 100% 成功 ( 因 Package 相依性、Webpack 版本、angular2 版本 可能會造成差異 )</li>
-<li>有興趣的朋友，可以直接參考 <a href="https://github.com/angularclass/angular2-webpack-starter" target="_blank" rel="noopener">angular2-webpack-stater</a> Source Code</li>
-<li>文章內容的所有 Soucre 來源為 <a href="https://github.com/angularclass/angular2-webpack-starter" target="_blank" rel="noopener">angular2-webpack-stater</a> ，小弟只是針對內容進行解析紀錄</li>
-<li>文章開頭會以 <a href="https://angular.io/docs/ts/latest/quickstart.html" target="_blank" rel="noopener">Quickstart</a> 為起始</li>
+<li>有興趣的朋友，可以直接參考 <a href="https://github.com/angularclass/angular2-webpack-starter">angular2-webpack-stater</a> Source Code</li>
+<li>文章內容的所有 Soucre 來源為 <a href="https://github.com/angularclass/angular2-webpack-starter">angular2-webpack-stater</a> ，小弟只是針對內容進行解析紀錄</li>
+<li>文章開頭會以 <a href="https://angular.io/docs/ts/latest/quickstart.html">Quickstart</a> 為起始</li>
 <li>官方 Source Code 裡面有很多的註解，但本篇文章，因為篇幅關係，小弟會把註解拿掉</li>
 </ul>
-<h2 id="將-app-目錄放到-src-目錄"><a href="#將-app-目錄放到-src-目錄" class="headerlink" title="將 app 目錄放到 src 目錄"></a>將 app 目錄放到 src 目錄</h2><p>當然，這一步不是必要的，但為了配合 angular2-webpack-stater 的目錄結構 ( 而且小弟我覺得這樣也不錯 )<br>所以我們就先進行小幅度調整一下。</p>
+<h2>將 app 目錄放到 src 目錄</h2>
+<p>當然，這一步不是必要的，但為了配合 angular2-webpack-stater 的目錄結構 ( 而且小弟我覺得這樣也不錯 )
+所以我們就先進行小幅度調整一下。</p>
 <p>首先，我們就先把整個 app 目錄，拷貝到 src 目錄底下。</p>
-<p><img src="01.png" alt=""></p>
-<p>接著，調整一下 webpack.config.js，將 main 的地方改成 ‘main’: ‘./src/app/main.ts’，<br>exclude 也改成 exclude: [helpers.root(‘src/app/index.html’)]</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 226px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/c40c6ea13f2267592e8aa3a20cbcc857/9e144/01.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 177.99999999999997%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAkCAYAAACJ8xqgAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAD/klEQVRIx51WWXPiZhDkjxgwlxGnAB1IQreEBBh7105lq1KpiivZbGpTecn/f+j0fBwbrzHG+zBIlqVWz9E9qnQ6NxgMhhiOxtAnU3iuhzHP5fqPRKXZbGGiT+B4PvJlgfvtB2xXa8j1Vqv97qjIj6b1MNansB0PWrerwDrtDto/EApQF4YLH+X6DlN9jHr9Go3rBq4Zci7HVkse2LF4E7DX62M4GGE2m8G05xiPdVjWHPZ8DtdbwDKtPdgFDFUN2QzbcrAsCqw2t4jDGMvlGuVqhc32DmVRsuBvszsylO5Ih0fsbqPRVDU8pPrulA8MoyTFwvd39Wu01Eue33xhyvIjoHLU2ekgjDCd6LtOvwB9HqfYHgGl08Lyw+MjzJmOarWu0q/VrhVriZqkfyxB+yRo5XBBQGvVGm66PTiuA8MwYLC7nuepbs/ZfVHRnLHr+hmG6h9Mr0lGM9PGw+NHJEmCIIqwuV1je3ePZZZjxW6n+RJxFKtyvAp4CGE5HIzhzBfw3QVs29oxr9V3Ke+PZ1M+BZjGOVKySLMUfQ79YbQ6nQub8gxwOGatfPhUiMMY9Al4BuBNwEF/hChIEQchAT30NQ1XV1WV5gH0HPALwNFIx2IRIlwEmLO7DruaZhlcxzmmfo5tpf2/NwoLrdtHuGcYxTFHxkGUpvAWLmezxlnczedrbI8MG2q4pxyXFGkSMe2YrFwEQUSzSBD6oYp1saET2cymeT7lpthYf8ABdlR64j5iZ3m2RET3yZJMAS7cANPpDK29XE+6zTf5GYiiENkyx7a8RUSzmExmqin1vfNclLKAVa9qfNhEnMTwgwChF1IREUzKrHXCKF5tysEYAjYhE1lRciItraehWvuOzQWzqFIeDAY0ApvpJpTbXOlY62rH2WvvwS5aUodxMQwTa1q+sEvijNZ/S+AMfdmCFyjkhdvIsp9z5iSmdHDTMrlaJ3zZNWvcfp/0pI625XIxlSjY4TwveCzo3hyXNKcce0dXvxjQmFlKZpZlIWTavh/w74UyVk3rXsTuCCidNOcebjdbrMqC0gtZxwTdmxs1e69539ka9llDm5KaTiasna4+mEReske+bb131NClVcU0gShO+cF0j4QzWZZrFHl2MbvnXR6OqApbjY/UM2AdZSYN6vl7p35z0ctoSENW6w0Kfo7keU6HifhpsmIZDKXfVqulSvBWVEajidojlu0hSZdwaf8y2GmS02ipZcNCny4uMRzqkPvPRSVJ1pRciY8Pv+CPz3/jz89f8fT0BU+/fcGnn3/l+V/4+s+/+J3Hnx4+caRKyDNJsjoZFdN0WTeHbCi5ZKm+urKsRMzNF0X0wJDunRTYrO/hczXIvfLMa/EfvElLdxkhWm0AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="01"
+        title="01"
+        src="/static/c40c6ea13f2267592e8aa3a20cbcc857/9e144/01.png"
+        srcset="/static/c40c6ea13f2267592e8aa3a20cbcc857/56d15/01.png 200w,
+/static/c40c6ea13f2267592e8aa3a20cbcc857/9e144/01.png 226w"
+        sizes="(max-width: 226px) 100vw, 226px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接著，調整一下 webpack.config.js，將 main 的地方改成 'main': './src/app/main.ts'，
+exclude 也改成 exclude: [helpers.root('src/app/index.html')]</p>
 <p>完整 webpack.config.js</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: <span class="doctag">@AngularClass</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</span><br><span class="line"><span class="keyword">const</span> helpers = <span class="built_in">require</span>(<span class="string">'./config/helpers'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> CopyWebpackPlugin = <span class="built_in">require</span>(<span class="string">'copy-webpack-plugin'</span>);</span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>);</span><br><span class="line"><span class="keyword">const</span> ForkCheckerPlugin = <span class="built_in">require</span>(<span class="string">'awesome-typescript-loader'</span>).ForkCheckerPlugin;</span><br><span class="line"><span class="keyword">const</span> DefinePlugin = <span class="built_in">require</span>(<span class="string">'webpack/lib/DefinePlugin'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line"></span><br><span class="line">  debug: <span class="literal">true</span>,</span><br><span class="line">  devtool: <span class="string">'cheap-module-eval-source-map'</span>,</span><br><span class="line">  entry: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">'polyfills'</span>: <span class="string">'./src/polyfills.ts'</span>,</span><br><span class="line">    <span class="comment">//'vendor': './src/vendor.ts',</span></span><br><span class="line">    <span class="comment">//'main': './src/main.browser.ts'</span></span><br><span class="line">    <span class="string">'main'</span>: <span class="string">'./src/app/main.ts'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: helpers.root(<span class="string">'dist'</span>),</span><br><span class="line">    filename: <span class="string">'[name].bundle.js'</span>,</span><br><span class="line">    sourceMapFilename: <span class="string">'[name].map'</span>,</span><br><span class="line">    chunkFilename: <span class="string">'[id].chunk.js'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  resolve: &#123;</span><br><span class="line">    extensions: [<span class="string">''</span>, <span class="string">'.ts'</span>, <span class="string">'.js'</span>],</span><br><span class="line">    root: helpers.root(<span class="string">'src'</span>),</span><br><span class="line">    modulesDirectories: [<span class="string">'node_modules'</span>]</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    preLoaders: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        loader: <span class="string">'source-map-loader'</span>,</span><br><span class="line">        exclude: [</span><br><span class="line">          <span class="comment">// these packages have problems with their sourcemaps</span></span><br><span class="line">          helpers.root(<span class="string">'node_modules/rxjs'</span>),</span><br><span class="line">          helpers.root(<span class="string">'node_modules/@angular2-material'</span>)</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">    loaders: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.ts$/</span>,</span><br><span class="line">        loader: <span class="string">'awesome-typescript-loader'</span>,</span><br><span class="line">        exclude: [<span class="regexp">/\.(spec|e2e)\.ts$/</span>]</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.json$/</span>,</span><br><span class="line">        loader: <span class="string">'json-loader'</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">        loader: <span class="string">'raw-loader'</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.html$/</span>,</span><br><span class="line">        loader: <span class="string">'raw-loader'</span>,</span><br><span class="line">        <span class="comment">//exclude: [helpers.root('src/index.html')]</span></span><br><span class="line">        exclude: [helpers.root(<span class="string">'src/app/index.html'</span>)]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> ForkCheckerPlugin(),</span><br><span class="line">    <span class="keyword">new</span> webpack.optimize.OccurenceOrderPlugin(<span class="literal">true</span>),</span><br><span class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">      name: helpers.reverse([<span class="string">'polyfills'</span>, <span class="string">'vendor'</span>])</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> CopyWebpackPlugin([&#123;</span><br><span class="line">      <span class="keyword">from</span>: <span class="string">'src/assets'</span>,</span><br><span class="line">      to: <span class="string">'assets'</span></span><br><span class="line">    &#125;]),</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      <span class="comment">//template: 'src/index.html',</span></span><br><span class="line">      template: <span class="string">'index.html'</span>,</span><br><span class="line">      chunksSortMode: helpers.packageSort([<span class="string">'polyfills'</span>, <span class="string">'vendor'</span>, <span class="string">'main'</span>])</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> DefinePlugin(&#123;</span><br><span class="line">      <span class="string">'ENV'</span>: <span class="built_in">JSON</span>.stringify(<span class="string">'development'</span>),</span><br><span class="line">      <span class="string">'HMR'</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="string">'process.env'</span>: &#123;</span><br><span class="line">        <span class="string">'ENV'</span>: <span class="built_in">JSON</span>.stringify(<span class="string">'development'</span>),</span><br><span class="line">        <span class="string">'NODE_ENV'</span>: <span class="built_in">JSON</span>.stringify(<span class="string">'development'</span>),</span><br><span class="line">        <span class="string">'HMR'</span>: <span class="literal">false</span>,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">  ],</span><br><span class="line">  </span><br><span class="line">  tslint: &#123;</span><br><span class="line">    emitErrors: <span class="literal">false</span>,</span><br><span class="line">    failOnHint: <span class="literal">false</span>,</span><br><span class="line">    resourcePath: <span class="string">'src'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  </span><br><span class="line">  devServer: &#123;</span><br><span class="line">    port: <span class="number">3000</span>,</span><br><span class="line">    host: <span class="string">'localhost'</span>,</span><br><span class="line">    historyApiFallback: <span class="literal">true</span>,</span><br><span class="line">    watchOptions: &#123;</span><br><span class="line">      aggregateTimeout: <span class="number">300</span>,</span><br><span class="line">      poll: <span class="number">1000</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  node: &#123;</span><br><span class="line">    global: <span class="string">'window'</span>,</span><br><span class="line">    crypto: <span class="string">'empty'</span>,</span><br><span class="line">    process: <span class="literal">true</span>,</span><br><span class="line">    <span class="built_in">module</span>: <span class="literal">false</span>,</span><br><span class="line">    clearImmediate: <span class="literal">false</span>,</span><br><span class="line">    setImmediate: <span class="literal">false</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">/**
+ * @author: @AngularClass
+ */</span>
 
+<span class="token keyword">const</span> webpack <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'webpack'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> helpers <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./config/helpers'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> CopyWebpackPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'copy-webpack-plugin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> HtmlWebpackPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'html-webpack-plugin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> ForkCheckerPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'awesome-typescript-loader'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>ForkCheckerPlugin<span class="token punctuation">;</span>
+<span class="token keyword">const</span> DefinePlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'webpack/lib/DefinePlugin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+
+  debug<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  devtool<span class="token operator">:</span> <span class="token string">'cheap-module-eval-source-map'</span><span class="token punctuation">,</span>
+  entry<span class="token operator">:</span> <span class="token punctuation">{</span>
+
+    <span class="token string">'polyfills'</span><span class="token operator">:</span> <span class="token string">'./src/polyfills.ts'</span><span class="token punctuation">,</span>
+    <span class="token comment">//'vendor': './src/vendor.ts',</span>
+    <span class="token comment">//'main': './src/main.browser.ts'</span>
+    <span class="token string">'main'</span><span class="token operator">:</span> <span class="token string">'./src/app/main.ts'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  output<span class="token operator">:</span> <span class="token punctuation">{</span>
+    path<span class="token operator">:</span> helpers<span class="token punctuation">.</span><span class="token function">root</span><span class="token punctuation">(</span><span class="token string">'dist'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    filename<span class="token operator">:</span> <span class="token string">'[name].bundle.js'</span><span class="token punctuation">,</span>
+    sourceMapFilename<span class="token operator">:</span> <span class="token string">'[name].map'</span><span class="token punctuation">,</span>
+    chunkFilename<span class="token operator">:</span> <span class="token string">'[id].chunk.js'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  resolve<span class="token operator">:</span> <span class="token punctuation">{</span>
+    extensions<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">''</span><span class="token punctuation">,</span> <span class="token string">'.ts'</span><span class="token punctuation">,</span> <span class="token string">'.js'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    root<span class="token operator">:</span> helpers<span class="token punctuation">.</span><span class="token function">root</span><span class="token punctuation">(</span><span class="token string">'src'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    modulesDirectories<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'node_modules'</span><span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  module<span class="token operator">:</span> <span class="token punctuation">{</span>
+    preLoaders<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        test<span class="token operator">:</span> <span class="token regex">/\.js$/</span><span class="token punctuation">,</span>
+        loader<span class="token operator">:</span> <span class="token string">'source-map-loader'</span><span class="token punctuation">,</span>
+        exclude<span class="token operator">:</span> <span class="token punctuation">[</span>
+          <span class="token comment">// these packages have problems with their sourcemaps</span>
+          helpers<span class="token punctuation">.</span><span class="token function">root</span><span class="token punctuation">(</span><span class="token string">'node_modules/rxjs'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+          helpers<span class="token punctuation">.</span><span class="token function">root</span><span class="token punctuation">(</span><span class="token string">'node_modules/@angular2-material'</span><span class="token punctuation">)</span>
+        <span class="token punctuation">]</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+
+    loaders<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        test<span class="token operator">:</span> <span class="token regex">/\.ts$/</span><span class="token punctuation">,</span>
+        loader<span class="token operator">:</span> <span class="token string">'awesome-typescript-loader'</span><span class="token punctuation">,</span>
+        exclude<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token regex">/\.(spec|e2e)\.ts$/</span><span class="token punctuation">]</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        test<span class="token operator">:</span> <span class="token regex">/\.json$/</span><span class="token punctuation">,</span>
+        loader<span class="token operator">:</span> <span class="token string">'json-loader'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        test<span class="token operator">:</span> <span class="token regex">/\.css$/</span><span class="token punctuation">,</span>
+        loader<span class="token operator">:</span> <span class="token string">'raw-loader'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        test<span class="token operator">:</span> <span class="token regex">/\.html$/</span><span class="token punctuation">,</span>
+        loader<span class="token operator">:</span> <span class="token string">'raw-loader'</span><span class="token punctuation">,</span>
+        <span class="token comment">//exclude: [helpers.root('src/index.html')]</span>
+        exclude<span class="token operator">:</span> <span class="token punctuation">[</span>helpers<span class="token punctuation">.</span><span class="token function">root</span><span class="token punctuation">(</span><span class="token string">'src/app/index.html'</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  plugins<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token keyword">new</span> <span class="token class-name">ForkCheckerPlugin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">new</span> <span class="token class-name">webpack<span class="token punctuation">.</span>optimize<span class="token punctuation">.</span>OccurenceOrderPlugin</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">new</span> <span class="token class-name">webpack<span class="token punctuation">.</span>optimize<span class="token punctuation">.</span>CommonsChunkPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      name<span class="token operator">:</span> helpers<span class="token punctuation">.</span><span class="token function">reverse</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'polyfills'</span><span class="token punctuation">,</span> <span class="token string">'vendor'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">new</span> <span class="token class-name">CopyWebpackPlugin</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">{</span>
+      <span class="token keyword">from</span><span class="token operator">:</span> <span class="token string">'src/assets'</span><span class="token punctuation">,</span>
+      to<span class="token operator">:</span> <span class="token string">'assets'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">new</span> <span class="token class-name">HtmlWebpackPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      <span class="token comment">//template: 'src/index.html',</span>
+      template<span class="token operator">:</span> <span class="token string">'index.html'</span><span class="token punctuation">,</span>
+      chunksSortMode<span class="token operator">:</span> helpers<span class="token punctuation">.</span><span class="token function">packageSort</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'polyfills'</span><span class="token punctuation">,</span> <span class="token string">'vendor'</span><span class="token punctuation">,</span> <span class="token string">'main'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">new</span> <span class="token class-name">DefinePlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      <span class="token string">'ENV'</span><span class="token operator">:</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token string">'development'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      <span class="token string">'HMR'</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+      <span class="token string">'process.env'</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token string">'ENV'</span><span class="token operator">:</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token string">'development'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">'NODE_ENV'</span><span class="token operator">:</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token string">'development'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">'HMR'</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  
+  tslint<span class="token operator">:</span> <span class="token punctuation">{</span>
+    emitErrors<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    failOnHint<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    resourcePath<span class="token operator">:</span> <span class="token string">'src'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  
+  devServer<span class="token operator">:</span> <span class="token punctuation">{</span>
+    port<span class="token operator">:</span> <span class="token number">3000</span><span class="token punctuation">,</span>
+    host<span class="token operator">:</span> <span class="token string">'localhost'</span><span class="token punctuation">,</span>
+    historyApiFallback<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    watchOptions<span class="token operator">:</span> <span class="token punctuation">{</span>
+      aggregateTimeout<span class="token operator">:</span> <span class="token number">300</span><span class="token punctuation">,</span>
+      poll<span class="token operator">:</span> <span class="token number">1000</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  node<span class="token operator">:</span> <span class="token punctuation">{</span>
+    global<span class="token operator">:</span> <span class="token string">'window'</span><span class="token punctuation">,</span>
+    crypto<span class="token operator">:</span> <span class="token string">'empty'</span><span class="token punctuation">,</span>
+    process<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    module<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    clearImmediate<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    setImmediate<span class="token operator">:</span> <span class="token boolean">false</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
 <p>完成後，執行 webpack-dev-server 測試看看。</p>
-<h2 id="開啟-Hot-Reload"><a href="#開啟-Hot-Reload" class="headerlink" title="開啟 Hot Reload"></a>開啟 Hot Reload</h2><p>既然要開啟 Hot Reload ，那我們就必須修改一下 webpack.config.js ，我們可以從 DefinePlugin 找到 HMR ，並改成 true。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> DefinePlugin(&#123;</span><br><span class="line">     <span class="string">'ENV'</span>: <span class="built_in">JSON</span>.stringify(<span class="string">'development'</span>),</span><br><span class="line">     <span class="string">'HMR'</span>: <span class="literal">true</span>,</span><br><span class="line">     <span class="string">'process.env'</span>: &#123;</span><br><span class="line">       <span class="string">'ENV'</span>: <span class="built_in">JSON</span>.stringify(<span class="string">'development'</span>),</span><br><span class="line">       <span class="string">'NODE_ENV'</span>: <span class="built_in">JSON</span>.stringify(<span class="string">'development'</span>),</span><br><span class="line">       <span class="string">'HMR'</span>: <span class="literal">true</span>,</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;)</span><br></pre></td></tr></table></figure>
-
+<h2>開啟 Hot Reload</h2>
+<p>既然要開啟 Hot Reload ，那我們就必須修改一下 webpack.config.js ，我們可以從 DefinePlugin 找到 HMR ，並改成 true。</p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"> <span class="token keyword">new</span> <span class="token class-name">DefinePlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      <span class="token string">'ENV'</span><span class="token operator">:</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token string">'development'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      <span class="token string">'HMR'</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token string">'process.env'</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token string">'ENV'</span><span class="token operator">:</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token string">'development'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">'NODE_ENV'</span><span class="token operator">:</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token string">'development'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">'HMR'</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre></div>
 <p>完整的 webpack.config.js</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: <span class="doctag">@AngularClass</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</span><br><span class="line"><span class="keyword">const</span> helpers = <span class="built_in">require</span>(<span class="string">'./config/helpers'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Webpack Plugins</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> CopyWebpackPlugin = <span class="built_in">require</span>(<span class="string">'copy-webpack-plugin'</span>);</span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>);</span><br><span class="line"><span class="keyword">const</span> ForkCheckerPlugin = <span class="built_in">require</span>(<span class="string">'awesome-typescript-loader'</span>).ForkCheckerPlugin;</span><br><span class="line"><span class="keyword">const</span> DefinePlugin = <span class="built_in">require</span>(<span class="string">'webpack/lib/DefinePlugin'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Webpack configuration</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * See: http://webpack.github.io/docs/configuration.html#cli</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line"></span><br><span class="line">  debug: <span class="literal">true</span>,</span><br><span class="line">  devtool: <span class="string">'cheap-module-eval-source-map'</span>,</span><br><span class="line">  entry: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">'polyfills'</span>: <span class="string">'./src/polyfills.ts'</span>,</span><br><span class="line">    <span class="comment">//'vendor': './src/vendor.ts',</span></span><br><span class="line">    <span class="comment">//'main': './src/main.browser.ts'</span></span><br><span class="line">    <span class="string">'main'</span>: <span class="string">'./src/app/main.ts'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: helpers.root(<span class="string">'dist'</span>),</span><br><span class="line">    filename: <span class="string">'[name].bundle.js'</span>,</span><br><span class="line">    sourceMapFilename: <span class="string">'[name].map'</span>,</span><br><span class="line">    chunkFilename: <span class="string">'[id].chunk.js'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  resolve: &#123;</span><br><span class="line">    extensions: [<span class="string">''</span>, <span class="string">'.ts'</span>, <span class="string">'.js'</span>],</span><br><span class="line">    root: helpers.root(<span class="string">'src'</span>),</span><br><span class="line">    modulesDirectories: [<span class="string">'node_modules'</span>]</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    preLoaders: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        loader: <span class="string">'source-map-loader'</span>,</span><br><span class="line">        exclude: [</span><br><span class="line">          <span class="comment">// these packages have problems with their sourcemaps</span></span><br><span class="line">          helpers.root(<span class="string">'node_modules/rxjs'</span>),</span><br><span class="line">          helpers.root(<span class="string">'node_modules/@angular2-material'</span>)</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">    loaders: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.ts$/</span>,</span><br><span class="line">        loader: <span class="string">'awesome-typescript-loader'</span>,</span><br><span class="line">        exclude: [<span class="regexp">/\.(spec|e2e)\.ts$/</span>]</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.json$/</span>,</span><br><span class="line">        loader: <span class="string">'json-loader'</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">        loader: <span class="string">'raw-loader'</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.html$/</span>,</span><br><span class="line">        loader: <span class="string">'raw-loader'</span>,</span><br><span class="line">        <span class="comment">//exclude: [helpers.root('src/index.html')]</span></span><br><span class="line">        exclude: [helpers.root(<span class="string">'src/app/index.html'</span>)]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> ForkCheckerPlugin(),</span><br><span class="line">    <span class="keyword">new</span> webpack.optimize.OccurenceOrderPlugin(<span class="literal">true</span>),</span><br><span class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">      name: helpers.reverse([<span class="string">'polyfills'</span>, <span class="string">'vendor'</span>])</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> CopyWebpackPlugin([&#123;</span><br><span class="line">      <span class="keyword">from</span>: <span class="string">'src/assets'</span>,</span><br><span class="line">      to: <span class="string">'assets'</span></span><br><span class="line">    &#125;]),</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      <span class="comment">//template: 'src/index.html',</span></span><br><span class="line">      template: <span class="string">'index.html'</span>,</span><br><span class="line">      chunksSortMode: helpers.packageSort([<span class="string">'polyfills'</span>, <span class="string">'vendor'</span>, <span class="string">'main'</span>])</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> DefinePlugin(&#123;</span><br><span class="line">      <span class="string">'ENV'</span>: <span class="built_in">JSON</span>.stringify(<span class="string">'development'</span>),</span><br><span class="line">      <span class="string">'HMR'</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="string">'process.env'</span>: &#123;</span><br><span class="line">        <span class="string">'ENV'</span>: <span class="built_in">JSON</span>.stringify(<span class="string">'development'</span>),</span><br><span class="line">        <span class="string">'NODE_ENV'</span>: <span class="built_in">JSON</span>.stringify(<span class="string">'development'</span>),</span><br><span class="line">        <span class="string">'HMR'</span>: <span class="literal">true</span>,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">  ],</span><br><span class="line">  </span><br><span class="line">  tslint: &#123;</span><br><span class="line">    emitErrors: <span class="literal">false</span>,</span><br><span class="line">    failOnHint: <span class="literal">false</span>,</span><br><span class="line">    resourcePath: <span class="string">'src'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  </span><br><span class="line">  devServer: &#123;</span><br><span class="line">    port: <span class="number">3000</span>,</span><br><span class="line">    host: <span class="string">'localhost'</span>,</span><br><span class="line">    historyApiFallback: <span class="literal">true</span>,</span><br><span class="line">    watchOptions: &#123;</span><br><span class="line">      aggregateTimeout: <span class="number">300</span>,</span><br><span class="line">      poll: <span class="number">1000</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  node: &#123;</span><br><span class="line">    global: <span class="string">'window'</span>,</span><br><span class="line">    crypto: <span class="string">'empty'</span>,</span><br><span class="line">    process: <span class="literal">true</span>,</span><br><span class="line">    <span class="built_in">module</span>: <span class="literal">false</span>,</span><br><span class="line">    clearImmediate: <span class="literal">false</span>,</span><br><span class="line">    setImmediate: <span class="literal">false</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">/**
+ * @author: @AngularClass
+ */</span>
 
+<span class="token keyword">const</span> webpack <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'webpack'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> helpers <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./config/helpers'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">/*
+ * Webpack Plugins
+ */</span>
+<span class="token keyword">const</span> CopyWebpackPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'copy-webpack-plugin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> HtmlWebpackPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'html-webpack-plugin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> ForkCheckerPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'awesome-typescript-loader'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>ForkCheckerPlugin<span class="token punctuation">;</span>
+<span class="token keyword">const</span> DefinePlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'webpack/lib/DefinePlugin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">/*
+ * Webpack configuration
+ *
+ * See: http://webpack.github.io/docs/configuration.html#cli
+ */</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+
+  debug<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  devtool<span class="token operator">:</span> <span class="token string">'cheap-module-eval-source-map'</span><span class="token punctuation">,</span>
+  entry<span class="token operator">:</span> <span class="token punctuation">{</span>
+
+    <span class="token string">'polyfills'</span><span class="token operator">:</span> <span class="token string">'./src/polyfills.ts'</span><span class="token punctuation">,</span>
+    <span class="token comment">//'vendor': './src/vendor.ts',</span>
+    <span class="token comment">//'main': './src/main.browser.ts'</span>
+    <span class="token string">'main'</span><span class="token operator">:</span> <span class="token string">'./src/app/main.ts'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  output<span class="token operator">:</span> <span class="token punctuation">{</span>
+    path<span class="token operator">:</span> helpers<span class="token punctuation">.</span><span class="token function">root</span><span class="token punctuation">(</span><span class="token string">'dist'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    filename<span class="token operator">:</span> <span class="token string">'[name].bundle.js'</span><span class="token punctuation">,</span>
+    sourceMapFilename<span class="token operator">:</span> <span class="token string">'[name].map'</span><span class="token punctuation">,</span>
+    chunkFilename<span class="token operator">:</span> <span class="token string">'[id].chunk.js'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  resolve<span class="token operator">:</span> <span class="token punctuation">{</span>
+    extensions<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">''</span><span class="token punctuation">,</span> <span class="token string">'.ts'</span><span class="token punctuation">,</span> <span class="token string">'.js'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    root<span class="token operator">:</span> helpers<span class="token punctuation">.</span><span class="token function">root</span><span class="token punctuation">(</span><span class="token string">'src'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    modulesDirectories<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'node_modules'</span><span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  module<span class="token operator">:</span> <span class="token punctuation">{</span>
+    preLoaders<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        test<span class="token operator">:</span> <span class="token regex">/\.js$/</span><span class="token punctuation">,</span>
+        loader<span class="token operator">:</span> <span class="token string">'source-map-loader'</span><span class="token punctuation">,</span>
+        exclude<span class="token operator">:</span> <span class="token punctuation">[</span>
+          <span class="token comment">// these packages have problems with their sourcemaps</span>
+          helpers<span class="token punctuation">.</span><span class="token function">root</span><span class="token punctuation">(</span><span class="token string">'node_modules/rxjs'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+          helpers<span class="token punctuation">.</span><span class="token function">root</span><span class="token punctuation">(</span><span class="token string">'node_modules/@angular2-material'</span><span class="token punctuation">)</span>
+        <span class="token punctuation">]</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+
+    loaders<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        test<span class="token operator">:</span> <span class="token regex">/\.ts$/</span><span class="token punctuation">,</span>
+        loader<span class="token operator">:</span> <span class="token string">'awesome-typescript-loader'</span><span class="token punctuation">,</span>
+        exclude<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token regex">/\.(spec|e2e)\.ts$/</span><span class="token punctuation">]</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        test<span class="token operator">:</span> <span class="token regex">/\.json$/</span><span class="token punctuation">,</span>
+        loader<span class="token operator">:</span> <span class="token string">'json-loader'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        test<span class="token operator">:</span> <span class="token regex">/\.css$/</span><span class="token punctuation">,</span>
+        loader<span class="token operator">:</span> <span class="token string">'raw-loader'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        test<span class="token operator">:</span> <span class="token regex">/\.html$/</span><span class="token punctuation">,</span>
+        loader<span class="token operator">:</span> <span class="token string">'raw-loader'</span><span class="token punctuation">,</span>
+        <span class="token comment">//exclude: [helpers.root('src/index.html')]</span>
+        exclude<span class="token operator">:</span> <span class="token punctuation">[</span>helpers<span class="token punctuation">.</span><span class="token function">root</span><span class="token punctuation">(</span><span class="token string">'src/app/index.html'</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  plugins<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token keyword">new</span> <span class="token class-name">ForkCheckerPlugin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">new</span> <span class="token class-name">webpack<span class="token punctuation">.</span>optimize<span class="token punctuation">.</span>OccurenceOrderPlugin</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">new</span> <span class="token class-name">webpack<span class="token punctuation">.</span>optimize<span class="token punctuation">.</span>CommonsChunkPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      name<span class="token operator">:</span> helpers<span class="token punctuation">.</span><span class="token function">reverse</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'polyfills'</span><span class="token punctuation">,</span> <span class="token string">'vendor'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">new</span> <span class="token class-name">CopyWebpackPlugin</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">{</span>
+      <span class="token keyword">from</span><span class="token operator">:</span> <span class="token string">'src/assets'</span><span class="token punctuation">,</span>
+      to<span class="token operator">:</span> <span class="token string">'assets'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">new</span> <span class="token class-name">HtmlWebpackPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      <span class="token comment">//template: 'src/index.html',</span>
+      template<span class="token operator">:</span> <span class="token string">'index.html'</span><span class="token punctuation">,</span>
+      chunksSortMode<span class="token operator">:</span> helpers<span class="token punctuation">.</span><span class="token function">packageSort</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'polyfills'</span><span class="token punctuation">,</span> <span class="token string">'vendor'</span><span class="token punctuation">,</span> <span class="token string">'main'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">new</span> <span class="token class-name">DefinePlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      <span class="token string">'ENV'</span><span class="token operator">:</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token string">'development'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      <span class="token string">'HMR'</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token string">'process.env'</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token string">'ENV'</span><span class="token operator">:</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token string">'development'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">'NODE_ENV'</span><span class="token operator">:</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token string">'development'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">'HMR'</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  
+  tslint<span class="token operator">:</span> <span class="token punctuation">{</span>
+    emitErrors<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    failOnHint<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    resourcePath<span class="token operator">:</span> <span class="token string">'src'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  
+  devServer<span class="token operator">:</span> <span class="token punctuation">{</span>
+    port<span class="token operator">:</span> <span class="token number">3000</span><span class="token punctuation">,</span>
+    host<span class="token operator">:</span> <span class="token string">'localhost'</span><span class="token punctuation">,</span>
+    historyApiFallback<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    watchOptions<span class="token operator">:</span> <span class="token punctuation">{</span>
+      aggregateTimeout<span class="token operator">:</span> <span class="token number">300</span><span class="token punctuation">,</span>
+      poll<span class="token operator">:</span> <span class="token number">1000</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  node<span class="token operator">:</span> <span class="token punctuation">{</span>
+    global<span class="token operator">:</span> <span class="token string">'window'</span><span class="token punctuation">,</span>
+    crypto<span class="token operator">:</span> <span class="token string">'empty'</span><span class="token punctuation">,</span>
+    process<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    module<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    clearImmediate<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    setImmediate<span class="token operator">:</span> <span class="token boolean">false</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
 <p>接著，要新增 angular2-hmr package</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"angular2-quickstart"</span>,</span><br><span class="line">  <span class="attr">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"start"</span>: <span class="string">"tsc &amp;&amp; concurrently \"npm run tsc:w\" \"npm run lite\" "</span>,</span><br><span class="line">    <span class="attr">"tsc"</span>: <span class="string">"tsc"</span>,</span><br><span class="line">    <span class="attr">"tsc:w"</span>: <span class="string">"tsc -w"</span>,</span><br><span class="line">    <span class="attr">"lite"</span>: <span class="string">"lite-server"</span>,</span><br><span class="line">    <span class="attr">"typings"</span>: <span class="string">"typings"</span>,</span><br><span class="line">    <span class="attr">"postinstall"</span>: <span class="string">"typings install"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"license"</span>: <span class="string">"ISC"</span>,</span><br><span class="line">  <span class="attr">"dependencies"</span>: &#123;</span><br><span class="line">    <span class="attr">"angular2"</span>: <span class="string">"2.0.0-beta.15"</span>,</span><br><span class="line">    <span class="attr">"core-js"</span>: <span class="string">"^2.2.2"</span>,</span><br><span class="line">    <span class="attr">"es6-shim"</span>: <span class="string">"^0.35.0"</span>,</span><br><span class="line">    <span class="attr">"es7-reflect-metadata"</span>: <span class="string">"^1.6.0"</span>,</span><br><span class="line">    <span class="attr">"rxjs"</span>: <span class="string">"5.0.0-beta.2"</span>,</span><br><span class="line">    <span class="attr">"zone.js"</span>: <span class="string">"0.6.10"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"devDependencies"</span>: &#123;</span><br><span class="line">    <span class="attr">"typescript"</span>: <span class="string">"^1.8.10"</span>,</span><br><span class="line">    <span class="attr">"typings"</span>:<span class="string">"^0.7.12"</span>,</span><br><span class="line">    <span class="attr">"webpack"</span>: <span class="string">"^1.13.0"</span>,</span><br><span class="line">    <span class="attr">"webpack-dev-server"</span>: <span class="string">"^1.14.1"</span>,</span><br><span class="line">    <span class="attr">"copy-webpack-plugin"</span>: <span class="string">"^1.1.1"</span>,</span><br><span class="line">    <span class="attr">"html-webpack-plugin"</span>: <span class="string">"^2.15.0"</span>,</span><br><span class="line">    <span class="attr">"awesome-typescript-loader"</span>: <span class="string">"~0.16.2"</span>,</span><br><span class="line">    <span class="attr">"source-map-loader"</span>: <span class="string">"^0.1.5"</span>,</span><br><span class="line">    <span class="attr">"json-loader"</span>: <span class="string">"^0.5.4"</span>,</span><br><span class="line">    <span class="attr">"raw-loader"</span>: <span class="string">"0.5.1"</span>,</span><br><span class="line">    <span class="attr">"angular2-hmr"</span>: <span class="string">"~0.5.5"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<div class="gatsby-highlight" data-language="json"><pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"angular2-quickstart"</span><span class="token punctuation">,</span>
+  <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"1.0.0"</span><span class="token punctuation">,</span>
+  <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"start"</span><span class="token operator">:</span> <span class="token string">"tsc &amp;&amp; concurrently \"npm run tsc:w\" \"npm run lite\" "</span><span class="token punctuation">,</span>
+    <span class="token property">"tsc"</span><span class="token operator">:</span> <span class="token string">"tsc"</span><span class="token punctuation">,</span>
+    <span class="token property">"tsc:w"</span><span class="token operator">:</span> <span class="token string">"tsc -w"</span><span class="token punctuation">,</span>
+    <span class="token property">"lite"</span><span class="token operator">:</span> <span class="token string">"lite-server"</span><span class="token punctuation">,</span>
+    <span class="token property">"typings"</span><span class="token operator">:</span> <span class="token string">"typings"</span><span class="token punctuation">,</span>
+    <span class="token property">"postinstall"</span><span class="token operator">:</span> <span class="token string">"typings install"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"license"</span><span class="token operator">:</span> <span class="token string">"ISC"</span><span class="token punctuation">,</span>
+  <span class="token property">"dependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"angular2"</span><span class="token operator">:</span> <span class="token string">"2.0.0-beta.15"</span><span class="token punctuation">,</span>
+    <span class="token property">"core-js"</span><span class="token operator">:</span> <span class="token string">"^2.2.2"</span><span class="token punctuation">,</span>
+    <span class="token property">"es6-shim"</span><span class="token operator">:</span> <span class="token string">"^0.35.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"es7-reflect-metadata"</span><span class="token operator">:</span> <span class="token string">"^1.6.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"rxjs"</span><span class="token operator">:</span> <span class="token string">"5.0.0-beta.2"</span><span class="token punctuation">,</span>
+    <span class="token property">"zone.js"</span><span class="token operator">:</span> <span class="token string">"0.6.10"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"devDependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"typescript"</span><span class="token operator">:</span> <span class="token string">"^1.8.10"</span><span class="token punctuation">,</span>
+    <span class="token property">"typings"</span><span class="token operator">:</span><span class="token string">"^0.7.12"</span><span class="token punctuation">,</span>
+    <span class="token property">"webpack"</span><span class="token operator">:</span> <span class="token string">"^1.13.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"webpack-dev-server"</span><span class="token operator">:</span> <span class="token string">"^1.14.1"</span><span class="token punctuation">,</span>
+    <span class="token property">"copy-webpack-plugin"</span><span class="token operator">:</span> <span class="token string">"^1.1.1"</span><span class="token punctuation">,</span>
+    <span class="token property">"html-webpack-plugin"</span><span class="token operator">:</span> <span class="token string">"^2.15.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"awesome-typescript-loader"</span><span class="token operator">:</span> <span class="token string">"~0.16.2"</span><span class="token punctuation">,</span>
+    <span class="token property">"source-map-loader"</span><span class="token operator">:</span> <span class="token string">"^0.1.5"</span><span class="token punctuation">,</span>
+    <span class="token property">"json-loader"</span><span class="token operator">:</span> <span class="token string">"^0.5.4"</span><span class="token punctuation">,</span>
+    <span class="token property">"raw-loader"</span><span class="token operator">:</span> <span class="token string">"0.5.1"</span><span class="token punctuation">,</span>
+    <span class="token property">"angular2-hmr"</span><span class="token operator">:</span> <span class="token string">"~0.5.5"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></div>
 <p>加入後，使用 npm install 安裝。</p>
 <p>接下來，我們要修改 main.ts ， 我們要把原本的 bootstrap 註解掉，改由 hotModuleReplacement 啟動。</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;bootstrap&#125;    <span class="keyword">from</span> <span class="string">'angular2/platform/browser'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;AppComponent&#125; <span class="keyword">from</span> <span class="string">'./app.component'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//bootstrap(AppComponent);</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">main</span>(<span class="params">initialHmrState?: <span class="built_in">any</span></span>): <span class="title">Promise</span>&lt;<span class="title">any</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> bootstrap(AppComponent, [</span><br><span class="line">    <span class="comment">//...PROVIDERS,</span></span><br><span class="line">    <span class="comment">//...ENV_PROVIDERS,</span></span><br><span class="line">    <span class="comment">//...DIRECTIVES,</span></span><br><span class="line">    <span class="comment">//...PIPES,</span></span><br><span class="line">    <span class="comment">//...APP_PROVIDERS</span></span><br><span class="line">  ])</span><br><span class="line">  .catch(<span class="function"><span class="params">err</span> =&gt;</span> <span class="built_in">console</span>.error(err));</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> ngHmr = <span class="built_in">require</span>(<span class="string">'angular2-hmr'</span>);</span><br><span class="line">ngHmr.hotModuleReplacement(main, <span class="keyword">module</span>);</span><br></pre></td></tr></table></figure>
+<div class="gatsby-highlight" data-language="typescript"><pre class="language-typescript"><code class="language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span>bootstrap<span class="token punctuation">}</span>    <span class="token keyword">from</span> <span class="token string">'angular2/platform/browser'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>AppComponent<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./app.component'</span><span class="token punctuation">;</span>
 
-<p>完成後 webpack-dev-server –inline –hot 測試一下，這時候我們只要改 app.component.ts ，畫面就會即時更改 ( 不刷新 )</p>
-<h2 id="調整-CSS-位置"><a href="#調整-CSS-位置" class="headerlink" title="調整 CSS 位置"></a>調整 CSS 位置</h2><p>最後，因為我們的 CSS 位置還被放在根目錄下，但我們希望 CSS 也能移到 src 底下，所以我們就在細部的調整一下。</p>
+<span class="token comment">//bootstrap(AppComponent);</span>
+
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token parameter">initialHmrState<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">any</span></span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Promise</span><span class="token operator">&lt;</span><span class="token builtin">any</span><span class="token operator">></span> <span class="token punctuation">{</span>
+
+  <span class="token keyword">return</span> <span class="token function">bootstrap</span><span class="token punctuation">(</span>AppComponent<span class="token punctuation">,</span> <span class="token punctuation">[</span>
+    <span class="token comment">//...PROVIDERS,</span>
+    <span class="token comment">//...ENV_PROVIDERS,</span>
+    <span class="token comment">//...DIRECTIVES,</span>
+    <span class="token comment">//...PIPES,</span>
+    <span class="token comment">//...APP_PROVIDERS</span>
+  <span class="token punctuation">]</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token parameter">err</span> <span class="token operator">=></span> <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span>
+
+<span class="token keyword">let</span> ngHmr <span class="token operator">=</span> <span class="token keyword">require</span><span class="token punctuation">(</span><span class="token string">'angular2-hmr'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ngHmr<span class="token punctuation">.</span><span class="token function">hotModuleReplacement</span><span class="token punctuation">(</span>main<span class="token punctuation">,</span> <span class="token keyword">module</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
+<p>完成後 webpack-dev-server --inline --hot 測試一下，這時候我們只要改 app.component.ts ，畫面就會即時更改 ( 不刷新 )</p>
+<h2>調整 CSS 位置</h2>
+<p>最後，因為我們的 CSS 位置還被放在根目錄下，但我們希望 CSS 也能移到 src 底下，所以我們就在細部的調整一下。</p>
 <p>首先，我們把 CSS 移到 src 底下的 assets 底下的 css ( 目錄請自行建立喔 ) ，完成如下</p>
-<p><img src="02.png" alt=""></p>
-<p>接著，我們就可以調整 index.html 的 link rel 改成 src/assets/css/styles.css，<br>但是，多了 src ，基本上很醜…我們希望外面更本就不知道 src 這個目錄 ( 甚至未來把這堆資源綁到 dist 目錄下面… )<br>所以我們希望的位置是 assets/css/styles.css 。 如下:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Angular 2 QuickStart<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1"</span>&gt;</span>    </span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"assets/css/styles.css"</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"/webpack-dev-server.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">my-app</span>&gt;</span>Loading...<span class="tag">&lt;/<span class="name">my-app</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>但這個時候執行，畫面的 css 就找不到了，因為這也合理，畢竟少了 src ，當然找不到。</p>
-<p>所以我們要改一下執行命令，改成  webpack-dev-server –inline –content-base src/ –hot</p>
-<p>content-base 的意思就是，他會把 src 目錄當成根目錄，所以所有資源就會從 src 底下開始。</p>
-<h2 id="把-index-html-也丟到-src-底下"><a href="#把-index-html-也丟到-src-底下" class="headerlink" title="把 index.html 也丟到 src 底下"></a>把 index.html 也丟到 src 底下</h2><p>等等 !! index.html 還在根目錄阿，大家都搬家搬走了，把 index.html 留在那邊，他粉可憐的。<br>所以我們這篇文章的最後一個步驟，就是也把 index.html 搬過去….</p>
-<p>首先，我們一樣，把 index.html 移到 src 底下，如下:</p>
-<p><img src="03.png" alt=""></p>
-<p>接著，我們要講一下，我們前面沒有提到的 webpack <a href="https://github.com/ampedandwired/html-webpack-plugin" target="_blank" rel="noopener">HtmlWebpackPlugin</a>。<br>這是一個 webpacl plugin ，透過這個 plugin ，可以輕鬆地產生出 bundle 後的樣板。( 例如可以協助調整要載入那些 script 之類的… )<br>並且未來置放到指定的輸出目錄下。</p>
-<p>而透過 template 變數，我們可以指定我們預設的 html 位置，他就會針對此 html 進行調整。</p>
-<p>而 chunksSortMode 可以協助我們，依據未來要載入 bundle 後的 js ，定義載入順序。<br>( vendor 目前我們還沒定義到 )</p>
-<p>所以，我們要修改一下  webpack.config.js 把 HtmlWebpackPlugin 裡面的 template 參數調整成 template: ‘src/index.html’ 如下</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">     template: <span class="string">'src/index.html'</span>,</span><br><span class="line">     chunksSortMode: helpers.packageSort([<span class="string">'polyfills'</span>, <span class="string">'vendor'</span>, <span class="string">'main'</span>])</span><br><span class="line">   &#125;),</span><br></pre></td></tr></table></figure>
-
-<p>完整的 webpack.config.js</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: <span class="doctag">@AngularClass</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</span><br><span class="line"><span class="keyword">const</span> helpers = <span class="built_in">require</span>(<span class="string">'./config/helpers'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Webpack Plugins</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> CopyWebpackPlugin = <span class="built_in">require</span>(<span class="string">'copy-webpack-plugin'</span>);</span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>);</span><br><span class="line"><span class="keyword">const</span> ForkCheckerPlugin = <span class="built_in">require</span>(<span class="string">'awesome-typescript-loader'</span>).ForkCheckerPlugin;</span><br><span class="line"><span class="keyword">const</span> DefinePlugin = <span class="built_in">require</span>(<span class="string">'webpack/lib/DefinePlugin'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Webpack configuration</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * See: http://webpack.github.io/docs/configuration.html#cli</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line"></span><br><span class="line">  debug: <span class="literal">true</span>,</span><br><span class="line">  devtool: <span class="string">'cheap-module-eval-source-map'</span>,</span><br><span class="line">  entry: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">'polyfills'</span>: <span class="string">'./src/polyfills.ts'</span>,</span><br><span class="line">    <span class="comment">//'vendor': './src/vendor.ts',</span></span><br><span class="line">    <span class="comment">//'main': './src/main.browser.ts'</span></span><br><span class="line">    <span class="string">'main'</span>: <span class="string">'./src/app/main.ts'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: helpers.root(<span class="string">'dist'</span>),</span><br><span class="line">    filename: <span class="string">'[name].bundle.js'</span>,</span><br><span class="line">    sourceMapFilename: <span class="string">'[name].map'</span>,</span><br><span class="line">    chunkFilename: <span class="string">'[id].chunk.js'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  resolve: &#123;</span><br><span class="line">    extensions: [<span class="string">''</span>, <span class="string">'.ts'</span>, <span class="string">'.js'</span>],</span><br><span class="line">    root: helpers.root(<span class="string">'src'</span>),</span><br><span class="line">    modulesDirectories: [<span class="string">'node_modules'</span>]</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    preLoaders: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        loader: <span class="string">'source-map-loader'</span>,</span><br><span class="line">        exclude: [</span><br><span class="line">          <span class="comment">// these packages have problems with their sourcemaps</span></span><br><span class="line">          helpers.root(<span class="string">'node_modules/rxjs'</span>),</span><br><span class="line">          helpers.root(<span class="string">'node_modules/@angular2-material'</span>)</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">    loaders: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.ts$/</span>,</span><br><span class="line">        loader: <span class="string">'awesome-typescript-loader'</span>,</span><br><span class="line">        exclude: [<span class="regexp">/\.(spec|e2e)\.ts$/</span>]</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.json$/</span>,</span><br><span class="line">        loader: <span class="string">'json-loader'</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">        loader: <span class="string">'raw-loader'</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.html$/</span>,</span><br><span class="line">        loader: <span class="string">'raw-loader'</span>,</span><br><span class="line">        <span class="comment">//exclude: [helpers.root('src/index.html')]</span></span><br><span class="line">        exclude: [helpers.root(<span class="string">'src/app/index.html'</span>)]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> ForkCheckerPlugin(),</span><br><span class="line">    <span class="keyword">new</span> webpack.optimize.OccurenceOrderPlugin(<span class="literal">true</span>),</span><br><span class="line">    <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">      name: helpers.reverse([<span class="string">'polyfills'</span>, <span class="string">'vendor'</span>])</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> CopyWebpackPlugin([&#123;</span><br><span class="line">      <span class="keyword">from</span>: <span class="string">'src/assets'</span>,</span><br><span class="line">      to: <span class="string">'assets'</span></span><br><span class="line">    &#125;]),</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      template: <span class="string">'src/index.html'</span>,</span><br><span class="line">      chunksSortMode: helpers.packageSort([<span class="string">'polyfills'</span>, <span class="string">'vendor'</span>, <span class="string">'main'</span>])</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> DefinePlugin(&#123;</span><br><span class="line">      <span class="string">'ENV'</span>: <span class="built_in">JSON</span>.stringify(<span class="string">'development'</span>),</span><br><span class="line">      <span class="string">'HMR'</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="string">'process.env'</span>: &#123;</span><br><span class="line">        <span class="string">'ENV'</span>: <span class="built_in">JSON</span>.stringify(<span class="string">'development'</span>),</span><br><span class="line">        <span class="string">'NODE_ENV'</span>: <span class="built_in">JSON</span>.stringify(<span class="string">'development'</span>),</span><br><span class="line">        <span class="string">'HMR'</span>: <span class="literal">true</span>,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">  ],</span><br><span class="line">  </span><br><span class="line">  tslint: &#123;</span><br><span class="line">    emitErrors: <span class="literal">false</span>,</span><br><span class="line">    failOnHint: <span class="literal">false</span>,</span><br><span class="line">    resourcePath: <span class="string">'src'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  </span><br><span class="line">  devServer: &#123;</span><br><span class="line">    port: <span class="number">3000</span>,</span><br><span class="line">    host: <span class="string">'localhost'</span>,</span><br><span class="line">    historyApiFallback: <span class="literal">true</span>,</span><br><span class="line">    watchOptions: &#123;</span><br><span class="line">      aggregateTimeout: <span class="number">300</span>,</span><br><span class="line">      poll: <span class="number">1000</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  node: &#123;</span><br><span class="line">    global: <span class="string">'window'</span>,</span><br><span class="line">    crypto: <span class="string">'empty'</span>,</span><br><span class="line">    process: <span class="literal">true</span>,</span><br><span class="line">    <span class="built_in">module</span>: <span class="literal">false</span>,</span><br><span class="line">    clearImmediate: <span class="literal">false</span>,</span><br><span class="line">    setImmediate: <span class="literal">false</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>完成之後，我們就可以進行測試了。</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a href="https://angular.io/docs/ts/latest/quickstart.html" target="_blank" rel="noopener">https://angular.io/docs/ts/latest/quickstart.html</a></li>
-<li><a href="https://github.com/angularclass/angular2-webpack-starter" target="_blank" rel="noopener">https://github.com/angularclass/angular2-webpack-starter</a></li>
-<li><a href="(https://github.com/angular/angular/issues/5755">https://github.com/angular/angular/issues/5755</a></li>
-<li><a href="https://github.com/typings/typings" target="_blank" rel="noopener">https://github.com/typings/typings</a></li>
-<li><a href="http://www.typescriptlang.org/docs/handbook/tsconfig.json.html" target="_blank" rel="noopener">http://www.typescriptlang.org/docs/handbook/tsconfig.json.html</a></li>
-<li><a href="https://github.com/s-panferov/awesome-typescript-loader" target="_blank" rel="noopener">https://github.com/s-panferov/awesome-typescript-loader</a></li>
-<li><a href="https://github.com/ampedandwired/html-webpack-plugin" target="_blank" rel="noopener">https://github.com/ampedandwired/html-webpack-plugin</a></li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
-          
-            <a href="/tags/Angular2/" rel="tag">#Angular2</a>
-          
-            <a href="/tags/Webpack/" rel="tag">#Webpack</a>
-          
-            <a href="/tags/TypeScript/" rel="tag">#TypeScript</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/04/20/Angular2-Env_Setup_1/" rel="next" title="Angular2 - 與 Webpack 整合環境設定 - 1">
-                <i class="fa fa-chevron-left"></i> Angular2 - 與 Webpack 整合環境設定 - 1
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/04/22/Angular2-Env_Setup_3/" rel="prev" title="Angular2 - 與 Webpack 整合環境設定 - 3">
-                Angular2 - 與 Webpack 整合環境設定 - 3 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意事項"><span class="nav-number">2.</span> <span class="nav-text">注意事項</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#將-app-目錄放到-src-目錄"><span class="nav-number">3.</span> <span class="nav-text">將 app 目錄放到 src 目錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#開啟-Hot-Reload"><span class="nav-number">4.</span> <span class="nav-text">開啟 Hot Reload</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#調整-CSS-位置"><span class="nav-number">5.</span> <span class="nav-text">調整 CSS 位置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#把-index-html-也丟到-src-底下"><span class="nav-number">6.</span> <span class="nav-text">把 index.html 也丟到 src 底下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">7.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 225px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/42b9745926ea3f40fbc38f3e2612a7a3/0608e/02.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 160%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAgCAYAAAASYli2AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAD+klEQVRIx51Wy67bVBT1oKqKKFIZoFLaxPEzLzvOw3ESx3k4jpP4Js6jl6SPAUIV5dJWfAQjBswQI34AlS9AQkiICZ+12Nsht7dwSxwGS1s+53h7nbP3WseCrudhmhXU6g24rgd/6MMol6EoKjRNPxlCnhJaVg0dt4vhIEA8X8LruMhJ8v9LyAxLZQNOy0W324VMzFRVA4/vF+0jj6VmWCGGvb6PcRDQVjVIkoRcToIo5hJIsnKZ9FjihKFhWGg2HXj9IbH00Gp1aPs+/HGAUTCBY9tQVDUlw3yBilKF47TgB2MMRwF63T4Vh5KNxwgnETqtFiUkdszyCARNUVAxDDSJBUdJzEKRacvZbAIxm4FM29eZIUE/AiGXN1FxPDjDCaqdPu7m8hBpTCpWIBX2yDFoLA2Em84WN+xzfOg9QTZ6Dmv7Ne70nuJGcwueOxXC7UaMD+wYH7XXyEefob76HHfo+b3qHDx3KgQ+Fz7HWrWKFjW05/Uwn82S81Rk+fLs0kLQqcoatU6tVkebpNelhF6vB4PkyFXjeV1PD6FELzL0Ygk1u4ku9d9wNELRMFGuWCgRkvj3umMQCqUyCiQ9jo1mC51uj3TtQuG+IuYqMeSYrEsB4SCnA1hq7U4Xm81DzOdzBMQ2DCcocHL1jSL++d4BwlXZyKRZkZqYzaLVaqNOlmaa1Ke0ZVEUSeNygoO1Xadr4eoXXbeHaRjiLDqDPyBdk2EsogVmkxnmNDYYhojGU1StCn38em2/lZB9kSXYbndg121iV6PEPjrtdmK8TTpjh1AuvduA30o4GIwRLxfYrNc4Xz4kY5iiXCgie7CxNFtWyUAVde8UVtVGnRg2Gjb1JaHeRKlkgNdoeuESSfW16yEUFQnNagWz0YBYRYijKSZ+H0rmEyjZ+9ByGehSNjWEB8MnyPhPoZ19AXPzCvn4guJL3PV24Ln7g8cnQXj/5Wvc+uo13G9/xeqHP3D2/e8IvvsN2x//RPWbX3Dz4ifcfvUzeF0aCPfCZ/h4/Azq/ALF1QsU1y+gLb6ETkzF2fNk7t4JEPJSBio584zs/nwxw3azxDam3gvpmeK07+7PMSWEfcUKVOEaCmQQZaMCmy6sskmmQAah54tU1cI7q/qvKnPvcF8F4xCLOMb8jBhud4g3a0RRjGGP7mr5cOkfv5uFQ4MaxIY9kaNl7W9Bk22LWF9t4KP3cmIKxHA2i4jZFqv1BvPFKtHvarGg5FaijqvJ/ivpG4ZlM1EIO0vDduhKqJFKSolzs3Z1du/EwlIw5N+PkBg9evRpcn7L5ZrcJcKEfHC1WmO32+GcosH3zJG/skuG/PUiV5ndmwyB/yj4mefZHy1inuYM/wJC5OHoXP/KgwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="02"
+        title="02"
+        src="/static/42b9745926ea3f40fbc38f3e2612a7a3/0608e/02.png"
+        srcset="/static/42b9745926ea3f40fbc38f3e2612a7a3/56d15/02.png 200w,
+/static/42b9745926ea3f40fbc38f3e2612a7a3/0608e/02.png 225w"
+        sizes="(max-width: 225px) 100vw, 225px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
   </a>
-</div>
+    </span></p>
+<p>接著，我們就可以調整 index.html 的 link rel 改成 src/assets/css/styles.css，
+但是，多了 src ，基本上很醜...我們希望外面更本就不知道 src 這個目錄 ( 甚至未來把這堆資源綁到 dist 目錄下面... )
+所以我們希望的位置是 assets/css/styles.css 。 如下:</p>
+<div class="gatsby-highlight" data-language="html"><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>Angular 2 QuickStart<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>width=device-width, initial-scale=1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>    
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>assets/css/styles.css<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
 
-        
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/webpack-dev-server.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
 
-        
-      </div>
-    </footer>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>my-app</span><span class="token punctuation">></span></span>Loading...<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>my-app</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span></code></pre></div>
+<p>但這個時候執行，畫面的 css 就找不到了，因為這也合理，畢竟少了 src ，當然找不到。</p>
+<p>所以我們要改一下執行命令，改成  webpack-dev-server --inline --content-base src/ --hot</p>
+<p>content-base 的意思就是，他會把 src 目錄當成根目錄，所以所有資源就會從 src 底下開始。</p>
+<h2>把 index.html 也丟到 src 底下</h2>
+<p>等等 !! index.html 還在根目錄阿，大家都搬家搬走了，把 index.html 留在那邊，他粉可憐的。
+所以我們這篇文章的最後一個步驟，就是也把 index.html 搬過去....</p>
+<p>首先，我們一樣，把 index.html 移到 src 底下，如下:</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 204px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/5406c7306512f45175f5d42064f0c773/29fac/03.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 154.50000000000003%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAfCAYAAADnTu3OAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAEDUlEQVRIx52WWY/bVBiGjZBYJFqgoiAxUuN4TxxPFmdxEnvi8RJndZJJmjQDTIUqFa6rClQkBFwgfkArFkEvQKiDyo98+Y4nmXaqqvFw8egcH/t8/ja/x1wul0e9YaFlHyDqDzGbzGBbTUiSBFlWLg2nqhr294uo1uqo1y24rg+v40ISxf9nUNNyKJLBpuPCDwIosoSs8HJjkiSnM2iaVbTdAL1eD6osQxAkQiBEZLNCwtbYLqOcoqjI53XkKZe6XkClWoOeL6BcrhBlym8D9VoDmqal85AZazZb6HYHOJrPMTk6QuB3cTRdYDabYrqYY7lYoVY1ydPdeeVEeitDIw8VKhALV5SUJI+CeBY+m7M1Sd4Np6sKXMdBPB7BtVuQBR6qJBAiVFHYzIWzeQq4a0UfH5RDsPGckn/x+hJwrzWO8WbrU+wNvoS2uo/43k/4uHcXXG2N161PLg133TjAGQ72KofQ2hE+NGxcy7fx7F56OJnizlEeG/Sl+IcexqMRljdX8JN8ZqkvJcrhC9CaQjl+GZwkq5CpunndQJH1XqWK/VIl6U2eKsxTU2d4glqGwbORrgVWdephtv95OIW8YJUVszwa1QZGkYdB4GHYjXBoW+hFEa31MY666Pkewk4Hi/EExYIOkc9AEbNJJFu4bLGJhFILWjOCGcQodoYwDydQ6x6swQp2f4lWNIc3WaPqDmGFM2h1FxnDor0tnNsguCt3/sBV4sqdx1Du/Y3qN09R+voJjK+eoPbtvzAf/IOPvniMNz77GW/f/jXhrZNf8M7nv2/2XYR79+QhGFdPHsG8/ydGPz5F9P0pnAd/IfzhFMF3p9i7+xvdf4j3bz/Cexu2+16EEwomtmhVB3rTQ8kJ4HRnyJkOrR2Az5fx/HOvImkbiQoiUkX7YUSKHWMxpdaZHGHUDTEgkoQzwaVnd8HJTL5ItgpGMRn1QoGEQk8EYctZS6QUB9ZvbdvGZDrD8XpNkjXHisZKuQRRpAZWlNTimsgXe0igjUy5mXE2MqGVt2+9hLGNQWYsj0lMnq1WmM8XWC2PSVQXiMnr5eIWfZaVVOJ67qGiaCgWy4lnjBp914axn5Cj44AdE+k9JFVmYY7jGP3BEDFVd33rGD02p3zOSHj3jUKSz9Qeskle18kbPQnfMEpotdsolUp0YOkXDqidpx57QKUNQRAiIiHoMlHwfDj0JxHS2sGBs6m2mup8TgwyXNeD7wdotx2EUQ8u/T14tMZOu0yGR5bPnvXkDk83Iauo0f+N57mwbQcNy0LH6aBimrDpBb1ehM6hD6vegKqk8JCFE1Ko49EAcTzFeByTDpKXrpuMPungzeUaoRck6v5Kg1v3eQrrxo0MeAqNhch4Ns9SHsXk10TcEfJ/z1vLh9rg0w4AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="03"
+        title="03"
+        src="/static/5406c7306512f45175f5d42064f0c773/29fac/03.png"
+        srcset="/static/5406c7306512f45175f5d42064f0c773/56d15/03.png 200w,
+/static/5406c7306512f45175f5d42064f0c773/29fac/03.png 204w"
+        sizes="(max-width: 204px) 100vw, 204px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接著，我們要講一下，我們前面沒有提到的 webpack <a href="https://github.com/ampedandwired/html-webpack-plugin">HtmlWebpackPlugin</a>。
+這是一個 webpacl plugin ，透過這個 plugin ，可以輕鬆地產生出 bundle 後的樣板。( 例如可以協助調整要載入那些 script 之類的... )
+並且未來置放到指定的輸出目錄下。</p>
+<p>而透過 template 變數，我們可以指定我們預設的 html 位置，他就會針對此 html 進行調整。</p>
+<p>而 chunksSortMode 可以協助我們，依據未來要載入 bundle 後的 js ，定義載入順序。
+( vendor 目前我們還沒定義到 )</p>
+<p>所以，我們要修改一下  webpack.config.js 把 HtmlWebpackPlugin 裡面的 template 參數調整成 template: 'src/index.html' 如下</p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"> <span class="token keyword">new</span> <span class="token class-name">HtmlWebpackPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      template<span class="token operator">:</span> <span class="token string">'src/index.html'</span><span class="token punctuation">,</span>
+      chunksSortMode<span class="token operator">:</span> helpers<span class="token punctuation">.</span><span class="token function">packageSort</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'polyfills'</span><span class="token punctuation">,</span> <span class="token string">'vendor'</span><span class="token punctuation">,</span> <span class="token string">'main'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span></code></pre></div>
+<p>完整的 webpack.config.js</p>
+<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js"><span class="token comment">/**
+ * @author: @AngularClass
+ */</span>
 
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
+<span class="token keyword">const</span> webpack <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'webpack'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> helpers <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./config/helpers'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
+<span class="token comment">/*
+ * Webpack Plugins
+ */</span>
+<span class="token keyword">const</span> CopyWebpackPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'copy-webpack-plugin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> HtmlWebpackPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'html-webpack-plugin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> ForkCheckerPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'awesome-typescript-loader'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>ForkCheckerPlugin<span class="token punctuation">;</span>
+<span class="token keyword">const</span> DefinePlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'webpack/lib/DefinePlugin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">/*
+ * Webpack configuration
+ *
+ * See: http://webpack.github.io/docs/configuration.html#cli
+ */</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+
+  debug<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  devtool<span class="token operator">:</span> <span class="token string">'cheap-module-eval-source-map'</span><span class="token punctuation">,</span>
+  entry<span class="token operator">:</span> <span class="token punctuation">{</span>
+
+    <span class="token string">'polyfills'</span><span class="token operator">:</span> <span class="token string">'./src/polyfills.ts'</span><span class="token punctuation">,</span>
+    <span class="token comment">//'vendor': './src/vendor.ts',</span>
+    <span class="token comment">//'main': './src/main.browser.ts'</span>
+    <span class="token string">'main'</span><span class="token operator">:</span> <span class="token string">'./src/app/main.ts'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  output<span class="token operator">:</span> <span class="token punctuation">{</span>
+    path<span class="token operator">:</span> helpers<span class="token punctuation">.</span><span class="token function">root</span><span class="token punctuation">(</span><span class="token string">'dist'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    filename<span class="token operator">:</span> <span class="token string">'[name].bundle.js'</span><span class="token punctuation">,</span>
+    sourceMapFilename<span class="token operator">:</span> <span class="token string">'[name].map'</span><span class="token punctuation">,</span>
+    chunkFilename<span class="token operator">:</span> <span class="token string">'[id].chunk.js'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  resolve<span class="token operator">:</span> <span class="token punctuation">{</span>
+    extensions<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">''</span><span class="token punctuation">,</span> <span class="token string">'.ts'</span><span class="token punctuation">,</span> <span class="token string">'.js'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    root<span class="token operator">:</span> helpers<span class="token punctuation">.</span><span class="token function">root</span><span class="token punctuation">(</span><span class="token string">'src'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    modulesDirectories<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'node_modules'</span><span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  module<span class="token operator">:</span> <span class="token punctuation">{</span>
+    preLoaders<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        test<span class="token operator">:</span> <span class="token regex">/\.js$/</span><span class="token punctuation">,</span>
+        loader<span class="token operator">:</span> <span class="token string">'source-map-loader'</span><span class="token punctuation">,</span>
+        exclude<span class="token operator">:</span> <span class="token punctuation">[</span>
+          <span class="token comment">// these packages have problems with their sourcemaps</span>
+          helpers<span class="token punctuation">.</span><span class="token function">root</span><span class="token punctuation">(</span><span class="token string">'node_modules/rxjs'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+          helpers<span class="token punctuation">.</span><span class="token function">root</span><span class="token punctuation">(</span><span class="token string">'node_modules/@angular2-material'</span><span class="token punctuation">)</span>
+        <span class="token punctuation">]</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+
+    loaders<span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        test<span class="token operator">:</span> <span class="token regex">/\.ts$/</span><span class="token punctuation">,</span>
+        loader<span class="token operator">:</span> <span class="token string">'awesome-typescript-loader'</span><span class="token punctuation">,</span>
+        exclude<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token regex">/\.(spec|e2e)\.ts$/</span><span class="token punctuation">]</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        test<span class="token operator">:</span> <span class="token regex">/\.json$/</span><span class="token punctuation">,</span>
+        loader<span class="token operator">:</span> <span class="token string">'json-loader'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        test<span class="token operator">:</span> <span class="token regex">/\.css$/</span><span class="token punctuation">,</span>
+        loader<span class="token operator">:</span> <span class="token string">'raw-loader'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        test<span class="token operator">:</span> <span class="token regex">/\.html$/</span><span class="token punctuation">,</span>
+        loader<span class="token operator">:</span> <span class="token string">'raw-loader'</span><span class="token punctuation">,</span>
+        <span class="token comment">//exclude: [helpers.root('src/index.html')]</span>
+        exclude<span class="token operator">:</span> <span class="token punctuation">[</span>helpers<span class="token punctuation">.</span><span class="token function">root</span><span class="token punctuation">(</span><span class="token string">'src/app/index.html'</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  plugins<span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token keyword">new</span> <span class="token class-name">ForkCheckerPlugin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">new</span> <span class="token class-name">webpack<span class="token punctuation">.</span>optimize<span class="token punctuation">.</span>OccurenceOrderPlugin</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">new</span> <span class="token class-name">webpack<span class="token punctuation">.</span>optimize<span class="token punctuation">.</span>CommonsChunkPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      name<span class="token operator">:</span> helpers<span class="token punctuation">.</span><span class="token function">reverse</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'polyfills'</span><span class="token punctuation">,</span> <span class="token string">'vendor'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">new</span> <span class="token class-name">CopyWebpackPlugin</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">{</span>
+      <span class="token keyword">from</span><span class="token operator">:</span> <span class="token string">'src/assets'</span><span class="token punctuation">,</span>
+      to<span class="token operator">:</span> <span class="token string">'assets'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">new</span> <span class="token class-name">HtmlWebpackPlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      template<span class="token operator">:</span> <span class="token string">'src/index.html'</span><span class="token punctuation">,</span>
+      chunksSortMode<span class="token operator">:</span> helpers<span class="token punctuation">.</span><span class="token function">packageSort</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'polyfills'</span><span class="token punctuation">,</span> <span class="token string">'vendor'</span><span class="token punctuation">,</span> <span class="token string">'main'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">new</span> <span class="token class-name">DefinePlugin</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      <span class="token string">'ENV'</span><span class="token operator">:</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token string">'development'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      <span class="token string">'HMR'</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token string">'process.env'</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token string">'ENV'</span><span class="token operator">:</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token string">'development'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">'NODE_ENV'</span><span class="token operator">:</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token string">'development'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">'HMR'</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
   
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
+  tslint<span class="token operator">:</span> <span class="token punctuation">{</span>
+    emitErrors<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    failOnHint<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    resourcePath<span class="token operator">:</span> <span class="token string">'src'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
   
+  devServer<span class="token operator">:</span> <span class="token punctuation">{</span>
+    port<span class="token operator">:</span> <span class="token number">3000</span><span class="token punctuation">,</span>
+    host<span class="token operator">:</span> <span class="token string">'localhost'</span><span class="token punctuation">,</span>
+    historyApiFallback<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    watchOptions<span class="token operator">:</span> <span class="token punctuation">{</span>
+      aggregateTimeout<span class="token operator">:</span> <span class="token number">300</span><span class="token punctuation">,</span>
+      poll<span class="token operator">:</span> <span class="token number">1000</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
 
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2016/04/21/Angular2-Env_Setup_2/';
-      var disqus_title = 'Angular2 - 與 Webpack 整合環境設定 - 2';
-      var disqus_url = 'http://skychang.github.io/2016/04/21/Angular2-Env_Setup_2/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+  node<span class="token operator">:</span> <span class="token punctuation">{</span>
+    global<span class="token operator">:</span> <span class="token string">'window'</span><span class="token punctuation">,</span>
+    crypto<span class="token operator">:</span> <span class="token string">'empty'</span><span class="token punctuation">,</span>
+    process<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    module<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    clearImmediate<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    setImmediate<span class="token operator">:</span> <span class="token boolean">false</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre></div>
+<p>完成之後，我們就可以進行測試了。</p>
+<h2>參考資料</h2>
+<ul>
+<li><a href="https://angular.io/docs/ts/latest/quickstart.html">https://angular.io/docs/ts/latest/quickstart.html</a></li>
+<li><a href="https://github.com/angularclass/angular2-webpack-starter">https://github.com/angularclass/angular2-webpack-starter</a></li>
+<li>[https://github.com/angular/angular/issues/5755]((<a href="https://github.com/angular/angular/issues/5755">https://github.com/angular/angular/issues/5755</a>)</li>
+<li><a href="https://github.com/typings/typings">https://github.com/typings/typings</a></li>
+<li><a href="http://www.typescriptlang.org/docs/handbook/tsconfig.json.html">http://www.typescriptlang.org/docs/handbook/tsconfig.json.html</a></li>
+<li><a href="https://github.com/s-panferov/awesome-typescript-loader">https://github.com/s-panferov/awesome-typescript-loader</a></li>
+<li><a href="https://github.com/ampedandwired/html-webpack-plugin">https://github.com/ampedandwired/html-webpack-plugin</a></li>
+</ul></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2016/04/21/Angular2-Env_Setup_2/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>

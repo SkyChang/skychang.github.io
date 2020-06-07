@@ -1,696 +1,293 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Node.js,Hexo,Github,Travis CI," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="前言新的一年，2017 又開始了，而回顧了舊的 2016 那一年，其實文章少的可憐到一個極致，在技術的道路上，感覺去年也沒甚麼長進，所以在新的一年的第一天，除了陪家人走走外，大概就是要把今年重新撰寫 Blog 的目標重新定義一下，這段時間，也嘗試了許多種讀書學習的方式，到最後，還是覺得寫文章最有效果阿!!! 當然，廢話不多說，有空再來寫一篇回顧文..既然這邊決定今年要重返 Blog 界，那自然第一">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Hexo - 使用 Travis CI 自動佈署 Blog">
-<meta property="og:url" content="http://skychang.github.io/2017/01/01/Hexo-Use_Travis_CI_Auto_Deploy_Blog/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="前言新的一年，2017 又開始了，而回顧了舊的 2016 那一年，其實文章少的可憐到一個極致，在技術的道路上，感覺去年也沒甚麼長進，所以在新的一年的第一天，除了陪家人走走外，大概就是要把今年重新撰寫 Blog 的目標重新定義一下，這段時間，也嘗試了許多種讀書學習的方式，到最後，還是覺得寫文章最有效果阿!!! 當然，廢話不多說，有空再來寫一篇回顧文..既然這邊決定今年要重返 Blog 界，那自然第一">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://skychang.github.io/2017/01/01/Hexo-Use_Travis_CI_Auto_Deploy_Blog/01.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/01/Hexo-Use_Travis_CI_Auto_Deploy_Blog/02.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/01/Hexo-Use_Travis_CI_Auto_Deploy_Blog/03.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/01/Hexo-Use_Travis_CI_Auto_Deploy_Blog/04.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/01/Hexo-Use_Travis_CI_Auto_Deploy_Blog/05.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/01/Hexo-Use_Travis_CI_Auto_Deploy_Blog/06.png">
-<meta property="article:published_time" content="2017-01-01T22:40:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:38.916Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="Node.js">
-<meta property="article:tag" content="Hexo">
-<meta property="article:tag" content="Github">
-<meta property="article:tag" content="Travis CI">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://skychang.github.io/2017/01/01/Hexo-Use_Travis_CI_Auto_Deploy_Blog/01.png">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> Hexo - 使用 Travis CI 自動佈署 Blog | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Hexo - 使用 Travis CI 自動佈署 Blog
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-01-01T22:40:00+00:00" content="2017-01-01">
-              2017-01-01
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/01/01/Hexo-Use_Travis_CI_Auto_Deploy_Blog/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/01/01/Hexo-Use_Travis_CI_Auto_Deploy_Blog/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>新的一年，2017 又開始了，而回顧了舊的 2016 那一年，其實文章少的可憐到一個極致，在技術的道路上，<br>感覺去年也沒甚麼長進，所以在新的一年的第一天，除了陪家人走走外，大概就是要把今年重新撰寫 Blog 的目標重新定義一下，<br>這段時間，也嘗試了許多種讀書學習的方式，到最後，還是覺得寫文章最有效果阿!!!</p>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">Hexo - 使用 Travis CI 自動佈署 Blog :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="前言 新的一年，2017 又開始了，而回顧了舊的 2016 那一年，其實文章少的可憐到一個極致，在技術的道路上，
+感覺去年也沒甚麼長進，所以在新的一年的第一天，除了陪家人走走外，大概就是要把今年重新撰寫 Blog…"/><meta data-react-helmet="true" property="og:title" content="Hexo - 使用 Travis CI 自動佈署 Blog"/><meta data-react-helmet="true" property="og:description" content="前言 新的一年，2017 又開始了，而回顧了舊的 2016 那一年，其實文章少的可憐到一個極致，在技術的道路上，
+感覺去年也沒甚麼長進，所以在新的一年的第一天，除了陪家人走走外，大概就是要把今年重新撰寫 Blog…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="Hexo - 使用 Travis CI 自動佈署 Blog"/><meta data-react-helmet="true" name="twitter:description" content="前言 新的一年，2017 又開始了，而回顧了舊的 2016 那一年，其實文章少的可憐到一個極致，在技術的道路上，
+感覺去年也沒甚麼長進，所以在新的一年的第一天，除了陪家人走走外，大概就是要把今年重新撰寫 Blog…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2017/01/01/Hexo-Use_Travis_CI_Auto_Deploy_Blog/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">Hexo - 使用 Travis CI 自動佈署 Blog</h1><div class="post-module--meta--3YtjE">01 January 2017<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/Node.js/"><span class="post-module--tag--16U9p">#<!-- -->Node.js</span></a><a href="/tag/Hexo/"><span class="post-module--tag--16U9p">#<!-- -->Hexo</span></a><a href="/tag/Github/"><span class="post-module--tag--16U9p">#<!-- -->Github</span></a><a href="/tag/Travis-CI/"><span class="post-module--tag--16U9p">#<!-- -->Travis CI</span></a></div></div><div><h2>前言</h2>
+<p>新的一年，2017 又開始了，而回顧了舊的 2016 那一年，其實文章少的可憐到一個極致，在技術的道路上，
+感覺去年也沒甚麼長進，所以在新的一年的第一天，除了陪家人走走外，大概就是要把今年重新撰寫 Blog 的目標重新定義一下，
+這段時間，也嘗試了許多種讀書學習的方式，到最後，還是覺得寫文章最有效果阿!!!</p>
 <p>當然，廢話不多說，有空再來寫一篇回顧文..既然這邊決定今年要重返 Blog 界，那自然第一篇就要和 Blog 有關係了。</p>
-<p>在很久之前 ( 大概2015 ) 寫了幾篇 Hexo 的安裝與使用，隔了這一段時間，終於要讓他進入 CI 了，<br>當然，這部分的文章期使已經有非常非常多了，這次也參考了許多中文繁體與簡體前輩寫文的文章，有興趣可以看一下附錄，<br>但基於自己的興趣，還是把他列成屬於自己的一篇記錄文吧!</p>
+<p>在很久之前 ( 大概2015 ) 寫了幾篇 Hexo 的安裝與使用，隔了這一段時間，終於要讓他進入 CI 了，
+當然，這部分的文章期使已經有非常非常多了，這次也參考了許多中文繁體與簡體前輩寫文的文章，有興趣可以看一下附錄，
+但基於自己的興趣，還是把他列成屬於自己的一篇記錄文吧!</p>
 <p>OK~讓我們開始吧!!</p>
-<h2 id="Travis-CI"><a href="#Travis-CI" class="headerlink" title="Travis CI"></a>Travis CI</h2><p>是的，這次我選用的是<a href="https://travis-ci.org/" target="_blank" rel="noopener">Travis CI</a>，或許大家會想說，為何不用 VSTS，<br>其實也沒有甚麼特別的因素，純粹只是想試試看 Travis CI 而已…</p>
+<h2>Travis CI</h2>
+<p>是的，這次我選用的是<a href="https://travis-ci.org/">Travis CI</a>，或許大家會想說，為何不用 VSTS，
+其實也沒有甚麼特別的因素，純粹只是想試試看 Travis CI 而已...</p>
 <p>而 Travis CI 是一個免費的 CI 工具，和 GitHub 也很契合，所以身為技術狂的人，這次我們就來嘗試看看吧。</p>
-<p>(<br>  備註 : 如果是使用於 Open Source 專案，也就是 Public Repo 則不用錢，如果是使用在 Private Repo 專案，則要 $$<br>  所以過一陣子，搞不好真的要跳到 VSTS 去了..<br>)</p>
-<h2 id="環境"><a href="#環境" class="headerlink" title="環境"></a>環境</h2><p>在開始前，我必須要說一下我自己的環境；在查了很多文章後，赫然發現，有許多的朋友，會把 GitHub Page 設為 Master，<br>( 其實 GitHub Page 也必須要為 Master )，而把尚未編譯的 MD 檔案，也是 Source ，放到同一個 Repo 裡面，<br>而用分支的方式切開.</p>
-<p>當然，也不是說好或是不好，但小弟自己是習慣把 Source 放到 Private Repo 裡面，而 GitHub Page 則是放在 Public，<br>對小弟來說，這就像是在寫程式一般，放到 GitHub Page ，自然就是只提供已經編譯完的 HTML ，而 MD 還是放在 Private Repo 裡面。</p>
-<p>所以，對小弟來說，小弟的環境，就是一個 Public Repo 放置編譯完後的 HTML。<br>而 Private Repo 則是放 MD。</p>
+<p>(
+備註 : 如果是使用於 Open Source 專案，也就是 Public Repo 則不用錢，如果是使用在 Private Repo 專案，則要 $$
+所以過一陣子，搞不好真的要跳到 VSTS 去了..
+)</p>
+<h2>環境</h2>
+<p>在開始前，我必須要說一下我自己的環境；在查了很多文章後，赫然發現，有許多的朋友，會把 GitHub Page 設為 Master，
+( 其實 GitHub Page 也必須要為 Master )，而把尚未編譯的 MD 檔案，也是 Source ，放到同一個 Repo 裡面，
+而用分支的方式切開.</p>
+<p>當然，也不是說好或是不好，但小弟自己是習慣把 Source 放到 Private Repo 裡面，而 GitHub Page 則是放在 Public，
+對小弟來說，這就像是在寫程式一般，放到 GitHub Page ，自然就是只提供已經編譯完的 HTML ，而 MD 還是放在 Private Repo 裡面。</p>
+<p>所以，對小弟來說，小弟的環境，就是一個 Public Repo 放置編譯完後的 HTML。
+而 Private Repo 則是放 MD。</p>
 <p>故，有兩個 Repo，也因此，在設定的情況下，就會和目前網路上大部分的文章有些落差。 </p>
-<p>另外，小弟這邊也直接使用了 Hexo 的 hexo-deployer-git，因為原本我是直接透過指令佈署，<br>所以如果沒使用的朋友們，可以先進行 hexo-deployer-git 的設定。</p>
-<h2 id="設定"><a href="#設定" class="headerlink" title="設定"></a>設定</h2><p>基本上，Travis CI 非常簡單，簡單到隨便按按就可以了!(疑)，總之，一開始就是使用 GitHub 進行登入。</p>
-<p>也因為使用 GitHub 帳號進行登入，所以 Travis CI 也順便地和 GitHub 要一些權限，例如拿到 Repo 列表之類的。<br>完成之後，就會出現如下畫面；基本上如文章說的，只要三個步驟。</p>
+<p>另外，小弟這邊也直接使用了 Hexo 的 hexo-deployer-git，因為原本我是直接透過指令佈署，
+所以如果沒使用的朋友們，可以先進行 hexo-deployer-git 的設定。</p>
+<h2>設定</h2>
+<p>基本上，Travis CI 非常簡單，簡單到隨便按按就可以了!(疑)，總之，一開始就是使用 GitHub 進行登入。</p>
+<p>也因為使用 GitHub 帳號進行登入，所以 Travis CI 也順便地和 GitHub 要一些權限，例如拿到 Repo 列表之類的。
+完成之後，就會出現如下畫面；基本上如文章說的，只要三個步驟。</p>
 <ol>
 <li>開啟開關</li>
 <li>設定 travis.yml</li>
 <li>觸發!!</li>
 </ol>
-<p><img src="01.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/6c4865c7d4a9cb7305fbb001240d9c62/f9c26/01.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 53.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAB2HAAAdhwGP5fFlAAABdklEQVQoz41SW07DMBDMheBs9CbtIehR+kE/uESqoiZx7DhJ7byGnQWHAhVipdHE8u54dzZZXdew1oJsjIH3Hn3f/wtd16FtW60lzuczsiFGzNOEZVkUDCY555R90yi3vtXHVESYTVyvV6RgbVEUyJx1GCWJUvM862Xf9WgbL2IetZXOnXQgKEwJI2fXONjaIoSwCrK2LEtko3THQ4K+JrChwTRP6IeAt6aA6SzKzqBsDUIMmMYJk9QOw6DMDlUQN5FGjuOAl/wVl/qCGCKqskJxEVFhUxkdjcW0JVmzdpjaTR6q6PL1wDiOOrbic4FEI97ST/pKL78Jps5uF3Mvbh/9mUdBbj5bE9iW8Ewv+lo9dIImeGGPNnaax0J6xjgej9jtdjidTnqmn786ZFjZYlGJT6YSlMoVUVU6KjthbJ42eHx4xP55r2eOfleQ3tAnGk6mEL8pFOW/Tf/f4XDAdrtFnucfy5S7ux7qaMu8clraX8EcCr4DtihRMRP1BjEAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="01"
+        title="01"
+        src="/static/6c4865c7d4a9cb7305fbb001240d9c62/78d47/01.png"
+        srcset="/static/6c4865c7d4a9cb7305fbb001240d9c62/56d15/01.png 200w,
+/static/6c4865c7d4a9cb7305fbb001240d9c62/d9f49/01.png 400w,
+/static/6c4865c7d4a9cb7305fbb001240d9c62/78d47/01.png 800w,
+/static/6c4865c7d4a9cb7305fbb001240d9c62/64756/01.png 1200w,
+/static/6c4865c7d4a9cb7305fbb001240d9c62/42cbc/01.png 1600w,
+/static/6c4865c7d4a9cb7305fbb001240d9c62/f9c26/01.png 2880w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>實際上怎麼可能那麼單純 XDDD 。</p>
 <p>接下來，進入下圖，我們可以看到，完全找不到 Private Repo 的專案，這也很正常，因為我們要進入另外一個網站。</p>
-<p><img src="02.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/63f6883c379d3971d695eb4b52fb82c3/f9c26/02.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 53.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAB2HAAAdhwGP5fFlAAABcUlEQVQoz4VT2U7DMBDMx/PCCykSv8DvIJGIMxQEaloR53aaq0kHzzauolKEpZFt7WZ2dtZxqqqCNsiLAnmeC9I0lX273aKuazRNA+bNUTA/y1BpLXdt9s1mAwdm1bpE+PWBtutg1ziOiKIIcRxDKYX9fn/AFA91hdunFzwnqdwHk888IRx2O5Sm4jAMEuSHJNSlFlBtNxVr21bQG6zCNQoTswJY/EBoiPK8kNb6vj+QjntkRYaoUGjqBsFbgIW7ENWZIXFdFw+eRyZR/YuwLEvxgoSUz6zP7xVe1+/o6hZ3jx6ubq4RRwrficKFewn/3je5w3mFejKXQ2B7bJvDUiqWmK406mk4tKAyA+PQ2L61iWeHh3OLFcNVKEksQiIS7Izf1pL5tzyzO8deTkFC3/fFCoJPiaRUPx/eWcL5skkkDILg+O4ssbVm3uqfhFadJfTMFIvpwSdJIirZNhUy/i/hqcLlcnn8Wyxsu6cCuNOOHzZaUiw+mbWMAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="02"
+        title="02"
+        src="/static/63f6883c379d3971d695eb4b52fb82c3/78d47/02.png"
+        srcset="/static/63f6883c379d3971d695eb4b52fb82c3/56d15/02.png 200w,
+/static/63f6883c379d3971d695eb4b52fb82c3/d9f49/02.png 400w,
+/static/63f6883c379d3971d695eb4b52fb82c3/78d47/02.png 800w,
+/static/63f6883c379d3971d695eb4b52fb82c3/64756/02.png 1200w,
+/static/63f6883c379d3971d695eb4b52fb82c3/42cbc/02.png 1600w,
+/static/63f6883c379d3971d695eb4b52fb82c3/f9c26/02.png 2880w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>進入 .com 的網站後，我們就可以找到 Private Repo 這個專案了，這時候，我們就可以輕鬆的啟動 Repo。</p>
-<p><img src="03.png" alt=""></p>
-<p>接下來，我們要如下圖，把底下這兩個選項啟動，<br>第一個 Build only if .travis.yml is present 代表著，只有擁有 .travis.yml 才會啟用 build，<br>而 Build pushes 則是表示當 push 的時候會被觸發。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/717c9b4edaa1043b9a63fd174d10d74e/f9c26/03.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 53.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAByUlEQVQoz21Ty47TQBDMV3PiAkLiP7LwMRyASIAUQMnisMZvj2c8fo9dVE/i7EbKSCV32jXVXZ32xlqLmqgqjVIrlKpEpSoopZhvYW3n0TS9h2WuaTpobZGXGsZYNKJR14iiCBvwtLVBGDxiGEY8nwXzGMMNT0SIoT0RAaYhJlLM/RPg/pHWkMnHPCPLsrOgmyYYreGcu8pN04gkPiKND0iTIzkVhRRmZ/i2QVD+xYdvn7DPY893FMzz/CJIIbHcdR3G8dzlTILWNQtZ2tcYxnOxni6GfsTE+FAaqLa/8m8EjTGQeYqgvBTUloKN8YVOQYCH7dZf0nTzcfuAx9+//GiWe4IyVBFs25Zd9JzJgiANsY8OnF2Pzz92ePP+HfI0Q1pkePX2NXZfd17opsNlWXD3MG0qhTAM/XyzPENW5D4uyhJJnnJMFfr+juUbnUsB2zT4cvyDkc+aq+Ro27H75dLRS+4ae0GxK5j4T6+xVOsp8H3/E4b7KBgoNhLuwnvJX3+naYqNDLikBbEmFcSG5Iqi4LokfsFlvxTzkisLLr6uECWRzwtXIPdOpxM2Egjk4hoLQcgJBaVYHMc+lzMnX4PnV+rKXQWF/x95hkrh9vsrQwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="03"
+        title="03"
+        src="/static/717c9b4edaa1043b9a63fd174d10d74e/78d47/03.png"
+        srcset="/static/717c9b4edaa1043b9a63fd174d10d74e/56d15/03.png 200w,
+/static/717c9b4edaa1043b9a63fd174d10d74e/d9f49/03.png 400w,
+/static/717c9b4edaa1043b9a63fd174d10d74e/78d47/03.png 800w,
+/static/717c9b4edaa1043b9a63fd174d10d74e/64756/03.png 1200w,
+/static/717c9b4edaa1043b9a63fd174d10d74e/42cbc/03.png 1600w,
+/static/717c9b4edaa1043b9a63fd174d10d74e/f9c26/03.png 2880w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接下來，我們要如下圖，把底下這兩個選項啟動，
+第一個 Build only if .travis.yml is present 代表著，只有擁有 .travis.yml 才會啟用 build，
+而 Build pushes 則是表示當 push 的時候會被觸發。</p>
 <p>另外，可以注意到最下面的 GH_TOKEN ，基本上，第一次進來是不會有這個的，這個是等下我們要進行設定的步驟。</p>
-<p><img src="04.png" alt=""></p>
-<p>回到 GitHub ，因為最後，我們要透過 Travis CI 把編譯成 HTML 的檔案，重新簽入且 Push 至 Public Repo，<br>所以這邊，我們要在 GitHub 網站設定 Personal access tokens ，並且把此 Token 提供給 Travis CI，<br>這樣 Travis CI 就可以擁有簽入 ( push 至 GitHub ) 的權限。</p>
-<p>當然，除了 Personal access token 外，也可以直接使用 SSH 憑證的方式，<br>使用 SSH 憑證的方式，有一個好處是可以僅限定於某個 Repo，不過在 Travis CI 上的處理就會比較麻煩，<br>有興趣可以參考最底下的參考連結。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/c7018088478f8a4feefa9a9ffbba5702/f9c26/04.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 53.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAB2HAAAdhwGP5fFlAAABVElEQVQoz41S2Y6CQBDk/z9u3zbxQeIeRrkEkXuAqa0aHYLKw3bSAZquqr6CvMhxueYoigJ6v91uqOt606uq2owLKz+fzwiMMZjnGdZa5yLM0tSB12aZczqdEMcxtkzYlLig6nv0XYdpmlxQAg2/W8bNON6/+Zz4jwlO3BHALkUMw4Ce+Y6wadtFQYAwinHMMvSsUN6x4oE58uMlR8PY2DSwKuCBsw+hjDjXsg+I8HO/x9fhgDrnXKnYknBixYb+sdvh9/sHJeOGFS2F0BZCrFS8G6pP+J/5EeiZJAkCr/AYLa5sJylL5GytZZtr13i0NL9tzU54P3/FgnVlMiVXBHUEr8+loVBJIW06iiKEYejORHG/EP0P1nNYE9uXk3juBI5IVfuWJazq3wiHmT7WmE3qlDsthIt7nfXrDcpGntcbYdcPVK+pfm9T7WpWW8t76uhxj3/i/lr6FA9BdwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="04"
+        title="04"
+        src="/static/c7018088478f8a4feefa9a9ffbba5702/78d47/04.png"
+        srcset="/static/c7018088478f8a4feefa9a9ffbba5702/56d15/04.png 200w,
+/static/c7018088478f8a4feefa9a9ffbba5702/d9f49/04.png 400w,
+/static/c7018088478f8a4feefa9a9ffbba5702/78d47/04.png 800w,
+/static/c7018088478f8a4feefa9a9ffbba5702/64756/04.png 1200w,
+/static/c7018088478f8a4feefa9a9ffbba5702/42cbc/04.png 1600w,
+/static/c7018088478f8a4feefa9a9ffbba5702/f9c26/04.png 2880w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>回到 GitHub ，因為最後，我們要透過 Travis CI 把編譯成 HTML 的檔案，重新簽入且 Push 至 Public Repo，
+所以這邊，我們要在 GitHub 網站設定 Personal access tokens ，並且把此 Token 提供給 Travis CI，
+這樣 Travis CI 就可以擁有簽入 ( push 至 GitHub ) 的權限。</p>
+<p>當然，除了 Personal access token 外，也可以直接使用 SSH 憑證的方式，
+使用 SSH 憑證的方式，有一個好處是可以僅限定於某個 Repo，不過在 Travis CI 上的處理就會比較麻煩，
+有興趣可以參考最底下的參考連結。</p>
 <p>而 Personal access token 則會影響到所有 Repo，所以我們只提供最小的權限 ( 其實也不小了.. )。</p>
 <p>設定完後，回拿到一組 Token ，請複製下來，離開後，就永遠看不到了 XDD</p>
-<p><img src="05.png" alt=""></p>
-<p>接下來，小心翼翼的拿著我們複製的 Token ，回到 Travis CI，並且貼於下圖，<br>並且將名稱命名為 GH_TOKEN ( 可以隨意命名 )，<br>完成後就會如下圖。</p>
-<p><img src="06.png" alt=""></p>
-<h2 id="撰寫-travis-yml"><a href="#撰寫-travis-yml" class="headerlink" title="撰寫 travis.yml"></a>撰寫 travis.yml</h2><p>接下來，我們只要在我們 MD source 的根目錄，加上一個 .travis.yml。<br>並且內容如下：</p>
-<p>language : 的意思指的是這是哪一種語言，Hexo 基本上當然是 Node.js 嚕。<br>node_js : 代表要用哪一個版本。<br>script : 要執行的 script。<br>after_success : 完成後要執行的動作。</p>
-<p>所以簡單的說，就是先 npm install ，還原所有的 hexo 套件，<br>並且使用 hexo cl ，先清除 cache。<br>接著，設定完 git 的 name 和 email。<br>並且使用 Linux 的 sed 指令來替換 _convig.yml 的佈署參數，而這邊，我們使用了 ${GH_TOKEN} 參數<br>( 感謝<a href="http://lotabout.me/2016/Hexo-Auto-Deploy-to-Github/" target="_blank" rel="noopener">此篇</a>文章的大大，於文章內提供此方法 )<br>最後一步，當然就是透過 hexo-deployer-git 進行佈署了。</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">language:</span> <span class="string">node_js</span></span><br><span class="line"></span><br><span class="line"><span class="attr">node_js:</span> <span class="string">stable</span></span><br><span class="line"></span><br><span class="line"><span class="attr">script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">npm</span> <span class="string">install</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">hexo</span> <span class="string">cl</span></span><br><span class="line"></span><br><span class="line"><span class="attr">after_success:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">config</span> <span class="string">--global</span> <span class="string">user.name</span> <span class="string">"Your Name"</span> </span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">config</span> <span class="string">--global</span> <span class="string">user.email</span> <span class="string">"Your Email"</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">sed</span> <span class="string">-i''</span> <span class="string">"/^ *repo/s~github\.com~$&#123;GH_TOKEN&#125;@github.com~"</span> <span class="string">_config.yml</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">hexo</span> <span class="string">deploy</span> <span class="string">-g</span></span><br></pre></td></tr></table></figure>
-
-<p>完成後，我們可以 commit 一個新文章，並且 push ，基本上就會觸發了。</p>
-<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>基本上，雖然我們透過置換的方式，來將參數換成 Token ，但實際上，在 Travis CI 的 Log 裡面，<br>還是可以看到置換後的 Token，未來有機會再來嘗試看看加密的方式，看看能不能解決這塊問題。</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a href="http://notes.iissnan.com/2016/publishing-github-pages-with-travis-ci/" target="_blank" rel="noopener">http://notes.iissnan.com/2016/publishing-github-pages-with-travis-ci/</a></li>
-<li><a href="http://www.jianshu.com/p/5e74046e7a0f" target="_blank" rel="noopener">http://www.jianshu.com/p/5e74046e7a0f</a></li>
-<li><a href="http://www.jianshu.com/p/e22c13d85659" target="_blank" rel="noopener">http://www.jianshu.com/p/e22c13d85659</a></li>
-<li><a href="https://levirve.github.io/2016/hexo-deploy-through-travisci/" target="_blank" rel="noopener">https://levirve.github.io/2016/hexo-deploy-through-travisci/</a></li>
-<li><a href="https://zespia.tw/blog/2015/01/21/continuous-deployment-to-github-with-travis/" target="_blank" rel="noopener">https://zespia.tw/blog/2015/01/21/continuous-deployment-to-github-with-travis/</a></li>
-<li><a href="http://lotabout.me/2016/Hexo-Auto-Deploy-to-Github/" target="_blank" rel="noopener">http://lotabout.me/2016/Hexo-Auto-Deploy-to-Github/</a></li>
-<li><a href="https://docs.travis-ci.com/user/environment-variables/#Encrypted-Variables" target="_blank" rel="noopener">https://docs.travis-ci.com/user/environment-variables/#Encrypted-Variables</a></li>
-<li><a href="https://docs.travis-ci.com/user/private-dependencies/" target="_blank" rel="noopener">https://docs.travis-ci.com/user/private-dependencies/</a></li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Node-js/" rel="tag">#Node.js</a>
-          
-            <a href="/tags/Hexo/" rel="tag">#Hexo</a>
-          
-            <a href="/tags/Github/" rel="tag">#Github</a>
-          
-            <a href="/tags/Travis-CI/" rel="tag">#Travis CI</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/04/22/Angular2-Env_Setup_3/" rel="next" title="Angular2 - 與 Webpack 整合環境設定 - 3">
-                <i class="fa fa-chevron-left"></i> Angular2 - 與 Webpack 整合環境設定 - 3
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/02/TFS-TFS_Self_SSL/" rel="prev" title="TFS - 使用自簽憑證與 SSL 對外提供網站服務">
-                TFS - 使用自簽憑證與 SSL 對外提供網站服務 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Travis-CI"><span class="nav-number">2.</span> <span class="nav-text">Travis CI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#環境"><span class="nav-number">3.</span> <span class="nav-text">環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定"><span class="nav-number">4.</span> <span class="nav-text">設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#撰寫-travis-yml"><span class="nav-number">5.</span> <span class="nav-text">撰寫 travis.yml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">6.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">7.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/48f7aecb8d5ea0e091837a6ca789ef92/f9c26/05.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 53.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAB2HAAAdhwGP5fFlAAABSklEQVQoz5WTi26DMAxF+f8f7dZSCOThvMjddVo6NFFtixQ5jsPJtWMG9NHgJaPUrXspJazr2u22bai19rltFT9Ha+1l9fxwBEoq3ZMQYKYJUQSRa5EIiYwfLlXAPnc/xvgNdDwc80NB8h52nhFpda5cOyqO1nXF7QSo++M4Ynj6sCG9FJYgMAx6QjJVKlDXhWrbX4Gq0EpBTRn5fsfElAtrkrWey4KF0KDAA+gc+Ew5sE6rFySqK4RZphp86I+hoEjwGexE4WNjdQHT6pE1TWthaJ1zKKXA0hem3uv3G7DrqwXmNmIaJwg3NWgW04GqUIGq8h/Aivn6idvlAnu9IlGdAirV1ZyRqK7Qqv8OqFa/eaWcckFijylcVc58mMK+ShKwsKai6WvaBLc3fajlGY7dvo9M0Hj56D2oPTnzAmcMkpaAsXeNrX/KF1AZXrUX7ajLAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="05"
+        title="05"
+        src="/static/48f7aecb8d5ea0e091837a6ca789ef92/78d47/05.png"
+        srcset="/static/48f7aecb8d5ea0e091837a6ca789ef92/56d15/05.png 200w,
+/static/48f7aecb8d5ea0e091837a6ca789ef92/d9f49/05.png 400w,
+/static/48f7aecb8d5ea0e091837a6ca789ef92/78d47/05.png 800w,
+/static/48f7aecb8d5ea0e091837a6ca789ef92/64756/05.png 1200w,
+/static/48f7aecb8d5ea0e091837a6ca789ef92/42cbc/05.png 1600w,
+/static/48f7aecb8d5ea0e091837a6ca789ef92/f9c26/05.png 2880w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
   </a>
-</div>
+    </span></p>
+<p>接下來，小心翼翼的拿著我們複製的 Token ，回到 Travis CI，並且貼於下圖，
+並且將名稱命名為 GH_TOKEN ( 可以隨意命名 )，
+完成後就會如下圖。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/f83d93d1d24fcb86e1cc005347fb13c5/f9c26/06.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 53.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAB2HAAAdhwGP5fFlAAABbElEQVQoz21Sa2+DMAzk//+7fVulSZvWUUqhvJIADY/bXQRV+oh0iuPYd7GdpKorXJsKdV1Ddtd1sNa+hTHmrV+5QpZlSLz3WJYF67oGiLAsy5AcL92dmJDnOd4t3RdFgcSMI8ZhwDzPwelvN1jn0Pc9JHbj2XGfKErle1wMxYzkCYSOibuC1k/bITMWfpoCoQRmEREZhUb6VdGes0M+VRZK3h1an38pfk8ZBiarfKlD98TH9w/Scw7Ldkwkjh9yJ3xWWnnhWda8BT416sW1RISXywXJGgfRrtsW56JEWVWwtAW37YZorle0vOs41YETnlmB5wwWPkITT/aXBT6qtGysgnuWazaSrmlgeW5IlB6PyNIUX4cDTrTl79mCnL6WdhL3QYSz1PSV1FuBvdIrFkJnjjnASoRiE6erGIl2JH4k1BegeZstlqkMAxko4PcBRHho7bZrUC+EAxWds/yHhrsLHzxM+nl4ERD9x3/gsVqPLMVdhQAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="06"
+        title="06"
+        src="/static/f83d93d1d24fcb86e1cc005347fb13c5/78d47/06.png"
+        srcset="/static/f83d93d1d24fcb86e1cc005347fb13c5/56d15/06.png 200w,
+/static/f83d93d1d24fcb86e1cc005347fb13c5/d9f49/06.png 400w,
+/static/f83d93d1d24fcb86e1cc005347fb13c5/78d47/06.png 800w,
+/static/f83d93d1d24fcb86e1cc005347fb13c5/64756/06.png 1200w,
+/static/f83d93d1d24fcb86e1cc005347fb13c5/42cbc/06.png 1600w,
+/static/f83d93d1d24fcb86e1cc005347fb13c5/f9c26/06.png 2880w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>撰寫 travis.yml</h2>
+<p>接下來，我們只要在我們 MD source 的根目錄，加上一個 .travis.yml。
+並且內容如下：</p>
+<p>language : 的意思指的是這是哪一種語言，Hexo 基本上當然是 Node.js 嚕。
+node<em>js : 代表要用哪一個版本。
+script : 要執行的 script。
+after</em>success : 完成後要執行的動作。</p>
+<p>所以簡單的說，就是先 npm install ，還原所有的 hexo 套件，
+並且使用 hexo cl ，先清除 cache。
+接著，設定完 git 的 name 和 email。
+並且使用 Linux 的 sed 指令來替換 <em>convig.yml 的佈署參數，而這邊，我們使用了 ${GH</em>TOKEN} 參數
+( 感謝<a href="http://lotabout.me/2016/Hexo-Auto-Deploy-to-Github/">此篇</a>文章的大大，於文章內提供此方法 )
+最後一步，當然就是透過 hexo-deployer-git 進行佈署了。</p>
+<div class="gatsby-highlight" data-language="yml"><pre class="language-yml"><code class="language-yml"><span class="token key atrule">language</span><span class="token punctuation">:</span> node_js
 
-        
+<span class="token key atrule">node_js</span><span class="token punctuation">:</span> stable
 
-        
-      </div>
-    </footer>
+<span class="token key atrule">script</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> npm install
+  <span class="token punctuation">-</span> hexo cl
 
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2017/01/01/Hexo-Use_Travis_CI_Auto_Deploy_Blog/';
-      var disqus_title = 'Hexo - 使用 Travis CI 自動佈署 Blog';
-      var disqus_url = 'http://skychang.github.io/2017/01/01/Hexo-Use_Travis_CI_Auto_Deploy_Blog/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+<span class="token key atrule">after_success</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> git config <span class="token punctuation">-</span><span class="token punctuation">-</span>global user.name "Your Name" 
+  <span class="token punctuation">-</span> git config <span class="token punctuation">-</span><span class="token punctuation">-</span>global user.email "Your Email"
+  <span class="token punctuation">-</span> sed <span class="token punctuation">-</span>i'' "/^ <span class="token important">*repo/s~github\.com~$</span><span class="token punctuation">{</span>GH_TOKEN<span class="token punctuation">}</span>@github.com~" _config.yml
+  <span class="token punctuation">-</span> hexo deploy <span class="token punctuation">-</span>g</code></pre></div>
+<p>完成後，我們可以 commit 一個新文章，並且 push ，基本上就會觸發了。</p>
+<h2>後記</h2>
+<p>基本上，雖然我們透過置換的方式，來將參數換成 Token ，但實際上，在 Travis CI 的 Log 裡面，
+還是可以看到置換後的 Token，未來有機會再來嘗試看看加密的方式，看看能不能解決這塊問題。</p>
+<h2>參考資料</h2>
+<ul>
+<li><a href="http://notes.iissnan.com/2016/publishing-github-pages-with-travis-ci/">http://notes.iissnan.com/2016/publishing-github-pages-with-travis-ci/</a></li>
+<li><a href="http://www.jianshu.com/p/5e74046e7a0f">http://www.jianshu.com/p/5e74046e7a0f</a></li>
+<li><a href="http://www.jianshu.com/p/e22c13d85659">http://www.jianshu.com/p/e22c13d85659</a></li>
+<li><a href="https://levirve.github.io/2016/hexo-deploy-through-travisci/">https://levirve.github.io/2016/hexo-deploy-through-travisci/</a></li>
+<li><a href="https://zespia.tw/blog/2015/01/21/continuous-deployment-to-github-with-travis/">https://zespia.tw/blog/2015/01/21/continuous-deployment-to-github-with-travis/</a></li>
+<li><a href="http://lotabout.me/2016/Hexo-Auto-Deploy-to-Github/">http://lotabout.me/2016/Hexo-Auto-Deploy-to-Github/</a></li>
+<li><a href="https://docs.travis-ci.com/user/environment-variables/#Encrypted-Variables">https://docs.travis-ci.com/user/environment-variables/#Encrypted-Variables</a></li>
+<li><a href="https://docs.travis-ci.com/user/private-dependencies/">https://docs.travis-ci.com/user/private-dependencies/</a></li>
+</ul></div><div class="navigation-module--navigation--3Zfju"><span class="navigation-module--button--28kp3"><a href="/example"><span class="navigation-module--iconPrev--23mg1">←</span><span class="navigation-module--buttonText--1Xod2">Example</span></a></span></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2017/01/01/Hexo-Use_Travis_CI_Auto_Deploy_Blog/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>

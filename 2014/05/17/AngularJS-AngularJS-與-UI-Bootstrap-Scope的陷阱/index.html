@@ -1,336 +1,10 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="JavaScript,AngularJS," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="這幾天，遇雷的狀況，都已經快要變成索爾了…而今天要談的這個問題，其實算是JS加上AngularJS的基本功…牽涉的範圍還滿廣泛的…從UI-Bootstrap這個Directive開始..到AngularJS Scope的範圍，一直到JavaScript的原型繼承… 而這篇的整個概念可以看原文這裡，對岸的高手，也有幫忙翻譯成簡體中文，所以有興趣的可以先看一下上面這些資訊( 沒時間看的朋友也沒關係，可">
-<meta property="og:type" content="article">
-<meta property="og:title" content="AngularJS -  AngularJS 與 UI-Bootstrap Scope的陷阱">
-<meta property="og:url" content="http://skychang.github.io/2014/05/17/AngularJS-AngularJS-%E8%88%87-UI-Bootstrap-Scope%E7%9A%84%E9%99%B7%E9%98%B1/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="這幾天，遇雷的狀況，都已經快要變成索爾了…而今天要談的這個問題，其實算是JS加上AngularJS的基本功…牽涉的範圍還滿廣泛的…從UI-Bootstrap這個Directive開始..到AngularJS Scope的範圍，一直到JavaScript的原型繼承… 而這篇的整個概念可以看原文這裡，對岸的高手，也有幫忙翻譯成簡體中文，所以有興趣的可以先看一下上面這些資訊( 沒時間看的朋友也沒關係，可">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://lh4.ggpht.com/-fwl4nMJ9qEs/U3w-ur7JsmI/AAAAAAAAI3g/UPAbSW7Iqqc/image_thumb%25255B1%25255D.png?imgmax=800">
-<meta property="og:image" content="http://lh5.ggpht.com/-Y5e96uLtfaI/U3w-weTXpeI/AAAAAAAAI3w/6LMzYzHauQM/image_thumb%25255B4%25255D.png?imgmax=800">
-<meta property="og:image" content="http://lh3.ggpht.com/-2nYIeuPZfUg/U3w-zB8qKkI/AAAAAAAAI4A/TyMj4mpJSeI/image_thumb%25255B6%25255D.png?imgmax=800">
-<meta property="og:image" content="http://lh6.ggpht.com/-L1Eib4yEgiw/U3w-0oWDuCI/AAAAAAAAI4Q/mS5KFGKj1HE/image_thumb%25255B9%25255D.png?imgmax=800">
-<meta property="article:published_time" content="2014-05-17T16:10:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:38.844Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="JavaScript">
-<meta property="article:tag" content="AngularJS">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://lh4.ggpht.com/-fwl4nMJ9qEs/U3w-ur7JsmI/AAAAAAAAI3g/UPAbSW7Iqqc/image_thumb%25255B1%25255D.png?imgmax=800">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> AngularJS -  AngularJS 與 UI-Bootstrap Scope的陷阱 | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                AngularJS -  AngularJS 與 UI-Bootstrap Scope的陷阱
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2014-05-17T16:10:00+00:00" content="2014-05-17">
-              2014-05-17
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/05/17/AngularJS-AngularJS-%E8%88%87-UI-Bootstrap-Scope%E7%9A%84%E9%99%B7%E9%98%B1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/05/17/AngularJS-AngularJS-與-UI-Bootstrap-Scope的陷阱/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>這幾天，遇雷的狀況，都已經快要變成索爾了…而今天要談的這個問題，其實算是JS加上AngularJS的基本功…牽涉的範圍還滿廣泛的…從UI-Bootstrap這個Directive開始..到AngularJS Scope的範圍，一直到JavaScript的原型繼承…</p>
-<p>而這篇的整個概念可以看<a href="http://stackoverflow.com/questions/14049480/what-are-the-nuances-of-scope-prototypal-prototypical-inheritance-in-angularjs" target="_blank" rel="noopener">原文這裡</a>，對岸的高手，也有幫忙翻譯成<a href="http://www.lovelucy.info/understanding-scopes-in-angularjs.html" target="_blank" rel="noopener">簡體中文</a>，所以有興趣的可以先看一下上面這些資訊( 沒時間看的朋友也沒關係，可以先聽小弟講完，再回頭看… )；而以下的敘述，會依據上面的理論來開始解釋小弟遇到的問題…</p>
-<h4 id="問題"><a href="#問題" class="headerlink" title="問題"></a>問題</h4><p>首先，我們還是要先來看一下問題…</p>
-<p>大家可以從這邊看到<a href="http://plnkr.co/edit/RK2AyP?p=preview" target="_blank" rel="noopener">原始碼</a>…另外，我也貼一份在Blog…</p>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">AngularJS -  AngularJS 與 UI-Bootstrap Scope的陷阱 :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="這幾天，遇雷的狀況，都已經快要變成索爾了…而今天要談的這個問題，其實算是JS加上AngularJS的基本功…牽涉的範圍還滿廣泛的…從UI-Bootstrap這個Directive開始..到AngularJS Scope的範圍，一直到JavaScript…"/><meta data-react-helmet="true" property="og:title" content="AngularJS -  AngularJS 與 UI-Bootstrap Scope的陷阱"/><meta data-react-helmet="true" property="og:description" content="這幾天，遇雷的狀況，都已經快要變成索爾了…而今天要談的這個問題，其實算是JS加上AngularJS的基本功…牽涉的範圍還滿廣泛的…從UI-Bootstrap這個Directive開始..到AngularJS Scope的範圍，一直到JavaScript…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="AngularJS -  AngularJS 與 UI-Bootstrap Scope的陷阱"/><meta data-react-helmet="true" name="twitter:description" content="這幾天，遇雷的狀況，都已經快要變成索爾了…而今天要談的這個問題，其實算是JS加上AngularJS的基本功…牽涉的範圍還滿廣泛的…從UI-Bootstrap這個Directive開始..到AngularJS Scope的範圍，一直到JavaScript…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2014/05/17/AngularJS-AngularJS-與-UI-Bootstrap-Scope的陷阱/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">AngularJS -  AngularJS 與 UI-Bootstrap Scope的陷阱</h1><div class="post-module--meta--3YtjE">17 May 2014<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/AngularJS/"><span class="post-module--tag--16U9p">#<!-- -->AngularJS</span></a><a href="/tag/JavaScript/"><span class="post-module--tag--16U9p">#<!-- -->JavaScript</span></a></div></div><div><p>這幾天，遇雷的狀況，都已經快要變成索爾了…而今天要談的這個問題，其實算是JS加上AngularJS的基本功…牽涉的範圍還滿廣泛的…從UI-Bootstrap這個Directive開始..到AngularJS Scope的範圍，一直到JavaScript的原型繼承…</p>
+<p>而這篇的整個概念可以看<a href="http://stackoverflow.com/questions/14049480/what-are-the-nuances-of-scope-prototypal-prototypical-inheritance-in-angularjs">原文這裡</a>，對岸的高手，也有幫忙翻譯成<a href="http://www.lovelucy.info/understanding-scopes-in-angularjs.html">簡體中文</a>，所以有興趣的可以先看一下上面這些資訊( 沒時間看的朋友也沒關係，可以先聽小弟講完，再回頭看… )；而以下的敘述，會依據上面的理論來開始解釋小弟遇到的問題…</p>
+<h4>問題</h4>
+<p>首先，我們還是要先來看一下問題…</p>
+<p>大家可以從這邊看到<a href="http://plnkr.co/edit/RK2AyP?p=preview">原始碼</a>…另外，我也貼一份在Blog…</p>
 <p>HTML</p>
 <pre class="brush: csharp;">&lt;!doctype html&gt;
 &lt;html ng-app="plunker"&gt;
@@ -350,10 +24,10 @@
         &lt;div class="modal-body"&gt;
             &lt;ul&gt;
                 &lt;li ng-repeat="item in items"&gt;
-                    &lt;a ng-click="selected.item = item"&gt;&lt;/a&gt;
+                    &lt;a ng-click="selected.item = item"&gt;{{ item }}&lt;/a&gt;
                 &lt;/li&gt;
             &lt;/ul&gt;
-            Selected: &lt;b&gt;&lt;/b&gt;
+            Selected: &lt;b&gt;{{ selected.item }}&lt;/b&gt;
         &lt;/div&gt;
         &lt;input type="text" ng-model="testText"  /&gt;
         &lt;div class="modal-footer"&gt;
@@ -363,12 +37,11 @@
     &lt;/script&gt;
 
     &lt;button class="btn btn-default" ng-click="open()"&gt;Open me!&lt;/button&gt;
-    &lt;div ng-show="selected"&gt;Selection from a modal: &lt;/div&gt;
+    &lt;div ng-show="selected"&gt;Selection from a modal: {{ selected }}&lt;/div&gt;
 &lt;/div&gt;
   &lt;/body&gt;
 &lt;/html&gt;
 </pre>
-
 <p>JS</p>
 <pre class="brush: js;">angular.module('plunker', ['ui.bootstrap']);
 var ModalDemoCtrl = function ($scope, $modal, $log) {
@@ -416,19 +89,17 @@ var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
   };
 };
 </pre>
-
 <p>好，稍微解釋一下這個問題，這個問題主要是使用UI-Bootstrap Modal的時候，如果我們再彈跳視窗的地方，加上一個Textbox，並且用ng-model ( 原始碼上是Bind到testText )來做Bind；最後當我們按下ok按鈕的時候，會用alert($scope.testText)來顯示值…</p>
 <p>但實際上，大家玩過後可以發現，是找不到這個值的…而且這個值為定義…</p>
-<h4 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h4><p>這個解法其實很簡單，我們只要把Text的ng-model改成繫結$parent.testText就可以了…所以會長的如下這樣:</p>
+<h4>解法</h4>
+<p>這個解法其實很簡單，我們只要把Text的ng-model改成繫結$parent.testText就可以了…所以會長的如下這樣:</p>
 <p>把原本繫結testText改成$parent.testText…</p>
 <pre class="brush: xml;">&lt;input type="text" ng-model="$parent.testText"  /&gt;
 </pre>
-
 <p>是的，這樣alert就可以順利彈跳出來值…</p>
 <p>此外，你也可以改成這樣…變成繫結oo.testText</p>
 <pre class="brush: xml;">&lt;input type="text" ng-model="oo.testText"  /&gt;
 </pre>
-
 <p>但這時候，JavaScript那邊也要跟調整…我們在一開始的時候設定oo為物件，並且alert改為alert($scope.oo.testText)。</p>
 <pre class="brush: js;">var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
 
@@ -448,338 +119,36 @@ var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
   };
 };
 </pre>
-
 <p>是的，以下兩種方法都可以順利解決這個問題…但是大家一定會覺得很奇怪和納悶…為什麼這樣就可以??</p>
-<h4 id="解釋"><a href="#解釋" class="headerlink" title="解釋"></a>解釋</h4><p>首先，我們回去思索一下問題。</p>
+<h4>解釋</h4>
+<p>首先，我們回去思索一下問題。</p>
 <p>小弟我使用UI-Bootstrap的Modal，並且定義了這個Modal獨立的Controller，但為什麼這個Modal畫面上的ng-model，在Modal這個Controller上讀不到…反之…加了$Parent或是使用oo.這種寫法就可以讀的到!?</p>
 <p>其實原理就是一開始給大家看的那個網址( 如果沒看的朋友也沒關係，可以繼續看下去 )；小弟引用了一下原文的一張圖，其實原理就是這張圖上…</p>
-<p><a href="http://lh3.ggpht.com/-FzQaew2I_vs/U3w-tlNMj-I/AAAAAAAAI3Y/t-o3Twkv9n8/s1600-h/image%25255B3%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-fwl4nMJ9qEs/U3w-ur7JsmI/AAAAAAAAI3g/UPAbSW7Iqqc/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh3.ggpht.com/-FzQaew2I_vs/U3w-tlNMj-I/AAAAAAAAI3Y/t-o3Twkv9n8/s1600-h/image%25255B3%25255D.png"><img src="http://lh4.ggpht.com/-fwl4nMJ9qEs/U3w-ur7JsmI/AAAAAAAAI3g/UPAbSW7Iqqc/image_thumb%25255B1%25255D.png?imgmax=800" alt="image" title="image"></a></p>
 <p>我們使用的UI-Bootstrap其實是用AngularJS的Directive寫的，這點我相信大家都沒啥問題…而UI-Bootstrap在設定Directive有使用到Transclude ( Transclude 是替換內容的功能 )，而當AngularJS有使用到Transclude時，其實會建立一個獨立的Scope，也就是圖上的TranscludedScope…</p>
 <p>其次，除了TranscluedScope外，AngularJS還會建立另外一個Scope…也就是IsolateScope…而IsolateScope會透過的$$nextSibling指向到TranscludedScope…</p>
 <p>發現了嗎?..真實的底層，並不是我們想的，只有我們為Modal建立的Controller Scope…除了我們為Modal建立的Controller Scope外，還有兩個Scope!!</p>
 <p>所以我們驗證一下，如下圖，我們可以看到他其實不是在我們Modal Controller的Scope，而是自己獨立的Scope….( Modal Controller的Scope為 Scope(004) )，所以可以確定$scope(007)為TranscluedScope</p>
-<p><a href="http://lh3.ggpht.com/-Jxgv5vavcTY/U3w-vQ2VUZI/AAAAAAAAI3o/b1azWJAQrc4/s1600-h/image%25255B8%25255D.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-Y5e96uLtfaI/U3w-weTXpeI/AAAAAAAAI3w/6LMzYzHauQM/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh3.ggpht.com/-Jxgv5vavcTY/U3w-vQ2VUZI/AAAAAAAAI3o/b1azWJAQrc4/s1600-h/image%25255B8%25255D.png"><img src="http://lh5.ggpht.com/-Y5e96uLtfaI/U3w-weTXpeI/AAAAAAAAI3w/6LMzYzHauQM/image_thumb%25255B4%25255D.png?imgmax=800" alt="image" title="image"></a></p>
 <p>我們繼續驗證下去…當我們拉到Scope (006)的時候，我們可以看到$$nextSibling確實指向到了Scope(007)，所以可以確定Scope(006)就是IsolateScope</p>
-<p><a href="http://lh3.ggpht.com/-uJBgwlivqeo/U3w-xaxZn8I/AAAAAAAAI34/op7QahbYU-w/s1600-h/image%25255B12%25255D.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-2nYIeuPZfUg/U3w-zB8qKkI/AAAAAAAAI4A/TyMj4mpJSeI/image_thumb%25255B6%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh3.ggpht.com/-uJBgwlivqeo/U3w-xaxZn8I/AAAAAAAAI34/op7QahbYU-w/s1600-h/image%25255B12%25255D.png"><img src="http://lh3.ggpht.com/-2nYIeuPZfUg/U3w-zB8qKkI/AAAAAAAAI4A/TyMj4mpJSeI/image_thumb%25255B6%25255D.png?imgmax=800" alt="image" title="image"></a></p>
 <p>也因此，實際上我們的Controller與定義畫面的model的Scope完全不同，自然Controller也呼叫不到…</p>
 <p>但那為什麼用$parent.testText就可以呢??..因為$parent是代表上一層的意思(父層)，而他的父層就是Controller，所以也就是代表在父層的Controller Scope定義了這個變數…</p>
-<p>那oo.testText為什麼可以呢…如果ng-model=”oo.testText”這個變數應該也是會落在TranscluedScope上阿??</p>
-<p>那是因為JavaScript原型繼承的特性…如果我們只打ng-model=”oo.testText”，那的確還是會落在TranscluedScope上…</p>
-<p><a href="http://lh5.ggpht.com/-RdAYqhDjsNE/U3w-0ARYuJI/AAAAAAAAI4I/VabGqjSQfpk/s1600-h/image%25255B17%25255D.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-L1Eib4yEgiw/U3w-0oWDuCI/AAAAAAAAI4Q/mS5KFGKj1HE/image_thumb%25255B9%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p>那oo.testText為什麼可以呢…如果ng-model=”oo.testText"這個變數應該也是會落在TranscluedScope上阿??</p>
+<p>那是因為JavaScript原型繼承的特性…如果我們只打ng-model=”oo.testText"，那的確還是會落在TranscluedScope上…</p>
+<p><a href="http://lh5.ggpht.com/-RdAYqhDjsNE/U3w-0ARYuJI/AAAAAAAAI4I/VabGqjSQfpk/s1600-h/image%25255B17%25255D.png"><img src="http://lh6.ggpht.com/-L1Eib4yEgiw/U3w-0oWDuCI/AAAAAAAAI4Q/mS5KFGKj1HE/image_thumb%25255B9%25255D.png?imgmax=800" alt="image" title="image"></a></p>
 <p>但如果今天，我們在Controller Scope裡面寫了$Scope.oo = {}，則因JavaScript原型繼承的特性，當子物件要去定義oo.testText的時候，會先往上找到父層，看看有沒有oo這個物件，如果有的話，就實作於父層的oo下面，加上textText，若父層沒有，就會在子物件那邊，建立一個oo.testText…</p>
 <p>基本上就是這樣…</p>
 <p>最後，或許有人會說，那如果父層有oo，那我真的要在子物件去控制oo裡面的東西，不就會找不到oo!?，因為只有父層有oo啊!!?</p>
 <p>但實際上，子Scope還是可以找的到oo，那是因為父層和子Scope都是參考到oo這個物件的記憶體位置~~</p>
 <p>最後的最後，總之，這次的這個Case的原因，其實就是…我們的Controller實際上是屬於父層..但我們直接用ng-model=”testText”的時候，是在子Scope建立了這個變數，而非父層…，所以解決的方法，第一個就是告訴ng-model，要建立這個變數到父層喔!!，或是使用物件的方式，讓這個物件建立於父層~~</p>
 <p>就是這樣!!~</p>
-<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>利用上班中午休息時間趕稿趕完XDDD，如有錯誤，也請大家多多包涵<del>~</del></p>
-<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
-<li><a href="http://stackoverflow.com/questions/14049480/what-are-the-nuances-of-scope-prototypal-prototypical-inheritance-in-angularjs" target="_blank" rel="noopener" title="http://stackoverflow.com/questions/14049480/what-are-the-nuances-of-scope-prototypal-prototypical-inheritance-in-angularjs">http://stackoverflow.com/questions/14049480/what-are-the-nuances-of-scope-prototypal-prototypical-inheritance-in-angularjs</a><li>[http://www.lovelucy.info/understanding-scopes-in-angularjs.html](http://www.lovelucy.info/understanding-scopes-in-angularjs.html "http://www.lovelucy.info/understanding-scopes-in-angularjs.html")<li>[https://github.com/angular/angular.js/issues/5489](https://github.com/angular/angular.js/issues/5489 "https://github.com/angular/angular.js/issues/5489")<li>[https://egghead.io/lessons/angularjs-the-dot](https://egghead.io/lessons/angularjs-the-dot "https://egghead.io/lessons/angularjs-the-dot")<li>[https://docs.angularjs.org/error/$compile/nonassign?p0=undefined&amp;p1=box](https://docs.angularjs.org/error/$compile/nonassign?p0=undefined&amp;p1=box "https://docs.angularjs.org/error/$compile/nonassign?p0=undefined&amp;p1=box")<li>[https://docs.angularjs.org/api/ng/directive/ngTransclude](https://docs.angularjs.org/api/ng/directive/ngTransclude "https://docs.angularjs.org/api/ng/directive/ngTransclude")<li>[https://github.com/angular-ui/bootstrap/blob/master/template/modal/window.html](https://github.com/angular-ui/bootstrap/blob/master/template/modal/window.html "https://github.com/angular-ui/bootstrap/blob/master/template/modal/window.html")</li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
-          
-            <a href="/tags/AngularJS/" rel="tag">#AngularJS</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2014/05/15/ASP-NET-MVC-%E9%99%90%E5%88%B6CamalCase%E5%9C%A8%E7%89%B9%E5%AE%9A%E7%9A%84Web-API-Controller%E4%B8%8B/" rel="next" title="ASP.NET MVC - 限制CamalCase在特定的Web API Controller下">
-                <i class="fa fa-chevron-left"></i> ASP.NET MVC - 限制CamalCase在特定的Web API Controller下
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2014/05/22/ASP-NET-MVC-ASP-NET-MVC-vNext-MVC-6-KVM%E5%88%9D%E9%AB%94%E9%A9%97/" rel="prev" title="ASP.NET MVC - ASP.NET MVC vNext ( MVC 6 ) KVM初體驗">
-                ASP.NET MVC - ASP.NET MVC vNext ( MVC 6 ) KVM初體驗 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#問題"><span class="nav-number">1.</span> <span class="nav-text">問題</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解法"><span class="nav-number">2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解釋"><span class="nav-number">3.</span> <span class="nav-text">解釋</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">4.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">5.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
-  </a>
-</div>
-
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2014/05/17/AngularJS-AngularJS-與-UI-Bootstrap-Scope的陷阱/';
-      var disqus_title = 'AngularJS -  AngularJS 與 UI-Bootstrap Scope的陷阱';
-      var disqus_url = 'http://skychang.github.io/2014/05/17/AngularJS-AngularJS-%E8%88%87-UI-Bootstrap-Scope%E7%9A%84%E9%99%B7%E9%98%B1/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+<h4>後記</h4>
+<p>利用上班中午休息時間趕稿趕完XDDD，如有錯誤，也請大家多多包涵~~~</p>
+<h4>參考資料</h4>
+<ul>
+<li>
+<p><a href="http://stackoverflow.com/questions/14049480/what-are-the-nuances-of-scope-prototypal-prototypical-inheritance-in-angularjs" title="http://stackoverflow.com/questions/14049480/what-are-the-nuances-of-scope-prototypal-prototypical-inheritance-in-angularjs">http://stackoverflow.com/questions/14049480/what-are-the-nuances-of-scope-prototypal-prototypical-inheritance-in-angularjs</a></p>
+<li>[http://www.lovelucy.info/understanding-scopes-in-angularjs.html](http://www.lovelucy.info/understanding-scopes-in-angularjs.html "http://www.lovelucy.info/understanding-scopes-in-angularjs.html")<li>[https://github.com/angular/angular.js/issues/5489](https://github.com/angular/angular.js/issues/5489 "https://github.com/angular/angular.js/issues/5489")<li>[https://egghead.io/lessons/angularjs-the-dot](https://egghead.io/lessons/angularjs-the-dot "https://egghead.io/lessons/angularjs-the-dot")<li>[https://docs.angularjs.org/error/$compile/nonassign?p0=undefined&amp;p1=box](https://docs.angularjs.org/error/$compile/nonassign?p0=undefined&amp;p1=box "https://docs.angularjs.org/error/$compile/nonassign?p0=undefined&amp;p1=box")<li>[https://docs.angularjs.org/api/ng/directive/ngTransclude](https://docs.angularjs.org/api/ng/directive/ngTransclude "https://docs.angularjs.org/api/ng/directive/ngTransclude")<li>[https://github.com/angular-ui/bootstrap/blob/master/template/modal/window.html](https://github.com/angular-ui/bootstrap/blob/master/template/modal/window.html "https://github.com/angular-ui/bootstrap/blob/master/template/modal/window.html")
+</li>
+</ul></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2014/05/17/AngularJS-AngularJS-與-UI-Bootstrap-Scope的陷阱/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>

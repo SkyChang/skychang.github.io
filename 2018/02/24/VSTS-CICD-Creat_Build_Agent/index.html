@@ -1,351 +1,11 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Azure,DevOps,VSTS,CI,CD,ALM," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="前言距離上一次寫文章，剛好過了 3 個月 XDD ，人家富木堅至少一次出 10 話，但小弟的文章，感覺這幾年荒廢不少..抖抖，當然其中有滿多因素的啦，所以希望新的一年，能開始重回執筆，有空就來多多寫一些文章吧… ( 印象 2017 年初也是這樣寫… ) 這篇，其實也沒什麼超高深技巧，更不是什麼新玩意，其實這幾年大家都已經實做了非常多，文章數量也很多了，甚至小弟以前也寫過一篇，但想說，已經很久沒寫文">
-<meta property="og:type" content="article">
-<meta property="og:title" content="VSTS - CI 與 CD - 自建 Agent">
-<meta property="og:url" content="http://skychang.github.io/2018/02/24/VSTS-CICD-Creat_Build_Agent/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="前言距離上一次寫文章，剛好過了 3 個月 XDD ，人家富木堅至少一次出 10 話，但小弟的文章，感覺這幾年荒廢不少..抖抖，當然其中有滿多因素的啦，所以希望新的一年，能開始重回執筆，有空就來多多寫一些文章吧… ( 印象 2017 年初也是這樣寫… ) 這篇，其實也沒什麼超高深技巧，更不是什麼新玩意，其實這幾年大家都已經實做了非常多，文章數量也很多了，甚至小弟以前也寫過一篇，但想說，已經很久沒寫文">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://skychang.github.io/2018/02/24/VSTS-CICD-Creat_Build_Agent/00.png">
-<meta property="og:image" content="http://skychang.github.io/2018/02/24/VSTS-CICD-Creat_Build_Agent/01.png">
-<meta property="og:image" content="http://skychang.github.io/2018/02/24/VSTS-CICD-Creat_Build_Agent/02.png">
-<meta property="og:image" content="http://skychang.github.io/2018/02/24/VSTS-CICD-Creat_Build_Agent/03.png">
-<meta property="og:image" content="http://skychang.github.io/2018/02/24/VSTS-CICD-Creat_Build_Agent/09.png">
-<meta property="og:image" content="http://skychang.github.io/2018/02/24/VSTS-CICD-Creat_Build_Agent/09-1.png">
-<meta property="og:image" content="http://skychang.github.io/2018/02/24/VSTS-CICD-Creat_Build_Agent/09-2.png">
-<meta property="og:image" content="http://skychang.github.io/2018/02/24/VSTS-CICD-Creat_Build_Agent/09-3.png">
-<meta property="og:image" content="http://skychang.github.io/2018/02/24/VSTS-CICD-Creat_Build_Agent/09-4.png">
-<meta property="og:image" content="http://skychang.github.io/2018/02/24/VSTS-CICD-Creat_Build_Agent/11.png">
-<meta property="og:image" content="http://skychang.github.io/2018/02/24/VSTS-CICD-Creat_Build_Agent/12.png">
-<meta property="og:image" content="http://skychang.github.io/2018/02/24/VSTS-CICD-Creat_Build_Agent/13.png">
-<meta property="og:image" content="http://skychang.github.io/2018/02/24/VSTS-CICD-Creat_Build_Agent/14.png">
-<meta property="og:image" content="http://skychang.github.io/2018/02/24/VSTS-CICD-Creat_Build_Agent/15.png">
-<meta property="og:image" content="http://skychang.github.io/2018/02/24/VSTS-CICD-Creat_Build_Agent/16.png">
-<meta property="article:published_time" content="2018-02-24T15:35:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:38.999Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="Azure">
-<meta property="article:tag" content="DevOps">
-<meta property="article:tag" content="VSTS">
-<meta property="article:tag" content="CI">
-<meta property="article:tag" content="CD">
-<meta property="article:tag" content="ALM">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://skychang.github.io/2018/02/24/VSTS-CICD-Creat_Build_Agent/00.png">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> VSTS - CI 與 CD - 自建 Agent | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                VSTS - CI 與 CD - 自建 Agent
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2018-02-24T15:35:00+00:00" content="2018-02-24">
-              2018-02-24
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2018/02/24/VSTS-CICD-Creat_Build_Agent/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/02/24/VSTS-CICD-Creat_Build_Agent/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>距離上一次寫文章，剛好過了 3 個月 XDD ，人家富木堅至少一次出 10 話，但小弟的文章，感覺這幾年荒廢不少..抖抖，當然其中有滿多因素的啦，所以希望新的一年，能開始重回執筆，有空就來多多寫一些文章吧… ( 印象 2017 年初也是這樣寫… )</p>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">VSTS - CI 與 CD - 自建 Agent :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="前言 距離上一次寫文章，剛好過了 3 個月 XDD ，人家富木堅至少一次出 10 話，但小弟的文章，感覺這幾年荒廢不少..抖抖，當然其中有滿多因素的啦，所以希望新的一年，能開始重回執筆，有空就來多多寫一些文章吧... ( 印象 201…"/><meta data-react-helmet="true" property="og:title" content="VSTS - CI 與 CD - 自建 Agent"/><meta data-react-helmet="true" property="og:description" content="前言 距離上一次寫文章，剛好過了 3 個月 XDD ，人家富木堅至少一次出 10 話，但小弟的文章，感覺這幾年荒廢不少..抖抖，當然其中有滿多因素的啦，所以希望新的一年，能開始重回執筆，有空就來多多寫一些文章吧... ( 印象 201…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="VSTS - CI 與 CD - 自建 Agent"/><meta data-react-helmet="true" name="twitter:description" content="前言 距離上一次寫文章，剛好過了 3 個月 XDD ，人家富木堅至少一次出 10 話，但小弟的文章，感覺這幾年荒廢不少..抖抖，當然其中有滿多因素的啦，所以希望新的一年，能開始重回執筆，有空就來多多寫一些文章吧... ( 印象 201…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2018/02/24/VSTS-CICD-Creat_Build_Agent/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">VSTS - CI 與 CD - 自建 Agent</h1><div class="post-module--meta--3YtjE">24 February 2018<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/Azure/"><span class="post-module--tag--16U9p">#<!-- -->Azure</span></a><a href="/tag/DevOps/"><span class="post-module--tag--16U9p">#<!-- -->DevOps</span></a><a href="/tag/ALM/"><span class="post-module--tag--16U9p">#<!-- -->ALM</span></a><a href="/tag/VSTS/"><span class="post-module--tag--16U9p">#<!-- -->VSTS</span></a><a href="/tag/CI/"><span class="post-module--tag--16U9p">#<!-- -->CI</span></a><a href="/tag/CD/"><span class="post-module--tag--16U9p">#<!-- -->CD</span></a></div></div><div><h2>前言</h2>
+<p>距離上一次寫文章，剛好過了 3 個月 XDD ，人家富木堅至少一次出 10 話，但小弟的文章，感覺這幾年荒廢不少..抖抖，當然其中有滿多因素的啦，所以希望新的一年，能開始重回執筆，有空就來多多寫一些文章吧... ( 印象 2017 年初也是這樣寫... )</p>
 <p>這篇，其實也沒什麼超高深技巧，更不是什麼新玩意，其實這幾年大家都已經實做了非常多，文章數量也很多了，甚至小弟以前也寫過一篇，但想說，已經很久沒寫文章了，最近也剛好要建構一系列的環境，就想說，留個紀錄，留給後人吧 :)，也順便把之前的舊文調整更新一下。</p>
 <p>最後，其實這段沒寫文章的時間，也受到滿多不認識的人鼓勵，能忍受小弟誤人子弟的文章 XDDD，因為你們的鼓勵，小弟終於要開始寫新的 10 話了，不過這個故事，未來再另外開一篇來講吧 :)</p>
-<h2 id="CI-持續整合"><a href="#CI-持續整合" class="headerlink" title="CI 持續整合"></a>CI 持續整合</h2><p>CI 持續整合，其實小弟不會在這邊談太多，因為已經有非常多專業的前輩，有很棒的文章和敘述，只要 Google 一下，每一篇一定都寫得比小弟還要好 ( 抖抖 )，所以小弟這邊只是快速談一下，為什麼要持續整合：其實大家想一下，在團隊合作的時候，常常會聽到，啊！！為什麼下載出來的 Code Build 了！！？，剛剛是誰簽入的：主事者就會跳出來說，是我簽入的，但我的電腦上明明就可以 Build 啊！！</p>
+<h2>CI 持續整合</h2>
+<p>CI 持續整合，其實小弟不會在這邊談太多，因為已經有非常多專業的前輩，有很棒的文章和敘述，只要 Google 一下，每一篇一定都寫得比小弟還要好 ( 抖抖 )，所以小弟這邊只是快速談一下，為什麼要持續整合：其實大家想一下，在團隊合作的時候，常常會聽到，啊！！為什麼下載出來的 Code Build 了！！？，剛剛是誰簽入的：主事者就會跳出來說，是我簽入的，但我的電腦上明明就可以 Build 啊！！</p>
 <p>啃. ( 相信大家心中都會浮現這個字 )</p>
 <p>那問題在哪邊，其實，有可能簽入的時候，少遷入一個 .cs 檔案，也有可能引用第三方 Lib 的時候，忘記把 Dll 簽入進去 ( 這還滿常見的，因為預設簽入會略過 Dll )，而因為本機 ( 主事者 )上的電腦都還有這些檔案，當然都可以 Build，但簽出者娶不到這些檔案，當然就</p>
 <p>啃!</p>
@@ -354,22 +14,147 @@
 <p>正常 Build 很重要，因為這可以確保每人取出來的 Code 都能正常運作，也可以降低不必要的時間來處理這些事情與回憶。</p>
 <p>當然，有時也會整合 Night Build （ 每晚一次 ），來進行自動化的測試，但這個主題就太遠了，讓小弟默默地飄過吧~~</p>
 <p>結論，CI 很重要，因為這樣才有飲料可以喝~~ 抖抖</p>
-<h2 id="CD-持續部署"><a href="#CD-持續部署" class="headerlink" title="CD 持續部署"></a>CD 持續部署</h2><p>當完成了 CI 後，下一步，就是希望能全部自動化，幫我們把應用程式自動的部署到測試環境，UAT，甚至是正視環境，關於 CD ，我們就後續再談吧。 </p>
-<h2 id="VSTS-and-Agent"><a href="#VSTS-and-Agent" class="headerlink" title="VSTS and Agent"></a>VSTS and Agent</h2><p>VSTS 是真的不錯的東西，不但裡面包含了整個軟體開發生命週期需要用到的功能外，你也可以自行挑選與組合外界的 Open Source 方案，而 VSTS 也內建了 Hosted Agent，來提供你 不用 架設任何一台 Build Server 的情況下，就可以直接使用。</p>
+<h2>CD 持續部署</h2>
+<p>當完成了 CI 後，下一步，就是希望能全部自動化，幫我們把應用程式自動的部署到測試環境，UAT，甚至是正視環境，關於 CD ，我們就後續再談吧。 </p>
+<h2>VSTS and Agent</h2>
+<p>VSTS 是真的不錯的東西，不但裡面包含了整個軟體開發生命週期需要用到的功能外，你也可以自行挑選與組合外界的 Open Source 方案，而 VSTS 也內建了 Hosted Agent，來提供你 不用 架設任何一台 Build Server 的情況下，就可以直接使用。</p>
 <p>但好歸好，人家提供服務，就是會收取服務費的，當然，使用者付費，也是天經地義，但除了使用官方預設的服務外，我們當然也可以自行建立一台 VM，來提供 Build 的服務：通常，通常，會自建 Build 的服務，大體上，是幾個原因，一來是 Build 的次數很多，用 Hosted Agent 比較燒錢，其次，就是希望能有更快的 Build 速度，最後，就是 Hosted Agent 裡面沒包含了自己想要的軟體。</p>
 <p>所以這篇，我們就先來看一下，怎樣在 VSTS 下，自建 Agent，下一篇，再來介紹如何設定 Build 一個 ASP.NET MVC 5.X 的應用程式。</p>
-<h2 id="VSTS-與-Agent-連線"><a href="#VSTS-與-Agent-連線" class="headerlink" title="VSTS 與 Agent 連線"></a>VSTS 與 Agent 連線</h2><p>首先，我們要先準備一台 Build Server，雖然稱為 Build Server，但小弟這邊是使用 Win 10 當作 Build Server，因為它主要是拿來 Build ，既然是 Build，內容環境和 Client 越像越好，當然，也先預裝了 VS 2017，喔，這台 Build Server 目前就直接擺在 Azure 上。</p>
-<p><img src="00.png" alt=""></p>
-<h3 id="準備權限帳號"><a href="#準備權限帳號" class="headerlink" title="準備權限帳號"></a>準備權限帳號</h3><p>開始前，我們要先準備<a href="https://docs.microsoft.com/zh-tw/vsts/build-release/actions/agents/prepare-permissions" target="_blank" rel="noopener">權限帳號</a>，這邊如文章所敘述，有兩種方式可以提供權限，一種是用 personal access token (PAT) 的方式，也就是建立一組只能做某些事情的 Token，另外一個是透過 TFS 使用者，也就是透過 AD 帳號，或是 Windows 帳號：基本上，小弟會偏向使用 PAT 的方式，雖然 AD 帳號很方便，但如果遇到  macOS / Linux 平台的時候，是不支援 AD 的，只能在 TFS 上本機來建立 Windows 帳號：如果一台 TFS 可能還好，但如果多台，那每一台都要建立，其次，就算每一台都建立好了，也和 AD 脫鉤了，在維護上，也不是很好：所以還是建議使用 PAT 的方式，另外一個原因，VSTS 在官方文件裡面，也只暗示使用 PAT。( 這部分官方文件沒明講，有興趣的可以讓 VSTS 連線 AAD ，看看能不能透過 AD 帳號來處理 )</p>
+<h2>VSTS 與 Agent 連線</h2>
+<p>首先，我們要先準備一台 Build Server，雖然稱為 Build Server，但小弟這邊是使用 Win 10 當作 Build Server，因為它主要是拿來 Build ，既然是 Build，內容環境和 Client 越像越好，當然，也先預裝了 VS 2017，喔，這台 Build Server 目前就直接擺在 Azure 上。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/d5eade13d8a64b3f263d36030ac8be29/89066/00.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 62.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAAsSAAALEgHS3X78AAAC+UlEQVQ4y02TWUjUURjFz8zY0KZZauqMY9M4js402WSZW6WVOi2aW3tNoVlpgUsLlWlShBlR0YJY0BD0IFIWFUXR8iDR8hJEQS8h0UML2CKWVpCn7z/XsofD/fO/9/7uuef7LgyWOYRZFPOfYrNE84Y1aQExeRFhLyBsi+U7T/03ZxDRqaI0wpSupNeAMXMJiwbJFs1Xi625RNwSwlFEOFcQU9cSSesJTzmRvEnGMiKhWMFtXrVe26u3yYfVS51toUwsUg7ihsb4QmLKKgVJqyOyGgnvEWJpK1HiJ4rPEdkNcuBKWSsHJ5QQAYhs1DtLqdNcaJtTqoh0DbCPyGshCk4ThW0COE+s6CDK7hO1r4iG98TBj9TvecQg70HZt02ADrGtyblcwWZosB3EvCaBiIOyO0TdC+LAB+JEL0e0fuXIti80+r/R1Pmdxo6fHHWDHLPrATFbDARsOpfJ1cS2Z6OoQjKqFOh2IvcwUXqB2HiP2PuWaOmj/twgDZ2k/iZp7vpB+/NBVnaTU+svS8abBWjOlCpKEbQMEySHRIG716jgMwSac0igkleFOKh9Rl1TN3Wtnwh/L0Pb33H09Y8sf/iZ06pljdP3F5ijCpJYoqqXVkvMl0zyJbvlF4nyuwJ7STS+o+5YH9H+m0G3ftPaNcDxT3+x6jXp2SsOk2sEaMpQ7aJBtTZxr5YJsZ69X4BniFVShK2P5crdRHMPDackw7O9DPL3M6rzG4OvDjDyNjlupxyavluAkTMZcKlBrUNQLddpG4jUamJuvWTZTCw5SRRJkVZfIiqfEDteE009xPF+6o6+obFY5pO3CDB8OjFxBhE1iwG3Fs2tNKg1T72MxFJpap9qicxdkmmzKpTvGrHuitzipOpRt091CsI8/KcIAZsy1cvRun6yvIC4fAV1r1X5am2VWqPcJwnEnj8sqxTWEBLLERF2RttdDLO4qAu2EGNjiOBYIsRKhNqICQ4i3CWaosYwJzE+nnqZM0Y4ONbs5uhoFyfGp/APsgTD6NLa3fAAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="00"
+        title="00"
+        src="/static/d5eade13d8a64b3f263d36030ac8be29/78d47/00.png"
+        srcset="/static/d5eade13d8a64b3f263d36030ac8be29/56d15/00.png 200w,
+/static/d5eade13d8a64b3f263d36030ac8be29/d9f49/00.png 400w,
+/static/d5eade13d8a64b3f263d36030ac8be29/78d47/00.png 800w,
+/static/d5eade13d8a64b3f263d36030ac8be29/64756/00.png 1200w,
+/static/d5eade13d8a64b3f263d36030ac8be29/89066/00.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h3>準備權限帳號</h3>
+<p>開始前，我們要先準備<a href="https://docs.microsoft.com/zh-tw/vsts/build-release/actions/agents/prepare-permissions">權限帳號</a>，這邊如文章所敘述，有兩種方式可以提供權限，一種是用 personal access token (PAT) 的方式，也就是建立一組只能做某些事情的 Token，另外一個是透過 TFS 使用者，也就是透過 AD 帳號，或是 Windows 帳號：基本上，小弟會偏向使用 PAT 的方式，雖然 AD 帳號很方便，但如果遇到  macOS / Linux 平台的時候，是不支援 AD 的，只能在 TFS 上本機來建立 Windows 帳號：如果一台 TFS 可能還好，但如果多台，那每一台都要建立，其次，就算每一台都建立好了，也和 AD 脫鉤了，在維護上，也不是很好：所以還是建議使用 PAT 的方式，另外一個原因，VSTS 在官方文件裡面，也只暗示使用 PAT。( 這部分官方文件沒明講，有興趣的可以讓 VSTS 連線 AAD ，看看能不能透過 AD 帳號來處理 )</p>
 <p>要建立 PAT，可以透過底下方式來設定。</p>
-<p><img src="01.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/bf35e7a449b89aa66b7aca6146b62437/d621b/01.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 30.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsSAAALEgHS3X78AAABRklEQVQY02WPTS8EQRCG55dKRHwfHDi5uXFxlSCIECvhB4gbIkKIkDhYVoSxpqenP2bHzJiZ3UfvIohK3rxV3amqp7zp+VXGlw4YX9hnbP2Sid0Go9t3DNac1+oMb9UZ264zUrtjYPOW/s06QyunTK0dMrl2RN/cDsPLx8zs3jC7uIdXlhXQ4TNcXmTO3zl5iNk4V5w+Jl//v/UT0XMDStdjJYQveL4w+EKTpBm+0jw1A6yNEZHhVRpMkpFlOeYtxyYpWf5O4SCKqk0et7g/O6NxcUFwdY31fbwkzXmOUnydo1xDWRYURdHzqquqdHlJoAUyihBCoLVGKeUWW0QoSZKkR9t1r3Sb0qJN5lS1/57z57RYYqxBSonSqjfUGEuoDDaOabVarjZ4v5s6nc4/fb9rJRxVRLPZ7FF2CbtDRRAgw5Doi/4DZ4O6Ay0L67sAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="01"
+        title="01"
+        src="/static/bf35e7a449b89aa66b7aca6146b62437/78d47/01.png"
+        srcset="/static/bf35e7a449b89aa66b7aca6146b62437/56d15/01.png 200w,
+/static/bf35e7a449b89aa66b7aca6146b62437/d9f49/01.png 400w,
+/static/bf35e7a449b89aa66b7aca6146b62437/78d47/01.png 800w,
+/static/bf35e7a449b89aa66b7aca6146b62437/64756/01.png 1200w,
+/static/bf35e7a449b89aa66b7aca6146b62437/d621b/01.png 1439w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>新增加一個。</p>
-<p><img src="02.png" alt=""></p>
-<p>這邊描述建議寫清楚，不然其實到時候很容易忘記…然後決定這個 Token 的有效期間，並且選擇 Agent Pools (read, manage)，如果未來這個 Agent 要包含 Release 功能 ( 自動部署 )，也可以勾選 Deployment group (read, manage)。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/598f41c1b2350cb9d9a8e22c790c5761/49304/02.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 27%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAAAsSAAALEgHS3X78AAABBUlEQVQY032OS0vDUBCF80MlSEUpVtE/4dpVEV9rS0HtWgSRLnRpFbsRNE2TLNImLcnNu7mfN6nFx8IDh3Pm3pkzo+0fHLF2eMNm+xb95JGda5vdnkNLaevKonlpsdez2eiOaXRN1jsmemeMfmHQPH+gddpn+6zP1vE9jfYdmvvyynQ4JHt/g8AnSwSJ0lTMgWJJmX/7Xyz5C82ZhJgTQRDEBIMnjOcBxsjkwxhh2Q5Tz8efzfH8Wa0rv6pFFBHHCdEXtSiXZIWs07NQhatrAxHjqSDXdVksFggRIaUkUQN5nte+LMua1f9PastDZd1UxYZqQbUkyQqyNK3fU6UVSjVQ1f/hEwKqb1llMd0CAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="02"
+        title="02"
+        src="/static/598f41c1b2350cb9d9a8e22c790c5761/78d47/02.png"
+        srcset="/static/598f41c1b2350cb9d9a8e22c790c5761/56d15/02.png 200w,
+/static/598f41c1b2350cb9d9a8e22c790c5761/d9f49/02.png 400w,
+/static/598f41c1b2350cb9d9a8e22c790c5761/78d47/02.png 800w,
+/static/598f41c1b2350cb9d9a8e22c790c5761/64756/02.png 1200w,
+/static/598f41c1b2350cb9d9a8e22c790c5761/49304/02.png 1285w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>這邊描述建議寫清楚，不然其實到時候很容易忘記...然後決定這個 Token 的有效期間，並且選擇 Agent Pools (read, manage)，如果未來這個 Agent 要包含 Release 功能 ( 自動部署 )，也可以勾選 Deployment group (read, manage)。</p>
 <p>請注意，為了安全性，其他的千萬不可以勾選。</p>
-<p>完成後，按下 Create Token，然後把 Token 複製下來，一定要複製！！，關閉後，就永遠看不到了…</p>
-<p><img src="03.png" alt=""></p>
-<h3 id="Agent-和權限"><a href="#Agent-和權限" class="headerlink" title="Agent 和權限"></a>Agent 和權限</h3><p>在開始前補充一下，雖然這篇寫的是 VSTS ，但還是補充一下 TFS 的驗證，在 TFS 2015 的時代，只可以使用底下底下三種驗證。</p>
+<p>完成後，按下 Create Token，然後把 Token 複製下來，一定要複製！！，關閉後，就永遠看不到了...</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/39282fc722ebe9ac2eb5c61edd8974c4/d621b/03.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 47.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABqElEQVQoz3VSTU/cMBDdX4sKbdVq2f9SVb0UTkh8HKoth/bGoT0gtVTqFligsPmCxEmcbLKx4zh5HWfpElh2pJHHY8+bN8/uvXh/hI13X7G+fYLBZx+D4S02h3fo0zoYenj7ycP6voONAwdrezbWdi282T7G5tY39Le+49WHI7z8eIz+wV+83jlFr1QV5qagcg6Vhih5AMwSoJaAFnRm7uiON/e+bD0vKVGoBqJUiFkIezSCNR6DWRYi10U0mSCPIghqXIiydSHNKiHLErpuHnmvaeadVFVB0QXu2JhmOaQQKIqCiHLU2XTevllmZeq7/gBIAO7PH2BfDiEcC8JzIVkAEfg0dbES6Gm8ANQE6J2dIb6+gnZtZONz3I7+gJ3+Rn5zjYrYp3GMGbFttF4CWmjY3B8YE1Q0zWet3DXpwQkgTVMoGj25vIL76wT84hyl67Tjd2sfADtdkiQBC4JWS5OL6DFCck2MijyHPbnBlHNopR7pthLQsImJ1f9cGIZgjBHbGhWBmlhKuRj32W/TBeTU3ff9tsjkTAPz0iau6BeYfZZlbbxKw3/i7/eTqrdDVwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="03"
+        title="03"
+        src="/static/39282fc722ebe9ac2eb5c61edd8974c4/78d47/03.png"
+        srcset="/static/39282fc722ebe9ac2eb5c61edd8974c4/56d15/03.png 200w,
+/static/39282fc722ebe9ac2eb5c61edd8974c4/d9f49/03.png 400w,
+/static/39282fc722ebe9ac2eb5c61edd8974c4/78d47/03.png 800w,
+/static/39282fc722ebe9ac2eb5c61edd8974c4/64756/03.png 1200w,
+/static/39282fc722ebe9ac2eb5c61edd8974c4/d621b/03.png 1439w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h3>Agent 和權限</h3>
+<p>在開始前補充一下，雖然這篇寫的是 VSTS ，但還是補充一下 TFS 的驗證，在 TFS 2015 的時代，只可以使用底下底下三種驗證。</p>
 <ul>
 <li>Alternate Connect to TFS using Basic authentication</li>
 <li>Negotiate Connect to TFS as a user other than the signed-in user via a Windows authentication scheme such as NTLM or Kerberos</li>
@@ -377,360 +162,373 @@
 </ul>
 <p>簡單的說，第一種就是透過 Windows 的本機帳號進行驗證，而預設 ( Integrated Connect ) 就是用你目前登入的 AD 帳號，所以就不會跳出視窗讓你輸入帳號密碼，而 Negotiate Connect 一樣是透過 AD，但會跳出視窗讓你輸入帳號密碼。</p>
 <p>另外，關於上面的這種驗證方式，也還必須去設定和給予權限，這邊會有兩個重要的帳號，一個是 Agent Pool Administrator，一個是 Agent Pool Service Account，Agent Pool Administrator 只會在 Agent 與 TFS 連線的時候，註冊到 TFS 時使用，註冊完後，就沒用了，這個帳號可以給 TFS 的 Administrator ( Owner )，而 Agent Pool Service Account ，則是 Agent 每次啟動服務的時候，必須使用到的帳號，根據文件，這個就不能使用 TFS 的 Administrator ( Owner )，必須建立一個新的帳號，通常小弟會建立一個 Builder 的 AD 帳號。</p>
-<p><img src="09.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/81389fa7129ed6dd9a2f00365a2279ce/d621b/09.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 47.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABlElEQVQoz4WR208TQRSH9//GICIl+uaTDygXI2pMJD6YiBdATEQLfTFEUtvudnfn1t0tyJ1Qa/sx01tWpPEkX+acmTm/c86MN/loldtzb5hc2GD21XcKz7eZWdhk6uF77s6tM/WixP3FDR48XmViucStp9tML61TWPpA4clHpuffcWdxjXsvSxSebeElWpIaRWIkcbWM+bpJ8dM3ll9vsfJ2ByViEi1oqP7qcPfThu6RDRjueeVKjaAe4ochlR97+MUi9Z9VqiqjFmmEVEhlkX2EsIWFGIu3Ww6oBDG+71MLAuoW8eUz57baZfs3zjrdLl369qfTQWttxeWNeEHolPuBiGNiuyrb0eneLsfWz+zegYuzjLPmPiemgXbJdk/dJKjdQW8kOVqNTXJdXaQJUT3i5OyCVqtNq93h3IqqKBwJqkH+EE8OquWruJGcXTYzTM3nKG1ylKT8aiQcRhEqjsZ3mO9siItTO2KaJGTG2J/VGNf5AGEfPz/VPx3mBYe+S+rh/FGxv5/muthYwf8hc59y/ewKNhTOJp0E9E8AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="09"
+        title="09"
+        src="/static/81389fa7129ed6dd9a2f00365a2279ce/78d47/09.png"
+        srcset="/static/81389fa7129ed6dd9a2f00365a2279ce/56d15/09.png 200w,
+/static/81389fa7129ed6dd9a2f00365a2279ce/d9f49/09.png 400w,
+/static/81389fa7129ed6dd9a2f00365a2279ce/78d47/09.png 800w,
+/static/81389fa7129ed6dd9a2f00365a2279ce/64756/09.png 1200w,
+/static/81389fa7129ed6dd9a2f00365a2279ce/d621b/09.png 1439w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>最後，支援 TFS 2017 以後版本和 VSTS，則是要我們剛剛建立的 PAT，等下我們也會用這個方式進行驗證。</p>
 <ul>
 <li>PAT </li>
 </ul>
-<h3 id="設定-Agent-Pool"><a href="#設定-Agent-Pool" class="headerlink" title="設定 Agent Pool"></a>設定 Agent Pool</h3><p>設定完權限後，我們要先在 VSTS 裡面新增一個 Agent Pool：雖然這一步感覺很簡單，但其實也是有學問，因為 VSTS / TFS 是有階層的，以 TFS 為案例，TFS 最上層預設為 DefaultCollection，底下才是專案，所以 Agent Pool 也會有在 DefaultCollection 新增完後，並設定 Auto Proversion Queue 後，就全部的專案都可以使用，而你也可以進入每個專案，指定每個專案只能用哪些 Agent Pool。</p>
+<h3>設定 Agent Pool</h3>
+<p>設定完權限後，我們要先在 VSTS 裡面新增一個 Agent Pool：雖然這一步感覺很簡單，但其實也是有學問，因為 VSTS / TFS 是有階層的，以 TFS 為案例，TFS 最上層預設為 DefaultCollection，底下才是專案，所以 Agent Pool 也會有在 DefaultCollection 新增完後，並設定 Auto Proversion Queue 後，就全部的專案都可以使用，而你也可以進入每個專案，指定每個專案只能用哪些 Agent Pool。</p>
 <p>以 VSTS 來說，如果從主畫面，進入的設定。</p>
-<p><img src="09-1.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/c402296f8ed4cacf91f2d8ccd5da8f1b/d621b/09-1.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 38.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsSAAALEgHS3X78AAABeklEQVQoz22OT0sCURTFByySWhQUqANFi6iP0YfRLLRSsEUUFpURBO36Aq0kCkX7AzmpWYvAnQQh/iGwhQVKikzqvJk5vfd0RMkHv3cf59x77hMWt18wv5WC1ZuEjcKqxdN5z/qeuqQg+p55nWNvbxw2dxRWdwQWVwSTjmuInhgWvPcQRuwPYIw6YjA7JYyvSjCvxHgVuwtETwJLNEDckDCzmcT0egImu4Qx5yOmXHFMrMVpRgwmhwRhL5yHn8LqYSSP45sCpYiT2yIC0QICdx84unzD6XkE/mAGu6ECdq6y2A/n4A1msXyWgePiHQd01h/KQcDAUTD0/NagfZX6BJ3fRNPxWmrip6X3HEGlooFCVLTaCoeoGkWFygYrFdTyObQUApXrHXRd7y0gaidDYKJhNBoNVKtVtNttGDp3iILPdBpFityQQWe5p1HYL7XuPNMGAmVZ5hhmv1ehv/wul6Fp2oDX3/MvcFij4dXrdTSbTRBCeOiwpaz+AcwkHoGtrYT4AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="09 1"
+        title="09 1"
+        src="/static/c402296f8ed4cacf91f2d8ccd5da8f1b/78d47/09-1.png"
+        srcset="/static/c402296f8ed4cacf91f2d8ccd5da8f1b/56d15/09-1.png 200w,
+/static/c402296f8ed4cacf91f2d8ccd5da8f1b/d9f49/09-1.png 400w,
+/static/c402296f8ed4cacf91f2d8ccd5da8f1b/78d47/09-1.png 800w,
+/static/c402296f8ed4cacf91f2d8ccd5da8f1b/64756/09-1.png 1200w,
+/static/c402296f8ed4cacf91f2d8ccd5da8f1b/d621b/09-1.png 1439w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>這邊設定的就是提供給全部的，換言之，最容易分別的，就是左上角的選單畫面了，如果左上角的是網址名稱，那就是最根的位置，我們就可以在這邊設定全部專案共用的 Agent Pool。</p>
-<p><img src="09-2.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/4506afedb146ac76a16c3735fb47a807/d621b/09-2.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 38.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsSAAALEgHS3X78AAABsUlEQVQoz0VQ708aQRC9/5xUG2r9om2a0C+aVKNYv9l+aUqxRiNBuWrk4O64Hxy3u8cBR0AgJHgIz9ml6CYvb2Z2982b0XZ2DvFp9xtyX07xNXeGj1t5ZD//RCZXwPu9C2ye6NjI63iXryBzrCNzdIPsQREfDv4QitjY/4XscQnbp7fIftehifsKOldFtPUyRPmK4gLuzi9xclbCj8I/MMbQjzl6bYbeK0crdCIknTaSWFAuFGum1YBbuob59xxGRYcTMlgthqrtwfIC+M0AHsHxZdxEyDg1IXCOkN6G1HDFHC1izbCbJBLBdx34N2V4xd9gxgOSfoJuHCNJEozGY4xGY0wmEwyHQ5imiUajgXrdhG3br2wYBrQmuZFjiShC1O2Ck4u4FWD2lGI2myFNUyyXS6yPrFmWpQSlyBoyl3UtEgKCwGkEzhm44Ih7PTzNnzGfp4Q5FiS4WCzwTPF0OlWfXddV7DiOEpSsBJXQWvA/t8ntYDBQGD4+ok8NYqrJSVpBgFqtBt/3adS6gszlGqrV6krwzeFbLD+zMFRLDzxP7dghV9KJR3lId5Kl8Jql6xe6iDWyH0tYnwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="09 2"
+        title="09 2"
+        src="/static/4506afedb146ac76a16c3735fb47a807/78d47/09-2.png"
+        srcset="/static/4506afedb146ac76a16c3735fb47a807/56d15/09-2.png 200w,
+/static/4506afedb146ac76a16c3735fb47a807/d9f49/09-2.png 400w,
+/static/4506afedb146ac76a16c3735fb47a807/78d47/09-2.png 800w,
+/static/4506afedb146ac76a16c3735fb47a807/64756/09-2.png 1200w,
+/static/4506afedb146ac76a16c3735fb47a807/d621b/09-2.png 1439w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>如下圖，我們建立了兩個 AgentPool，一個是 ShareAgentPool，一個是 Study4LabAgentPool，我們可以從這邊指定 Auto Proversion Queue，是否要提供給全部專案使用：目前小弟這邊是打算 ShareAgentPool 提供給全部的專案，而 Study4LabAgentPool 不提供給全部的專案，只提供給 Study4Lab 專案。</p>
-<p><img src="09-3.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/562269ff5661b28d7d6d4cac1c11cebf/8cd91/09-3.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsSAAALEgHS3X78AAABjUlEQVQoz6WSvW7UQBSF/R78NCgFiZQiDQ8ELdQ0gJZ/Id4gEkVegJIGWgpikmyBkBAoxMHe2Rl7PY5/1x7vx9jxkiCFLciVjs7VnXuPzh1d5/rtbTbu7rB5b4drd96wMfrI+vMDNl/ssf7sMzefumy9OmDtyT63Xo/ZernH2mOXGyPX8i5XH+5y5cEny27PzvFEMpEhQkX4U8th3HMgZ3RvR77AEzPGP0P2DyPGPwTud8G3IOaXUARKcywiglBzFEiceVVxPtrWkBcF9bxiXpWURU6RpSidMfoQ8uh9xP13krdfUi4KJykaFouFTU+hT1LrTKHUEta1EKgwROsEnSQ0xmAsurl2wDJ3/ChDJDWzvMG0i76xHQb6vG3/5MY0Z0K23lsYxJZwkrxGZYa4ML3gqdPV0S3UCTII/rWyJ0/46qckmf2zurHrnDWuwj8F/UBw6AVMppJpnJFXzYWN52srBadS4nkewUSQZhl1XV9S0N6djDShtqcxSyiHM/pvwSSOKbq7s87Ksry0w9/m3DsMZ9fjeQAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="09 3"
+        title="09 3"
+        src="/static/562269ff5661b28d7d6d4cac1c11cebf/78d47/09-3.png"
+        srcset="/static/562269ff5661b28d7d6d4cac1c11cebf/56d15/09-3.png 200w,
+/static/562269ff5661b28d7d6d4cac1c11cebf/d9f49/09-3.png 400w,
+/static/562269ff5661b28d7d6d4cac1c11cebf/78d47/09-3.png 800w,
+/static/562269ff5661b28d7d6d4cac1c11cebf/8cd91/09-3.png 977w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>進入到 Study4Lab 專案，這時候，我們就可以從下圖的位置，設定 Study4LabAgentPool，這樣，就只有 Study4Lab 有權限使用。</p>
-<p><img src="09-4.png" alt=""></p>
-<h3 id="安裝-Agent-Pool"><a href="#安裝-Agent-Pool" class="headerlink" title="安裝 Agent Pool"></a>安裝 Agent Pool</h3><p>接下來，利用這台 Build Server 登入 VSTS，並進入要建立 CI 的專案後，進行設定。( 其實這邊也只是想下載 Agent 這個軟體.. )</p>
-<p><img src="11.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/68d9d9903e339ec0e5d1bde9cf494aef/d621b/09-4.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 38.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsSAAALEgHS3X78AAABsUlEQVQoz1WR3WvTUBjG84crzG2KFyLsQlBwoDIrEy8EYaBX7dRiq73oR5qkJ8nSJE3bdav9sImsrj/fc0b9CDw8503O+fGcJ9bBwRGPHh7y4Mk79l432HtVZ6f0jXvHX2VdY7ck88uavKtz+6jGrRdV7hy+5+6zD0Y7T0/YfV7m/nGN/VIVK27UGXtdRlnKcJiSRKFR0/F589Hl7WcPP4y4GCWMsxvpvePhwOh8JBrqOTVuNTsuql4jPK3gtpq0XIXyfXoqoNVV2F5AIMDgrG/8LIpI0pQ4SYz6cUwc/3Wr5QS0VZ9O28Mul/E/VYiU4nI6ZXI+ZrlYkOc5i+UPVquc2WyGku+O49Dr9bBtG9d1jXsyW47AHBXhRymD0YjEdci+VJlefmcq0OvrDf8+V+s1nufR7XaNa7AGbmcrkdh/pGMPMulyyGI+ZyHpYMP61wZ1ccW8WPOzyKUOZQ77Uo2G6cTa9Wyl0sdWW2iWZRRFIVctKPIVk9mSx5WEhsrkp6TYkkYnCsOQTqdjYO12+/+EW6BxgUZSfix+U3bMJFL0wwBHDm/T6T26R73WHgQBvwF6WzaCgNkB2QAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="09 4"
+        title="09 4"
+        src="/static/68d9d9903e339ec0e5d1bde9cf494aef/78d47/09-4.png"
+        srcset="/static/68d9d9903e339ec0e5d1bde9cf494aef/56d15/09-4.png 200w,
+/static/68d9d9903e339ec0e5d1bde9cf494aef/d9f49/09-4.png 400w,
+/static/68d9d9903e339ec0e5d1bde9cf494aef/78d47/09-4.png 800w,
+/static/68d9d9903e339ec0e5d1bde9cf494aef/64756/09-4.png 1200w,
+/static/68d9d9903e339ec0e5d1bde9cf494aef/d621b/09-4.png 1439w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h3>安裝 Agent Pool</h3>
+<p>接下來，利用這台 Build Server 登入 VSTS，並進入要建立 CI 的專案後，進行設定。( 其實這邊也只是想下載 Agent 這個軟體.. )</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/1ca882b294d5d7e76741ed1d1d90ba47/d621b/11.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABx0lEQVQoz6WSy08UQRDG5x+WRBA2XLx49mS4ehBJDHrQxKCJNw8Qkw1eREmQHVCW3WWm59Hvx8x8Vjerrlzt5Jeq9FR99ejJHu28xPrzz9h49gnrryYYva+xecCwRWy/Y9g4qLH9+goPn3zA6MV33Hvb4P7+GTb3xpQ3xtrTI6ztHmP0ZooH++fI8PgU+PgTMjRwLQM6DQwW/xwvMEwnuHvYNEdQLXkD4YiATOU1TKVhvId1HobQ1sGHHqEf4Lue/A43x2OwiwsE8h0R74qiRMsFtLEQUoELhcwNgcQsrP2Lcy7ZLydfwTlH6DrM8xxlPsHQ9zAxjkSapkEjZBKM8cYYEqRuohOJQVrrBGMM1z9IpCiglIIk+uVwMTYW9YQQGpy6Kyi+bVsSdEtBa1LlmKyUxKJqsTcucT5rYLREXTepUL/s0NFqWMVwevkt5Rf0vaxJMNDufAxYIVARqSxOphJVSyKeOqHR66pKXcWYzgdwxXF4dpgm+72mTBcM9eUV5GwBcT1PVs7mCXezgC8ZUS3tLY5yLKvQ0g55I1KHmuBSI4uqcRQfAnzsdgUXLd2HO8T721VpKK3+PEh6FPzHSWPGx1z5Q34BQ77zpwHsFa4AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="11"
+        title="11"
+        src="/static/1ca882b294d5d7e76741ed1d1d90ba47/78d47/11.png"
+        srcset="/static/1ca882b294d5d7e76741ed1d1d90ba47/56d15/11.png 200w,
+/static/1ca882b294d5d7e76741ed1d1d90ba47/d9f49/11.png 400w,
+/static/1ca882b294d5d7e76741ed1d1d90ba47/78d47/11.png 800w,
+/static/1ca882b294d5d7e76741ed1d1d90ba47/64756/11.png 1200w,
+/static/1ca882b294d5d7e76741ed1d1d90ba47/d621b/11.png 1439w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>進入後，就可以 Download Agent，另外，未來也可以從這邊看到所有建立的 Agent 的狀況，而 Hosted Agent 就是官方所提供的 :)</p>
-<p><img src="12.png" alt=""></p>
-<p>點擊後，就有一步一步的完成步驟… ( 那麼詳細，小弟都可以不用寫文章了…)</p>
-<p><img src="13.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/5eeaeaae85d7219aed71c63438fb31c9/d621b/12.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 37%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAAsSAAALEgHS3X78AAABRUlEQVQoz3WQ20rDQBCG87JaJVVRwTtfwsuCUqTWqmB9hSK0IHhTUBAvFFOamGRz2E1z2t387qYHK8WFD+afmX+YWeP0rAPzfIRmawDz6hUH/SnMOwuN3hd2rz/Q6HzCvLHQvJ1gu2thqzvBTnuMw/YQR5dP2L8YYq/9jJN7C8e9dxhSSgAV5k8AslAyw3D0htbDGIPHF6XTRV0uWPZvPsP2Y2iSNIcTBph+e6CUwXEJJg6BHzKkaQaaFqCzDHlRohQSJRcoSr5Ca10zZlkOO8zgxCWiWQrOlUE1CM4hhUIKleNwIg8+ISCKKIpq4jhGGIZ/YkPICjmfI+S/l8BnBJTR2qTNGsYYYjWMUlqjc8a6qaqqDZZ5QhyFD9u24bougiCoN/M8tbnv11rHxq8ZG0PW40ydytQG2qTNSZKov01Xg5cn/wCp1AqeIPfftQAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="12"
+        title="12"
+        src="/static/5eeaeaae85d7219aed71c63438fb31c9/78d47/12.png"
+        srcset="/static/5eeaeaae85d7219aed71c63438fb31c9/56d15/12.png 200w,
+/static/5eeaeaae85d7219aed71c63438fb31c9/d9f49/12.png 400w,
+/static/5eeaeaae85d7219aed71c63438fb31c9/78d47/12.png 800w,
+/static/5eeaeaae85d7219aed71c63438fb31c9/64756/12.png 1200w,
+/static/5eeaeaae85d7219aed71c63438fb31c9/d621b/12.png 1439w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>點擊後，就有一步一步的完成步驟... ( 那麼詳細，小弟都可以不用寫文章了...)</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/a6e92b5fb2b82e400e1c5924fd779cfc/78d47/13.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 97.00000000000001%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAAACXBIWXMAAAsSAAALEgHS3X78AAADR0lEQVQ4y5VUW2wMYRSeiLuqF0FIJBJviAdSWloJ6pZGvJDqammXxC3xUimVEpe4plHqwTPVapRQNK1bS3gREelrtVt76VZ3dneuO7uz88/n/DNtLS3hZL85/57/P9+e8835V1B1AwOiglBERlRLQzYYlCSDbtrg5j4xZv2ruTuMMQiPuhUsuBjA8rogCm6HsPJmAPPO96Ok6fvoQU1VkEoaw7k2fdy4LMvQdd1ZG4YBURQhSLqJ3qgJv2QhrDKEFAZfjNZKGinLRjRhIUZn4ok0ItSBnrKIlDnVmKbpgJuqqggGgxD4ZlJXIQ59hyJJ0JQ4NDlG9aeRSBGJmkKUCCWSQiTyZNoeKfQX45WGQiEIlmUhrctIxgdhqiIiERFDBEmSoSgKdGpXpl83TPZTMc423PpI+6OENrPQ8lnEubYA6rsGEBgg4lRyXOFZBon9G6GWSdj8RcHlzihufYgjElNgWWlKhkPA2DDsP8Mh1DJahkVvypRAfcM09IxR+POg/G6mkXAJuRbXG1qxs/IqvGfq4T19A2XVtag4XYfymjqUVF1z4DnhoqTq6mis+PgVB7sqr6D8VC18/d+IkKooOnYJE1buwpyNXgfZBWWYvcGLWev2YmJOMSatKsaU1bsxNdeDaXkueExYsh3Csh0QFm+FsHQ7enr73AqrbzVirbcGm45cwPqDZ7Hl6AWs21+DnNIq5O49iVVlJ5FTdsLxq/n34RhH7r5qrPBUoaCiGr2+fldDfgtkieaPxkNXZaiGCZnmVSN5DfZvGrK06WrIJ/79p240tr7Aw/YuPGh7g5aOd2huf4fG551oautCS/tbio2DjDjP8/sDXEOgtKbe0WtR0WHMLdzv+HmFXszM34Ps/FLMyCvBjDUe8mORRXGu74LCCnzt87kVDg6J6PH50R8ccNDnD8IXCKHvWwDB8BAkVUdc0Qj6ONAgawmEiePnHNK9BSPRbIurQXOZwv+bPXJTGN5+/II7jztw//kb3Hv6Ck3PXqPhyUtnzdHQ+vKvuEtnG8mHw4Ouhp5TNxwtFm47iNnryzF/8wFkrd2D6Vy7PM9fwfMm00wuKjqESDTmtqwbKUcLrpVM4F4hXRT9X2FAonz+7/QD5Sbt2MQyFz8AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="13"
+        title="13"
+        src="/static/a6e92b5fb2b82e400e1c5924fd779cfc/78d47/13.png"
+        srcset="/static/a6e92b5fb2b82e400e1c5924fd779cfc/56d15/13.png 200w,
+/static/a6e92b5fb2b82e400e1c5924fd779cfc/d9f49/13.png 400w,
+/static/a6e92b5fb2b82e400e1c5924fd779cfc/78d47/13.png 800w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>接著，我們照著指令一步一步做，第一步，就是在 C: 底下建立目錄，而第二步，其實只是利用 System.IO.Compression.FileSystem 來執行解壓縮的動作， $HOME ，就是家目錄，$PWD 是目前目錄 ( c:\Agent )，所以如果有更改下載位置的朋友，記得要修改路徑：當然，也可以直接點兩下 ZIP 檔案來解開，然後拖到這個目錄下，但有的時候，連建立 Build Server 都是需要自動化的，所以這邊就維持官方的做法。</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Add-Type</span> <span class="literal">-AssemblyName</span> System.IO.Compression.FileSystem ; [<span class="type">System.IO.Compression.ZipFile</span>]::ExtractToDirecto</span><br><span class="line">ry(<span class="string">"<span class="variable">$HOME</span>\Downloads\vsts-agent-win-x64-2.127.0.zip"</span>, <span class="string">"<span class="variable">$PWD</span>"</span>)</span><br></pre></td></tr></table></figure>
-
-<p><img src="14.png" alt=""></p>
+<div class="gatsby-highlight" data-language="powershell"><pre class="language-powershell"><code class="language-powershell"><span class="token function">Add-Type</span> <span class="token operator">-</span>AssemblyName System<span class="token punctuation">.</span>IO<span class="token punctuation">.</span>Compression<span class="token punctuation">.</span>FileSystem <span class="token punctuation">;</span> <span class="token namespace">[System.IO.Compression.ZipFile]</span>::ExtractToDirecto
+ry<span class="token punctuation">(</span><span class="token string">"<span class="token variable">$HOME</span>\Downloads\vsts-agent-win-x64-2.127.0.zip"</span><span class="token punctuation">,</span> <span class="token string">"<span class="token variable">$PWD</span>"</span><span class="token punctuation">)</span></code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/a470f7488ce8d7715c05faf66cae822f/757fa/14.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 66%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAAsSAAALEgHS3X78AAACKklEQVQ4y42T3WvTUBjG01WbbtBa5zpsO9CmadKPtEm7DlEmXgv7wDVN0rRZ121aGIIKXuzPEAW99UIFQQdapiC6XfkFIt2lf83jexKqpS6yix/vOSfnfc573ueEe/pugJfvv+FZ/zOe73/H64Mj7H0aoH94hDcHA7w99Nj7+NOXVx9+4EX/C/a//gKnXe1BqtrIzTsQVBsSMavY4AvrCMlt8DkH4bwD7kKDMI5HsMBNL2Fl5wEJViyUKqtQVAO5so55rYGErIO7SJvSJmF5CZmmL6ekFrj4MvR7T8DxxQ4mc21KMhEU6WN2uNFGUKL1rP1fMUaACc6soH73Mbiz2jZOUyUxpYNz5Q0kazdxpuCAz1iIqxuI01qIKuRFf6ZkOjS+BIMJVmsG0hUD+doaMuU60koDQklHRm1CJOQqxYoJsdSEoJguGcVyccclE5LWQkpYxe7uI3AL1xzIiy0kCzoShTrO5ynm6zQ3PJQ6UuoakjL1Nqe7/U1STA4jMVc0EU1dx+37D8HNLd5B+soO9c70mj9O2vprjA9B1ueZZdxgVw4rm4hSn6aKTdeYPxtZw0/gMCPomkIuM8FQsevaPiESWYvGNgKi52yI3J9gpw9F3fgvQ0HX5Qi5zCqbrm4hpnWQuNSjajtucqTcRUzdpMNs/0qFMcFwcZ0STKQu9+jqXcTp2YTpL2HXjapdzC7cQqTU9a5/IkF6f5P5NgKjPRutZnR+XJVjgr8B8Ge6Eojsp5wAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="14"
+        title="14"
+        src="/static/a470f7488ce8d7715c05faf66cae822f/78d47/14.png"
+        srcset="/static/a470f7488ce8d7715c05faf66cae822f/56d15/14.png 200w,
+/static/a470f7488ce8d7715c05faf66cae822f/d9f49/14.png 400w,
+/static/a470f7488ce8d7715c05faf66cae822f/78d47/14.png 800w,
+/static/a470f7488ce8d7715c05faf66cae822f/757fa/14.png 859w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>接下來，我們只要執行 ./confug.cmd 就可以開始設定：設定個過程很簡單，給 VSTS 的網址，決定使用的驗證方式，輸入 PAT，輸入 Agent Pool 名稱，輸入代理程式名稱，就差不多了。</p>
 <p>比較需要注意的是後面兩個，一個是問你要不要註冊成 Windows 服務，通常小弟是不喜歡，所以就不註冊程服務了，另一個是問你要不要開機啟動，小弟也是習慣自己下命令。</p>
-<p><img src="15.png" alt=""></p>
-<p>如果想要移除的話，就輸入，但依然要提供權限或是 PAT。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\config.cmd remove</span><br></pre></td></tr></table></figure>
-
-<p>最後，我們只要執行底下指令，就可以順利把 Agent Run 起來</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\run.cmd</span><br></pre></td></tr></table></figure>
-
-<p><img src="16.png" alt=""></p>
-<p>以上，完成~~ ( 拍手.. )</p>
-<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>其實原本這一篇是想把 CI 寫完的，但後來發現，補充了太多東西，整整寫了一整天才把 Agent 的建立寫完… ( 抖抖，所以我們不要怪富木堅拖稿了… ) 後來寫到現在半夜兩點，決定先到此為止，下一篇再來介紹 CI 的設定。</p>
-<p>最後，關於官方文件，有寫到一些滿有趣的 <a href="https://docs.microsoft.com/zh-tw/vsts/build-release/actions/agents/v2-windows" target="_blank" rel="noopener">Q&amp;A</a>，例如，如果 Agent 在地端，要防火牆開哪些網址，如何使用自簽憑證，如何使用 Web Proxy 等等，小弟就不在這邊多敘述了，有興趣可以看原文喔。 </p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a href="https://docs.microsoft.com/zh-tw/vsts/build-release/actions/agents/prepare-permissions" target="_blank" rel="noopener">https://docs.microsoft.com/zh-tw/vsts/build-release/actions/agents/prepare-permissions</a></li>
-<li><a href="https://docs.microsoft.com/zh-tw/vsts/build-release/actions/agents/v2-windows" target="_blank" rel="noopener">https://docs.microsoft.com/zh-tw/vsts/build-release/actions/agents/v2-windows</a></li>
-<li><a href="https://github.com/Microsoft/vsts-agent" target="_blank" rel="noopener">https://github.com/Microsoft/vsts-agent</a></li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Azure/" rel="tag">#Azure</a>
-          
-            <a href="/tags/DevOps/" rel="tag">#DevOps</a>
-          
-            <a href="/tags/VSTS/" rel="tag">#VSTS</a>
-          
-            <a href="/tags/CI/" rel="tag">#CI</a>
-          
-            <a href="/tags/CD/" rel="tag">#CD</a>
-          
-            <a href="/tags/ALM/" rel="tag">#ALM</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/11/24/Kubernetes-Dashboard_broken/" rel="next" title="Kubernetes - Dashboard 一片空白">
-                <i class="fa fa-chevron-left"></i> Kubernetes - Dashboard 一片空白
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/" rel="prev" title="Azure DevOps - 對 Web App 使用壓力測試時發生錯誤">
-                Azure DevOps - 對 Web App 使用壓力測試時發生錯誤 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CI-持續整合"><span class="nav-number">2.</span> <span class="nav-text">CI 持續整合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CD-持續部署"><span class="nav-number">3.</span> <span class="nav-text">CD 持續部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VSTS-and-Agent"><span class="nav-number">4.</span> <span class="nav-text">VSTS and Agent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VSTS-與-Agent-連線"><span class="nav-number">5.</span> <span class="nav-text">VSTS 與 Agent 連線</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#準備權限帳號"><span class="nav-number">5.1.</span> <span class="nav-text">準備權限帳號</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Agent-和權限"><span class="nav-number">5.2.</span> <span class="nav-text">Agent 和權限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-Agent-Pool"><span class="nav-number">5.3.</span> <span class="nav-text">設定 Agent Pool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-Agent-Pool"><span class="nav-number">5.4.</span> <span class="nav-text">安裝 Agent Pool</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">6.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">7.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/277ad8cbb7c1e164e0585218cde4ad11/e9562/15.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 27.500000000000004%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsSAAALEgHS3X78AAABgUlEQVQY01WPz0uTcRjAv86ZI4U6BYuIptPZUA9e6hLRIaKTSlLmj02dCgNJ2A7T/gWJtqhDZ5EwnNo/sIPHoG6BUOHPJKK17fV9t3c/Pz3vOyf4wAee0+f5PGry7Q6hdykC7z8zt/5LOCb04YDZjydMr/4k+mqL6Moay282iMU/sZQQ4tssvU7aLMc3bV4mtomsJFFUS1ArA2VZC1RNg6KRQxZSX/e4OjBPm3+CZu8zlOcp6uYI6sYT1PXhOtcG67iHUO2PUFpBRDUomUXS6SyabpDTdPJ5nS/f9rh1fxH33TBtvVM2Ln+A1tsBLvVM0tw9jqOrTotvQg7JsT9amawJFcNAz2Qw8nl0kRbNArs/juh7HMP74AWXe4MiDOL0jeMUkSVTHaOozuc2jq4xqZTi478GWd2USsk8m8Z6eJLG9zCC594C7jthrvTP4JK61p5AXSpltlDE58J/WY1M7hSzWBJRzaZSqdrC7/u/ae8L0tI9Zr9pvdXAElo0eS8K/wMVaC3Zhj2cNwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="15"
+        title="15"
+        src="/static/277ad8cbb7c1e164e0585218cde4ad11/78d47/15.png"
+        srcset="/static/277ad8cbb7c1e164e0585218cde4ad11/56d15/15.png 200w,
+/static/277ad8cbb7c1e164e0585218cde4ad11/d9f49/15.png 400w,
+/static/277ad8cbb7c1e164e0585218cde4ad11/78d47/15.png 800w,
+/static/277ad8cbb7c1e164e0585218cde4ad11/64756/15.png 1200w,
+/static/277ad8cbb7c1e164e0585218cde4ad11/e9562/15.png 1438w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
   </a>
-</div>
-
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2018/02/24/VSTS-CICD-Creat_Build_Agent/';
-      var disqus_title = 'VSTS - CI 與 CD - 自建 Agent';
-      var disqus_url = 'http://skychang.github.io/2018/02/24/VSTS-CICD-Creat_Build_Agent/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+    </span></p>
+<p>如果想要移除的話，就輸入，但依然要提供權限或是 PAT。</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">.\config.cmd remove</code></pre></div>
+<p>最後，我們只要執行底下指令，就可以順利把 Agent Run 起來</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">.\run.cmd</code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/a436140ac63c4918474a87b5e169bd74/d621b/16.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 27.999999999999996%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsSAAALEgHS3X78AAABLElEQVQY042PTUsCURSGb9lf6JOIyKxfk5ERVNaiFuaiVZDgrmURWUHUIgzaiY7lKtoUBO3b9AOKCKEvZWZsrs44T9eZMG0RXXg4L/ec+3CuWDq6JXZ4zXL6jnjumXj2iZXMIzGtyOrpPRsHBZJ7WZL7BRK7Dc5JpPIkdnIKrVnXU2esbWsIsIG6wlFR4lYrUNXRpcPi5gViaBoxPIMYjCB6JxHdE4pwOz1h/77R1y0HV+kMq8LLewndMPkolbGkxdbJJWIgQmAsSmdoXhH1ciD0i+9+1/gC4tWw1TYupjQxTAMppaoVb+vjzBWiP+INi+Dc34zM0jGq5h6KJd7KJrbT+LZ/nLqf09oNom/qR6geNWsrrULDqvFZtakrieu6nqhWs31h7h/CYLvwCy1lJpFKXz0vAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="16"
+        title="16"
+        src="/static/a436140ac63c4918474a87b5e169bd74/78d47/16.png"
+        srcset="/static/a436140ac63c4918474a87b5e169bd74/56d15/16.png 200w,
+/static/a436140ac63c4918474a87b5e169bd74/d9f49/16.png 400w,
+/static/a436140ac63c4918474a87b5e169bd74/78d47/16.png 800w,
+/static/a436140ac63c4918474a87b5e169bd74/64756/16.png 1200w,
+/static/a436140ac63c4918474a87b5e169bd74/d621b/16.png 1439w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>以上，完成~~ ( 拍手.. )</p>
+<h2>後記</h2>
+<p>其實原本這一篇是想把 CI 寫完的，但後來發現，補充了太多東西，整整寫了一整天才把 Agent 的建立寫完... ( 抖抖，所以我們不要怪富木堅拖稿了... ) 後來寫到現在半夜兩點，決定先到此為止，下一篇再來介紹 CI 的設定。</p>
+<p>最後，關於官方文件，有寫到一些滿有趣的 <a href="https://docs.microsoft.com/zh-tw/vsts/build-release/actions/agents/v2-windows">Q&#x26;A</a>，例如，如果 Agent 在地端，要防火牆開哪些網址，如何使用自簽憑證，如何使用 Web Proxy 等等，小弟就不在這邊多敘述了，有興趣可以看原文喔。 </p>
+<h2>參考資料</h2>
+<ul>
+<li><a href="https://docs.microsoft.com/zh-tw/vsts/build-release/actions/agents/prepare-permissions">https://docs.microsoft.com/zh-tw/vsts/build-release/actions/agents/prepare-permissions</a></li>
+<li><a href="https://docs.microsoft.com/zh-tw/vsts/build-release/actions/agents/v2-windows">https://docs.microsoft.com/zh-tw/vsts/build-release/actions/agents/v2-windows</a></li>
+<li><a href="https://github.com/Microsoft/vsts-agent">https://github.com/Microsoft/vsts-agent</a></li>
+</ul></div><div class="navigation-module--navigation--3Zfju"><span class="navigation-module--button--28kp3"><a href="/hello"><span class="navigation-module--iconPrev--23mg1">←</span><span class="navigation-module--buttonText--1Xod2">Hello Friend</span></a></span></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2018/02/24/VSTS-CICD-Creat_Build_Agent/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>

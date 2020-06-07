@@ -1,364 +1,15 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Azure,Windows Store App," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="繼上一篇體驗完Mobile Service的強大後，今天我們繼續延續微軟官方的教材；這次的內容在說明，當我們建立了行動裝置APP( 這裡使用Win Store App來舉例 )，一定會有資料需要和後面的資料庫等作處理；通常我們會怎麼做!?，第一天，準備好資料庫 ( 不要問我為什麼要一天，上班總是要有摸魚時間嘛 )，第二天開始撰寫Service，第三天休息上網聊天打屁，第四天撰寫一下傳遞用的物件，第">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Windows Azure - 使用Mobile Service來處理行動裝置APP的Data">
-<meta property="og:url" content="http://skychang.github.io/2012/09/05/Windows-Azure-%E4%BD%BF%E7%94%A8Mobile-Service%E4%BE%86%E8%99%95%E7%90%86%E8%A1%8C%E5%8B%95%E8%A3%9D%E7%BD%AEAPP%E7%9A%84Data/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="繼上一篇體驗完Mobile Service的強大後，今天我們繼續延續微軟官方的教材；這次的內容在說明，當我們建立了行動裝置APP( 這裡使用Win Store App來舉例 )，一定會有資料需要和後面的資料庫等作處理；通常我們會怎麼做!?，第一天，準備好資料庫 ( 不要問我為什麼要一天，上班總是要有摸魚時間嘛 )，第二天開始撰寫Service，第三天休息上網聊天打屁，第四天撰寫一下傳遞用的物件，第">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://lh3.ggpht.com/-wBY0PjbLHrk/UEYlPlf-EnI/AAAAAAAAEmE/7uyIsfsRxYQ/image_thumb1.png?imgmax=800">
-<meta property="og:image" content="http://lh4.ggpht.com/-9bL-PhAI14s/UEYlRhDLPLI/AAAAAAAAEmU/F24b9j4U3p0/image_thumb3.png?imgmax=800">
-<meta property="og:image" content="http://lh4.ggpht.com/-EHrepPQZJBU/UEYlTe2YVHI/AAAAAAAAEmg/nDpS7nlH1ZA/image_thumb4.png?imgmax=800">
-<meta property="og:image" content="http://lh3.ggpht.com/-qFQwJZrKxTg/UEYlVXQvPeI/AAAAAAAAEm0/PnfUhcKuUyg/image_thumb6.png?imgmax=800">
-<meta property="og:image" content="http://lh3.ggpht.com/-edM8-tplVGE/UEYlXB1sIvI/AAAAAAAAEnE/rfyurCYTEuc/image_thumb9.png?imgmax=800">
-<meta property="og:image" content="http://lh6.ggpht.com/-GQH8iH4FTtQ/UEYlZ4mE51I/AAAAAAAAEnU/Q1LDyiZa9MI/image_thumb12.png?imgmax=800">
-<meta property="og:image" content="http://lh6.ggpht.com/-Kjbj97lYBD8/UEYlb5ngWkI/AAAAAAAAEnk/B57BDvcI-t8/image_thumb19.png?imgmax=800">
-<meta property="og:image" content="http://lh3.ggpht.com/-vsxXsWekqcQ/UEYld1LJpFI/AAAAAAAAEn0/WoLrZAS2_-I/image_thumb18.png?imgmax=800">
-<meta property="og:image" content="http://lh5.ggpht.com/--nzZmPo01rQ/UEYlf-nT9_I/AAAAAAAAEoE/d3rjktJg_HA/image_thumb22.png?imgmax=800">
-<meta property="og:image" content="http://lh5.ggpht.com/-l6J_smO9P3M/UEYlh9qno2I/AAAAAAAAEoU/yxKdFB5_61w/image_thumb24.png?imgmax=800">
-<meta property="og:image" content="http://lh4.ggpht.com/-0Ne6v9fY3GM/UEYlkCVBQRI/AAAAAAAAEok/l-7Kx0AA1Dw/image_thumb27.png?imgmax=800">
-<meta property="og:image" content="http://lh5.ggpht.com/-_BIhBIPfNMY/UEYlmSQJb_I/AAAAAAAAEow/gAg7uhEnqmI/image_thumb33.png?imgmax=800">
-<meta property="og:image" content="http://lh3.ggpht.com/-taZNxo5d_ug/UEYloGKQ7eI/AAAAAAAAEpE/-Hv_eJvzSn8/image_thumb34.png?imgmax=800">
-<meta property="og:image" content="http://lh3.ggpht.com/-UsN9DszTIKo/UEYlq99NB-I/AAAAAAAAEpU/HPx1pFhvVrg/image_thumb36.png?imgmax=800">
-<meta property="og:image" content="http://lh6.ggpht.com/-jgDS41I_VI0/UEYls5lQmuI/AAAAAAAAEpk/ooyIKYicBqo/image_thumb39.png?imgmax=800">
-<meta property="og:image" content="http://lh5.ggpht.com/-oLi4u-rmfoQ/UEYlu0SbgKI/AAAAAAAAEp0/awVW0Zo2W3g/image_thumb42.png?imgmax=800">
-<meta property="og:image" content="http://lh4.ggpht.com/-J_M5wuZnXPI/UEYwHuxnVaI/AAAAAAAAEsw/RydZEYYZMP8/image_thumb%25255B3%25255D.png?imgmax=800">
-<meta property="og:image" content="http://lh3.ggpht.com/-W5q3hDUaOCM/UEYlxMNoXKI/AAAAAAAAEqA/IBFHeE0piqY/image_thumb44.png?imgmax=800">
-<meta property="og:image" content="http://lh5.ggpht.com/-pCAvs3dejzg/UEYlzGoSQ0I/AAAAAAAAEqU/sujdiXdJAtw/image_thumb47.png?imgmax=800">
-<meta property="og:image" content="http://lh5.ggpht.com/-x50rm66gcug/UEYl1FpuVxI/AAAAAAAAEqk/YTMlyyHmtFc/image_thumb58.png?imgmax=800">
-<meta property="og:image" content="http://lh3.ggpht.com/-ozds_-g8Hlg/UEYl3DdAfcI/AAAAAAAAEq0/Y578VXRUYGU/image_thumb51.png?imgmax=800">
-<meta property="og:image" content="http://lh6.ggpht.com/-8SiRoiaR6bw/UEYl5DwjVPI/AAAAAAAAErE/5LqUhvE0xSk/image_thumb53.png?imgmax=800">
-<meta property="og:image" content="http://lh6.ggpht.com/-fCz1wj3QIpQ/UEYl7UzyrII/AAAAAAAAErU/ITtR7V68XR8/image_thumb56.png?imgmax=800">
-<meta property="og:image" content="http://lh3.ggpht.com/-IdTxK8sQShc/UEYl9sVC1bI/AAAAAAAAErk/YvjGXTSFWK0/image_thumb60.png?imgmax=800">
-<meta property="og:image" content="http://lh4.ggpht.com/-xY0LOcAOFGQ/UEYl_tr_DUI/AAAAAAAAEr0/H6a_3BfQgOg/image_thumb63.png?imgmax=800">
-<meta property="og:image" content="http://lh4.ggpht.com/-yTL611h912o/UEYmB5t6cKI/AAAAAAAAEsE/6J6mfbuKcng/image_thumb69.png?imgmax=800">
-<meta property="og:image" content="http://lh6.ggpht.com/-ckC-8UJWWcI/UEYmEHhf2tI/AAAAAAAAEsU/C0DfstyR9kc/image_thumb66.png?imgmax=800">
-<meta property="article:published_time" content="2012-09-05T00:02:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:39.027Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="Azure">
-<meta property="article:tag" content="Windows Store App">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://lh3.ggpht.com/-wBY0PjbLHrk/UEYlPlf-EnI/AAAAAAAAEmE/7uyIsfsRxYQ/image_thumb1.png?imgmax=800">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> Windows Azure - 使用Mobile Service來處理行動裝置APP的Data | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Windows Azure - 使用Mobile Service來處理行動裝置APP的Data
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2012-09-05T00:02:00+00:00" content="2012-09-05">
-              2012-09-05
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2012/09/05/Windows-Azure-%E4%BD%BF%E7%94%A8Mobile-Service%E4%BE%86%E8%99%95%E7%90%86%E8%A1%8C%E5%8B%95%E8%A3%9D%E7%BD%AEAPP%E7%9A%84Data/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/09/05/Windows-Azure-使用Mobile-Service來處理行動裝置APP的Data/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>繼<a href="http://blog.sanc.idv.tw/2012/08/windows-azure-mobile-service.html" target="_blank" rel="noopener">上一篇</a>體驗完Mobile Service的強大後，今天我們繼續延續<a href="http://www.windowsazure.com/en-us/develop/mobile/tutorials/get-started-with-data-dotnet/" target="_blank" rel="noopener">微軟官方的教材</a>；這次的內容在說明，當我們建立了行動裝置APP( 這裡使用Win Store App來舉例 )，一定會有資料需要和後面的資料庫等作處理；通常我們會怎麼做!?，第一天，準備好資料庫 ( 不要問我為什麼要一天，上班總是要有摸魚時間嘛 )，第二天開始撰寫Service，第三天休息上網聊天打屁，第四天撰寫一下傳遞用的物件，第五天正式整合，然後可能因為失敗，假日還要來繼續加班；當然，對於神人大大門來說，可能一天就搞定了，但就算是一天搞定，還是要處理很多事情，所以今天，我們介紹的Mobile Service Data篇，他輕鬆地幫我們解決這些問題!!讓我們可以只要花短短一天的時間，就做完全部的事情，讓我們剩下四天，都可以輕鬆的打混!!(疑!?)…</p>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">Windows Azure - 使用Mobile Service來處理行動裝置APP的Data :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="繼上一篇體驗完Mobile Service的強大後，今天我們繼續延續微軟官方的教材；這次的內容在說明，當我們建立了行動裝置APP( 這裡使用Win Store App…"/><meta data-react-helmet="true" property="og:title" content="Windows Azure - 使用Mobile Service來處理行動裝置APP的Data"/><meta data-react-helmet="true" property="og:description" content="繼上一篇體驗完Mobile Service的強大後，今天我們繼續延續微軟官方的教材；這次的內容在說明，當我們建立了行動裝置APP( 這裡使用Win Store App…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="Windows Azure - 使用Mobile Service來處理行動裝置APP的Data"/><meta data-react-helmet="true" name="twitter:description" content="繼上一篇體驗完Mobile Service的強大後，今天我們繼續延續微軟官方的教材；這次的內容在說明，當我們建立了行動裝置APP( 這裡使用Win Store App…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2012/09/05/Windows-Azure-使用Mobile-Service來處理行動裝置APP的Data/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">Windows Azure - 使用Mobile Service來處理行動裝置APP的Data</h1><div class="post-module--meta--3YtjE">05 September 2012<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/Azure/"><span class="post-module--tag--16U9p">#<!-- -->Azure</span></a><a href="/tag/Windows-Store-App/"><span class="post-module--tag--16U9p">#<!-- -->Windows Store App</span></a></div></div><div><p>繼<a href="http://blog.sanc.idv.tw/2012/08/windows-azure-mobile-service.html">上一篇</a>體驗完Mobile Service的強大後，今天我們繼續延續<a href="http://www.windowsazure.com/en-us/develop/mobile/tutorials/get-started-with-data-dotnet/">微軟官方的教材</a>；這次的內容在說明，當我們建立了行動裝置APP( 這裡使用Win Store App來舉例 )，一定會有資料需要和後面的資料庫等作處理；通常我們會怎麼做!?，第一天，準備好資料庫 ( 不要問我為什麼要一天，上班總是要有摸魚時間嘛 )，第二天開始撰寫Service，第三天休息上網聊天打屁，第四天撰寫一下傳遞用的物件，第五天正式整合，然後可能因為失敗，假日還要來繼續加班；當然，對於神人大大門來說，可能一天就搞定了，但就算是一天搞定，還是要處理很多事情，所以今天，我們介紹的Mobile Service Data篇，他輕鬆地幫我們解決這些問題!!讓我們可以只要花短短一天的時間，就做完全部的事情，讓我們剩下四天，都可以輕鬆的打混!!(疑!?)…</p>
 <p>這篇目前不會講太多的技術原理，未來可能會在這篇補完，也有可能另外寫一篇；這篇的重點，是希望大家快速地感受到，Mobile Service的好處。( 當然，另外一個理由，也是因為直接翻譯官方教學而來XDD，有些細節還沒深入去看… )</p>
 <p>在開始前，這篇範例需要使用到Win 8和Visual Studio 2012，如果沒有的人，也可以直接看圖，我幾乎把所有的圖都截下來了，如果轉快一點，搞不好會出現動畫的效果喔!! ( 不要當真阿!! )</p>
 <p>實際要做的人，需要先去下面網址下載範例，然後就可以正式開始了。</p>
-<p><a href="http://code.msdn.microsoft.com/Get-Started-with-Data-in-8c9239e6" target="_blank" rel="noopener" title="http://code.msdn.microsoft.com/Get-Started-with-Data-in-8c9239e6">http://code.msdn.microsoft.com/Get-Started-with-Data-in-8c9239e6</a></p>
-<h4 id="開啟應用程式"><a href="#開啟應用程式" class="headerlink" title="開啟應用程式"></a>開啟應用程式</h4><p>下載完後，裡面會有如下圖的東西，可以放到你喜歡的位置，但不要放到資源回收桶!!</p>
-<p><a href="http://lh3.ggpht.com/-mZMT2_cHqwM/UEYlOqTi8cI/AAAAAAAAEl8/fv2SoBSvUi8/s1600-h/image3.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-wBY0PjbLHrk/UEYlPlf-EnI/AAAAAAAAEmE/7uyIsfsRxYQ/image_thumb1.png?imgmax=800" alt="image" title="image"></a></p>
-<p>利用Visual Studio 2012打開後，並且啟動起來 ( 使用模擬器，不知道的人可以參考<a href="http://blog.sanc.idv.tw/2012/08/windows-azure-mobile-service.html" target="_blank" rel="noopener">上一篇</a> )，就會開啟如下圖的應用程式，當我們在左邊的TextBox輸入資料後，並點擊Save後，就可以在右邊看到；其實這就是典型的超簡單TodoList。當然，不會這樣就結束了。</p>
-<p><a href="http://lh4.ggpht.com/-4ZE0UtiIjXY/UEYlQr0zVsI/AAAAAAAAEmI/bYbZdq7Jj1k/s1600-h/image7.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-9bL-PhAI14s/UEYlRhDLPLI/AAAAAAAAEmU/F24b9j4U3p0/image_thumb3.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://code.msdn.microsoft.com/Get-Started-with-Data-in-8c9239e6" title="http://code.msdn.microsoft.com/Get-Started-with-Data-in-8c9239e6">http://code.msdn.microsoft.com/Get-Started-with-Data-in-8c9239e6</a></p>
+<h4>開啟應用程式</h4>
+<p>下載完後，裡面會有如下圖的東西，可以放到你喜歡的位置，但不要放到資源回收桶!!</p>
+<p><a href="http://lh3.ggpht.com/-mZMT2_cHqwM/UEYlOqTi8cI/AAAAAAAAEl8/fv2SoBSvUi8/s1600-h/image3.png"><img src="http://lh3.ggpht.com/-wBY0PjbLHrk/UEYlPlf-EnI/AAAAAAAAEmE/7uyIsfsRxYQ/image_thumb1.png?imgmax=800" alt="image" title="image"></a></p>
+<p>利用Visual Studio 2012打開後，並且啟動起來 ( 使用模擬器，不知道的人可以參考<a href="http://blog.sanc.idv.tw/2012/08/windows-azure-mobile-service.html">上一篇</a> )，就會開啟如下圖的應用程式，當我們在左邊的TextBox輸入資料後，並點擊Save後，就可以在右邊看到；其實這就是典型的超簡單TodoList。當然，不會這樣就結束了。</p>
+<p><a href="http://lh4.ggpht.com/-4ZE0UtiIjXY/UEYlQr0zVsI/AAAAAAAAEmI/bYbZdq7Jj1k/s1600-h/image7.png"><img src="http://lh4.ggpht.com/-9bL-PhAI14s/UEYlRhDLPLI/AAAAAAAAEmU/F24b9j4U3p0/image_thumb3.png?imgmax=800" alt="image" title="image"></a></p>
 <p>目前下載下來的範例，是將資料存到本機端，我們可以從下面程式碼看到，會有一個TodoItem來存放輸入的TextBox資料 ( 也就是TextInput.Text )，並且利用InsertTodoItem方法來存放這個物件。</p>
 <pre class="brush: csharp;">private void ButtonSave_Click(object sender, RoutedEventArgs e)
 {
@@ -366,7 +17,6 @@
     InsertTodoItem(todoItem);
 }
 </pre>
-
 <p>當然，這個方法，其實也只是利用items.Add方法來存放，通常看到Add，我們大概就可以猜想到了；而第一行，只是來設定TodoItem的Id值而已。</p>
 <pre class="brush: csharp;">private void InsertTodoItem(TodoItem todoItem)
 {
@@ -375,7 +25,6 @@
     items.Add(todoItem);
 }
 </pre>
-
 <p>其實再往上捲一點，就可以發現到了- -，items就是ObservableCollection型別。</p>
 <pre class="brush: csharp;">public sealed partial class MainPage : Page
 {
@@ -383,400 +32,91 @@
 ...
 }
 </pre>
-
 <p>到這邊，其實整個app很簡單，就是存到Collection裡面而已，但是，我們當然希望能把資料存到雲端上面去啊!!這樣資料才有機會跨平台，甚至可以保存!!所以接下來，我們要開始建立Mobile Service的Data。</p>
-<h4 id="建立Mobile-Service"><a href="#建立Mobile-Service" class="headerlink" title="建立Mobile Service"></a>建立Mobile Service</h4><p>當然，建立任何Service都擺脫不了這個加號。</p>
-<p><a href="http://lh4.ggpht.com/-RbhyAh_FSBY/UEYlSvuzrdI/AAAAAAAAEmY/ZLMezoIB60g/s1600-h/image10.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-EHrepPQZJBU/UEYlTe2YVHI/AAAAAAAAEmg/nDpS7nlH1ZA/image_thumb4.png?imgmax=800" alt="image" title="image"></a></p>
-<p>然後我們選擇Mobile Service，如果不能選的人，請看<a href="http://blog.sanc.idv.tw/2012/08/windows-azure-mobile-service.html" target="_blank" rel="noopener">上一篇</a>。</p>
-<p><a href="http://lh3.ggpht.com/-hAfF5wACUyw/UEYlUBs4A7I/AAAAAAAAEmo/pqjAij70t-o/s1600-h/image14.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-qFQwJZrKxTg/UEYlVXQvPeI/AAAAAAAAEm0/PnfUhcKuUyg/image_thumb6.png?imgmax=800" alt="image" title="image"></a></p>
+<h4>建立Mobile Service</h4>
+<p>當然，建立任何Service都擺脫不了這個加號。</p>
+<p><a href="http://lh4.ggpht.com/-RbhyAh_FSBY/UEYlSvuzrdI/AAAAAAAAEmY/ZLMezoIB60g/s1600-h/image10.png"><img src="http://lh4.ggpht.com/-EHrepPQZJBU/UEYlTe2YVHI/AAAAAAAAEmg/nDpS7nlH1ZA/image_thumb4.png?imgmax=800" alt="image" title="image"></a></p>
+<p>然後我們選擇Mobile Service，如果不能選的人，請看<a href="http://blog.sanc.idv.tw/2012/08/windows-azure-mobile-service.html">上一篇</a>。</p>
+<p><a href="http://lh3.ggpht.com/-hAfF5wACUyw/UEYlUBs4A7I/AAAAAAAAEmo/pqjAij70t-o/s1600-h/image14.png"><img src="http://lh3.ggpht.com/-qFQwJZrKxTg/UEYlVXQvPeI/AAAAAAAAEm0/PnfUhcKuUyg/image_thumb6.png?imgmax=800" alt="image" title="image"></a></p>
 <p>接下來，我們要輸入超帥氣的URL，並且選擇新的Database，你也可以沿用舊的啦，這就看各人了。</p>
-<p><a href="http://lh6.ggpht.com/-4YlIXEnOf4w/UEYlWUeiRiI/AAAAAAAAEm4/4Dxh6ZSjiuQ/s1600-h/image19.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-edM8-tplVGE/UEYlXB1sIvI/AAAAAAAAEnE/rfyurCYTEuc/image_thumb9.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh6.ggpht.com/-4YlIXEnOf4w/UEYlWUeiRiI/AAAAAAAAEm4/4Dxh6ZSjiuQ/s1600-h/image19.png"><img src="http://lh3.ggpht.com/-edM8-tplVGE/UEYlXB1sIvI/AAAAAAAAEnE/rfyurCYTEuc/image_thumb9.png?imgmax=800" alt="image" title="image"></a></p>
 <p>然後我們要輸入一下Database的名稱，然後我們可以決定這個Database要放置的Server是哪一台( 這邊我們建立新Server )，並且給管理的名稱，和PW。</p>
-<p><a href="http://lh4.ggpht.com/-KnbGVFDe16I/UEYlYQgA5QI/AAAAAAAAEnM/mB1Ev4_wQRE/s1600-h/image24.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-GQH8iH4FTtQ/UEYlZ4mE51I/AAAAAAAAEnU/Q1LDyiZa9MI/image_thumb12.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh4.ggpht.com/-KnbGVFDe16I/UEYlYQgA5QI/AAAAAAAAEnM/mB1Ev4_wQRE/s1600-h/image24.png"><img src="http://lh6.ggpht.com/-GQH8iH4FTtQ/UEYlZ4mE51I/AAAAAAAAEnU/Q1LDyiZa9MI/image_thumb12.png?imgmax=800" alt="image" title="image"></a></p>
 <p>完成後，就會看到他在建立中，其實還滿快的。</p>
-<p><a href="http://lh4.ggpht.com/-l6zWxn5qBiE/UEYlbCZ51PI/AAAAAAAAEnY/Qp1pTpwBTq4/s1600-h/image37.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-Kjbj97lYBD8/UEYlb5ngWkI/AAAAAAAAEnk/B57BDvcI-t8/image_thumb19.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh4.ggpht.com/-l6zWxn5qBiE/UEYlbCZ51PI/AAAAAAAAEnY/Qp1pTpwBTq4/s1600-h/image37.png"><img src="http://lh6.ggpht.com/-Kjbj97lYBD8/UEYlb5ngWkI/AAAAAAAAEnk/B57BDvcI-t8/image_thumb19.png?imgmax=800" alt="image" title="image"></a></p>
 <p>完成後，我們就可以進去建立Data。</p>
-<p><a href="http://lh6.ggpht.com/-B22gYT7lncw/UEYlc3IgOkI/AAAAAAAAEno/9hzn-rtMt0o/s1600-h/image36.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-vsxXsWekqcQ/UEYld1LJpFI/AAAAAAAAEn0/WoLrZAS2_-I/image_thumb18.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh6.ggpht.com/-B22gYT7lncw/UEYlc3IgOkI/AAAAAAAAEno/9hzn-rtMt0o/s1600-h/image36.png"><img src="http://lh3.ggpht.com/-vsxXsWekqcQ/UEYld1LJpFI/AAAAAAAAEn0/WoLrZAS2_-I/image_thumb18.png?imgmax=800" alt="image" title="image"></a></p>
 <p>這邊選擇DATA。</p>
-<p><a href="http://lh6.ggpht.com/-JiI49hDOwvI/UEYle3BAqfI/AAAAAAAAEn8/c0dN7i8YNZ0/s1600-h/image42.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/--nzZmPo01rQ/UEYlf-nT9_I/AAAAAAAAEoE/d3rjktJg_HA/image_thumb22.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh6.ggpht.com/-JiI49hDOwvI/UEYle3BAqfI/AAAAAAAAEn8/c0dN7i8YNZ0/s1600-h/image42.png"><img src="http://lh5.ggpht.com/--nzZmPo01rQ/UEYlf-nT9_I/AAAAAAAAEoE/d3rjktJg_HA/image_thumb22.png?imgmax=800" alt="image" title="image"></a></p>
 <p>這裡選擇ADD A TABLE。</p>
-<p><a href="http://lh4.ggpht.com/-DKrLKGhrxIU/UEYlg3G6egI/AAAAAAAAEoM/QnFXJfm6Q8c/s1600-h/image46.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-l6J_smO9P3M/UEYlh9qno2I/AAAAAAAAEoU/yxKdFB5_61w/image_thumb24.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh4.ggpht.com/-DKrLKGhrxIU/UEYlg3G6egI/AAAAAAAAEoM/QnFXJfm6Q8c/s1600-h/image46.png"><img src="http://lh5.ggpht.com/-l6J_smO9P3M/UEYlh9qno2I/AAAAAAAAEoU/yxKdFB5_61w/image_thumb24.png?imgmax=800" alt="image" title="image"></a></p>
 <p>我們決定一下DB的Table名稱，按下去之後，就會在DB建立好Table，另外，我們可以從下面的選項，來控制App存取權限。</p>
-<p><a href="http://lh5.ggpht.com/-hkMphEiIgCI/UEYljJpC9aI/AAAAAAAAEoc/IUqB8Ma6iVc/s1600-h/image51.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-0Ne6v9fY3GM/UEYlkCVBQRI/AAAAAAAAEok/l-7Kx0AA1Dw/image_thumb27.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh5.ggpht.com/-hkMphEiIgCI/UEYljJpC9aI/AAAAAAAAEoc/IUqB8Ma6iVc/s1600-h/image51.png"><img src="http://lh4.ggpht.com/-0Ne6v9fY3GM/UEYlkCVBQRI/AAAAAAAAEok/l-7Kx0AA1Dw/image_thumb27.png?imgmax=800" alt="image" title="image"></a></p>
 <p>完成後，就會看到TodoItem已經建立好了，我們可以再進一步的點進去看看。</p>
-<p><a href="http://lh3.ggpht.com/-Ink20YWlJaQ/UEYllBMQySI/AAAAAAAAEos/fdDQtNmIZS8/s1600-h/image63.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-_BIhBIPfNMY/UEYlmSQJb_I/AAAAAAAAEow/gAg7uhEnqmI/image_thumb33.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh3.ggpht.com/-Ink20YWlJaQ/UEYllBMQySI/AAAAAAAAEos/fdDQtNmIZS8/s1600-h/image63.png"><img src="http://lh5.ggpht.com/-_BIhBIPfNMY/UEYlmSQJb_I/AAAAAAAAEow/gAg7uhEnqmI/image_thumb33.png?imgmax=800" alt="image" title="image"></a></p>
 <p>點進去後，我們可以發現，裡面已經先幫我們建立好了一個Id欄位。</p>
-<p><a href="http://lh6.ggpht.com/-CV_1mTOii20/UEYlnMy7lbI/AAAAAAAAEo4/YrHfo4qdKLg/s1600-h/image64.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-taZNxo5d_ug/UEYloGKQ7eI/AAAAAAAAEpE/-Hv_eJvzSn8/image_thumb34.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh6.ggpht.com/-CV_1mTOii20/UEYlnMy7lbI/AAAAAAAAEo4/YrHfo4qdKLg/s1600-h/image64.png"><img src="http://lh3.ggpht.com/-taZNxo5d_ug/UEYloGKQ7eI/AAAAAAAAEpE/-Hv_eJvzSn8/image_thumb34.png?imgmax=800" alt="image" title="image"></a></p>
 <p>我們回到主畫面，按下CONFIGURE。</p>
-<p><a href="http://lh3.ggpht.com/-lzq1JrvAGEc/UEYlprj-qAI/AAAAAAAAEpM/_yqDwbNuOG0/s1600-h/image68.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-UsN9DszTIKo/UEYlq99NB-I/AAAAAAAAEpU/HPx1pFhvVrg/image_thumb36.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh3.ggpht.com/-lzq1JrvAGEc/UEYlprj-qAI/AAAAAAAAEpM/_yqDwbNuOG0/s1600-h/image68.png"><img src="http://lh3.ggpht.com/-UsN9DszTIKo/UEYlq99NB-I/AAAAAAAAEpU/HPx1pFhvVrg/image_thumb36.png?imgmax=800" alt="image" title="image"></a></p>
 <p>我們可以看到下面有一個Dynamic Schema已經啟動了，當這個啟動的時候，如果有JSON物件傳到Mobile Service時，Mobile Service就會自動地幫我們建立需要的欄位!!有沒有超方便的啦!!</p>
-<p><a href="http://lh5.ggpht.com/-JWgWz-dbmy8/UEYlrzAHBKI/AAAAAAAAEpc/qwkO8i1XXMA/s1600-h/image73.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-jgDS41I_VI0/UEYls5lQmuI/AAAAAAAAEpk/ooyIKYicBqo/image_thumb39.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh5.ggpht.com/-JWgWz-dbmy8/UEYlrzAHBKI/AAAAAAAAEpc/qwkO8i1XXMA/s1600-h/image73.png"><img src="http://lh6.ggpht.com/-jgDS41I_VI0/UEYls5lQmuI/AAAAAAAAEpk/ooyIKYicBqo/image_thumb39.png?imgmax=800" alt="image" title="image"></a></p>
 <p>到這邊，Mobile Service就已經設定好了，接下來，我們要開始改寫原本的程式。</p>
-<h4 id="改寫程式"><a href="#改寫程式" class="headerlink" title="改寫程式"></a>改寫程式</h4><p>首先，我們要先有安裝<a href="http://go.microsoft.com/fwlink/?LinkId=257545&amp;clcid=0x409" target="_blank" rel="noopener">Mobile Services SDK</a>，沒安裝的人，記得先去下載。 </p>
+<h4>改寫程式</h4>
+<p>首先，我們要先有安裝<a href="http://go.microsoft.com/fwlink/?LinkId=257545&#x26;clcid=0x409">Mobile Services SDK</a>，沒安裝的人，記得先去下載。 </p>
 <p>接下來，回到Visual Studio 2012，將Windows Azure Mobile Service Managed Client給參考進去。</p>
-<p><a href="http://lh3.ggpht.com/-CsDrX_fZsMc/UEYlt60Vs6I/AAAAAAAAEps/qxWBO7K2InQ/s1600-h/image78.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-oLi4u-rmfoQ/UEYlu0SbgKI/AAAAAAAAEp0/awVW0Zo2W3g/image_thumb42.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh3.ggpht.com/-CsDrX_fZsMc/UEYlt60Vs6I/AAAAAAAAEps/qxWBO7K2InQ/s1600-h/image78.png"><img src="http://lh5.ggpht.com/-oLi4u-rmfoQ/UEYlu0SbgKI/AAAAAAAAEp0/awVW0Zo2W3g/image_thumb42.png?imgmax=800" alt="image" title="image"></a></p>
 <p>我們第一步，需要先在App.xaml.cs這個檔案做設定，如下程式碼，我們要在AppUri輸入Mobile Service的網址，並且在AppKey的地方輸入存取Key。</p>
 <pre class="brush: csharp;">public static MobileServiceClient MobileService = new MobileServiceClient(
     "AppUrl",
     "AppKey"
 );
 </pre>
-
 <p>Key可以從下圖位置找到。</p>
-<p><a href="http://lh4.ggpht.com/-H1w0yS1yIGs/UEYwGcOos6I/AAAAAAAAEso/eZ_4SoMTktY/s1600-h/image%25255B9%25255D.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-J_M5wuZnXPI/UEYwHuxnVaI/AAAAAAAAEsw/RydZEYYZMP8/image_thumb%25255B3%25255D.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh4.ggpht.com/-H1w0yS1yIGs/UEYwGcOos6I/AAAAAAAAEso/eZ_4SoMTktY/s1600-h/image%25255B9%25255D.png"><img src="http://lh4.ggpht.com/-J_M5wuZnXPI/UEYwHuxnVaI/AAAAAAAAEsw/RydZEYYZMP8/image_thumb%25255B3%25255D.png?imgmax=800" alt="image" title="image"></a></p>
 <p>整個填法，可以參考下圖；另外，原本官方給的範例程式，其實都已經寫好了，只是把程式碼給註解了，把註解拿掉就可以；我們可以從下圖看到需要填值的位置。</p>
-<p><a href="http://lh3.ggpht.com/-P6lLLZsJiXw/UEYlwBasjlI/AAAAAAAAEp8/5ZQgnaIKd8s/s1600-h/image82.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-W5q3hDUaOCM/UEYlxMNoXKI/AAAAAAAAEqA/IBFHeE0piqY/image_thumb44.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh3.ggpht.com/-P6lLLZsJiXw/UEYlwBasjlI/AAAAAAAAEp8/5ZQgnaIKd8s/s1600-h/image82.png"><img src="http://lh3.ggpht.com/-W5q3hDUaOCM/UEYlxMNoXKI/AAAAAAAAEqA/IBFHeE0piqY/image_thumb44.png?imgmax=800" alt="image" title="image"></a></p>
 <p>接下來，我們要進入MainPage.xaml.cs進行修改，除了要加Microsoft.WindowsAzure.MobileServices這個NameSpace外，我們還要在建構子那邊，把原本的ObservableCollection那行給註解，並且把原本註解的程式碼復原，如下圖。</p>
-<p><a href="http://lh4.ggpht.com/-_rfeP1RSEFo/UEYlyMsx1iI/AAAAAAAAEqM/K3fTjAuOYI4/s1600-h/image87.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-pCAvs3dejzg/UEYlzGoSQ0I/AAAAAAAAEqU/sujdiXdJAtw/image_thumb47.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh4.ggpht.com/-_rfeP1RSEFo/UEYlyMsx1iI/AAAAAAAAEqM/K3fTjAuOYI4/s1600-h/image87.png"><img src="http://lh5.ggpht.com/-pCAvs3dejzg/UEYlzGoSQ0I/AAAAAAAAEqU/sujdiXdJAtw/image_thumb47.png?imgmax=800" alt="image" title="image"></a></p>
 <p>為了方便觀看，我又把程式碼貼出來，需要復原的程式碼如下，我們改用了MobileService的物件。</p>
 <pre class="brush: csharp;">private MobileServiceCollectionView&lttodoitem&gt items;
 private IMobileServiceTable&lttodoitem&gt todoTable = App.MobileService.GetTable&lttodoitem&gt();
 </pre>
-
 <p>接下來，在InsertTodoItem的地方，把todoItem.id那行註解調，現在交給DB來自動跳號了，並且在InsertTodoItem方法前面加上async，因為我們要用到非同步的功能，最後再把原本被註解掉的程式碼復原。</p>
-<p><a href="http://lh4.ggpht.com/-iM8K9IcVHes/UEYl0CuNhaI/AAAAAAAAEqc/dUQbPSVlDM8/s1600-h/image108.png" target="_blank" rel="noopener"><img src="http://lh5.ggpht.com/-x50rm66gcug/UEYl1FpuVxI/AAAAAAAAEqk/YTMlyyHmtFc/image_thumb58.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh4.ggpht.com/-iM8K9IcVHes/UEYl0CuNhaI/AAAAAAAAEqc/dUQbPSVlDM8/s1600-h/image108.png"><img src="http://lh5.ggpht.com/-x50rm66gcug/UEYl1FpuVxI/AAAAAAAAEqk/YTMlyyHmtFc/image_thumb58.png?imgmax=800" alt="image" title="image"></a></p>
 <p>一樣，要復原的程式碼貼在這邊；我們利用todoTable物件，來進行新增資料的動作，當然，怎樣丟到Windows Azure上去，Microsoft都幫我們處理好了。</p>
 <pre class="brush: csharp;">await todoTable.InsertAsync(todoItem);
 </pre>
-
 <p>接下來，來到RefreshTodoItems這個方法，我們先把如下圖的程式碼復原就好，</p>
-<p><a href="http://lh4.ggpht.com/-28i95uhQWsI/UEYl2WSkVJI/AAAAAAAAEqs/HrgrhHJP5wc/s1600-h/image95.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-ozds_-g8Hlg/UEYl3DdAfcI/AAAAAAAAEq0/Y578VXRUYGU/image_thumb51.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh4.ggpht.com/-28i95uhQWsI/UEYl2WSkVJI/AAAAAAAAEqs/HrgrhHJP5wc/s1600-h/image95.png"><img src="http://lh3.ggpht.com/-ozds_-g8Hlg/UEYl3DdAfcI/AAAAAAAAEq0/Y578VXRUYGU/image_thumb51.png?imgmax=800" alt="image" title="image"></a></p>
 <p>程式碼如下，這邊這裡，是當我們按下Refresh按鈕時要處理的事情，我們一樣使用Microsoft提供給我們的Mobile Service物件，來將資料塞到items裡面來。</p>
 <pre class="brush: csharp;">items = todoTable.ToCollectionView();
 </pre>
-
 <p>最後，我們要處理UpdateChecktdTodoItem這個方法，因為一樣要使用到非同步，所以方法前面要加上async。</p>
-<p><a href="http://lh3.ggpht.com/-g_7F_iYTSec/UEYl4JFYRSI/AAAAAAAAEq4/jQzkglwrclU/s1600-h/image99.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-8SiRoiaR6bw/UEYl5DwjVPI/AAAAAAAAErE/5LqUhvE0xSk/image_thumb53.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh3.ggpht.com/-g_7F_iYTSec/UEYl4JFYRSI/AAAAAAAAEq4/jQzkglwrclU/s1600-h/image99.png"><img src="http://lh6.ggpht.com/-8SiRoiaR6bw/UEYl5DwjVPI/AAAAAAAAErE/5LqUhvE0xSk/image_thumb53.png?imgmax=800" alt="image" title="image"></a></p>
 <p>當然，這邊也是用todoTable物件來更新資料庫的資料。</p>
 <pre class="brush: csharp;">await todoTable.UpdateAsync(item); 
 </pre>
-
 <p>剛完成之後，我們可以再把程式Run起來，一樣填填看，基本上，和原本的程式沒啥兩樣。</p>
-<p><a href="http://lh5.ggpht.com/-nQXDUPRzp0g/UEYl6SpJ5AI/AAAAAAAAErI/sRf_dzg_8As/s1600-h/image104.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-fCz1wj3QIpQ/UEYl7UzyrII/AAAAAAAAErU/ITtR7V68XR8/image_thumb56.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh5.ggpht.com/-nQXDUPRzp0g/UEYl6SpJ5AI/AAAAAAAAErI/sRf_dzg_8As/s1600-h/image104.png"><img src="http://lh6.ggpht.com/-fCz1wj3QIpQ/UEYl7UzyrII/AAAAAAAAErU/ITtR7V68XR8/image_thumb56.png?imgmax=800" alt="image" title="image"></a></p>
 <p>但我們回到管理介面，其實可以發現，資料已經丟到Windows Azure上了，更神奇的，連欄位都幫我們建立好了!!</p>
-<p><a href="http://lh4.ggpht.com/-xUbwW6TW8Js/UEYl8KmdLwI/AAAAAAAAErc/tXYFK0pIIIs/s1600-h/image112.png" target="_blank" rel="noopener"><img src="http://lh3.ggpht.com/-IdTxK8sQShc/UEYl9sVC1bI/AAAAAAAAErk/YvjGXTSFWK0/image_thumb60.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh4.ggpht.com/-xUbwW6TW8Js/UEYl8KmdLwI/AAAAAAAAErc/tXYFK0pIIIs/s1600-h/image112.png"><img src="http://lh3.ggpht.com/-IdTxK8sQShc/UEYl9sVC1bI/AAAAAAAAErk/YvjGXTSFWK0/image_thumb60.png?imgmax=800" alt="image" title="image"></a></p>
 <p>到這邊，也算告一個段落，我們只剩下一點點東西，還沒調整。</p>
-<h4 id="小小的調整"><a href="#小小的調整" class="headerlink" title="小小的調整"></a>小小的調整</h4><p>或許有玩過第一版的人，會發現，這次在Checkbox打了勾之後，就不會消失了。</p>
-<p><a href="http://lh3.ggpht.com/-at_QYO7ZfmI/UEYl-hxeURI/AAAAAAAAErs/Q29VsekxsYY/s1600-h/image117.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-xY0LOcAOFGQ/UEYl_tr_DUI/AAAAAAAAEr0/H6a_3BfQgOg/image_thumb63.png?imgmax=800" alt="image" title="image"></a></p>
+<h4>小小的調整</h4>
+<p>或許有玩過第一版的人，會發現，這次在Checkbox打了勾之後，就不會消失了。</p>
+<p><a href="http://lh3.ggpht.com/-at_QYO7ZfmI/UEYl-hxeURI/AAAAAAAAErs/Q29VsekxsYY/s1600-h/image117.png"><img src="http://lh4.ggpht.com/-xY0LOcAOFGQ/UEYl_tr_DUI/AAAAAAAAEr0/H6a_3BfQgOg/image_thumb63.png?imgmax=800" alt="image" title="image"></a></p>
 <p>所以我們針對這個問題，利用Linq進行小小的修改；我們回到RefreshTodoItems這個方法，並把原本的註解，現在換上第二段程式碼。</p>
-<p><a href="http://lh3.ggpht.com/-MHj9S9TqLCY/UEYmAzBZyoI/AAAAAAAAEr8/y-akHSnZMdo/s1600-h/image129.png" target="_blank" rel="noopener"><img src="http://lh4.ggpht.com/-yTL611h912o/UEYmB5t6cKI/AAAAAAAAEsE/6J6mfbuKcng/image_thumb69.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh3.ggpht.com/-MHj9S9TqLCY/UEYmAzBZyoI/AAAAAAAAEr8/y-akHSnZMdo/s1600-h/image129.png"><img src="http://lh4.ggpht.com/-yTL611h912o/UEYmB5t6cKI/AAAAAAAAEsE/6J6mfbuKcng/image_thumb69.png?imgmax=800" alt="image" title="image"></a></p>
 <p>同樣，為了方便起見，我把它貼到下面；我們這邊用Linq來過濾，如果為False，才會傳回到items。</p>
 <pre class="brush: csharp;">items = todoTable
 .Where(todoItem =&gt; todoItem.Complete == false)
 .ToCollectionView();
 </pre>
-
 <p>然後我們再按一下Refresh按鈕，就會發現已經勾勾的Todo，全都不見了。</p>
-<p><a href="http://lh3.ggpht.com/-uvJinaGYDh4/UEYmC5Rh37I/AAAAAAAAEsM/6e1JIE_-fg8/s1600-h/image122.png" target="_blank" rel="noopener"><img src="http://lh6.ggpht.com/-ckC-8UJWWcI/UEYmEHhf2tI/AAAAAAAAEsU/C0DfstyR9kc/image_thumb66.png?imgmax=800" alt="image" title="image"></a></p>
+<p><a href="http://lh3.ggpht.com/-uvJinaGYDh4/UEYmC5Rh37I/AAAAAAAAEsM/6e1JIE_-fg8/s1600-h/image122.png"><img src="http://lh6.ggpht.com/-ckC-8UJWWcI/UEYmEHhf2tI/AAAAAAAAEsU/C0DfstyR9kc/image_thumb66.png?imgmax=800" alt="image" title="image"></a></p>
 <p>這樣，程式就告一個段落了!!</p>
-<h4 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h4><p>當然，這個App還有些少許的東西沒加上去，所以並沒有第一版的完整，但這個就不在Mobile Service的教學範圍內了；這篇主要的目的，還是希望大家能感受到，Mobile Service強大的功能，也省略掉很多開發的時間，相信體驗過後，一定會發出一聲，哇!!的讚嘆聲!!</p>
-<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
-<li><a href="https://www.windowsazure.com/en-us/develop/mobile/resources/" target="_blank" rel="noopener" title="https://www.windowsazure.com/en-us/develop/mobile/resources/">https://www.windowsazure.com/en-us/develop/mobile/resources/</a></li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Azure/" rel="tag">#Azure</a>
-          
-            <a href="/tags/Windows-Store-App/" rel="tag">#Windows Store App</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2012/09/02/ALM-%E4%BD%BF%E7%94%A8Visual-Studio-2012%E7%9A%84%E5%88%86%E9%8F%A1%E8%85%B3%E6%9C%AC%EF%BC%8C%E4%B8%A6%E8%88%87TFS%E7%9A%84Work-Item-Link/" rel="next" title="ALM -  使用Visual Studio 2012的分鏡腳本，並與TFS的Work Item Link">
-                <i class="fa fa-chevron-left"></i> ALM -  使用Visual Studio 2012的分鏡腳本，並與TFS的Work Item Link
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2012/09/13/Windows-Azure-%E5%88%AA%E9%99%A4Windows-Azure%E4%B8%8A%E7%9A%84VM/" rel="prev" title="Windows Azure - 刪除Windows Azure上的VM">
-                Windows Azure - 刪除Windows Azure上的VM <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#開啟應用程式"><span class="nav-number">1.</span> <span class="nav-text">開啟應用程式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立Mobile-Service"><span class="nav-number">2.</span> <span class="nav-text">建立Mobile Service</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#改寫程式"><span class="nav-number">3.</span> <span class="nav-text">改寫程式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小小的調整"><span class="nav-number">4.</span> <span class="nav-text">小小的調整</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#後記"><span class="nav-number">5.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">6.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
-  </a>
-</div>
-
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2012/09/05/Windows-Azure-使用Mobile-Service來處理行動裝置APP的Data/';
-      var disqus_title = 'Windows Azure - 使用Mobile Service來處理行動裝置APP的Data';
-      var disqus_url = 'http://skychang.github.io/2012/09/05/Windows-Azure-%E4%BD%BF%E7%94%A8Mobile-Service%E4%BE%86%E8%99%95%E7%90%86%E8%A1%8C%E5%8B%95%E8%A3%9D%E7%BD%AEAPP%E7%9A%84Data/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+<h4>後記</h4>
+<p>當然，這個App還有些少許的東西沒加上去，所以並沒有第一版的完整，但這個就不在Mobile Service的教學範圍內了；這篇主要的目的，還是希望大家能感受到，Mobile Service強大的功能，也省略掉很多開發的時間，相信體驗過後，一定會發出一聲，哇!!的讚嘆聲!!</p>
+<h4>參考資料</h4>
+<ul>
+<li><a href="https://www.windowsazure.com/en-us/develop/mobile/resources/" title="https://www.windowsazure.com/en-us/develop/mobile/resources/">https://www.windowsazure.com/en-us/develop/mobile/resources/</a></li>
+</ul></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2012/09/05/Windows-Azure-使用Mobile-Service來處理行動裝置APP的Data/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>

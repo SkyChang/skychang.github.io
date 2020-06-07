@@ -1,707 +1,428 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Azure,Linux,Container,Docker,ACS,Kubernetes," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="警告Azure Container Service 已經成 Azure Kubernetes Service，這篇已經棄用 新文章請參考這篇 前言Azure Container Service 一直是小弟想找時間好好玩的一個 Azure 服務，從今年年初提到的 DC&#x2F;OS ，到上個月分享的 Kubernetes，老實說，都是個非常好玩，且強大的服務，但今年 ( 其實從去年 ) 就一直忙碌到現在，所">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Azure - 在 Azure 上使用 Azure Container Service 來執行 Kubernetes">
-<meta property="og:url" content="http://skychang.github.io/2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="警告Azure Container Service 已經成 Azure Kubernetes Service，這篇已經棄用 新文章請參考這篇 前言Azure Container Service 一直是小弟想找時間好好玩的一個 Azure 服務，從今年年初提到的 DC&#x2F;OS ，到上個月分享的 Kubernetes，老實說，都是個非常好玩，且強大的服務，但今年 ( 其實從去年 ) 就一直忙碌到現在，所">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://skychang.github.io/2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/01.png">
-<meta property="og:image" content="http://skychang.github.io/2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/02.png">
-<meta property="og:image" content="http://skychang.github.io/2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/03.png">
-<meta property="og:image" content="http://skychang.github.io/2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/04.png">
-<meta property="og:image" content="http://skychang.github.io/2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/05.png">
-<meta property="og:image" content="http://skychang.github.io/2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/06.png">
-<meta property="og:image" content="http://skychang.github.io/2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/07.png">
-<meta property="og:image" content="http://skychang.github.io/2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/08.png">
-<meta property="og:image" content="http://skychang.github.io/2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/09.png">
-<meta property="og:image" content="http://skychang.github.io/2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/10.png">
-<meta property="og:image" content="http://skychang.github.io/2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/11.png">
-<meta property="og:image" content="http://skychang.github.io/2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/12.png">
-<meta property="article:published_time" content="2017-07-19T23:24:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:38.856Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="Azure">
-<meta property="article:tag" content="Linux">
-<meta property="article:tag" content="Container">
-<meta property="article:tag" content="Docker">
-<meta property="article:tag" content="ACS">
-<meta property="article:tag" content="Kubernetes">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://skychang.github.io/2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/01.png">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> Azure - 在 Azure 上使用 Azure Container Service 來執行 Kubernetes | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Azure - 在 Azure 上使用 Azure Container Service 來執行 Kubernetes
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-07-19T23:24:00+00:00" content="2017-07-19">
-              2017-07-19
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="警告"><a href="#警告" class="headerlink" title="警告"></a>警告</h2><p>Azure Container Service 已經成 Azure Kubernetes Service，這篇已經棄用</p>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">Azure - 在 Azure 上使用 Azure Container Service 來執行 Kubernetes :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="警告 Azure Container Service 已經成 Azure Kubernetes Service，這篇已經棄用 新文章請參考這篇 前言 Azure Container Service 一直是小弟想找時間好好玩的一個 Azure 服務，從今年年初提到的 DC/OS…"/><meta data-react-helmet="true" property="og:title" content="Azure - 在 Azure 上使用 Azure Container Service 來執行 Kubernetes"/><meta data-react-helmet="true" property="og:description" content="警告 Azure Container Service 已經成 Azure Kubernetes Service，這篇已經棄用 新文章請參考這篇 前言 Azure Container Service 一直是小弟想找時間好好玩的一個 Azure 服務，從今年年初提到的 DC/OS…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="Azure - 在 Azure 上使用 Azure Container Service 來執行 Kubernetes"/><meta data-react-helmet="true" name="twitter:description" content="警告 Azure Container Service 已經成 Azure Kubernetes Service，這篇已經棄用 新文章請參考這篇 前言 Azure Container Service 一直是小弟想找時間好好玩的一個 Azure 服務，從今年年初提到的 DC/OS…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">Azure - 在 Azure 上使用 Azure Container Service 來執行 Kubernetes</h1><div class="post-module--meta--3YtjE">19 July 2017<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/Azure/"><span class="post-module--tag--16U9p">#<!-- -->Azure</span></a><a href="/tag/Container/"><span class="post-module--tag--16U9p">#<!-- -->Container</span></a><a href="/tag/ACS/"><span class="post-module--tag--16U9p">#<!-- -->ACS</span></a><a href="/tag/Kubernetes/"><span class="post-module--tag--16U9p">#<!-- -->Kubernetes</span></a><a href="/tag/Docker/"><span class="post-module--tag--16U9p">#<!-- -->Docker</span></a><a href="/tag/Linux/"><span class="post-module--tag--16U9p">#<!-- -->Linux</span></a></div></div><div><h2>警告</h2>
+<p>Azure Container Service 已經成 Azure Kubernetes Service，這篇已經棄用</p>
 <p>新文章請參考<a href="http://skychang.github.io/2020/03/21/Azure-Create_Azure_Kubernetes_Service/">這篇</a></p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Azure Container Service 一直是小弟想找時間好好玩的一個 Azure 服務，從今年年初提到的 DC/OS ，到上個月分享的 Kubernetes，老實說，都是個非常好玩，且強大的服務，但今年 ( 其實從去年 ) 就一直忙碌到現在，所以也變成沒有充裕的時間可以好好的來寫一下這方面的文章：而在這次又因為要上課，所以想說，就在把安裝過程記錄一下，不然老實說，這個過程還滿多眉眉角角的：舉例來說，一開始，可能要先去 AD 註冊應用程式 ( Kubernetes 要求.. )，為了安全性，可能只會提供這個 Resource Group 的使用權，然後要設定 SSH Key ，最後才能進入服務的啟用…</p>
+<h2>前言</h2>
+<p>Azure Container Service 一直是小弟想找時間好好玩的一個 Azure 服務，從今年年初提到的 DC/OS ，到上個月分享的 Kubernetes，老實說，都是個非常好玩，且強大的服務，但今年 ( 其實從去年 ) 就一直忙碌到現在，所以也變成沒有充裕的時間可以好好的來寫一下這方面的文章：而在這次又因為要上課，所以想說，就在把安裝過程記錄一下，不然老實說，這個過程還滿多眉眉角角的：舉例來說，一開始，可能要先去 AD 註冊應用程式 ( Kubernetes 要求.. )，為了安全性，可能只會提供這個 Resource Group 的使用權，然後要設定 SSH Key ，最後才能進入服務的啟用...</p>
 <p>所以，其實還滿多東西要處理的，好吧，廢話不多說，就此開始吧！</p>
-<h2 id="使用-AZ-快速設定"><a href="#使用-AZ-快速設定" class="headerlink" title="使用 AZ 快速設定"></a>使用 AZ 快速設定</h2><p>在開始前，如果您真的不想用 UI 操作，那一堆設定，<a href="https://docs.microsoft.com/zh-tw/azure/container-service/container-service-kubernetes-service-principal" target="_blank" rel="noopener">官方網站</a>也提供了快速建立初期步驟的一些流程：而小弟這篇，則會使用 UI 的操作方式來建立。</p>
-<h2 id="設定-Resource-Group"><a href="#設定-Resource-Group" class="headerlink" title="設定 Resource Group"></a>設定 Resource Group</h2><p>首先，我們要先建立一個空的 Resource Group：雖然，我們可以在建立 ACS ( Azure Container Service ) 的過程中，順便建立 Resource Group，但我們這邊為了讓流程順一點，我們就先來建立一個空的 Resource Group 吧。</p>
-<p><img src="01.png" alt=""></p>
+<h2>使用 AZ 快速設定</h2>
+<p>在開始前，如果您真的不想用 UI 操作，那一堆設定，<a href="https://docs.microsoft.com/zh-tw/azure/container-service/container-service-kubernetes-service-principal">官方網站</a>也提供了快速建立初期步驟的一些流程：而小弟這篇，則會使用 UI 的操作方式來建立。</p>
+<h2>設定 Resource Group</h2>
+<p>首先，我們要先建立一個空的 Resource Group：雖然，我們可以在建立 ACS ( Azure Container Service ) 的過程中，順便建立 Resource Group，但我們這邊為了讓流程順一點，我們就先來建立一個空的 Resource Group 吧。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/3fb106cc6184a57a80b12c561d4533a9/89066/01.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABVklEQVQoz52S2U7DMBBF8yMgEq+xs9nO0qatuoBEH+GhEi/8/2dcJm4rQoUqxMPVjOSZ43stJ2leYNgcENoOtqqQKYWqLDG0AU+PD7BaYbfdou97dF33QxXNT8rzHFmWYVxvkSyaCp+HPV4XI077HU7LHm+rNd5fjggyx0IbjGWB2nl45+BI3vuoEEJU27bxAucaJMfQoB9GlEWFxhgM1mBPA/1yBaE0lFQYmxrusjzXFTy/IHGhouEWimCpkOCMYUdxlxTRTPGVxOoKvAH8pqToFhCuBfM9hLHQWkdIzRkcVS8FfFHAz4DhF7dXJXVwkK4DqwOk4BEopATjIiolx8ZatLOId4F5LsBpkROECwFBktQLzmPPqVoChr8CLX2R6d0EueMXiIwOzz2js1vg3TdsgqWlbzdT1fT3CqMj+NbhPXfnyJacsbO7KTJnKZTfoHn++JfDL+o6NgXx3GkEAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="01"
+        title="01"
+        src="/static/3fb106cc6184a57a80b12c561d4533a9/78d47/01.png"
+        srcset="/static/3fb106cc6184a57a80b12c561d4533a9/56d15/01.png 200w,
+/static/3fb106cc6184a57a80b12c561d4533a9/d9f49/01.png 400w,
+/static/3fb106cc6184a57a80b12c561d4533a9/78d47/01.png 800w,
+/static/3fb106cc6184a57a80b12c561d4533a9/64756/01.png 1200w,
+/static/3fb106cc6184a57a80b12c561d4533a9/89066/01.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>這樣就完成第一步驟。</p>
-<h2 id="設定-AD-應用程式註冊"><a href="#設定-AD-應用程式註冊" class="headerlink" title="設定 AD 應用程式註冊"></a>設定 AD 應用程式註冊</h2><p>完成第一步驟後，我們接下來要設定 AD 的 應用程式註冊，在使用 ACS Kubetnetes 之前，Kubetnetes 需要我們提供 AD 應用程式註冊的相關資訊，所以我們必須先完成此事。</p>
+<h2>設定 AD 應用程式註冊</h2>
+<p>完成第一步驟後，我們接下來要設定 AD 的 應用程式註冊，在使用 ACS Kubetnetes 之前，Kubetnetes 需要我們提供 AD 應用程式註冊的相關資訊，所以我們必須先完成此事。</p>
 <p>首先，我們需要新增一個新的應用程式註冊。</p>
-<p><img src="02.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/2aa9c87567a081619919aac48dd72690/89066/02.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABQ0lEQVQoz52Ry07DMBRE/SHdpHFsJ079jFuSpoW2FCGE6IIl//8dg20pKKDyEIsjXVm+45kxoVKhdhsM4w7n8z1U00BVFC2lKIoCjDH0/Q2cs9BawxiTSXNd15myLLFYLNBvdyBCCjjfwTsHGpdHtcLrwxmXwx2GvkcIaxQlRVkx0PjInKqqPuCcg0ZhIpWAcR48OhPx4Nko7McBt/s9vPdYaYNaO7TGwVqbF5PruVhieoBoH3AaBlySKxsjCQY9nKCNhRACUjYYt1vYGLNt2xxvErgGsV3Ay/GAt6dHHL0DiyKNDmikRB3n5EbK9pOLr3HnELmq0YWQS1/GizwK0HKZnaTFJDjNfxElPEYMwWMcRzSxx2v9fNfXNVFivILvDLoYPV1Ipf/U0W+Q1jKsN5v8g3PB/0IqLvJvTq5S5P+6S7wDafcoefacD0EAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="02"
+        title="02"
+        src="/static/2aa9c87567a081619919aac48dd72690/78d47/02.png"
+        srcset="/static/2aa9c87567a081619919aac48dd72690/56d15/02.png 200w,
+/static/2aa9c87567a081619919aac48dd72690/d9f49/02.png 400w,
+/static/2aa9c87567a081619919aac48dd72690/78d47/02.png 800w,
+/static/2aa9c87567a081619919aac48dd72690/64756/02.png 1200w,
+/static/2aa9c87567a081619919aac48dd72690/89066/02.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>這邊填入相關資訊，其中在這邊，登入 URL 只是一個識別，可以隨意填，不用真的是一個網址。</p>
-<p><img src="03.png" alt=""></p>
-<p>新增完成後，我們可以進行一些微調 ( 這邊微調的用意，只是希望能和官方的 Script 產生出來的結果一樣 )<br>基本上，我們用不到回覆 URL 所以可以直接砍掉。</p>
-<p><img src="04.png" alt=""></p>
-<p>接下來，我們要產生此帳號的金鑰，名稱和有效期限可以隨意，按下儲存後，就會產生出金鑰，這個金鑰到時候會需要用在 ACS 的建立中，所以請複製下來：如果沒複製下來，離開此頁後，就再也看不到了 XDD<br>( 當然，可以砍掉重新建立一個也是可以低~ )</p>
-<p><img src="05.png" alt=""></p>
-<p>最後，回到屬性頁，我們可以調整一下應用程式識別碼 URI，雖然不調整也是可以，但調整一下，未來會比較清楚這是拿來做啥的。<br>另外，特別重要的地方是黃色框框的應用程式識別碼，這個也請複製下來，雖然不回不見，但等下建立 ACS 的時候，會比較方便。</p>
-<p><img src="06.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/aba985c18cf59fe1edc9310f9a83bbe9/89066/03.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 51%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABDklEQVQoz6WPy07DMBBF/SUodGwnzsuJX1GBVkFdIcH/L/wt1sUJWbSBRVEXR3c0so7vMKp1VGOIqlLRmzEGa6JSKhLnkYjWeZ7nOE1T9N7HEMKaC13XrZRVFYuiiK/nObKurfF5fMHUdNAkEKoKJ2dhnIPbMMbAWnvD9c5dvWXtMKSv90uajm+JSKamqtPJmDRam2xOu+Sd5E8Sc67HJXiE3EpJCa1yQzNiXH7PLa6b7Oc9y571/ohRCth8qillzhJ20DCbcH/qX2ffCvNwIMKBc9BGr/WvRvfCmqaEECLDfzIL9SPCTvfgXIBnGc8yvhP+F2aDBi+eIOh5ayoea9i0BO4/QMMZcpXKhxp+A2vNNgg3tRNpAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="03"
+        title="03"
+        src="/static/aba985c18cf59fe1edc9310f9a83bbe9/78d47/03.png"
+        srcset="/static/aba985c18cf59fe1edc9310f9a83bbe9/56d15/03.png 200w,
+/static/aba985c18cf59fe1edc9310f9a83bbe9/d9f49/03.png 400w,
+/static/aba985c18cf59fe1edc9310f9a83bbe9/78d47/03.png 800w,
+/static/aba985c18cf59fe1edc9310f9a83bbe9/64756/03.png 1200w,
+/static/aba985c18cf59fe1edc9310f9a83bbe9/89066/03.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>新增完成後，我們可以進行一些微調 ( 這邊微調的用意，只是希望能和官方的 Script 產生出來的結果一樣 )
+基本上，我們用不到回覆 URL 所以可以直接砍掉。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/d50235e9f799161112c701538c5ac6fd/89066/04.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABj0lEQVQoz4VS246cMBTjP7YPOwQSIBcCAYaZqkPb1V6kSlX//yvyBXGd0SLNbrftg3UExI7tQ1GbPpZmiLJpo/c+dp2OTdNE51wchiEao+O6rjGMY1zmOX7bLjFMc9T8XvNcJWW8Pxzip7u7eP6yxcI4izB4kAhRVailRMUpOZumhXEOh7LEQQjUSuF59HiwGidZYVU1VvIG3aHtOnJqFMrapKRMFEkhhDRN0/VZCJFc16WX8ykdrUkzcbE6vXiXfvQmPTUyPbcy/TwuaSPPeZ+YLBXjMkCqFkKU0G6ADxM0b1PawFuLX49P+DoFfKezz0xj6EITRklCoabzirimq+nQLmdYY9D3PazrYayDpdC0nmH4bjkdr1HvGVuQkFGSvKPic/2KXFXh5wBPIhfwBlwQnDWYpxEtu8z9qOwok1/dfIRCa3UlD1xMnjuyaHZ62Tb0XEy+fRes/iVo6W53+F5Qs4pcQ8dOPxLM8z2KcOzpoP8jbp6GgoLd7Yfzr/Rfh9pKOnwb91bw1s2t4N/wGxuPKvKUgqYqAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="04"
+        title="04"
+        src="/static/d50235e9f799161112c701538c5ac6fd/78d47/04.png"
+        srcset="/static/d50235e9f799161112c701538c5ac6fd/56d15/04.png 200w,
+/static/d50235e9f799161112c701538c5ac6fd/d9f49/04.png 400w,
+/static/d50235e9f799161112c701538c5ac6fd/78d47/04.png 800w,
+/static/d50235e9f799161112c701538c5ac6fd/64756/04.png 1200w,
+/static/d50235e9f799161112c701538c5ac6fd/89066/04.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接下來，我們要產生此帳號的金鑰，名稱和有效期限可以隨意，按下儲存後，就會產生出金鑰，這個金鑰到時候會需要用在 ACS 的建立中，所以請複製下來：如果沒複製下來，離開此頁後，就再也看不到了 XDD
+( 當然，可以砍掉重新建立一個也是可以低~ )</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/4e0836973cf114e4e8380f55dcbe0e98/89066/05.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABWklEQVQoz42S606DQBCFeRBpKQt7YW9cC7UtManGRP3RxMT3f5PjLKUJGq3+OJnJ7uHbmWEipgzW0kIojaHv0bYtpJRQRQGlFJqqwnEcYb2Hcw6eop9zIcTkTdMUcXyH3WFEpKxBnjG65JMhGIMpz3NIzvHadzh3DVopkGXZFwVPEOeXb3M6i4TRYIwhSdbTRd00UAFIOSPzW1XjiWDvrsBz6ZCsVuRNsKK4VBzH2Gw2iKrWQ3ABXmgIbVFvB2hjkKQMJ1OQ9FSNzDMIeiCjx9kvCr7IbnewWqPd9qjqGqfjDvcUX7zBSONIAyS0GOLc4i1FJc2n9CXKskTlLD4eH3A+7LGn1g2dCWr9Oi8+57cUaS0uMPqbxloMw4Cm67DepOALSD5Xuow/VmjnNQhAR1GqAgWtzBW2BF5hNyusOwvvLhUG8Pe1+A78c4bacQIFYDnt4LKK/85tqU+ZuSa+62kbRAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="05"
+        title="05"
+        src="/static/4e0836973cf114e4e8380f55dcbe0e98/78d47/05.png"
+        srcset="/static/4e0836973cf114e4e8380f55dcbe0e98/56d15/05.png 200w,
+/static/4e0836973cf114e4e8380f55dcbe0e98/d9f49/05.png 400w,
+/static/4e0836973cf114e4e8380f55dcbe0e98/78d47/05.png 800w,
+/static/4e0836973cf114e4e8380f55dcbe0e98/64756/05.png 1200w,
+/static/4e0836973cf114e4e8380f55dcbe0e98/89066/05.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>最後，回到屬性頁，我們可以調整一下應用程式識別碼 URI，雖然不調整也是可以，但調整一下，未來會比較清楚這是拿來做啥的。
+另外，特別重要的地方是黃色框框的應用程式識別碼，這個也請複製下來，雖然不回不見，但等下建立 ACS 的時候，會比較方便。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/ed9f090d448c36890eb6268e00619847/89066/06.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABxElEQVQoz2WSTY7TQBCFcwlAgCaK/O9u939ijx3bAZIZsWCBYCQQx2DNRTgEZ3y8NgQyk0Wp1equr+q9qlUuNTLlUdQCRhsIIVCWFbTWUEpBSImu6+CcQ9u2mMcRwfvlvWkaGGNQ1zWSJMEwHrBqrIF3lo8SRZ4SlvPMUFUF4TW8tUjTFBuGZeK3ecSWkIT3oihg+b7dbpdw5KxKgrI0IyTBx3uJD0eFQ7fBEF5j0A2+Ht/hU7fD2O4wMeHhMEFSSV1VS2exwxACPLuO58q3DmVVE5pCsZpnJdWIJUk0Cv04w0qB94SfGJ+PbzHPExxBjupih2dgjJVqB3r1xwtlKF1F7zRCe8u7Rj/cIqeneZbhjazx5XSHh9M9TvT+jv8mQhyB4dyh3QXYWI2mX0asrLXC0LcQHFhGXzdU8uvVDX48e46XLCJolX0qWcpySY6GxvMcEdpQ8jQflqSMHSYcws/1Gt/XN3hR5CiLCuZC8gJU/Gz+dngNbFBzjSoOIAJLAkXfI+f/KgJVgHGUG/x/D/1Ocf/sldwzMK5MhMWIazJwJy13MN6jr1dTlpq7ZB7LvQQuiXn+D7jf75cFj0uvCL4ExvgN1eM22FJrTj4AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="06"
+        title="06"
+        src="/static/ed9f090d448c36890eb6268e00619847/78d47/06.png"
+        srcset="/static/ed9f090d448c36890eb6268e00619847/56d15/06.png 200w,
+/static/ed9f090d448c36890eb6268e00619847/d9f49/06.png 400w,
+/static/ed9f090d448c36890eb6268e00619847/78d47/06.png 800w,
+/static/ed9f090d448c36890eb6268e00619847/64756/06.png 1200w,
+/static/ed9f090d448c36890eb6268e00619847/89066/06.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>接下來，回到資源群組 Resource Group，我們要把剛剛建立的帳號，授權可使用此資源群組ㄌ。</p>
-<p><img src="07.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/c933c9b8052176ee1e18b3ee26b51e2a/89066/07.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABsklEQVQoz31R2a7TMBTMh1ygzeYlceKsztK0ae4CEhUS/P+/DOOKQC9CPIy8nZkzcxzIrMB42vBlcNiuK9q+R2lyfApDfDgcEKUC3TAiK0soY5AVJTTX82lGay20EEijCIenJ4zjjMAUBhfnsNgSUkq8VSVufYPPPH9zHb5PA7ZcY9USr0WOixJ40QI33reZRpUmaMirlcTEtyDOMqzTCUvf4c1ovDQN3HnD0rWYmpr3PSyLh8pim2dUrHd5hm0aoelWKIWUgpGQ6Nk4sLXB12XFj8uCZ7pTtUNzvaFrG/TjiIoNNEWk1neizg0019f1im17xpnCE5sOrse1rRFk7YC8KJCw6OMxhJICyzzCcE7H4xFJkkDRRRzHSAhNYZGmMHGEMolhGXlHJVLOsLZwQwfLAXuC4JAlBRRjpiR6eFGPfe/FezrynIzxCxoyhI8fKJXwcbwL7SRPeMQu8nvPX+3nM6ybUXQj7LCgrFumk4zMaB1/+e7wLxe7sx2P4mEUI0rEH9wbRgiqNqftgrNR7yL+S/Cd8C8Bj+ShNlBZSIcN8jxHxCiPgv+Dr/ep/Pwem/0EdTgvK/2FlmEAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="07"
+        title="07"
+        src="/static/c933c9b8052176ee1e18b3ee26b51e2a/78d47/07.png"
+        srcset="/static/c933c9b8052176ee1e18b3ee26b51e2a/56d15/07.png 200w,
+/static/c933c9b8052176ee1e18b3ee26b51e2a/d9f49/07.png 400w,
+/static/c933c9b8052176ee1e18b3ee26b51e2a/78d47/07.png 800w,
+/static/c933c9b8052176ee1e18b3ee26b51e2a/64756/07.png 1200w,
+/static/c933c9b8052176ee1e18b3ee26b51e2a/89066/07.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>完成如下。</p>
-<p><img src="08.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/7d31ea383a8a764cc8346b995f08cec3/89066/08.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABf0lEQVQoz5VS2Y6DMAzkP7pqt4UkJJwBwtGqh9T9///IT8Q7CYUe0j7sg4Vjj8fjEdG3LC3rL7btjP25323f93a73dr9fm93u51NksQej0ertbZlWdq6rm1VVSFP0zSEx35tNnY6XWzEM0V6mKgqChJCUJ7n1DQNZVlGbduSMSbUGWOEYcIC4pyvua8rpQLG1yNWFM5MJ4dBh6YDoTufLw6krkDPfwF0WOCg3nEhQj6O43sdOUhdVDYFTacr3W7XoCyH0mkcqNE6bPUqFjUxQilJHKriOF7V+d6iNsq7keBHGPKgVHCqYEGiCoDiUIfSAGYM58qMRCrnHCd6a+YeexDqikzfEowOWyQIatMTz0piGPAqvYplgIOMi3R+o69AKKV8EkrJQDhAyWy8AKjoQFgbDAgQ8peBd4UJanlZE/6AJ2GGc/phWM/iIElwehIfiD28WfwJ8fH22MXPQKhNSZVu4eNCyGfgI9bBT6I/3pHMDtT1Tfj//KaV8EXdf+IXR6AmDVyCDcwAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="08"
+        title="08"
+        src="/static/7d31ea383a8a764cc8346b995f08cec3/78d47/08.png"
+        srcset="/static/7d31ea383a8a764cc8346b995f08cec3/56d15/08.png 200w,
+/static/7d31ea383a8a764cc8346b995f08cec3/d9f49/08.png 400w,
+/static/7d31ea383a8a764cc8346b995f08cec3/78d47/08.png 800w,
+/static/7d31ea383a8a764cc8346b995f08cec3/64756/08.png 1200w,
+/static/7d31ea383a8a764cc8346b995f08cec3/89066/08.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>到此，就完成了 AD 應用程式註冊應用程式註冊的部分。</p>
-<h2 id="建立-ACS-Kubernetes"><a href="#建立-ACS-Kubernetes" class="headerlink" title="建立 ACS Kubernetes"></a>建立 ACS Kubernetes</h2><p>接著，我們就要開始建立 ACS 了，如下圖，我們可以從這邊新增</p>
-<p><img src="09.png" alt=""></p>
+<h2>建立 ACS Kubernetes</h2>
+<p>接著，我們就要開始建立 ACS 了，如下圖，我們可以從這邊新增</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/73f7e08988f8ac9ba479ae79e0499569/89066/09.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAAB8klEQVQoz02S327TMBTG+x5o2pbUThzb+Z8lbpO2SQvtRhFQIZCYhNY7JgY3XFTiAXjtj+OwpLs4Smyf8zvf+eyJp0K4YQbGfQjfRxRFKLIUkVaYMgbOObquQ9M0MMagrmtUVYWUcnzK94UP7nG4rotm2WFym8UwWkJqDeF5eOUwPMw0fm4N4vwGWZr20N1uh/1+j7ZtUZa0H2eQvgJzOAQXSJKkj0kSR3jcblCVJWLa0KXBNyXwdJPCrFo08zmCIECe573CjJTZdVXNUM9r+J7fNwzDsM+Z5GWKDSVukwiLUMMVHpblAm/bW1Qzg5LG46Tc2mGLhBBwHBezZon1uoOUkoCsP8uyDBOVkx9E1kphQX685teQX34gPp5gQomCRlYEkXQ+AK2iiP4ZeWzDo4YjMExiFAS0C4d7yNkVTve/8efpLx4O73A8fMQdKfUJZEe1MBuM8RE4nU7PQCFY701KSjxKvHQd1E2Hw/4D7mik7WqJWMn+Fm2hDatoAA1fPSqkSynpQoqigEsHnIDheofu81cY2g+kgkf+DcXDiCPwuYnWz8CkIJ/yol9Yn/jlBeSnI+rvJ7xZLUhtA0XGv1RzHpuNcR45YPST/0+23a8u4L4/Qt7/gqE3ap+SfcAvizmj8fMNnHQN5l5TE0YKdQ/8BxzWOpDKm9zXAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="09"
+        title="09"
+        src="/static/73f7e08988f8ac9ba479ae79e0499569/78d47/09.png"
+        srcset="/static/73f7e08988f8ac9ba479ae79e0499569/56d15/09.png 200w,
+/static/73f7e08988f8ac9ba479ae79e0499569/d9f49/09.png 400w,
+/static/73f7e08988f8ac9ba479ae79e0499569/78d47/09.png 800w,
+/static/73f7e08988f8ac9ba479ae79e0499569/64756/09.png 1200w,
+/static/73f7e08988f8ac9ba479ae79e0499569/89066/09.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>首先，第一頁的選項，如下，記得資源群組要選擇剛剛建立的。</p>
-<p><img src="10.png" alt=""></p>
-<p>接下來，Orchestrator 我們選擇 Kubernetes，當然，ACS 不只支援 Kubernetes，也支援 DC/OS 等，但小弟這邊與未來的文章，目前基本上是專注於 Kubernetes ( DC/OS 表示 … )，所以小弟我這邊就選擇 Kubernetes。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/40f268e2088a4f811fb7efc8d75266f3/89066/10.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABUElEQVQoz42R3W6DMAyFeZSN5gcSEsgPtKWsLReVJu2me/+HOXMooK6q1l0cOXLiz8dOxpSBjnuYxiF4D0/qYoStNFj+DiUFxtMJXdehbdtfstZOKssSeZ6jH07IlKmo4Ijv6xXnccTHocclRPSmgWMSu0LhYCs0qZlzcLNS4xDCpEgGUgPnGmSSgOnBMAyIlGyMwbjdYj8cqbOG4AJ9U6/F9/LzRItSLmuChRAShkBKa3Aa80Iuz5dP2LqGFHwC+hkQHiCPyqp2h7KQqKlYKYWCcxy9gy6K6WzobpiBYQY+c7soq4NHQcWa3KUohIArCwSSJ5gnh5HWsgD9K6DWEoxxEpvEyRUjaE7nDeXfNxuUSiPe7exPYEWjrqA5pp2mOOUImNw/+4SnO/StoSK+Ajj9quQEzt/WJjdgfOnuNrK5QRaYYDl43YNtvx6A/3P4AwjINivwHeIBAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="10"
+        title="10"
+        src="/static/40f268e2088a4f811fb7efc8d75266f3/78d47/10.png"
+        srcset="/static/40f268e2088a4f811fb7efc8d75266f3/56d15/10.png 200w,
+/static/40f268e2088a4f811fb7efc8d75266f3/d9f49/10.png 400w,
+/static/40f268e2088a4f811fb7efc8d75266f3/78d47/10.png 800w,
+/static/40f268e2088a4f811fb7efc8d75266f3/64756/10.png 1200w,
+/static/40f268e2088a4f811fb7efc8d75266f3/89066/10.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接下來，Orchestrator 我們選擇 Kubernetes，當然，ACS 不只支援 Kubernetes，也支援 DC/OS 等，但小弟這邊與未來的文章，目前基本上是專注於 Kubernetes ( DC/OS 表示 ... )，所以小弟我這邊就選擇 Kubernetes。</p>
 <p>Dns name prefix 表示網址的前置詞，這邊就使用 study4，未來就會以 study4 為開頭的網址。</p>
-<p>接下來要輸入 User Name 和 SSH Public Key。<br>如果沒有 SSH Public Key 的朋友，可以<a href="https://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/">參考這篇</a>，裡面的中間，有提到做法可以產生 Key。( 上面有不同平台可以選擇 )</p>
-<p>而 Public Key 的預設位置在 ~/.ssh/id_rsa.pub<br>Mac 和 Linux 就是家目錄的隱藏資料夾。<br>如果是 Windows 就是帳號目錄底下隱藏資料夾。</p>
+<p>接下來要輸入 User Name 和 SSH Public Key。
+如果沒有 SSH Public Key 的朋友，可以<a href="https://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/">參考這篇</a>，裡面的中間，有提到做法可以產生 Key。( 上面有不同平台可以選擇 )</p>
+<p>而 Public Key 的預設位置在 ~/.ssh/id_rsa.pub
+Mac 和 Linux 就是家目錄的隱藏資料夾。
+如果是 Windows 就是帳號目錄底下隱藏資料夾。</p>
 <p>我們只需要把 id_rsa.pub 打開，並且貼到 Azure Portal 即可。</p>
-<p>接下來，就是把剛剛我們黃色框框的內容，貼到 Service principal clientID。<br>把剛剛在 AD 應用程式註冊產生的金鑰貼到 Service Principal client secret。</p>
+<p>接下來，就是把剛剛我們黃色框框的內容，貼到 Service principal clientID。
+把剛剛在 AD 應用程式註冊產生的金鑰貼到 Service Principal client secret。</p>
 <p>最後，可以選擇要開幾台 Master，如果怕掛，就多開幾台，但就是要多收幾倍的錢 XDDD</p>
-<p><img src="11.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/620a5b33092b18b3013ffe2552489655/89066/11.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABXUlEQVQoz42R227cIBRF/SWJxmADw8X4Ao6t6WQkv3X+/2uQ2D2QUdqoajMPS5YRZ7E3NPxsk1625PyYYgxpnuc0+CFN05TmZU5SynS9XtO6rimEQHti/RaccxWlVGrbNu0/3lOjrIEzBsPgwBhD13N457HHHapTkFxCnzXoAIzj+En5p8Mry7IQoa43wph8uVzy/X7Px3HkdY15HMa8hT2fhc4967M1NtNQpuEvkPQLZa3xs6t2kuF2u8F7j7hEHNcDTlkIJmCoQUlSUn1HY8OGvuugtYYQAi3VPgsFQ3X5ywn8ta3CUuvPmv+iGeYJSso6RA+AjuRWW8Q5QCuN0+vpIQzPCbUW4Lwj+Acdh1UGb9Mbgo+QTP1V+b9C44YqKskKjLVYKN2+XWpS0Zc71M/f4RQsSR7CmpLuU0ko8fsQY+yn8PvKtgz1j+EePW/B3QYWf9a1kr482LMJfwHwXDYabfT9UgAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="11"
+        title="11"
+        src="/static/620a5b33092b18b3013ffe2552489655/78d47/11.png"
+        srcset="/static/620a5b33092b18b3013ffe2552489655/56d15/11.png 200w,
+/static/620a5b33092b18b3013ffe2552489655/d9f49/11.png 400w,
+/static/620a5b33092b18b3013ffe2552489655/78d47/11.png 800w,
+/static/620a5b33092b18b3013ffe2552489655/64756/11.png 1200w,
+/static/620a5b33092b18b3013ffe2552489655/89066/11.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>到下一頁後，我們可以選擇要幾台 Agent，和 Master 不同，Master 是控管整個 Kubernetes 環境的機器，而 Agent 則是提供放置 Docker ( 我們開發的應用程式的環境 )。</p>
 <p>然後可以選擇要哪種規模的 Agent。</p>
 <p>最後，再選擇是要 Windows 還是 Linux，當然，這就會牽扯到，Docker 是要運行在 Windows 上，還是 Linux 上。</p>
-<p><img src="12.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/92e31bd53b7324316a161414012f7c1f/89066/12.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABNklEQVQoz6WRW26DMBBFvZKqARsDxg/MK6EqSPxEirL/dcwKPB1bSVu1JFLVjys/5HvmzphxZUD1M5jWwzSO0HUdOOeg7/u0l1LCuq4wTRMMwwAjvYlrlDEmqSxLyA4HeHtfgVWqRmc0tq3DoihQlhIbpdAag/Qw3dV1jd77X6KCSVQ8yfsWmdQ6kCFYa4MQRThkr8E5G5ZlCVQ9EDA0TRPIEMi8K4InxT1zncH5NOPlckFqLVWklpFaQmo3JdRap/u9lD8Ts6Y/4uk44fl8xm3bkGaVQHmeoxACOeeoaATfgfdW98Rs51FSiqqqkjmCYqq4j8B4/hOwrsl8SxIBEfYvYEO/eTd/ASUVKR4Cn4l1oyET/5xXXKWg+WUvuzN8li4lVDomK24JKR3PUNgZ+XR9+CnP9AHuRjOqeuU4nAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="12"
+        title="12"
+        src="/static/92e31bd53b7324316a161414012f7c1f/78d47/12.png"
+        srcset="/static/92e31bd53b7324316a161414012f7c1f/56d15/12.png 200w,
+/static/92e31bd53b7324316a161414012f7c1f/d9f49/12.png 400w,
+/static/92e31bd53b7324316a161414012f7c1f/78d47/12.png 800w,
+/static/92e31bd53b7324316a161414012f7c1f/64756/12.png 1200w,
+/static/92e31bd53b7324316a161414012f7c1f/89066/12.png 1440w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>完成後，按下確認，就可以開始進行部署了。</p>
 <p>下篇，會開始討論，如何操作與控制 ACS Kubernetes。</p>
-<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>雖然整篇的建置看起來很簡單，但在第一次建置的時候，其實還遇到滿多麻煩的，再加上官方文章其實也是跳來跳去，所以小弟就在這邊整理了一下整個流程，希望對大家有幫助嚕!..</p>
-<p>P.S ACS 的服務不便宜，所以請作量使用….</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a href="https://docs.microsoft.com/zh-tw/azure/container-service/container-service-kubernetes-service-principal" target="_blank" rel="noopener">https://docs.microsoft.com/zh-tw/azure/container-service/container-service-kubernetes-service-principal</a></li>
-<li><a href="https://docs.microsoft.com/zh-tw/azure/container-service/container-service-deployment" target="_blank" rel="noopener">https://docs.microsoft.com/zh-tw/azure/container-service/container-service-deployment</a></li>
-<li><a href="https://docs.microsoft.com/en-us/cli/azure/ad/sp" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/cli/azure/ad/sp</a></li>
-<li><a href="https://docs.microsoft.com/zh-tw/azure/container-service/container-service-kubernetes-walkthrough" target="_blank" rel="noopener">https://docs.microsoft.com/zh-tw/azure/container-service/container-service-kubernetes-walkthrough</a></li>
+<h2>後記</h2>
+<p>雖然整篇的建置看起來很簡單，但在第一次建置的時候，其實還遇到滿多麻煩的，再加上官方文章其實也是跳來跳去，所以小弟就在這邊整理了一下整個流程，希望對大家有幫助嚕!..</p>
+<p>P.S ACS 的服務不便宜，所以請作量使用....</p>
+<h2>參考資料</h2>
+<ul>
+<li><a href="https://docs.microsoft.com/zh-tw/azure/container-service/container-service-kubernetes-service-principal">https://docs.microsoft.com/zh-tw/azure/container-service/container-service-kubernetes-service-principal</a></li>
+<li><a href="https://docs.microsoft.com/zh-tw/azure/container-service/container-service-deployment">https://docs.microsoft.com/zh-tw/azure/container-service/container-service-deployment</a></li>
+<li><a href="https://docs.microsoft.com/en-us/cli/azure/ad/sp">https://docs.microsoft.com/en-us/cli/azure/ad/sp</a></li>
+<li><a href="https://docs.microsoft.com/zh-tw/azure/container-service/container-service-kubernetes-walkthrough">https://docs.microsoft.com/zh-tw/azure/container-service/container-service-kubernetes-walkthrough</a></li>
 <li><a href="https://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/">https://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/</a></li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Azure/" rel="tag">#Azure</a>
-          
-            <a href="/tags/Linux/" rel="tag">#Linux</a>
-          
-            <a href="/tags/Container/" rel="tag">#Container</a>
-          
-            <a href="/tags/Docker/" rel="tag">#Docker</a>
-          
-            <a href="/tags/ACS/" rel="tag">#ACS</a>
-          
-            <a href="/tags/Kubernetes/" rel="tag">#Kubernetes</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/04/09/Redis-Create_Redis_HA/" rel="next" title="Redis - 在 Windows 上建立高可用性的 Redis">
-                <i class="fa fa-chevron-left"></i> Redis - 在 Windows 上建立高可用性的 Redis
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/07/30/Azure-Azure_Container_Service_Kubernetes_First_Create/" rel="prev" title="Azure - Azure Container Service - Kubernetes 第一次的部署">
-                Azure - Azure Container Service - Kubernetes 第一次的部署 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#警告"><span class="nav-number">1.</span> <span class="nav-text">警告</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-AZ-快速設定"><span class="nav-number">3.</span> <span class="nav-text">使用 AZ 快速設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定-Resource-Group"><span class="nav-number">4.</span> <span class="nav-text">設定 Resource Group</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定-AD-應用程式註冊"><span class="nav-number">5.</span> <span class="nav-text">設定 AD 應用程式註冊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立-ACS-Kubernetes"><span class="nav-number">6.</span> <span class="nav-text">建立 ACS Kubernetes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">7.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">8.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
-  </a>
-</div>
-
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/';
-      var disqus_title = 'Azure - 在 Azure 上使用 Azure Container Service 來執行 Kubernetes';
-      var disqus_url = 'http://skychang.github.io/2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+</ul></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2017/07/19/Azure-Azure_Container_Service_Kubernetes_First/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>

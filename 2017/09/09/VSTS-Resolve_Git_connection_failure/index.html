@@ -1,685 +1,189 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="TFS,Azure,Git,VSTS," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="故事最近遇到一個怪問題，這個問題的發生，主要是使用 VS 2017 連線到 VSTS 的 Git 的時候，發生了遠端存放庫錯誤，而本地端的電腦，也有加入另外一個網域，( 例如 :SkyChang.com )，而 VSTS 是屬於另外一個網域 ( 例如: Study4.tw ) 他的錯誤訊息如下。 複製遠端存放庫時發生錯誤: Git failed with a fatal error.fatal:">
-<meta property="og:type" content="article">
-<meta property="og:title" content="VSTS - 解決 Git 無法同步之問題">
-<meta property="og:url" content="http://skychang.github.io/2017/09/09/VSTS-Resolve_Git_connection_failure/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="故事最近遇到一個怪問題，這個問題的發生，主要是使用 VS 2017 連線到 VSTS 的 Git 的時候，發生了遠端存放庫錯誤，而本地端的電腦，也有加入另外一個網域，( 例如 :SkyChang.com )，而 VSTS 是屬於另外一個網域 ( 例如: Study4.tw ) 他的錯誤訊息如下。 複製遠端存放庫時發生錯誤: Git failed with a fatal error.fatal:">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://skychang.github.io/2017/09/09/VSTS-Resolve_Git_connection_failure/00.png">
-<meta property="og:image" content="http://skychang.github.io/2017/09/09/VSTS-Resolve_Git_connection_failure/01.png">
-<meta property="og:image" content="http://skychang.github.io/2017/09/09/VSTS-Resolve_Git_connection_failure/02.png">
-<meta property="og:image" content="http://skychang.github.io/2017/09/09/VSTS-Resolve_Git_connection_failure/03.png">
-<meta property="article:published_time" content="2017-09-09T11:12:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:39.011Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="TFS">
-<meta property="article:tag" content="Azure">
-<meta property="article:tag" content="Git">
-<meta property="article:tag" content="VSTS">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://skychang.github.io/2017/09/09/VSTS-Resolve_Git_connection_failure/00.png">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> VSTS - 解決 Git 無法同步之問題 | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                VSTS - 解決 Git 無法同步之問題
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-09-09T11:12:00+00:00" content="2017-09-09">
-              2017-09-09
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/09/09/VSTS-Resolve_Git_connection_failure/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/09/VSTS-Resolve_Git_connection_failure/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="故事"><a href="#故事" class="headerlink" title="故事"></a>故事</h2><p>最近遇到一個怪問題，這個問題的發生，主要是使用 VS 2017 連線到 VSTS 的 Git 的時候，發生了遠端存放庫錯誤，而本地端的電腦，也有加入另外一個網域，( 例如 :SkyChang.com )，而 VSTS 是屬於另外一個網域 ( 例如: Study4.tw ) 他的錯誤訊息如下。</p>
-<p>複製遠端存放庫時發生錯誤: Git failed with a fatal error.<br>fatal: HttpRequestException encountered.<br>    ǰe n D ɵo Ϳ  ~ C<br>error: cannot spawn askpass: No such file or directory<br>fatal: could not read Username for ‘<a href="https://xxx.visualstudio.com&#39;" target="_blank" rel="noopener">https://xxx.visualstudio.com&#39;</a>: terminal prompts disabled</p>
-<p>基本上，在正常的情況下，應該會跳出視窗來輸入 MS Account 或是 AAD 帳號，但不知為何，也沒跳出，只會要求我們重新輸入帳號密碼，但因為這邊輸入的帳號密碼，一定不等同於 MS Account，所以也沒辦法輸入甚麼，最後只會出現<br>如上面所看到的錯誤，並請被拒絕登入。</p>
-<p>而這個問題，在以前 VS 2015 連線到 TFS 2017 的時候，也出現過一次…</p>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">VSTS - 解決 Git 無法同步之問題 :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="故事 最近遇到一個怪問題，這個問題的發生，主要是使用 VS 2017 連線到 VSTS 的 Git 的時候，發生了遠端存放庫錯誤，而本地端的電腦，也有加入另外一個網域，( 例如 :SkyChang.com )，而 VSTS 是屬於另外一個網域 ( 例如: Study4.tw…"/><meta data-react-helmet="true" property="og:title" content="VSTS - 解決 Git 無法同步之問題"/><meta data-react-helmet="true" property="og:description" content="故事 最近遇到一個怪問題，這個問題的發生，主要是使用 VS 2017 連線到 VSTS 的 Git 的時候，發生了遠端存放庫錯誤，而本地端的電腦，也有加入另外一個網域，( 例如 :SkyChang.com )，而 VSTS 是屬於另外一個網域 ( 例如: Study4.tw…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="VSTS - 解決 Git 無法同步之問題"/><meta data-react-helmet="true" name="twitter:description" content="故事 最近遇到一個怪問題，這個問題的發生，主要是使用 VS 2017 連線到 VSTS 的 Git 的時候，發生了遠端存放庫錯誤，而本地端的電腦，也有加入另外一個網域，( 例如 :SkyChang.com )，而 VSTS 是屬於另外一個網域 ( 例如: Study4.tw…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2017/09/09/VSTS-Resolve_Git_connection_failure/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">VSTS - 解決 Git 無法同步之問題</h1><div class="post-module--meta--3YtjE">09 September 2017<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/Azure/"><span class="post-module--tag--16U9p">#<!-- -->Azure</span></a><a href="/tag/VSTS/"><span class="post-module--tag--16U9p">#<!-- -->VSTS</span></a><a href="/tag/TFS/"><span class="post-module--tag--16U9p">#<!-- -->TFS</span></a><a href="/tag/Git/"><span class="post-module--tag--16U9p">#<!-- -->Git</span></a></div></div><div><h2>故事</h2>
+<p>最近遇到一個怪問題，這個問題的發生，主要是使用 VS 2017 連線到 VSTS 的 Git 的時候，發生了遠端存放庫錯誤，而本地端的電腦，也有加入另外一個網域，( 例如 :SkyChang.com )，而 VSTS 是屬於另外一個網域 ( 例如: Study4.tw ) 他的錯誤訊息如下。</p>
+<p>複製遠端存放庫時發生錯誤: Git failed with a fatal error.
+fatal: HttpRequestException encountered.
+ǰe n D ɵo Ϳ  ~ C
+error: cannot spawn askpass: No such file or directory
+fatal: could not read Username for '<a href="https://xxx.visualstudio.com&#x27;">https://xxx.visualstudio.com'</a>: terminal prompts disabled</p>
+<p>基本上，在正常的情況下，應該會跳出視窗來輸入 MS Account 或是 AAD 帳號，但不知為何，也沒跳出，只會要求我們重新輸入帳號密碼，但因為這邊輸入的帳號密碼，一定不等同於 MS Account，所以也沒辦法輸入甚麼，最後只會出現
+如上面所看到的錯誤，並請被拒絕登入。</p>
+<p>而這個問題，在以前 VS 2015 連線到 TFS 2017 的時候，也出現過一次...</p>
 <p>而今天的這個故事，就是敘述一下當初是怎樣找到解決方案的經過。</p>
-<p>P.S 訊息的亂碼，就真的是亂碼…</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>必須先說在前面，過程中，可能會有很多是猜測，如果大家覺得有餘慮，或是覺得不合理，就自行跳過這篇文章吧，就如前面所說的，這篇不是想要探討整個登入流程，只是自己記錄一下這幾天找到錯誤的過程罷了。</p>
-<h2 id="VSTS-沒有設定好"><a href="#VSTS-沒有設定好" class="headerlink" title="VSTS 沒有設定好!?"></a>VSTS 沒有設定好!?</h2><p>首先，當初小弟我看到錯誤訊息，當下第一個意識是，會不會 VSTS 有東西沒設定好，所以快速地進入 VSTS 去看裡面的權限與設定，並且比對其他的 VSTS ，但赫然發現，也沒甚麼異常，所以就在雲端建立了一個對照組；但後來發現，雲端的 VM 是可以正常登入的 !! (驚)。</p>
-<p>所以這時候，就下意識地覺得，嗯，因該是筆電上的問題了…</p>
-<h2 id="VS-2017-的問題"><a href="#VS-2017-的問題" class="headerlink" title="VS 2017 的問題!?"></a>VS 2017 的問題!?</h2><p>接下來，為了釐清，是 VS 2017 的問題還是 Git 本身的問題，所以小弟又跑去 cmd 底下直接 git clone，結果出現的訊息完全一樣。</p>
+<p>P.S 訊息的亂碼，就真的是亂碼...</p>
+<h2>前言</h2>
+<p>必須先說在前面，過程中，可能會有很多是猜測，如果大家覺得有餘慮，或是覺得不合理，就自行跳過這篇文章吧，就如前面所說的，這篇不是想要探討整個登入流程，只是自己記錄一下這幾天找到錯誤的過程罷了。</p>
+<h2>VSTS 沒有設定好!?</h2>
+<p>首先，當初小弟我看到錯誤訊息，當下第一個意識是，會不會 VSTS 有東西沒設定好，所以快速地進入 VSTS 去看裡面的權限與設定，並且比對其他的 VSTS ，但赫然發現，也沒甚麼異常，所以就在雲端建立了一個對照組；但後來發現，雲端的 VM 是可以正常登入的 !! (驚)。</p>
+<p>所以這時候，就下意識地覺得，嗯，因該是筆電上的問題了...</p>
+<h2>VS 2017 的問題!?</h2>
+<p>接下來，為了釐清，是 VS 2017 的問題還是 Git 本身的問題，所以小弟又跑去 cmd 底下直接 git clone，結果出現的訊息完全一樣。</p>
 <p>後來仔細看了一下訊息，感覺上應該是 askpass 無法產生，所以會希望我們自行輸入帳號密碼，但又因為沒有帳號密碼，所以就被跳出被拒絕登入的訊息。</p>
-<p>後來 Google 了幾篇，也找了幾篇，有一篇有提到，如果本機電腦加了和 VSTS 不同的 AD，可能會發生問題，但後續看了一下回復，感覺也不像… 而目前因為主要是沒有視窗跳出來登入，所以下意識覺得，會不會是因為登入的帳號，被 Cache 住了!?，所以每次登入的時候，都用到錯誤的帳號登入.. ( 因為筆電是加入到另外一個 AD )，所以猜想是不是每次都使用到本機的 AD 帳號登入…</p>
-<p>所以就去了憑證中心砍紀錄… ( 因為 Windows for Git ，是利用 Git Credential Manager 來記錄的 )</p>
-<p><img src="00.png" alt=""></p>
-<p>結果…還是一樣，沒啥作用。</p>
-<h2 id="懷疑-Git-設定"><a href="#懷疑-Git-設定" class="headerlink" title="懷疑 Git 設定"></a>懷疑 Git 設定</h2><p>而同時間，也懷疑，有沒有可能是 Git 設定的問題，例如沒用到 GCM ( Git Credential Manager )，所以也察看了 Git 的設定。</p>
-<p>小弟使用 git config –system -l 來查看 System 等級的 config ，但也沒發現甚麼問題<br>( 或是到底下目錄察看也可以 C:\Program Files\Git\mingw64\etc.gitconfig )<br>基本上 creadntial.helper 的值為 manager，就是代表有使用 GCM。</p>
-<p><img src="01.png" alt=""></p>
-<p>使用 git config –global -l 查看 Global 也沒啥異狀<br>( 或是在家目錄底下也可以查到 )</p>
-<p><img src="02.png" alt=""></p>
-<p>補充，如果要設定與移除，可以使用底下命令</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --system --unset credential.helper</span><br><span class="line">git config --system --add credential.helper manager</span><br></pre></td></tr></table></figure>
-
-<h2 id="開始進一步的追查-Log"><a href="#開始進一步的追查-Log" class="headerlink" title="開始進一步的追查 Log"></a>開始進一步的追查 Log</h2><p>基本上，找不到問題的時候，只能祈禱開發人員佛心的有寫 Log，所以就想說，把 Git 的過程詳細拋出看看</p>
-<p>於是小弟我使用 set GIT_TRACE=1 來查看詳細執行的 Log。後來發現，是 GCM 的部分，發生問題!!，但 Log 卻沒有詳細的紀錄，為什麼發生錯誤…<br>( 這邊很遺憾，小弟沒截到圖… )</p>
-<p>但不管怎樣，我們終於有了追查的目標了。</p>
-<h2 id="目標-Git-Credential-Manager"><a href="#目標-Git-Credential-Manager" class="headerlink" title="目標 Git Credential Manager"></a>目標 Git Credential Manager</h2><p>後來翻了 GCM 的文件，和 Issue，好像也沒有類似的情境，此時又無法突破…<br>後來心一橫…決定直接 Trace GCM Source Code ….</p>
-<p>GCM 的 Source 還滿容易看的，每一塊每一塊都寫得乾乾淨淨，清清楚楚，但因為這個案發現場已經被小弟破壞掉了，所以沒辦法一步一步寫在文章裡面。</p>
-<p>後來終於追到發出 Exception 的位置，如下圖<br><img src="03.png" alt=""></p>
-<p>這次小弟的錯誤，主要是錯在這行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AuthenticationResult authResult &#x3D; await authCtx.AcquireTokenAsync(resource,clientId,new UserCredential());</span><br></pre></td></tr></table></figure>
-
-<p>這行其實是使用了 Azure SDK，去取得 Token，但沒想到，這行拋出來的竟然是 dc not find …，因為拋出了這個 Exception ，又被上層的 try catch 處理掉了，所以沒有在最外層顯示出來這個錯誤。</p>
-<h2 id="解決方式"><a href="#解決方式" class="headerlink" title="解決方式"></a>解決方式</h2><p>其實很簡單，以小弟的案例，就是連線到 VPN，透過 VPN 可以抓到我們公司的 DC，就解決了…</p>
-<p>當可以連線到 DC 後，重新使用 git clone ，就順利地跳出視窗了…</p>
-<p>但同時，如果斷掉 VPN ，這個 Exception 也不會再出現了…</p>
-<p>雖本來想開一個 Issue 或是直接改 Code PR 上去，但外務太多，也沒時間繼續追下去，再加上案發現場已經被破壞掉，所以就先記錄到這邊…</p>
-<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>未來如果剛好有朋友有遇到這個問題 XDD，可以考慮連到可以連線到 DC 的網路，再試試看喔!!</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a href="https://www.visualstudio.com/en-us/docs/git/set-up-credential-managers" target="_blank" rel="noopener">https://www.visualstudio.com/en-us/docs/git/set-up-credential-managers</a></li>
-<li><a href="https://github.com/Microsoft/Git-Credential-Manager-for-Windows" target="_blank" rel="noopener">https://github.com/Microsoft/Git-Credential-Manager-for-Windows</a></li>
-<li><a href="https://docs.microsoft.com/zh-tw/dotnet/api/microsoft.identitymodel.clients.activedirectory.authenticationcontext.acquiretokenasync?view=azure-dotnet" target="_blank" rel="noopener">https://docs.microsoft.com/zh-tw/dotnet/api/microsoft.identitymodel.clients.activedirectory.authenticationcontext.acquiretokenasync?view=azure-dotnet</a></li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/TFS/" rel="tag">#TFS</a>
-          
-            <a href="/tags/Azure/" rel="tag">#Azure</a>
-          
-            <a href="/tags/Git/" rel="tag">#Git</a>
-          
-            <a href="/tags/VSTS/" rel="tag">#VSTS</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/07/31/Azure-Azure_Container_Instance_Overview/" rel="next" title="Azure - Azure Container Instances 初體驗">
-                <i class="fa fa-chevron-left"></i> Azure - Azure Container Instances 初體驗
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/09/18/VSTS-Build_for_Container/" rel="prev" title="VSTS - Container 的 Auto Build ( CI )">
-                VSTS - Container 的 Auto Build ( CI ) <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#故事"><span class="nav-number">1.</span> <span class="nav-text">故事</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VSTS-沒有設定好"><span class="nav-number">3.</span> <span class="nav-text">VSTS 沒有設定好!?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VS-2017-的問題"><span class="nav-number">4.</span> <span class="nav-text">VS 2017 的問題!?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#懷疑-Git-設定"><span class="nav-number">5.</span> <span class="nav-text">懷疑 Git 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#開始進一步的追查-Log"><span class="nav-number">6.</span> <span class="nav-text">開始進一步的追查 Log</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目標-Git-Credential-Manager"><span class="nav-number">7.</span> <span class="nav-text">目標 Git Credential Manager</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解決方式"><span class="nav-number">8.</span> <span class="nav-text">解決方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">9.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">10.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
+<p>後來 Google 了幾篇，也找了幾篇，有一篇有提到，如果本機電腦加了和 VSTS 不同的 AD，可能會發生問題，但後續看了一下回復，感覺也不像... 而目前因為主要是沒有視窗跳出來登入，所以下意識覺得，會不會是因為登入的帳號，被 Cache 住了!?，所以每次登入的時候，都用到錯誤的帳號登入.. ( 因為筆電是加入到另外一個 AD )，所以猜想是不是每次都使用到本機的 AD 帳號登入...</p>
+<p>所以就去了憑證中心砍紀錄... ( 因為 Windows for Git ，是利用 Git Credential Manager 來記錄的 )</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/80705e9231f4f518c36c40f99a85bdea/b1317/00.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAB2HAAAdhwGP5fFlAAABdklEQVQoz3VTi26DMAzk/79vm7StY12L+qApMEgC5HWzAykwbZFOkJA7+2yTfbctpOrQdhJS9+ikQj+MsM4THHxAhPMejvZ8ZtLTOuh+IJ6GtRYfF4HMjIYuWnhiVfUNdSWQlqOz16LC07HBuzDIG+DUkTomhBCINwXitb/ekbFQWo3UqFoNbXzc0310vUGrDeTooSwimMJiienD9PbyeUQ2EacDRZal6qPdSAhLMM5IqgGioTsUJPFSlpPgYRHckOf92hLXTNw7KovEQDX+S/A5P2wzbKlBuu/jnkX4YhRMTzrjEujRrWKHh+W34rwVrOsamjoW6zKL/IYcLMFtMkuCX2W1FQwzKawsL7Y92VVkW1Ktx0fQteC+vP9Tw00rEK0amrObaCN49tK3teUomKJwI7wxDziaT9B8Bp5REnRzU0S1NGVdx8kyCSoaE94y6ZwXqK8C4lTisCtwOV5QnUsYqiv/HaXoIpQeYlY8www3J5XTn/IDdX1d8Dpxc1IAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="00"
+        title="00"
+        src="/static/80705e9231f4f518c36c40f99a85bdea/78d47/00.png"
+        srcset="/static/80705e9231f4f518c36c40f99a85bdea/56d15/00.png 200w,
+/static/80705e9231f4f518c36c40f99a85bdea/d9f49/00.png 400w,
+/static/80705e9231f4f518c36c40f99a85bdea/78d47/00.png 800w,
+/static/80705e9231f4f518c36c40f99a85bdea/64756/00.png 1200w,
+/static/80705e9231f4f518c36c40f99a85bdea/42cbc/00.png 1600w,
+/static/80705e9231f4f518c36c40f99a85bdea/b1317/00.png 2256w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
   </a>
-</div>
-
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2017/09/09/VSTS-Resolve_Git_connection_failure/';
-      var disqus_title = 'VSTS - 解決 Git 無法同步之問題';
-      var disqus_url = 'http://skychang.github.io/2017/09/09/VSTS-Resolve_Git_connection_failure/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+    </span></p>
+<p>結果...還是一樣，沒啥作用。</p>
+<h2>懷疑 Git 設定</h2>
+<p>而同時間，也懷疑，有沒有可能是 Git 設定的問題，例如沒用到 GCM ( Git Credential Manager )，所以也察看了 Git 的設定。</p>
+<p>小弟使用 git config --system -l 來查看 System 等級的 config ，但也沒發現甚麼問題
+( 或是到底下目錄察看也可以 C:\Program Files\Git\mingw64\etc.gitconfig )
+基本上 creadntial.helper 的值為 manager，就是代表有使用 GCM。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/a21555620974ea2c3994620a214fca2f/fe4f1/01.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 59.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAB2HAAAdhwGP5fFlAAABi0lEQVQoz2WT2XKCQBBF/ZBUkGF2UEgIkeASMSb6/z9007OQgfhwq7VKD6cXVnWr0HQa9Zv0tWwYqheGbcthNxzKCGgroChSFxCqgHTRKe43Wf6E8esTq8Opx/E84PDZY3/aoX2v0XY1mrbCpjYoN4ZqiWprIQ2H0JwgVOnz9F1ZiYw943wh4PG0Rz/scB5PGPY93vsOb10LYxW4zL0RV4wqSzBfydi4SKhSIysyjN8XrIbDDruhI7sPn+0rmTVk1Nj4h3kkmYkYGWIn4BrjzxUrWzPYbQFXy6aAqXMfS3PUlbORkNZFhZSP0TSWNV/jciOgG7Dw4XHgoa3QWjBzJnOoICPpUoU4YC5yXO8OqJcbSxtMC5CzFh1YzGwFRTkgGV69oWZ4gEbgf6iboYxzWwCr0PLXbWbo212cRBj+H8iZGZUMY9vioeV4EhN0AnuoXgLTDCdgqAFIhve4lABjdPGc3goycNYmLWVqNUBnM4xRZJlRy+OyZeZfoXKjk7FOG5/m6R+il7c4v8Nf/KlkCrHvgncAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="01"
+        title="01"
+        src="/static/a21555620974ea2c3994620a214fca2f/78d47/01.png"
+        srcset="/static/a21555620974ea2c3994620a214fca2f/56d15/01.png 200w,
+/static/a21555620974ea2c3994620a214fca2f/d9f49/01.png 400w,
+/static/a21555620974ea2c3994620a214fca2f/78d47/01.png 800w,
+/static/a21555620974ea2c3994620a214fca2f/64756/01.png 1200w,
+/static/a21555620974ea2c3994620a214fca2f/42cbc/01.png 1600w,
+/static/a21555620974ea2c3994620a214fca2f/fe4f1/01.png 1830w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>使用 git config --global -l 查看 Global 也沒啥異狀
+( 或是在家目錄底下也可以查到 )</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/cd735455639edfb8001a560869848090/fe4f1/02.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 59.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAB2HAAAdhwGP5fFlAAAA00lEQVQoz52T6w6DIAyFeRWd0iow521myzL3/i/VAQ7UDcz0x5emEA6nhbK6Q2quJTV9QeqMxCEhLFLNiUCDqOMCRLeWejjMsMfY0/M10Ki53TuqG0FScZIyJyFNnBESVrmjFLmHdUNJVcvp0oJ1eK4mp0dhUqG+BUgITk2rrKBUk7iJe2HLxLlzufoIf+P3AjBhe8N3ufCi4ZJjB9ESKn1TcPlCMUwFq1ZsCc5/KYmCRfbjNPrKyw8awggWZbbHoXahAcv/gnGHelzAj07iR+mo4Bt6K2WNaxcbUgAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="02"
+        title="02"
+        src="/static/cd735455639edfb8001a560869848090/78d47/02.png"
+        srcset="/static/cd735455639edfb8001a560869848090/56d15/02.png 200w,
+/static/cd735455639edfb8001a560869848090/d9f49/02.png 400w,
+/static/cd735455639edfb8001a560869848090/78d47/02.png 800w,
+/static/cd735455639edfb8001a560869848090/64756/02.png 1200w,
+/static/cd735455639edfb8001a560869848090/42cbc/02.png 1600w,
+/static/cd735455639edfb8001a560869848090/fe4f1/02.png 1830w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>補充，如果要設定與移除，可以使用底下命令</p>
+<div class="gatsby-highlight" data-language="shell"><pre class="language-shell"><code class="language-shell"><span class="token function">git</span> config --system --unset credential.helper
+<span class="token function">git</span> config --system --add credential.helper manager</code></pre></div>
+<h2>開始進一步的追查 Log</h2>
+<p>基本上，找不到問題的時候，只能祈禱開發人員佛心的有寫 Log，所以就想說，把 Git 的過程詳細拋出看看</p>
+<p>於是小弟我使用 set GIT_TRACE=1 來查看詳細執行的 Log。後來發現，是 GCM 的部分，發生問題!!，但 Log 卻沒有詳細的紀錄，為什麼發生錯誤...
+( 這邊很遺憾，小弟沒截到圖... )</p>
+<p>但不管怎樣，我們終於有了追查的目標了。</p>
+<h2>目標 Git Credential Manager</h2>
+<p>後來翻了 GCM 的文件，和 Issue，好像也沒有類似的情境，此時又無法突破...
+後來心一橫...決定直接 Trace GCM Source Code ....</p>
+<p>GCM 的 Source 還滿容易看的，每一塊每一塊都寫得乾乾淨淨，清清楚楚，但因為這個案發現場已經被小弟破壞掉了，所以沒辦法一步一步寫在文章裡面。</p>
+<p>後來終於追到發出 Exception 的位置，如下圖
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/864018f7f2714af59a418dc5cdd75e81/f9c26/03.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 59.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAB2HAAAdhwGP5fFlAAACRElEQVQoz1VTx3bbMBDUf0isANhJmb2pkLQjl4tzdmInt/z/F0wGlOIkh3m7AIjZ2Vlwc5if0EwvaE4X9P0BXX9EVXWo6g7DeELJvG4H1E2PfV4hLxqkWY4sq1AWA4qyxn5foOB+WTbY5Msrsq+/cDe/ou4OqIczusOE8bTgOH1BO5C0GbEvWhI2yKsed2VHtMjyGgXXTTOwcIu2HbGJ4xjCsWAbW6ggRlo12Hc1kqqEH2eI4wiu48DY7WBb1l/YFizGqqqxzDNjww5JGPKSLT2YPHSkgvRDOJ6C6bpwCNdxYRgGtiTcbrfYMWroPWNnUHWB6X5B32mlnSZMSajWqlJKCJIJJREqRiGhuPZ9D0kYIgkC+PxGwzJNmERMQd14QFM3q8oboYTNQyVc+IEPn2QB95QrrgRCICB5QnsUi3m0wDbMVeU+L6nwAdN55kDHK6FuVVfULUa8FEQRL0eIwgBhECKkQsligsSObX/6aJLwrihxpIdDP/zx8KrQWo1mZX2JEK5D/+wVwnHWwbgsKPjtmnPfpMq8rHBelpWw64b/PRSKSqhKSAGXU/yXUCvTCuWNUPunu6rrFt0w8sl0a74JaKpFf2yXHyqfZAou1xraAq1avwANi6QW19dor2eZftQkm6Z5/Rk2MafnSZdDIPyAvoUo0ghZ5CEMFUJPIrohUGzZMuDwzTrmbo1ZkuJ0OuKyzGjLEpvk+QP+I3F5v+Lx/TP3iOjpA+nLD2QvP9dc3b/Bf3hDQCSXb0ifb+eMyeN3/AbyIGy5MraNygAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="03"
+        title="03"
+        src="/static/864018f7f2714af59a418dc5cdd75e81/78d47/03.png"
+        srcset="/static/864018f7f2714af59a418dc5cdd75e81/56d15/03.png 200w,
+/static/864018f7f2714af59a418dc5cdd75e81/d9f49/03.png 400w,
+/static/864018f7f2714af59a418dc5cdd75e81/78d47/03.png 800w,
+/static/864018f7f2714af59a418dc5cdd75e81/64756/03.png 1200w,
+/static/864018f7f2714af59a418dc5cdd75e81/42cbc/03.png 1600w,
+/static/864018f7f2714af59a418dc5cdd75e81/f9c26/03.png 2880w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>這次小弟的錯誤，主要是錯在這行</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">AuthenticationResult authResult = await authCtx.AcquireTokenAsync(resource,clientId,new UserCredential());</code></pre></div>
+<p>這行其實是使用了 Azure SDK，去取得 Token，但沒想到，這行拋出來的竟然是 dc not find ...，因為拋出了這個 Exception ，又被上層的 try catch 處理掉了，所以沒有在最外層顯示出來這個錯誤。</p>
+<h2>解決方式</h2>
+<p>其實很簡單，以小弟的案例，就是連線到 VPN，透過 VPN 可以抓到我們公司的 DC，就解決了...</p>
+<p>當可以連線到 DC 後，重新使用 git clone ，就順利地跳出視窗了...</p>
+<p>但同時，如果斷掉 VPN ，這個 Exception 也不會再出現了...</p>
+<p>雖本來想開一個 Issue 或是直接改 Code PR 上去，但外務太多，也沒時間繼續追下去，再加上案發現場已經被破壞掉，所以就先記錄到這邊...</p>
+<h2>後記</h2>
+<p>未來如果剛好有朋友有遇到這個問題 XDD，可以考慮連到可以連線到 DC 的網路，再試試看喔!!</p>
+<h2>參考資料</h2>
+<ul>
+<li><a href="https://www.visualstudio.com/en-us/docs/git/set-up-credential-managers">https://www.visualstudio.com/en-us/docs/git/set-up-credential-managers</a></li>
+<li><a href="https://github.com/Microsoft/Git-Credential-Manager-for-Windows">https://github.com/Microsoft/Git-Credential-Manager-for-Windows</a></li>
+<li><a href="https://docs.microsoft.com/zh-tw/dotnet/api/microsoft.identitymodel.clients.activedirectory.authenticationcontext.acquiretokenasync?view=azure-dotnet">https://docs.microsoft.com/zh-tw/dotnet/api/microsoft.identitymodel.clients.activedirectory.authenticationcontext.acquiretokenasync?view=azure-dotnet</a></li>
+</ul></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2017/09/09/VSTS-Resolve_Git_connection_failure/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>

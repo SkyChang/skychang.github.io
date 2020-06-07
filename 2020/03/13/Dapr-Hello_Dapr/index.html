@@ -1,353 +1,47 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Dapr,K8S,AKS,ASP.NET Core,Microservice," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="前言繼，前面幾篇記錄了ㄧ些關於最近遇到的一些問題紀錄，終於要開始寫本年度的第一篇技術文了！ ( 希望不要也是最後一篇 QQ )。總之，趁著最近有一點寫文章的 feel，就加緊寫吧，不然垃圾場不止有垃圾，也都長草了 QQ.. Dapr今天要介紹的是，登登登，Dapr !! 什麼是 Dapr , 就是 Distributed Application Runtime !! ( 不要問我那個 p 在哪裏.">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Dapr - Hello Dapr">
-<meta property="og:url" content="http://skychang.github.io/2020/03/13/Dapr-Hello_Dapr/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="前言繼，前面幾篇記錄了ㄧ些關於最近遇到的一些問題紀錄，終於要開始寫本年度的第一篇技術文了！ ( 希望不要也是最後一篇 QQ )。總之，趁著最近有一點寫文章的 feel，就加緊寫吧，不然垃圾場不止有垃圾，也都長草了 QQ.. Dapr今天要介紹的是，登登登，Dapr !! 什麼是 Dapr , 就是 Distributed Application Runtime !! ( 不要問我那個 p 在哪裏.">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://skychang.github.io/2020/03/13/Dapr-Hello_Dapr/01.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/13/Dapr-Hello_Dapr/overview.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/13/Dapr-Hello_Dapr/overview-sidecar.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/13/Dapr-Hello_Dapr/overview-sidecar-kubernetes.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/13/Dapr-Hello_Dapr/02.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/13/Dapr-Hello_Dapr/02.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/13/Dapr-Hello_Dapr/Architecture_Diagram.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/13/Dapr-Hello_Dapr/04.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/13/Dapr-Hello_Dapr/05.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/13/Dapr-Hello_Dapr/06.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/13/Dapr-Hello_Dapr/07.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/13/Dapr-Hello_Dapr/08.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/13/Dapr-Hello_Dapr/09.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/13/Dapr-Hello_Dapr/Architecture_Diagram_B.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/13/Dapr-Hello_Dapr/10.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/13/Dapr-Hello_Dapr/11.png">
-<meta property="og:image" content="http://skychang.github.io/2020/03/13/Dapr-Hello_Dapr/service-invocation.png">
-<meta property="article:published_time" content="2020-03-13T22:31:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:38.888Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="Dapr">
-<meta property="article:tag" content="K8S">
-<meta property="article:tag" content="AKS">
-<meta property="article:tag" content="ASP.NET Core">
-<meta property="article:tag" content="Microservice">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://skychang.github.io/2020/03/13/Dapr-Hello_Dapr/01.png">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> Dapr - Hello Dapr | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Dapr - Hello Dapr
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2020-03-13T22:31:00+00:00" content="2020-03-13">
-              2020-03-13
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2020/03/13/Dapr-Hello_Dapr/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/13/Dapr-Hello_Dapr/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>繼，前面幾篇記錄了ㄧ些關於最近遇到的一些問題紀錄，終於要開始寫本年度的第一篇技術文了！ ( 希望不要也是最後一篇 QQ )。<br>總之，趁著最近有一點寫文章的 feel，就加緊寫吧，不然垃圾場不止有垃圾，也都長草了 QQ..</p>
-<h2 id="Dapr"><a href="#Dapr" class="headerlink" title="Dapr"></a>Dapr</h2><p>今天要介紹的是，登登登，Dapr !!</p>
-<p>什麼是 <a href="https://dapr.io/" target="_blank" rel="noopener">Dapr</a> , 就是 Distributed Application Runtime !! ( 不要問我那個 p 在哪裏..)，他是由微軟發展出來，純 Open Source 的專案 ( 而且星星數也破 5xxx 了!! )，專門用來處理開發人員搞 Microservice 時，遇到的一些問題。</p>
-<p><img src="01.png" alt=""></p>
-<h3 id="Dapr-的功能"><a href="#Dapr-的功能" class="headerlink" title="Dapr 的功能"></a>Dapr 的功能</h3><p>那他有什麼強大的功能呢！！？</p>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">Dapr - Hello Dapr :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="前言 繼，前面幾篇記錄了ㄧ些關於最近遇到的一些問題紀錄，終於要開始寫本年度的第一篇技術文了！ ( 希望不要也是最後一篇 QQ )。
+總之，趁著最近有一點寫文章的 feel，就加緊寫吧，不然垃圾場不止有垃圾，也都長草了 QQ.. Dapr 今天要介紹的是，登登登，Dapr…"/><meta data-react-helmet="true" property="og:title" content="Dapr - Hello Dapr"/><meta data-react-helmet="true" property="og:description" content="前言 繼，前面幾篇記錄了ㄧ些關於最近遇到的一些問題紀錄，終於要開始寫本年度的第一篇技術文了！ ( 希望不要也是最後一篇 QQ )。
+總之，趁著最近有一點寫文章的 feel，就加緊寫吧，不然垃圾場不止有垃圾，也都長草了 QQ.. Dapr 今天要介紹的是，登登登，Dapr…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="Dapr - Hello Dapr"/><meta data-react-helmet="true" name="twitter:description" content="前言 繼，前面幾篇記錄了ㄧ些關於最近遇到的一些問題紀錄，終於要開始寫本年度的第一篇技術文了！ ( 希望不要也是最後一篇 QQ )。
+總之，趁著最近有一點寫文章的 feel，就加緊寫吧，不然垃圾場不止有垃圾，也都長草了 QQ.. Dapr 今天要介紹的是，登登登，Dapr…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2020/03/13/Dapr-Hello_Dapr/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">Dapr - Hello Dapr</h1><div class="post-module--meta--3YtjE">13 March 2020<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/Dapr/"><span class="post-module--tag--16U9p">#<!-- -->Dapr</span></a><a href="/tag/K8S/"><span class="post-module--tag--16U9p">#<!-- -->K8S</span></a><a href="/tag/AKS/"><span class="post-module--tag--16U9p">#<!-- -->AKS</span></a><a href="/tag/ASP.NET-Core/"><span class="post-module--tag--16U9p">#<!-- -->ASP.NET Core</span></a><a href="/tag/Microservice/"><span class="post-module--tag--16U9p">#<!-- -->Microservice</span></a></div></div><div><h2>前言</h2>
+<p>繼，前面幾篇記錄了ㄧ些關於最近遇到的一些問題紀錄，終於要開始寫本年度的第一篇技術文了！ ( 希望不要也是最後一篇 QQ )。
+總之，趁著最近有一點寫文章的 feel，就加緊寫吧，不然垃圾場不止有垃圾，也都長草了 QQ..</p>
+<h2>Dapr</h2>
+<p>今天要介紹的是，登登登，Dapr !!</p>
+<p>什麼是 <a href="https://dapr.io/">Dapr</a> , 就是 Distributed Application Runtime !! ( 不要問我那個 p 在哪裏..)，他是由微軟發展出來，純 Open Source 的專案 ( 而且星星數也破 5xxx 了!! )，專門用來處理開發人員搞 Microservice 時，遇到的一些問題。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/33b12ffd327584c24c9432ffde74f97a/f59a5/01.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 53%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsSAAALEgHS3X78AAABw0lEQVQoz3VSS24UMRTsg7DlJFyFs7BgxQWQEByAJRILFkiwSAQLpIERSsKEZHom03/b7favp1J20j1DFEZTerbfe+Vyvc72+z0eIoQRzvkZWht4HxKMsYw+1cVfvu1w/qfkuU/7zJhY9DiGwZOcjfw7d7ePjXc41Gh92Gfx4H9wbsT5RYvXbxcoCj2TDkOYa46JI7KHio5hbcDnL2u8fPUNP5c1xnGf1Dx2+T8KJ7IYI8kEKQ363kIpAykMo02qp/xx37TOjm9QyqHrLISwjAZVM2BXaRREjHVrUi6iZV71LhFPNkRvs4k5JmoSXOcSm43C9Vqg3Ur0O4V2I6G4romcue1Nj/VaUrWd/YxkcZ3FQ82bDAmdHzEScT1yAJ+6gHdlwPsm4A3jqQgcd0h5Y0ecLDU+nAh00h2e3AmP1dbi9LfGRWHxt7boaTzY9Hzl8fSXw7MzjycLhxc5z6lEUMANVX78WuD7oklWzYSrymKZG5xdWVztLC5LKmYiDqITA2o5oEyR3knN11hs6HPeWDS0qIl+klDdf4vZEIfRe/y4pDeVwaBd8iJNlmT9PeKEpdDMW1R8YhmJGHckX7FPKJcU3gJuRUyfBqqorAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="01"
+        title="01"
+        src="/static/33b12ffd327584c24c9432ffde74f97a/78d47/01.png"
+        srcset="/static/33b12ffd327584c24c9432ffde74f97a/56d15/01.png 200w,
+/static/33b12ffd327584c24c9432ffde74f97a/d9f49/01.png 400w,
+/static/33b12ffd327584c24c9432ffde74f97a/78d47/01.png 800w,
+/static/33b12ffd327584c24c9432ffde74f97a/64756/01.png 1200w,
+/static/33b12ffd327584c24c9432ffde74f97a/f59a5/01.png 1419w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h3>Dapr 的功能</h3>
+<p>那他有什麼強大的功能呢！！？</p>
 <ul>
 <li>簡單就可以處理 Event-Driven</li>
 <li>能建構出 Stateful 的 Microservice</li>
@@ -355,7 +49,37 @@
 <li>支援眾多語言! ( 連提供的 Demo 都不是用 C# 呢 泣)</li>
 </ul>
 <p>而且，他支援任何語言，任何平台，透過 http / gRPC 來調用中間 Dapr 的服務，所以你可以想像，你想要執行的服務 ( ex: 儲存到 Readis )，就不需要使用 Redis 的 SDK，或是 Redis 特定的呼叫方式。只需要透過 http / gRPC 的調用，就可以將東西存到 Redis 上。當然如有時候使用 http / gRPC 還是很麻煩，所以 Dapr 也提供了多語言版本的 SDK，讓你使用上更方便，如下圖。</p>
-<p><img src="overview.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/bb3d9d3caf8c3e2843ec399e4eb38417/5205e/overview.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 47%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB1klEQVQoz12QPWgUQRTHtzQgIkICErAUUUihqGAhZxIhzZlIECwi6nrGpNHIIRxiIEU0sTGpFBMRAoLIFbaKFoKln8WhEr+DJKe3H7M7s/Pmzczu+jaHKXw8huG93/v6OwCQ/rMsy4o3TfMsk1I2m03P8wjI87yd2gCttRR3kiShhDEGERWi0TpWGoyNecRYQA4KpAAeCmM0QVorYqkBFTrtycYUnWLOUamfXDFA318VCY9jBpAEv9na9z/UHUUiQSBCm3cosrEwbbfuKWojwGYG89SEBBtK/W9aa4du0yaNmBJo3frK0IMfI4tvz95/c2ru2ejt5+5MvXLzkXtt4eLUnfHarXPVaXdi6sz4ldMXqp+/fHNSi+8braWHjWaEnTc+ObVGx9iTrurTTSfu7hhb6uif3D0yu/VgZWdvpWvPse17y9t2lTZ392zp7nn1+l17skVlfIED977um18+dP3l0ZkXpauPy5P1vonFk7WFgfOzfcOXjwxf6j8+2jvoHigN7j9c/vBx2eGcFzKSylqDUuRKIWNR4Pt+ENLT8rw4jlCTlEoCSFDFTykueFFM16epFSIA2oIgyXnsBUEoWyvcW5X+rzj0A5GzxAZg16TO11UVQvwFdEe8Frkql/cAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="overview"
+        title="overview"
+        src="/static/bb3d9d3caf8c3e2843ec399e4eb38417/78d47/overview.png"
+        srcset="/static/bb3d9d3caf8c3e2843ec399e4eb38417/56d15/overview.png 200w,
+/static/bb3d9d3caf8c3e2843ec399e4eb38417/d9f49/overview.png 400w,
+/static/bb3d9d3caf8c3e2843ec399e4eb38417/78d47/overview.png 800w,
+/static/bb3d9d3caf8c3e2843ec399e4eb38417/64756/overview.png 1200w,
+/static/bb3d9d3caf8c3e2843ec399e4eb38417/5205e/overview.png 1222w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>當然，他實際上不像 Istio 那樣，可以不用改 Code：就可以把原有的程式碼套上去，就像剛剛上面說的，從 Redis 的 SDK 改成呼叫 Dapr 的 SDK，還是有部分需要去處理，所以，如果不想改 Code，就想使用，是有難度低～ ( 當然以前切分的好，現在要轉上去也容易了 )</p>
 <p>Dapr 提供的功能，如下 ( 寫這篇文章為 0.5 版本 )</p>
 <p>！<a href="building_blocks.png"></a></p>
@@ -363,425 +87,615 @@
 <li>Service Invocation : 提供了 Service To Service 的服務，包含重試，位置的導向等等。</li>
 <li>State Management : 搭配 Key/Value 來進行狀態的管理，可以輕鬆地將長期運行，讓你的應用程式擁有高可用性之有狀態服務與無狀態服務。狀態存儲是可注入的，可以使用 Azure CosmosDB，AWS DynamoDB 或 Redis 來進行搭配。</li>
 <li>Publish and Subscribe Messaging : 輕鬆地使用發布事件，和訂閱事件的能力。</li>
-<li>Resource Bindings    : Event-driven 的架構，可綁定 Resource，當發生事件的時候，就自動觸發。</li>
+<li>Resource Bindings	: Event-driven 的架構，可綁定 Resource，當發生事件的時候，就自動觸發。</li>
 <li>Distributed Tracing : 提供了分散式的 Trace 和簡單的記錄查找</li>
 <li>Actors : 可以使用 Actor 模式，此模式針對有狀態和無狀態對象來設計，通過方法和狀態封裝使操作變得簡單。Dapr 在其 actor 運行時中提供了許多功能，包括並發，狀態，actor 激活/停用 的生命週期管理以及計時器、喚醒等。</li>
 </ul>
 <p>而本篇文章的 Hello World 會使用到 Service Invocation 和 State Management。</p>
-<h3 id="Dapr-和-Sidecar"><a href="#Dapr-和-Sidecar" class="headerlink" title="Dapr 和 Sidecar"></a>Dapr 和 Sidecar</h3><p>基本上 Dapr 也是 Sidecar 模式的操作方式，所以很多人會拿 Dapr 和 Istio 相比，雖然兩個都是 Sidecar 模式，但 Dapr 重心放在服務的調用而 Istio 怎放在網路層的監控與管理。</p>
-<p><img src="overview-sidecar.png" alt=""></p>
+<h3>Dapr 和 Sidecar</h3>
+<p>基本上 Dapr 也是 Sidecar 模式的操作方式，所以很多人會拿 Dapr 和 Istio 相比，雖然兩個都是 Sidecar 模式，但 Dapr 重心放在服務的調用而 Istio 怎放在網路層的監控與管理。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 779px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/9d6c304c9c310ac0ff54bbbbf0b4b444/a3e85/overview-sidecar.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 40%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAIAAAB2/0i6AAAACXBIWXMAABYkAAAWJAGbFcYUAAABmklEQVQY03VRTU/bQBAdghsChCJBBBw58LOQemrDh0AEKSQ2tkMoF6T+jfaQNrRQFYKEgCsXx1nvGgWkEBynFXIQ+CsJsXG7pmpVCfXpaWYvb97bGfj5DI9BWMl3J/1V5w908bAplEKKpSa3r1PSx8pu46h6Bx5Fr+eHzfN9n8r8J3VRMuCNFFku96WVEVEdFlRIIViUmCxOvD2H+XJmTwOLwnFuTce0rHa7HQTBQ8+j4i+oFeNJjEORLBpYp3o8xONhXnkp4riAISXnD3WwzPvLK+2seq01f3Q67W63e2MYQccuysb0djXKKZBRYE2Ji2R0Qw2ZIwyLYUnOlXQwTRMhdHpyrGkadabhHzwa/rEg3cy8u6DOLzhlakud3CTUH9Iyw1ZoClit5EqNMLbrOnSEbduu6/798+dKa1AgURaNCDiRJxOb6nhe7c+gOK+MbaiQRmHsp331ftd/F7YjGzAvR1blKIsH1gnDESaDYUXuZ3FcVGGuzH1rwP9OJWnWqw+1ZOEq+ak+94evC7Xkx/pCsT77vrantH4Bi1FW3O6OEY0AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="overview sidecar"
+        title="overview sidecar"
+        src="/static/9d6c304c9c310ac0ff54bbbbf0b4b444/a3e85/overview-sidecar.png"
+        srcset="/static/9d6c304c9c310ac0ff54bbbbf0b4b444/56d15/overview-sidecar.png 200w,
+/static/9d6c304c9c310ac0ff54bbbbf0b4b444/d9f49/overview-sidecar.png 400w,
+/static/9d6c304c9c310ac0ff54bbbbf0b4b444/a3e85/overview-sidecar.png 779w"
+        sizes="(max-width: 779px) 100vw, 779px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>如果是 K8S 的架構，當然就是包在一個 Pod 裡面了。</p>
-<p><img src="overview-sidecar-kubernetes.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/fef2c51660867101c11967a7c4251503/2ed29/overview-sidecar-kubernetes.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 43.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAABYlAAAWJQFJUiTwAAABfElEQVQoz21RTUsCURR9IhEabVsE/qf20a5NUUKpC0lbFNai/kGbVgVBFLmJglq2s1HHxkVi6dh86Izz9eZ75nUdLYM8XB6X+9455977kOM49j/IsmwYxswrANRN0xwOh4gQEgQBiRBGgITneSCPK2QWPM+DNygIQtd1JGkgiCLo+RFGtJGoP9AsTnXaglprscyn0JUxO7QUbHuuKwgCAm0wUVRVURRN00By3Ig/sgxXL9ooV00dMalSYz5PLZeYxf3G6TMHyj0OnMMQG/o7J1e7kqKoQIaR+gBJhhdrl220W43laok9GiJZpFH69fixNyGPnZlms0JVYQfuDyzbIaG3fdtNFOiFIr10wCQLNATK1k6evqZk3TBgvX1RhLaB9qdtsnLeQpuVuXw9nq/Hdqh4tobS1OEDOyVbljX+A0h+Zw6imc9ehPWrj1yZzdyxWzedTJnduO7cv8FEPscLCGOs6+A9AeRQMSMYGPsOJr5JvCj8yenZWNN0WMs3uY7VBUDNg78AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="overview sidecar kubernetes"
+        title="overview sidecar kubernetes"
+        src="/static/fef2c51660867101c11967a7c4251503/78d47/overview-sidecar-kubernetes.png"
+        srcset="/static/fef2c51660867101c11967a7c4251503/56d15/overview-sidecar-kubernetes.png 200w,
+/static/fef2c51660867101c11967a7c4251503/d9f49/overview-sidecar-kubernetes.png 400w,
+/static/fef2c51660867101c11967a7c4251503/78d47/overview-sidecar-kubernetes.png 800w,
+/static/fef2c51660867101c11967a7c4251503/64756/overview-sidecar-kubernetes.png 1200w,
+/static/fef2c51660867101c11967a7c4251503/2ed29/overview-sidecar-kubernetes.png 1214w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>提外話，去年 Study4.TW 的 dotnet Conf，Alan Liu 的 Session 最後也有提到喔！！！有興趣也可以去看看影片。</p>
-<h2 id="Dapr-環境準備"><a href="#Dapr-環境準備" class="headerlink" title="Dapr 環境準備"></a>Dapr 環境準備</h2><p>首先，開始式前，當然要先準備環境。Dapr 基本上可以 run 在 local ( 獨立模式，非 K8S 底下)，或是 K8S 底下 ( AKS 也通 )。</p>
+<h2>Dapr 環境準備</h2>
+<p>首先，開始式前，當然要先準備環境。Dapr 基本上可以 run 在 local ( 獨立模式，非 K8S 底下)，或是 K8S 底下 ( AKS 也通 )。</p>
 <p>通常獨立模式，主要給開發使用，然後再部署到正式 ( K8S / AKS ) 環境。</p>
 <p>當然，這東西，主要還是以 Container 為主，所以 Docker 是跑不掉的~~</p>
-<h3 id="安裝-Dapr-CLI"><a href="#安裝-Dapr-CLI" class="headerlink" title="安裝 Dapr CLI"></a>安裝 Dapr CLI</h3><p>目前都是透過指令安裝，未來可能會改變，建議參考<a href="https://github.com/dapr/docs/blob/master/getting-started/environment-setup.md#environment-setup" target="_blank" rel="noopener">官方文件</a></p>
+<h3>安裝 Dapr CLI</h3>
+<p>目前都是透過指令安裝，未來可能會改變，建議參考<a href="https://github.com/dapr/docs/blob/master/getting-started/environment-setup.md#environment-setup">官方文件</a></p>
 <p>Windows -  安裝 Dapr CLI 到 C:\dapr 和加到 $PATH 路徑</p>
-<figure class="highlight ps"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell <span class="literal">-Command</span> <span class="string">"iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/install.ps1 | iex"</span></span><br></pre></td></tr></table></figure>
-
+<div class="gatsby-highlight" data-language="ps"><pre class="language-ps"><code class="language-ps">powershell -Command &quot;iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/install.ps1 | iex&quot;</code></pre></div>
 <p>MacOs - 安裝 Dapr CLI 到 /usr/local/bin</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | /bin/bash</span><br></pre></td></tr></table></figure>
-
-<p><img src="02.png" alt=""></p>
-<p>當然，你也可以手動下載…..</p>
-<h3 id="安裝標準環境"><a href="#安裝標準環境" class="headerlink" title="安裝標準環境"></a>安裝標準環境</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dapr init</span><br></pre></td></tr></table></figure>
-
+<div class="gatsby-highlight" data-language="shell"><pre class="language-shell"><code class="language-shell"><span class="token function">curl</span> -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh <span class="token operator">|</span> /bin/bash</code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/1f8bd9817c5c498a3313090d01a865c5/e7448/02.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 95.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAAACXBIWXMAAAsSAAALEgHS3X78AAAChElEQVQ4y4VUWbLiMBDjUiS2s8fOAmEJL3D/o2ha7QReppiaD5UdjGW1ejlM3iJtDJJjgsQkSE2KNE1hjEFVVWjbFk0jaL0gIC8qGOs+MBGpscjyEofxNuM6P/BYHrg9bmhCIweZkjVNgyLPkecFirIS1KibgMb3qNsObRjkkR6tH1DWHqfphsN0PmOaJpxOJ/RdD++9ElFZK2td1yiFjA9sKx+gutTmAu4LHBOLbjjhcLlccL1ecRZikoUQlIx7Xs6yTECVUSnXTGDXkK0rYLMSSZqhH844DMOAcRzBlURVTRXl27/oYVS67eN3I6RW/LMroYuEuRyUVNNUqH2tHpZCyEuqlj4WhSqyzsG5DE4UOycqZW+57ghFvioTRVTBEJnh+LqJe7lkJDSj4cUQ/0Zi1pD5eruGQVISsGx+4zvJSv72kAolKZs3TMKWlN97nhu7huaKf+JNyOx2XacKyzImg6o3C7hqyAx/y6qS528rIqGNhH3fa9mQ1KnpTn2kh0mSKNgFn+4Qj5XoAxJHwhEHFvSmcp5nJX+9Xvob1WkhF6WQrmRfsCNk/VElLy7Lgp+fHwULnmck5h9DP0iNfnrauOyjWHBMDLp+/BQ2Cef7HfcVF2lH+up9iyAtSbJUh4Bb1bqdDZFwkJDPkzZ+LRPl+XwJ2Yz5ISpF7SLfy/KUXr+osr2XexyTNBJ2UoycHGXjMV3vGKcrJk6g+wM8892oCkPo4kBQUqvrhh1hKy8TTjLrfdA9hwF7lH86Spa5JqnR39Iv2BFWEi59DKGXTPeSIJrfaGYLqctc52ClPayX/0c4iD+DZPQ0SemMMji9FHhdqdJOsh/E2/4drvmuUKNJ1Jo/dB+UB+9QQkwAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="02"
+        title="02"
+        src="/static/1f8bd9817c5c498a3313090d01a865c5/78d47/02.png"
+        srcset="/static/1f8bd9817c5c498a3313090d01a865c5/56d15/02.png 200w,
+/static/1f8bd9817c5c498a3313090d01a865c5/d9f49/02.png 400w,
+/static/1f8bd9817c5c498a3313090d01a865c5/78d47/02.png 800w,
+/static/1f8bd9817c5c498a3313090d01a865c5/e7448/02.png 900w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>當然，你也可以手動下載.....</p>
+<h3>安裝標準環境</h3>
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash">dapr init</code></pre></div>
 <p>當輸入完後，會產生兩個 Container。沒錯，他背後就是 Container，所以對環境來說，真的很乾淨..</p>
-<p><img src="02.png" alt=""></p>
-<p>如果不想要用就下，加上 –all 的原因是因為，預設他不會把 Redis 給移除，需要透過 –all 才會全部移除。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dapr uninstall --all</span><br></pre></td></tr></table></figure>
-
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/1f8bd9817c5c498a3313090d01a865c5/e7448/02.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 95.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAAACXBIWXMAAAsSAAALEgHS3X78AAAChElEQVQ4y4VUWbLiMBDjUiS2s8fOAmEJL3D/o2ha7QReppiaD5UdjGW1ejlM3iJtDJJjgsQkSE2KNE1hjEFVVWjbFk0jaL0gIC8qGOs+MBGpscjyEofxNuM6P/BYHrg9bmhCIweZkjVNgyLPkecFirIS1KibgMb3qNsObRjkkR6tH1DWHqfphsN0PmOaJpxOJ/RdD++9ElFZK2td1yiFjA9sKx+gutTmAu4LHBOLbjjhcLlccL1ecRZikoUQlIx7Xs6yTECVUSnXTGDXkK0rYLMSSZqhH844DMOAcRzBlURVTRXl27/oYVS67eN3I6RW/LMroYuEuRyUVNNUqH2tHpZCyEuqlj4WhSqyzsG5DE4UOycqZW+57ghFvioTRVTBEJnh+LqJe7lkJDSj4cUQ/0Zi1pD5eruGQVISsGx+4zvJSv72kAolKZs3TMKWlN97nhu7huaKf+JNyOx2XacKyzImg6o3C7hqyAx/y6qS528rIqGNhH3fa9mQ1KnpTn2kh0mSKNgFn+4Qj5XoAxJHwhEHFvSmcp5nJX+9Xvob1WkhF6WQrmRfsCNk/VElLy7Lgp+fHwULnmck5h9DP0iNfnrauOyjWHBMDLp+/BQ2Cef7HfcVF2lH+up9iyAtSbJUh4Bb1bqdDZFwkJDPkzZ+LRPl+XwJ2Yz5ISpF7SLfy/KUXr+osr2XexyTNBJ2UoycHGXjMV3vGKcrJk6g+wM8892oCkPo4kBQUqvrhh1hKy8TTjLrfdA9hwF7lH86Spa5JqnR39Iv2BFWEi59DKGXTPeSIJrfaGYLqctc52ClPayX/0c4iD+DZPQ0SemMMji9FHhdqdJOsh/E2/4drvmuUKNJ1Jo/dB+UB+9QQkwAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="02"
+        title="02"
+        src="/static/1f8bd9817c5c498a3313090d01a865c5/78d47/02.png"
+        srcset="/static/1f8bd9817c5c498a3313090d01a865c5/56d15/02.png 200w,
+/static/1f8bd9817c5c498a3313090d01a865c5/d9f49/02.png 400w,
+/static/1f8bd9817c5c498a3313090d01a865c5/78d47/02.png 800w,
+/static/1f8bd9817c5c498a3313090d01a865c5/e7448/02.png 900w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>如果不想要用就下，加上 --all 的原因是因為，預設他不會把 Redis 給移除，需要透過 --all 才會全部移除。</p>
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash">dapr uninstall --all</code></pre></div>
 <p>如果想安裝特定版本:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dapr init --runtime-version 0.1.0</span><br></pre></td></tr></table></figure>
-
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash">dapr init --runtime-version <span class="token number">0.1</span>.0</code></pre></div>
 <p>至於 K8S / AKS 的安裝，下一篇再提吧 ( 希望會有下一篇. )</p>
-<h2 id="來寫一個-Hello-World-吧"><a href="#來寫一個-Hello-World-吧" class="headerlink" title="來寫一個 Hello World 吧"></a>來寫一個 Hello World 吧</h2><p>接下來，我們就來嘗試寫一個 Dapr 的應用程式看看。目前目標，就如同官網上面的這張架構圖一樣。官網的架構是使用 Node.js 當作開發目標，目前小弟用 ASP.NET Core 來重新撰寫。</p>
-<p><img src="Architecture_Diagram.png" alt=""></p>
+<h2>來寫一個 Hello World 吧</h2>
+<p>接下來，我們就來嘗試寫一個 Dapr 的應用程式看看。目前目標，就如同官網上面的這張架構圖一樣。官網的架構是使用 Node.js 當作開發目標，目前小弟用 ASP.NET Core 來重新撰寫。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/f994f6f4152940062e3d9a97bab0f290/77e4e/Architecture_Diagram.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 55.00000000000001%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABcRAAAXEQHKJvM/AAAClUlEQVQoz3VRX0hTURw+SgX9z6JCSyIypEKyPyCUPvjSY1k9JASDSPEhiiCjRyuKgmWEPmRkQ3RaYItepMBE9EmatOVMN6+zOa+7d97d3e3ec67b7u75dXZNBbOP8zsf58D5zvf7figYDCKe5/MTQgiVX2pAORD/cH6OpzjunKaqTp2Qdp3gd4RghyRJDkEQHNFo1KGqqkPTtFy1E0K6Q6FQPfoHAGyBJSiKQh2sAdF1iMfjoDNei1gs5kJer3cH+7EcHa5Ft87v37Tnmv3oadujYkvbkG1vRxag6PFY+ph9wih55jMGpxSDvTUoKyZqMGcGxiSVE2TuOxDbXucOrIWLNZevbHO02g+0tbwsRoUXNoMp1TX1LwBq9Jkldo6ie2PQ830eDKxAPJEEgjWYnhOBmxOzfx12oUgkUjsbDn/hOO7EnXrblqqnA8drm/uOWA5p7MbDb1FA933Z0mbORI0/6YdRgZnLUH0xRRVFof5AgE4Hg0Y2mwVZljvXJrgV7Srbvbf07L6lOBXbG3cCdjaNw6Hnfih6MgFDM2QlM9M0gVIKmUxmOcP3iF3mxSQpj6nnrc4FLI7M89dTqRQl+mJiPk50lSzidDrDZwyDZ+94k1KLmWCYOYyLotiCPB4PYuNGlZVVS2oHT6GrN+9a4t19wwXDnsDJV/1ctWNo+kz0t78iLstdOladc+GwczYUcoZZSYrSmdC03plgsAGtiyrfElfPbEAV7u2oZrQAoY6NLz6PluVa09IUYrIMvCCAuCCBkUxYLSc1rQv9Hz9W2l+OYNA9bgm2fvUDYXOdXEiAxs548hdQUQA9a/asr/XAt8qs2gYCVgRe90ghwfgjJvonjLErmVRdBBOXlk73snD7xEjk9h8Muh+76ZiKswAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="Architecture Diagram"
+        title="Architecture Diagram"
+        src="/static/f994f6f4152940062e3d9a97bab0f290/78d47/Architecture_Diagram.png"
+        srcset="/static/f994f6f4152940062e3d9a97bab0f290/56d15/Architecture_Diagram.png 200w,
+/static/f994f6f4152940062e3d9a97bab0f290/d9f49/Architecture_Diagram.png 400w,
+/static/f994f6f4152940062e3d9a97bab0f290/78d47/Architecture_Diagram.png 800w,
+/static/f994f6f4152940062e3d9a97bab0f290/64756/Architecture_Diagram.png 1200w,
+/static/f994f6f4152940062e3d9a97bab0f290/77e4e/Architecture_Diagram.png 1530w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>而從上圖我們可以發現，基本上，未來存取 ASP.NET Core 的 API ( 也就是上圖的 Node Code 位置 )，並不會直接進入 ASP.NET Core 的 API，而是會透過 Dapr Runtime 來進行處理，而同樣的 Dapr Runtime 會提供 API 的接口。</p>
-<p>那 ASP.NET Croe API 要如何存取 State stores 呢 ( 也就是上圖的 Cosmos、Redis )，當然也是透過 Dapr 這一層來做處理。<br>也因此，要存取這些狀態，就不需要特別去理解 Cosmos、Redis 等等 SDK 或是 API 的調用，換言之，Dapr 提供了一層來讓使用者開發更加方便。</p>
+<p>那 ASP.NET Croe API 要如何存取 State stores 呢 ( 也就是上圖的 Cosmos、Redis )，當然也是透過 Dapr 這一層來做處理。
+也因此，要存取這些狀態，就不需要特別去理解 Cosmos、Redis 等等 SDK 或是 API 的調用，換言之，Dapr 提供了一層來讓使用者開發更加方便。</p>
 <p>好，接下來我們就在 ASP.NET Core 寫一個 Post API，底下這個程式碼其實滿簡單的，我們會透過 API 傳入 Order 這個物件進來，而為了 Demo 方便，所以 Order 裡面其實裡面也才兩個屬性，id 和 Name。</p>
 <p>而下面的 Post 用途，其實就是當 Order 物件進來的時候，會透過 HttpClient 將此物件傳入到 Dapr 裡面去 ( 透過 Dapr 提供的 URL )，然後 Dapr 會自己去將 Order 存到指定的 Storge 裡面去 ( Storge 的定義，會在 Dapr 的 YAML 檔案裡面定義 )</p>
 <p>( 這邊先用笨方法，但其實有 SDK 可以使用 )</p>
-<p>至於 Dapr 提供的 URL 為 “<a href="http://localhost:3500/v1.0/state/statestore&quot;，在底下我們會用" target="_blank" rel="noopener">http://localhost:3500/v1.0/state/statestore&quot;，在底下我們會用</a> _stateUrl 變數來存放這個位置，而在 Local 測試用的 Port 預設為 3500，而上面的 statestore 這個名稱，也是透過 Dapr 的 YAML 來對應。</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">HttpPost</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">Post</span>(<span class="params">[FromBody] Order dto</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!ModelState.IsValid)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> BadRequest(ModelState);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> data = <span class="keyword">new</span> List&lt;Object&gt;()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">new</span> &#123; Key = <span class="string">"order"</span> , Value = dto &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> client = <span class="keyword">new</span> HttpClient();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> content = <span class="keyword">new</span> StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, <span class="string">@"application/json"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">await</span> client.PostAsync(_stateUrl, content);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(!result.IsSuccessStatusCode)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="keyword">await</span> result.Content.ReadAsStringAsync());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> CreatedAtRoute(<span class="string">"GetOrder"</span>, <span class="keyword">new</span> &#123; id = dto.Id &#125;, dto);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至於 Dapr 提供的 URL 為 "<a href="http://localhost:3500/v1.0/state/statestore%22%EF%BC%8C%E5%9C%A8%E5%BA%95%E4%B8%8B%E6%88%91%E5%80%91%E6%9C%83%E7%94%A8">http://localhost:3500/v1.0/state/statestore"，在底下我們會用</a> _stateUrl 變數來存放這個位置，而在 Local 測試用的 Port 預設為 3500，而上面的 statestore 這個名稱，也是透過 Dapr 的 YAML 來對應。</p>
+<div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp"><span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">HttpPost</span></span><span class="token punctuation">]</span>
+<span class="token keyword">public</span> <span class="token keyword">async</span> <span class="token return-type class-name">Task<span class="token punctuation">&lt;</span>IActionResult<span class="token punctuation">></span></span> <span class="token function">Post</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">FromBody</span></span><span class="token punctuation">]</span> <span class="token class-name">Order</span> dto<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>ModelState<span class="token punctuation">.</span>IsValid<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">BadRequest</span><span class="token punctuation">(</span>ModelState<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
+    <span class="token class-name"><span class="token keyword">var</span></span> data <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">List<span class="token punctuation">&lt;</span>Object<span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">new</span> <span class="token punctuation">{</span> Key <span class="token operator">=</span> <span class="token string">"order"</span> <span class="token punctuation">,</span> Value <span class="token operator">=</span> dto <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    <span class="token class-name"><span class="token keyword">var</span></span> client <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">HttpClient</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token class-name"><span class="token keyword">var</span></span> content <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">StringContent</span><span class="token punctuation">(</span>JsonSerializer<span class="token punctuation">.</span><span class="token function">Serialize</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">,</span> Encoding<span class="token punctuation">.</span>UTF8<span class="token punctuation">,</span> <span class="token string">@"application/json"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token class-name"><span class="token keyword">var</span></span> result <span class="token operator">=</span> <span class="token keyword">await</span> client<span class="token punctuation">.</span><span class="token function">PostAsync</span><span class="token punctuation">(</span>_stateUrl<span class="token punctuation">,</span> content<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>result<span class="token punctuation">.</span>IsSuccessStatusCode<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Exception</span><span class="token punctuation">(</span><span class="token keyword">await</span> result<span class="token punctuation">.</span>Content<span class="token punctuation">.</span><span class="token function">ReadAsStringAsync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">return</span> <span class="token function">CreatedAtRoute</span><span class="token punctuation">(</span><span class="token string">"GetOrder"</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token punctuation">{</span> id <span class="token operator">=</span> dto<span class="token punctuation">.</span>Id <span class="token punctuation">}</span><span class="token punctuation">,</span> dto<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre></div>
 <p>完成後，我們可以下底下指令，其中 app-id 代表的是我們 ASP.NET Core API 的自訂名稱，未來要呼叫 ASP.NET Core 就會使用 api 這個 id 來處理，app-port 代表的是 ASP.NET Core API 的 Port ( 我們這邊把 https 先關掉 )，port 3500 就是 Dapr 提供的 Port 號，最後就是大家熟悉的 dotnet run。</p>
 <p>所以底下指令，除了會將 Dapr run 起來外，還會順便把 dotnet run 起來。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dapr run --app-id api --app-port 5000 --port 3500 dotnet run</span><br></pre></td></tr></table></figure>
-
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash">dapr run --app-id api --app-port <span class="token number">5000</span> --port <span class="token number">3500</span> dotnet run</code></pre></div>
 <p>完成後，也可以使用 dapr list 來查看目前的狀況。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dapr list</span><br></pre></td></tr></table></figure>
-
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash">dapr list</code></pre></div>
 <p>如下，我們可以看到 ASP.NET Core API 已經 Run 起來了</p>
-<p><img src="04.png" alt=""></p>
-<p>接著，我們用 Postman，簡單測試一下，我們先直接打 <a href="http://localhost:5000/api/orders" target="_blank" rel="noopener">http://localhost:5000/api/orders</a> 這個位置，目前這就是直接去呼叫 ASP.NET Core 的 API，從下圖可以看到完全沒問題。</p>
-<p><img src="05.png" alt=""></p>
-<p>等等，剛剛不是說要透過 Dapr 來呼叫 ASP.NET Core API 嗎！？，對的，所以這邊我們換個位置來呼叫，改用 <a href="http://localhost:3500/v1.0/invoke/api/method/api/orders" target="_blank" rel="noopener">http://localhost:3500/v1.0/invoke/api/method/api/orders</a> 來呼叫，如下圖。</p>
-<p><img src="06.png" alt=""></p>
-<p>得到的答案是一樣的，但這樣的呼叫過程，其實就透過 Dapr 來呼叫了，而透過 Dapr 的格式，就是 <a href="http://localhost:3500/v1.0/invoke/{app-id}/method/{位置}，其中" target="_blank" rel="noopener">http://localhost:3500/v1.0/invoke/{app-id}/method/{位置}，其中</a> app-id 就是我們剛剛執行指令所給的名稱，而位置會對應到 我們 <a href="http://localhost:5000/api/orders" target="_blank" rel="noopener">http://localhost:5000/api/orders</a> 裡面的 api/orders</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 721px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/b42e96d6960b8453a448ad21f5ae4be5/4f939/04.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 13.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAAAsSAAALEgHS3X78AAAAyklEQVQI1w3MTU6DQABAYY7hDLSFgcIMfzPACLXUUuOiMXFj3HRjjG5NvICHf7J6q+8FeWMxvSXpSrKhIe0qVGuo2oZpVDxecq5zwt+54fep5OdU8+1rvlbz4Wo+E8UtjrlJySwEQWkd/XRP2hj6eaKwNbXvGLzH+4Lry4HlaHh/KHldWt6eRxZXcXaWk225VBXjZoMPQ/ZRRLDLNTudIYxCmhSpFWGhiFOFsyH9IPCjpJsE41Hg/B26TtibikJrsiRBbrfIdRqt/QfQiVyFcsYKqAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="04"
+        title="04"
+        src="/static/b42e96d6960b8453a448ad21f5ae4be5/4f939/04.png"
+        srcset="/static/b42e96d6960b8453a448ad21f5ae4be5/56d15/04.png 200w,
+/static/b42e96d6960b8453a448ad21f5ae4be5/d9f49/04.png 400w,
+/static/b42e96d6960b8453a448ad21f5ae4be5/4f939/04.png 721w"
+        sizes="(max-width: 721px) 100vw, 721px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接著，我們用 Postman，簡單測試一下，我們先直接打 <a href="http://localhost:5000/api/orders">http://localhost:5000/api/orders</a> 這個位置，目前這就是直接去呼叫 ASP.NET Core 的 API，從下圖可以看到完全沒問題。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/7194ad87d7301f615b2d78146fb7f8d5/3643c/05.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 61%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAABeklEQVQoz6VTSW7cMBDkYyxR3MRFC7V4jCBAAl9yDYyc/BK/wv+tVNOxfQnsQXIoldQCq6sXqqf7CY+XiLxuOPaKXAq89wjBYxxHrOuKeZ5QayXP7Z8PASk43FfPMxu2dcZ5HjiOE2rbVny5XPDtcotaRpRE8ZSQyIkcYyRGjESMqf1PjHkfGMtNZDm+Ik+VyReo4+4OP+ji17LiJ1080M1B3vb9DfvfcNDRRpH9FsvDM+r3R5z7DJUzs+aMwuwzyz2XqXFmbB49MtHK/ACJrcls0Voy1BgDbNCwzkAPGl2voTXR9xj6rnH/ITp0HXFzg0BxJc3XmoeHP0L/gEEPTTxwWEoeLTgM/wXRkK1QjjZFXQL9ta6GV2fvLBrST7Vzh1LKSByCDCIyi7j+DOLGc4UC4blSZSpYFq5NlcXlZDMnVDjd6N11fZMy36BhrG07q8SmsR2M6du0Xsv/DO9TfnmXs8YYKLkN1jp+WPL1cM7BCVvTWvByXQN+A/Izbl5G7L6/AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="05"
+        title="05"
+        src="/static/7194ad87d7301f615b2d78146fb7f8d5/78d47/05.png"
+        srcset="/static/7194ad87d7301f615b2d78146fb7f8d5/56d15/05.png 200w,
+/static/7194ad87d7301f615b2d78146fb7f8d5/d9f49/05.png 400w,
+/static/7194ad87d7301f615b2d78146fb7f8d5/78d47/05.png 800w,
+/static/7194ad87d7301f615b2d78146fb7f8d5/64756/05.png 1200w,
+/static/7194ad87d7301f615b2d78146fb7f8d5/3643c/05.png 1400w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>等等，剛剛不是說要透過 Dapr 來呼叫 ASP.NET Core API 嗎！？，對的，所以這邊我們換個位置來呼叫，改用 <a href="http://localhost:3500/v1.0/invoke/api/method/api/orders">http://localhost:3500/v1.0/invoke/api/method/api/orders</a> 來呼叫，如下圖。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/d9dbcdb7554c81162030c48bec80eec5/3643c/06.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 61%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAABjklEQVQoz42SW47VMBBEs5hJ7CR+xYntxBmuAGl4/I/Q8IHEQtgG6y2qM1y4CDHk48hpx+4ud1fz7X3El93BpYK6FsxzhHMWljjnkHPGsswopXBdYIyBsRbBjvhQDOq2Ys0L9r2i1h3NlBaksqLywpua8XC5x+utIMcAH4j3hAWJ9wFT8AjcM4YF/XQkSfUtppl3ckJzf7ng47riM4NPueCpZDwuCY+Bh7m/bhXbtv1FrVQkhbdXSE/fUd59xb4xYQhSlTiPeZqwLxMWxpEqZmf4NINxHP+JtMBLC8x4vKpx3mIwij969ING2ykopdAR3bVQXYfuRVq0Lbm7g2XyRhqvtELfa2j9J+on+gQiQnI1lnIlUEofXH+e4qbgr4QjZYr024Nav5zomkBfY2kRc0g/m40eCpxo4EAm4llFVP8PUWNoIUsMLRXp35Q45ZU2WdKMGCfMMcJzWmeee9vjYwbDcHi2EZl6aGkBOdhxyt2phL+n/Pwtk+77/tmHwzAyGLie5/ChrEN/tECEyfoD4tZus6AwCtkAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="06"
+        title="06"
+        src="/static/d9dbcdb7554c81162030c48bec80eec5/78d47/06.png"
+        srcset="/static/d9dbcdb7554c81162030c48bec80eec5/56d15/06.png 200w,
+/static/d9dbcdb7554c81162030c48bec80eec5/d9f49/06.png 400w,
+/static/d9dbcdb7554c81162030c48bec80eec5/78d47/06.png 800w,
+/static/d9dbcdb7554c81162030c48bec80eec5/64756/06.png 1200w,
+/static/d9dbcdb7554c81162030c48bec80eec5/3643c/06.png 1400w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>得到的答案是一樣的，但這樣的呼叫過程，其實就透過 Dapr 來呼叫了，而透過 Dapr 的格式，就是 <a href="http://localhost:3500/v1.0/invoke/%7Bapp-id%7D/method/%7B%E4%BD%8D%E7%BD%AE%7D%EF%BC%8C%E5%85%B6%E4%B8%AD">http://localhost:3500/v1.0/invoke/{app-id}/method/{位置}，其中</a> app-id 就是我們剛剛執行指令所給的名稱，而位置會對應到 我們 <a href="http://localhost:5000/api/orders">http://localhost:5000/api/orders</a> 裡面的 api/orders</p>
 <p>另外，當執行 Dapr run 的時候，他也會在原始碼這邊建立 components 的資料夾，裡面兩個 YAML 就會描述 statestore 這個名稱等資訊。</p>
 <p>最後，因為我們沒有寫 Get 方法到 ASP.NET Core API 裡面，但我們也可以直接調用 Dapr 來取得我們剛剛 Post 的資料</p>
-<p>我們呼叫 <a href="http://localhost:3500/v1.0/state/statestore/order" target="_blank" rel="noopener">http://localhost:3500/v1.0/state/statestore/order</a> ，其中 statestore 這個名稱的定義，就是我們上面提到，當 Dapr 建構時，自動幫我們加的 YAML ，裡面有定義 statestore 這個名稱，而 order 要注意，我們調用這個 URL，並非是透過 Dapr 存取 ASP.NET API，而是透過 Dapr 直接存取 Redis，所以這邊的 order ，並不是我們上面提的 ASP.NET Core 位置，而是程式碼裡面定義的這段，我們給了 Key 值，所以這個 order 是對應到我們給的 Key 值。</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> &#123; Key = <span class="string">"order"</span> , Value = dto &#125;</span><br></pre></td></tr></table></figure>
-
+<p>我們呼叫 <a href="http://localhost:3500/v1.0/state/statestore/order">http://localhost:3500/v1.0/state/statestore/order</a> ，其中 statestore 這個名稱的定義，就是我們上面提到，當 Dapr 建構時，自動幫我們加的 YAML ，裡面有定義 statestore 這個名稱，而 order 要注意，我們調用這個 URL，並非是透過 Dapr 存取 ASP.NET API，而是透過 Dapr 直接存取 Redis，所以這邊的 order ，並不是我們上面提的 ASP.NET Core 位置，而是程式碼裡面定義的這段，我們給了 Key 值，所以這個 order 是對應到我們給的 Key 值。</p>
+<div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp"> <span class="token keyword">new</span> <span class="token punctuation">{</span> Key <span class="token operator">=</span> <span class="token string">"order"</span> <span class="token punctuation">,</span> Value <span class="token operator">=</span> dto <span class="token punctuation">}</span></code></pre></div>
 <p>簡單的說，這個網址，就是透過 Darp 去 Redis 撈資料..</p>
 <p>打出來的結果如下。</p>
-<p><img src="07.png" alt=""></p>
-<p>當然，正常流程應該是，外部的應用程式去 call Dapr，然後讓 Dapr 轉到 ASP.NET Core API 的 Get Order 方法，再讓 Order 方法去調用 Dapr 的 statestore 的位置來取得，然後再由 Get Order 回覆給 Dapr，Dapr 在回覆給外部的應用程式。</p>
-<p>所以我們這邊加上 ASP.NET Core Get Order 方法，可想而知，我們就是透過 <a href="http://localhost:3500/v1.0/state/statestore/order" target="_blank" rel="noopener">http://localhost:3500/v1.0/state/statestore/order</a> 這個 Dapr 提供的街口取得資料。</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">HttpGet</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">Get</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> client = <span class="keyword">new</span> HttpClient();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">await</span> client.GetAsync(<span class="string">$"<span class="subst">&#123;_stateUrl&#125;</span>/order"</span>);</span><br><span class="line"></span><br><span class="line">    result.EnsureSuccessStatusCode();</span><br><span class="line">    <span class="keyword">var</span> resp = <span class="keyword">await</span> result.Content.ReadAsStringAsync();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> order = JsonSerializer.Deserialize&lt;Order&gt;(resp);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Ok(order);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>最後，我們透過 <a href="http://localhost:3500/v1.0/invoke/api/method/api/orders" target="_blank" rel="noopener">http://localhost:3500/v1.0/invoke/api/method/api/orders</a> 這個 Dapr 接口，去調用 ASP.NET Core 的 Get Order 方法，而 ASP.NET Core Get Order 方法，會再去調用 Dapr 取得 statestore，然後最終由 Dapr 返回。</p>
-<p><img src="08.png" alt=""></p>
-<p>總之，任何的輸入輸出都是靠 Dapr 來管理。</p>
-<h2 id="透過指令方式"><a href="#透過指令方式" class="headerlink" title="透過指令方式"></a>透過指令方式</h2><p>除了上面用 Postman 工具外，其實也支援指令方式。請注意，MacOS 和 Powershell 的指令可能會略有不同。底下為 MacOS。</p>
-<p>塞入一筆資料</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dapr invoke --app-id api  --method <span class="string">'api/orders'</span> --payload <span class="string">'&#123; "id": 41, "name":"Hello World2" &#125;'</span></span><br></pre></td></tr></table></figure>
-
-<p>取得資料</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://localhost:3500/v1.0/invoke/api/method/api/orders</span><br></pre></td></tr></table></figure>
-
-<p>完成如下</p>
-<p><img src="09.png" alt=""></p>
-<h2 id="加入一個-WorkRole"><a href="#加入一個-WorkRole" class="headerlink" title="加入一個 WorkRole"></a>加入一個 WorkRole</h2><p>接下來，我們要繼續完成官方的練習一，從下圖可以看到，我們完成了右半邊，也就是 Node.js 這邊的練習，接下來，我們要寫一個定時器，每過一段時間，並會修改 Order 的資料。</p>
-<p><img src="Architecture_Diagram_B.png" alt=""></p>
-<p>首先，我們要完成上圖 Python 的事情，但我們這邊還是使用 C# 改寫。我們使用 ASP.NET Core 3 的新功能 Worker Service 樣板。<br>然後修改底下的執行，這代表著每秒鐘會去呼叫 我們 API 方的 Dapr，然後加一筆 Order 進去。</p>
-<p>請注意，你會發現，我們不使用 ASP.NET Core 原生的 API 位置，而是透過 Dapr 來呼叫 ASP.NET Core API，這意味著說，你可以不需要知道 原來 API 的 URL，你只需要透過 Dapr 就可以呼叫到 ASP.NET Core API。</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task <span class="title">ExecuteAsync</span>(<span class="params">CancellationToken stoppingToken</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    _logger.LogInformation(<span class="string">"Start Worker"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> id = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (!stoppingToken.IsCancellationRequested)</span><br><span class="line">    &#123;</span><br><span class="line">        id++;</span><br><span class="line">        <span class="keyword">var</span> data = <span class="keyword">new</span> Order()&#123; Id = id, Name = <span class="string">$"Hello Wolrd <span class="subst">&#123;id&#125;</span>"</span> &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> client = <span class="keyword">new</span> HttpClient();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> content = <span class="keyword">new</span> StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, <span class="string">@"application/json"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> result = <span class="keyword">await</span> client.PostAsync(<span class="string">"http://localhost:3500/v1.0/invoke/api/method/api/orders"</span>, content);</span><br><span class="line"></span><br><span class="line">        result.EnsureSuccessStatusCode();</span><br><span class="line"></span><br><span class="line">        _logger.LogInformation(<span class="string">"Worker running at: &#123;time&#125;"</span>, DateTimeOffset.Now);</span><br><span class="line">        _logger.LogInformation(<span class="string">$"Add Order id = <span class="subst">&#123;id&#125;</span>"</span> );</span><br><span class="line"></span><br><span class="line">        <span class="keyword">await</span> Task.Delay(<span class="number">1000</span>, stoppingToken);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>完成 Code 之後，我們可以下以下指令，只是這次我們名稱改為 Worker，而不用特別設定 Port。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dapr run --app-id worker dotnet run</span><br></pre></td></tr></table></figure>
-
-<p>如下圖，完成後，他每秒都會更新 Order 一次。</p>
-<p><img src="10.png" alt=""></p>
-<p>我們也可以用 Postman 看結果。</p>
-<p><img src="11.png" alt=""></p>
-<p>到此，我們就完成了 Dapr 的第一個練習。</p>
-<p>但不知道大家由沒有注意，其實不用把 Worker 的 Dapr run 起來，也是可以直接透過 <a href="http://localhost:3500/v1.0/invoke/api/method/api/orders" target="_blank" rel="noopener">http://localhost:3500/v1.0/invoke/api/method/api/orders</a> 呼叫。那透過 Dapr run 起來的 Worker，為什麼也是直接打 <a href="http://localhost:3500/v1.0/invoke/api/method/api/orders" target="_blank" rel="noopener">http://localhost:3500/v1.0/invoke/api/method/api/orders</a> 呢？這樣和直接呼叫有什麼不同。</p>
-<p>其實小弟這邊也有點困惑，但官方的解釋是說，當 Worker run 起 Dapr 的時候，打 API 的 Dapr ( <a href="http://localhost:3500/v1.0/invoke/api/method/api/orders" target="_blank" rel="noopener">http://localhost:3500/v1.0/invoke/api/method/api/orders</a> ) 其實還是有經過 Worker 的 Dapr 的，所以當我們使用 Dapr run Worker 這個應用的時候，其實背後 Dapr 就會在旁邊監控與託管。</p>
-<p><img src="service-invocation.png" alt=""></p>
-<p>總之，暫時也只能相信他了 XDDDD，如果有錯也請多包涵了。</p>
-<h2 id="停止-Dapr"><a href="#停止-Dapr" class="headerlink" title="停止 Dapr"></a>停止 Dapr</h2><p>如果要停止，可以下，就可以停止。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dapr stop --app-id api</span><br></pre></td></tr></table></figure>
-
-<h2 id="備註"><a href="#備註" class="headerlink" title="備註"></a>備註</h2><p>因為了簡單示範，像 HttpClient 就沒使用 HttpClientFactory 來建立，所以在真實環境，還是要好好注意效能的議題喔。</p>
-<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>這一篇，其實寫的有點久，雖然已概念來說·不算難，但整理資料花了不少時間：但不管怎樣，從這個簡單的練習，就可以看到 Dapr 的強大之處，但 Dapr 其實還有更多功能，後續再讓我們繼續看下去。</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a href="https://dapr.io/" target="_blank" rel="noopener">https://dapr.io/</a></li>
-<li><a href="https://github.com/dapr/docs/tree/master/overview" target="_blank" rel="noopener">https://github.com/dapr/docs/tree/master/overview</a></li>
-<li><a href="https://github.com/dapr/docs/tree/master/concepts/service-invocation" target="_blank" rel="noopener">https://github.com/dapr/docs/tree/master/concepts/service-invocation</a></li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Dapr/" rel="tag">#Dapr</a>
-          
-            <a href="/tags/K8S/" rel="tag">#K8S</a>
-          
-            <a href="/tags/AKS/" rel="tag">#AKS</a>
-          
-            <a href="/tags/ASP-NET-Core/" rel="tag">#ASP.NET Core</a>
-          
-            <a href="/tags/Microservice/" rel="tag">#Microservice</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2020/03/11/Visual-Studio-Task%20Runner%20Explorer%20and%20Nodejs%20version/" rel="next" title="Visual Studio - Task Runner Explorer 和 Node 版本">
-                <i class="fa fa-chevron-left"></i> Visual Studio - Task Runner Explorer 和 Node 版本
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/03/21/Azure-Create_Azure_Kubernetes_Service/" rel="prev" title="Azure - 建立 Azure Kubernetes Service">
-                Azure - 建立 Azure Kubernetes Service <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dapr"><span class="nav-number">2.</span> <span class="nav-text">Dapr</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Dapr-的功能"><span class="nav-number">2.1.</span> <span class="nav-text">Dapr 的功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dapr-和-Sidecar"><span class="nav-number">2.2.</span> <span class="nav-text">Dapr 和 Sidecar</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dapr-環境準備"><span class="nav-number">3.</span> <span class="nav-text">Dapr 環境準備</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-Dapr-CLI"><span class="nav-number">3.1.</span> <span class="nav-text">安裝 Dapr CLI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝標準環境"><span class="nav-number">3.2.</span> <span class="nav-text">安裝標準環境</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#來寫一個-Hello-World-吧"><span class="nav-number">4.</span> <span class="nav-text">來寫一個 Hello World 吧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#透過指令方式"><span class="nav-number">5.</span> <span class="nav-text">透過指令方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加入一個-WorkRole"><span class="nav-number">6.</span> <span class="nav-text">加入一個 WorkRole</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#停止-Dapr"><span class="nav-number">7.</span> <span class="nav-text">停止 Dapr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#備註"><span class="nav-number">8.</span> <span class="nav-text">備註</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">9.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">10.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/8d2ec842bbee0538d8e9e51164cf4f62/3643c/07.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 61%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAABZElEQVQoz61Sy1LDMAzMz7R5+ZWHYzsp7QwH4MaxHGCGD+E3+N5l5ZZSZnqgwGEjRbK1XknF232Pl8XA+oAYJnRdB6UUtNYwxmCaJozjgDlFBO9htYJizukWD0HleJxGLMuMeV5QuHGEDxFLCNhEz0sjBufQOQtHa62lbxDGHjMvJt/DMaYUCV2Xi/j5Ft0QSO5RbHdbPPIVzyy4Twl7sSS542tCIitjiYhRELNNOSY5Fkk38E/vCHev2CQWnMnYWQPTttCKoLWUbChLZCv+SwvOkePiH3NOs2W8O3QOhUhqmKjqGnXdoG4OkIM5R79l/tz2fX/ItccYrWZvp6FHsVsSQuTTOZBIKyztkbm98LpvcSpTHFxrOCQOU1pRWDZe25oTFbYGVVlivV7/DKsvf7Va5VYUwrQuzw+WKMvrIXdzQflUVfVnSFHZ238tKGqz5N9IvCRZNqD4XI1rcVqlpj7tpdgP9MhvKv2xjKAAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="07"
+        title="07"
+        src="/static/8d2ec842bbee0538d8e9e51164cf4f62/78d47/07.png"
+        srcset="/static/8d2ec842bbee0538d8e9e51164cf4f62/56d15/07.png 200w,
+/static/8d2ec842bbee0538d8e9e51164cf4f62/d9f49/07.png 400w,
+/static/8d2ec842bbee0538d8e9e51164cf4f62/78d47/07.png 800w,
+/static/8d2ec842bbee0538d8e9e51164cf4f62/64756/07.png 1200w,
+/static/8d2ec842bbee0538d8e9e51164cf4f62/3643c/07.png 1400w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
   </a>
-</div>
+    </span></p>
+<p>當然，正常流程應該是，外部的應用程式去 call Dapr，然後讓 Dapr 轉到 ASP.NET Core API 的 Get Order 方法，再讓 Order 方法去調用 Dapr 的 statestore 的位置來取得，然後再由 Get Order 回覆給 Dapr，Dapr 在回覆給外部的應用程式。</p>
+<p>所以我們這邊加上 ASP.NET Core Get Order 方法，可想而知，我們就是透過 <a href="http://localhost:3500/v1.0/state/statestore/order">http://localhost:3500/v1.0/state/statestore/order</a> 這個 Dapr 提供的街口取得資料。</p>
+<div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp"><span class="token punctuation">[</span><span class="token attribute"><span class="token class-name">HttpGet</span></span><span class="token punctuation">]</span>
+<span class="token keyword">public</span> <span class="token keyword">async</span> <span class="token return-type class-name">Task<span class="token punctuation">&lt;</span>IActionResult<span class="token punctuation">></span></span> <span class="token function">Get</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword">var</span></span> client <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">HttpClient</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token class-name"><span class="token keyword">var</span></span> result <span class="token operator">=</span> <span class="token keyword">await</span> client<span class="token punctuation">.</span><span class="token function">GetAsync</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"</span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">_stateUrl</span><span class="token punctuation">}</span></span><span class="token string">/order"</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        
+    result<span class="token punctuation">.</span><span class="token function">EnsureSuccessStatusCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword">var</span></span> resp <span class="token operator">=</span> <span class="token keyword">await</span> result<span class="token punctuation">.</span>Content<span class="token punctuation">.</span><span class="token function">ReadAsStringAsync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        
-      </div>
-    </footer>
+    <span class="token class-name"><span class="token keyword">var</span></span> order <span class="token operator">=</span> JsonSerializer<span class="token punctuation">.</span><span class="token generic-method"><span class="token function">Deserialize</span><span class="token generic class-name"><span class="token punctuation">&lt;</span>Order<span class="token punctuation">></span></span></span><span class="token punctuation">(</span>resp<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
+    <span class="token keyword">return</span> <span class="token function">Ok</span><span class="token punctuation">(</span>order<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>最後，我們透過 <a href="http://localhost:3500/v1.0/invoke/api/method/api/orders">http://localhost:3500/v1.0/invoke/api/method/api/orders</a> 這個 Dapr 接口，去調用 ASP.NET Core 的 Get Order 方法，而 ASP.NET Core Get Order 方法，會再去調用 Dapr 取得 statestore，然後最終由 Dapr 返回。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/355b0308b56a4ab4bb99f7ec5da29674/3643c/08.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 61%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAABaUlEQVQoz6VSy07DMBDMz+TROH6l8SspIHEAbhxpJZD4EH6D7x3GpqlQ4UDhMBlrdz27s3H1dj/iZVFQLiAGD2MtxDBASglrNFIMcG5CCAHTNGFgbmDOSIGHMGBOEdFPWJYZ87ygMizyIWLhhV102KUEv90iWI2ZhYlibjRQWkFrg5FNjNYUlozZIuLmW9htgPcO1fXNNR452TMF9xQ7xIgn4sBJZx8QGItE+gZOlCiSruD27wh3rxyGgrMbYdldCgE5iMKKtjShaK1YPINc46zNbCSn592tNag0x++Z2PT9CT2RC0uOZ8H8Vx7H8TMnjjGylANXNdLyksrCnff8KaF0EcfOK5/jFKezQSkIJcvPzKuojM0L76FU7rZB17ZomuZ3qI/gua7rsooqj9q2DbquLdw0mS9D13VF9CgoGewKcuKvyMKK9ovgf4Sys1Uw77XKn0st/oRsOb+Aan0al+L0lPrN6V1m/gCe/29isQPXfgAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="08"
+        title="08"
+        src="/static/355b0308b56a4ab4bb99f7ec5da29674/78d47/08.png"
+        srcset="/static/355b0308b56a4ab4bb99f7ec5da29674/56d15/08.png 200w,
+/static/355b0308b56a4ab4bb99f7ec5da29674/d9f49/08.png 400w,
+/static/355b0308b56a4ab4bb99f7ec5da29674/78d47/08.png 800w,
+/static/355b0308b56a4ab4bb99f7ec5da29674/64756/08.png 1200w,
+/static/355b0308b56a4ab4bb99f7ec5da29674/3643c/08.png 1400w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>總之，任何的輸入輸出都是靠 Dapr 來管理。</p>
+<h2>透過指令方式</h2>
+<p>除了上面用 Postman 工具外，其實也支援指令方式。請注意，MacOS 和 Powershell 的指令可能會略有不同。底下為 MacOS。</p>
+<p>塞入一筆資料</p>
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash">dapr invoke --app-id api  --method <span class="token string">'api/orders'</span> --payload <span class="token string">'{ "id": 41, "name":"Hello World2" }'</span></code></pre></div>
+<p>取得資料</p>
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash"><span class="token function">curl</span> http://localhost:3500/v1.0/invoke/api/method/api/orders</code></pre></div>
+<p>完成如下</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/6785de6961207fe19363949947f821c2/7a415/09.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 13.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAAAsSAAALEgHS3X78AAAAj0lEQVQI11WMaw6DMAyDOUfpqr5CGwYFAYLt/gfzUqRO2w/Ln5XYXZ5nUBmR5hHMD0xTj1J6YQOKhBgCIonHiFBZnCQ39t7feRgGpJTQbecL5X1gvQ4sxWJZFbZd4TkZZHmIUmjlWmqDlasbY6C1/qpzOUNzgGXCuhjsh8J5KRRhZgZ5uVn7J+fcrcp18Fcf1zJVw2UoJScAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="09"
+        title="09"
+        src="/static/6785de6961207fe19363949947f821c2/78d47/09.png"
+        srcset="/static/6785de6961207fe19363949947f821c2/56d15/09.png 200w,
+/static/6785de6961207fe19363949947f821c2/d9f49/09.png 400w,
+/static/6785de6961207fe19363949947f821c2/78d47/09.png 800w,
+/static/6785de6961207fe19363949947f821c2/64756/09.png 1200w,
+/static/6785de6961207fe19363949947f821c2/7a415/09.png 1244w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>加入一個 WorkRole</h2>
+<p>接下來，我們要繼續完成官方的練習一，從下圖可以看到，我們完成了右半邊，也就是 Node.js 這邊的練習，接下來，我們要寫一個定時器，每過一段時間，並會修改 Order 的資料。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/262ebc08ef2ab4f520276d47d3d1b0a5/c7953/Architecture_Diagram_B.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 51%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABcRAAAXEQHKJvM/AAACOUlEQVQoz61SS4sTQRCe3HQVdsGLo15E/4EHD6InT/4MHUHwKN4MwYsPRARRMIh79JAFRcyiS3DVgEvCusuaZPLaZCbJJJlMXtMz0/Pq6U7ZCbonBQ9+8FFV3V8V/RUtCP8btVr1Ag28m5GPrxEfS7ZtS5ZlLeKcCCGp1+tJQ2Mgha4t0cCVfNdZaH7r5hFjfEOW5cuCpnVfAYcXAVD4M0zThCmywOOCCP6OTqeTFnbLjWeXVnVYSRSDMw9k2ho5vI3RIAio5bh0amFez+jr3RE9lijSlUSJXk8p/IxSEkXUdV2KHEzYbDYfmBJyhfrzs091EO/VwiNxmf1QDeZhm02nJivWmqzabDPezB5u6myJ3y/frbIrL+sscEzmOJjpA4PtVfYj7HrQ1bQ1YUduvDi/OoHDd0qzU/eroFtk8XwShoBtCxzHXtTJ3ASOJipwKF6Bq2vagU3uBPAvjaZp7wS11X6sjj3IKdNxTjFRH/lojAka2iGyPLKg7RNzZPvTgobGedW0tDHuh2HYiihtz0kIUSNCDEVRkkJm4+MyeJ2TELRFMmyK6a/fxVQmJ779vC1mvu2In7Z2xfXs9omNfPl08ot6Lr25ddxD4/iMhlljoKf1rvZhNJmsB5Ru8h3e/vf/dXF7SbjVWpmnURS9N7nFoe1DH3sw4/sDwq37wRshm80KqqrEyrX92F65Htsp1Q4oV+uxfKEeA9SIzQfxGYsYhf6TgjoyDBNXesip+65XnfT7GrKsRz8BYjQq8BgjcM0AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="Architecture Diagram B"
+        title="Architecture Diagram B"
+        src="/static/262ebc08ef2ab4f520276d47d3d1b0a5/78d47/Architecture_Diagram_B.png"
+        srcset="/static/262ebc08ef2ab4f520276d47d3d1b0a5/56d15/Architecture_Diagram_B.png 200w,
+/static/262ebc08ef2ab4f520276d47d3d1b0a5/d9f49/Architecture_Diagram_B.png 400w,
+/static/262ebc08ef2ab4f520276d47d3d1b0a5/78d47/Architecture_Diagram_B.png 800w,
+/static/262ebc08ef2ab4f520276d47d3d1b0a5/64756/Architecture_Diagram_B.png 1200w,
+/static/262ebc08ef2ab4f520276d47d3d1b0a5/42cbc/Architecture_Diagram_B.png 1600w,
+/static/262ebc08ef2ab4f520276d47d3d1b0a5/c7953/Architecture_Diagram_B.png 1896w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>首先，我們要完成上圖 Python 的事情，但我們這邊還是使用 C# 改寫。我們使用 ASP.NET Core 3 的新功能 Worker Service 樣板。
+然後修改底下的執行，這代表著每秒鐘會去呼叫 我們 API 方的 Dapr，然後加一筆 Order 進去。</p>
+<p>請注意，你會發現，我們不使用 ASP.NET Core 原生的 API 位置，而是透過 Dapr 來呼叫 ASP.NET Core API，這意味著說，你可以不需要知道 原來 API 的 URL，你只需要透過 Dapr 就可以呼叫到 ASP.NET Core API。</p>
+<div class="gatsby-highlight" data-language="csharp"><pre class="language-csharp"><code class="language-csharp"><span class="token keyword">protected</span> <span class="token keyword">override</span> <span class="token keyword">async</span> <span class="token return-type class-name">Task</span> <span class="token function">ExecuteAsync</span><span class="token punctuation">(</span><span class="token class-name">CancellationToken</span> stoppingToken<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    _logger<span class="token punctuation">.</span><span class="token function">LogInformation</span><span class="token punctuation">(</span><span class="token string">"Start Worker"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-  
+    <span class="token class-name"><span class="token keyword">var</span></span> id <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>stoppingToken<span class="token punctuation">.</span>IsCancellationRequested<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        id<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token class-name"><span class="token keyword">var</span></span> data <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">Order</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span> Id <span class="token operator">=</span> id<span class="token punctuation">,</span> Name <span class="token operator">=</span> <span class="token interpolation-string"><span class="token string">$"Hello Wolrd </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">id</span><span class="token punctuation">}</span></span><span class="token string">"</span></span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
+        <span class="token class-name"><span class="token keyword">var</span></span> client <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">HttpClient</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
+        <span class="token class-name"><span class="token keyword">var</span></span> content <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">StringContent</span><span class="token punctuation">(</span>JsonSerializer<span class="token punctuation">.</span><span class="token function">Serialize</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">,</span> Encoding<span class="token punctuation">.</span>UTF8<span class="token punctuation">,</span> <span class="token string">@"application/json"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
+        <span class="token class-name"><span class="token keyword">var</span></span> result <span class="token operator">=</span> <span class="token keyword">await</span> client<span class="token punctuation">.</span><span class="token function">PostAsync</span><span class="token punctuation">(</span><span class="token string">"http://localhost:3500/v1.0/invoke/api/method/api/orders"</span><span class="token punctuation">,</span> content<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
+        result<span class="token punctuation">.</span><span class="token function">EnsureSuccessStatusCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
+        _logger<span class="token punctuation">.</span><span class="token function">LogInformation</span><span class="token punctuation">(</span><span class="token string">"Worker running at: {time}"</span><span class="token punctuation">,</span> DateTimeOffset<span class="token punctuation">.</span>Now<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        _logger<span class="token punctuation">.</span><span class="token function">LogInformation</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">$"Add Order id = </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token expression language-csharp">id</span><span class="token punctuation">}</span></span><span class="token string">"</span></span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2020/03/13/Dapr-Hello_Dapr/';
-      var disqus_title = 'Dapr - Hello Dapr';
-      var disqus_url = 'http://skychang.github.io/2020/03/13/Dapr-Hello_Dapr/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+        <span class="token keyword">await</span> Task<span class="token punctuation">.</span><span class="token function">Delay</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">,</span> stoppingToken<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>完成 Code 之後，我們可以下以下指令，只是這次我們名稱改為 Worker，而不用特別設定 Port。</p>
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash">dapr run --app-id worker dotnet run</code></pre></div>
+<p>如下圖，完成後，他每秒都會更新 Order 一次。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 662px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/59adc93b4b428b3318a4f82f9be7d122/46b67/10.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 41%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsSAAALEgHS3X78AAABLUlEQVQoz42RSXKEMBAE+YbRBloZiX2Awdv/n1VuMfjgZRw+ZFQHh+wuVDhr0XctGu/hjEVKLQx9uy4LQggoSwYhJZRS/6JQ2qKKV/CmAUsO8zhgHHrs24qJ5rzsEjwEKyE5OxAZIQnxg0JUBixuYCQuaYPsdihaINIGeZlRtRvU+A7uB1o6gceV5v4up8u/UwjtwNsXlL5BGTTSdEOaiXFB7Ce0/YgQOwhVQVQa+QChash80V9C5i9gwaAZd4TrG5puQhMTYnBwujorE+zpyEN21vwqrM1Ro7QepasRhhWhn4kVviVpv8DSzHWAMISNR0rBf79Q1hY87WBZaGq4YYfrFsobbDvDk8wMz+BZROT/l/OxUHvw7vVe2WuEs3KgyiHmFz4r889Xvuejyh8rWOJLkVgVPQAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="10"
+        title="10"
+        src="/static/59adc93b4b428b3318a4f82f9be7d122/46b67/10.png"
+        srcset="/static/59adc93b4b428b3318a4f82f9be7d122/56d15/10.png 200w,
+/static/59adc93b4b428b3318a4f82f9be7d122/d9f49/10.png 400w,
+/static/59adc93b4b428b3318a4f82f9be7d122/46b67/10.png 662w"
+        sizes="(max-width: 662px) 100vw, 662px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>我們也可以用 Postman 看結果。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/c03c0f67b84049b30f6f6f05d7072d22/b04fb/11.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 61%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAABcUlEQVQoz6VSSW7bQBDkS3KTRJGzk7NRoiGdYvgFOQfwL/yM/LdSPbYExTIM2DkUeqaX6uqe6V5+BvxeDXzMqDkhhAClFKzRcNZgqQU5ReScMc8zNGNaaxit8FQUllJYF3E4LDgej+j8FDDngsKCpUQUJoQwYfIWNc2ocUIMDtoYWOvgnWUjy6YamvdaF/h6hp0yUozo1vUB67ridD43nMWeTjiwWyZ5qbVhIeo/WJr6VCp+/PoD9fiMQ/IkpArL0WRMxTHU20htLI6t1Nh848WOI/2mxeXc1qOpnrWe+V3wvgWGYcBIDG9oiRyt+Rm/QO6eNS3GJiPzBvqlweQduoelInL2mRA7cUe3BB/h2oSKRlEqzZ1DSomPQlbjBnYU+QP6vsd2u73Dbre79282xOt5w/N+v0dnKF2S+37X7Ou5/zKkTpR3suBG9C74FXxI+B1Vnyv8D1x2KsSd4+sIsyx0uPk2n0Fyry++76//Ur7aXzvVbsU+8wYVAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="11"
+        title="11"
+        src="/static/c03c0f67b84049b30f6f6f05d7072d22/78d47/11.png"
+        srcset="/static/c03c0f67b84049b30f6f6f05d7072d22/56d15/11.png 200w,
+/static/c03c0f67b84049b30f6f6f05d7072d22/d9f49/11.png 400w,
+/static/c03c0f67b84049b30f6f6f05d7072d22/78d47/11.png 800w,
+/static/c03c0f67b84049b30f6f6f05d7072d22/64756/11.png 1200w,
+/static/c03c0f67b84049b30f6f6f05d7072d22/b04fb/11.png 1398w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>到此，我們就完成了 Dapr 的第一個練習。</p>
+<p>但不知道大家由沒有注意，其實不用把 Worker 的 Dapr run 起來，也是可以直接透過 <a href="http://localhost:3500/v1.0/invoke/api/method/api/orders">http://localhost:3500/v1.0/invoke/api/method/api/orders</a> 呼叫。那透過 Dapr run 起來的 Worker，為什麼也是直接打 <a href="http://localhost:3500/v1.0/invoke/api/method/api/orders">http://localhost:3500/v1.0/invoke/api/method/api/orders</a> 呢？這樣和直接呼叫有什麼不同。</p>
+<p>其實小弟這邊也有點困惑，但官方的解釋是說，當 Worker run 起 Dapr 的時候，打 API 的 Dapr ( <a href="http://localhost:3500/v1.0/invoke/api/method/api/orders">http://localhost:3500/v1.0/invoke/api/method/api/orders</a> ) 其實還是有經過 Worker 的 Dapr 的，所以當我們使用 Dapr run Worker 這個應用的時候，其實背後 Dapr 就會在旁邊監控與託管。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/c3814a4afeadb38a271e9139b143cdb9/0c665/service-invocation.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 35%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABcRAAAXEQHKJvM/AAABfklEQVQoz32Rz0rDQBDG81Z6Ee/iyYPPoKAi1oPgQfAJVPQkigdBxIu0bEEQbT1UtNYKKuihxdY2iWltS5vsv0wyTlIr1YMLP+bb3W9nZ3eMauVt0XI6mdvH9+Tdc41ZTpv5WjLP85jruqxHSMFZpd5k+ad3ViCP0+wwPeQhkkKIy1KptGSAaB3my4gTK7c4tVbEi4c2DkYAgNoPYn2SdXBy9R6n1x8w/9r75VFKxdq27SMjlK3d09wnjsxk5NhcFo7P34D2oNvjQAawPxo0D2Hr5BVGZ7MwvnAF6Vyt73H7HsdxZJTQsqx9g3ebe09VjfMbBT+xXcTrxw8MwxA9LlFKQZHHt5/d1HFh8x6Xd4pYeGkgQBB7BO1zzv3vhAdG3TR3o4nLtey6CoIgBHpmjFA+KA1EQOsBdD0FntBxdQPo8oi4QtM09w3Lsg8H/+H/QdIRHfa1jv4L/x9U4ZFRLpcXpZRZKj2lpEj/oKLIh3Qf8qX5H6jbKcqRoS4nvgBinfmt31srVgAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="service invocation"
+        title="service invocation"
+        src="/static/c3814a4afeadb38a271e9139b143cdb9/78d47/service-invocation.png"
+        srcset="/static/c3814a4afeadb38a271e9139b143cdb9/56d15/service-invocation.png 200w,
+/static/c3814a4afeadb38a271e9139b143cdb9/d9f49/service-invocation.png 400w,
+/static/c3814a4afeadb38a271e9139b143cdb9/78d47/service-invocation.png 800w,
+/static/c3814a4afeadb38a271e9139b143cdb9/64756/service-invocation.png 1200w,
+/static/c3814a4afeadb38a271e9139b143cdb9/42cbc/service-invocation.png 1600w,
+/static/c3814a4afeadb38a271e9139b143cdb9/0c665/service-invocation.png 2043w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>總之，暫時也只能相信他了 XDDDD，如果有錯也請多包涵了。</p>
+<h2>停止 Dapr</h2>
+<p>如果要停止，可以下，就可以停止。</p>
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash">dapr stop --app-id api</code></pre></div>
+<h2>備註</h2>
+<p>因為了簡單示範，像 HttpClient 就沒使用 HttpClientFactory 來建立，所以在真實環境，還是要好好注意效能的議題喔。</p>
+<h2>後記</h2>
+<p>這一篇，其實寫的有點久，雖然已概念來說·不算難，但整理資料花了不少時間：但不管怎樣，從這個簡單的練習，就可以看到 Dapr 的強大之處，但 Dapr 其實還有更多功能，後續再讓我們繼續看下去。</p>
+<h2>參考資料</h2>
+<ul>
+<li><a href="https://dapr.io/">https://dapr.io/</a></li>
+<li><a href="https://github.com/dapr/docs/tree/master/overview">https://github.com/dapr/docs/tree/master/overview</a></li>
+<li><a href="https://github.com/dapr/docs/tree/master/concepts/service-invocation">https://github.com/dapr/docs/tree/master/concepts/service-invocation</a></li>
+</ul></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2020/03/13/Dapr-Hello_Dapr/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>

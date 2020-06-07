@@ -1,710 +1,461 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Azure,JavaScript,Node.js,Release Management,VSTS,CI,CD," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="前言在上一篇了解了 new Build 後，我們這篇就來實際使用 Build 來佈署 Node.js 看看。 而開始前，我們先來看一下我們的環境，目前小弟的 Source Code 是放在 GitHub 上，而我希望透過 VSTS 的 Build ，來將我的 Node.js 佈署到 Azure Web Site，而這篇文章，可以達到這個目的。 另外，在開始之前，有一些事情概念的事情需要注意。 因這">
-<meta property="og:type" content="article">
-<meta property="og:title" content="VSTS - VSTS Build - Node.js 前篇">
-<meta property="og:url" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="前言在上一篇了解了 new Build 後，我們這篇就來實際使用 Build 來佈署 Node.js 看看。 而開始前，我們先來看一下我們的環境，目前小弟的 Source Code 是放在 GitHub 上，而我希望透過 VSTS 的 Build ，來將我的 Node.js 佈署到 Azure Web Site，而這篇文章，可以達到這個目的。 另外，在開始之前，有一些事情概念的事情需要注意。 因這">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/01.png">
-<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/02.png">
-<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/03.png">
-<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/04.png">
-<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/05.png">
-<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/06.png">
-<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/07.png">
-<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/08.png">
-<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/09.png">
-<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/10.png">
-<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/11.png">
-<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/12.png">
-<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/13.png">
-<meta property="og:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/14.png">
-<meta property="article:published_time" content="2015-12-01T23:20:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:38.991Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="Azure">
-<meta property="article:tag" content="JavaScript">
-<meta property="article:tag" content="Node.js">
-<meta property="article:tag" content="Release Management">
-<meta property="article:tag" content="VSTS">
-<meta property="article:tag" content="CI">
-<meta property="article:tag" content="CD">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/01.png">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> VSTS - VSTS Build - Node.js 前篇 | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                VSTS - VSTS Build - Node.js 前篇
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-12-01T23:20:00+00:00" content="2015-12-01">
-              2015-12-01
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/12/01/VSTS-Build_for_Nodejs1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/12/01/VSTS-Build_for_Nodejs1/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在<a href="http://skychang.github.io/2015/11/30/VSTS-Build_Setup/">上一篇</a>了解了 new Build 後，我們這篇就來實際使用 Build 來佈署 Node.js 看看。</p>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">VSTS - VSTS Build - Node.js 前篇 :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="前言 在上一篇了解了 new Build 後，我們這篇就來實際使用 Build 來佈署 Node.js 看看。 而開始前，我們先來看一下我們的環境，目前小弟的 Source Code 是放在 GitHub 上，而我希望透過 VSTS 的 Build ，來將我的 Node.js…"/><meta data-react-helmet="true" property="og:title" content="VSTS - VSTS Build - Node.js 前篇"/><meta data-react-helmet="true" property="og:description" content="前言 在上一篇了解了 new Build 後，我們這篇就來實際使用 Build 來佈署 Node.js 看看。 而開始前，我們先來看一下我們的環境，目前小弟的 Source Code 是放在 GitHub 上，而我希望透過 VSTS 的 Build ，來將我的 Node.js…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="VSTS - VSTS Build - Node.js 前篇"/><meta data-react-helmet="true" name="twitter:description" content="前言 在上一篇了解了 new Build 後，我們這篇就來實際使用 Build 來佈署 Node.js 看看。 而開始前，我們先來看一下我們的環境，目前小弟的 Source Code 是放在 GitHub 上，而我希望透過 VSTS 的 Build ，來將我的 Node.js…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2015/12/01/VSTS-Build_for_Nodejs1/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">VSTS - VSTS Build - Node.js 前篇</h1><div class="post-module--meta--3YtjE">01 December 2015<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/Azure/"><span class="post-module--tag--16U9p">#<!-- -->Azure</span></a><a href="/tag/VSTS/"><span class="post-module--tag--16U9p">#<!-- -->VSTS</span></a><a href="/tag/CI/"><span class="post-module--tag--16U9p">#<!-- -->CI</span></a><a href="/tag/CD/"><span class="post-module--tag--16U9p">#<!-- -->CD</span></a><a href="/tag/JavaScript/"><span class="post-module--tag--16U9p">#<!-- -->JavaScript</span></a><a href="/tag/Release-Management/"><span class="post-module--tag--16U9p">#<!-- -->Release Management</span></a><a href="/tag/Node.js/"><span class="post-module--tag--16U9p">#<!-- -->Node.js</span></a></div></div><div><h2>前言</h2>
+<p>在<a href="http://skychang.github.io/2015/11/30/VSTS-Build_Setup/">上一篇</a>了解了 new Build 後，我們這篇就來實際使用 Build 來佈署 Node.js 看看。</p>
 <p>而開始前，我們先來看一下我們的環境，目前小弟的 Source Code 是放在 GitHub 上，而我希望透過 VSTS 的 Build ，來將我的 Node.js 佈署到 Azure Web Site，而這篇文章，可以達到這個目的。</p>
 <p>另外，在開始之前，有一些事情概念的事情需要注意。</p>
 <p>因這篇是使用 Node.js 所以可能比較看不出來 CI 的效果，但有興趣朋友，後續可以在接 Test ，目前這篇並不會談到 Node.js 的自動測試，另外，在這篇，後續則是直接 Deploy 到 Azure ，也暫時不會談到 Release Management ，這篇是初階的引導班，未來會在講該怎麼和 Release Management 整合。</p>
-<h2 id="環境需求"><a href="#環境需求" class="headerlink" title="環境需求"></a>環境需求</h2><p>因使用 Node.js 5.0.0 版本，所以要自行建立 Build Agent，請參考<a href="http://skychang.github.io/2015/11/30/VSTS-Build_Setup/">上一篇</a>文章建立 Build Agent</p>
+<h2>環境需求</h2>
+<p>因使用 Node.js 5.0.0 版本，所以要自行建立 Build Agent，請參考<a href="http://skychang.github.io/2015/11/30/VSTS-Build_Setup/">上一篇</a>文章建立 Build Agent</p>
 <p>因為要佈署到 Azure，請於 Build Agent 這台 Server 安裝 Azure PowerShell</p>
 <p>因為要使用 VSTS 的 Build 功能，請先建立一個 Team 專案 ，亦可以參考<a href="http://skychang.github.io/2015/11/30/VSTS-Build_Setup/">上一篇</a></p>
-<h2 id="設定流程"><a href="#設定流程" class="headerlink" title="設定流程"></a>設定流程</h2><p>一開始，我們要先設定 Build 的流程，也就是設定一步接著一步的步驟。</p>
+<h2>設定流程</h2>
+<p>一開始，我們要先設定 Build 的流程，也就是設定一步接著一步的步驟。</p>
 <p>這邊，我們先在 Build 的選單下，按下 + 鈕，透過此按鈕，來新增新的 Build 定義。</p>
-<p><img src="01.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/cac195f4d2f9401bd3ab7f55a3305c28/6b882/01.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 51.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABL0lEQVQoz62S60rDQBCF96EVLShe8Fl8Aa0WfAj7V2MTpFiUtkn2vtnd5DibWogFQawDH4dJljMnmWUXkxkuHwqc389wcD3F4U2Go9sXjO4KjMY5aY7j8ewHcpxNcpzcPuFqkuF0/AyWvZVYfixRTh9RZRl4XaNerVCv1xBVRSgYaeC0gdUbHWKUhhKqR3AJJqVGWRTgr3OYCHBlUZJBKTS0CzC+gyVc2GB3dItpIpSLYEoICMHRV9eiaRpIbeGcRUd9om1J26Txq/+uIXhY5+C8B6tqjvniHT60iC3oZSRThxjT4a7XRDINIfTPwqAfahrKlHFYrCSkJSOK7slwn2LONajpZ8YUj6qfRCn+Chu6d/9hOGy2Cff65F3DtACXNvYLrLXgnNMtEfC04RTmEzq9AA/E2C7hAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="01"
+        title="01"
+        src="/static/cac195f4d2f9401bd3ab7f55a3305c28/78d47/01.png"
+        srcset="/static/cac195f4d2f9401bd3ab7f55a3305c28/56d15/01.png 200w,
+/static/cac195f4d2f9401bd3ab7f55a3305c28/d9f49/01.png 400w,
+/static/cac195f4d2f9401bd3ab7f55a3305c28/78d47/01.png 800w,
+/static/cac195f4d2f9401bd3ab7f55a3305c28/64756/01.png 1200w,
+/static/cac195f4d2f9401bd3ab7f55a3305c28/6b882/01.png 1270w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>接著，我們可以看到，官方已經提供了許多樣板，但很不幸的，Node.js 不在預設樣板裏面，所以我們先選擇空的，等下我們在自己新增。</p>
-<p><img src="02.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 602px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/6b275040005c62d84dcf9137c39d4c9f/d1b94/02.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 100%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACjklEQVQ4y52U21LbMBCG/f53fYq+BG3pcFOYzACFnCn4JNuSHJ/kc5z8XSlNOm4JZXrxzSqStVmt/l9WwHwEvgffdRAGPkUXjuMiSRLkeY4sy97NZrOBFSQl1pECSyqseYmXuELfb7Hd/h+Wqhr8kBVkUYOJBNEmx27Y/pvd8BfDMMDKKJGrKxQFGE+JDDxtIPMOMmtPCENj0OtRUp/gRLipkZcdrMVjgI8fLnFx9YDLmxm+XM/w7buDm0cP14SON1MPkxnDZB4YblcCC0+NmDoFJW+owqyC62aYP4dYEEubY7rysXyJsHJo43Nk5jxRjmBU0ZFg08CXNTJd4YyO+2kpIEIGFgTwPR88ilDXNZqmOcWqqlATenzs12tYnCqc2wEEjwiJMAwRxzHKsoRSylAUBQqKeq6qamxp49lb1jKZuDkkDxFSZVJKtF03+qjX9L3hODecSWo9CYWvD8/w7BfYtkOituH7PjzPhU1jHT367ZLgPTKBbdvISPC73W6U/HTktu3QtD1kLM3x9Add1xra9sBx3FHluodd340qHCVcBiUu7kMwqkBXIal/ByulSNPU2E/HE7RW1835I3f0zwP1piors1k33iz+0bN3W083fA+M2O33Y6ia92COrLhAYrsogghlKKBGcKhIoqw7on8TRbQdVehOV/h8dYfJo4vbuUcw3C0O3K85nqYO1k6CFfV6xdSrrNnBfpJ8buUeQ+wEiL0QwmaQND7hBkgchjSvkZKtUnWepGhRNb2+FLISyeJV9BpdjHmeBi2P34yeMOrd3tiRjqxtVZJHz1JW5uY1WoNGh6RHbUGtCvXLknqs/W7pZ9vojjT21vN+1GSWZyaJdgvnHEIIsxaRbTU/Adtq9lumt7p/AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="02"
+        title="02"
+        src="/static/6b275040005c62d84dcf9137c39d4c9f/d1b94/02.png"
+        srcset="/static/6b275040005c62d84dcf9137c39d4c9f/56d15/02.png 200w,
+/static/6b275040005c62d84dcf9137c39d4c9f/d9f49/02.png 400w,
+/static/6b275040005c62d84dcf9137c39d4c9f/d1b94/02.png 602w"
+        sizes="(max-width: 602px) 100vw, 602px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>接下來，選擇 source 來源，我們這邊當然就是選擇 GitHub，而 Default Agent queue 則讓我們選擇，要使用哪一個 Agent Pool，還記得嗎?，上一篇我們將我們自己的 Build Agent 放到 Default 這個 pool 裡面，所以這邊我們就選擇使用 Default；最後，如果你希望簽入到 GitHub 的時候，就自動觸發此 Build ，那就要勾選最下面的選項。</p>
-<p><img src="03.png" alt=""></p>
-<p>完成之後，我們持續設定，接下來，我們要加入好幾個步驟，第一個步驟就是 npm install ，畢竟應該不會有人把 package 也放到版控吧…所以當我們取下 source code 的時候，第一步就是先 npm install，如下圖。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 601px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/f21610758fd4b059f236b3ab36dbef5e/f6e13/03.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 100%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB9UlEQVQ4y9VVSW4bMRCc/78hh5wC5A0B8oLYSHLJwZIsabTMvi/cpEo1PTLGMCLYgi85FNijJovVC1vB/hhhuz9isw0RhiHW6423i6JAXdeoqurNyPMcga4S6N0fGK72dIY1BoaQ1Vr7bgRODSRLodoSSmsYwjkHdz572NPpKvwe7hcyORc4qmr7HlleII4i1E0DZzSGwwFddITKUugse408oy/DeDzAtC3Ms0KyDiRsSNTSISod0a8WSJcPULzEJDFMHPvVTjBxBJ2mGHYhbFPDTCoDH/ssX2bKoSgYD3uvQIlSYuB3v9uhZ/F0yRSFW7Q/76HVOMshmfu+Q8WKSrhN18FSoZClxFCVcIzAUn3LyudViywu/AXJ1y8o7u/gALgLoSTUicKRtyjlITm0ZQGXsPJp8hSy5G2zRv39G7rfv/x+zaKcZmS+KCca9WqFcvGA+nGFarlEuVyg4eFSvteP3h63G0SfP6G4+8EQ1VMXXNIloi45FEMxHyPVjKzomAoSqGn1Nn2GKdE87BVJy8x6z83bxhtTz12F9JwcnAo4J5kjuDjeg3+RPRN+JP4DwlsmyvVpc7Oal0V50Ta3VNja12ReYce3+xbIJBLIVOr5ttu2mdB6/+X34D3jPeN7PnBOyt9DUeRI+MajKPb+iGMu5oj7CyluD6oKuahRAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="03"
+        title="03"
+        src="/static/f21610758fd4b059f236b3ab36dbef5e/f6e13/03.png"
+        srcset="/static/f21610758fd4b059f236b3ab36dbef5e/56d15/03.png 200w,
+/static/f21610758fd4b059f236b3ab36dbef5e/d9f49/03.png 400w,
+/static/f21610758fd4b059f236b3ab36dbef5e/f6e13/03.png 601w"
+        sizes="(max-width: 601px) 100vw, 601px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>完成之後，我們持續設定，接下來，我們要加入好幾個步驟，第一個步驟就是 npm install ，畢竟應該不會有人把 package 也放到版控吧...所以當我們取下 source code 的時候，第一步就是先 npm install，如下圖。</p>
 <p>注意，這邊 UI 沒設計好，所以你按下 Add 的時候，感覺沒啥反應，但其實已經在背後增加了一個流程了，如果不小心按太多次，等下在移除流程即可。</p>
-<p><img src="04.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/da2de160fd1d187356625ba0239bbe3e/6b882/04.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABnElEQVQoz32SYW+bMBRF+f//p1/aTpM6KW2XaZPWlABxwGAMIQmQkISAIbt9mJIlatUPR9dY9vHzM8bN4wvuf3ZMcPs8wf3TX3hyiXiZQlgWjROEywwiSXXG6VYjVxs8/LHw/ZeJb93+5x5j/MowsRimzhwm5cuUoawbQFU4jH8giyWK1YpYYp+l+HcscSKq7QaO48Ke+3DesRmHIUMBQYRhCLlYYD61sRYxckrvYYQ8SVCmKdR2C1UUfRK7RQLuepBRBCllD42NGWOwHRsRyST3wO5ucSh2OB4rTGWGiBbmWYZNnqMgUaOUZr/fww/eCxmEhOGYJn4/jjE3bfDRCI41Q3M6QbUn8CTHOl1jR5vLskTTNGjbFg1xoO9O2EmiiyqNwON0TQf+jEGKEC4PoOpab65qpXNAy7okFBGI8CwcMLhPDWUuhIwQxzFcOkApdSUZOM/pbK+EQxqDeZhwPV8Lz9VcCK/kbfuhQn3ly4b2Qo6qqnTjlaq1/DNqaot+FPH/YXSFH4U+fCHpV4oQfIHnh/A4rfV7hOgf6A1lduh1T3x+4gAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="04"
+        title="04"
+        src="/static/da2de160fd1d187356625ba0239bbe3e/78d47/04.png"
+        srcset="/static/da2de160fd1d187356625ba0239bbe3e/56d15/04.png 200w,
+/static/da2de160fd1d187356625ba0239bbe3e/d9f49/04.png 400w,
+/static/da2de160fd1d187356625ba0239bbe3e/78d47/04.png 800w,
+/static/da2de160fd1d187356625ba0239bbe3e/64756/04.png 1200w,
+/static/da2de160fd1d187356625ba0239bbe3e/6b882/04.png 1270w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>當 npm install 完後，該做甚麼事情哩??..當然就是透過 gulp ( or grunt ) 來進行 Node.js 的流程處理。 ( 如果不知道甚麼是 gulp 的朋友可以參考<a href="http://skychang.github.io/2014/11/02/JavaScript-%E4%BD%BF%E7%94%A8gulp%E4%BE%86%E5%BB%BA%E7%BD%AEJS/">這篇</a>)</p>
-<p><img src="05.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 651px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/4ca415d7bca574aa149816fb1d63d9af/b7e05/05.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 92%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAYAAABb0P4QAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAC90lEQVQ4y21UXW+rRhT0//8H/QfVlSq16svta5RGqdQbNUnTxHFisI0xGLzALl+LwdM5a+MkN/dhtGZ3GeacmePJah1jGYRIdhnyQkPrlmiQ5QWhuWc+oNDHVc5GjGc7lWNSlTW6psbethh6YJN9QxD/A5UWULsdbNvC8qxtGjQONZ8t+r5Hv9/znR51XSPPcyilMNlOPaynPkyawewBpQMkykdI5ZvNBuEmRBRtEEcRClaQZRmqqnKEexLK2nUd92p4nodJHqXYRgrVyww2r7A1M6zjJyTxjkQRjDFOgag7HA4YhsFByEbCtpU2afi+j4mpLRSVFf89wD5OEaop/MUd1RinptDSy9y9MJKMROMqHyuK4khYVi0i08EEa5Q3f6GYaSgvQVFqR6JZprwk6lzfTnhPLITSQ0fYtB3oBWyaQF9fkahFugqxy5QrVfolJbXOHOsgPfukMC/eCAfaK26W19d4nd0ifLolceX6J6WMqyjO1GdTPivkF9lGVH9e4Xn5Nx7DZxSZpsIKFYmFoKaLne3OcXlfsosN++2Ly409EkrZ5vIS4f0FNmpJMyqUJDQk1KUhSrRyj73c0+V+OK18lv2KpFLFWeFAQv3tBstffkLk30JtIuhYEKNMEhxILuhJvmcLeiOrds8lByBjZht+9KhwdI2kwc9f8PDbVzzNI7xMA7zM1pg9B5jNQrfOXyMsFimROPh+iijYYksji1VwUtgf+yGBXf36O+7/uMDddI27+zlu71+JOe7+9fH0vMaLt8VilcFbqjNWqwRLj4SM3geFBxL6nJhXhjxd+Nitloi9Oba+h4QOak6O5hhqjqNlrHqGXlAmW6ggQM02nBS+BbVmfGQyyro5GXBA1w9oeSbNF1i5ezJkNMme3J60du9y6Eh52IQxsnCNlP8cJRtumD3JmZth3hnx9m8zMFIVY5MfCau6Zb7seQoqXbrcSYglBoKS7tl3d76HTJGQyQBMVHacgDO4aU4QIoH8/nDnB0iT1E3L/yQWXeNYcPX/AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="05"
+        title="05"
+        src="/static/4ca415d7bca574aa149816fb1d63d9af/b7e05/05.png"
+        srcset="/static/4ca415d7bca574aa149816fb1d63d9af/56d15/05.png 200w,
+/static/4ca415d7bca574aa149816fb1d63d9af/d9f49/05.png 400w,
+/static/4ca415d7bca574aa149816fb1d63d9af/b7e05/05.png 651w"
+        sizes="(max-width: 651px) 100vw, 651px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>當該捆綁，轉換等等的過程都好了之後，下一步要做甚麼呢??，當然就是要發佈到 Azure WebSite，所以最後一步驟，就是把 Azure Web Site 流程加上去。</p>
-<p><img src="06.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 650px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/54eda995d9c1f9156463479544e333cb/663f3/06.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 92%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAYAAABb0P4QAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACnElEQVQ4y61UXW/TQBD0//8hPIOE+oJ44wGVioc0og1p0zSNHX+efbbPzp2TDLOXJjUFJJCINLrYd7s3uzPrIE1ThFGEqqrQtC2caWCJumnQ/ANaxmqtEVjnYN2AYRiAncNXPWCSatRFhrwokGUZ4jhGWZb+zJ8ghLquQ9D1FqrpMex2TDjgmzKYZxWqIkdRKH97rWv0fY8dz0iwrGPIO2MMttstgt4OUK31G/J7uJtj/rhCkaWena402ueyhuElwQmn5zNDY3okmca233qGs8bhhs9llmAjpSrF/hjfI2F5TPJrQtn3DKvFIxa3K6jVBr2xuKwGXCcl0nDtE54aLhDRxkn8/+e1qWuS6hEMFKWZTmGpNmVB3/XQ3BRBSpZR1RoFWQo6MrAMdpJovz9jIPrnvWDPJF2aQF28x57BYVIgegqhohAF7ZSHIbL1E9RmgypJoNlbw+SDIdv2CNc2fq/TFRlaiwOTqi+XMB8u8GmZ4+o+RLm8R/ywQLzguligZvldnqPl5YZiObI/g5YqSaBdrxH4frBs0XhH6eMkxiqOkMxm2Nx9RzSfIby9xfrmBhUDagY2mwiOLJ0qjmB7trSZjTdMeLKAdd42kzdTXL+botApkihGxlISlpuxx6ap4dirvT9vf4Imy97QNmdPOZHkgKuPD5h8XqLUBVKWlrBEGU+ZFFFcrOGFeGXss21OL0Q5Fo23kxwfriPUKqVtEsRkl5ClYmmaE6M4PYa+HE+NrDLH4tNg7KnD4YCn1RqRqJtnnplMi6DrjqZ27Pc40Wmt6+N4BuMxYj6sVkuE4eNxhmkjudl/ifh8LPH3H4embl4YjnshLOW3Z59ecPDr64/CGBInZwJLhcaQW16/+xuIILIGUvv/gHcCW/MDMbJm8LnQsc0AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="06"
+        title="06"
+        src="/static/54eda995d9c1f9156463479544e333cb/663f3/06.png"
+        srcset="/static/54eda995d9c1f9156463479544e333cb/56d15/06.png 200w,
+/static/54eda995d9c1f9156463479544e333cb/d9f49/06.png 400w,
+/static/54eda995d9c1f9156463479544e333cb/663f3/06.png 650w"
+        sizes="(max-width: 650px) 100vw, 650px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>完成後如下圖，而這代表甚麼，這代表著當我們執行 Build 的流程，也就是說，當我們從 GitHub 下載完 Source Code 之後，會先執行 npm install ，來將欠缺的 package 給裝上去 ，接著，會執行 gulp 來跑流程，看是要將 ES6 、或是 TypeScript 轉成標準的 JavaScript ，又或著是打包 js 、 CSS 等流程，甚至我們還要在 gulp 設定壓縮成 package.zip ，來給 Azure PowerShell 上傳；最後一個步驟，當然就是使用 Azure PowerShell，將剛剛壓縮好的 Package.zip 傳到 Azure 上，並且進行佈署。</p>
 <p>所以，這裡的每一個流程，我們都可以自行的組合，已完成我們所需要的功能。</p>
-<p><img src="07.png" alt=""></p>
-<h2 id="設定-Azure-帳號"><a href="#設定-Azure-帳號" class="headerlink" title="設定 Azure 帳號"></a>設定 Azure 帳號</h2><p>接下來，我們要在 VSTS 裡面設定 Azure 帳號，我們可以直接從下圖的位置，打開設定頁。</p>
-<p><img src="08.png" alt=""></p>
-<p>接下來，新增一個 Azure。</p>
-<p><img src="09.png" alt=""></p>
-<p>然後把必要的資訊填入即可，相關資訊可以從 Azure Portal 取得，如下圖。另外 Connection Name 可以隨便填。</p>
-<p><img src="10.png" alt=""></p>
-<h2 id="設定-GitHub-帳號"><a href="#設定-GitHub-帳號" class="headerlink" title="設定 GitHub 帳號"></a>設定 GitHub 帳號</h2><p>接著，我們也把 GitHub 設定設定，設定的方法和 Azure 很類似。</p>
-<p><img src="11.png" alt=""></p>
-<p>這邊只要按下按鈕，就會跳出視窗驗證。</p>
-<p><img src="12.png" alt=""></p>
-<h2 id="繼續設定-Build-流程"><a href="#繼續設定-Build-流程" class="headerlink" title="繼續設定 Build 流程"></a>繼續設定 Build 流程</h2><p>接著，回到主線，現在我們就可以從 Azure Subscription 選到剛剛新增的 Azure 帳號，然後我們就可以填入目標 Web Site 的名稱 ( 他不會自己帶，目前只能自己 Key )，這個名稱就是建立 Web Site 的時候給的名稱。</p>
-<p>地區的部分，可選可不選…小弟是都有選就是了…</p>
-<p>最後，最重要的是 Web Deploy Package 的路徑，這邊要 Key</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(Build.StagingDirectory)&#x2F;package.zip</span><br></pre></td></tr></table></figure>
-
-<p>這樣才找的到 Package。</p>
-<p><img src="13.png" alt=""></p>
-<p>接著，我們跳回到 Repository 的地方來檢查一下，GitHub 有無正確對應到你要取出的 Repo。<br>同樣的，我們可以從 Connection 來選擇剛剛新增的 GitHub，接著他會自動帶出你可以選擇的 Repo，並且你可以選擇你要的分支。</p>
-<p><img src="14.png" alt=""></p>
-<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>基本上到這邊，算是針對 Build 的設定完成，但實際上，我們還必須針對 gulpfile.js 和 WebConfig 等等進行設定。</p>
-<p>下一篇，繼續~~</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a href="https://msdn.microsoft.com/en-us/Library/vs/alm/Build/agents/windows" target="_blank" rel="noopener">https://msdn.microsoft.com/en-us/Library/vs/alm/Build/agents/windows</a></li>
-<li><a href="https://www.visualstudio.com/en-us/get-started/setup/get-more-build-or-load-testing-vs" target="_blank" rel="noopener">https://www.visualstudio.com/en-us/get-started/setup/get-more-build-or-load-testing-vs</a></li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Azure/" rel="tag">#Azure</a>
-          
-            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
-          
-            <a href="/tags/Node-js/" rel="tag">#Node.js</a>
-          
-            <a href="/tags/Release-Management/" rel="tag">#Release Management</a>
-          
-            <a href="/tags/VSTS/" rel="tag">#VSTS</a>
-          
-            <a href="/tags/CI/" rel="tag">#CI</a>
-          
-            <a href="/tags/CD/" rel="tag">#CD</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2015/11/30/VSTS-Build_Setup/" rel="next" title="VSTS - VSTS Build 設定篇">
-                <i class="fa fa-chevron-left"></i> VSTS - VSTS Build 設定篇
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/12/02/Azure-Setup_Nodejs_Version/" rel="prev" title="Azure - 更改 Azure 上 WebSite 的 Node.js 版本">
-                Azure - 更改 Azure 上 WebSite 的 Node.js 版本 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#環境需求"><span class="nav-number">2.</span> <span class="nav-text">環境需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定流程"><span class="nav-number">3.</span> <span class="nav-text">設定流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定-Azure-帳號"><span class="nav-number">4.</span> <span class="nav-text">設定 Azure 帳號</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定-GitHub-帳號"><span class="nav-number">5.</span> <span class="nav-text">設定 GitHub 帳號</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#繼續設定-Build-流程"><span class="nav-number">6.</span> <span class="nav-text">繼續設定 Build 流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">7.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">8.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/f1780e0f858db6ab66f1f863f0d61576/8c258/07.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 44.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABIUlEQVQoz41Sy07DMBD0/38Od76gN06IAzRIiKrESZM69tre9bA2bQWlQUSajJzY89jEkDticQ5EhBACvCLGCBH5hf9cJk8z4rI0Ie99E190TRSbSRVPKTXcMrmGmSkgMSMnAoqAyYNzPPmVJrioUdY9pZQLbonV52boe7x3O4xeMIeCmUrjQ137jGmaYO0AltIsaurz4Wtk3WP6pxc83N3j0Wa8DoJuLArB1jLehtjmam0PUm7JeL1uNTW032O32YCDh55WKEe6DLkmqinrfKsga/W1hK3yBwPP1gHbLaTrUIYR5ehQC0qtkSKc/gmiQt8rr35llT2NHxc+o747UsLB6R+gnDK3hPxHbVP1ytftJzc9QUiMkAVRxbIKYaXqGZ9UA8JRgBbXIQAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="07"
+        title="07"
+        src="/static/f1780e0f858db6ab66f1f863f0d61576/78d47/07.png"
+        srcset="/static/f1780e0f858db6ab66f1f863f0d61576/56d15/07.png 200w,
+/static/f1780e0f858db6ab66f1f863f0d61576/d9f49/07.png 400w,
+/static/f1780e0f858db6ab66f1f863f0d61576/78d47/07.png 800w,
+/static/f1780e0f858db6ab66f1f863f0d61576/8c258/07.png 963w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
   </a>
-</div>
-
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2015/12/01/VSTS-Build_for_Nodejs1/';
-      var disqus_title = 'VSTS - VSTS Build - Node.js 前篇';
-      var disqus_url = 'http://skychang.github.io/2015/12/01/VSTS-Build_for_Nodejs1/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+    </span></p>
+<h2>設定 Azure 帳號</h2>
+<p>接下來，我們要在 VSTS 裡面設定 Azure 帳號，我們可以直接從下圖的位置，打開設定頁。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/e276a31ce87a7aca7e64fedc25b5ecd7/79e31/08.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 47%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABeUlEQVQoz42Sa0vDMBiF8/9/k4oIipfpXOcHp25sU3ZrabuuSZPmcjzZOlBENPCQNs173uScClVVUFJCaw2lGqimgTEG3vsf/GcIW5QwFGkiSkHV9f45NojCOtK2MNYihEBh9xPXwaaiUPJQwELnLMUVWhbH4SnAD2AHhEbDWoe4RA3EAx8J3eniLFSeoU6zQ3HoPnEOHfVyieL1DWq12gv6sOGGSErWZAWTzZHPJpDbLYR5eUF630Pziydb2pCTtnuviynyyR3kvI/d0znKh1NU/WvsNhO8z2YQ5WiEj6srmDyHzTLYNEVbFDC0omVY9XLB4jn0+A27xz7K5BLV6BZymkDvFrCGt0MJFyQq4yCGz2MMegMUZydYX1xg3ethlSRY8OTL4RCbYYL57Q2y2RSOXnuv6BUD4pkDFC2Q9LSm/wqWwQhPwx2xNN8afZiZsOM147rhJnlMmVd2jkk7j+APln8nQPz1X2mKVjTbdcmb2MzZL7l+BfgEnGq4qpYq4FkAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="08"
+        title="08"
+        src="/static/e276a31ce87a7aca7e64fedc25b5ecd7/78d47/08.png"
+        srcset="/static/e276a31ce87a7aca7e64fedc25b5ecd7/56d15/08.png 200w,
+/static/e276a31ce87a7aca7e64fedc25b5ecd7/d9f49/08.png 400w,
+/static/e276a31ce87a7aca7e64fedc25b5ecd7/78d47/08.png 800w,
+/static/e276a31ce87a7aca7e64fedc25b5ecd7/79e31/08.png 951w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接下來，新增一個 Azure。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/e5797a79731621ac43a81790c7c2094e/6b882/09.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 49%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABKUlEQVQoz52SvU7DMBSF/agVK2Jk4wVAqIKJR2AABiQkBqYO/EiMMCFEoKGhIQk3bRKniR0fbtwWRSFIEVf65Bvb5/jYiti5mmB35GFv9I79ax8Hd6FleBvwGOCQGd4EOLoP8eglOH4gbF24GJy8YOPMsQxOHWyev2H70oWIxi781wlCZwxUiimX/LMEJRny6QcoIJA0oHiGqe9DVxUqY3g0tm+ianSL1ZrgTFg8P0ElcxjusyxDTASZ5yiKBVPAsHFfRDDx+coem8xt5DRNEX0R0kzaXkqJik/ubZiEEeLPCEQzTmisOM0VU6JQmjctzXq/YfOjFtaGXdU7IVZN09B0GKzX2wf8Smg6DJviLlFzTmsNpdTPO4u2uG341/XXVZal/RNq03r+G2sNBeCReglfAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="09"
+        title="09"
+        src="/static/e5797a79731621ac43a81790c7c2094e/78d47/09.png"
+        srcset="/static/e5797a79731621ac43a81790c7c2094e/56d15/09.png 200w,
+/static/e5797a79731621ac43a81790c7c2094e/d9f49/09.png 400w,
+/static/e5797a79731621ac43a81790c7c2094e/78d47/09.png 800w,
+/static/e5797a79731621ac43a81790c7c2094e/64756/09.png 1200w,
+/static/e5797a79731621ac43a81790c7c2094e/6b882/09.png 1270w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>然後把必要的資訊填入即可，相關資訊可以從 Azure Portal 取得，如下圖。另外 Connection Name 可以隨便填。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/8516e8a4065ff82db8ec39ccf0f74d7d/a4588/10.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 42.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACB0lEQVQoz22SS28SYRSG51e0QiIwzDDcymAqVK3WBpO6MnHjL2iMOxemUhqX/gq3Ghcu/ANutWl0peywIHdouQxtqJTr9PEMYqOJX/LknHyLJ+c776fouobf78en+liJrmDG49Kr+AVN03EtL7H99Dn5ZpdCqcyHbyXe7n/nzafcJa8/5nh3cMj7z4cooVAIn883lwYCAXRdn/eq6pc+wNLyFV7s7dE/PaFWq9I5btBrNThpNef05jSw5N6SXrm2uophGKgi1cMRoteTqJEoRixOMGbi8vp4ls7QPDoin89TKPygWqtRcaj+plavU280KFcqKLfWb2PGYni9HpIiu5NIsBmN8GAtSSpusuq5ystMhtlkwmAwYDieMJ5MGY0mDIcjqWOmU5uLC+j3z1DWN+5ihMNosrOHIrgfCbMpbEVCPIrH2Jb66sljugf7tIWz7Bd+5rLMZha23ZPaE6Elwp4Ij1Hu3bxByoyxFQqSCBroskevhOGRXWqyCpfLRXpnh1G7hZX9yqBWYToeicRhfIltT0V4irKxlsAUiepXUUXiBGMsCAWDc+Hu7i7OmQm2U21bJvubmUx4IcI+yoo8S9U0ES5SXiTtEFwI0+k0w/Nz2i2ZstvFsqx/6Mpdp9OhLuEoqVRqPokqO3SEf76OUx2h2+2WCTO0222KxSLlcvm/lEolKpLyL2J52+HfQ63XAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="10"
+        title="10"
+        src="/static/8516e8a4065ff82db8ec39ccf0f74d7d/78d47/10.png"
+        srcset="/static/8516e8a4065ff82db8ec39ccf0f74d7d/56d15/10.png 200w,
+/static/8516e8a4065ff82db8ec39ccf0f74d7d/d9f49/10.png 400w,
+/static/8516e8a4065ff82db8ec39ccf0f74d7d/78d47/10.png 800w,
+/static/8516e8a4065ff82db8ec39ccf0f74d7d/64756/10.png 1200w,
+/static/8516e8a4065ff82db8ec39ccf0f74d7d/a4588/10.png 1254w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>設定 GitHub 帳號</h2>
+<p>接著，我們也把 GitHub 設定設定，設定的方法和 Azure 很類似。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 250px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/846ed2b61714b78550ffc3ca1d4bc40c/86700/11.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 124.50000000000001%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAZCAYAAAAxFw7TAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACzUlEQVQ4y6VU627aMBjl/d9hr7Bf06R13aZNWrte1KpAuaVQCBACuTr3OHbObIeUEVBvs3Rif3Fy7O/4fG7FWQESV/DjHH6U7/p6vBdTeKJPMgpWFCi2YIyBc47W3KU4Hxu4mdpo6yE6iwh3om/Pt9ADEQdP8d3Mx+0swCagAEpFIiFbmqZomQT4cPYRn9uX+H7xgK9XI3y7HuHLxQinVxpOzvo4+TPAp18dnF4/4HdXx+2UYBMyRVJi1ypCL0Vv7mBk+BgsPPTnLoZLT43/RU93VK+tAmhmBCfIwFkBSiWo2mWWZWjleba/TCnSkHo0wZnQSWjte0IzqjQrGhrGcYyWZPZcB7quwzAMeD45SKXcrQXf99XPVVwqyGZZFjzPqwjzLIUrSH2xutz2c01+k9N6h0z1Mu0sy6sdzo0N1oTDiUrYIYfpUSztFEsnrfotDBEvrASrjSto+dHFcqnh2AjQGW9w3p7gsr9Ad2JDW0YYLcJ9LEMMFwGGMwsmYVgHvIFSbCZBq/do4XZo4MdVDz9vNNwMDEEYKxJJXKEilO/aYvHeimKwZhiYxRP6JsPDSqRsOiHsgMGNRNrCWxahCtOlhfF0iYluYjxbYWbYWHsZ9JUj5GHwkhJuzHcQsU1SeSgMJZfWoMoanBfqXG1rg/tuB/f3XXTaHYxGQxQ0RxgGYpo11Cu3GgpCxrg64cfHISbTKWa6hC5OLFEWcV33CdIRlW24oqhtU1tHVYp0uXzBhAWqyV1tNpucl4T1fE10QIijJi6P4kVCacwgINC0oUjLP6iA5vhFwroWpdh5Tg9Imj++PeWyPKrdqwnliRHiVcXtegcfvYtQaihvmvVq/f+EzZSPpf32Q6HV1RPHobqK5Py7bcNFEBJRKfoM+lwDCciz9yEhZO+CPSCUD1lmaZIiSVK10yiKjiIMxUVi2y+nnCTJq5Hn+VHD14R/AZWQjWW9mX8VAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="11"
+        title="11"
+        src="/static/846ed2b61714b78550ffc3ca1d4bc40c/86700/11.png"
+        srcset="/static/846ed2b61714b78550ffc3ca1d4bc40c/56d15/11.png 200w,
+/static/846ed2b61714b78550ffc3ca1d4bc40c/86700/11.png 250w"
+        sizes="(max-width: 250px) 100vw, 250px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>這邊只要按下按鈕，就會跳出視窗驗證。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 602px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/bba473497f7e23bca60d252285c42719/d1b94/12.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 47%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABB0lEQVQoz42SjW6EIBCEff+nrKJXrRflRxABne5yek2sNjX5Mgsuy+xq0dQNRCVQCwEhapRlSTFpRdo0UEpdIqX8xfP5RGGthXPuzRIC5mXJeIo96cKx9294HWO8pFBaYRzHF3SL49uqCubRQJJrRWtrHbTWMEZnnchESomIu/5QBHKxbRvWdcUGYKFCQ/mBr7rG/PlAovYSvVgpmXMObh1yC1w0cBt0KAwDLBWd2ha+axGdzfvng2dnac8pjDG5DYZnmMgtO+UnMeQm3RS4LMgDPja4rSVESOMhJ3/r5C/yV+a259nvOtPQCTfn2PuXXnHkHzFTDDSz8z+md9Q/6PseXKPruqzfsBq5wDb/KsEAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="12"
+        title="12"
+        src="/static/bba473497f7e23bca60d252285c42719/d1b94/12.png"
+        srcset="/static/bba473497f7e23bca60d252285c42719/56d15/12.png 200w,
+/static/bba473497f7e23bca60d252285c42719/d9f49/12.png 400w,
+/static/bba473497f7e23bca60d252285c42719/d1b94/12.png 602w"
+        sizes="(max-width: 602px) 100vw, 602px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>繼續設定 Build 流程</h2>
+<p>接著，回到主線，現在我們就可以從 Azure Subscription 選到剛剛新增的 Azure 帳號，然後我們就可以填入目標 Web Site 的名稱 ( 他不會自己帶，目前只能自己 Key )，這個名稱就是建立 Web Site 的時候給的名稱。</p>
+<p>地區的部分，可選可不選...小弟是都有選就是了...</p>
+<p>最後，最重要的是 Web Deploy Package 的路徑，這邊要 Key</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">$(Build.StagingDirectory)/package.zip</code></pre></div>
+<p>這樣才找的到 Package。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/a386e75d03909b193ab1df7bfc0e28f8/c19a6/13.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 39.49999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABRElEQVQoz4VRa0vEMBDs//9Von5QTjkE/aBQ2/PO3jV9pM+0aR7jJjRHEcGFYfLa2dlNVPAOYhwxyxmSIGaJYZxgjIHW2rODtRaG9v5sZQ+loN0b695pRK3oMcnFX7gkn7gKuOi7DixnKIoCdV0jJ67aFovBNSy9V06DUiJVlKj3ewil/UUQDRiGAYwx9MSGinbZN/I4xpjnMEJAvL2i3T1i4A26mRzqLEN9f4cFf8c0TRCUqEiMKpDQBXXyCUFu+e0Nmucd1LKQGY1hXhBlF4aHpxekaYIkTRFT9dPphKqqUJalFxxpxoLYkuhIDtuvA/rjEfXHO4ZDCrvOc5IKUSlmxLwHO59xoTbOxDlx0zQeTpCTGzc/5cayztjPmToI64AI/4Rr9doyxULthXX4uG1EvuKvj9hCSgnOuXca9k5063SLH5sfbIyAs+fTAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="13"
+        title="13"
+        src="/static/a386e75d03909b193ab1df7bfc0e28f8/78d47/13.png"
+        srcset="/static/a386e75d03909b193ab1df7bfc0e28f8/56d15/13.png 200w,
+/static/a386e75d03909b193ab1df7bfc0e28f8/d9f49/13.png 400w,
+/static/a386e75d03909b193ab1df7bfc0e28f8/78d47/13.png 800w,
+/static/a386e75d03909b193ab1df7bfc0e28f8/c19a6/13.png 959w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接著，我們跳回到 Repository 的地方來檢查一下，GitHub 有無正確對應到你要取出的 Repo。
+同樣的，我們可以從 Connection 來選擇剛剛新增的 GitHub，接著他會自動帶出你可以選擇的 Repo，並且你可以選擇你要的分支。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 578px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/fd2c154cf084f38fe3b0727fa28f8c47/8c7b4/14.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 42.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABZ0lEQVQoz31S227CMAzl/5/3sJ+Z9gmTJiHGBHvYgAK9pU3apLn4zA4IEEyLdNTUl2MfO7PJOQzDgMGOaJdrfL1/onibw7YNeq0RQkDXdRitzXHGGFjOUUphmjw0x1j2ySEizCql4acJjo3V6wv6YwWzP8Bz0qHRMEwysV+IBd57xBhzTpIv/4s9pZQx2x5rjFwlcoX98xP0cgFNCc4HDD6i444CV07sv4dnQpL7mSwT2nGE0ZzEDrOYY1x+oD0eYMoSGAyIEaWg7m/Ao+h7uKYBTe4iN0uW+YikbBQ5VQni4NQpRNUitG3+PkJB/XyjXq1Rdg6RKHPMWk5w7lRFSBLPLP4h7x4SM4aIyMtL3Aid2jx1qM8zFHl+u8F+vYLZ7TiYO2zqB0SW6usKQ1EgFTtQjNcty8rlIpvLW+s7VJsNIi8jyfzMI8Qe5LlwQWJ1dCbLHUp38rZ6npu17rK9XPEf3B6iq+UX/P+67eFa7qoAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="14"
+        title="14"
+        src="/static/fd2c154cf084f38fe3b0727fa28f8c47/8c7b4/14.png"
+        srcset="/static/fd2c154cf084f38fe3b0727fa28f8c47/56d15/14.png 200w,
+/static/fd2c154cf084f38fe3b0727fa28f8c47/d9f49/14.png 400w,
+/static/fd2c154cf084f38fe3b0727fa28f8c47/8c7b4/14.png 578w"
+        sizes="(max-width: 578px) 100vw, 578px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>後記</h2>
+<p>基本上到這邊，算是針對 Build 的設定完成，但實際上，我們還必須針對 gulpfile.js 和 WebConfig 等等進行設定。</p>
+<p>下一篇，繼續~~</p>
+<h2>參考資料</h2>
+<ul>
+<li><a href="https://msdn.microsoft.com/en-us/Library/vs/alm/Build/agents/windows">https://msdn.microsoft.com/en-us/Library/vs/alm/Build/agents/windows</a></li>
+<li><a href="https://www.visualstudio.com/en-us/get-started/setup/get-more-build-or-load-testing-vs">https://www.visualstudio.com/en-us/get-started/setup/get-more-build-or-load-testing-vs</a></li>
+</ul></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2015/12/01/VSTS-Build_for_Nodejs1/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>

@@ -1,691 +1,456 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Azure,VSO,Release Management," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="前言Release Management除了可以搭配地端的TFS外，現在Release Management也可以與Visual Studio Online進行整合與搭配使用，最令人開心的當然就是，透過Visual Studio Online，完全可以不用自行搭建TFS和Release Management。 安裝Release Management ClientRelease Managemen">
-<meta property="og:type" content="article">
-<meta property="og:title" content="VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online Azure 設定篇">
-<meta property="og:url" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="前言Release Management除了可以搭配地端的TFS外，現在Release Management也可以與Visual Studio Online進行整合與搭配使用，最令人開心的當然就是，透過Visual Studio Online，完全可以不用自行搭建TFS和Release Management。 安裝Release Management ClientRelease Managemen">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/01.png">
-<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/05.png">
-<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/07.png">
-<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/08.png">
-<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/09.png">
-<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/10.png">
-<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/11.png">
-<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/12.png">
-<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/13.png">
-<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/14.png">
-<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/15.png">
-<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/16.png">
-<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/17.png">
-<meta property="og:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/18.png">
-<meta property="article:published_time" content="2015-02-11T22:40:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:38.968Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="Azure">
-<meta property="article:tag" content="VSO">
-<meta property="article:tag" content="Release Management">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/01.png">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online Azure 設定篇 | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online Azure 設定篇
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-02-11T22:40:00+00:00" content="2015-02-11">
-              2015-02-11
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Release Management除了可以搭配地端的TFS外，現在Release Management也可以與Visual Studio Online進行整合與搭配使用，最令人開心的當然就是，透過Visual Studio Online，完全可以不用自行搭建TFS和Release Management。</p>
-<h2 id="安裝Release-Management-Client"><a href="#安裝Release-Management-Client" class="headerlink" title="安裝Release Management Client"></a>安裝Release Management Client</h2><p>Release Management Client是專門用來管理Release Management的工具，我們可以到下面這個位置來取得安裝<a href="http://www.visualstudio.com/downloads/download-visual-studio-vs" target="_blank" rel="noopener">Release Management Client</a>，如下圖。</p>
-<p><img src="01.png" alt=""></p>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online Azure 設定篇 :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="前言 Release Management除了可以搭配地端的TFS外，現在Release Management也可以與Visual Studio Online進行整合與搭配使用，最令人開心的當然就是，透過Visual Studio Online，完全可以不用自行搭建TFS…"/><meta data-react-helmet="true" property="og:title" content="VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online Azure 設定篇"/><meta data-react-helmet="true" property="og:description" content="前言 Release Management除了可以搭配地端的TFS外，現在Release Management也可以與Visual Studio Online進行整合與搭配使用，最令人開心的當然就是，透過Visual Studio Online，完全可以不用自行搭建TFS…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online Azure 設定篇"/><meta data-react-helmet="true" name="twitter:description" content="前言 Release Management除了可以搭配地端的TFS外，現在Release Management也可以與Visual Studio Online進行整合與搭配使用，最令人開心的當然就是，透過Visual Studio Online，完全可以不用自行搭建TFS…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online Azure 設定篇</h1><div class="post-module--meta--3YtjE">11 February 2015<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/Azure/"><span class="post-module--tag--16U9p">#<!-- -->Azure</span></a><a href="/tag/VSO/"><span class="post-module--tag--16U9p">#<!-- -->VSO</span></a><a href="/tag/Release-Management/"><span class="post-module--tag--16U9p">#<!-- -->Release Management</span></a></div></div><div><h2>前言</h2>
+<p>Release Management除了可以搭配地端的TFS外，現在Release Management也可以與Visual Studio Online進行整合與搭配使用，最令人開心的當然就是，透過Visual Studio Online，完全可以不用自行搭建TFS和Release Management。</p>
+<h2>安裝Release Management Client</h2>
+<p>Release Management Client是專門用來管理Release Management的工具，我們可以到下面這個位置來取得安裝<a href="http://www.visualstudio.com/downloads/download-visual-studio-vs">Release Management Client</a>，如下圖。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/60c7e423ea50ee1a90ddae965daf1bf5/bbbf7/01.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACPElEQVQoz42R20/TYBjGqyFyY7jZn+YlXpmYQUiIHchhGzf+H3oFxqghhhABt3Vrt/WwbqWHHegOWUxUDlup6+aAGx7fdnRK4oVf8sv3vm3zy5OnDMMwiEQimJubw+zsLPz9v3jIYObxDJhHND+YPJufnwfDsizi8TiSyQSSW1t4uRlHIpHAxuYG1tY3sba2DpZ9gVgsRrBYXV1FbCWGxdeLWHq3hOjbKJZfLWPh+QJ2dnbAgI438PDj2ylcx0X/oo/e+QWcvovuVwfnZy4ue304PQd9wvs5xHg8xujXCMPREKPRCOG5vb2dCJt2C6nDNPhsHpkUj/QXHrm0gBwnIi8oEHgVYqGMslJBRdVgGEaAaZjQdR2u6wbC6+vridC2bXBcBoWiBL4gIytIkBUFoiQRIgRRh1Kx0GjUUavVUK3WgtvHsiwMBoNA6HneXcJmk4RZ5HI5SsRDIPyZ53nIsoxWs4Fut4N6vT4V/UvoOM5E2G63A4FEiQRBQD5fCO5isQjDNLF/IEItG5TMgkl7iC/7W3h1dTURtlotZDIZ8HfJOI5DNksJaS6pKp48+4Dt93kSGqhoGrQ7QmkovLm5CYV+Qp46LFJKGSpJlFKJUpWhHeuIruzh4yeJhGawa9ox/Qwj6NI0/winP+Xs9Dv1WEenbQe02ycB/tyk/p4u7mJ3T6IuLVQtHfWaCfukGnTbtGsYDr37Qt3sUE8yjtJlHKbUexwQy/F9vNnOI8WVgz1853//+aiEs/PLqfA3/rm8JsWcBUUAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="01"
+        title="01"
+        src="/static/60c7e423ea50ee1a90ddae965daf1bf5/78d47/01.png"
+        srcset="/static/60c7e423ea50ee1a90ddae965daf1bf5/56d15/01.png 200w,
+/static/60c7e423ea50ee1a90ddae965daf1bf5/d9f49/01.png 400w,
+/static/60c7e423ea50ee1a90ddae965daf1bf5/78d47/01.png 800w,
+/static/60c7e423ea50ee1a90ddae965daf1bf5/64756/01.png 1200w,
+/static/60c7e423ea50ee1a90ddae965daf1bf5/bbbf7/01.png 1280w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>或是透過Visual Studio裡面來進行下載，但要注意的是，目前從Visual Studio進行下載的版本為英文版本，如果想要看中文的朋友，請透過上面的網址進行下載。</p>
-<p><img src="05.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/3f0895ab55ef0e1bf5a65b958df0da38/bbbf7/05.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 59.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABxElEQVQoz51SyW7UQBD1dwSH0Yy38dLd3t12O/YsSqLBoAGEhLhwQ2IJAf7/8FLdyUSTCA7M4ana7devql6Vtd5copUKqh/Rtj2UukDTdKiqBmVZg/MUQmRI0wKyadETT6nBcFSr0EuJNGGo8xwVwcoLiSIvUTUKWV4bkZy+67rBchni7OwFbPscjuMiy0owSqDFq6KCkCtk02cklx/hbz9BrPawdKYoYkgS8YhlEEKSYF1WmL+c4dy2sVi4YCx94KSIwhiiGcG2HxCqHfxuh3I93QvGMTdkxohMUVCCq0ZiGgZcU0s8DOG4HviD4EFY5AVqaj+OE0Seg5QzWLqNY5KOOkGikXDjn/YxCKInnCQW4GWKbtViHFa4GEbytYX1XOwQzfmxRX2XPf1HZ55lGNY0TNmRr6kpwPqbmIlHj//FETyD6nqqTJou4pjdC54CIyhyjOMWm80VrdJI21GdJnioUm+H47pwXR+e55PPIXlIZSfs/8F4jpAGp6fvegEWjgefBmfxZQBxMnxalwWWzhw8cAgeLH//E/673/D2tyYeELz/Y+Ae3Xtvbwm/MH/9A/b1F8xefcVsovPuG5w3N5hP33EHnhl7KYNbYToAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="05"
+        title="05"
+        src="/static/3f0895ab55ef0e1bf5a65b958df0da38/78d47/05.png"
+        srcset="/static/3f0895ab55ef0e1bf5a65b958df0da38/56d15/05.png 200w,
+/static/3f0895ab55ef0e1bf5a65b958df0da38/d9f49/05.png 400w,
+/static/3f0895ab55ef0e1bf5a65b958df0da38/78d47/05.png 800w,
+/static/3f0895ab55ef0e1bf5a65b958df0da38/64756/05.png 1200w,
+/static/3f0895ab55ef0e1bf5a65b958df0da38/bbbf7/05.png 1280w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>下載完畢後，只要同意就可以執行安裝。</p>
-<p><img src="07.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 460px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/f578019e9d8d4bedab96d915dc3a2856/610aa/07.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 140%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAcCAYAAABh2p9gAAAACXBIWXMAAA7EAAAOxAGVKw4bAAADtElEQVRIx51V2XLiVhDlM7J4YZEAISEhCQuxiH0TtmxsEteYlGuSVMXJjJNKzSQv+YSpfJ2/6KS7hTDrJJWHpvtKfQ+n+56+SmmaDk0zkM2qUNWCxGylUll8oVBax8WiLvEhM00bjJXihet6eHx8i9vbb+A4F6hWazCMCi4uami3u7Ash2Ifvt+UjeVyZc9suwpdLyPFzN6//xUvLy/49OlvLJeP+PDhDzw9/YJ3757x8eOf8p6fcTyZzIQtgxiGtTZeczWphPJ0OsNoNIVOcb3eQqMRwPPq8s/MrOY3hCWz1XVzD5CZc0tSvMGhkm0qlZN5M5ft0WYBqzfh8prAuRVstu2uWSXA7AWwVmsIm8vLa7F+b4gwvEJEcbc7xGJxL+zn8wWiaE7+jvJbUtVBQK671xtJ8nA4xdXVtQCOxyFmswjfLd9iQYf1/Pw7fGLNmxKAXS+A3GAuc0IsBoOxMLzwfDBzLo99peKi1erAoRYYO6z2ABPqVsWBtWoss2ZLYs5hn+hzVzJ7DJlJEHSEaZ360+50ZR0EXXS6fXreEKbNZpsU0Nw63U3ZCCD/BEEPN/NvMZ5cYRpGmN/e4+7uHtH1Qp6PhiFJKqTe3tABRbArHgG4JJUqmStga9nEY+OSFHyamIZ4u+KTdOpxbMex4/C75FmdJFYjY116AsaSKxZLrz3cpr9RTtk6UuKRkg81+b8Yz/qrHQE0xduv0pB4td6QyWdPuURzaRgmSqurytA0mCWSilZCmbxJ6zLdIsZn2W4xNGBWW/CDASZ0OZitSxT8KWrtCfR6iEIzgkHvDQLVD/RSF0KWVBYD0qVoeT0E/RnN7xxaf4l0+wHV/hzK8AdkJ0/QWhEqli2XBp8mn2pysvwsuSMFkC/FsuGgQ1rshQtcTN7AG9/Di36EffMblO4DlN4DWp0BQhrPbneABgmchc/jGIaXqNFNxCxXgDFlx/HQo+Sg1abENs30AM16Q0qVHlIe9zvJT4wPdes+TE6ZE5NZjb8hZQGIT/vfJGTtlPw/dLgPuMPw0DQYK3ZGeVvExy8HGj1FUZHPFw6bqsamKOTzr3Ywv0if4hxSuVyOvscqGHjTVCWPXNFATjORNVzkSPQKm1rcy5V8+qNMJsOAiix2E6ZRB+eTn/Dl6AlfzP/CV+OfcdL/HqedJYHmjwBmj5eslzTkKk1k7QBZt49sdYCcWUPW6UCl8jZLV1exlHx2do50OkOWXvk4Pj+n9dkJ0qdsX8f+7DS2dV5ma+/JySn+AbATdcAZ6aG5AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="07"
+        title="07"
+        src="/static/f578019e9d8d4bedab96d915dc3a2856/610aa/07.png"
+        srcset="/static/f578019e9d8d4bedab96d915dc3a2856/56d15/07.png 200w,
+/static/f578019e9d8d4bedab96d915dc3a2856/d9f49/07.png 400w,
+/static/f578019e9d8d4bedab96d915dc3a2856/610aa/07.png 460w"
+        sizes="(max-width: 460px) 100vw, 460px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>安裝完畢後的第一件事情就是要設定Visual Studio Online的URL，我們可以在下圖的位置填入到時候要使用的Visual Studio Online位置。</p>
-<p><img src="08.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 600px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/328e63bf26503ef7a608f220b91ecbe3/dface/08.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 63%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACQElEQVQ4y32TXWviUBCG80eEokhBQUQQioIW1i5sF1ZXo+ZE82mSk1hjjFbb2tte7NX+5XdnTtUtZdmLh8mZk3nnIxPNcRe4ve2i2+2i0+mg3W6j1Wrh5uYGzWZT0Wg0UK/XUavVUK1WUalUcH19jXK5jFKphKurKxSLRRQKBWiHnY/NZoc835DdYLvdYrVaIWXSFFJKLJdLhGGIJEmUPwgC5Y/Ix34ZReq53+9DOx4C7J+OOL6+4un5+WKZl+MR6yxDSqzWa7JrZHmufA8k/EAJmRWR0v3EENCWfojctpHMZliMdQSEFALbxQJ7ypr7vmIXLC42Fgbs/g+4PwdwCHvQhzcaIhgMoGWBjy2JyfEY1v03WN/vMSMrdR3hcAif2pD6iO4p0UhHRD7x9Q7TXg/Tu3cmvS8qTlISjWfgeZ6agYxoTnEMx7IgDAMmVTozhbImnYV4982pAGs+v8DnKAygU1FKMKGh+9SOaZowKHAymVCwgPEJcYLf+ch0OlWx47NgTFXxVxPChO04sGmmruvCokoNVZm4BJ4RnxLMqEolGNEnZ0G2vA7cPguxKNsz7FerQoQ0Gofu7RN8zwVcBHnfePd43/jMl57nqjGc8Txf3THcles6cBzGVZYTXgRZjJd6t3tUi80JsmxDy54rMtq7cwcMC57Fo3CBkFZJRgEmLMht8Ev8F4RRTCTUFv0Z8oGeuWKpAvm9fxGnB8SrPZLsBYZpQ7M/zOIv1gn7P1iYWw6Sx18Iszckh9/QDRd/AHWUIg/CHqZjAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="08"
+        title="08"
+        src="/static/328e63bf26503ef7a608f220b91ecbe3/dface/08.png"
+        srcset="/static/328e63bf26503ef7a608f220b91ecbe3/56d15/08.png 200w,
+/static/328e63bf26503ef7a608f220b91ecbe3/d9f49/08.png 400w,
+/static/328e63bf26503ef7a608f220b91ecbe3/dface/08.png 600w"
+        sizes="(max-width: 600px) 100vw, 600px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>第一次的時候，會需要登入此Visual Studio Online。</p>
-<p><img src="09.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 464px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/0548fa9c0ed01117749a11da0fd97a79/0359b/09.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 123%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAZCAYAAAAxFw7TAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACHklEQVQ4y+1Vy5LSQBTNt/kX/oef4Na9ztpyq7NSalyoi6k4iNTUgOUISkhIIE8I6ZB3zvRtilQC0YJh66061be6uk+fm3s5SEEQIE1TxHGMJEnOguM4kIiMoixKVFFLRV627LdEnueQSNnpUaIsD0EhZXkGc+Kgc/EFX9/1wZYhFhMbWZLBm69gjE2YUwdxGMP4bSLwWHW5bZVKFOh3Bnjx9AKdV5+h/TTQfX+L3oc7fHoj4/7mD+TL7+h17nD9tof+1QBpnDaI6iFF0bbkNMrAvPD4omuq6sRSXhQw9Bn0uQHLsTAejaBMp7xjNjRNx2w2w2g0hq7rAq7jouB36mSNkrOMK2MBVisfLGB8XWG9XiMMQwSMgcbK9TyxRzntE+G+sqop1OUoisQcxnFSzaNYOWisiIBGgh4n1GeP7jYU0qbrurAtk5fjYLFYwLIsWLYNm4NxlURK52jdRyuhaEqWCyVbNUWlqq6sDfvfU+JUePkxwpPnHp69DvCYaHQZZYLrX5z0KsTlt/ige8egoTCKk4PX2gb22BDfkO5neYm8KM8mrZpyjqr/hEmre5w6Mq2Ep5C0DfWjS/7bUAtCSmRZRrd7A8MwoCjKFhMFP4ZDTFUVKsdwOICqaSInX6SzZGf7D0j04yaHWS6XwrI2m43wPMZCzA2dG60r3EfTVO5K3Bf99b+bQv+lREI2tTPRHbbETGCX0z6dI/i+f4AHmSWexvmqT04AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="09"
+        title="09"
+        src="/static/0548fa9c0ed01117749a11da0fd97a79/0359b/09.png"
+        srcset="/static/0548fa9c0ed01117749a11da0fd97a79/56d15/09.png 200w,
+/static/0548fa9c0ed01117749a11da0fd97a79/d9f49/09.png 400w,
+/static/0548fa9c0ed01117749a11da0fd97a79/0359b/09.png 464w"
+        sizes="(max-width: 464px) 100vw, 464px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>接下來，就會進入Release Management的畫面嚕!!，首先，我們要先將Stage Type設定一下，這邊我們加入Dev和QA。</p>
-<p>所謂的Stage Type指的就是未來整個佈署過程可能會用到的環境，所以我們這邊設定的意思就是說，<br>未來我們佈署的過程中，會有Dev和QA兩個環境；而這邊是先進行名稱的設定，詳細的內容，下一個章節會繼續提到。( 如果沒進入到這一頁，也可以從”管理”” =&gt; “管理挑選清單”的地方進來設定 )</p>
-<p><img src="10.png" alt=""></p>
-<p>接下來，我們可以先跳到”設定應用程式” =&gt; “vNext 發行範本”來看看未來我們要設定那些東西…這邊先稍微看看就好，我們會針對幾個章節，一步一步的進行設定。</p>
-<p><img src="11.png" alt=""></p>
-<p>##開始設定前</p>
+<p>所謂的Stage Type指的就是未來整個佈署過程可能會用到的環境，所以我們這邊設定的意思就是說，
+未來我們佈署的過程中，會有Dev和QA兩個環境；而這邊是先進行名稱的設定，詳細的內容，下一個章節會繼續提到。( 如果沒進入到這一頁，也可以從"管理"" => "管理挑選清單"的地方進來設定 )</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/323a2df27a9e43ed28e468228f7bd803/a91f8/10.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 62.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABsklEQVQ4y6WUa4/SUBCG+5doqEQKEgzroglpge29tZftDcvGFRIlMfGLP/z1nSMlRKMh+uHJtNNz3pkzZ6baarXCm/t7LMl8PodhDDEcDjEajWCapnqeTqcKXdeVzzAMDAYDmOOx8i0WCyzfvsN8NoHW7XZoqgotbd22qJoGYRQgjmOkaYooipAkCcIggOM48Gldz8OD68ITn+cjyzJ03Ku/0KF9f/6IU9vgUFf49ukZn5/4fviCp/0eRVkiy3NkRYGUNqctuVloyAcG2jFwE4X4mhewnTtoHiNtNhvYPPqaFB4/7k84UCzl4pxUzKTyPeKjDgPFI0mZvfCeaxJSPpbQwjBEwA1i/ShG9rCFc/ca69krLCcmmWDGWk3PvGQNx/SNxZ4xz2y2W2gi5jNyT0LhlDWKXUfVSXCucP9CyKwvgr0NeQRfspWszwQ3Ihf4m2AU/SxBcJX1rfxBMMK17xb6tUqwv5T/EezXS+9q0qxSUI8XIfQB/H84shI8nU7YcUpamRJOTM4G/jW6BLkFmSjteDyi6zrUda0iiMCW/dQjTW9Za4VtC/YFy7IuyD9BsvwBZmQLIpbpbp0AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="10"
+        title="10"
+        src="/static/323a2df27a9e43ed28e468228f7bd803/78d47/10.png"
+        srcset="/static/323a2df27a9e43ed28e468228f7bd803/56d15/10.png 200w,
+/static/323a2df27a9e43ed28e468228f7bd803/d9f49/10.png 400w,
+/static/323a2df27a9e43ed28e468228f7bd803/78d47/10.png 800w,
+/static/323a2df27a9e43ed28e468228f7bd803/a91f8/10.png 960w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接下來，我們可以先跳到"設定應用程式" => "vNext 發行範本"來看看未來我們要設定那些東西...這邊先稍微看看就好，我們會針對幾個章節，一步一步的進行設定。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/42c175bc4d1dc9db1ddbdfbc2432caab/a91f8/11.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 62.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB6klEQVQ4y3VTya7aQBD0/yRCEIQIcOPECSGxhn33grEBG5uAeZGA/65M9Xvj+EAOpZ5xd1dX97iNZrOJRqMhqNfrKJVKKBaLKJfLqFarqFQqYEyr1ZI7wZhCoYBarYZcLod8Pi/ffpZ+wLAdB9PpBJPJBP1+H+12W9DpdNDtdjEYDLBarbBerzEcDiWm1+ulPsYRo9EI3wrfYRyPRxDufo/T6YQwDOH7PoIgkPtms8F8PsdyuRTSLHSh5WoJc2Oi0W/AYKKjVJrbLSzLEpimmZ5ZzPc9SSYp7VbFvoO5NWFcLhel7gDHPYo9HD5Bot1up1QecY4ThOcYSXID41mQyklCq8/T2RQGA4MoweP5wu2WII5j7FX7Wqnj2PAOgSL6rfw3GQN9WWWacDabwTiFMU7RHY/HA8/nE6/XC1EUibp0Xl/tEjo5S6QtZ60URkpBKJXP57O0yodxXVfIqJbnnZqzbdtpkXctCyHVsE22xkA69PB5Z5Hr9apUx6KcpMR/FQZBiEDN8X7/g4+Puxp8Iir1w3iepxQqlXtPyAk9x7eErKZfzTQ/Z6N/Gf0w8ht92WzLWTBvsVjA0C+mEwl919ay/vmyxbKgMI7K4MqNx+MUXCENrhrR6w/Uyg3Uqv2SdSO4gnoN9Soy5y/9NzQHR79UQQAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="11"
+        title="11"
+        src="/static/42c175bc4d1dc9db1ddbdfbc2432caab/78d47/11.png"
+        srcset="/static/42c175bc4d1dc9db1ddbdfbc2432caab/56d15/11.png 200w,
+/static/42c175bc4d1dc9db1ddbdfbc2432caab/d9f49/11.png 400w,
+/static/42c175bc4d1dc9db1ddbdfbc2432caab/78d47/11.png 800w,
+/static/42c175bc4d1dc9db1ddbdfbc2432caab/a91f8/11.png 960w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>開始設定前</h2>
 <p>到剛剛為止，我們已經將Release Management Client與VSO進行整合了，所以目前我們是使用VSO上面的Release Management。</p>
 <p>有了Release Managment後，接下來，因為我們希望能透過Release Management佈署到Azure上的VM，所以我們要繼續把Release Management Client來與Azure進行整合。</p>
 <p>另外，目前Updata 4後，有針對Visual Studio提供了超簡易化的設定工具，但還是建議，大家這邊進行學習，才會了解簡易化工具做了些甚麼。</p>
-<p>##設定Azure訂閱</p>
+<h2>設定Azure訂閱</h2>
 <p>首先，我們希望未來能透過Release Management來佈署到Azure VM上，所以這邊我們先進入Azure的管理介面進行VM的建置。</p>
-<p><img src="12.png" alt=""></p>
-<p>當建立完成之後，我們可以透過安裝Extensions來安裝Release Management的相關套件，這樣未來才能透過Release Management來進行佈署。</p>
-<p><img src="13.png" alt=""></p>
-<p>選擇Release Management相關套件，到這邊，VM就建立完成了。</p>
-<p><img src="14.png" alt=""></p>
-<p>接下來要去Release Management Client設定Azure訂閱與Azure的Storage。</p>
-<p>帳號資訊可以透過<a href="https://manage.windowsazure.com/publishsettings" target="_blank" rel="noopener">這邊</a> 下載的佈署檔案看到相關的資訊。</p>
-<p><img src="15.png" alt=""></p>
-<p>而Storage的名稱，可以直接登入到管理介面進行查看，這邊我們直接使用那台VM的Storage，您也可以選擇自己想要的Storage位置來存放編譯過後的檔案。</p>
-<p><img src="16.png" alt=""></p>
-<p>相關資訊都準備好之後，就可以回到Release Management來新增Azure訂閱。</p>
-<p><img src="17.png" alt=""></p>
-<p>首先，打開剛剛下載下來的佈署檔，然後如下圖般，把相關的資訊貼上去；而最後一項，Storage Account Name則要填入Azure Storage的名稱。</p>
-<p><img src="18.png" alt=""></p>
-<p>按下儲存後，就可以與Azure訂閱聯繫了!</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a href="http://www.visualstudio.com/get-started/manage-your-release-vs" target="_blank" rel="noopener">http://www.visualstudio.com/get-started/manage-your-release-vs</a></li>
-<li><a href="http://www.visualstudio.com/get-started/deploy-with-agents-vs" target="_blank" rel="noopener">http://www.visualstudio.com/get-started/deploy-with-agents-vs</a></li>
-<li><a href="http://blogs.msdn.com/b/visualstudioalm/archive/2014/11/11/using-release-management-vso-service-to-manage-releases.aspx" target="_blank" rel="noopener">http://blogs.msdn.com/b/visualstudioalm/archive/2014/11/11/using-release-management-vso-service-to-manage-releases.aspx</a></li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Azure/" rel="tag">#Azure</a>
-          
-            <a href="/tags/VSO/" rel="tag">#VSO</a>
-          
-            <a href="/tags/Release-Management/" rel="tag">#Release Management</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2015/02/05/Azure-RemoteApp_and_IE11_test/" rel="next" title="Azure - 使用 RemoteApp 來測試IE 11">
-                <i class="fa fa-chevron-left"></i> Azure - 使用 RemoteApp 來測試IE 11
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup_Environments/" rel="prev" title="VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online 環境設定篇">
-                VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online 環境設定篇 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝Release-Management-Client"><span class="nav-number">2.</span> <span class="nav-text">安裝Release Management Client</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">3.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 751px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/b5a213e080b691cc665a9f5193fb55d1/9ae5c/12.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 89.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAYAAABb0P4QAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACHElEQVQ4y52UWY7aQBRF2UH/MBNsYzy7ygM2mHkUSBC685V8RFHvKTvIKrKIbOrmvaJBipQ0Jh8XV5Vch1v3vXJF13VomoZOpwPTNNHtdlGtVm+q1WpoNpuwLAtRFEFKqcTjv6lyBRq9HorxGEkSw3YcBbBJju2g1WrBMAzEcXwfyDB21W63Ua/XaXNTueU5i8eNRqM8kH92ux26mk4LCRzHo6Nb6Pftm0zThuuFiN6A/4IpIOdm27TBcbHfHDAZTSEDiTiMEYX0Ej0TyS/HSneBaZpiuVyi1zOxXW9QjEbwPR+BH9wUBj7EG/Qu0PM8NbAsG/PxHMNBDukL5fKqKKR5WSCH3e/34bouirz4A/RfQAbJSFKL2FjM5kiTVB1TECQMQiURhuWB7I57jo9+PB3VIheJ577vq2fIwLJFybIMq9UKlm3hdDphNpupfhNCKKCv3D4A5AwN3aDWSPD88oL9YY/Ndgv+I3YXBMFjDoUUmBYTTMUE5+ezcijJHWfLMHYpxANAPqqgNllEcyyoHweDTG1iV5cj+zQOaK0kkO+x1tWQiwz73RazYoTRcIg8zwk+QEJ5stOLw6hchvzFcTwX2XKD1fkT8vGEbgvlRy4ZxllykbhY78EuNyVwEMse9GiIp+8/8fTjF5ofv8LTP8CmHLmFrm0UEpSjeE+VSyU9DIsx5p+/YfLlFYvDEavlQrXTVev1Gluq/j39BjSgJ1CwnSlrAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="12"
+        title="12"
+        src="/static/b5a213e080b691cc665a9f5193fb55d1/9ae5c/12.png"
+        srcset="/static/b5a213e080b691cc665a9f5193fb55d1/56d15/12.png 200w,
+/static/b5a213e080b691cc665a9f5193fb55d1/d9f49/12.png 400w,
+/static/b5a213e080b691cc665a9f5193fb55d1/9ae5c/12.png 751w"
+        sizes="(max-width: 751px) 100vw, 751px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
   </a>
-</div>
-
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/';
-      var disqus_title = 'VSO - 使用 Release Management 搭配 Azure 和 Visual Studio Online Azure 設定篇';
-      var disqus_url = 'http://skychang.github.io/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+    </span></p>
+<p>當建立完成之後，我們可以透過安裝Extensions來安裝Release Management的相關套件，這樣未來才能透過Release Management來進行佈署。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/ec83a6fdef1de9a7a8aca5d075fb4aba/bbbf7/13.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB3UlEQVQoz21S23LaMBTMV8BwecADxoAt3yTZsmwwpZM0tNOZNG/9/w/Z7hFpJm14WMuSjvbsrvQQ7w5o/IDVaoXJZIKpYDp9x3K5xHw+x3q9DmOomU6wWCyQZRnyPIdSKoyCB7Xd4mwtsiTBZrPBIU2x2+0QRRFms1kgkTGKVqHpfL4IkEbpPUJTlhh9B69rDFUFV1coywoqL26F2hINyrqG73sUrJemmeK+kLBGvZEFQpF9GkfYtkVNwt+vr3j0Hr3WsISmeiFv+hOG4xHWmkBSc0/IP6q7WebCMAycFLC1dFMhm7HrcDIaRtQcmPNxRMs19aaodV0g/ZvjO2HKA5Z2dZnDVoo5rhHHMZL9Hlvme9jGcCQZmxbeGFQkV8kWg7GwnH8ilM9IyzmV7VmcqZtCUaKZ254NFTHwcMdIKl6Yijc4ct4Q6f+EcvD67YqXl1/Mx94sESXzuVwu8LRZ8JKs1+i6FoYkRbDs7lve0drzz2f8+H7lgQ6aRU3TBIjymiqzjGpbA9e5sC4Nm9aF2k+EySFBd/ahe14UoaDgKAp7PhOZJ3yjSlORWJQMuSaXovWdDA1v8unxifa+wrmWcGj5hDyfzhdaln/Hw/3pTMXnsC8KjW1QUb1S/xL+AcQIVbgOcmm4AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="13"
+        title="13"
+        src="/static/ec83a6fdef1de9a7a8aca5d075fb4aba/78d47/13.png"
+        srcset="/static/ec83a6fdef1de9a7a8aca5d075fb4aba/56d15/13.png 200w,
+/static/ec83a6fdef1de9a7a8aca5d075fb4aba/d9f49/13.png 400w,
+/static/ec83a6fdef1de9a7a8aca5d075fb4aba/78d47/13.png 800w,
+/static/ec83a6fdef1de9a7a8aca5d075fb4aba/64756/13.png 1200w,
+/static/ec83a6fdef1de9a7a8aca5d075fb4aba/bbbf7/13.png 1280w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>選擇Release Management相關套件，到這邊，VM就建立完成了。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/baa896dc7c1a537841943e7bc239ffd4/bbbf7/14.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB8ElEQVQoz22RSXPaQBCF+RNmEWCCsYj2EQLtC5Yox2EJKbkwPoAPoSqnJLf8/5duyaRSgcOrUXfPfOp+3ZAkCc1mE+12G71+H5YhoKoqWq3WhfhOt9vFh+EQ8niM5s3N35yiqLAsC40+QRjaId3Td2ha0EcjtDqd6iLX+Oy8x3wOb29xf3eHXq9X1SWpC1XTaqAQArquQ6OEMAyEsxl8KoSOA4VyNtW55lDM9xRVgRdkCKMM0+mUajqCMMRm86WarMFJ27YruqDTDwK4vo8Hz0U4sWE7kwrquh7syQSWrkJsTki3Bzzmc/h+gDzP8bLf09gKGvx3Bp6hBnXJ0rhbAnmU000TJsVcV5WP+PTyDZ/LV2RJjCiKsCgK7Ha7usMxmTsiz1jG+6OzGBQR1Bf8zTkBU1Ngrd4Qr/cosgQeTVMQsCyfa6AsyxgMBhjS5tgjBpkEuoQKGBwbKh6yHR4XJbIshud5SJIEq9Wq8rrBo7KPvBzWGXYNGtgCsmriuA3xui0QJeyhV3m4XC5rID9g4DXQv+LuIgIKU+B7OsWhSBCkGRxaVNXhel0DFTL54jF5yeNfk2loKLUIX905FvMUMTWThwE2T0+1h4ahV6OeYdwh+xLH9Qb/VxhHyJ0UgTVD5Nh4Ju9+nE74/esnDscj/gAzZFg9WCGmIgAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="14"
+        title="14"
+        src="/static/baa896dc7c1a537841943e7bc239ffd4/78d47/14.png"
+        srcset="/static/baa896dc7c1a537841943e7bc239ffd4/56d15/14.png 200w,
+/static/baa896dc7c1a537841943e7bc239ffd4/d9f49/14.png 400w,
+/static/baa896dc7c1a537841943e7bc239ffd4/78d47/14.png 800w,
+/static/baa896dc7c1a537841943e7bc239ffd4/64756/14.png 1200w,
+/static/baa896dc7c1a537841943e7bc239ffd4/bbbf7/14.png 1280w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接下來要去Release Management Client設定Azure訂閱與Azure的Storage。</p>
+<p>帳號資訊可以透過<a href="https://manage.windowsazure.com/publishsettings">這邊</a> 下載的佈署檔案看到相關的資訊。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/60cc438cc79866052d2fec01089bce12/bbbf7/15.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACAElEQVQoz21S22rbQBDV/z8UmkAaSKEpJA956C+0xaWmdUMSE7uyLo4sWdfouqvb+qbTkRw7Ls7AYWaHnTNzdla6+HSFy89XODu/wMkZ4cNHvCd/jNf8CcXtvdMXvDs9x/XNF1iWBYlXAveeQN8swEoBUZXI0hQ5Z2BZhjSJyafgjCGKQsSEhHJVWWCz2aBpGrRW0lnXdUjazMZ138BlT4dK8ZSSo/EYiqJAJciKisexDFmWYdsO5nMbpmnBcRw4XoAoTpBR4yAItoRJksD1PDiuizYuigKcc+pYQgiaWCxQ14JQY7FYdFgul9tYvObbWsMwIK3Xaxq/6rowxklWjDCMwIi0ostbMkHymk7eTuLOdqc8z+H7PqSWXVQ56jxDyVPUBcOxNQel2BMfNmhVeaRUasd/MHN8lxl+agV+KAy/pwUGRoVfOsVPJW6tFQbzDUYjGzxMj0j/J1w3+HpvoTe0MFBD9McOvt1qmLglJk4O1a+hhWuohOmcwQ6KPeGh3xOK1QZ3jxNof4ewDB2+R1ucPYElIVgadn4lCkJJy6gR8GUn/60Jfb8jBCbmMyJaRBxn0AwLij6jxdByoqRDRPlnenDbNOHENd4yzgu4Li0lGvbh/umBTe/oy5hIYxUJgbEn+swv4AaSUIbvPCBjM/pKDkRtd1hQnPMZyR1TnYZ/S+ktwwUwzCoAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="15"
+        title="15"
+        src="/static/60cc438cc79866052d2fec01089bce12/78d47/15.png"
+        srcset="/static/60cc438cc79866052d2fec01089bce12/56d15/15.png 200w,
+/static/60cc438cc79866052d2fec01089bce12/d9f49/15.png 400w,
+/static/60cc438cc79866052d2fec01089bce12/78d47/15.png 800w,
+/static/60cc438cc79866052d2fec01089bce12/64756/15.png 1200w,
+/static/60cc438cc79866052d2fec01089bce12/bbbf7/15.png 1280w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>而Storage的名稱，可以直接登入到管理介面進行查看，這邊我們直接使用那台VM的Storage，您也可以選擇自己想要的Storage位置來存放編譯過後的檔案。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/983fc6de62133628f6b2ac40df54c8d0/bbbf7/16.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABmklEQVQoz41S21LCQAzlJximhcE6CiLtbnd7b5cioIA6wpv//ynHJFxExhl9OJOzyeZskk0nCAIEtwG63S56vR5838dgMMBkMpHzf+B5Hvp9H+PxGJ3gJsBwOCRHX8CCbG/Iz9z3+wdIfCBWOD16irHf83yMRiN0jLYoywpVVSGKIoRhiDBSUMbCpBl0TNYmYh+nIWLzzY1NJTYNFeVoKB2jk8wW2Ly9o6lraM1Ojbos8Pm+xsdqidY5eSzPcyh6kHlRFMLZrpYrWGMQxzHBUIVNi+f1RhIipQSLMsN+s8RTVUNRxUmSIE1TKIplWXbmbNt2Dmvtt2Ce1VjOF2ioKkPVFRRwaYK8KkjokMgJhqo4ccaJc8Uc4+40C77O53ibzZBPHmDu7pCP7pHSDKfUErclY6Bkxm88isLzWQQb9yRly8XjDDVVKReOSX9xrS8Ek8ph9fJCM8xkDkYGbC4u/8RPoSuffEoSY/u6FTFeGV6diFqW9bnCdduXOAvWrsRuv6O2WzRNc4CbHeEOaBwcnS39Nu+a/g3cFeELEF1QuTi9OJYAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="16"
+        title="16"
+        src="/static/983fc6de62133628f6b2ac40df54c8d0/78d47/16.png"
+        srcset="/static/983fc6de62133628f6b2ac40df54c8d0/56d15/16.png 200w,
+/static/983fc6de62133628f6b2ac40df54c8d0/d9f49/16.png 400w,
+/static/983fc6de62133628f6b2ac40df54c8d0/78d47/16.png 800w,
+/static/983fc6de62133628f6b2ac40df54c8d0/64756/16.png 1200w,
+/static/983fc6de62133628f6b2ac40df54c8d0/bbbf7/16.png 1280w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>相關資訊都準備好之後，就可以回到Release Management來新增Azure訂閱。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/db99bc13d0d16ee2f4e7581e99bf78b4/a91f8/17.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 62.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABcElEQVQ4y62T6U7CUBCF+0JGCC0pXSBKTJG1Wkr3la1pUATjHx7Blz7OsGliYkzgx5e5d+7c0zO9GWEwGMAwDHQ6HbTbbdTrdUiSBFmWoakqJFGE1mxCJSq1GhqaBpHOK9UqGooCiaJ5fwen+wjx9gZCURSYzWZ7kiRBFEWYTCbwPQ8vYYhX38PcczEfW0jNEaaWhdh6RvhkYmo7yMdjrOjee1GipakQttstNpsNyrI8i1l0ySPBwPcxp+JNnmGdxHhl4gjr+BB3xRYf5Rr5coW33SfaDwaELMsQkpOYik6wU44R72k9WyyQ5DlC7oBIKZ/u6yhyLRlZLpfQmzoE13XxJ44Dh1w7FN0jDuV/wl2xqYYiQ/CpLW7vEvjD3JGiKhBOiUsE2T3//6sLatrVBdUrC+rat+AlsCC/cqul/35l3v+XIAj28DpJUujs0LZtnBjTGJmmidFotGc4HJ7hmWf6/f6RHnq9A12aYz6TJBFftkwKGGixa2YAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="17"
+        title="17"
+        src="/static/db99bc13d0d16ee2f4e7581e99bf78b4/78d47/17.png"
+        srcset="/static/db99bc13d0d16ee2f4e7581e99bf78b4/56d15/17.png 200w,
+/static/db99bc13d0d16ee2f4e7581e99bf78b4/d9f49/17.png 400w,
+/static/db99bc13d0d16ee2f4e7581e99bf78b4/78d47/17.png 800w,
+/static/db99bc13d0d16ee2f4e7581e99bf78b4/a91f8/17.png 960w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>首先，打開剛剛下載下來的佈署檔，然後如下圖般，把相關的資訊貼上去；而最後一項，Storage Account Name則要填入Azure Storage的名稱。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/9ee058751d92d99edf9c37f04b02825f/a91f8/18.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 62.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACmUlEQVQ4y22TXU8TQRSG9x9pqU0TKEFobbeS0t3tdrctNPSDSku7W7DyISZGMXhhQBP9ByZ6ocZEL5RoNIHEGPlSUeKNd16YmOiFpVuklNczs6VwwSZP3jkzk3fOmTkrhEIhBAIBiKKIvr4+uFwuOJ1OuN1udHZ28rHH40F3dzccDge6urrgOnMGjtOn+HpHRwe8Xi+CwSB6ezwQ8vk8RkZGkMvlkM1mkclkMDQ0hGQyyeN0OoPU8DCf03UdsVgMeiwBTU8gHo9TrNOeNMbGSnC4nRAMw0ShUMAoGZumCdMwuJaKRdIyJiYqKJfHiQkYFGezdHhpFhfGbyBfKKJI+/KFMRgXr0GMD0BgGUWjUY7aQlNVqJqGcCgI0d+LYMDb5rzoI2gserm2Y78fqVQaAitXlmX4fD4odJey/xzknrOYzMXx4tECnj+8haXHi3hJLD1hLOD10zukt1ssYvnZPdy9WuY+QqVSad+PIoWhhcMI0eMsjo/iz6c1/P35C3t1C7VaAzWrgbq1h5O+9+9ekWEYQiKRsM0UBWFJgkSnBPv7MVcpofpjBdXfK9iprqNe/8yxrC00Gl/QbH7lNBpbZPcdy28eIKJEINgvFQMzZrBsIxEV83OzaOyxzRvEOrHW5uCAscrZ3/9Ac1tYfnuf3kE7MjyEmcqygptk2Gxut8w2TmCTKzMHtm1D9ZghUwY3pNTnr8+gVqUyrTX82/2I3fomjddbuoHazirqNYotZv4NK1Sypp2QIYt1PYZMKomZSyVME5enTMxMGjzmSkxViu21K9NlmMUcBgcH7Uc5zO4oS/sQlUqwidoa1Y70ODSnURLs7xJ4Q1MjHyojEolwVNVWSVL4vbJOUBSZ95ssS5BZV7QYGAjxJP4DV9p/4U9OWDIAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="18"
+        title="18"
+        src="/static/9ee058751d92d99edf9c37f04b02825f/78d47/18.png"
+        srcset="/static/9ee058751d92d99edf9c37f04b02825f/56d15/18.png 200w,
+/static/9ee058751d92d99edf9c37f04b02825f/d9f49/18.png 400w,
+/static/9ee058751d92d99edf9c37f04b02825f/78d47/18.png 800w,
+/static/9ee058751d92d99edf9c37f04b02825f/a91f8/18.png 960w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>按下儲存後，就可以與Azure訂閱聯繫了!</p>
+<h2>參考資料</h2>
+<ul>
+<li><a href="http://www.visualstudio.com/get-started/manage-your-release-vs">http://www.visualstudio.com/get-started/manage-your-release-vs</a></li>
+<li><a href="http://www.visualstudio.com/get-started/deploy-with-agents-vs">http://www.visualstudio.com/get-started/deploy-with-agents-vs</a></li>
+<li><a href="http://blogs.msdn.com/b/visualstudioalm/archive/2014/11/11/using-release-management-vso-service-to-manage-releases.aspx">http://blogs.msdn.com/b/visualstudioalm/archive/2014/11/11/using-release-management-vso-service-to-manage-releases.aspx</a></li>
+</ul></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2015/02/11/VSO-Using_Release_Management_in_Azure_and_VSO_Setup/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>

@@ -1,708 +1,552 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="TFS,Windows Server,SSL," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="注意事項此版本為 TFS 2017 .!! 重要，基本上使用自簽憑證還是會有風險，所以在正式環境底下，還是建議使用正式的憑證。!! 注意，這邊只實作 TFS ，如果有需要和 SharePoint、Repoet Service 整合，請參考底下的 MSDN 連結 前言在 TFS 2017 安裝的時候就已經可以使用精靈來完成自簽憑證與 SSL 提供對外的服務，而如果已經裝完後哩?那又該怎麼辦哩，所以這">
-<meta property="og:type" content="article">
-<meta property="og:title" content="TFS - 使用自簽憑證與 SSL 對外提供網站服務">
-<meta property="og:url" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="注意事項此版本為 TFS 2017 .!! 重要，基本上使用自簽憑證還是會有風險，所以在正式環境底下，還是建議使用正式的憑證。!! 注意，這邊只實作 TFS ，如果有需要和 SharePoint、Repoet Service 整合，請參考底下的 MSDN 連結 前言在 TFS 2017 安裝的時候就已經可以使用精靈來完成自簽憑證與 SSL 提供對外的服務，而如果已經裝完後哩?那又該怎麼辦哩，所以這">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/0001.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/0002.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/0003.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/0004.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/01.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/02.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/03.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/04.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/05.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/06.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/07.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/08.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/09.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/10.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/11.png">
-<meta property="og:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/12.png">
-<meta property="article:published_time" content="2017-01-02T22:00:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:38.956Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="TFS">
-<meta property="article:tag" content="Windows Server">
-<meta property="article:tag" content="SSL">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/0001.png">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> TFS - 使用自簽憑證與 SSL 對外提供網站服務 | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                TFS - 使用自簽憑證與 SSL 對外提供網站服務
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2017-01-02T22:00:00+00:00" content="2017-01-02">
-              2017-01-02
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/01/02/TFS-TFS_Self_SSL/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/01/02/TFS-TFS_Self_SSL/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="注意事項"><a href="#注意事項" class="headerlink" title="注意事項"></a>注意事項</h2><p>此版本為 TFS 2017 .<br>!! 重要，基本上使用自簽憑證還是會有風險，所以在正式環境底下，還是建議使用正式的憑證。<br>!! 注意，這邊只實作 TFS ，如果有需要和 SharePoint、Repoet Service 整合，請參考底下的 MSDN 連結</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 TFS 2017 安裝的時候就已經可以使用精靈來完成自簽憑證與 SSL 提供對外的服務，<br>而如果已經裝完後哩?<br>那又該怎麼辦哩，所以這篇我們來看看，如何在安裝完後，還能使用自簽憑證與 SSL 提供對外服務。</p>
-<h2 id="開始之前"><a href="#開始之前" class="headerlink" title="開始之前"></a>開始之前</h2><p>因為這次會圍繞在憑證上，所以我們必須先知道如何快速地看到我們有哪些憑證，<br>甚至是管理憑證。</p>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">TFS - 使用自簽憑證與 SSL 對外提供網站服務 :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="注意事項 此版本為 TFS 2017 .
+!! 重要，基本上使用自簽憑證還是會有風險，所以在正式環境底下，還是建議使用正式的憑證。
+!! 注意，這邊只實作 TFS ，如果有需要和 SharePoint、Repoet Service 整合，請參考底下的 MSDN…"/><meta data-react-helmet="true" property="og:title" content="TFS - 使用自簽憑證與 SSL 對外提供網站服務"/><meta data-react-helmet="true" property="og:description" content="注意事項 此版本為 TFS 2017 .
+!! 重要，基本上使用自簽憑證還是會有風險，所以在正式環境底下，還是建議使用正式的憑證。
+!! 注意，這邊只實作 TFS ，如果有需要和 SharePoint、Repoet Service 整合，請參考底下的 MSDN…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="TFS - 使用自簽憑證與 SSL 對外提供網站服務"/><meta data-react-helmet="true" name="twitter:description" content="注意事項 此版本為 TFS 2017 .
+!! 重要，基本上使用自簽憑證還是會有風險，所以在正式環境底下，還是建議使用正式的憑證。
+!! 注意，這邊只實作 TFS ，如果有需要和 SharePoint、Repoet Service 整合，請參考底下的 MSDN…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2017/01/02/TFS-TFS_Self_SSL/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">TFS - 使用自簽憑證與 SSL 對外提供網站服務</h1><div class="post-module--meta--3YtjE">02 January 2017<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/Windows-Server/"><span class="post-module--tag--16U9p">#<!-- -->Windows Server</span></a><a href="/tag/SSL/"><span class="post-module--tag--16U9p">#<!-- -->SSL</span></a><a href="/tag/TFS/"><span class="post-module--tag--16U9p">#<!-- -->TFS</span></a></div></div><div><h2>注意事項</h2>
+<p>此版本為 TFS 2017 .
+!! 重要，基本上使用自簽憑證還是會有風險，所以在正式環境底下，還是建議使用正式的憑證。
+!! 注意，這邊只實作 TFS ，如果有需要和 SharePoint、Repoet Service 整合，請參考底下的 MSDN 連結</p>
+<h2>前言</h2>
+<p>在 TFS 2017 安裝的時候就已經可以使用精靈來完成自簽憑證與 SSL 提供對外的服務，
+而如果已經裝完後哩?
+那又該怎麼辦哩，所以這篇我們來看看，如何在安裝完後，還能使用自簽憑證與 SSL 提供對外服務。</p>
+<h2>開始之前</h2>
+<p>因為這次會圍繞在憑證上，所以我們必須先知道如何快速地看到我們有哪些憑證，
+甚至是管理憑證。</p>
 <p>首先，我們可以透過搜尋工具，搜尋 MMC 。</p>
-<p><img src="0001.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 393px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/26916ef9e2cb2261ee1d4e1ca1dc2f54/52621/0001.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 147.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAIAAACjcKk8AAAACXBIWXMAAA7DAAAOwwHHb6hkAAABv0lEQVQ4y2MQF5dgY+doamr+////+/fvv3z58vHjx68Y4Nu3bz9//gSSQAUfPnz4/Pnzp0+fGGQkRMVFBDrb24Dyly9fBqp4+fIl0KB///79xwEuXrz4+vVroEoGQSV9BgH55p7JQNHff/78/fv3x4+ff/79BbJwoZ+/fgFV/vr9m4E3pJfZr6Nh6aFHd65fvnjx7u2bQFv/EwGATmPgD+vjD+vNmLHvysvvx+6+O/Pgw5UXP6+8/EEQXX7xnYFf2YhBWCmmsv/00Qu7jl6bsed659I9S44/2nj964YrHzdc/YQLrb/ykUFYgJedgSGupPHgtMVbu2dMP/elb9+TyUdfr7v6ecM1vOjqJwZhEVEWZubsiqarn/6ffPDl5OPvJx7/AJJnnhBApx9/YxAWFmZkZGxtbQGGwZ8/f/4TDUABBtHc0kKyZmCkkq+ZIptHNZMaVSM0wERERCiymYGBobW1lRzNYmJinJycZNqsqKiorq7e3NxMjmYhISHynS0nJ6etrd3U1ESmsxUUFBoaGsjRLCgoCHQ2UDOw+rl37x6Q/EocAFZaoKhiZmaura19+vTpyZMnIXXdZyIAsD4EAA1SBF1Rojd3AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="0001"
+        title="0001"
+        src="/static/26916ef9e2cb2261ee1d4e1ca1dc2f54/52621/0001.png"
+        srcset="/static/26916ef9e2cb2261ee1d4e1ca1dc2f54/56d15/0001.png 200w,
+/static/26916ef9e2cb2261ee1d4e1ca1dc2f54/52621/0001.png 393w"
+        sizes="(max-width: 393px) 100vw, 393px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>接著，我們可以執行 新增/移除嵌入式管理單元</p>
-<p><img src="0002.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/935c6dac128aa88f6bd1e01c82ff9c04/0d97d/0002.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 51%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABH0lEQVQoz42Q204CMRCG9/3fxgsvDTcQT5EoURHBsOwucur23Nm22906ghGiEfkzmUyb+eaU3PWHo9liOk3XhJZMUCGZUFC50Ma6aX9YaNoYIzrnaw02mebFcPQqhQAwnNEimwnBnXPe7eW3quvaGJMVc1IyQtmalEkxX912ryfP43Sc5tlyki2lBiwPACUhlFJk2rZtmgY/DdiLy/vew/gpJf1Rkby8Lc7Ou53uoNN7vBlkVxNCVYV5OwB9PBAWwhG+nwnj/D1PwSgHqjJSC1ZVEP8QwrjFHlbGVp+yxoBUGoMQwqmw9V+pOCTeJB7VUfhgn5NgXze7CA8Uwv+dvT+Ai40gQq+ZWlG1IHzDNRrT9rdxbYkwpTQSvDBOgPsAt7xBIE5NEnAAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="0002"
+        title="0002"
+        src="/static/935c6dac128aa88f6bd1e01c82ff9c04/78d47/0002.png"
+        srcset="/static/935c6dac128aa88f6bd1e01c82ff9c04/56d15/0002.png 200w,
+/static/935c6dac128aa88f6bd1e01c82ff9c04/d9f49/0002.png 400w,
+/static/935c6dac128aa88f6bd1e01c82ff9c04/78d47/0002.png 800w,
+/static/935c6dac128aa88f6bd1e01c82ff9c04/0d97d/0002.png 1011w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>然後我們選擇憑證，並按下新增。</p>
-<p><img src="0003.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/5c38750835d5580e02627ec5abccbd22/5ae29/0003.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 47%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABYklEQVQoz3WRa0+DMBSG+f9/Sd3c/OIt0QwYMC5tKS20BQoFhhtz8zg1mR/25KSXpO9p+74WY4yQlFKa57mSsigKpVR1hjJOaMZ43na9s/bu7pfzxfLmbnY7m0Pd3M6sMAxXq1Ucxxjj8kyWZX7gY4QKISOEPD+A1lKIrjP7C3a7nRUEHsimaRJCtH80xuw/D8OwtZcPiW13xjRto2td/8dauw4hBMQpwaqqlVRNVZ+240GI0nH5y2vFWHMFa+28+54/fnxwIfIoCu8Xhe+PlB763uimNqbtuqti17EZ55/DgJ+f0OOTonQ7jsfj8XQ69dsRHtpcx3pbPHDHhavIZpNLWWkNfwYzpmmv267W+vJ025rOtL35tcZKoogghNKUgB5jsFrrb2NgyIWsYNYNFCyquqYZjTANCE95ARlakI0qS3kGEobtj5MgFlKGMYoTHMYJZC5UyQqRpQmOvJwEBfa+ADYH6cpUJJ8kAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="0003"
+        title="0003"
+        src="/static/5c38750835d5580e02627ec5abccbd22/78d47/0003.png"
+        srcset="/static/5c38750835d5580e02627ec5abccbd22/56d15/0003.png 200w,
+/static/5c38750835d5580e02627ec5abccbd22/d9f49/0003.png 400w,
+/static/5c38750835d5580e02627ec5abccbd22/78d47/0003.png 800w,
+/static/5c38750835d5580e02627ec5abccbd22/5ae29/0003.png 1169w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>接下來，按下一步就可以了，完成後，就可以看到目前這台電腦上的所有憑證。</p>
-<p><img src="0004.png" alt=""></p>
-<h2 id="建立憑證"><a href="#建立憑證" class="headerlink" title="建立憑證"></a>建立憑證</h2><p>竟然要使用 SSL，自然就要使用憑證嚕，所以我們要先建立憑證。</p>
-<p>這邊使用 makecert.exe 來建立，通常這個會在底下路徑，<br>C:\Program Files (x86)\Windows Kits\10\bin\x86<br>如果沒有的話，就要去安裝 Windows Kits。</p>
-<p>如果懶得去找 Windows Kits，或是不想裝那麼大一包，也可以直接將 makecert.exe<br>copy 到 server 上執行。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 606px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/ba0bfd721d2e618962c097a3bdb4834d/cec09/0004.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 77.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAIAAACZeshMAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABiklEQVQoz6VS2U7DMBD0/38L4gN4ACEhEEVtmsNJ2lxuLp+JE7eIS6Vs2iIeICBgNNqsvTvxrGXkx3kYpU/b3eN29/TO59fdw8vrw/P2G94/viAqVF2VnLO2aZQUnDEIsKN1u9ms12szSmNQRcXdZGLbjud5lmXZtj2dTn3f55x3Xae/QgvYJ0g0XRQtoXs+nzuOg30MekKIlPJLpTFm8GMM/BrxpmOUep47m83iOE7TtCiKwA8YZYeOrh9w+EIsyzJJktUqV0ohrjQMvCIkDIOyrKC8N9VBjTHGuVBKciGElPsgF4sFTAcR8uFkuCTXdeHYOEnAf57nUMMYD1Ngn2QZLINwsYyWURRBDzSCfzCCmGz7d0sfyTi6PQ7zD7aPG7/H/8QMxD3YGLz8UQz3W9dUa/1H2z8q9aceVEt4broZ56Dp+6MIEniesOgNRKRaven1eoS9bgSrabmqqyotaJTlFVeNFFVOJKfIIsovGjxCJxPXbno5Dc6t5HRCTq6CM5fehuXFHb7B2RtZsnA/blZEzQAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="0004"
+        title="0004"
+        src="/static/ba0bfd721d2e618962c097a3bdb4834d/cec09/0004.png"
+        srcset="/static/ba0bfd721d2e618962c097a3bdb4834d/56d15/0004.png 200w,
+/static/ba0bfd721d2e618962c097a3bdb4834d/d9f49/0004.png 400w,
+/static/ba0bfd721d2e618962c097a3bdb4834d/cec09/0004.png 606w"
+        sizes="(max-width: 606px) 100vw, 606px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>建立憑證</h2>
+<p>竟然要使用 SSL，自然就要使用憑證嚕，所以我們要先建立憑證。</p>
+<p>這邊使用 makecert.exe 來建立，通常這個會在底下路徑，
+C:\Program Files (x86)\Windows Kits\10\bin\x86
+如果沒有的話，就要去安裝 Windows Kits。</p>
+<p>如果懶得去找 Windows Kits，或是不想裝那麼大一包，也可以直接將 makecert.exe
+copy 到 server 上執行。</p>
 <p>基本上，我們只需要下以下命令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">makecert -r -pe -n &quot;CN&#x3D;對外網址&quot; -b 01&#x2F;01&#x2F;2016 -e 01&#x2F;01&#x2F;2020 -sky exchange -a sha256 -len 2048 -ss root  -sr localMachine</span><br></pre></td></tr></table></figure>
-
-<p>-n 後面要接上對外網址，不然到時候瀏覽器會出現警告，<br>而 ss 後面代表要放到 受信任的根憑證授權單位<br>sr 代表是放到 本機電腦；可以參考下圖</p>
-<p><img src="01.png" alt=""></p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">makecert -r -pe -n &quot;CN=對外網址&quot; -b 01/01/2016 -e 01/01/2020 -sky exchange -a sha256 -len 2048 -ss root  -sr localMachine</code></pre></div>
+<p>-n 後面要接上對外網址，不然到時候瀏覽器會出現警告，
+而 ss 後面代表要放到 受信任的根憑證授權單位
+sr 代表是放到 本機電腦；可以參考下圖</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/5e1f3cf4ba3787013c1bf75536e363c1/d3b48/01.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACS0lEQVQozz2PTUzTYBzG/3wkCAejoiaKB8VozBwyxxRFEoM6Y/w4oAkBF2VGDkZNhsYPdGyJiAnhZsSDBy96kcD0puEAbogj48uxycZm19Z2a7u2FLu1EGV1vhXjk/fw5E1+/+d54PLNzjaH23bdZW/vutLeZXc8QqYVPQfyj+23ntjv9Lbe7mm729N49f76qjOV9U2w2QIVdVBxGCwGc0O1sd5oOG42nT1Sd7L2gLVmv9VSc7S6Cn2eOlRrtZhPWMzHTEZ700XDhYflB1tKqxqLdp+G7Q1QULapqACQbM228YmpoQ9D7/sHhz/6hke8/vFAKBwJBkPB2fDMTDCBk+pPTZLVVHrhwdN+2HEOoGxjcaFO3+voUJYVmU9zMSyjLuVWdCmKomnaL10ri4tSPEFEcUbOLne/8oLZAVCyrvhvtMvlXMry5HyMnJ1hWJZJMbwgMLpYnucXJAnHcSrJpKVsPp/vfTMG+66twoUIdrs7lQwf/PSZDPhTFM2ynCRJLMNyXFoUROQxDBME4XdeV9+ADyrPA5SW/4flH+k57ygzPfmdJGmaFkWBoiiaTiJyUZJQPlqR03S8z+OHPZcA1vyDnU6nnOEJn4+NzOEkSeAEx3EkQRIEiVoIoojuyHImp2kIfvZuAkw3ANbuLNtiGPC8ZZhkio6hzZKQTtE02pqRZWQEFJjNqqqCDqLw1drPUe1dzQAb9pZsrXn5enAsMD3i9Y2OT059CU0Fv4Yi8fA8Fop+m43EY0QSo5hogsYolmJFWVG7X3hgm/UPzpl1ip3OM7sAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="01"
+        title="01"
+        src="/static/5e1f3cf4ba3787013c1bf75536e363c1/78d47/01.png"
+        srcset="/static/5e1f3cf4ba3787013c1bf75536e363c1/56d15/01.png 200w,
+/static/5e1f3cf4ba3787013c1bf75536e363c1/d9f49/01.png 400w,
+/static/5e1f3cf4ba3787013c1bf75536e363c1/78d47/01.png 800w,
+/static/5e1f3cf4ba3787013c1bf75536e363c1/64756/01.png 1200w,
+/static/5e1f3cf4ba3787013c1bf75536e363c1/d3b48/01.png 1340w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>接下來，我們稍微挑整一下憑證的用途。</p>
-<p><img src="02.png" alt=""></p>
-<p>因為只需要提供驗證，所以勾底下的就可以了，<br>另外，易記名稱記得要 Key，到時候 IIS 上的顯示，就是會顯示這邊。</p>
-<p><img src="03.png" alt=""></p>
-<h2 id="IIS-使用憑證"><a href="#IIS-使用憑證" class="headerlink" title="IIS 使用憑證"></a>IIS 使用憑證</h2><p>當有了憑證後，我們就可以讓 IIS 使用此憑證。</p>
-<p><img src="04.png" alt=""></p>
-<p>接下來，我們就將此憑證匯入，在這邊匯入的是剛剛我們建立的憑證，副檔名為 .pfx<br>如果找不到 .pfx 的話，也可以從憑證管理員的地方進行匯出。( 不是下圖的地方匯出喔! )</p>
-<p><img src="05.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/6e91bee2b6f90437304d818a88e4f13c/e5fd4/02.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 58.50000000000001%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAIAAADtbgqsAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACfUlEQVQozy2Qy2vUUBTGL924UXShC/8LFQpuuvBfUBB37qyIG1dSnEUFodqBunAlbVEKiiLWhRattlKxtdrozGSaeeQxeSd3kszNe/KcTEym/Thw4Nzv8Dv3A+DkBXDq0nGdnp46OwPOXVld/9rG2/Va65AWuxwkaKnFyE1KkKA+92QVnLg4deYyOD8D5p++qCwuP6iuzj1+XqmuzC2u3F9aYyjOwf7weMMw9GDouY4dR2GWjfI8328ylWdvF5fXp6/dA2HkxUmS+Y7rmO4wzselwyQIs8d4PB9EkW3bQRgmhScbx3FcTEbZuPDcWXgFSLKrQs0yLYah1b6ObMeUoVY7EGVuSNN5mlqW5Xt+GAajLAuCIcUpTVrhZP3G/BsAxXa/rxmGwdBdVVUVFQrYP6TwtQamEq3ctg2EXMeJoihJ02yUUoKGkX1SMq8/fAdEBieINtT6nQMMEoTW6Qi/MUNkeY6KPT/hOMtxB7qhaZrvD8fjTNEGAkSuH96cXwNSr4njhKwovTah0LRCM1AQbdPy/TILj6IizyuYBTmMSg3DuLi/+PPswmvAUrV6HYcQ9hiSE3iOF1hedDw/nyiBMEWozGdcquhBlCRpGeps9T3ge4QkKVEUSwIriYKiyBwv2rZ7tJwVDwyTT5aPJkGcpqOSfHvpY3m2IEoIIZGlekwpta8FYZxPQEW+UqPBtzsDlpVFSdcNP4jiCflW9UMRWJ0kqTRNka4iQx/oOkKDLDvm5NkoHOg+VFILBZ4bhUEyyo7Jj16Cza2djc2dnT3s249fn7d/fvm+u7G9izXJJsnjXQ4neaInE6xKsPAvqXzaa20ddPfr3UOSvXp34T/QxV5hKQDWmgAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="02"
+        title="02"
+        src="/static/6e91bee2b6f90437304d818a88e4f13c/78d47/02.png"
+        srcset="/static/6e91bee2b6f90437304d818a88e4f13c/56d15/02.png 200w,
+/static/6e91bee2b6f90437304d818a88e4f13c/d9f49/02.png 400w,
+/static/6e91bee2b6f90437304d818a88e4f13c/78d47/02.png 800w,
+/static/6e91bee2b6f90437304d818a88e4f13c/e5fd4/02.png 1022w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>因為只需要提供驗證，所以勾底下的就可以了，
+另外，易記名稱記得要 Key，到時候 IIS 上的顯示，就是會顯示這邊。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 470px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/4427b6ab63e7b38e5f4d1456519ba46d/c52b7/03.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 125%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAZCAIAAAC+dZmEAAAACXBIWXMAAA7DAAAOwwHHb6hkAAADkUlEQVQ4y4VUW2/jRBTOn+UdgZB44wHxwBM/gC37AhJoUVcChGC1226b7Y0mTWPHdhzHduzEt/GMbzMe320mcTftbiv49Mk6M55vzpkz58xAXNm3M8lDcdl1Wd3Sqs2qlpZt0XTMSIs6LZo92XxCyygtSFZINh64MPRcJ45iz3UB8MIkgVGMoth0HGakRYmznOT3pDsWlKhuNPAjTGlKKRVEURQEZzGPVSlRJeXyNFSEDtoNsCpg1T19K7E2oWUVFC/scADjNEDQtq2IkC5E18Pppz/cfHYw+uL55POD8SffHX35fPTtC+GbX/ivf+a/+vF2cqsGkpz6aInyAYzIStdM0yRZ3oQB/+7m+5c3zw7Hzw5HBy/HjD/9MfnzSPj9zey317PDvzl5unA4IXJ9xacDlDDPKE6Sruuats0I7gpGsmW5Y0GaDPdsc5ziJMG4LnPNSwYxLREES0VxXK+qqrbryqqpmq6smz2r92R207TswxytYDoISY7jSFPVubxYLOTNZrNerzcbK01TFku7BxO1bOduN7n9rnyyFVdFri2V6S03GY1YCLIkytKckvRuYc8HuBdHCTUvL4TjI+HtiXj8Vh4Onek0VhSsqkTTiaaluk50PeL5Koq6u2DeixFAyVJJCNGWS8eyZjNhxnG6qpqGae+OMBdFiFDpgdzzPhZDD5XWpu46lsUiL1ipBShgYAbBGCcY+TDNstwD1HVZomqW1bq+FxeWlTWtC/ylpk1nMw+i3sHDI+YQ9WKW7gSTJApMRAfQD9O5lBiGfn0tnJwcv/hVPr/oICxsu3ScLW27AoBKUg5AvxvGJIBgK0YJZbGi9caYS5Ozs+GrV+N3Z8T3E9fFADDjjgDUZdmLi7LMKdneMxOzcVaUMAw4nhtPpxEm3X+iKMosxcZeTGnmui4rldVKtyxLluWrqys288Hh92LmOX3gmWYZ9H3TMFarFc9xw9OhZTmPZU+LWXsHKHRtW9f1paqtdL1kdd629YdodkWapjTFscESFmDax9b/6J09KXMc+/z84vLikhUSu6u9uG3a/wFbw1rF2wFCyFpyG3aAs32tf1T9W3bd43P3i42deBt20zx29QT6+TsxC5u9kQQn7CXZgxV5EMXztT8Rl/zSVCwIANB0jTWJ7/uGYcgLxdDUsWwObD+M4+gh2BCg8FS0/jrn3owX/yy23cXznChJ7Klgb+xoNOZvJ+fTxb9+BG55/w6QowAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="03"
+        title="03"
+        src="/static/4427b6ab63e7b38e5f4d1456519ba46d/c52b7/03.png"
+        srcset="/static/4427b6ab63e7b38e5f4d1456519ba46d/56d15/03.png 200w,
+/static/4427b6ab63e7b38e5f4d1456519ba46d/d9f49/03.png 400w,
+/static/4427b6ab63e7b38e5f4d1456519ba46d/c52b7/03.png 470w"
+        sizes="(max-width: 470px) 100vw, 470px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>IIS 使用憑證</h2>
+<p>當有了憑證後，我們就可以讓 IIS 使用此憑證。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/af21d80415c30f9a09766b41a247b04d/0d97d/04.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 51%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABvklEQVQoz3VR23KbMBDl/3+pnbaZSTtTx2nr2AZjnIDFRUhaXRESYLCjOtPHavbh7O45e1O0OpRJQU+IHIsmQy0zI7cXMOP/TLmlUf0RQ1yI6OHndr1Nf28PWdFgplDDUE0bKglowk2wFnSIt3e3JiLw4qz4tc+ed6/Rty9f1w8P2W5/OiPGuVESgPW9ncZx8G4chmkcbtfrPM+XaQo4TrNdnFbofM7z6O1lu/r8KX/8Xm42ArjxniuFqqrGbZYe0yTNjpkQkhDS1I3SCuEW1cQ5p5WO3DAILdW5ZJs1+fN0/vFIkphXpeBiuV5vt9D1uizLvCwBSykwSCws5YIDRMM03xm3zvWd0ZIyiRDs9+X6WcfJhcFs7WTtRyFGKcLs1MiKAKX0n3i5KiOFkaTGoutr3TnvBa6yp9XLocyTtO80Exa3hILqe691YMvIj5fb/YVVK0IFAOccNzjsojtDUJHGp/qtMFqHQY0x4YyD8525i6d5+RBTYASY0cq5kNItaaWA3mpre220MYoD8a7/+wXe20BRKkrzusS0BXXIcXJCr6jBoJgKJ9FUGCo7pjomO1BWdB60DYBJ23KNWv4OboInu9dAc4oAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="04"
+        title="04"
+        src="/static/af21d80415c30f9a09766b41a247b04d/78d47/04.png"
+        srcset="/static/af21d80415c30f9a09766b41a247b04d/56d15/04.png 200w,
+/static/af21d80415c30f9a09766b41a247b04d/d9f49/04.png 400w,
+/static/af21d80415c30f9a09766b41a247b04d/78d47/04.png 800w,
+/static/af21d80415c30f9a09766b41a247b04d/0d97d/04.png 1011w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接下來，我們就將此憑證匯入，在這邊匯入的是剛剛我們建立的憑證，副檔名為 .pfx
+如果找不到 .pfx 的話，也可以從憑證管理員的地方進行匯出。( 不是下圖的地方匯出喔! )</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/5baf4a9a2bb7e83f24256fd8a7d0a674/0ae55/05.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 46.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABm0lEQVQoz01Qa4+bMBDk//+rqh96uiS9S0LegQQwBj/WT2zAJKHunVR1tNJKq52dnUmON4SZwpQTLpVx1o/GDabr/6tBd73q+i487ThVXCBqO+8755IfP98+1uly9Xm+3hqQbbwCWhgPxsUSxnHjpRs6N2SH8269Tfen7e5cYVYTSJafH4vFAlWobUleFAjVlzRlCFnODWOKUpFl+pr1ZUHS3X65IS1pm+aK4IIgYZzuTgchhNa6LErg8vT+TrKMl2WdbovNptrvDUhJmXF+i03eQMTz+ZjnORnDZBUWQPthKO73W1ERQgSAxJit11opoRSX2nnHQRZE3TFHmIYwvV5zMk0PBQg4G0Pw3iulf69Wx8MBLxe0rinn8Zbvh3l+adN1f4OySshpmr6Ux+CdBGBd58YwKsavi+Xl19tle8gbhnFb46YPcfU1RPS9NVb+I3+3iBCC0hqEpFEORNmwrCJcqDiJ1h7TFKnjMDhrtdKPx5fn2/0eE46/NYQer7c8z+u6jmzgXH6lqI2R0blUUsUEDIBoWqKNdb7/AwoS8LG9nDE9AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="05"
+        title="05"
+        src="/static/5baf4a9a2bb7e83f24256fd8a7d0a674/78d47/05.png"
+        srcset="/static/5baf4a9a2bb7e83f24256fd8a7d0a674/56d15/05.png 200w,
+/static/5baf4a9a2bb7e83f24256fd8a7d0a674/d9f49/05.png 400w,
+/static/5baf4a9a2bb7e83f24256fd8a7d0a674/78d47/05.png 800w,
+/static/5baf4a9a2bb7e83f24256fd8a7d0a674/0ae55/05.png 1121w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>接下來，我們就要把站台與憑證繫結。</p>
-<p><img src="06.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/471440c91f6c9c113bbff04dc9261b45/0d97d/06.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 51.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABvUlEQVQoz12Q626bQBSEef/n6d9GbVq1SRQHQ3wBA4aFZW/A3rwLGBsccKqq6miO9GmkOXu0zu9t5sV4n+J9DP0wSxEHRGRYoMYS0WHe/udKn0GtdjnxY+Y8vmye13vXDw4ZKpkAJcsKkpcMkgYxwfiJNprUitZq5jkJYxgcoRekb5vMefj+GG7XBQCvh5iyyijZ1FVTMUZnkb61s8fr9TIMQ98PvX33vv76+cVzH47xk+P5PsjA0J9RniutLrdbN1wapWsuCGOYMsLq7jpp2wkuJBdJ9LrdPIbhU1n6TuR6h3UA3C3evcO3Z//bj2LlyvBg4jWHOUeoRhUEGSJEam06u0vSJCcIoihKnH643u4SSpKirDASFEuKaAqQ52PPg6sXEQQyCFQYcteNVl4eH1trCcZ/ytM0mda2Xculml/Qxpi207Y1fS9PehzHaRrHYaggBDGIUsyFoIR+lqe5T6sKU2qMHS6X+7p7PC0wLbNcV/PmkIEU14uq2hku4+fZXPASYyn4+dzfg+kf3+b/nkGKJi1yIaQ5KcWFc4S0QBTXPIZsYcwYV400jfpry5VdQFuh26QgSY4ZlzmuPgDIdSU0fjLcGAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="06"
+        title="06"
+        src="/static/471440c91f6c9c113bbff04dc9261b45/78d47/06.png"
+        srcset="/static/471440c91f6c9c113bbff04dc9261b45/56d15/06.png 200w,
+/static/471440c91f6c9c113bbff04dc9261b45/d9f49/06.png 400w,
+/static/471440c91f6c9c113bbff04dc9261b45/78d47/06.png 800w,
+/static/471440c91f6c9c113bbff04dc9261b45/0d97d/06.png 1011w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>最後，在這邊把 https 加上。</p>
-<p><img src="07.png" alt=""></p>
-<p>接下來，回到 TFS 的 設定畫面，我們就可以變更公用 URL，<br>而這邊要注意，有可能因為 Windows Server 預設的安全機制，造成驗證失敗。</p>
-<p><img src="08.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 660px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/7a3cafb5d35effe40d9a129ac560a7bf/7c811/07.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 58.00000000000001%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAIAAADtbgqsAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACBElEQVQoz22Ra4+iMBSG+f//ZTPJJvth1zGZSVZFJ6IyolwKlIulF1sKiuMN3aPGzX7Y5qENp7zte16MVcGVrnf743a3334dmv3xX6DyKG6bL2B3OF4u53N7Pp/g+52R5jkT68v1ernAdG1hs23/AjXg1LaH9nK6XnnOLNO2zIk9cYPBwPB6fYEQc93483OxXAouNnVdV1WlNaye5y4WCyWVHI3E+zv61X378dr59v33z7fQ7BmDlxfQo8Eg6Pf8ICgKAkpdltV95HnGhSiVKsYWSxPKxNJx5vbMdeaUUiOaWNncqdK0zrI6S3WCS4zLJJGeJ6KobpqbCXh2u812S4Wc2p9jy5radopjw7fG3sdoORxGkykPQ5VgFccqTaXrctfVmw240FrD5dAIiAOEfN9HCFFaGBkKUoQyFBKMZVEoSgGxWpE41krVINa3i+t7EFyWuoLaLRYpleEMh+HMlmnKoij3PGDl+QQh4vs0z0lRyPWac04IkVKCWKryMaBohKYZmUM8+kD9/qzTmb127W4XfgPu9ULLWrgeYwxjPHccWhQgfmjBDpxl6PW6fFJBY3duO5xHURiGKEkS0MdxTMgKegbbTdOAbc6FwVX1RLMn8MrWpR9hN4iiJM8I8xCshHCIpYAzKWVccONuofovt2Tu2UBcm80WZoguzzLHcbIsBy9/AHI+h/kJHaguAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="07"
+        title="07"
+        src="/static/7a3cafb5d35effe40d9a129ac560a7bf/7c811/07.png"
+        srcset="/static/7a3cafb5d35effe40d9a129ac560a7bf/56d15/07.png 200w,
+/static/7a3cafb5d35effe40d9a129ac560a7bf/d9f49/07.png 400w,
+/static/7a3cafb5d35effe40d9a129ac560a7bf/7c811/07.png 660w"
+        sizes="(max-width: 660px) 100vw, 660px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接下來，回到 TFS 的 設定畫面，我們就可以變更公用 URL，
+而這邊要注意，有可能因為 Windows Server 預設的安全機制，造成驗證失敗。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/ed54e56fd5ae8f3f5ae59c61eacca8fc/3ccd1/08.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 66.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAIAAAAmMtkJAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACN0lEQVQoz22Sa0/bMBSG89sGYhofYPsyxMR+4Pg2bWgXadoKpFBIaWlH2zi+JLFzs3NPA7SldKftNIltR68iO/Hj8+a1tYFpRlFUFGVRFHme397eZVnmB0EQQsEX+a/CVcEajXsBsjAsvr27u7+/XywW7w4P9/ffvD042N5+sbHxbHNz449guvV8a2/v9c7O7u7LV1pV175HKCEyknVdA0wI/vzp6OOH940f35v6sX76l07Oz/Sz5unJcUMrqzGlGPw9zGaPj48Ag/nBYEApBeuUUGxhQil3uVJxnCQq8hF1ApkIwTWVpAgNBRdlWa7hNE2v2u3RaEgpMQyj272GvSyETNNkjDrcaXStnzSA8Qoe3UgVzx5mi1VBYJfGpWVZjLJer8eFgETACNAu5zZBP/R2p08YtrS8yKVPELKUUuvOSZJAEyGEzVin0+n3+/AjEC+8kXFMW61vR43LhuHbTCvH48Ucui5rDcdxLFbdEELNpt5bwZDoECHa67kXLdP1R8yPpAR4mfAag5rP52A7S1M4diUld908y0AqksxxXV3PpFRKhr4HGUPaT+DJdEocbnuBzHKZFSovojSTaR4VZUxocDNMqhpMed7/4Ol0OrgwOo0T3L3GnW6/ed5vniHjymxf4S9f8XnLJrYfRr/h6qntyWQiMAkpS4QXu9zDhJsIpssxYxGcOF7CYRBAwBpc4Loal0VZwXWpxmmacT90vcBeyndgHITwpK64vhmAID/TIozZjuP8AmCmoY8iai6IAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="08"
+        title="08"
+        src="/static/ed54e56fd5ae8f3f5ae59c61eacca8fc/78d47/08.png"
+        srcset="/static/ed54e56fd5ae8f3f5ae59c61eacca8fc/56d15/08.png 200w,
+/static/ed54e56fd5ae8f3f5ae59c61eacca8fc/d9f49/08.png 400w,
+/static/ed54e56fd5ae8f3f5ae59c61eacca8fc/78d47/08.png 800w,
+/static/ed54e56fd5ae8f3f5ae59c61eacca8fc/3ccd1/08.png 967w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>關於驗證失敗，可以參考底下三篇</p>
 <ul>
-<li><a href="http://blog.darkthread.net/post-2016-04-16-check-auth-method-of-browser.aspx" target="_blank" rel="noopener">http://blog.darkthread.net/post-2016-04-16-check-auth-method-of-browser.aspx</a></li>
-<li><a href="https://support.microsoft.com/en-us/kb/896861" target="_blank" rel="noopener">https://support.microsoft.com/en-us/kb/896861</a></li>
-<li><a href="http://blog.darkthread.net/post-2016-05-18-use-cust-name-logon-local-iis.aspx" target="_blank" rel="noopener">http://blog.darkthread.net/post-2016-05-18-use-cust-name-logon-local-iis.aspx</a></li>
+<li><a href="http://blog.darkthread.net/post-2016-04-16-check-auth-method-of-browser.aspx">http://blog.darkthread.net/post-2016-04-16-check-auth-method-of-browser.aspx</a></li>
+<li><a href="https://support.microsoft.com/en-us/kb/896861">https://support.microsoft.com/en-us/kb/896861</a></li>
+<li><a href="http://blog.darkthread.net/post-2016-05-18-use-cust-name-logon-local-iis.aspx">http://blog.darkthread.net/post-2016-05-18-use-cust-name-logon-local-iis.aspx</a></li>
 </ul>
 <p>或是於底下的註冊碼進行修改。</p>
-<p><img src="09.png" alt=""></p>
-<h2 id="匯出憑證提供給其他電腦"><a href="#匯出憑證提供給其他電腦" class="headerlink" title="匯出憑證提供給其他電腦"></a>匯出憑證提供給其他電腦</h2><p>接下來，我們要把一開始放到根信任憑證授權單位的憑證，進行匯出，並且到時候這個會提供給 Client 使用；<br>這邊，我們只要選擇之前的那個憑證，並且按下滑鼠右鍵，就可以從選單裡面找到匯出，<br>之後，於跳出的視窗中，選擇不要匯出私密金鑰，並且選擇 .P7B 格式，最<br>後步驟則是選擇要匯出到哪個位置 ( 因為步驟滿簡單的，小弟就不截圖了 )</p>
-<p><img src="10.png" alt=""></p>
-<p>接著，將匯出的憑證，用盡各種手段，複製到 Client 的機器上；這次我們就要在 Client  上打開 mmc ；<br>接著在 受信任的根憑證授權單位底下，按滑鼠右鍵，選擇匯入。</p>
-<p><img src="11.png" alt=""></p>
-<p>這樣就完成了!!</p>
-<p><img src="12.png" alt=""></p>
-<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>其實過程還滿簡單的，不過這邊的設定僅 TFS 那台 Server 而已，<br>如果要連到 SharePoint 或是 ReportService ，會變得麻煩許多，<br>另外如果額外有 Build Server，也別忘記要把憑證匯進去喔~</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a href="https://www.visualstudio.com/zh-tw/docs/setup-admin/websitesettings" target="_blank" rel="noopener">https://www.visualstudio.com/zh-tw/docs/setup-admin/websitesettings</a></li>
-<li><a href="https://msdn.microsoft.com/en-us/library/aa833872(v=vs.140).aspx" target="_blank" rel="noopener">https://msdn.microsoft.com/en-us/library/aa833872(v=vs.140).aspx</a></li>
-<li><a href="http://blogs.uuu.com.tw/Articles/post/2013/02/06/%E4%BD%BF%E7%94%A8X509%E6%86%91%E8%AD%89%E5%8A%A0%E8%A7%A3%E5%AF%86.aspx" target="_blank" rel="noopener">http://blogs.uuu.com.tw/Articles/post/2013/02/06/%E4%BD%BF%E7%94%A8X509%E6%86%91%E8%AD%89%E5%8A%A0%E8%A7%A3%E5%AF%86.aspx</a></li>
-<li><a href="https://msdn.microsoft.com/zh-tw/library/bfsktky3(v=vs.90).aspx" target="_blank" rel="noopener">https://msdn.microsoft.com/zh-tw/library/bfsktky3(v=vs.90).aspx</a></li>
-<li><a href="http://vmiv.blogspot.tw/2016/03/makecertexessliis10.html" target="_blank" rel="noopener">http://vmiv.blogspot.tw/2016/03/makecertexessliis10.html</a></li>
-<li><a href="https://msdn.microsoft.com/library/windows/desktop/aa386968.aspx" target="_blank" rel="noopener">https://msdn.microsoft.com/library/windows/desktop/aa386968.aspx</a></li>
-<li><a href="https://msdn.microsoft.com/zh-tw/library/ms733813(v=vs.110).aspx" target="_blank" rel="noopener">https://msdn.microsoft.com/zh-tw/library/ms733813(v=vs.110).aspx</a></li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/TFS/" rel="tag">#TFS</a>
-          
-            <a href="/tags/Windows-Server/" rel="tag">#Windows Server</a>
-          
-            <a href="/tags/SSL/" rel="tag">#SSL</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/01/01/Hexo-Use_Travis_CI_Auto_Deploy_Blog/" rel="next" title="Hexo - 使用 Travis CI 自動佈署 Blog">
-                <i class="fa fa-chevron-left"></i> Hexo - 使用 Travis CI 自動佈署 Blog
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/06/Docker-Docker_for_Windows_10_First/" rel="prev" title="Docker - Docker for Windows 10 入門篇">
-                Docker - Docker for Windows 10 入門篇 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#注意事項"><span class="nav-number">1.</span> <span class="nav-text">注意事項</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#開始之前"><span class="nav-number">3.</span> <span class="nav-text">開始之前</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立憑證"><span class="nav-number">4.</span> <span class="nav-text">建立憑證</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IIS-使用憑證"><span class="nav-number">5.</span> <span class="nav-text">IIS 使用憑證</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#匯出憑證提供給其他電腦"><span class="nav-number">6.</span> <span class="nav-text">匯出憑證提供給其他電腦</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">7.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">8.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/99fdb2a09e7320faf2f2b0c31c952243/0d97d/09.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 51%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABfUlEQVQoz12RW3PaMBBG+f+/qA996GNn0hZCEqiwsYKxscGS0P1iWVLkJCVpvjkjjXZ09mF3UTQ9RkgILqVkjBtj3TjHOjf5aXSjy28/fol9zUIr6f1Eh6J+hm1dY4xjShmE8JVxKiQTcvThnSlYPzk/hRhCjAtjTEpJINA2dVMdagi1lLlyHoYN2FXwmVAqBXNGaaW4EIxSZV16zSznJgIX5+5YrZ42P5fbu/XhcQeL48NyDf78rgFYrbarx6oE8HK+dAMSynySY/Kma2qA+sGWe2csK/d0C1B18AR7Spfb/vuvpiy75EfjJ67sf/IoT027p8U+YJSrMY8hRml9CmFmHkJ6O+3ov8pOtpfqiW3+zl/i/Cm8yTfpX9xnWWudW3O4Bj++8f7yIadEZe6cN+IySlsujTaWcsFucl5hvrxqTsedNu4m53BlCOWECcYl7Mh92dXdUB8bfZs2KIoKHtq2Kstde+rJlSJMML5iQsmVI8rxByKDqCRMUTHzAiXzNv+cGZu1AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="09"
+        title="09"
+        src="/static/99fdb2a09e7320faf2f2b0c31c952243/78d47/09.png"
+        srcset="/static/99fdb2a09e7320faf2f2b0c31c952243/56d15/09.png 200w,
+/static/99fdb2a09e7320faf2f2b0c31c952243/d9f49/09.png 400w,
+/static/99fdb2a09e7320faf2f2b0c31c952243/78d47/09.png 800w,
+/static/99fdb2a09e7320faf2f2b0c31c952243/0d97d/09.png 1011w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
   </a>
-</div>
-
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2017/01/02/TFS-TFS_Self_SSL/';
-      var disqus_title = 'TFS - 使用自簽憑證與 SSL 對外提供網站服務';
-      var disqus_url = 'http://skychang.github.io/2017/01/02/TFS-TFS_Self_SSL/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+    </span></p>
+<h2>匯出憑證提供給其他電腦</h2>
+<p>接下來，我們要把一開始放到根信任憑證授權單位的憑證，進行匯出，並且到時候這個會提供給 Client 使用；
+這邊，我們只要選擇之前的那個憑證，並且按下滑鼠右鍵，就可以從選單裡面找到匯出，
+之後，於跳出的視窗中，選擇不要匯出私密金鑰，並且選擇 .P7B 格式，最
+後步驟則是選擇要匯出到哪個位置 ( 因為步驟滿簡單的，小弟就不截圖了 )</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/375796671ec1b51e4c067a67b8d7f4d2/0d97d/10.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 57.50000000000001%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAIAAADtbgqsAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAB50lEQVQoz3WSzY7TMBSFzQOwQkJCIB6BBRILVkjwDLwbjDRIII1mMWzKjt0sYBAzRVWZls60JGl+7PzUjhMncWynabhpJTQdwdGVYsn+fI/PDaIpi+IkCkPXdQMSRXEcRklW1jTllOeVMlASSje3igmJ5tYiZFnJGMaBG6a1UnWtdNMUeV5VVfd/1aZFi+tJEifaNCHxQ0JgnbC06TrwgglhjGZZ3rbtZl9dtxHSIOtqaDvLoiiwt/RsmxBij0Z8NDZSFmUphNDaQJ92X5u2FXUD8I/z8yE4XI5/zr98XV4M7bNvMuVa6yAIPN+HzlLKf9huWuTMR5eTacr5KiKu4/iuh0lo1r0xz/OuZjPbsjAmlFJwdxNWAF9Pvk9+Xa3X6yQKLOu328uDxGCbc+57/opSeEscxxnnt+HZ5dl8YWmlY+IvHdsHBViZHjbGgOeyLDnP+hFoDT324EKwsqxgD0NclmXbThjGTW+7hxlj0B+wXcgQ1R4Mn230XSXSlCYZo4wmZt0fgpHTrZRSN7GdTLtBBx9O3r4/OTweHB5/OjgavDkavPv4Gf6wfjzbS3cN/0643XS7a1a5ROjeU3T/GXrwHD18cefxS/To1d0nr6cLV9UyF7nYCnLeLbJcTCw8nnsBxqcX0z9aaI/THYTPJgAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="10"
+        title="10"
+        src="/static/375796671ec1b51e4c067a67b8d7f4d2/78d47/10.png"
+        srcset="/static/375796671ec1b51e4c067a67b8d7f4d2/56d15/10.png 200w,
+/static/375796671ec1b51e4c067a67b8d7f4d2/d9f49/10.png 400w,
+/static/375796671ec1b51e4c067a67b8d7f4d2/78d47/10.png 800w,
+/static/375796671ec1b51e4c067a67b8d7f4d2/0d97d/10.png 1011w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接著，將匯出的憑證，用盡各種手段，複製到 Client 的機器上；這次我們就要在 Client  上打開 mmc ；
+接著在 受信任的根憑證授權單位底下，按滑鼠右鍵，選擇匯入。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/6118e38fd93cdfe7c6b1e292eb2b0352/0d97d/11.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 51%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAIAAAA7N+mxAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABS0lEQVQoz3WSS3OCMBSF+f8/qPu2q7ajCxECVVCEFCGQhEceJASb6tRqB88uM/e7c865cWLPxwTneZ5CKKUglHAuTg80KM3lcDpNo9ZSSidOoiDaVoQiivU4IlQSQoZhmKbpFrs8uZC7FGLaopoUqHbqQ+S9vX5FcRpuFG1wXRVF0fe9tpt+ZYy5wi8L8OGn6z1ahpkjSug9P0UrF3qgB6DFuGfMzl1JfRYqS4SQ0iMXw9WOIxnZ+At35RYlGqdJDkPbNqhCrVXTNJQyxu2cUsqu+Ml8hi+RHMHxJ1h6PkjSzHrruw4AEIZhmmb5MbflWct3hd3BDO+27vFYVJjadJMxjDFCaNd1ox7/FTYDwyRIMxjHe9vM7IVsYTb8DKwkDdbvySFrut48gG9tC6n+4CxLAn+1Tw4wL2wnZk5SG8JHpY0QkjSt/R7irG/AZTxKd3fViAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="11"
+        title="11"
+        src="/static/6118e38fd93cdfe7c6b1e292eb2b0352/78d47/11.png"
+        srcset="/static/6118e38fd93cdfe7c6b1e292eb2b0352/56d15/11.png 200w,
+/static/6118e38fd93cdfe7c6b1e292eb2b0352/d9f49/11.png 400w,
+/static/6118e38fd93cdfe7c6b1e292eb2b0352/78d47/11.png 800w,
+/static/6118e38fd93cdfe7c6b1e292eb2b0352/0d97d/11.png 1011w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>這樣就完成了!!</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/18a0917b86af075bd17ce02bc1b8515e/e2f49/12.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 53.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABWUlEQVQoz2OwsHWysnN2sLDV09DV09Ax0jE00TPWUddRUNNVUNdV0tRDIC0QqaJtoK5nDER6xuYM8VM2J87YljZlY/L0bTmLDqXPP5A2/2Dc7P2R846Ezz7k3787cOIeCAKygShgwp4AEHdfxoydDBf239oy9cD+Faf3Lj29Z9Hp45uv7Ft29uiGy/sWnz6y9sK7Lz8///r/+ee/Tz//ff397z8qYJiZtiResLDCrD1XrTZToaLcpDVZvKTSsj1FsrTGofv12w9v3n969fbD63cfvv/48f//P2TEcPXYzQMrj53fe/n8jitXDt48s/Pi0fWnLx28fmbrpVsn7z1//e7lm/ev33169e7j1+8/0W3+9e/P7/+///77A+H//f8XgoDsf//+ffn6FYi+fvv24+fPP3/+oGuGs/79/QdEYBZQG5D7H8rFDRiwiv79CzSJgE6cmokEA6cZAEnZIqMuLz59AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="12"
+        title="12"
+        src="/static/18a0917b86af075bd17ce02bc1b8515e/78d47/12.png"
+        srcset="/static/18a0917b86af075bd17ce02bc1b8515e/56d15/12.png 200w,
+/static/18a0917b86af075bd17ce02bc1b8515e/d9f49/12.png 400w,
+/static/18a0917b86af075bd17ce02bc1b8515e/78d47/12.png 800w,
+/static/18a0917b86af075bd17ce02bc1b8515e/64756/12.png 1200w,
+/static/18a0917b86af075bd17ce02bc1b8515e/e2f49/12.png 1366w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>後記</h2>
+<p>其實過程還滿簡單的，不過這邊的設定僅 TFS 那台 Server 而已，
+如果要連到 SharePoint 或是 ReportService ，會變得麻煩許多，
+另外如果額外有 Build Server，也別忘記要把憑證匯進去喔~</p>
+<h2>參考資料</h2>
+<ul>
+<li><a href="https://www.visualstudio.com/zh-tw/docs/setup-admin/websitesettings">https://www.visualstudio.com/zh-tw/docs/setup-admin/websitesettings</a></li>
+<li><a href="https://msdn.microsoft.com/en-us/library/aa833872(v=vs.140).aspx">https://msdn.microsoft.com/en-us/library/aa833872(v=vs.140).aspx</a></li>
+<li><a href="http://blogs.uuu.com.tw/Articles/post/2013/02/06/%E4%BD%BF%E7%94%A8X509%E6%86%91%E8%AD%89%E5%8A%A0%E8%A7%A3%E5%AF%86.aspx">http://blogs.uuu.com.tw/Articles/post/2013/02/06/%E4%BD%BF%E7%94%A8X509%E6%86%91%E8%AD%89%E5%8A%A0%E8%A7%A3%E5%AF%86.aspx</a></li>
+<li><a href="https://msdn.microsoft.com/zh-tw/library/bfsktky3(v=vs.90).aspx">https://msdn.microsoft.com/zh-tw/library/bfsktky3(v=vs.90).aspx</a></li>
+<li><a href="http://vmiv.blogspot.tw/2016/03/makecertexessliis10.html">http://vmiv.blogspot.tw/2016/03/makecertexessliis10.html</a></li>
+<li><a href="https://msdn.microsoft.com/library/windows/desktop/aa386968.aspx">https://msdn.microsoft.com/library/windows/desktop/aa386968.aspx</a></li>
+<li><a href="https://msdn.microsoft.com/zh-tw/library/ms733813(v=vs.110).aspx">https://msdn.microsoft.com/zh-tw/library/ms733813(v=vs.110).aspx</a></li>
+</ul></div><div class="navigation-module--navigation--3Zfju"><span class="navigation-module--button--28kp3"><a href="/example"><span class="navigation-module--buttonText--1Xod2">Example</span><span class="navigation-module--iconNext--3xyJ-">→</span></a></span></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2017/01/02/TFS-TFS_Self_SSL/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>

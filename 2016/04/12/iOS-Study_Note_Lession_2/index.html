@@ -1,760 +1,643 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="iOS,XCode,Swift," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="前言這篇是小弟我自己的學習筆記，內容不會針對 iOS 開發的特定主題進行介紹，內容主要是看了 Developing iOS 8 Apps with Swift by Stanford 這個課程的心得與感想，因為這塊尚在學習中，所以內容可能會有錯誤，也請大家包涵。 另外，這邊紀錄的主要是針對小弟我自己比較不熟悉的部分，所以大家不要把這文章當作一個正式的學習過程喔！！還是建議看完整的影片學習，或是直接">
-<meta property="og:type" content="article">
-<meta property="og:title" content="iOS - 學習筆記 - Lession 2">
-<meta property="og:url" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="前言這篇是小弟我自己的學習筆記，內容不會針對 iOS 開發的特定主題進行介紹，內容主要是看了 Developing iOS 8 Apps with Swift by Stanford 這個課程的心得與感想，因為這塊尚在學習中，所以內容可能會有錯誤，也請大家包涵。 另外，這邊紀錄的主要是針對小弟我自己比較不熟悉的部分，所以大家不要把這文章當作一個正式的學習過程喔！！還是建議看完整的影片學習，或是直接">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/01.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/02.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/03.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/04.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/05.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/06.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/07.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/08.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/09.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/10.png">
-<meta property="og:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/11.png">
-<meta property="article:published_time" content="2016-04-12T23:08:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:39.055Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="iOS">
-<meta property="article:tag" content="XCode">
-<meta property="article:tag" content="Swift">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/01.png">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> iOS - 學習筆記 - Lession 2 | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                iOS - 學習筆記 - Lession 2
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2016-04-12T23:08:00+00:00" content="2016-04-12">
-              2016-04-12
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/12/iOS-Study_Note_Lession_2/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/04/12/iOS-Study_Note_Lession_2/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>這篇是小弟我自己的學習筆記，內容不會針對 iOS 開發的特定主題進行介紹，<br>內容主要是看了 <a href="https://itunes.apple.com/tw/course/developing-ios-8-apps-swift/id961180099" target="_blank" rel="noopener">Developing iOS 8 Apps with Swift by Stanford</a> 這個<br>課程的心得與感想，因為這塊尚在學習中，所以內容可能會有錯誤，也請大家包涵。</p>
-<p>另外，這邊紀錄的主要是針對小弟我自己比較不熟悉的部分，所以大家<br>不要把這文章當作一個正式的學習過程喔！！還是建議看完整的影片學習，或是直接閱讀外面的課本、上課、或是官方的文件喔！！</p>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">iOS - 學習筆記 - Lession 2 :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="前言 這篇是小弟我自己的學習筆記，內容不會針對 iOS 開發的特定主題進行介紹，
+內容主要是看了 Developing iOS 8 Apps with Swift by Stanford…"/><meta data-react-helmet="true" property="og:title" content="iOS - 學習筆記 - Lession 2"/><meta data-react-helmet="true" property="og:description" content="前言 這篇是小弟我自己的學習筆記，內容不會針對 iOS 開發的特定主題進行介紹，
+內容主要是看了 Developing iOS 8 Apps with Swift by Stanford…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="iOS - 學習筆記 - Lession 2"/><meta data-react-helmet="true" name="twitter:description" content="前言 這篇是小弟我自己的學習筆記，內容不會針對 iOS 開發的特定主題進行介紹，
+內容主要是看了 Developing iOS 8 Apps with Swift by Stanford…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2016/04/12/iOS-Study_Note_Lession_2/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">iOS - 學習筆記 - Lession 2</h1><div class="post-module--meta--3YtjE">12 April 2016<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/iOS/"><span class="post-module--tag--16U9p">#<!-- -->iOS</span></a><a href="/tag/Swift/"><span class="post-module--tag--16U9p">#<!-- -->Swift</span></a><a href="/tag/XCode/"><span class="post-module--tag--16U9p">#<!-- -->XCode</span></a></div></div><div><h2>前言</h2>
+<p>這篇是小弟我自己的學習筆記，內容不會針對 iOS 開發的特定主題進行介紹，
+內容主要是看了 <a href="https://itunes.apple.com/tw/course/developing-ios-8-apps-swift/id961180099">Developing iOS 8 Apps with Swift by Stanford</a> 這個
+課程的心得與感想，因為這塊尚在學習中，所以內容可能會有錯誤，也請大家包涵。</p>
+<p>另外，這邊紀錄的主要是針對小弟我自己比較不熟悉的部分，所以大家
+不要把這文章當作一個正式的學習過程喔！！還是建議看完整的影片學習，或是直接閱讀外面的課本、上課、或是官方的文件喔！！</p>
 <p>最後，這篇文章會隨著小弟自己的學習過程中，不斷的更新，但更新的過程中，並不會特別 Highlight ，也請大家多見諒。</p>
-<h2 id="開始"><a href="#開始" class="headerlink" title="開始"></a>開始</h2><p>是一篇，我們建立了一個僅有數字顯示的計算機功能，而 Lession 2 將會繼續下去。而在這次的影片中，白鬍子老師也提到，<br>原來他想寫的是科學計算機啊！！ ( 不是我們一般的計算機… )，總之，就是那種可以一次按多個數字，然後一次全部相加的那種計算機就是了～～</p>
-<h2 id="建立-Return-按鈕"><a href="#建立-Return-按鈕" class="headerlink" title="建立 Return 按鈕"></a>建立 Return 按鈕</h2><p>前面，我們建立了九宮格的數字，接下來，我們要建立一個 Return ( Enter ) 按鈕，按下這個按鈕，就會將數字不斷地記錄到計算機的記憶體。<br>所以我們就複製一個新的按鈕。</p>
-<p><img src="01.png" alt=""></p>
-<p>而這邊，要注意的是，透過複製的方式，其會這個 Return 的按鈕事件，會和九宮格的按鈕事件一樣，我們透過右邊視窗的小點點，就可以發現，<br>全部按鈕都被繫結至同一個按鈕。</p>
-<p><img src="02.png" alt=""></p>
+<h2>開始</h2>
+<p>是一篇，我們建立了一個僅有數字顯示的計算機功能，而 Lession 2 將會繼續下去。而在這次的影片中，白鬍子老師也提到，
+原來他想寫的是科學計算機啊！！ ( 不是我們一般的計算機... )，總之，就是那種可以一次按多個數字，然後一次全部相加的那種計算機就是了～～</p>
+<h2>建立 Return 按鈕</h2>
+<p>前面，我們建立了九宮格的數字，接下來，我們要建立一個 Return ( Enter ) 按鈕，按下這個按鈕，就會將數字不斷地記錄到計算機的記憶體。
+所以我們就複製一個新的按鈕。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 498px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/b0623ff4665ddbe9119ee22bb53b95c9/c365b/01.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 103%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAVCAYAAABG1c6oAAAACXBIWXMAAAsSAAALEgHS3X78AAACBUlEQVQ4y51Ua4/aMBDM//9NlfqhUqueTrqqrXpcHypviAMECAHbiT312IQ8LkSnRpqweO3xjL3ZCG9+7BXdODx5nmM+nyOy1qIsywEY/2vc+gAL4wiIag45jscjJpMJIikltNYDUNCFhTotoLIZ1D6FSgXUdg3tNtNKedL9fh8IKXWQUJEQkMe/kIc/UJsEUswh45knVF1CKqRkY8wAypvNFq55PlmWBULugFdHfOdSbAccvf6eTqc2IReEpO2Nh9Ai5Blx7KJDQpcWmazjk6qV2B4bdxWWJiRYFiSq4sL8J2Ftsz2xGzf/91t2dUZBuaptVrEasNzdZNByX9wkrMhYp6zjqmzG4/G9W3ZvV1+Ee4W4xybX7nY7H5/PZ6xWq3DLFCELe1Va2+dbAW86VxY4bUeUXU+w3ibDfD7F9mWE7e9fSF+eIdPdK4XNmJ8fG0REqc2kTxcak/fvIH6OkE7HSJ4esXYYunES8hxbhFRI53kmEX/7AsmD5+TsCPHje9jszpdyI2xarhRa1zCWD58g87Pvh2q9Qvz1KeQGLHvC+pbbjSB2hOLxM7ZOqfj4Acnouddq81JuhEVR+OsXQiBJEiSbDZaxwNS1dGK2XCJ24xsHzuHhUxFbH9cTjA+HAyLf3o25DYYOrtxigeVigYUjzF056FZe+zX8MghuEscxLpcL/gG0qWvNyI5jXAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="01"
+        title="01"
+        src="/static/b0623ff4665ddbe9119ee22bb53b95c9/c365b/01.png"
+        srcset="/static/b0623ff4665ddbe9119ee22bb53b95c9/56d15/01.png 200w,
+/static/b0623ff4665ddbe9119ee22bb53b95c9/d9f49/01.png 400w,
+/static/b0623ff4665ddbe9119ee22bb53b95c9/c365b/01.png 498w"
+        sizes="(max-width: 498px) 100vw, 498px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>而這邊，要注意的是，透過複製的方式，其會這個 Return 的按鈕事件，會和九宮格的按鈕事件一樣，我們透過右邊視窗的小點點，就可以發現，
+全部按鈕都被繫結至同一個按鈕。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/df20d03b555fb852c406ef78d1f2dd88/e0a8c/02.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 51.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAAB7UlEQVQoz42SW2/aQBCF+f//pGqSSn2ognpJoSXgC8EOhlKScDEYHF8X7PXdnA7bJPDQh451NNrV+tMZnWngPyrhCVgUwuUOAu7jeW/Dj10EsQeexyjKXLxjjKGRpimCIBAHxkLSHqG/RbidkSzsdjs4joOI7vk+QpqlKMsKRVFSL1HVldCxPM9Dw7ZtSL0e+qoKVVVIKhRFhiJLUKnLsgxN15HGCfzQg8dc+MzHPiJneYnD8TscTsCN/YxPHR1NaYxmb4Tr7gi3yuANLoCahjzPkVUpNmwNM1jQ6B7yKkNaJEjy5AXoo2HZDi7bBt7f3OPi+z3eUf/c6pJjBYpwqwhglmXYpQxbZsEi6CpYwt5tBDAvs5NDa+vgQ3uIqxaJ+gX1rz+kfwJ5HMMLXDG6G1BALABPEnAenwFtVzi8PAJb5PCbhi/tvw5fRx4aQ8QES7cxgpWP5XyJ+czEZuUhiXPUVX0CLlcWrjsarm7u8PF2gs7Uw09ZE4Go/T4kScLk1wRVRWkWFRYLCxvTwmK5huuGwmFdnwHX6zWkbgfNW51GNtA3I3TkASXfFe56tAHj8Vj8dITGtJMRT0mcwsgp6QJ1eQYMwxBPsxl+PzxBHxq4G+gwjBEeHx8wn88xnU5hmqZI+XU93urleL42fwC3QuAJTEC4zAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="02"
+        title="02"
+        src="/static/df20d03b555fb852c406ef78d1f2dd88/78d47/02.png"
+        srcset="/static/df20d03b555fb852c406ef78d1f2dd88/56d15/02.png 200w,
+/static/df20d03b555fb852c406ef78d1f2dd88/d9f49/02.png 400w,
+/static/df20d03b555fb852c406ef78d1f2dd88/78d47/02.png 800w,
+/static/df20d03b555fb852c406ef78d1f2dd88/e0a8c/02.png 998w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>所以記得要先移除事件，如下圖，按下叉叉就可以。</p>
-<p><img src="03.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 498px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/c195c199466365889db305141ab7f7dd/c365b/03.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 103%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAVCAYAAABG1c6oAAAACXBIWXMAAAsSAAALEgHS3X78AAAEGUlEQVQ4y32VW08bVxSF/Ud44A80NA0Qbr6AibnEFEJAaXCSGiPaSOkv6UNbtVIeWpT2pVFo1DaFBlVKFUjicoshjj02mIBnfMM3DL4EwmDP6prxQKmE8rC095mZ85299jkzY4jvHSKzD0pB+q0qaOOz8rOlIMWY2y+jWCzCECNwuwREC9UbiaJyksdP5cmSQuEMKdr87FsdGNk95EQgvKecgM/K1YUSpbOlzs8cA8UcgaVqNbECtJsJjv+XF98n1QWQKqnAAgzhnUNIvLC1W7Un5hW80XO1uk3mkcL7JeVV6xWUSiUYNgkM84I6USJsi5CNnFJdZA8IZctcrIzNHKOu07nI59X5UbYum83CEMq80y6ooGOJHG/sHBEmI3YATalyVcnyf7kqUV2Yz79JFSFJIgxCch+brGRjt2p1ndUFstUq/Yl9TExO48u7P+Gr73/Gt/ce4LsfJ/HNxH18/YM6noQ3mscWexlKFhGJSDAE0zJCu9BAoRywtkNQhkAu8swfgdFkhsloRFPTRRgZ6+rqUFNTg9raWk0zCwIkOggmClWgkDrEGkFBglStabGCEG38/UpEd68dw8PD6LB2wtbVjTZCP7pQj6bmFqoZM4tBbPHwB+I60JeUIewAAm0KWWjyZwhkb576ovj4ylU4naNwucZw89YtWCwWfHDuHBoaG9HQ0Ig/F4LY4MH3HwO92zJ8hPho05epxtfpCtZY4RNvBLbuXtjtfegfGEBzS6sG+/D8eQIvasCp+SDWeVZ9MR24SqCXoFdpharG1VQFAfZwZkVED2FOlwuuMReufXId9Q0NVCPaOzpgNlvwu1tAkJvijepAT0LGCkErKYWCJk+yAh836rGHPbxsx3WHAyMjI7gyOMgqWzS7Zlo3mkz49UUAfrZnNaIDl2IyXiZBKXoElhIVeNnXaY+ETlsXhoaGcHV4iPa7aN+ubYbJbNaAD58H4KUbD9+EqApcjMoEqBBFj8BivIJV9vWPZZGQHm6IC44bN2CzXdJgF+rrYWlvp2UzfnkmYJWn5KWoA+cjMhbioJQTzccq8LCvj5ZEWKyXtA05Vktrq3ZsTLSsHqEHcwI8dLMc1oFuSYY7BvwTUxirehGtYIl9/W05im5WOOZ0YpxVXqP1JvavkRVaCbSwwvtzASzTzeIxcDYsYzYCzJ3SrFSBm8CpKTec1nZ8MdiPOwN9GO/twqjNCofFCFdPFz63mvHwyWvMse8rcRmF/B4M6i8gnj/CejwHQUxDkDLwh1MI8WV/PHEPlrY29HGne2w2tNHuTfby9mfj3KRhODosmH/qBl95bO/uo1Dg9xAKPxlKBeWjQxzJ7zSVqVKpgKXpR3B1tuO2vQd3+u0YZe4wt8HJ+CnlNLXi+V8z/LDmkU4lcXBwgH8BdoBSTzPIGykAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="03"
+        title="03"
+        src="/static/c195c199466365889db305141ab7f7dd/c365b/03.png"
+        srcset="/static/c195c199466365889db305141ab7f7dd/56d15/03.png 200w,
+/static/c195c199466365889db305141ab7f7dd/d9f49/03.png 400w,
+/static/c195c199466365889db305141ab7f7dd/c365b/03.png 498w"
+        sizes="(max-width: 498px) 100vw, 498px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>接下來，我們要顯示 Return 這個按鈕的圖示，而 Xcode 竟然有內建這種 icon 的功能！！酷！！我們只要選擇下圖的選項。</p>
-<p><img src="04.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/5f3fcc19ba271cf0baa0bafd7f65ae4d/bbbf7/04.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 62.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAAsSAAALEgHS3X78AAAC5ElEQVQ4y3WSy4sjZRTF64/zD9CNa2kYRARptWFwBBttbAfBcZp24VLBhdtZCYooM9KJncwkYzrvR1UqqXelksqjKqmk8vN+NePSgsP9vqri3HPPudporPOs4fCiM2GgjxkYE4ypQ7s/ojfQaXcHtDoDunIf6iZuMKPTG9JtdxkaJo1Wl97IFEwYmi7aXbvDeNTHsS1s2yWKIvwgYDjSWSznRMsQP/IELoHU+SIiSTZkWUYQ+AU8z5NGcyw3RHv69Bmtxh1Gf8BUN3AmEyxBu91mvVoRL2OSXUK6S9lmW7I8Qz2H/Z6ZNF8sFvhCOJ/PmVgO2k2pzF3tBUa7RWCOBQbWoEejXidZJ4XKWTwT4qWo2nPI9+THvFDo+z6u4xBInc1j+qaHViqVaNRqOLpOZE3wxVNfH0qTGqv1mnW2xIwM3NhmtV2y3adCeigIHSFzXZepmkrsGk08pbDES1HYa94RTk0W1phoPKRZr7FUI6cL3IWDM7fwY49km5DtdxwOB3QR0Wq16HQ6jEajIgfttnzDkz8b/PhLg59+6/LDr0N+/r3PH6U6m3hJ4q/xpx7meIJrz8SGLcc8Zy8e2pbFYDCQYAJW0twRtVq5XOa2UqX0d5WbcoW/SrcFKtXnkmYiBKmQTTFNC8cLSZO0CEURWraPYRiEs1kRkAqm8LBarVCtvMLzqkKVuoSSpim5qEm3uwKZkOSH/DXhgVXYIpZ1ms1XbKSR+l9zJXJLpCs/VFU7Zdt2cV6t1oX5+31WKFLnXbYrqiLYRE08ZyxpByzjmM1mg8b/PMfjsVCnoAL4D/lrcIQ8HWKZfcbi70LG3e12aGqXlKmBdFFVrYFS7cl7pVQpDsNX3wJVw7C4m05Ev/mE5j83tNr9wks1lXb+6DEnn19xdvkl715+xdsffMq9B5d88dnHXH9/zdffPebq6iH3zy94cPoe335zztnZGe98eMrJ+SPef3jNyelHfHJxwRtvvcm/+8Sq3Npx/88AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="04"
+        title="04"
+        src="/static/5f3fcc19ba271cf0baa0bafd7f65ae4d/78d47/04.png"
+        srcset="/static/5f3fcc19ba271cf0baa0bafd7f65ae4d/56d15/04.png 200w,
+/static/5f3fcc19ba271cf0baa0bafd7f65ae4d/d9f49/04.png 400w,
+/static/5f3fcc19ba271cf0baa0bafd7f65ae4d/78d47/04.png 800w,
+/static/5f3fcc19ba271cf0baa0bafd7f65ae4d/64756/04.png 1200w,
+/static/5f3fcc19ba271cf0baa0bafd7f65ae4d/bbbf7/04.png 1280w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>一開始出來的是簡略的圖案，我們可以按下右上的按鈕展開詳細的清單，然後我們可以用 Search 尋找 Return 的 icon。</p>
-<p><img src="05.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 602px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/6ebc68e27a154a77360f625e8dfbddd2/d1b94/05.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 67.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsSAAALEgHS3X78AAACNElEQVQ4y5WTW2/aQBCF/f//QF+qVKral75UaqIqIarUEkCGhCLhYHMxGLANpmAutvEdn86uTWOhPKQjljHjnW8O3mOhoYjoyhLkngxZltHv9/+twWDAa51OJ68pCs+KJKFXrUKq1dC9v4OiqBBvvqP5/h2Efq+P4XCIxWIBTZsSZIjxZAJVVTEu1mSsQqXaZDaHZppQpS7aH67w+O0azc+f0Lut4Pf1DcSPVxCqbJL0jN1uh9VqBV034PtHRGGIII4RpimSDIhcB85Mw/qpiUXjActWg9cQBNjXf2IvdeDtthCeCTadzhBRs23bGE00WOsNvGMAxzTwR+nBrP3C+EcFxqOI3cIkRoAEeVgkot1T+HVMDEHXdSRJygtJlmE1GkGu3GFWf4D29Qu0log9NQWkmEFiUhwy9b7Pe55aTdTqIr+OogjCkJ7Z4eDgHKGpY3J/C7P9CJeUOLTOkZ1O9JXRJ+NqWPh0PwjjF4UKne5yafHCiRpSUuDRX49pWoHhgPPiFcpJkuR7XY8LiuP8t6DIuRVse1u0v8Ql5BLIBMzpoEbkkpAEcKDUlWAYZqEwfVVNecA5s+Y0TbCyLLKbRs4I+ABhQOqc4hmyQhlwGeVBruvCMC04lH06ILa2W7LNlOj6XMeJNv4P8Hg8wrJWWJPFHMfhh8OGCOWGMvA1cBnIvLher3lm8M3GpusQQnnTWxSiuB8SiL0InsdO+cCdwuBCWc1bFOYZ3NzMyEwZe22ZdRjwL7HOJ1nDgqoKAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="05"
+        title="05"
+        src="/static/6ebc68e27a154a77360f625e8dfbddd2/d1b94/05.png"
+        srcset="/static/6ebc68e27a154a77360f625e8dfbddd2/56d15/05.png 200w,
+/static/6ebc68e27a154a77360f625e8dfbddd2/d9f49/05.png 400w,
+/static/6ebc68e27a154a77360f625e8dfbddd2/d1b94/05.png 602w"
+        sizes="(max-width: 602px) 100vw, 602px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>接著，我們一樣把 Return 的按鈕拉到 Code，而這邊我們就可以不用帶參數了。</p>
-<p><img src="06.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 278px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/3d521c630056ad1e02c03f3585da2fdf/75062/06.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 59.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAACNUlEQVQoz2WT2Y7aQBBF/a/5oTzkPc/5hEijWZQMSWzANm4br+AdvIFBGQYkhpuqRp6g5KHULbv69K2uW0pd12jbVgbvh6iqCk1TY1UWyPMcRVFgtVqhLMv3HN7ztyH2+z0UBjVNg82mQxgG0LQxTMPEZDLFchnDciI8//gFy7Kwrmr0ux3Gkwkcx0HXdQRdIY4TJGlKjA0Uhg3QQaXv+7BmM6ls735E4nyFadoIXI45vj0+4OHuDmWeoa3X6JqKFJZ0vmMglUuwAdi2DTzPk8A4K7CwP0PMVdxrIZ4NH/eqg+96gKexh6lfwi92sNMeUbqSVSoMuFXJsqMownSsQfgJHkWPp58CIszwegF2J6A/XtfN4YL+cEb38gY9WGPbNdc3HGADmB87CkMkpNAISxh+gck8gxOTelK0rF+wqH4jbQ+wywM+jV4h4habtvrblH9XXdexIKVlniL0AniuA0HPsN32uLydcTodcT4dEDcHfPhyhFh2KLL4/6Zst1skSQIhBFLqnOd6squWJaBPpzCmY4xGI7rQlE3jnMUilmeyLBuAV9h6vZZJrIxtkiQp3PkcqqrSBTbmtgPfdeHYtnRCTt5kSBwv5SptM6hjZUWRQ9U08qEOQzekvzwCapoKPwil7yqy1a3FOBjGwf8VnghWZdOtFpXJHa7IwG3XyoTbw1wB56dU3sw0MZtZcl3QALAYzlO4ozxWNsF0mhCPSuIx4oO3Dhj2VxcUUoCgd70+TfZe8h/E+WnZQX2RUAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="06"
+        title="06"
+        src="/static/3d521c630056ad1e02c03f3585da2fdf/75062/06.png"
+        srcset="/static/3d521c630056ad1e02c03f3585da2fdf/56d15/06.png 200w,
+/static/3d521c630056ad1e02c03f3585da2fdf/75062/06.png 278w"
+        sizes="(max-width: 278px) 100vw, 278px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>完成的 code 會變成這樣，enter 就沒有參數了。</p>
- <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">enter</span><span class="params">()</span></span> &#123;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-<p> 接下來，我們針對裡面的程式碼進行撰寫，這邊按下 enter 後，希望把輸入的數字存到記憶體裡面，所以我們這邊就用 Array 進行儲存。<br> 所以我們要先準備一個 Array。</p>
- <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> operandStack: <span class="type">Array</span>&lt;<span class="type">Double</span>&gt; = <span class="type">Array</span>&lt;<span class="type">Double</span>&gt;()</span><br></pre></td></tr></table></figure>
-
+<div class="gatsby-highlight" data-language="swift"><pre class="language-swift"><code class="language-swift"><span class="token atrule">@IBAction</span> <span class="token keyword">func</span> <span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token punctuation">}</span></code></pre></div>
+<p> 接下來，我們針對裡面的程式碼進行撰寫，這邊按下 enter 後，希望把輸入的數字存到記憶體裡面，所以我們這邊就用 Array 進行儲存。
+所以我們要先準備一個 Array。</p>
+<div class="gatsby-highlight" data-language="swift"><pre class="language-swift"><code class="language-swift"><span class="token keyword">var</span> operandStack<span class="token punctuation">:</span> <span class="token builtin">Array</span><span class="token operator">&lt;</span><span class="token builtin">Double</span><span class="token operator">></span> <span class="token operator">=</span> <span class="token builtin">Array</span><span class="token operator">&lt;</span><span class="token builtin">Double</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre></div>
 <p>是的，在 Swift 裡面，不需要多寫 new ( 其實我覺得這點還不錯~~ )，後面直接撰寫類別名稱就可以了。</p>
-<p>另外，還不是最簡潔的， Swift 甚至連變數的型態都可以不用去寫，就像 C# 一樣，透過編譯去處理，編譯器會得知你這個變數的型態。<br>所以可以寫成這樣。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> operandStack = <span class="type">Array</span>&lt;<span class="type">Double</span>&gt;()</span><br></pre></td></tr></table></figure>
-
+<p>另外，還不是最簡潔的， Swift 甚至連變數的型態都可以不用去寫，就像 C# 一樣，透過編譯去處理，編譯器會得知你這個變數的型態。
+所以可以寫成這樣。</p>
+<div class="gatsby-highlight" data-language="swift"><pre class="language-swift"><code class="language-swift"><span class="token keyword">var</span> operandStack <span class="token operator">=</span> <span class="token builtin">Array</span><span class="token operator">&lt;</span><span class="token builtin">Double</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre></div>
 <p>就這樣，變得更簡單了！！</p>
-<p>有了 array 後，我們就可以開始將 dobule 加到 array 裡面。我們可以用 append 方法，將數字加入進去.<br>而因為 display.text! 字串，所以我們可以使用 NSNumberFormatter().numberFromString() 來轉型，<br>而 NSNumberFormatter().numberFromString() 會回傳一個 NSNumber? ，所以我們要加上 ! 來取得 NSNumber。</p>
-<p>但是，NSNumber 畢竟還不是一個 double，他定義了一套方法來專門設置和訪問<br>signed、unsigned char、short int、int、long int, long long int、float、double、BOOL。<br>所以還要透過 dobuleValue 屬性來取得 double。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">enter</span><span class="params">()</span></span> &#123;</span><br><span class="line">    userIsInheMiddleOfTypingANumber = <span class="literal">false</span></span><br><span class="line">    operandStack.append(<span class="type">NSNumberFormatter</span>().numberFromString((display.text!))!.doubleValue)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<p>有了 array 後，我們就可以開始將 dobule 加到 array 裡面。我們可以用 append 方法，將數字加入進去.
+而因為 display.text! 字串，所以我們可以使用 NSNumberFormatter().numberFromString() 來轉型，
+而 NSNumberFormatter().numberFromString() 會回傳一個 NSNumber? ，所以我們要加上 ! 來取得 NSNumber。</p>
+<p>但是，NSNumber 畢竟還不是一個 double，他定義了一套方法來專門設置和訪問
+signed、unsigned char、short int、int、long int, long long int、float、double、BOOL。
+所以還要透過 dobuleValue 屬性來取得 double。</p>
+<div class="gatsby-highlight" data-language="swift"><pre class="language-swift"><code class="language-swift"><span class="token atrule">@IBAction</span> <span class="token keyword">func</span> <span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    userIsInheMiddleOfTypingANumber <span class="token operator">=</span> <span class="token boolean">false</span>
+    operandStack<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token function">NSNumberFormatter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">numberFromString</span><span class="token punctuation">(</span><span class="token punctuation">(</span>display<span class="token punctuation">.</span>text<span class="token operator">!</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">!</span><span class="token punctuation">.</span>doubleValue<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre></div>
 <p>基本上上面這樣就可以了，但是感覺還是不美好，畢竟直接去操控了 display.text。 ( 謎之聲，但前面的 Code 都是直接操啊！！ )</p>
 <p>好吧，畢竟前面白鬍子沒提到，但既然提到了，我們就稍微處理一下。</p>
-<p>我們希望透過一個變數，類似使用 MVVM 的方式，透過這個變數，來控制與存取 display.text ，換言之，只要我取得這個變數，<br>就等同我取得 display.text，當我存放這個變數，就等於我設定 display.text。</p>
+<p>我們希望透過一個變數，類似使用 MVVM 的方式，透過這個變數，來控制與存取 display.text ，換言之，只要我取得這個變數，
+就等同我取得 display.text，當我存放這個變數，就等於我設定 display.text。</p>
 <p>那要怎麼做勒！？</p>
-<p>我們可以定義一個變數，並且使用 get 和 set ( 這點倒是和 C# 一樣 )，就可以達到效果 ( 未來有沒有 bind 機制，我還不知道… )</p>
+<p>我們可以定義一個變數，並且使用 get 和 set ( 這點倒是和 C# 一樣 )，就可以達到效果 ( 未來有沒有 bind 機制，我還不知道... )</p>
 <p>那比較需要注意的是 newValue ，其實這就是代表著傳遞，或是變數自己本身。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> displayValue: <span class="type">Double</span>&#123;</span><br><span class="line">    <span class="keyword">get</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">NSNumberFormatter</span>().numberFromString((display.text!))!.doubleValue</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">set</span>&#123;</span><br><span class="line">        display.text = <span class="string">"\(newValue)"</span></span><br><span class="line">        userIsInheMiddleOfTypingANumber = <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="gatsby-highlight" data-language="swift"><pre class="language-swift"><code class="language-swift"><span class="token keyword">var</span> displayValue<span class="token punctuation">:</span> <span class="token builtin">Double</span><span class="token punctuation">{</span>
+    <span class="token keyword">get</span><span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">NSNumberFormatter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">numberFromString</span><span class="token punctuation">(</span><span class="token punctuation">(</span>display<span class="token punctuation">.</span>text<span class="token operator">!</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">!</span><span class="token punctuation">.</span>doubleValue
+    <span class="token punctuation">}</span>
+    <span class="token keyword">set</span><span class="token punctuation">{</span>
+        display<span class="token punctuation">.</span>text <span class="token operator">=</span> <span class="token string">"<span class="token interpolation"><span class="token delimiter variable">\(</span>newValue<span class="token delimiter variable">)</span></span>"</span>
+        userIsInheMiddleOfTypingANumber <span class="token operator">=</span> <span class="token boolean">false</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>所以到這邊為止，我們就可以改變程式碼，變成這樣，Lession 1 寫的 Code 就不變了，因為白鬍子也沒改，
+為了上內容一致，小弟我就不自己動手改變了。</p>
+<div class="gatsby-highlight" data-language="swift"><pre class="language-swift"><code class="language-swift"><span class="token comment">//var operandStack: Array&lt;Double> = Array&lt;Double>()</span>
+<span class="token keyword">var</span> operandStack <span class="token operator">=</span> <span class="token builtin">Array</span><span class="token operator">&lt;</span><span class="token builtin">Double</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 
-<p>所以到這邊為止，我們就可以改變程式碼，變成這樣，Lession 1 寫的 Code 就不變了，因為白鬍子也沒改，<br>為了上內容一致，小弟我就不自己動手改變了。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//var operandStack: Array&lt;Double&gt; = Array&lt;Double&gt;()</span></span><br><span class="line"><span class="keyword">var</span> operandStack = <span class="type">Array</span>&lt;<span class="type">Double</span>&gt;()</span><br><span class="line"></span><br><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">enter</span><span class="params">()</span></span> &#123;</span><br><span class="line">    userIsInheMiddleOfTypingANumber = <span class="literal">false</span></span><br><span class="line">    operandStack.append(displayValue)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"operatStack = \(operandStack)"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> displayValue: <span class="type">Double</span>&#123;</span><br><span class="line">    <span class="keyword">get</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">NSNumberFormatter</span>().numberFromString((display.text!))!.doubleValue</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">set</span>&#123;</span><br><span class="line">        display.text = <span class="string">"\(newValue)"</span></span><br><span class="line">        userIsInheMiddleOfTypingANumber = <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<span class="token atrule">@IBAction</span> <span class="token keyword">func</span> <span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    userIsInheMiddleOfTypingANumber <span class="token operator">=</span> <span class="token boolean">false</span>
+    operandStack<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>displayValue<span class="token punctuation">)</span>
+    <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"operatStack = <span class="token interpolation"><span class="token delimiter variable">\(</span>operandStack<span class="token delimiter variable">)</span></span>"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
 
+<span class="token keyword">var</span> displayValue<span class="token punctuation">:</span> <span class="token builtin">Double</span><span class="token punctuation">{</span>
+    <span class="token keyword">get</span><span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">NSNumberFormatter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">numberFromString</span><span class="token punctuation">(</span><span class="token punctuation">(</span>display<span class="token punctuation">.</span>text<span class="token operator">!</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">!</span><span class="token punctuation">.</span>doubleValue
+    <span class="token punctuation">}</span>
+    <span class="token keyword">set</span><span class="token punctuation">{</span>
+        display<span class="token punctuation">.</span>text <span class="token operator">=</span> <span class="token string">"<span class="token interpolation"><span class="token delimiter variable">\(</span>newValue<span class="token delimiter variable">)</span></span>"</span>
+        userIsInheMiddleOfTypingANumber <span class="token operator">=</span> <span class="token boolean">false</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></div>
 <p>最後結果，就如同下圖，我們可以重偵錯視窗看到 operandStack 這個 array。</p>
-<p><img src="07.png" alt=""></p>
-<h2 id="建立加減乘除-使用委派與閉包"><a href="#建立加減乘除-使用委派與閉包" class="headerlink" title="建立加減乘除( 使用委派與閉包 )"></a>建立加減乘除( 使用委派與閉包 )</h2><p>完成了 Enter 後，接下來我們要來建立加減乘除的按鈕，首先，我們一樣複製一個 Button 當作 * ，別且移除事件。</p>
-<p><img src="08.png" alt=""></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/aa081bce29c46bfd9d86cd2cc5052ea2/bbbf7/07.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 58.00000000000001%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAACMElEQVQoz11S2W7cMAz0/39KXzYJmj9o0Dy0CXqkwZ6+bdmWLR/yvfaUVLLboAQIWjI15AxpuX6EWKRwgwh2ECOIBPwoQRAnSKVCkinIokJGzlHV2uSEfmjiyfHhBAJOmCJIClhZEiEVBBrFSESCXEoUeY5hHFA0BQFIqCZH2ZRodI1+6LCuq/FcZkjTFDJXqKoaRUGAr39e0LYaSpUo2csK+8MerdJInRjHwxHb7R4ikhj7Ccu6GLBlWSCpuH2y4di2AUuSBNbheMT/FoQBet0hFwr2wcbp5EES9XmerzkMWFUVgTl4fnqG67iI4xiW6+ywmoS3qgYwCDAMA6b5jK4fiSZ/z1jPi8llm6bJAERRZDqr6xpCCFhpmrxXJMB1fe8wREOayFzSMCTysoTuNLqxNZTZRgL0HNsU7/veFFBKwWIdDOD6AZCSNE0zz0gXmr6QORQV4A7xoUOXAD3PQ03U27Y1bmVZ9p7yNjk2br3VlFBpVFJj6GYCmEmGCeM4YZ7OFEf4YYIwpIJE+UL7CnhZBTb+OZJuA+lXqtasRNd2WOblqjN3WKc/UEiBqmnNueu6jx3+Mxab9eCERmu0FNlHKsAPuTum16lXiNinXczMxA3lnJaYkyaiwpFXg4vwo0vHfGateNf4/ro63RaBd4TvBYYuv7W+PDzg5vYGm80Gt3d3+Hx/j6+Pj3Bd17jn+9judsZPtMC248Cnu73t4ffTJ3z/9oCfv16w2+/BO/0XrAWOIMTsy4cAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="07"
+        title="07"
+        src="/static/aa081bce29c46bfd9d86cd2cc5052ea2/78d47/07.png"
+        srcset="/static/aa081bce29c46bfd9d86cd2cc5052ea2/56d15/07.png 200w,
+/static/aa081bce29c46bfd9d86cd2cc5052ea2/d9f49/07.png 400w,
+/static/aa081bce29c46bfd9d86cd2cc5052ea2/78d47/07.png 800w,
+/static/aa081bce29c46bfd9d86cd2cc5052ea2/64756/07.png 1200w,
+/static/aa081bce29c46bfd9d86cd2cc5052ea2/bbbf7/07.png 1280w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>建立加減乘除( 使用委派與閉包 )</h2>
+<p>完成了 Enter 後，接下來我們要來建立加減乘除的按鈕，首先，我們一樣複製一個 Button 當作 * ，別且移除事件。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 406px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/ce12649e7415cc3dba02d0faa327d781/3017e/08.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 128.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAaCAYAAAC3g3x9AAAACXBIWXMAAAsSAAALEgHS3X78AAAE0UlEQVRIx32V2U8bVxTG569IpDzkqVRVFhJWQ4Cw2SYYbHbvNiSkIqEYkohIfemitqJtRJvlD+lzn/ucJsoCWYAQbGPwDF7ximG+fnfGhpKKjvTpnHtn7u+ec8+9dyQllcPJylJ5KMk0otEVKPE0FDkGOaogtrWFdCaLQj4P8exm0ygWi5CS+QP8nxLCFlQki9AtlSgQsAdkMxkUCgUNuKcUEJd3CBQfniR+myr+V1p/voTNzU3kyxGm3ipQXm9DinPGkyQiUbL7UDIlRNMFbKcKiCRy2MkdYCu+i6WlJWSzWZRKJaQ+xhBfliHF8ipinES3FV9vx2llAWN+yRLTYiR6ggADRTwex6ePpOR0iJxVsRpTObsOCqVUbKTYT1g0s48//vwL3/70K75feIAffvkNP/78AAsLC1hcXMSjR4/w8PeHePL4iQ5UciI1FdsZ4ettMUFUKHOASKqE6cAcPq+qwpXmZly+dAmtLa0wGBpx6tQpnD59WtOZM2cgRbPQBsq0AhQtgyrgTcJCiSICd+YxMjICv88Hk7kH/f39MBqNaOYEBoMBnZ2daG9vhySi2iZsi3YjKaIUUKacBoJMW87p72YI7L3WC7vDSfAo7HY7rITW1taipqYGTU1NmqTIrsoBjIR2hWsYoS+gHxIq1uL6ZOH0AQL37mPANgC324txvx9WqxXNBAjYMaAA6YIGq7SPfAJpp2buMCIb3C43nE4Xepi2ADU0NKC+vh5tbW1obW2FFEqrWnrChnfxL5+qvGP/l7cDsDFCv38cXp+fkbq19ausYU9PDzq7uiBtcFAwLbaIijc7uhXAFab7lm0B20gL4CwGBodw/cYNpjwBl9OJuro6RtiIxsZGmEwmrTDSRwKE1lM6ZL3cXuMarsb1vfiRuklgf18ffF4vXG4PhoYGMTo2CovFQmADzGazDvzAylYkQBV/vTyJ3gYmbwVY5WtM1cNKO9DR0Y4WrplYOxHhIXBVRFLW+7hu1wh5V055jbDVCrC3Fz7fOBzcMhZG20WAgB0Dvk8AK9Q7Hstn2wIKDfKc/tOIDhTf3CgDPR4vnC6XtsE7uJGbWBBDGSgmkEQkR8Ix//1hHzA+NQMTN7aD+9BB6MDwMOoIamhq1mw3ge0C+IabWRfwqb+8o/vL1Mz0LDyWa/jK48EtlxNz1yfg7jXDWF8Ls6EBDrMR1i4Cl3YAXWpZx9vL9F9Sj+/ew+ygFXe9Hsw57XCbujFL+930FO66HZjzuPC1zQLplQKcLBWvaV9Qi7N3MNrcCLuxG2NdHRi+2obr1n58M30LcwRODFgRMHZAeslBxyQf6YWs9wng7akAHBwwMWDD5NCQln53zSVNJqY9ykl623j0nrKaf0dxqOfKkZ7JuhXfTAbuw2KzwcnqjnENB0dHMDLmwFUW4ovz51HD81zP4kjiqK0n9vEhXsJabA+vw6lDvQol8TKYwOpOUbsc+sRJ8bHKDjuPngNejw/9lj60tFzhZWFGm7gcFDmKXJZXi6riYH8f25FNhIJBhEMhKoh0KonSXhHz8/MYHBrGzZuTGlSXvywf7GNjPD1cw1AorP1scrk8lYMsywgGQ4hEIgiHN1Hgz1v8e/28A8+ePYvq6mpcuHAB1Rcvalbo3LlzqKr6THv3Dx8WLrGEGw7+AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="08"
+        title="08"
+        src="/static/ce12649e7415cc3dba02d0faa327d781/3017e/08.png"
+        srcset="/static/ce12649e7415cc3dba02d0faa327d781/56d15/08.png 200w,
+/static/ce12649e7415cc3dba02d0faa327d781/d9f49/08.png 400w,
+/static/ce12649e7415cc3dba02d0faa327d781/3017e/08.png 406w"
+        sizes="(max-width: 406px) 100vw, 406px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
 <p>接下，我們一樣拖拉出來一個事件，並且選擇如下圖，這次我們就需要有參數了。</p>
-<p><img src="09.png" alt=""></p>
-<p>完成後，我們就開始建構 func 裡面的方法，首先，我們一樣要透過 sender.currentTitle! 來取得按鈕的 Title，接著，<br>我們就用 switch 來判斷 operation 是加減乘除，基本上，大家對於 switch 應該是還滿熟悉的，而比較特別的是，<br>每個 case 裡面不用再加上 break ( 這的確很方便 )</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">operate</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    <span class="keyword">let</span> operation = sender.currentTitle!</span><br><span class="line">    <span class="keyword">switch</span> operation &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"×"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"÷"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"+"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"−"</span>:</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>有了 switch 後，我們就可以寫第一個乘法。這邊我們就用 Count 來判斷是否陣列已經超過兩個數字了，有兩個數字才能做乘法的動作。<br>而這邊，我們就用之前寫的 displayValue 來接受計算，而第一個數字，就擷取 array 的最後一個數字去乘倒數第二個數字，<br>所以我們可以用 removeLast 取得最後一個數字。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 278px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/5103d6c30cbc0fbbc31b8ee0417b92c3/75062/09.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 59.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAACQ0lEQVQoz1WTW2/aQBCF+X/9c6nUx0p9qfpYVar6UKmqoiIawDjY+AK+4OuujS9AIApVoHA6YzBpLI1sr9ffnj1ztlOWJeq6boqf2yqKAlVVIs8khBCQUiLP82tlWfbqnWu73aLDoKqqsFot4fseFGUEXdOhqveIwgiGPUfvbgDTMFCU1XVxLl6UQVEUIUkSYqzQYVgLbVW6rgtjMkGaCqymNwjM71DHFmZTm8AmJvRNG+sIacF2N6x4uVwy8Axrq6ZyHOcMFBKPwXvk4R1My4PL46TUMgmqG0h4QVJV1UvIFljXLwp5YL1eYz6fN1uPwhBC1gTyEPoOebQBX8fjEafTCfvDAYf9Hjg9k9eiYXT+h7EPbP4iX2Du+4jSHD90ia99H98UgVurQlDu4C+e4BdPiKodLPkH73o7aEGNdV2cgezDZrPBaDRCt9ul5y20exW2F+JTT+Lt53vcfDHxsZsifwTk5gjx8BfZwzPUdI83Hw64tVcoRPi6KaySPYnjGCb5FJNi03YxUHVoxhTDkYZef4Sfv/r4rUzgxRmcQGDqxQijmJqYXoAX6IIiwJkLyEM2ny1wZzaU4ZCiNIZFY3PXwcy24Htu45sUKZIogCBYE5tWHTdDSoGhojQ/a2OtyZdt2xgOhpRLlbqeNXPL8iViBVVCMFbXdJkzxKosy4JB2+QOFwWdnmXdTGgtaYPMlSQxxUanPBrNPaA8shie0+FAcmc5W2M6Ic5s1qSff2xB14xe3jM6jiyAQ87WxPFZIW/5H1WxaCwqDCVuAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="09"
+        title="09"
+        src="/static/5103d6c30cbc0fbbc31b8ee0417b92c3/75062/09.png"
+        srcset="/static/5103d6c30cbc0fbbc31b8ee0417b92c3/56d15/09.png 200w,
+/static/5103d6c30cbc0fbbc31b8ee0417b92c3/75062/09.png 278w"
+        sizes="(max-width: 278px) 100vw, 278px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>完成後，我們就開始建構 func 裡面的方法，首先，我們一樣要透過 sender.currentTitle! 來取得按鈕的 Title，接著，
+我們就用 switch 來判斷 operation 是加減乘除，基本上，大家對於 switch 應該是還滿熟悉的，而比較特別的是，
+每個 case 裡面不用再加上 break ( 這的確很方便 )</p>
+<div class="gatsby-highlight" data-language="swift"><pre class="language-swift"><code class="language-swift"><span class="token atrule">@IBAction</span> <span class="token keyword">func</span> <span class="token function">operate</span><span class="token punctuation">(</span>sender<span class="token punctuation">:</span> <span class="token builtin">UIButton</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> operation <span class="token operator">=</span> sender<span class="token punctuation">.</span>currentTitle<span class="token operator">!</span>
+    <span class="token keyword">switch</span> operation <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token string">"×"</span><span class="token punctuation">:</span>
+    <span class="token keyword">case</span> <span class="token string">"÷"</span><span class="token punctuation">:</span>
+    <span class="token keyword">case</span> <span class="token string">"+"</span><span class="token punctuation">:</span>
+    <span class="token keyword">case</span> <span class="token string">"−"</span><span class="token punctuation">:</span>
+    <span class="token keyword">default</span><span class="token punctuation">:</span>
+        <span class="token keyword">break</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>有了 switch 後，我們就可以寫第一個乘法。這邊我們就用 Count 來判斷是否陣列已經超過兩個數字了，有兩個數字才能做乘法的動作。
+而這邊，我們就用之前寫的 displayValue 來接受計算，而第一個數字，就擷取 array 的最後一個數字去乘倒數第二個數字，
+所以我們可以用 removeLast 取得最後一個數字。</p>
 <p>題外話，後面加上 enter() 是為了讓運算完的答案，存到 array 裡面繼續做運算。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">operate</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    <span class="keyword">let</span> operation = sender.currentTitle!</span><br><span class="line">    <span class="keyword">if</span> userIsInheMiddleOfTypingANumber &#123;</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">switch</span> operation &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"×"</span>:</span><br><span class="line">     <span class="keyword">if</span> operandStack.<span class="built_in">count</span> &gt;= <span class="number">2</span> &#123;</span><br><span class="line">            displayValue = operandStack.removeLast() * operandStack.removeLast()</span><br><span class="line">            enter()</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> <span class="string">"÷"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"+"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"−"</span>:</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="gatsby-highlight" data-language="swift"><pre class="language-swift"><code class="language-swift"><span class="token atrule">@IBAction</span> <span class="token keyword">func</span> <span class="token function">operate</span><span class="token punctuation">(</span>sender<span class="token punctuation">:</span> <span class="token builtin">UIButton</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> operation <span class="token operator">=</span> sender<span class="token punctuation">.</span>currentTitle<span class="token operator">!</span>
+    <span class="token keyword">if</span> userIsInheMiddleOfTypingANumber <span class="token punctuation">{</span>
+        <span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">switch</span> operation <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token string">"×"</span><span class="token punctuation">:</span>
+     <span class="token keyword">if</span> operandStack<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">>=</span> <span class="token number">2</span> <span class="token punctuation">{</span>
+            displayValue <span class="token operator">=</span> operandStack<span class="token punctuation">.</span><span class="token function">removeLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> operandStack<span class="token punctuation">.</span><span class="token function">removeLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
 
-<p>當然，如果除、加、減都這樣搞，Code 的感覺當然很醜，既然身為設計師，怎麼可以容納這樣的寫法呢！<br>所以第一步的優化，我們就先把邏輯抽出來！</p>
-<p>所以我們可以寫一個 func 來把原本的乘法邏輯抽出來，而 Swift 的回傳寫法，就是在後面加上 -&gt; 型別</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">operate</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    <span class="keyword">let</span> operation = sender.currentTitle!</span><br><span class="line">    <span class="keyword">if</span> userIsInheMiddleOfTypingANumber &#123;</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">switch</span> operation &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"×"</span>:preformOperation &#123; operandStack.removeLast() , operandStack.removeLast()&#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"÷"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"+"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"−"</span>:</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">preformOperation</span><span class="params">(opt1:Double,otp2:Double)</span></span> -&gt; <span class="type">Double</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> operandStack.<span class="built_in">count</span> &gt;= <span class="number">2</span> &#123;</span><br><span class="line">        displayValue =  opt1 * opt2</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <span class="token keyword">case</span> <span class="token string">"÷"</span><span class="token punctuation">:</span>
+    <span class="token keyword">case</span> <span class="token string">"+"</span><span class="token punctuation">:</span>
+    <span class="token keyword">case</span> <span class="token string">"−"</span><span class="token punctuation">:</span>
+    <span class="token keyword">default</span><span class="token punctuation">:</span>
+        <span class="token keyword">break</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>當然，如果除、加、減都這樣搞，Code 的感覺當然很醜，既然身為設計師，怎麼可以容納這樣的寫法呢！
+所以第一步的優化，我們就先把邏輯抽出來！</p>
+<p>所以我們可以寫一個 func 來把原本的乘法邏輯抽出來，而 Swift 的回傳寫法，就是在後面加上 -> 型別</p>
+<div class="gatsby-highlight" data-language="swift"><pre class="language-swift"><code class="language-swift"><span class="token atrule">@IBAction</span> <span class="token keyword">func</span> <span class="token function">operate</span><span class="token punctuation">(</span>sender<span class="token punctuation">:</span> <span class="token builtin">UIButton</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> operation <span class="token operator">=</span> sender<span class="token punctuation">.</span>currentTitle<span class="token operator">!</span>
+    <span class="token keyword">if</span> userIsInheMiddleOfTypingANumber <span class="token punctuation">{</span>
+        <span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">switch</span> operation <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token string">"×"</span><span class="token punctuation">:</span>preformOperation <span class="token punctuation">{</span> operandStack<span class="token punctuation">.</span><span class="token function">removeLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">,</span> operandStack<span class="token punctuation">.</span><span class="token function">removeLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+    <span class="token keyword">case</span> <span class="token string">"÷"</span><span class="token punctuation">:</span>
+    <span class="token keyword">case</span> <span class="token string">"+"</span><span class="token punctuation">:</span>
+    <span class="token keyword">case</span> <span class="token string">"−"</span><span class="token punctuation">:</span>
+    <span class="token keyword">default</span><span class="token punctuation">:</span>
+        <span class="token keyword">break</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-<p>感覺上這樣稍微好一點！！？ 才怪，大家會發現，其實我們還是要建立四個方法才能符合加減乘除啊！！<br>那有沒有比較好的方法勒？？ 大家不知道有沒有發現，改變的地方在哪裡？？沒錯，就只有某某數字加上某某數字，或是某某數字乘上某某數字，<br>簡單的說，只有運算的地方需要改變。</p>
+
+<span class="token keyword">func</span> <span class="token function">preformOperation</span><span class="token punctuation">(</span>opt1<span class="token punctuation">:</span><span class="token builtin">Double</span><span class="token punctuation">,</span>otp2<span class="token punctuation">:</span><span class="token builtin">Double</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Double</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> operandStack<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">>=</span> <span class="token number">2</span> <span class="token punctuation">{</span>
+        displayValue <span class="token operator">=</span>  opt1 <span class="token operator">*</span> opt2
+        <span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>感覺上這樣稍微好一點！！？ 才怪，大家會發現，其實我們還是要建立四個方法才能符合加減乘除啊！！
+那有沒有比較好的方法勒？？ 大家不知道有沒有發現，改變的地方在哪裡？？沒錯，就只有某某數字加上某某數字，或是某某數字乘上某某數字，
+簡單的說，只有運算的地方需要改變。</p>
 <p>是低，我們可以用傳遞方法，委派的方式！！</p>
-<p>如下的 Code ，現在方法改成 func preformOperation(operation: (Double,Double )-&gt; Double ) 也就是說，<br>這個 preformOperation 方法的參數 operation 就是另外一個方法，而 operation 這個方法，必須符合 (Double,Double )-&gt; Double 。<br>( 關於委派，小弟就不再這邊闡述太多了…. )</p>
-<p>所以我們可以另外定義一個符合 (Double,Double )-&gt; Double 的方法 multplay ， 以利把 multplay 當作參數傳入到 operation 裡面。</p>
+<p>如下的 Code ，現在方法改成 func preformOperation(operation: (Double,Double )-> Double ) 也就是說，
+這個 preformOperation 方法的參數 operation 就是另外一個方法，而 operation 這個方法，必須符合 (Double,Double )-> Double 。
+( 關於委派，小弟就不再這邊闡述太多了.... )</p>
+<p>所以我們可以另外定義一個符合 (Double,Double )-> Double 的方法 multplay ， 以利把 multplay 當作參數傳入到 operation 裡面。</p>
 <p>所以完成的 Code 就會如下，很標準的委派作法~~</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">operate</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    <span class="keyword">let</span> operation = sender.currentTitle!</span><br><span class="line">    <span class="keyword">if</span> userIsInheMiddleOfTypingANumber &#123;</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">switch</span> operation &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"×"</span>:preformOperation(multplay)</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"÷"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"+"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"−"</span>:</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">preformOperation</span><span class="params">(operation: <span class="params">(Double,Double )</span></span></span>-&gt; <span class="type">Double</span> )&#123;</span><br><span class="line">    <span class="keyword">if</span> operandStack.<span class="built_in">count</span> &gt;= <span class="number">2</span> &#123;</span><br><span class="line">        displayValue = operation( operandStack.removeLast(), operandStack.removeLast())</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">multplay</span><span class="params">(op1:Double ,op2:Double)</span></span>-&gt;<span class="type">Double</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> op1 * op2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="gatsby-highlight" data-language="swift"><pre class="language-swift"><code class="language-swift">    <span class="token atrule">@IBAction</span> <span class="token keyword">func</span> <span class="token function">operate</span><span class="token punctuation">(</span>sender<span class="token punctuation">:</span> <span class="token builtin">UIButton</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> operation <span class="token operator">=</span> sender<span class="token punctuation">.</span>currentTitle<span class="token operator">!</span>
+        <span class="token keyword">if</span> userIsInheMiddleOfTypingANumber <span class="token punctuation">{</span>
+            <span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">switch</span> operation <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token string">"×"</span><span class="token punctuation">:</span><span class="token function">preformOperation</span><span class="token punctuation">(</span>multplay<span class="token punctuation">)</span>
+        <span class="token keyword">case</span> <span class="token string">"÷"</span><span class="token punctuation">:</span>
+        <span class="token keyword">case</span> <span class="token string">"+"</span><span class="token punctuation">:</span>
+        <span class="token keyword">case</span> <span class="token string">"−"</span><span class="token punctuation">:</span>
+        <span class="token keyword">default</span><span class="token punctuation">:</span>
+            <span class="token keyword">break</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    
 
+    <span class="token keyword">func</span> <span class="token function">preformOperation</span><span class="token punctuation">(</span>operation<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token builtin">Double</span><span class="token punctuation">,</span><span class="token builtin">Double</span> <span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Double</span> <span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">if</span> operandStack<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">>=</span> <span class="token number">2</span> <span class="token punctuation">{</span>
+            displayValue <span class="token operator">=</span> <span class="token function">operation</span><span class="token punctuation">(</span> operandStack<span class="token punctuation">.</span><span class="token function">removeLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> operandStack<span class="token punctuation">.</span><span class="token function">removeLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+        
+    <span class="token keyword">func</span> <span class="token function">multplay</span><span class="token punctuation">(</span>op1<span class="token punctuation">:</span><span class="token builtin">Double</span> <span class="token punctuation">,</span>op2<span class="token punctuation">:</span><span class="token builtin">Double</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token builtin">Double</span><span class="token punctuation">{</span>
+            <span class="token keyword">return</span> op1 <span class="token operator">*</span> op2
+    <span class="token punctuation">}</span></code></pre></div>
 <p>好吧，看起來比剛剛稍微好一點，但實際上，我們還是要定義四個方法來代表加減乘除，並當作參數傳遞至 preformOperation 裡面啊！！！</p>
 <p>既然 Swift 是那麼新的語言，怎麼可能沒辦法簡化，所以我們可以改成如下。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">operate</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    <span class="keyword">let</span> operation = sender.currentTitle!</span><br><span class="line">    <span class="keyword">if</span> userIsInheMiddleOfTypingANumber &#123;</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">switch</span> operation &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"×"</span>:preformOperation(&#123;(op1:<span class="type">Double</span> ,op2:<span class="type">Double</span>) -&gt; <span class="type">Double</span> <span class="keyword">in</span></span><br><span class="line">                    <span class="keyword">return</span> op1 * op2</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"÷"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"+"</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"−"</span>:</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">preformOperation</span><span class="params">(operation: <span class="params">(Double,Double )</span></span></span>-&gt; <span class="type">Double</span> )&#123;</span><br><span class="line">    <span class="keyword">if</span> operandStack.<span class="built_in">count</span> &gt;= <span class="number">2</span> &#123;</span><br><span class="line">        displayValue = operation( operandStack.removeLast(), operandStack.removeLast())</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="gatsby-highlight" data-language="swift"><pre class="language-swift"><code class="language-swift">    <span class="token atrule">@IBAction</span> <span class="token keyword">func</span> <span class="token function">operate</span><span class="token punctuation">(</span>sender<span class="token punctuation">:</span> <span class="token builtin">UIButton</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> operation <span class="token operator">=</span> sender<span class="token punctuation">.</span>currentTitle<span class="token operator">!</span>
+        <span class="token keyword">if</span> userIsInheMiddleOfTypingANumber <span class="token punctuation">{</span>
+            <span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">switch</span> operation <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token string">"×"</span><span class="token punctuation">:</span><span class="token function">preformOperation</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">(</span>op1<span class="token punctuation">:</span><span class="token builtin">Double</span> <span class="token punctuation">,</span>op2<span class="token punctuation">:</span><span class="token builtin">Double</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Double</span> <span class="token keyword">in</span>
+                        <span class="token keyword">return</span> op1 <span class="token operator">*</span> op2
+            <span class="token punctuation">}</span>
+        <span class="token keyword">case</span> <span class="token string">"÷"</span><span class="token punctuation">:</span>
+        <span class="token keyword">case</span> <span class="token string">"+"</span><span class="token punctuation">:</span>
+        <span class="token keyword">case</span> <span class="token string">"−"</span><span class="token punctuation">:</span>
+        <span class="token keyword">default</span><span class="token punctuation">:</span>
+            <span class="token keyword">break</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    
 
+    <span class="token keyword">func</span> <span class="token function">preformOperation</span><span class="token punctuation">(</span>operation<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token builtin">Double</span><span class="token punctuation">,</span><span class="token builtin">Double</span> <span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Double</span> <span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">if</span> operandStack<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">>=</span> <span class="token number">2</span> <span class="token punctuation">{</span>
+            displayValue <span class="token operator">=</span> <span class="token function">operation</span><span class="token punctuation">(</span> operandStack<span class="token punctuation">.</span><span class="token function">removeLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> operandStack<span class="token punctuation">.</span><span class="token function">removeLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span></code></pre></div>
 <p>是低！！大家有沒有覺得這段 Code 很熟悉的感覺，這不就是早期 C# 委派的匿名方法的寫法嗎！！</p>
-<p>換句話說，我們就可以不用定義 multplay 了，可以直接把 func 寫在 preformOperation 裡面當作參數直接傳遞<br>，只要使用 {} 包起來 ( 閉包，這和 JS 很像 )，並且用 in 代表裡面的邏輯。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="string">"×"</span>:preformOperation(&#123;(op1:<span class="type">Double</span> ,op2:<span class="type">Double</span>) -&gt; <span class="type">Double</span> <span class="keyword">in</span></span><br><span class="line">                    <span class="keyword">return</span> op1 * op2</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-
-<p>好，當然 C# 都可以持續進化了，Swift 也可以持續改進。我們更可以精簡成底下這樣，如同 C# ㄧ樣，<br>Swift 也可以透過編譯器自動幫忙知道 op1 , op2 的型別。</p>
+<p>換句話說，我們就可以不用定義 multplay 了，可以直接把 func 寫在 preformOperation 裡面當作參數直接傳遞
+，只要使用 {} 包起來 ( 閉包，這和 JS 很像 )，並且用 in 代表裡面的邏輯。</p>
+<div class="gatsby-highlight" data-language="swift"><pre class="language-swift"><code class="language-swift"><span class="token keyword">case</span> <span class="token string">"×"</span><span class="token punctuation">:</span><span class="token function">preformOperation</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">(</span>op1<span class="token punctuation">:</span><span class="token builtin">Double</span> <span class="token punctuation">,</span>op2<span class="token punctuation">:</span><span class="token builtin">Double</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Double</span> <span class="token keyword">in</span>
+                    <span class="token keyword">return</span> op1 <span class="token operator">*</span> op2
+        <span class="token punctuation">}</span></code></pre></div>
+<p>好，當然 C# 都可以持續進化了，Swift 也可以持續改進。我們更可以精簡成底下這樣，如同 C# ㄧ樣，
+Swift 也可以透過編譯器自動幫忙知道 op1 , op2 的型別。</p>
 <p>( 因為已經在 preformOperation 裡面定義要傳入的參數型別了，所以編譯器當然能判斷 )</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="string">"×"</span>:preformOperation(&#123;(op1 ,op2 ) <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">return</span> op1 * op2</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-
-<p>如果是 C# , 下一步就是進化成 Lambda 了，而 Swift 當然也可以進化.. 如同 Lambda ，如果只有一行，也可以把 return 省略…</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="string">"×"</span>:preformOperation(&#123;(op1 ,op2 ) <span class="keyword">in</span> op1 * op2&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>到這邊就結束了嗎!!? Swift 更噁心…喔，不是，是更聰明，Swift 可以用 $0 , $1 等等，代表參數的順序，這代表什麼！？<br>連 (op1,op2) 都可以省了…所以，就變成底下這樣 …..</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="string">"×"</span>:preformOperation(&#123; $<span class="number">0</span> * $<span class="number">1</span> &#125;)</span><br></pre></td></tr></table></figure>
-
-<p>好，大家以為這樣就結束了，錯，還可以再進化！！ 抖抖 .. 如果 preformOperation 裡面的 func 參數 (也就是 operation: (Double,Double )-&gt; Double) 是最後一個參數，<br>我們還可以把 {} 的內容，拉到 () 後面，變成這樣….</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="string">"×"</span>:preformOperation()&#123; $<span class="number">0</span> * $<span class="number">1</span> &#125;</span><br></pre></td></tr></table></figure>
-
-<p>這就是神奇的 Swift … 基本，這樣講下來，也把整個 C# 的 Lambda 歷史解釋了一次！！(疑！？）所以可見目前大宗的語言，<br>都是英雄所見略同啊！！</p>
+<div class="gatsby-highlight" data-language="swift"><pre class="language-swift"><code class="language-swift"><span class="token keyword">case</span> <span class="token string">"×"</span><span class="token punctuation">:</span><span class="token function">preformOperation</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">(</span>op1 <span class="token punctuation">,</span>op2 <span class="token punctuation">)</span> <span class="token keyword">in</span>
+        <span class="token keyword">return</span> op1 <span class="token operator">*</span> op2
+        <span class="token punctuation">}</span></code></pre></div>
+<p>如果是 C# , 下一步就是進化成 Lambda 了，而 Swift 當然也可以進化.. 如同 Lambda ，如果只有一行，也可以把 return 省略...</p>
+<div class="gatsby-highlight" data-language="swift"><pre class="language-swift"><code class="language-swift"><span class="token keyword">case</span> <span class="token string">"×"</span><span class="token punctuation">:</span><span class="token function">preformOperation</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">(</span>op1 <span class="token punctuation">,</span>op2 <span class="token punctuation">)</span> <span class="token keyword">in</span> op1 <span class="token operator">*</span> op2<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre></div>
+<p>到這邊就結束了嗎!!? Swift 更噁心...喔，不是，是更聰明，Swift 可以用 $0 , $1 等等，代表參數的順序，這代表什麼！？
+連 (op1,op2) 都可以省了...所以，就變成底下這樣 .....</p>
+<div class="gatsby-highlight" data-language="swift"><pre class="language-swift"><code class="language-swift"><span class="token keyword">case</span> <span class="token string">"×"</span><span class="token punctuation">:</span><span class="token function">preformOperation</span><span class="token punctuation">(</span><span class="token punctuation">{</span> $<span class="token number">0</span> <span class="token operator">*</span> $<span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre></div>
+<p>好，大家以為這樣就結束了，錯，還可以再進化！！ 抖抖 .. 如果 preformOperation 裡面的 func 參數 (也就是 operation: (Double,Double )-> Double) 是最後一個參數，
+我們還可以把 {} 的內容，拉到 () 後面，變成這樣....</p>
+<div class="gatsby-highlight" data-language="swift"><pre class="language-swift"><code class="language-swift"><span class="token keyword">case</span> <span class="token string">"×"</span><span class="token punctuation">:</span><span class="token function">preformOperation</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span> $<span class="token number">0</span> <span class="token operator">*</span> $<span class="token number">1</span> <span class="token punctuation">}</span></code></pre></div>
+<p>這就是神奇的 Swift ... 基本，這樣講下來，也把整個 C# 的 Lambda 歷史解釋了一次！！(疑！？）所以可見目前大宗的語言，
+都是英雄所見略同啊！！</p>
 <p>所以最終的 Code 會變成這樣。</p>
-<p>喔，小提醒，這邊我們多加了 if userIsInheMiddleOfTypingANumber 這個判斷，<br>主要是針對當使用者發生 數字 -&gt; return -&gt; 數字 -&gt; 運算 這種情況下，我們也會把第二次的數字，enter 進 array 裡面，<br>如果沒有這一行，那每次使用者都要 數字 -&gt; return -&gt; 數字 -&gt; retuen 後，才能按下運算按鈕了….</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">operate</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    <span class="keyword">let</span> operation = sender.currentTitle!</span><br><span class="line">    <span class="keyword">if</span> userIsInheMiddleOfTypingANumber &#123;</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">switch</span> operation &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"×"</span>:preformOperation &#123; $<span class="number">0</span> * $<span class="number">1</span> &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"÷"</span>:preformOperation &#123; $<span class="number">1</span> / $<span class="number">0</span> &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"+"</span>:preformOperation &#123; $<span class="number">0</span> + $<span class="number">1</span> &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"−"</span>:preformOperation &#123; $<span class="number">1</span> - $<span class="number">0</span> &#125;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">preformOperation</span><span class="params">(operation: <span class="params">(Double,Double )</span></span></span>-&gt; <span class="type">Double</span> )&#123;</span><br><span class="line">    <span class="keyword">if</span> operandStack.<span class="built_in">count</span> &gt;= <span class="number">2</span> &#123;</span><br><span class="line">        displayValue = operation( operandStack.removeLast(), operandStack.removeLast())</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>喔，小提醒，這邊我們多加了 if userIsInheMiddleOfTypingANumber 這個判斷，
+主要是針對當使用者發生 數字 -> return -> 數字 -> 運算 這種情況下，我們也會把第二次的數字，enter 進 array 裡面，
+如果沒有這一行，那每次使用者都要 數字 -> return -> 數字 -> retuen 後，才能按下運算按鈕了....</p>
+<div class="gatsby-highlight" data-language="swift"><pre class="language-swift"><code class="language-swift"><span class="token atrule">@IBAction</span> <span class="token keyword">func</span> <span class="token function">operate</span><span class="token punctuation">(</span>sender<span class="token punctuation">:</span> <span class="token builtin">UIButton</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> operation <span class="token operator">=</span> sender<span class="token punctuation">.</span>currentTitle<span class="token operator">!</span>
+    <span class="token keyword">if</span> userIsInheMiddleOfTypingANumber <span class="token punctuation">{</span>
+        <span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">switch</span> operation <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token string">"×"</span><span class="token punctuation">:</span>preformOperation <span class="token punctuation">{</span> $<span class="token number">0</span> <span class="token operator">*</span> $<span class="token number">1</span> <span class="token punctuation">}</span>
+    <span class="token keyword">case</span> <span class="token string">"÷"</span><span class="token punctuation">:</span>preformOperation <span class="token punctuation">{</span> $<span class="token number">1</span> <span class="token operator">/</span> $<span class="token number">0</span> <span class="token punctuation">}</span>
+    <span class="token keyword">case</span> <span class="token string">"+"</span><span class="token punctuation">:</span>preformOperation <span class="token punctuation">{</span> $<span class="token number">0</span> <span class="token operator">+</span> $<span class="token number">1</span> <span class="token punctuation">}</span>
+    <span class="token keyword">case</span> <span class="token string">"−"</span><span class="token punctuation">:</span>preformOperation <span class="token punctuation">{</span> $<span class="token number">1</span> <span class="token operator">-</span> $<span class="token number">0</span> <span class="token punctuation">}</span>
+    <span class="token keyword">default</span><span class="token punctuation">:</span>
+        <span class="token keyword">break</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-<h2 id="overloading"><a href="#overloading" class="headerlink" title="overloading"></a>overloading</h2><p>接下來，我們多拉一排按鈕如下。</p>
-<p><img src="10.png" alt=""></p>
-<p>接著，把上面按鈕的 Title 都拿掉 ( 不是刪除 Button )，我們只留下最後一個，用來準備開根號。</p>
-<p><img src="11.png" alt=""></p>
-<p>完成後，我們可以增加以下程式碼。並且特別注意，如果照著影片教學的內容，是會發生錯誤的。這是因為 Swift 1.2 做了些改變。<br>其一是因為 Objective-C 原本就沒有 Overloading ，或者對 Objective-C 來說，根本就沒有 func 這等事，<br>( Objective-C 使用簽名的概念，並用 @Selector(preformOperation) 做選擇 )</p>
-<p>而在 1.2 為了和 Objective-C 有更好的相容，所以會嚴謹的模式，檢查基於 @objc 方法的重載，<br>也因此，只要是與 Objective-C 有關，就會有這個問題…</p>
-<p>問題是，這邊和 Objective-C 有啥關係，我又沒寫!?….</p>
-<p>那是因為繼承，我們實際上繼承了 UIViewController 而這個是繼承自 NSObject ，而這就是用 Objective-C 寫的…</p>
-<p>所以一種官方<a href="https://developer.apple.com/library/ios/releasenotes/DeveloperTools/RN-Xcode/Chapters/Introduction.html" target="_blank" rel="noopener">解法</a><br>是前面加上 private ，透過 private 關鍵字，來關閉 @objc 的推斷，就不會編譯成 Objective-C。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">operate</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    <span class="keyword">let</span> operation = sender.currentTitle!</span><br><span class="line">    <span class="keyword">if</span> userIsInheMiddleOfTypingANumber &#123;</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">switch</span> operation &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"×"</span>:preformOperation &#123; $<span class="number">0</span> * $<span class="number">1</span> &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"÷"</span>:preformOperation &#123; $<span class="number">1</span> / $<span class="number">0</span> &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"+"</span>:preformOperation &#123; $<span class="number">0</span> + $<span class="number">1</span> &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"−"</span>:preformOperation &#123; $<span class="number">1</span> - $<span class="number">0</span> &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"√"</span>:preformOperation &#123; sqrt($<span class="number">0</span>) &#125;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">preformOperation</span><span class="params">(operation: <span class="params">(Double,Double )</span></span></span>-&gt; <span class="type">Double</span> )&#123;</span><br><span class="line">    <span class="keyword">if</span> operandStack.<span class="built_in">count</span> &gt;= <span class="number">2</span> &#123;</span><br><span class="line">        displayValue = operation( operandStack.removeLast(), operandStack.removeLast())</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">preformOperation</span><span class="params">(operation: Double -&gt; Double )</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> operandStack.<span class="built_in">count</span> &gt;= <span class="number">1</span> &#123;</span><br><span class="line">        displayValue = operation( operandStack.removeLast())</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如果真的還是要編譯成 Objective-C ，那就可以在後面加上參數名稱，如前面所說，Objective-C 只要參數名稱不同，<br>就會認定是不同的 func .</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">preformOperation</span><span class="params">(operation: <span class="params">(Double,Double )</span></span></span>-&gt; param:<span class="type">Double</span> )&#123;</span><br><span class="line">    <span class="keyword">if</span> operandStack.<span class="built_in">count</span> &gt;= <span class="number">2</span> &#123;</span><br><span class="line">        displayValue = operation( operandStack.removeLast(), operandStack.removeLast())</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">preformOperation</span><span class="params">(operation: Double -&gt; <span class="number">_</span>:Double )</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> operandStack.<span class="built_in">count</span> &gt;= <span class="number">1</span> &#123;</span><br><span class="line">        displayValue = operation( operandStack.removeLast())</span><br><span class="line">        enter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>待續…</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a href="https://itunes.apple.com/tw/course/developing-ios-8-apps-swift/id961180099" target="_blank" rel="noopener">Developing iOS 8 Apps with Swift by Stanford</a></li>
-<li><a href="http://stackoverflow.com/questions/29457720/compiler-error-method-with-objective-c-selector-conflicts-with-previous-declara/29670644#29670644" target="_blank" rel="noopener">http://stackoverflow.com/questions/29457720/compiler-error-method-with-objective-c-selector-conflicts-with-previous-declara/29670644#29670644</a></li>
-<li><a href="http://mingda.net/2015/06/19/method-conflicts-with-previous-declaration-with-the-same-objective-c-selector/" target="_blank" rel="noopener">http://mingda.net/2015/06/19/method-conflicts-with-previous-declaration-with-the-same-objective-c-selector/</a></li>
-<li><a href="http://www.cocoachina.com/bbs/3g/read.php?tid=295786" target="_blank" rel="noopener">http://www.cocoachina.com/bbs/3g/read.php?tid=295786</a></li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/iOS/" rel="tag">#iOS</a>
-          
-            <a href="/tags/XCode/" rel="tag">#XCode</a>
-          
-            <a href="/tags/Swift/" rel="tag">#Swift</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/04/11/iOS-Study_Note_Lession_1/" rel="next" title="iOS - 學習筆記 - Lession 1">
-                <i class="fa fa-chevron-left"></i> iOS - 學習筆記 - Lession 1
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/04/20/Angular2-Env_Setup_1/" rel="prev" title="Angular2 - 與 Webpack 整合環境設定 - 1">
-                Angular2 - 與 Webpack 整合環境設定 - 1 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#開始"><span class="nav-number">2.</span> <span class="nav-text">開始</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立-Return-按鈕"><span class="nav-number">3.</span> <span class="nav-text">建立 Return 按鈕</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立加減乘除-使用委派與閉包"><span class="nav-number">4.</span> <span class="nav-text">建立加減乘除( 使用委派與閉包 )</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#overloading"><span class="nav-number">5.</span> <span class="nav-text">overloading</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">6.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">7.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
+<span class="token keyword">func</span> <span class="token function">preformOperation</span><span class="token punctuation">(</span>operation<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token builtin">Double</span><span class="token punctuation">,</span><span class="token builtin">Double</span> <span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Double</span> <span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">if</span> operandStack<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">>=</span> <span class="token number">2</span> <span class="token punctuation">{</span>
+        displayValue <span class="token operator">=</span> <span class="token function">operation</span><span class="token punctuation">(</span> operandStack<span class="token punctuation">.</span><span class="token function">removeLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> operandStack<span class="token punctuation">.</span><span class="token function">removeLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></div>
+<h2>overloading</h2>
+<p>接下來，我們多拉一排按鈕如下。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 433px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/cb28e5e249449be63786f5817f0b8c92/842a9/10.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 118.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAYCAYAAAD6S912AAAACXBIWXMAAAsSAAALEgHS3X78AAABsklEQVQ4y61V6W6DMAzm/V9mb7L/g1ZlE6LnuhYVQk4vTiAH9AhSI1lybPM5n2OcTAgBr4WDkACk/gB2/Qb2swJW5UDzT9BmEJybOMYYZJRSSJWe3ID2BCjptK6l6yI/IQQyeOM6n8+QKaXgHYLreDwioM+ggk2oP/OFgKfTyVImTBdWWmPPFdyo1aUObIj/gAkFfIjDeCpUlMCcEBV0yMGIOmE+sKUeEEGk9Mks+IyySqCskii7EyKV8BQjLbRRjj5wpxqZoE/cOyEqV6JcDZFuWMO/zgNi4jEOqTORRFnNKNo9pFPGvZWBjgtc1jYOsGPBLQdtgyYsh3zUNvxBDcMspvAyLrzzyYRLSWubhX9KaGSTxraUbWX5i8Y+HA5+2kSA3FP8bcfLUcHFTXUb37ZtPL6e/ynj/buAWRwO2dkJQ/p+PMUAUkr/TRDP9eTOls48nMxlWU4STgCXrke3bACnmZBOitwrjQHs+97QwBcLDdhLdV3DdruF3W7nRe/Rhr79fh89TCMGSrZer6FpmqFNpHs6mXauihw2mxKK/Eu3RBf5cV0uF+3fQFEUJlFVVfAP2dNl/zG+TmMAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="10"
+        title="10"
+        src="/static/cb28e5e249449be63786f5817f0b8c92/842a9/10.png"
+        srcset="/static/cb28e5e249449be63786f5817f0b8c92/56d15/10.png 200w,
+/static/cb28e5e249449be63786f5817f0b8c92/d9f49/10.png 400w,
+/static/cb28e5e249449be63786f5817f0b8c92/842a9/10.png 433w"
+        sizes="(max-width: 433px) 100vw, 433px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
   </a>
-</div>
-
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+    </span></p>
+<p>接著，把上面按鈕的 Title 都拿掉 ( 不是刪除 Button )，我們只留下最後一個，用來準備開根號。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 433px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/107ba323e1ed6c5c2e886ad97040b479/842a9/11.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 118.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAYCAYAAAD6S912AAAACXBIWXMAAAsSAAALEgHS3X78AAAB1klEQVQ4y61Vf2+DIBDt9/9i+2cfYKvrXJamP12qtaggcOOhiCKdTTOTiwfHPd4d3LFijFFVVcQ5p6Zp/pCauNDETi9UXdZUfX9Sne2Jvb1SI8SwblXXNbVtS0qpB0SSIiKlqfs7wbyxA2cFVAwe/jTWGkTtRJmftqaiKAJAY9C9wCmm3xN8p9NpCuidu80tk37eOU316TjLsg5QG9pcEtWiM7QmSdlND1H+ME1SdWMhtZUxuAM8n88xht3fAZA9hHsMFwBdrob86/k41KOAYchgd228c15ry9LZlFpgqA1DYQB5nxs4O3B8lZgCyiVA+d8h2yrQNOwMNrz1ztAfuTaTkFvlQwZwOcphMcohX7o2whS2lM+HPPaxgHmeT8LxodBQNc4xdg+RDjWulOv1OgNEyJfKMziWpm3x+SkDiImglhFyrFKU8oDImYowDcMHuVnp3cuZ7zg0pCE8FCnl/Vp2OiI4Ho8BAEWvzazBxnocdnUHt9QPn+vYYQOPAYKFM4TvCGyQ8VzIzOkWEI8UXjwMbrcb7XY72u/3Vg6Hg5d+DvayLO16+MEfpKBDVpvNxh63y5cTYYwfyZrS9IuS9TsxVnUvW2+3bc3kNk1TSpLEbrTdbukXx6ZkXHbIv00AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="11"
+        title="11"
+        src="/static/107ba323e1ed6c5c2e886ad97040b479/842a9/11.png"
+        srcset="/static/107ba323e1ed6c5c2e886ad97040b479/56d15/11.png 200w,
+/static/107ba323e1ed6c5c2e886ad97040b479/d9f49/11.png 400w,
+/static/107ba323e1ed6c5c2e886ad97040b479/842a9/11.png 433w"
+        sizes="(max-width: 433px) 100vw, 433px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>完成後，我們可以增加以下程式碼。並且特別注意，如果照著影片教學的內容，是會發生錯誤的。這是因為 Swift 1.2 做了些改變。
+其一是因為 Objective-C 原本就沒有 Overloading ，或者對 Objective-C 來說，根本就沒有 func 這等事，
+( Objective-C 使用簽名的概念，並用 @Selector(preformOperation) 做選擇 )</p>
+<p>而在 1.2 為了和 Objective-C 有更好的相容，所以會嚴謹的模式，檢查基於 @objc 方法的重載，
+也因此，只要是與 Objective-C 有關，就會有這個問題...</p>
+<p>問題是，這邊和 Objective-C 有啥關係，我又沒寫!?....</p>
+<p>那是因為繼承，我們實際上繼承了 UIViewController 而這個是繼承自 NSObject ，而這就是用 Objective-C 寫的...</p>
+<p>所以一種官方<a href="https://developer.apple.com/library/ios/releasenotes/DeveloperTools/RN-Xcode/Chapters/Introduction.html">解法</a>
+是前面加上 private ，透過 private 關鍵字，來關閉 @objc 的推斷，就不會編譯成 Objective-C。</p>
+<div class="gatsby-highlight" data-language="swift"><pre class="language-swift"><code class="language-swift"><span class="token atrule">@IBAction</span> <span class="token keyword">func</span> <span class="token function">operate</span><span class="token punctuation">(</span>sender<span class="token punctuation">:</span> <span class="token builtin">UIButton</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> operation <span class="token operator">=</span> sender<span class="token punctuation">.</span>currentTitle<span class="token operator">!</span>
+    <span class="token keyword">if</span> userIsInheMiddleOfTypingANumber <span class="token punctuation">{</span>
+        <span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">switch</span> operation <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token string">"×"</span><span class="token punctuation">:</span>preformOperation <span class="token punctuation">{</span> $<span class="token number">0</span> <span class="token operator">*</span> $<span class="token number">1</span> <span class="token punctuation">}</span>
+    <span class="token keyword">case</span> <span class="token string">"÷"</span><span class="token punctuation">:</span>preformOperation <span class="token punctuation">{</span> $<span class="token number">1</span> <span class="token operator">/</span> $<span class="token number">0</span> <span class="token punctuation">}</span>
+    <span class="token keyword">case</span> <span class="token string">"+"</span><span class="token punctuation">:</span>preformOperation <span class="token punctuation">{</span> $<span class="token number">0</span> <span class="token operator">+</span> $<span class="token number">1</span> <span class="token punctuation">}</span>
+    <span class="token keyword">case</span> <span class="token string">"−"</span><span class="token punctuation">:</span>preformOperation <span class="token punctuation">{</span> $<span class="token number">1</span> <span class="token operator">-</span> $<span class="token number">0</span> <span class="token punctuation">}</span>
+    <span class="token keyword">case</span> <span class="token string">"√"</span><span class="token punctuation">:</span>preformOperation <span class="token punctuation">{</span> <span class="token function">sqrt</span><span class="token punctuation">(</span>$<span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">}</span>
+    <span class="token keyword">default</span><span class="token punctuation">:</span>
+        <span class="token keyword">break</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
 
+<span class="token keyword">private</span> <span class="token keyword">func</span> <span class="token function">preformOperation</span><span class="token punctuation">(</span>operation<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token builtin">Double</span><span class="token punctuation">,</span><span class="token builtin">Double</span> <span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Double</span> <span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">if</span> operandStack<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">>=</span> <span class="token number">2</span> <span class="token punctuation">{</span>
+        displayValue <span class="token operator">=</span> <span class="token function">operation</span><span class="token punctuation">(</span> operandStack<span class="token punctuation">.</span><span class="token function">removeLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> operandStack<span class="token punctuation">.</span><span class="token function">removeLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-  
-  
+<span class="token keyword">private</span> <span class="token keyword">func</span> <span class="token function">preformOperation</span><span class="token punctuation">(</span>operation<span class="token punctuation">:</span> <span class="token builtin">Double</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Double</span> <span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">if</span> operandStack<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">>=</span> <span class="token number">1</span> <span class="token punctuation">{</span>
+        displayValue <span class="token operator">=</span> <span class="token function">operation</span><span class="token punctuation">(</span> operandStack<span class="token punctuation">.</span><span class="token function">removeLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>如果真的還是要編譯成 Objective-C ，那就可以在後面加上參數名稱，如前面所說，Objective-C 只要參數名稱不同，
+就會認定是不同的 func .</p>
+<div class="gatsby-highlight" data-language="swift"><pre class="language-swift"><code class="language-swift"><span class="token keyword">private</span> <span class="token keyword">func</span> <span class="token function">preformOperation</span><span class="token punctuation">(</span>operation<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token builtin">Double</span><span class="token punctuation">,</span><span class="token builtin">Double</span> <span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span> param<span class="token punctuation">:</span><span class="token builtin">Double</span> <span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">if</span> operandStack<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">>=</span> <span class="token number">2</span> <span class="token punctuation">{</span>
+        displayValue <span class="token operator">=</span> <span class="token function">operation</span><span class="token punctuation">(</span> operandStack<span class="token punctuation">.</span><span class="token function">removeLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> operandStack<span class="token punctuation">.</span><span class="token function">removeLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2016/04/12/iOS-Study_Note_Lession_2/';
-      var disqus_title = 'iOS - 學習筆記 - Lession 2';
-      var disqus_url = 'http://skychang.github.io/2016/04/12/iOS-Study_Note_Lession_2/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+<span class="token keyword">private</span> <span class="token keyword">func</span> <span class="token function">preformOperation</span><span class="token punctuation">(</span>operation<span class="token punctuation">:</span> <span class="token builtin">Double</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token number">_</span><span class="token punctuation">:</span><span class="token builtin">Double</span> <span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">if</span> operandStack<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">>=</span> <span class="token number">1</span> <span class="token punctuation">{</span>
+        displayValue <span class="token operator">=</span> <span class="token function">operation</span><span class="token punctuation">(</span> operandStack<span class="token punctuation">.</span><span class="token function">removeLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></div>
+<h2>後記</h2>
+<p>待續...</p>
+<h2>參考資料</h2>
+<ul>
+<li><a href="https://itunes.apple.com/tw/course/developing-ios-8-apps-swift/id961180099">Developing iOS 8 Apps with Swift by Stanford</a></li>
+<li><a href="http://stackoverflow.com/questions/29457720/compiler-error-method-with-objective-c-selector-conflicts-with-previous-declara/29670644#29670644">http://stackoverflow.com/questions/29457720/compiler-error-method-with-objective-c-selector-conflicts-with-previous-declara/29670644#29670644</a></li>
+<li><a href="http://mingda.net/2015/06/19/method-conflicts-with-previous-declaration-with-the-same-objective-c-selector/">http://mingda.net/2015/06/19/method-conflicts-with-previous-declaration-with-the-same-objective-c-selector/</a></li>
+<li><a href="http://www.cocoachina.com/bbs/3g/read.php?tid=295786">http://www.cocoachina.com/bbs/3g/read.php?tid=295786</a></li>
+</ul></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2016/04/12/iOS-Study_Note_Lession_2/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>

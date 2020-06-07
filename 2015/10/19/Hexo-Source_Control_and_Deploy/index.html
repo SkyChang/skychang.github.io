@@ -1,711 +1,447 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="GitHub,Node.js,Hexo," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="前言上一篇我們看到了怎樣安裝 Hexo，並且了解如何將現有的文章轉入進來，接下來，我們就來看看，如何將原始檔 ( Markdown ) 放到 GitHub 進行版控，並且!!把編譯過 ( 將 Markdown 透過 Hexo 轉成 HTML ) 的 HTML 放到 GitHub 上。 使用 GitHub 當作 Blogger目前 GitHub 有支援個人與專案，一個帳號，可以建立一個個人網站和多個">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Hexo - 版本控制與發佈到 GitHub">
-<meta property="og:url" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="前言上一篇我們看到了怎樣安裝 Hexo，並且了解如何將現有的文章轉入進來，接下來，我們就來看看，如何將原始檔 ( Markdown ) 放到 GitHub 進行版控，並且!!把編譯過 ( 將 Markdown 透過 Hexo 轉成 HTML ) 的 HTML 放到 GitHub 上。 使用 GitHub 當作 Blogger目前 GitHub 有支援個人與專案，一個帳號，可以建立一個個人網站和多個">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/14.png">
-<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/15.png">
-<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/16.png">
-<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/17.png">
-<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/18.png">
-<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/19.png">
-<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/20.png">
-<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/21.png">
-<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/22.png">
-<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/23.png">
-<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/24.png">
-<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/25.png">
-<meta property="og:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/26.png">
-<meta property="article:published_time" content="2015-10-19T22:40:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:38.912Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="GitHub">
-<meta property="article:tag" content="Node.js">
-<meta property="article:tag" content="Hexo">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/14.png">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> Hexo - 版本控制與發佈到 GitHub | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Hexo - 版本控制與發佈到 GitHub
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2015-10-19T22:40:00+00:00" content="2015-10-19">
-              2015-10-19
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/10/19/Hexo-Source_Control_and_Deploy/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/10/19/Hexo-Source_Control_and_Deploy/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><a href="http://skychang.github.io/2015/10/06/Install-Hexo/">上一篇</a>我們看到了怎樣安裝 Hexo，並且了解如何將現有的文章轉入進來，接下來，我們就來看看，如何將原始檔 ( Markdown ) 放到 GitHub 進行版控，並且!!把編譯過 ( 將 Markdown 透過 Hexo 轉成 HTML ) 的 HTML 放到 GitHub 上。</p>
-<h2 id="使用-GitHub-當作-Blogger"><a href="#使用-GitHub-當作-Blogger" class="headerlink" title="使用 GitHub 當作 Blogger"></a>使用 GitHub 當作 Blogger</h2><p>目前 GitHub 有支援個人與專案，一個帳號，可以建立一個個人網站和多個專案網站。詳細可以參考底下兩篇。<br><a href="http://skychang.github.io/2014/07/31/GitHub-GitHub-Page-for-User/">個人</a><br><a href="http://skychang.github.io/2014/07/31/GitHub-GitHub-Page-for-Project/">專案</a></p>
-<h2 id="為什麼要備份-Source-到-GitHub"><a href="#為什麼要備份-Source-到-GitHub" class="headerlink" title="為什麼要備份 Source 到 GitHub"></a>為什麼要備份 Source 到 GitHub</h2><p>現在是版控的時代了，除了程式碼要版控之外，圖檔要版控，甚至連虛擬機都要版控 ( Docker ) ，那文章勒，文章其實也可以版控，但我們版控的不是 HTML ，而是 Markdown，Markdown 就猶如我們的 Source Code，而 HTML 就如同是編譯過執行程式。</p>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">Hexo - 版本控制與發佈到 GitHub :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="前言 上一篇我們看到了怎樣安裝 Hexo，並且了解如何將現有的文章轉入進來，接下來，我們就來看看，如何將原始檔 ( Markdown ) 放到 GitHub 進行版控，並且!!把編譯過 ( 將 Markdown 透過 Hexo 轉成 HTML ) 的 HTML 放到 GitHub…"/><meta data-react-helmet="true" property="og:title" content="Hexo - 版本控制與發佈到 GitHub"/><meta data-react-helmet="true" property="og:description" content="前言 上一篇我們看到了怎樣安裝 Hexo，並且了解如何將現有的文章轉入進來，接下來，我們就來看看，如何將原始檔 ( Markdown ) 放到 GitHub 進行版控，並且!!把編譯過 ( 將 Markdown 透過 Hexo 轉成 HTML ) 的 HTML 放到 GitHub…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="Hexo - 版本控制與發佈到 GitHub"/><meta data-react-helmet="true" name="twitter:description" content="前言 上一篇我們看到了怎樣安裝 Hexo，並且了解如何將現有的文章轉入進來，接下來，我們就來看看，如何將原始檔 ( Markdown ) 放到 GitHub 進行版控，並且!!把編譯過 ( 將 Markdown 透過 Hexo 轉成 HTML ) 的 HTML 放到 GitHub…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2015/10/19/Hexo-Source_Control_and_Deploy/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">Hexo - 版本控制與發佈到 GitHub</h1><div class="post-module--meta--3YtjE">19 October 2015<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/Node.js/"><span class="post-module--tag--16U9p">#<!-- -->Node.js</span></a><a href="/tag/Hexo/"><span class="post-module--tag--16U9p">#<!-- -->Hexo</span></a><a href="/tag/GitHub/"><span class="post-module--tag--16U9p">#<!-- -->GitHub</span></a></div></div><div><h2>前言</h2>
+<p><a href="http://skychang.github.io/2015/10/06/Install-Hexo/">上一篇</a>我們看到了怎樣安裝 Hexo，並且了解如何將現有的文章轉入進來，接下來，我們就來看看，如何將原始檔 ( Markdown ) 放到 GitHub 進行版控，並且!!把編譯過 ( 將 Markdown 透過 Hexo 轉成 HTML ) 的 HTML 放到 GitHub 上。</p>
+<h2>使用 GitHub 當作 Blogger</h2>
+<p>目前 GitHub 有支援個人與專案，一個帳號，可以建立一個個人網站和多個專案網站。詳細可以參考底下兩篇。
+<a href="http://skychang.github.io/2014/07/31/GitHub-GitHub-Page-for-User/">個人</a>
+<a href="http://skychang.github.io/2014/07/31/GitHub-GitHub-Page-for-Project/">專案</a></p>
+<h2>為什麼要備份 Source 到 GitHub</h2>
+<p>現在是版控的時代了，除了程式碼要版控之外，圖檔要版控，甚至連虛擬機都要版控 ( Docker ) ，那文章勒，文章其實也可以版控，但我們版控的不是 HTML ，而是 Markdown，Markdown 就猶如我們的 Source Code，而 HTML 就如同是編譯過執行程式。</p>
 <p>既然我們選擇使用 GitHub , 那自然就使用 GitHub 進行版控吧!</p>
 <p>( 當然，別忘了先在 GitHub 上開個 Repo 阿!! , 也別忘了要先安裝 git 應用程式喔!! )</p>
-<h2 id="git-初始化與設定"><a href="#git-初始化與設定" class="headerlink" title="git 初始化與設定"></a>git 初始化與設定</h2><p>首先，大家非常不陌生的 <code>git init</code> ，初始化一下。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+<h2>git 初始化與設定</h2>
+<p>首先，大家非常不陌生的 <code class="language-text">git init</code> ，初始化一下。</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">git init</code></pre></div>
 <p>透過 git init 我們就可以針對此目錄下進行版控。</p>
-<p><img src="14.png" alt=""></p>
-<p>接下來，我們就可以透過底下指令，加入遠端的位置，到時候我們就可以 sync 上去。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin git@github.com:帳號&#x2F;Repo</span><br></pre></td></tr></table></figure>
-
-<p><img src="15.png" alt=""></p>
-<p>當然，如果這樣就成功了，就不會有這篇了，如果此時你直接下 git push ，那會出現權限不足的問題，而這邊，我們透過產生金鑰的方式，這樣就不用每次都需要 key 帳號密碼。</p>
-<p>我們先到 .ssh 的目錄底下去，原則上，看到的應該是空的 ( 只會有 known_hosts ) ，如果有看到 id_rsa.pub 也可以直接拿來用，如果沒看到，我們就來產生一個吧!!</p>
-<p><img src="16.png" alt=""></p>
-<p>我們可以到 program Files\Git\usr\bin 目錄底下，下這個指令，透過這個指令，就可以幫我們產生金鑰。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;你的Email&quot;</span><br></pre></td></tr></table></figure>
-<p>預設金鑰就會產生到 .ssh 底下去。</p>
-<p><img src="17.png" alt=""></p>
-<p>如下圖，我們就可以看到 id_rsa 和 id_rsa.pub 這兩個檔案嚕!!</p>
-<p><img src="18.png" alt=""></p>
-<p>接下來，我們打開 id.rsa.pub ( 用記事本開啟 )，我們把底下的金鑰 copy 下來。</p>
-<p><img src="19.png" alt=""></p>
-<p>然後貼到 GitHub 上去。<br>( 注意，GitHub 可以針對 專案 進行金鑰的設定，如下圖，或是整個帳號，如下下圖，你可以決定你的金鑰的範圍，但是一組金鑰，只能出現在 GitHub 的這個帳號底下一次，也就是說，如果你把金鑰拿去設定 專案 ，那你就不能用同樣的金鑰設定在其他的專案上了 )</p>
-<p><img src="20.png" alt=""></p>
-<p>如果要設定給完整帳號，我們可以從帳號設定的底下進行金鑰的貼上，貼上後，就可以了。</p>
-<p><img src="21.png" alt=""></p>
-<h2 id="推送到-GitHub"><a href="#推送到-GitHub" class="headerlink" title="推送到 GitHub"></a>推送到 GitHub</h2><p>接下來，就是大家熟悉的指令了….</p>
-<p>首先，把網站的 source 全部加入…. ( 這邊不用擔心編譯過後的 HTML 也被加入進去，當我們使用 Hexo init 的時候，預設就會把 public 這個含有 HTML 的目錄給過濾掉了。 )</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
-
-<p><img src="22.png" alt=""></p>
-<p>然後，簽入到本機。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &quot;First&quot;</span><br></pre></td></tr></table></figure>
-
-<p><img src="23.png" alt=""></p>
-<p>推送到 GitHub。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
-
-<p><img src="24.png" alt=""></p>
-<p>到這邊，我們 source 就可以安心地放到 GitHub 進行版控嚕….</p>
-<h2 id="進行佈署"><a href="#進行佈署" class="headerlink" title="進行佈署"></a>進行佈署</h2><p>在開始前，我們要先裝 hexo-deployer-git ，透過這個套件，才能佈署到 GitHub 上。<br>我們可以到我們的 hexo 目錄底下，透過底下指令進行安裝。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-
-<p>接著，我們要開始進行佈署，首先，我們要修改 _config.yml 這個檔案，如下圖。<br>這邊表示我們要使用 git ，並且設定遠端的 repo。<br>如果有分支需求的朋友，可以參考<a href="https://hexo.io/zh-tw/docs/deployment.html" target="_blank" rel="noopener">官網</a>的設定，官網也有許多 FTP 等地佈署方式。</p>
-<p><img src="25.png" alt=""></p>
-<p>然後，我們要先把我們的 Markdown 編譯成 HTML。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br></pre></td></tr></table></figure>
-
-<p>接著，我們只要下底下指令即可，hexo 就會自動的把 HTML 佈署到 github 上了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p><img src="26.png" alt=""></p>
-<p>完工!!</p>
-<h2 id="等等，新文章哩"><a href="#等等，新文章哩" class="headerlink" title="等等，新文章哩!!?"></a>等等，新文章哩!!?</h2><p>是低，下一篇，我們即將針對新文章的撰寫，來和大家講一些小技巧。</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a href="http://serverfault.com/questions/78048/whats-the-difference-between-ip-address-0-0-0-0-and-127-0-0-1#comment63540_78049" target="_blank" rel="noopener">http://serverfault.com/questions/78048/whats-the-difference-between-ip-address-0-0-0-0-and-127-0-0-1#comment63540_78049</a></li>
-<li><a href="http://wsgzao.github.io/post/hexo-guide/" target="_blank" rel="noopener">http://wsgzao.github.io/post/hexo-guide/</a></li>
-<li><a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">https://github.com/iissnan/hexo-theme-next</a></li>
-<li><a href="https://git-scm.com/book/zh-tw/v1/%E4%BC%BA%E6%9C%8D%E5%99%A8%E4%B8%8A%E7%9A%84-Git-%E7%94%9F%E6%88%90-SSH-%E5%85%AC%E9%96%8B%E9%87%91%E9%91%B0" target="_blank" rel="noopener">https://git-scm.com/book/zh-tw/v1/%E4%BC%BA%E6%9C%8D%E5%99%A8%E4%B8%8A%E7%9A%84-Git-%E7%94%9F%E6%88%90-SSH-%E5%85%AC%E9%96%8B%E9%87%91%E9%91%B0</a></li>
-<li><a href="https://gist.github.com/adamjohnson/5682757" target="_blank" rel="noopener">https://gist.github.com/adamjohnson/5682757</a></li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/GitHub/" rel="tag">#GitHub</a>
-          
-            <a href="/tags/Node-js/" rel="tag">#Node.js</a>
-          
-            <a href="/tags/Hexo/" rel="tag">#Hexo</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2015/10/06/Hexo-Install_Hexo/" rel="next" title="Hexo - 安裝 Hexo">
-                <i class="fa fa-chevron-left"></i> Hexo - 安裝 Hexo
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/11/02/JavaScript-Use_Javascript_Fetch/" rel="prev" title="使用 fetch 來進行 Ajax 呼叫">
-                使用 fetch 來進行 Ajax 呼叫 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-GitHub-當作-Blogger"><span class="nav-number">2.</span> <span class="nav-text">使用 GitHub 當作 Blogger</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#為什麼要備份-Source-到-GitHub"><span class="nav-number">3.</span> <span class="nav-text">為什麼要備份 Source 到 GitHub</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git-初始化與設定"><span class="nav-number">4.</span> <span class="nav-text">git 初始化與設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推送到-GitHub"><span class="nav-number">5.</span> <span class="nav-text">推送到 GitHub</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#進行佈署"><span class="nav-number">6.</span> <span class="nav-text">進行佈署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#等等，新文章哩"><span class="nav-number">7.</span> <span class="nav-text">等等，新文章哩!!?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">8.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/f16395b0ab1a515d9536f09a993ea26d/1d5a8/14.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 61.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAfElEQVQoz+2OwQ6CMBBEt7b9MQ+oIbH4aSZwxC0maO2Jq/HjhkJ6lZT02sM7bDLzdujedmA74GEtembw8ITzHu7j8Xq7JMYAh+70/YGU1hCCAgJElMXxUoOElH8Dy5MUlFJrvroa0CEeOcg46tzcthfuFpoiLMLdwpNpMAOu5SCKJFG+DQAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="14"
+        title="14"
+        src="/static/f16395b0ab1a515d9536f09a993ea26d/78d47/14.png"
+        srcset="/static/f16395b0ab1a515d9536f09a993ea26d/56d15/14.png 200w,
+/static/f16395b0ab1a515d9536f09a993ea26d/d9f49/14.png 400w,
+/static/f16395b0ab1a515d9536f09a993ea26d/78d47/14.png 800w,
+/static/f16395b0ab1a515d9536f09a993ea26d/1d5a8/14.png 979w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
   </a>
-</div>
-
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2015/10/19/Hexo-Source_Control_and_Deploy/';
-      var disqus_title = 'Hexo - 版本控制與發佈到 GitHub';
-      var disqus_url = 'http://skychang.github.io/2015/10/19/Hexo-Source_Control_and_Deploy/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+    </span></p>
+<p>接下來，我們就可以透過底下指令，加入遠端的位置，到時候我們就可以 sync 上去。</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">git remote add origin git@github.com:帳號/Repo</code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/03aa2ad13814d2ec6ac0d107998fd4c4/1d5a8/15.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 61.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAA10lEQVQoz+2PuQ6CQBRFB4YdRgT5AIPLh1i4xETw2yy0UDFRQK1sjR93fRmXxq2xMhYnd97M5OQ+NpnOsFytMF9mWBDrPEe52yMvSzoX2BQF1sUlJXSfP7BFlmU4HE9grhCwbYuwYZomDMOAqeuEBk1VwRVFojIGTrA3dAZDMFHxITwPgsSu68Ij4jBAIyAom2GIdhTJbEU1mXFQRd336U8VkWVB5ZoUdkcJmOU4stmtnYQavmqhPIFzLt/66ZiS1mIfVvnEXZiQ8Fb3a0LlOvyFPyrsJSnO6y0lOrxLibcAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="15"
+        title="15"
+        src="/static/03aa2ad13814d2ec6ac0d107998fd4c4/78d47/15.png"
+        srcset="/static/03aa2ad13814d2ec6ac0d107998fd4c4/56d15/15.png 200w,
+/static/03aa2ad13814d2ec6ac0d107998fd4c4/d9f49/15.png 400w,
+/static/03aa2ad13814d2ec6ac0d107998fd4c4/78d47/15.png 800w,
+/static/03aa2ad13814d2ec6ac0d107998fd4c4/1d5a8/15.png 979w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>當然，如果這樣就成功了，就不會有這篇了，如果此時你直接下 git push ，那會出現權限不足的問題，而這邊，我們透過產生金鑰的方式，這樣就不用每次都需要 key 帳號密碼。</p>
+<p>我們先到 .ssh 的目錄底下去，原則上，看到的應該是空的 ( 只會有 known<em>hosts ) ，如果有看到 id</em>rsa.pub 也可以直接拿來用，如果沒看到，我們就來產生一個吧!!</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 786px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/1f8371a4fa226d4a165db025714e81e7/d703b/16.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 75.49999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB30lEQVQ4y6VTW27bMBDU/U/RQ/QM+ShQpB9BGudRxLJMUZZIi6Ter+msnAaO++WE8GJJ7u7scLSOvv96xv3rK+pgEZoWwzShH0dMy4Jpnt/9OC8YZoC/1eQsMfFd32NgTREaRN9uFH485TgeS+TG4ZAXCFWFUPfwVYfSyb5DXTeYOoMsN0hTja5t4EPN+xquGZDmFnEeEGUqRqY1dOF46bDbaxTGItEFVGYQJ3o1AdJqw3iKRKUwRYFdskWy30OTyP3THzZSiLYEsEcP70t6i2PpaSUqshR/OORkQpalQ6Yy5nk0bUvr2CTFXimUvuK+gLElom7sUTcBVSip44FP9Hx2jhACrLUoCeoI4uMtwuMGPZ/eDwObsKaqQRkxiubUfuA9AR27/IZi9xD8qpXo0lPoRbLPliPTSrRksfNhjYuNPMud7CPXCcNTUsunSLeW54a2Ar4VyZIciZ9seAPEe2wFLOoBCcWXiCTO8/yB1Qls+Y/tefw8FjXDhOdYYSKYzJOAXiae+0u7BI5sv+Buqzmt0/oBuq77AHLtiowLeHh84VMnGGO+DvgS7/Dz9habhw00B1zEvQbwUo4oDy0sh1mWzNG/j/JpwPMymb1rGV7mRkcOq/zJv8ow9COUDfgLeP+Q3nB/NdAAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="16"
+        title="16"
+        src="/static/1f8371a4fa226d4a165db025714e81e7/d703b/16.png"
+        srcset="/static/1f8371a4fa226d4a165db025714e81e7/56d15/16.png 200w,
+/static/1f8371a4fa226d4a165db025714e81e7/d9f49/16.png 400w,
+/static/1f8371a4fa226d4a165db025714e81e7/d703b/16.png 786w"
+        sizes="(max-width: 786px) 100vw, 786px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>我們可以到 program Files\Git\usr\bin 目錄底下，下這個指令，透過這個指令，就可以幫我們產生金鑰。</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">ssh-keygen -t rsa -C &quot;你的Email&quot;</code></pre></div>
+<p>預設金鑰就會產生到 .ssh 底下去。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/079397fa97c2536310f38fbaa8df0db8/1d5a8/17.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 61.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABRUlEQVQoz52S2UrDUBCGT3KSZjtJmrQhiwsIRbDiWwi20Lo8n0iwq1IVe+WFD/c7Hdqg1dbSi48/nOF8mZlE3D+UGAxHGE2mGIzGeBwMMXt5xdv7HM+zGZ1PMJ4+LZkyE3pepyxLzD8+IXRNhxACgVIosgxS06BcB3EYohHVubYrl90exGlRoJ2lOCPaeYbzIsfF4QFajRitOMZJGOBIecwxkdk2BL1U+4ZhGCy86t1A5CRMmk0kScIZRxGiJa7jwCHBIm1Kqet/dial5Oz07yDSPGdZmqacLPI8hDRyEAScPqXy/eriJmH3moT1KIZP+/PpAnexLGoL1kbbtLtKuOjQUz5c12WZaZrQN4y1jR9CaZhVYVsXOwsNs1bJ9unul9CsWXzw3552FrqegqKPYlkW73D1T+0trFk2SSTLVuwr7PRv8QU5hCulaj5EEgAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="17"
+        title="17"
+        src="/static/079397fa97c2536310f38fbaa8df0db8/78d47/17.png"
+        srcset="/static/079397fa97c2536310f38fbaa8df0db8/56d15/17.png 200w,
+/static/079397fa97c2536310f38fbaa8df0db8/d9f49/17.png 400w,
+/static/079397fa97c2536310f38fbaa8df0db8/78d47/17.png 800w,
+/static/079397fa97c2536310f38fbaa8df0db8/1d5a8/17.png 979w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>如下圖，我們就可以看到 id<em>rsa 和 id</em>rsa.pub 這兩個檔案嚕!!</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 786px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/6f712ff5fe7ce9d020f5c0c9ac4ee752/d703b/18.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 75%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACB0lEQVQ4y51UWY7UMBTM/U/BJbgCH0iIjxGtET2C9JKlnTiO4zh21qLsplEzMx80VkpO/N4r11uU5OPXF+zSFNY06K3DNC8YiWXdiPWvfVoAbuCDOZ5f4ceRcTNk55B8+JTj876CUi0qqSGqGqbvYYYRXe/Rdny3HnYYsIySdom8KODdAGMsrLXQw4SianCsDJJLfoS4lChrzUONU1ailg3OZY38InE8lzgQF1GjzJ5pL3DOC8i6xul84HeGkkJ2+58o8hzJkQ51o6B1i0Y1UG1HtOipMuxCVOiMiapFpeL7MDgMzkPUJbI8i1lcmJkkTxJyx8Y6OMM6imgUQkAzsFEKLUm11vGCnumN44TR+0gczjbGLuRYlgXTNCGRw4KXUw4fnEig0gOclAAVbzyLa9siOtOzlg4rmxTeA1lYc2giCcN3JPzy/USnBYK1OX17wmG3g9zvsbERV75rYEelDS8zVKd4eVDonIs2a3sSz0icn1DVMgaFFAc6eCI4br/V3QhDSiNHJASGfbuz/VFovUJRPPNGHWsV0rlft4Db/t66tyXrrGHbNA5sUBBuujm9Jrud3eOeNCo07JwUZ0779Ibwf1bSWsP5IiFrOc+PE75Wn/Rjhbx8orrt3ZQfReJZQ6V+cOwMVbo3TXk45UtT45ilHFQL58f4t5mX9Z8xESs7Ku2ElP+CX0zmjhLL27JNAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="18"
+        title="18"
+        src="/static/6f712ff5fe7ce9d020f5c0c9ac4ee752/d703b/18.png"
+        srcset="/static/6f712ff5fe7ce9d020f5c0c9ac4ee752/56d15/18.png 200w,
+/static/6f712ff5fe7ce9d020f5c0c9ac4ee752/d9f49/18.png 400w,
+/static/6f712ff5fe7ce9d020f5c0c9ac4ee752/d703b/18.png 786w"
+        sizes="(max-width: 786px) 100vw, 786px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>接下來，我們打開 id.rsa.pub ( 用記事本開啟 )，我們把底下的金鑰 copy 下來。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/a94d51485fd873e1a31e37c2e9773c49/cda85/19.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 55.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAxElEQVQoz62S6wrCMAxG+/6PKIqoG4i7tVvTtVnbz2xewD+izsAhpTQHvhK12e1RHI4oTgW6pl3otcEUWAj3/h72ASM5kCWo82aLoDXiMICNBst5MgbZWiQhf8D8DqODKwsopwfMlfF7PWZ9dYGyrf6vcCjPgCMkiZzsj8hsJoKfI9PIQIrIcR0Qgvfyh5z+FpmZRRji7TLnVTyFtAgz0krhrAyytyrENWFfK8UJqqwN6s6gam9chEZ205D/ghG99Fr3uAIPpWBnV7Af5gAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="19"
+        title="19"
+        src="/static/a94d51485fd873e1a31e37c2e9773c49/78d47/19.png"
+        srcset="/static/a94d51485fd873e1a31e37c2e9773c49/56d15/19.png 200w,
+/static/a94d51485fd873e1a31e37c2e9773c49/d9f49/19.png 400w,
+/static/a94d51485fd873e1a31e37c2e9773c49/78d47/19.png 800w,
+/static/a94d51485fd873e1a31e37c2e9773c49/cda85/19.png 928w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>然後貼到 GitHub 上去。
+( 注意，GitHub 可以針對 專案 進行金鑰的設定，如下圖，或是整個帳號，如下下圖，你可以決定你的金鑰的範圍，但是一組金鑰，只能出現在 GitHub 的這個帳號底下一次，也就是說，如果你把金鑰拿去設定 專案 ，那你就不能用同樣的金鑰設定在其他的專案上了 )</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/22ea6939a354f279a6eca7cf20a2db6d/3b5a6/20.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 54%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABgUlEQVQoz22SWVLDMBBEuf+1+OYCVBZ+SAghdrTYstamR7ZCHDJVXWNreeoZ6SUbjdBfoL8vUFT3JbmDv3wia4VsTFWxFr7voY5HTF2H4XyuWSTzSWsYpfACRswJIZcqnwrMMMI5i5Qz56iUavYxYpwmOO+heYDkXIogkKnD4SDAAjdFDC7wk5MlQ12vUEpjHEdYccaNkTBRIjyEAENHzjlk/kvI+GazmR0abfDTazrJyHQii3uW4twIT0eBQIGE4Ofv5QAZk1wdct9ut5uBmSXLgEShy6u20IPDFFOVC38KPFRaUduxuF4By9KDFvJvlIGzA/xI6DCrfUcpk64zc6LDtJS8ciiQBi5c4NnDwA2BPXyUb7IGE2/VT2Pt/QrYoDcgn4tchPTvqWROoOz17ZYJ3G63T4DM0XIxb1k2BL6xe3kzj3u6kypaCHC/36+BDXrWJ5z6E58N+0Y39/IhQlaJ8n2rmDUP+udQ4u30ig/1XnfFNL+9JnHSDi8PQMMKfgHuKlsCmPkz4QAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="20"
+        title="20"
+        src="/static/22ea6939a354f279a6eca7cf20a2db6d/78d47/20.png"
+        srcset="/static/22ea6939a354f279a6eca7cf20a2db6d/56d15/20.png 200w,
+/static/22ea6939a354f279a6eca7cf20a2db6d/d9f49/20.png 400w,
+/static/22ea6939a354f279a6eca7cf20a2db6d/78d47/20.png 800w,
+/static/22ea6939a354f279a6eca7cf20a2db6d/64756/20.png 1200w,
+/static/22ea6939a354f279a6eca7cf20a2db6d/3b5a6/20.png 1302w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>如果要設定給完整帳號，我們可以從帳號設定的底下進行金鑰的貼上，貼上後，就可以了。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/4bee61aaaa8298f4c7e730ca9fbb3e6b/3b5a6/21.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 54%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB20lEQVQoz4VS247TQAzN/38OSMBuBYgH+ALYbXdpsm3pbXPP3GeSHM4k2wISAkuW7Rn7+NgzSdkqpNsDTmWD6FedRkltpEXRSvw4Fdify+v9RYtGItsdkT1tUQuDohb0N0hKGXCsFbbPLXZ5N9l9KZF3btJCempAEePWIpc9cjWg1ANaM6KinXJ4v3r8jgQUYwzatoX3DhgHNHWFqih4rqG0gXIBxgdoxrJpIZ5z2KqE0AqOtVHGYUCapjOgZoHQAcM4TpfGe8YGWggIAovDHtXyDu3jA5qHFapvXyGOR3SbDazWU03f978AlbaQymJgl8HSz1LUy3uYzRNUuoYmYJASPRnOLQF/PkFvNwgEijJcAclKnY4w5zPQcezDAZLJkZkleEzviRLYLBYH5tuS466WCLwLIcyAf4xs3MzwpZvkGDV3GgEddbLOwXEVTimI+zt4xlOD3wDX6/UMKLXjV9AsCCRMxhxPS4VAgBAL3Ytlkdnt4Ml+eojQT49xAcyyDEl04g47qaeulsWqbqedeT6MV/qqIdp4Zux8JiQsNe41Eok/JcHfJHYdB/xXmOM5yQVQkkRye/sBi8VH3Ny8x9s3C7x6/Q5fPn3mYhUG7vJfOnKfkfEFsOs6/ARlAE6BQHkuGwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="21"
+        title="21"
+        src="/static/4bee61aaaa8298f4c7e730ca9fbb3e6b/78d47/21.png"
+        srcset="/static/4bee61aaaa8298f4c7e730ca9fbb3e6b/56d15/21.png 200w,
+/static/4bee61aaaa8298f4c7e730ca9fbb3e6b/d9f49/21.png 400w,
+/static/4bee61aaaa8298f4c7e730ca9fbb3e6b/78d47/21.png 800w,
+/static/4bee61aaaa8298f4c7e730ca9fbb3e6b/64756/21.png 1200w,
+/static/4bee61aaaa8298f4c7e730ca9fbb3e6b/3b5a6/21.png 1302w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<h2>推送到 GitHub</h2>
+<p>接下來，就是大家熟悉的指令了....</p>
+<p>首先，把網站的 source 全部加入.... ( 這邊不用擔心編譯過後的 HTML 也被加入進去，當我們使用 Hexo init 的時候，預設就會把 public 這個含有 HTML 的目錄給過濾掉了。 )</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">git add .</code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/888b2f366a1bb8ab1d02b6335d57ecf0/1d5a8/22.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 61.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAhElEQVQoz+2SvQ6CMBRGb7nlzQxBFPl5N2JYaElMaXVycuDhPijOJk3owOBwti/nnuFSd++hxxGD0hsPY+CeL1jnYKyFmcJQSuH9mUEsUwhBKwJEtItTfgWJhH8O/JEQ5Brl90XVghKWu8uYv1F5WXshRxNmlyqu8HxrIgvLv/BwQv+HCx1NIKV2nb/BAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="22"
+        title="22"
+        src="/static/888b2f366a1bb8ab1d02b6335d57ecf0/78d47/22.png"
+        srcset="/static/888b2f366a1bb8ab1d02b6335d57ecf0/56d15/22.png 200w,
+/static/888b2f366a1bb8ab1d02b6335d57ecf0/d9f49/22.png 400w,
+/static/888b2f366a1bb8ab1d02b6335d57ecf0/78d47/22.png 800w,
+/static/888b2f366a1bb8ab1d02b6335d57ecf0/1d5a8/22.png 979w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>然後，簽入到本機。</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">git commit -m &quot;First&quot;</code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/86a55b92286c4d7749e72118bcb988cc/1d5a8/23.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 61.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAhElEQVQoz+2SOw6DMBBE16y5GYog4RNytwjRxFBgMFRUKXK4wYYeClxQpHjaZvRmiqV3VaNpW3xUs9JpDTNOGMxoMevV/XCIUgrz9wdiGUIIsggQ0SmiOAWJgA+DrmwPaUe53L14gQKWp5cxb6Pi7OmE7E14exR+hUleehZmf+HlhO4PFzcyIKvqZ7AYAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="23"
+        title="23"
+        src="/static/86a55b92286c4d7749e72118bcb988cc/78d47/23.png"
+        srcset="/static/86a55b92286c4d7749e72118bcb988cc/56d15/23.png 200w,
+/static/86a55b92286c4d7749e72118bcb988cc/d9f49/23.png 400w,
+/static/86a55b92286c4d7749e72118bcb988cc/78d47/23.png 800w,
+/static/86a55b92286c4d7749e72118bcb988cc/1d5a8/23.png 979w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>推送到 GitHub。</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">git push origin master</code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/7ae3a19f4e84f341b3c572b850bb5211/1d5a8/24.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 61.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAA9UlEQVQoz+WRvU7DMBSFb2zHSRQlzT8ZgKdBqAXaQl+tQiw0Gaq2KRsTAw93sC8ECYmfIHXr8MmyZH/3HJuW9w9o2haPqwarpsF6s0G3f8Ku6wx7Zrvr/qQ1jueXV9BolCCKIoRhiCAI4LouPM+D1pqxeyIaxMX4BnR6do66rlFVFVMUBdI05SFSSrhGqpSCEAKO43yLUu9Dr2YL0ImRlWXJErta8jxHkiSc1Pd9TmqFPyWzg+06md2BYlM5yzKuHMfxJ32qIVW/CLXn8zvpj2qW/sBQ+vPj6S3IEf+7/Jvw8noOElIdTMiVhTxcwsn06IT2l98AvdAmbIm4apsAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="24"
+        title="24"
+        src="/static/7ae3a19f4e84f341b3c572b850bb5211/78d47/24.png"
+        srcset="/static/7ae3a19f4e84f341b3c572b850bb5211/56d15/24.png 200w,
+/static/7ae3a19f4e84f341b3c572b850bb5211/d9f49/24.png 400w,
+/static/7ae3a19f4e84f341b3c572b850bb5211/78d47/24.png 800w,
+/static/7ae3a19f4e84f341b3c572b850bb5211/1d5a8/24.png 979w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>到這邊，我們 source 就可以安心地放到 GitHub 進行版控嚕....</p>
+<h2>進行佈署</h2>
+<p>在開始前，我們要先裝 hexo-deployer-git ，透過這個套件，才能佈署到 GitHub 上。
+我們可以到我們的 hexo 目錄底下，透過底下指令進行安裝。</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">npm install hexo-deployer-git --save</code></pre></div>
+<p>接著，我們要開始進行佈署，首先，我們要修改 _config.yml 這個檔案，如下圖。
+這邊表示我們要使用 git ，並且設定遠端的 repo。
+如果有分支需求的朋友，可以參考<a href="https://hexo.io/zh-tw/docs/deployment.html">官網</a>的設定，官網也有許多 FTP 等地佈署方式。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 606px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/1c025c470ac347b78b3e3793fe650677/cec09/25.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 24%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAv0lEQVQY012QaxLCIAyEe5XaAgkU+pixL7X2AN7/OmtA+9Af3+wmOyQZMt8Qms6ijbQM4gJsi13Zlic9fMy1yWHokth8NnuHsXZwTsN7g8qLBtFKpTr6SKgJteAlD4FgXQklQ7Q5hkXNVm3xUjWGjuRKBUob8xQSf3zC5Hs/wvbyzT+6XxioxKrlyp6xPissD4dpYowj435zeNwF6UV/m22q58liWSpce0I/EAZRpb8Djfn9g41t++bP1/xn5/dvO4GU2xeZSO4AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="25"
+        title="25"
+        src="/static/1c025c470ac347b78b3e3793fe650677/cec09/25.png"
+        srcset="/static/1c025c470ac347b78b3e3793fe650677/56d15/25.png 200w,
+/static/1c025c470ac347b78b3e3793fe650677/d9f49/25.png 400w,
+/static/1c025c470ac347b78b3e3793fe650677/cec09/25.png 606w"
+        sizes="(max-width: 606px) 100vw, 606px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>然後，我們要先把我們的 Markdown 編譯成 HTML。</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">hexo g</code></pre></div>
+<p>接著，我們只要下底下指令即可，hexo 就會自動的把 HTML 佈署到 github 上了。</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">hexo deploy</code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 418px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/b537a01d3b4fe9b6f16b6539b52a54bd/2bbac/26.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 21.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAq0lEQVQY022O22rDMBBEZSvSSrLuMTgOptD//8hTX0jaQB8Ou+zsDKPmmrFGsNbinCOEgDEGHzziBO/9qR3zpYtc/69dKfXL/JWJc+KxPFiWhW3bWJ8rdar02Ek5ncYj8KDWSimFab+11ogxfga6b43yilY76/rkfp9pvVHCbgwFK1fLyzh8mv8jd8toBpw1pDidyLGniZzj3sSflL2piMHcNFqP3P6gx+HND95HWAJywXOMAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="26"
+        title="26"
+        src="/static/b537a01d3b4fe9b6f16b6539b52a54bd/2bbac/26.png"
+        srcset="/static/b537a01d3b4fe9b6f16b6539b52a54bd/56d15/26.png 200w,
+/static/b537a01d3b4fe9b6f16b6539b52a54bd/d9f49/26.png 400w,
+/static/b537a01d3b4fe9b6f16b6539b52a54bd/2bbac/26.png 418w"
+        sizes="(max-width: 418px) 100vw, 418px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>完工!!</p>
+<h2>等等，新文章哩!!?</h2>
+<p>是低，下一篇，我們即將針對新文章的撰寫，來和大家講一些小技巧。</p>
+<h2>參考資料</h2>
+<ul>
+<li><a href="http://serverfault.com/questions/78048/whats-the-difference-between-ip-address-0-0-0-0-and-127-0-0-1#comment63540_78049">http://serverfault.com/questions/78048/whats-the-difference-between-ip-address-0-0-0-0-and-127-0-0-1#comment63540_78049</a></li>
+<li><a href="http://wsgzao.github.io/post/hexo-guide/">http://wsgzao.github.io/post/hexo-guide/</a></li>
+<li><a href="https://github.com/iissnan/hexo-theme-next">https://github.com/iissnan/hexo-theme-next</a></li>
+<li><a href="https://git-scm.com/book/zh-tw/v1/%E4%BC%BA%E6%9C%8D%E5%99%A8%E4%B8%8A%E7%9A%84-Git-%E7%94%9F%E6%88%90-SSH-%E5%85%AC%E9%96%8B%E9%87%91%E9%91%B0">https://git-scm.com/book/zh-tw/v1/%E4%BC%BA%E6%9C%8D%E5%99%A8%E4%B8%8A%E7%9A%84-Git-%E7%94%9F%E6%88%90-SSH-%E5%85%AC%E9%96%8B%E9%87%91%E9%91%B0</a></li>
+<li><a href="https://gist.github.com/adamjohnson/5682757">https://gist.github.com/adamjohnson/5682757</a></li>
+</ul></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2015/10/19/Hexo-Source_Control_and_Deploy/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>

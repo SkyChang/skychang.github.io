@@ -1,671 +1,124 @@
-<!doctype html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="iFYOZeAkjA9mpw80K_6C3Ybqm8zAmrJ3XXy5cSphRew" />
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="TFS,Azure,AzureDevOps,DevOps,LoadTest," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="不重要的碎碎念幾百年沒寫 Blog 了，上一篇文章已經一年前了 ( 遮臉 )，而沒寫文章的時間也收到很多 Fans (!?) 的鼓勵，都在詢問為啥沒更新 XDDD，但真的沒辦法，工作太忙了，也請大家多喔見諒 ( 好啦，是我偷懶… ) 而最近因答應了某人，所以打算又開始執筆來寫一些東西，於是就誕生了這篇…. 問題這幾天因為專案需求，需要在 Azure App Service 的 Web App 使用">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Azure DevOps - 對 Web App 使用壓力測試時發生錯誤">
-<meta property="og:url" content="http://skychang.github.io/2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/index.html">
-<meta property="og:site_name" content="天空的垃圾場">
-<meta property="og:description" content="不重要的碎碎念幾百年沒寫 Blog 了，上一篇文章已經一年前了 ( 遮臉 )，而沒寫文章的時間也收到很多 Fans (!?) 的鼓勵，都在詢問為啥沒更新 XDDD，但真的沒辦法，工作太忙了，也請大家多喔見諒 ( 好啦，是我偷懶… ) 而最近因答應了某人，所以打算又開始執筆來寫一些東西，於是就誕生了這篇…. 問題這幾天因為專案需求，需要在 Azure App Service 的 Web App 使用">
-<meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://skychang.github.io/2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/01.png">
-<meta property="og:image" content="http://skychang.github.io/2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/02.png">
-<meta property="og:image" content="http://skychang.github.io/2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/03.png">
-<meta property="article:published_time" content="2019-03-26T11:12:00.000Z">
-<meta property="article:modified_time" content="2020-05-27T12:09:38.880Z">
-<meta property="article:author" content="Sky Chang">
-<meta property="article:tag" content="TFS">
-<meta property="article:tag" content="Azure">
-<meta property="article:tag" content="AzureDevOps">
-<meta property="article:tag" content="DevOps">
-<meta property="article:tag" content="LoadTest">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://skychang.github.io/2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/01.png">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
-
-  <title> Azure DevOps - 對 Web App 使用壓力測試時發生錯誤 | 天空的垃圾場 </title>
-<meta name="generator" content="Hexo 4.2.1"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
-
-  
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-29938905-2', 'auto');
-  ga('send', 'pageview');
-</script>
-
-
-
-
-
-
-
-
-
-  
-  
-    
-  
-
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">天空的垃圾場</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle"></p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-development">
-          <a href="/development" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            開發
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-alm">
-          <a href="/alm" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            維運
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-cloud">
-          <a href="/cloud" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            雲端
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Azure DevOps - 對 Web App 使用壓力測試時發生錯誤
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">發表於</span>
-            <time itemprop="dateCreated" datetime="2019-03-26T11:12:00+00:00" content="2019-03-26">
-              2019-03-26
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="不重要的碎碎念"><a href="#不重要的碎碎念" class="headerlink" title="不重要的碎碎念"></a>不重要的碎碎念</h2><p>幾百年沒寫 Blog 了，上一篇文章已經一年前了 ( 遮臉 )，而沒寫文章的時間也收到很多 Fans (!?) 的鼓勵，都在詢問為啥沒更新 XDDD，但真的沒辦法，工作太忙了，也請大家多喔見諒 ( 好啦，是我偷懶… )</p>
-<p>而最近因答應了某人，所以打算又開始執筆來寫一些東西，於是就誕生了這篇….</p>
-<h2 id="問題"><a href="#問題" class="headerlink" title="問題"></a>問題</h2><p>這幾天因為專案需求，需要在 Azure App Service 的 Web App 使用 VS Load Test 測試一些東西：尤其是這幾天，每天都下雨的情況下，只好拿壓力測試工具來出氣，當興高采烈地按下去，然後悠哉地去泡一杯紅茶加牛奶，回來一看。</p>
-<p><img src="01.png" alt=""></p>
-<p>好吧，沒有吐血，也把紅茶和牛奶吐出來了，是的，竟然打了 36649 的 request，然後也錯了 36649 的 request，完全的 100%…原本是想拿來當出氣工具，結果壓力全部跑回到自己身上…</p>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/styles.796ada07b3eebed52170.css">.icon-module--root--aZeph{display:inline-flex;align-items:center;justify-content:center}.icon-module--icon--1ihz7{fill:currentColor}.icon-module--label--fHC-f{position:relative;display:inline-block;margin-left:4px;line-height:1}.menu-module--mobileMenuContainer--T9wTN{display:none}@media (max-width:683px){.menu-module--mobileMenuContainer--T9wTN{display:flex}}.menu-module--desktopMenuContainer--3iXKR{display:block}@media (max-width:683px){.menu-module--desktopMenuContainer--3iXKR{display:none}}.menu-module--menu--dd4-Y{display:flex;flex:0 0 auto;align-items:center;justify-content:flex-start;max-width:100%;padding:0 15px;list-style:none;border-right:1px solid;margin:0 18px 0 auto}.menu-module--menu--dd4-Y li{margin:0 12px}.menu-module--menuTrigger--32seM{margin-right:10px;padding:0;line-height:0;background:none;color:inherit;border:none;box-shadow:none;outline:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer}.menu-module--menu--dd4-Y a{display:inline-block;margin-right:15px;text-decoration:none}.menu-module--menu--dd4-Y a:last-of-type{margin-right:0}.menu-module--mobileMenu--2VGmR{position:absolute;top:0;right:0;flex-direction:column;align-items:flex-start;background:#fafafa;margin:0;padding:0;text-align:left;list-style:none;border-radius:5px;overflow:hidden;z-index:99}.dark-theme .menu-module--mobileMenu--2VGmR{background:#252627}.menu-module--mobileMenu--2VGmR li{margin:0;white-space:nowrap}.menu-module--mobileMenu--2VGmR li a{display:block;padding:10px 15px}.menu-module--mobileMenuOverlay--2RcSs{position:fixed;top:0;bottom:0;left:0;right:0;background:rgba(0,0,0,.2);z-index:10}.menu-module--themeToggle--2E8ye{line-height:0;padding:0 5px}.menu-module--subMenuTrigger--1crdm,.menu-module--themeToggle--2E8ye{background:none;color:inherit;border:none;box-shadow:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:none}.menu-module--subMenuTrigger--1crdm{font-size:inherit;font-weight:inherit;margin:0 12px;padding:0;cursor:pointer}.menu-module--subMenu--3Rgj_{position:absolute;max-width:300px;background:#fafafa;box-shadow:0 8px 20px rgba(0,0,0,.12);margin:0;padding:5px;list-style:none;border-radius:5px;top:35px;right:70px;overflow:hidden;z-index:99}.dark-theme .menu-module--subMenu--3Rgj_{background:#3b3d42}.menu-module--subMenu--3Rgj_ li{text-align:left;margin:0;white-space:nowrap}.menu-module--subMenu--3Rgj_ li a{padding:10px}.menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.05);border-radius:3px;cursor:pointer}.dark-theme .menu-module--subMenu--3Rgj_ li:hover{background:rgba(0,0,0,.15)}.menu-module--subMenuOverlay--3TQRy{position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1}.menu-module--menuArrow--1COMf{display:inline-block;font-family:Inter UI;margin-left:5px;transform:rotate(90deg)}.header-module--header--tFeG9{background:#fafafa;display:flex;align-items:center;justify-content:space-between;position:relative;padding:20px}.dark-theme .header-module--header--tFeG9{background:#252627}.header-module--header--tFeG9 a{text-decoration:none}.header-module--inner--7ao1M{justify-content:space-between;margin:0 auto;width:760px;max-width:100%}.header-module--inner--7ao1M,.header-module--logo--2kX-3{display:flex;align-items:center}.header-module--logo--2kX-3{text-decoration:none;font-weight:700}.header-module--logo--2kX-3 img{height:44px}.header-module--mark--J6C0c{margin-right:5px}.header-module--cursor--33Aoa{display:inline-block;width:10px;height:1rem;background:#fe5186;margin-left:5px;border-radius:1px;-webkit-animation:header-module--cursor--33Aoa 1s infinite;animation:header-module--cursor--33Aoa 1s infinite}.header-module--mark--J6C0c,.header-module--text--3UAQj{font-size:18px}.header-module--right--1Zeb6{display:flex;position:relative}@-webkit-keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes header-module--cursor--33Aoa{0%{opacity:0}50%{opacity:1}to{opacity:0}}@font-face{font-family:Inter UI;font-style:normal;font-weight:400;src:url(/static/Inter-UI-Regular-ecf7c639683dfcb4868861e0c613c455.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:400;src:url(/static/Inter-UI-Italic-bcf654c7bea165e9dae257206c5521ad.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:600;src:url(/static/Inter-UI-Medium-48dfecfe37de0ef8f0e2c2d2e6992e9c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:600;src:url(/static/Inter-UI-MediumItalic-a9eddc92c84c5f78fba1cb7d7833d31c.woff) format("woff")}@font-face{font-family:Inter UI;font-style:normal;font-weight:800;src:url(/static/Inter-UI-Bold-e2158f600a4b0175b73dfefb0d2fe8f8.woff) format("woff")}@font-face{font-family:Inter UI;font-style:italic;font-weight:800;src:url(/static/Inter-UI-BoldItalic-dbe4ec1d26d41331c91550939a7fd27f.woff) format("woff")}pre[class*=language-],pre[class*=language-]>code{color:#a9a9b3;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#1a1a1d!important;border-radius:8px}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:hsla(0,0%,100%,.35)}.token.punctuation{color:#a9a9b3}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}pre[class*=language-].line-numbers{position:relative;padding-left:65px;counter-reset:linenumber}pre[class*=language-].line-numbers>code{position:relative;white-space:inherit}.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:5px!important;width:3em!important;letter-spacing:-1px;border-right:1px solid;opacity:.5;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar>.toolbar .toolbar-item{display:inline-block}div.code-toolbar>.toolbar a{cursor:pointer}div.code-toolbar>.toolbar button{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar a,div.code-toolbar>.toolbar button,div.code-toolbar>.toolbar span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:hsla(0,0%,87.8%,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar a:focus,div.code-toolbar>.toolbar a:hover,div.code-toolbar>.toolbar button:focus,div.code-toolbar>.toolbar button:hover,div.code-toolbar>.toolbar span:focus,div.code-toolbar>.toolbar span:hover{color:inherit;text-decoration:none}.command-line-prompt{border-right:1px solid #999;display:block;float:left;font-size:100%;letter-spacing:-1px;margin-right:1em;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.command-line-prompt>span:before{color:#999;content:" ";display:block;padding-right:.8em}.command-line-prompt>span[data-user]:before{content:"[" attr(data-user) "@" attr(data-host) "] $"}.command-line-prompt>span[data-user=root]:before{content:"[" attr(data-user) "@" attr(data-host) "] #"}.command-line-prompt>span[data-prompt]:before{content:attr(data-prompt)}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}body{margin:0;padding:0;font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif;font-size:1rem;line-height:1.8;background-color:#fff;color:#222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-feature-settings:"liga","tnum","case","calt","zero","ss01","locl";-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%}@media (max-width:683px){body{font-size:1rem}}body.dark-theme{background-color:#292a2d;color:#b8becf}h1,h2,h3,h4,h5,h6{display:flex;align-items:center;line-height:1.3}h1{font-size:2.2rem}h2{font-size:1.625rem}h2,h3{margin-top:50px;margin-bottom:20px}h3{font-size:1.375rem}h4{font-size:1.125rem;margin-top:50px;margin-bottom:20px}@media (max-width:683px){h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.15rem}h4{font-size:1.125rem}}p{margin-bottom:20px}a{color:inherit}img{display:block;max-width:100%}img.center,img.left{margin-right:auto}img.center,img.right{margin-left:auto}figure{display:table;max-width:100%;margin:25px 0}figure.center,figure.left{margin-right:auto}figure.center,figure.right{margin-left:auto}figure figcaption{font-size:14px;margin-top:5px;opacity:.8}figure figcaption.left{text-align:left}figure figcaption.center{text-align:center}figure figcaption.right{text-align:right}code{font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-feature-settings:normal;font-weight:400;background:#eaeaea;padding:1px 6px;margin:0 2px;border-radius:5px;font-size:.9rem}.dark-theme code{background:#3b3d42}pre{background:#1a1a1d;padding:20px;border-radius:8px;font-size:.9rem;overflow:auto}@media (max-width:683px){pre{white-space:pre-wrap;word-wrap:break-word}}pre code{background:none!important;color:#ccc;margin:0;padding:0;font-size:.9rem}blockquote{border-left:2px solid;margin:40px;padding:10px 20px}@media (max-width:683px){blockquote{margin:10px;padding:10px}}blockquote p:first-of-type{margin-top:0}blockquote p:last-of-type{margin-bottom:0}table{table-layout:fixed;border-collapse:collapse;width:100%;margin:40px 0;border-radius:5px}table,td,th{border:1px solid #222;padding:10px}.dark-theme table,.dark-theme td,.dark-theme th{border-color:#b8becf}th{background:#eaeaea}.dark-theme th{background:#3b3d42}ol,ul{margin-left:40px;padding:0}@media (max-width:683px){ol,ul{margin-left:20px}}ol ol{list-style-type:lower-alpha}button,input,textarea{font-family:Inter UI,-apple-system,BlinkMacSystemFont,Roboto,Segoe UI,Helvetica,Arial,sans-serif}.container{flex-direction:column;text-align:center}.container,.content{display:flex;justify-content:center}.content{flex-direction:column;flex:1 0 auto;align-items:center;margin:50px auto;width:100%;max-width:800px}@media (max-width:683px){.content{margin-top:0}}@media (max-width:899px){.content{max-width:660px}}hr{width:100%;border:none;background:#dcdcdc;height:1px}.dark-theme hr{background:#4a4b50}.infoBanner{text-align:left;margin:20px 0 40px;padding:10px 20px;border-radius:10px;width:calc(100% - 40px);background:#eaeaea}.dark-theme .infoBanner{background:#3b3d42}.infoBanner span{font-weight:700}.hidden{display:none}.embedVideo-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}.embedVideo-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}footer{font-size:1rem;text-align:center;margin-bottom:50px}@media (max-width:683px){footer{display:flex;flex-direction:column}}footer .footerCopyrights:not(:first-of-type){margin-left:20px;padding-left:20px;border-left:1px solid}@media (max-width:683px){footer .footerCopyrights:not(:first-of-type){margin:0;padding:0;border:none}}.navigation-module--navigation--3Zfju{display:flex;width:1024px;max-width:100%;margin:80px 0 40px}.navigation-module--button--28kp3,.navigation-module--navigation--3Zfju{align-items:center;justify-content:center}.navigation-module--button--28kp3{position:relative;display:inline-flex;background:#eaeaea;font-size:1rem;font-weight:700;border-radius:8px;max-width:40%;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none}.dark-theme .navigation-module--button--28kp3{background:#3b3d42}.navigation-module--button--28kp3+.navigation-module--button--28kp3{margin-left:10px}.navigation-module--button--28kp3 a{display:flex;padding:8px 16px;text-decoration:none}.navigation-module--button--28kp3 a,.navigation-module--buttonText--1Xod2{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.navigation-module--iconNext--3xyJ-{margin-left:8px}.navigation-module--iconPrev--23mg1{margin-right:8px}.post-module--post--28Mq2{width:100%;max-width:800px;text-align:left;padding:20px;margin:0 auto 20px}.post-module--post--28Mq2:not(:last-of-type){border-bottom:1px solid #dcdcdc}.dark-theme .post-module--post--28Mq2:not(:last-of-type){border-color:#4a4b50}@media (max-width:899px){.post-module--post--28Mq2{max-width:660px}}.post-module--post--28Mq2 h1{margin:0 0 10px}.post-module--post--28Mq2 img{border-radius:8px}.post-module--title--3XBo2 a{text-decoration:none}.post-module--coverImage--1GM7V{border-radius:8px;margin-bottom:40px;box-shadow:0 15px 30px rgba(0,0,0,.1)}.post-module--meta--3YtjE{font-size:1rem;margin-bottom:30px}.post-module--tags--3RbqF{margin-top:10px;opacity:.5}.post-module--tag--16U9p{margin-right:10px}.post-module--readMore--3zWML,.post-module--tag--16U9p{display:inline-block}.post-module--readMore--3zWML{text-decoration:none;font-weight:700;margin:20px 0;font-size:1rem}.post-module--postContent--1bfnt{position:relative}</style><meta name="generator" content="Gatsby 2.22.12"/><title data-react-helmet="true">Azure DevOps - 對 Web App 使用壓力測試時發生錯誤 :: 天空的垃圾場 v3</title><meta data-react-helmet="true" name="description" content="不重要的碎碎念 幾百年沒寫 Blog 了，上一篇文章已經一年前了 ( 遮臉 )，而沒寫文章的時間也收到很多 Fans (!?) 的鼓勵，都在詢問為啥沒更新 XDDD…"/><meta data-react-helmet="true" property="og:title" content="Azure DevOps - 對 Web App 使用壓力測試時發生錯誤"/><meta data-react-helmet="true" property="og:description" content="不重要的碎碎念 幾百年沒寫 Blog 了，上一篇文章已經一年前了 ( 遮臉 )，而沒寫文章的時間也收到很多 Fans (!?) 的鼓勵，都在詢問為啥沒更新 XDDD…"/><meta data-react-helmet="true" property="og:type" content="website"/><meta data-react-helmet="true" name="twitter:card" content="summary"/><meta data-react-helmet="true" name="twitter:title" content="Azure DevOps - 對 Web App 使用壓力測試時發生錯誤"/><meta data-react-helmet="true" name="twitter:description" content="不重要的碎碎念 幾百年沒寫 Blog 了，上一篇文章已經一年前了 ( 遮臉 )，而沒寫文章的時間也收到很多 Fans (!?) 的鼓勵，都在詢問為啥沒更新 XDDD…"/><meta data-react-helmet="true" name="twitter:creator" content="Sky Chang"/><meta data-react-helmet="true" name="keywords" content="gatsby, minimal, starter, blog, theme, dark, light, personal site"/><link rel="icon" href="/favicon-32x32.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#292a2d"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=9e099edb68c6a2f5bc8ed47b25bd8ece"/><link as="script" rel="preload" href="/webpack-runtime-5a5a97b7337a917cb0df.js"/><link as="script" rel="preload" href="/framework-75da9754c2a76bbaf08a.js"/><link as="script" rel="preload" href="/app-8a5ec9ca460de146e1b0.js"/><link as="script" rel="preload" href="/styles-9b6f388623a2ec93d35f.js"/><link as="script" rel="preload" href="/commons-588a46b1342b8cdac1fc.js"/><link as="script" rel="preload" href="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js"/><link as="script" rel="preload" href="/component---src-templates-page-js-e853b3cf8fae77fda562.js"/><link as="fetch" rel="preload" href="/page-data/2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/page-data.json" crossorigin="anonymous"/><link as="fetch" rel="preload" href="/page-data/app-data.json" crossorigin="anonymous"/></head><body class="dark-theme"><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="container"><header class="header-module--header--tFeG9"><div class="header-module--inner--7ao1M"><a href="/"><div class="header-module--logo--2kX-3"><span class="header-module--mark--J6C0c">&gt;</span><span class="header-module--text--3UAQj">天空的垃圾場 v3</span><span class="header-module--cursor--33Aoa"></span></div></a><span class="header-module--right--1Zeb6"><div class="menu-module--mobileMenuContainer--T9wTN"><button class="menu-module--menuTrigger--32seM" style="color:inherit" type="button" aria-label="Menu"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 34H40V30H4V34ZM4 24H40V20H4V24ZM4 10V14H40V10H4Z" class="icon-module--icon--1ihz7"></path></svg></span></button></div><div class="menu-module--desktopMenuContainer--3iXKR"><ul class="menu-module--menu--dd4-Y"><li><a href="/about">About</a></li><li><a href="/develop">Develop</a></li><li><a href="/cloud">Cloud</a></li><li><a href="/devops">DevOps</a></li></ul></div><button class="menu-module--themeToggle--2E8ye" type="button" aria-label="Theme toggle"><span class="icon-module--root--aZeph" style="cursor:pointer" role="figure"><svg version="1.1" width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">Azure DevOps - 對 Web App 使用壓力測試時發生錯誤</h1><div class="post-module--meta--3YtjE">26 March 2019<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/Azure/"><span class="post-module--tag--16U9p">#<!-- -->Azure</span></a><a href="/tag/AzureDevOps/"><span class="post-module--tag--16U9p">#<!-- -->AzureDevOps</span></a><a href="/tag/DevOps/"><span class="post-module--tag--16U9p">#<!-- -->DevOps</span></a><a href="/tag/TFS/"><span class="post-module--tag--16U9p">#<!-- -->TFS</span></a><a href="/tag/LoadTest/"><span class="post-module--tag--16U9p">#<!-- -->LoadTest</span></a></div></div><div><h2>不重要的碎碎念</h2>
+<p>幾百年沒寫 Blog 了，上一篇文章已經一年前了 ( 遮臉 )，而沒寫文章的時間也收到很多 Fans (!?) 的鼓勵，都在詢問為啥沒更新 XDDD，但真的沒辦法，工作太忙了，也請大家多喔見諒 ( 好啦，是我偷懶... )</p>
+<p>而最近因答應了某人，所以打算又開始執筆來寫一些東西，於是就誕生了這篇....</p>
+<h2>問題</h2>
+<p>這幾天因為專案需求，需要在 Azure App Service 的 Web App 使用 VS Load Test 測試一些東西：尤其是這幾天，每天都下雨的情況下，只好拿壓力測試工具來出氣，當興高采烈地按下去，然後悠哉地去泡一杯紅茶加牛奶，回來一看。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/cc0cb67d277481d78cfe3f5968be1b9a/adc5a/01.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 56.49999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsSAAALEgHS3X78AAABeUlEQVQoz4WSTU7EMAyFexBYMNPGTpM002m7APE3YsSKJRKcgktw8IedpNMgIbF4ivPjLy+Om3Y+IdydYcMBTARmm2RtFv8nZoQwYJ5nGQOa67cvXH1+42Z8ALU7kMCMYTks8J5BOhZREVv+HbOBIRWhicFjmUaYrkPbdgIjdJ0pomr8a73ey2uNujHElwMZWBJMXmuLLhCzxaQ5RQmorlZtQCP1dHAc4Clg4KwUq4wTecQyj+QxWd23aLrq5gQVoLr2Uo9JanTkrDGNBlEl69HmcRAFkdd6ivOmhpHAvPO5lsltVnqu7JGURn+VtBs0LnNTTFjbb8D9vkUv3357ekIcYjqUS5Ev02RNIObUVt4H2N6hFwNO1Evsvd+AOwEOcuj1+SQ9tcghd6lrci9ATUofIbGTOPWsXKJATu1GFXDXSmM6nF/ucTiM6Sk10JQnr25U6tgWYF8uqJ7cSWEtHpcRUYCavALX1tGyvM9HfCwTDPfJpYJc9ewfBthE4U/bQ44AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="01"
+        title="01"
+        src="/static/cc0cb67d277481d78cfe3f5968be1b9a/78d47/01.png"
+        srcset="/static/cc0cb67d277481d78cfe3f5968be1b9a/56d15/01.png 200w,
+/static/cc0cb67d277481d78cfe3f5968be1b9a/d9f49/01.png 400w,
+/static/cc0cb67d277481d78cfe3f5968be1b9a/78d47/01.png 800w,
+/static/cc0cb67d277481d78cfe3f5968be1b9a/adc5a/01.png 1068w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>好吧，沒有吐血，也把紅茶和牛奶吐出來了，是的，竟然打了 36649 的 request，然後也錯了 36649 的 request，完全的 100%...原本是想拿來當出氣工具，結果壓力全部跑回到自己身上...</p>
 <p>既然都錯了，而且打了兩三次都是同樣結果，那身為工程屍，只能去找錯了。</p>
 <p>所以第一步當然就是點開錯誤資訊看一下</p>
-<p><img src="02.png" alt=""></p>
-<p>所以找到了第一個關鍵，An existing connection was forcibly closed by the remote host    。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/15aee6b5b7bffbc090fa6e07e3d38184/97810/02.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 43.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAAsSAAALEgHS3X78AAABWUlEQVQoz4WRW0/CQBCF+1OEXqAX2lJL24BCTNBCKSGgCCZqaLctGI3x/78cZ1tQSQw8fDm7O5mzZzJC23ag2AEkw4F3fYMkSZCmjEj3ysBYRjBsNklZ/w9eC8MIgm3ZUCQJMtFxXUwmMaJogrtRhHEUI55OEcdTDIe36PcHJ/G8AIKu6RBFGZIko9lUodGdq6pWylGURlnnegrDMCGIIqWTlbJBVTWYpoVWy4RFyblyDKMFXTfOYpo2BG50MOTpuBE3te1KDx9w03Pw3iPDalTtaPRGQz07qrynHPlgWK+L8IIAeZGjILI8Ixi2u20Jy2jjLKVt/yFLkdH7lrRgCUZhWBkqZHhRq2HUGyB5/cLT+g3zRYFolmO5+sDL8yfWqx2WDwVWyy0e99wvcoxnGdrzd3QIZxD/JuTLcSnyldtF4PjwS4KKtl8S0LnC/9EOoV12Ybg9WHT+Bv+LL71/1zZeAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="02"
+        title="02"
+        src="/static/15aee6b5b7bffbc090fa6e07e3d38184/78d47/02.png"
+        srcset="/static/15aee6b5b7bffbc090fa6e07e3d38184/56d15/02.png 200w,
+/static/15aee6b5b7bffbc090fa6e07e3d38184/d9f49/02.png 400w,
+/static/15aee6b5b7bffbc090fa6e07e3d38184/78d47/02.png 800w,
+/static/15aee6b5b7bffbc090fa6e07e3d38184/97810/02.png 1089w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>所以找到了第一個關鍵，An existing connection was forcibly closed by the remote host	。</p>
 <p>啥，被中斷了，第一個想到的是，會不會是 Web App 爆了，實際點進去看，並且查看 Web App 的 CPU 等狀況：嗯，這根本不是好不好，而是根本沒打進去!!</p>
 <p>好啦，也合理，因為正常情況下，應該也會打幾個成功的進去啊！！！！！</p>
 <p>然後再去 Detail 檢查，也不是 500 錯誤，所以真的也沒進去。</p>
-<p>好吧，既然如此，就去問一下 google 大神，看看是什麼問題….</p>
-<h2 id="解決方案"><a href="#解決方案" class="headerlink" title="解決方案"></a>解決方案</h2><p>當然，歷經多年沒寫文章，這篇是小品，所以就直接講答案，其實查閱的結果，這就是個 bug，未來應該也是會修啦，有興趣的可以直接<a href="https://developercommunity.visualstudio.com/content/problem/326207/vsts-load-test-fails.html" target="_blank" rel="noopener">參考這篇</a>。</p>
-<p>而這篇的內容主要就是在說，因為現在 Web App 預設會使用 TLS 1.2，而這會影響到壓測工具，但文章沒詳細敘述原因就是了，而暫時解的方法，大概這幾種，然後就開始吵，這個到底算不算 Bug….</p>
+<p>好吧，既然如此，就去問一下 google 大神，看看是什麼問題....</p>
+<h2>解決方案</h2>
+<p>當然，歷經多年沒寫文章，這篇是小品，所以就直接講答案，其實查閱的結果，這就是個 bug，未來應該也是會修啦，有興趣的可以直接<a href="https://developercommunity.visualstudio.com/content/problem/326207/vsts-load-test-fails.html">參考這篇</a>。</p>
+<p>而這篇的內容主要就是在說，因為現在 Web App 預設會使用 TLS 1.2，而這會影響到壓測工具，但文章沒詳細敘述原因就是了，而暫時解的方法，大概這幾種，然後就開始吵，這個到底算不算 Bug....</p>
 <ol>
 <li>使用 Plung 掛上 TLS 1.2 的支援</li>
 <li>關閉 Https only，然後打 Http</li>
 <li>將 TLS 1.2 降到 1.0</li>
 </ol>
-<p>1 的方案小弟沒試過，因為想說未來應該會自己改完這 Bug XDD<br>2 的方案不是很喜歡，因為打到 http 會在從新導向到 https..<br>3 至少對我來說，是可以接受的暫時解，所以小弟就選擇 3 來處理此問題。</p>
-<p>想要修改的，可以到 Web App 的 SSL settings 進行設定，像下圖，我就把原本的 TLS 1.2 改成 1.0<br><img src="03.png" alt=""></p>
-<p>完成之後，再重新打一次，就可以享受喝奶茶的樂趣了 (誤)</p>
-<h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>好吧，我不確定未來會不會修復此問題，如果未來還是沒修復，小弟可能會在想怎麼解決吧….</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
-<li><a href="https://developercommunity.visualstudio.com/content/problem/326207/vsts-load-test-fails.html" target="_blank" rel="noopener">https://developercommunity.visualstudio.com/content/problem/326207/vsts-load-test-fails.html</a></li>
-</ul>
-
-      
-    </div>
-
-    <div>
-      
-        
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/TFS/" rel="tag">#TFS</a>
-          
-            <a href="/tags/Azure/" rel="tag">#Azure</a>
-          
-            <a href="/tags/AzureDevOps/" rel="tag">#AzureDevOps</a>
-          
-            <a href="/tags/DevOps/" rel="tag">#DevOps</a>
-          
-            <a href="/tags/LoadTest/" rel="tag">#LoadTest</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2018/02/24/VSTS-CICD-Creat_Build_Agent/" rel="next" title="VSTS - CI 與 CD - 自建 Agent">
-                <i class="fa fa-chevron-left"></i> VSTS - CI 與 CD - 自建 Agent
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/30/Docker-Install_Docker_Without_HyperV_In_Windows_10/" rel="prev" title="Docker - 在 Windows 10 底下不使用 Hyper-V 安裝 Docker">
-                Docker - 在 Windows 10 底下不使用 Hyper-V 安裝 Docker <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目錄
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            本站概覽
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
-               alt="Sky Chang" />
-          <p class="site-author-name" itemprop="name">Sky Chang</p>
-          <p class="site-description motion-element" itemprop="description">雖然是垃圾場，但還是有許多好東西</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">354</span>
-              <span class="site-state-item-name">文章</span>
-            </a>
-          </div>
-
-          
-
-          
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">108</span>
-                <span class="site-state-item-name">標籤</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#不重要的碎碎念"><span class="nav-number">1.</span> <span class="nav-text">不重要的碎碎念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#問題"><span class="nav-number">2.</span> <span class="nav-text">問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解決方案"><span class="nav-number">3.</span> <span class="nav-text">解決方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記"><span class="nav-number">4.</span> <span class="nav-text">後記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-number">5.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Sky Chang</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io" target="_blank" rel="noopener">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
-    NexT.Mist
+<p>1 的方案小弟沒試過，因為想說未來應該會自己改完這 Bug XDD
+2 的方案不是很喜歡，因為打到 http 會在從新導向到 https..
+3 至少對我來說，是可以接受的暫時解，所以小弟就選擇 3 來處理此問題。</p>
+<p>想要修改的，可以到 Web App 的 SSL settings 進行設定，像下圖，我就把原本的 TLS 1.2 改成 1.0
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/0dcc77c067f5a9aaed312de6c80af357/2ba58/03.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 56.49999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsSAAALEgHS3X78AAABt0lEQVQoz4VT23KbMBTkvTPmjkACIWHEzcaE1plOmzSZ+qX9gT71h/rX2yM5yXjSuHnYkTigXe2eg9eMNUopoZXCuq6o6xqbzQZRFCIMg1cIqR65d9fgiTKDlCWSJEWe5yh4CVlrFEK6Pcs5sixHkjLE9E0cR4T4af0XHi8lVK3cR0EQ0MEMjekQZxxRJmgVSJhFRYTs4pZvw9Nti3EcwDmH7/tIswz33x7QDz3mw0z1HKH/gYToVknyInwNXtd3aIm0qir4VOgFx+exx41psWwbfNwf8fX7byytwdpQFCScEPE1eLWqYIxxpCljmIlwlQp7wbCMt3j89QfL/IixVJhz5kStNWv9LXiVKLDdblGW5ZNKhOlQQUkBbWZUh59nOxSH/w6cZd0NaHTjVIMgpAwj3P9QmHYTuq4FS3yXL+cCrOBg5OIZGeV9+eya8uXhDqfTCcuyYLfbEdEex9s7TNNIzRoxjBOGYYAhYamNy9pC0uxaV897C0vqKV07IptjQXPICOunI5rmfGs75NaOPai1dnUhhOu2XS8tuwwb6qZlt0Odpqn7I3hRvKjaQ5b4PMxn/G8O/wIRUB8TimuNhwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="03"
+        title="03"
+        src="/static/0dcc77c067f5a9aaed312de6c80af357/78d47/03.png"
+        srcset="/static/0dcc77c067f5a9aaed312de6c80af357/56d15/03.png 200w,
+/static/0dcc77c067f5a9aaed312de6c80af357/d9f49/03.png 400w,
+/static/0dcc77c067f5a9aaed312de6c80af357/78d47/03.png 800w,
+/static/0dcc77c067f5a9aaed312de6c80af357/2ba58/03.png 1187w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
   </a>
-</div>
-
-        
-
-        
-      </div>
-    </footer>
-
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
-  
-
-
-
-  
-
-    <script type="text/javascript">
-      var disqus_shortname = 'skychang';
-      var disqus_identifier = '2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/';
-      var disqus_title = 'Azure DevOps - 對 Web App 使用壓力測試時發生錯誤';
-      var disqus_url = 'http://skychang.github.io/2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
-  
-
-
-
-  
-  
-  
-
-  
-
-  
-
-</body>
-</html>
+    </span></p>
+<p>完成之後，再重新打一次，就可以享受喝奶茶的樂趣了 (誤)</p>
+<h2>後記</h2>
+<p>好吧，我不確定未來會不會修復此問題，如果未來還是沒修復，小弟可能會在想怎麼解決吧....</p>
+<h2>參考資料</h2>
+<ul>
+<li><a href="https://developercommunity.visualstudio.com/content/problem/326207/vsts-load-test-fails.html">https://developercommunity.visualstudio.com/content/problem/326207/vsts-load-test-fails.html</a></li>
+</ul></div><div class="navigation-module--navigation--3Zfju"><span class="navigation-module--button--28kp3"><a href="/hello"><span class="navigation-module--buttonText--1Xod2">Hello Friend</span><span class="navigation-module--iconNext--3xyJ-">→</span></a></span></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/2019/03/26/Azure-DevOps-Load_Test_Web_App_TLS_Error/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app-8a5ec9ca460de146e1b0.js"],"component---src-pages-404-js":["/component---src-pages-404-js-216c2b4f5d02a741e4f2.js"],"component---src-templates-index-js":["/component---src-templates-index-js-615d11b4d3f2aa5ff33e.js"],"component---src-templates-page-js":["/component---src-templates-page-js-e853b3cf8fae77fda562.js"],"component---src-templates-tags-js":["/component---src-templates-tags-js-4100f9b0c43c4bde8fb9.js"]};/*]]>*/</script><script src="/component---src-templates-page-js-e853b3cf8fae77fda562.js" async=""></script><script src="/23c3d3a3a2879427593569aafa02d04d4d5b9e2a-ee33f3640e06062a9ba5.js" async=""></script><script src="/commons-588a46b1342b8cdac1fc.js" async=""></script><script src="/styles-9b6f388623a2ec93d35f.js" async=""></script><script src="/app-8a5ec9ca460de146e1b0.js" async=""></script><script src="/framework-75da9754c2a76bbaf08a.js" async=""></script><script src="/webpack-runtime-5a5a97b7337a917cb0df.js" async=""></script></body></html>
