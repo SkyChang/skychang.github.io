@@ -134,7 +134,7 @@
     </span></p>
 <p>會有這個需求，就像上面提到的，近來用 Markdown 的需求越來越大，以前還是可能用 Word 編輯文件提供給客戶，近來，也打算開始全部採用 Markdown 編輯，輸出 pdf 給客戶，而也因此，一個有結構的管理，對我來講是必要的。</p>
 <p>而在 Hexo 上，這塊比較沒辦法有好的支援，雖然我也有查到，有一些外掛，或是修改 Source Code 的方法，甚至 Hexo 也提供了可以將圖檔放到與 md 檔案名稱同一個資料夾的功能，但外掛看下來太多，也沒有統一的解決方案，改 Source Code 依照小弟的個性，就算了 XDDDD ( 人懶，又笨 )，至於最後一個方案，其實這幾年都一直這樣使用，但也常常遇到一個問題，就是在 VS Code 下，Preview 產生出來的畫面，是看不到圖檔的..</p>
-<p>簡單的說，雖然 Hexo 可以將圖檔放到與 md 檔案名稱同樣的目錄，但使用md 標籤的時候， <strong><img src="01.png"></strong> 裡面是不能包含實際路徑的，舉例來說，我有一個 Test.md 檔案，而我的圖檔就會是這個位置 Test\01.png，但我使用的標籤，只能使用 <strong><img src="01.png"></strong>，不能使用 <strong><img src="test%5C01.png"></strong> 但如果在 vs code 編輯下，必須要是 <strong><img src="test%5C01.png"></strong> 才能正常顯示 ( 合理，因為原本就在 test 目錄底下 )，但因為 Hexo 會重新編譯成 HTML，編譯出來圖片的位置，就會將 01.png 和 index.html ( 從 test.md 來 ) 放到同一層目錄，也因此，你的 md 標籤，必須要寫成 <strong><img src="01.png"></strong> 才行。</p>
+<p>簡單的說，雖然 Hexo 可以將圖檔放到與 md 檔案名稱同樣的目錄，但使用md 標籤的時候， <strong>![](01.png)</strong> 裡面是不能包含實際路徑的，舉例來說，我有一個 Test.md 檔案，而我的圖檔就會是這個位置 Test\01.png，但我使用的標籤，只能使用 <strong>![](01.png)</strong>，不能使用 <strong>![](test\01.png)</strong> 但如果在 vs code 編輯下，必須要是 <strong>![](test\01.png)</strong> 才能正常顯示 ( 合理，因為原本就在 test 目錄底下 )，但因為 Hexo 會重新編譯成 HTML，編譯出來圖片的位置，就會將 01.png 和 index.html ( 從 test.md 來 ) 放到同一層目錄，也因此，你的 md 標籤，必須要寫成 <strong>![](01.png)</strong> 才行。</p>
 <p>老實說，這個問題困擾我很久 QQ.. 也是這次想換的主因。</p>
 <h3>Hugo 和 Hexo 網址的相容</h3>
 <p>於是乎，除了 Hexo 外，也看了 <a href="https://gohugo.io/">Hugo</a> 這套由 Go Lang 寫的靜態網頁產生器，Hugo 也是非常棒的產生器，其實當初在評估 Hexo 的時候，也看了 Hugo，但當時 Hugo 才剛出，無論是樣板或是內部都還不太成熟，所以就選擇了非常成熟的 Hexo，而且上面提過，NexT 樣板真的是做得很棒，當時的 Hugo 比較沒辦法做到那麼完整。</p>
