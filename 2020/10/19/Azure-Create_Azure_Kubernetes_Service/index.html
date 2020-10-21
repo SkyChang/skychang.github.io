@@ -741,6 +741,9 @@ az aks nodepool <span class="token function">add</span> <span class="token punct
   </a>
     </span></p>
 <p>然後就完成了～</p>
+<h2>取用 SLA 99.95</h2>
+<p>若有需要，也可以在最後階段啟用 SLA</p>
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash">az aks update --resource-group study4dev-je --name aks-study4dev-je --uptime-sla</code></pre></div>
 <h2>進行測試</h2>
 <p>完成後，我們希望能透過 Kubectl get nodes，來取得 node 資訊，來驗證是否建置完成。</p>
 <p>而在開始前，我們需要先給我自己 Azure Kubernetes Service RBAC Cluster Admin 的權限。</p>
