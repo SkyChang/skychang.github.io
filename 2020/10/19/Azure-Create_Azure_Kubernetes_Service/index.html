@@ -469,9 +469,9 @@ az provider register --namespace Microsoft.ContainerService</code></pre></div>
 <div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash"><span class="token comment"># 填寫自己的 Resource Group、AKS名稱、地區、PPG ID</span>
 <span class="token assign-left variable">RESOURCE_GROUP_NAME</span><span class="token operator">=</span>Study4Dev-JE
 <span class="token assign-left variable">CLUSTER_NAME</span><span class="token operator">=</span>AKS-Study4Dev-JE
-<span class="token assign-left variable">AAD_GROUP_ID</span><span class="token operator">=</span>f9812619-246a-4c21-a15d-faac843e4e45
-<span class="token assign-left variable">TENANT_ID</span><span class="token operator">=</span>72f988bf-86f1-41af-91ab-2d7cd011db47
-<span class="token assign-left variable">WORKSPACE_ID</span><span class="token operator">=</span>/subscriptions/ab56d250-ff23-411f-b78e-34757333ca40/resourcegroups/study4dev-je/providers/microsoft.operationalinsights/workspaces/loganalytics-aks-study4dev-je
+<span class="token assign-left variable">AAD_GROUP_ID</span><span class="token operator">=</span>xxxxxxx-xxx-xxxx-xxxx-xxxxxxxxxxxx
+<span class="token assign-left variable">TENANT_ID</span><span class="token operator">=</span>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+<span class="token assign-left variable">WORKSPACE_ID</span><span class="token operator">=</span>/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxx/resourcegroups/study4dev-je/providers/microsoft.operationalinsights/workspaces/loganalytics-aks-study4dev-je
 
 <span class="token comment"># 其中， VNET Subnet ID 和 ACR ID 會比較麻煩，沒辦法輕易的透過 UI 查看到，所以 $SUBNET_ID 就用 Shell姊 解決。</span>
 
@@ -521,7 +521,7 @@ az aks enable-addons <span class="token punctuation">\</span>
 
 <span class="token comment"># 新增 User Node Pool ( 不使用 可用性區域 , 搭配 PPG )</span>
 
-<span class="token assign-left variable">MY_PPG_RESOURCE_ID</span><span class="token operator">=</span>/subscriptions/ab56d250-ff23-411f-b78e-34757333ca40/resourceGroups/Study4Dev-JE/providers/Microsoft.Compute/proximityPlacementGroups/Study4Dev-JE-PPG
+<span class="token assign-left variable">MY_PPG_RESOURCE_ID</span><span class="token operator">=</span>/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Study4Dev-JE/providers/Microsoft.Compute/proximityPlacementGroups/Study4Dev-JE-PPG
 
 az aks nodepool <span class="token function">add</span> <span class="token punctuation">\</span>
     --cluster-name <span class="token variable">$CLUSTER_NAME</span> <span class="token punctuation">\</span>
