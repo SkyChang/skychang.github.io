@@ -395,7 +395,7 @@ az provider register --namespace Microsoft.ContainerService</code></pre></div>
 <li>後續增加的 User Node Pool，請對應到不同的 PPG，例如 Pool-1 對應到 PPG1，Pool-2 對應到 PPG2。</li>
 </ul>
 <p>透過這種方式，就可以達到 System Node Pool 和 CP 都有可用性區域的分散好處，若再搭配 SLA 功能的啟用，就可以讓 CP 達到 SLA 99.95%。雖然沒有 PPG，但 System Pod 或是 CP 上的延遲，通常是可以接受的，反而是 CP 需要 SLA 99.95%。</p>
-<p>而後面的 Pool 與 不同 zone 和 PPG 的配置，就可以讓每一個 Pool 裡面的 Pod 互相溝通的速度加快，當然，跨 zone 就等於出了 PPG，就可能會有延遲，但還是可以根據需要，調整 Pod 要放置的位置。</p>
+<p>而後面的 User Node Pool 與 不同 zone 和 PPG 的配置，就可以讓對應上 PPG 的 User Node Pool 裡面的 Pod 與其他放在同一個 PPG 的溝通的速度加快，但相對的，也失去了高可用性的優勢... ( 這個 Zone 掛了，就等於全掛了.... )</p>
 <p>Note : 如果下指令對應到多台，也只會出現這個錯誤，所以是 PPG 只能對應到一個 Zone 或 No Zone。</p>
 <p><span
       class="gatsby-resp-image-wrapper"
