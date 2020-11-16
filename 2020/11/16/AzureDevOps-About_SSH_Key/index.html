@@ -190,6 +190,7 @@
 </ul>
 <p>但是，以上的情境，目前測試下來，有一個例外...</p>
 <p>那就是原生的 Microsoft Account ... ( Hotmail , livemail 等....)，目前測試的情況下，若遇到 MSA 帳號，這個 MSA 帳號無論加到哪個 AAD 裡面，還是都可以加入 SSH Public Key，這是滿特別的現象...</p>
+<p>Note : 不要想說刪掉 SSH Public Key 就可以重複使用喔 XDDD，就算已經刪掉，還是不能和那個被刪掉的重複～～</p>
 <p>Note : 我有用 REST API 去取得 originId，的確，在 SkyM 的帳號下， M , P Organization 的 ID 是一樣的，而 S Organization 則不同，但 MSA 情境下，originId 雖然全部不同，但還是可以新增，或許有什麼沒猜想到的邏輯吧。</p>
 <h2>解法</h2>
 <p>當然，還是有解法。那就是產生不同的 SSH Public Key，來對應不同的 Organization。</p>
