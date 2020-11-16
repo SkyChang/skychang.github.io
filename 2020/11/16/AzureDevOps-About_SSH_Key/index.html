@@ -188,6 +188,9 @@
 <li>M Organization - SkyM 代表的是 另外一個 AAD 的 SkyM 帳號 ( 原生的 AAD 帳號 )</li>
 <li>P Organization - SkyM 此組織沒加入 AAD，所以直接使用原生的 AAD SkyM 帳號 ( 原生的 AAD 帳號 )</li>
 </ul>
+<p>但是，以上的情境，目前測試下來，有一個例外...</p>
+<p>那就是原生的 Microsoft Account ... ( Hotmail , livemail 等....)，目前測試的情況下，若遇到 MSA 帳號，這個 MSA 帳號無論加到哪個 AAD 裡面，還是都可以加入 SSH Public Key，這是滿特別的現象...</p>
+<p>Note : 我有用 REST API 去取得 originId，的確，在 SkyM 的帳號下， M , P Organization 的 ID 是一樣的，而 S Organization 則不同，但 MSA 情境下，originId 雖然全部不同，但還是可以新增，或許有什麼沒猜想到的邏輯吧。</p>
 <h2>解法</h2>
 <p>當然，還是有解法。那就是產生不同的 SSH Public Key，來對應不同的 Organization。</p>
 <p>我們可以在 SSH Public Key 的目錄底下 ( 通常為 .ssh 目錄底下 ) 加入 config 檔案，內容如下：</p>
@@ -261,7 +264,7 @@ Host devops_contoso
 <span class="token comment"># above, and remember that SSH uses the first matching line for each parameter name.</span>
 Host *</code></pre></div>
 <h2>後記</h2>
-<p>滿有意思的一個問題，其實開始找問題的時候，一直圍繞在，為什麼不能使用，當下也認定了，可能是因為就算帳號不同，Key 可能也不能相同的錯誤認真，後來看了 config 裡面的 <code class="language-text">to use the same key across all hosted Azure DevOps organizations, add a Host entry like this:</code> 才重新思考，是不是有哪個細節錯了，後來，魔鬼果然藏在細節啊！！！</p>
+<p>滿有意思的一個問題，其實開始找問題的時候，一直圍繞在，為什麼不能使用，當下也認定了，可能是因為就算帳號不同，Key 可能也不能相同的錯誤認真，後來看了 config 裡面的 <code class="language-text">to use the same key across all hosted Azure DevOps organizations, add a Host entry like this:</code> 才重新思考，是不是有哪個細節錯了，所以有了這篇文章的產生。但畢竟這是實驗出來的結果，小弟是沒找到任何的文件敘述，也沒辦法看 Source Code，所以這邊就給大家一個參考方向... ( 或許文章還是錯的呢 QQ )，但至少目前從這個方向，是解決了小弟的問題，或許有一日，遇到 Azure DevOps 的工程師，到時候再問問看，有沒有正確解答 XDDD</p>
 <p>總之，結案！！ 謝謝大家～～</p>
 <h2>參考資料</h2>
 <ul>
