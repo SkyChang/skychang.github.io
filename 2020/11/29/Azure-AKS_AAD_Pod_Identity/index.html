@@ -252,8 +252,8 @@ az identity show -g Study4Dev-JE-AKS-Study4Dev-JE-AKSResource -n DEMO --query <s
 <p>接下來，我們要產生 AzureIdentity 和 AzureIdentityBinding，透過這兩個 CRD，我們就可以提供 Pod 必要的權限。</p>
 <ul>
 <li>底下的 spec.type 0 代表的是 MSI， 1 代表的是 Service Principal，2 代表的是 使用 certificate 的 Service Principal</li>
-<li>AzureIdentity.spec.resourceID 請填入 RG 的完整 ID</li>
-<li>clientID 為 Managed Identity 的 ID</li>
+<li>AzureIdentity.spec.resourceID 請填入 Managed Identity 的完整 ID</li>
+<li>clientID 為 Managed Identity 的 ClientID</li>
 <li>AzureIdentityBinding.spec.azureIdentity 必須對應到 AzureIdentity.metadata.name</li>
 <li>AzureIdentityBinding.spec.selector 的值，未來的 Pod 裡面的 Label 需要對應上</li>
 </ul>
