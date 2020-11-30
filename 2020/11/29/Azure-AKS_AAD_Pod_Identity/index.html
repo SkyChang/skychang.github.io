@@ -186,7 +186,10 @@ az identity create -g Study4Dev-JE-AKS-Study4Dev-JE-AKSResource -n DEMO
 az identity show -g Study4Dev-JE-AKS-Study4Dev-JE-AKSResource -n DEMO --query clientId -otsv
 
 <span class="token comment"># 取得這個 Resource Group 的 ID</span>
-az identity show -g Study4Dev-JE-AKS-Study4Dev-JE-AKSResource -n DEMO --query <span class="token function">id</span> -otsv</code></pre></div>
+az identity show -g Study4Dev-JE-AKS-Study4Dev-JE-AKSResource -n DEMO --query <span class="token function">id</span> -otsv
+
+<span class="token comment"># 最後，給予此 Managed Identity 讀取節點資源群組的權限</span>
+az role assignment create --role Reader --assignee DEMO --scope /subscriptions/<span class="token variable">${SUBSCRIPTION_ID}</span>/resourceGroups/Study4Dev-JE-AKS-Study4Dev-JE-AKSResource --query <span class="token function">id</span> -otsv</code></pre></div>
 <p>如果不想透過指令取得，也可以透過下圖取得 Managed Identity ID。</p>
 <p><span
       class="gatsby-resp-image-wrapper"
@@ -243,6 +246,38 @@ az identity show -g Study4Dev-JE-AKS-Study4Dev-JE-AKSResource -n DEMO --query <s
 /static/6dab5b8fd943a0f7d83780c01a0ff4ef/d9f49/2020-11-30-15-52-53.png 400w,
 /static/6dab5b8fd943a0f7d83780c01a0ff4ef/78d47/2020-11-30-15-52-53.png 800w,
 /static/6dab5b8fd943a0f7d83780c01a0ff4ef/28211/2020-11-30-15-52-53.png 1069w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>完成後的權限如下</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/ddc1efc735c93a183f8f7c58fa8b8722/02f69/2020-12-01-02-29-32.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABj0lEQVQoz3VS13LjMBDzD6iZoqherRLJTpw4N3fj//8vHJaSnDLJA2ahXRsEljzExQkvt38Ylyvm53fihmm+oOs6TNOEtm0xzzPGcYTWGo7jwPf9H3E8HnFI0hRVVUKHCpEOUZalFRPUdY2madH3PfI8R1lV9oAwDO2fv0MphcPt7x0LHeRFgSzL4bquRRAE8D1vrZsDRSHNQ4PAt/19tnPr8PX6hvN5sW5Suu2HAfPlGTqKYeIUURQhSRLrysYKDYUjKyCOZA27mBWUKB6diCvZT1oWGChYlC2KukPGeds0MMYgoKBOKmiTWZdySBLHXwX76UwXeo3FgTExXAo7W3SXhwn3trnnCfdWzp679R+Rq1qWrOwwZCNmDENE5IaILALLH1Afs70+bnm5TDidTnDYGLjwa9fg/ucdb7zNV3LBfZlx4Sp6JnnKS4yxwWA0pjTBramw8NuVnYpgO/C9jdMal42MbjMKp6FAWazf5Ep91A25/I7V97fINd+ZvD25MYn9O7gzu7et7lxmn3b4H3xM/rSZqnJ4AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="2020 12 01 02 29 32"
+        title="2020 12 01 02 29 32"
+        src="/static/ddc1efc735c93a183f8f7c58fa8b8722/78d47/2020-12-01-02-29-32.png"
+        srcset="/static/ddc1efc735c93a183f8f7c58fa8b8722/56d15/2020-12-01-02-29-32.png 200w,
+/static/ddc1efc735c93a183f8f7c58fa8b8722/d9f49/2020-12-01-02-29-32.png 400w,
+/static/ddc1efc735c93a183f8f7c58fa8b8722/78d47/2020-12-01-02-29-32.png 800w,
+/static/ddc1efc735c93a183f8f7c58fa8b8722/64756/2020-12-01-02-29-32.png 1200w,
+/static/ddc1efc735c93a183f8f7c58fa8b8722/02f69/2020-12-01-02-29-32.png 1394w"
         sizes="(max-width: 800px) 100vw, 800px"
         style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
         loading="lazy"
