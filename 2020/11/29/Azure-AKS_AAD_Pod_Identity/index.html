@@ -3,6 +3,7 @@
 13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">Azure - AKS - 使用 AAD Pod Identity 進行 Azure 服務驗證</h1><div class="post-module--meta--3YtjE">29 November 2020<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/Azure/"><span class="post-module--tag--16U9p">#<!-- -->Azure</span></a><a href="/tag/Container/"><span class="post-module--tag--16U9p">#<!-- -->Container</span></a><a href="/tag/Kubernetes/"><span class="post-module--tag--16U9p">#<!-- -->Kubernetes</span></a><a href="/tag/AAD/"><span class="post-module--tag--16U9p">#<!-- -->AAD</span></a><a href="/tag/Linux/"><span class="post-module--tag--16U9p">#<!-- -->Linux</span></a><a href="/tag/AKS/"><span class="post-module--tag--16U9p">#<!-- -->AKS</span></a><a href="/tag/Identity/"><span class="post-module--tag--16U9p">#<!-- -->Identity</span></a></div></div><div><h2>前言</h2>
 <p>在 Azure 世界裡面，有非常多的資源可以使用，多到連小弟也數不清了。但無論有多少資源，還是要有權限的概念。所以，當限制資源的存取，其實就很重要。像以前，主要會透過 Service Principal 來定義，而現在，很多會採用 Managed Identity 來處理，甚至在 App Service 或是 VM 的情境，也只要在 Portal 按一下按鈕就解決了。</p>
 <p>但是啊但是，我們的服務現在不是在 VM 層級，而是到了 Container 層級，也就是 Pod 層級，所以必須讓 Pod 能使用 Managed Identity 等機制，也因此產生了這篇文章。</p>
+<p>Note : 目前查了資料，像 Flux、ExternalDNS 都還沒整合 AAD-Pod-Identity，所以如果是期許這些套件能整合，可能要失望了，這邊的使用上，還是偏向自己寫的應用可以輕鬆地串接 Azure 相關服務。另外，請注意，這篇也不會寫到如何用 ASP.NET Core 串接 Managed Identity。</p>
 <h2>預設的情況</h2>
 <p>首先，我們先來看看，預設 AKS 的 IAM 大概是長怎樣，順便紀錄一下。</p>
 <p>當我們建立 AKS 的時候 ( 假設名稱為 test-aks )，並啟用 Managed Identity 的情況，當然就會在 Managed Identity 產生一筆。</p>
@@ -114,7 +115,7 @@ az aks show -g study4dev-je -n aks-study4dev-je --query identityProfile.kubeleti
 <p>所以，落落長的寫了一堆，但其實我們可以發現，在 AKS 裡面，要存取 Azure 的資源，還是靠 Managed Identity 來處理，而如果要讓 Pod 進行這些事情，我們就要使用到 Open Source 的 aad-pod-identity 來處理了。</p>
 <p>而這篇文章，就會將重點放到 aad-pod-identity。</p>
 <h2>aad-pod-identity</h2>
-<p>如果資源都在 AKS 裡面，可能很方便，可以透過 Role 和 RoleBind 來處理權限 ( 謎之聲 : 其實還是很複雜啊啊啊！！)，但如果資源離開了 AKS，就變得更複雜了，例如，要存取 Azre Storage 或是在 Pod 裡面要存取 ACR，可能就需要透過 SAS Token，或是帳號密碼等等。 ( 不是 Node 層級存取 ACR )</p>
+<p>如果資源都在 AKS 裡面，可能很方便，可以透過 Role 和 RoleBind 來處理權限 ( 謎之聲 : 其實還是很複雜啊啊啊！！)，但如果資源離開了 AKS，就變得更複雜了，例如，要存取 Azre Storage 或是 SQL Database，可能就需要透過 SAS Token，或是帳號密碼等等。 ( 不是 Node 層級存取 ACR )</p>
 <p>但 Azure 裡面，本來就有 Managed Identity 啊！！，有沒有什麼辦法可以透過此機制，讓 Pod 能存取呢？</p>
 <p>答案就是 AAD Pod Identity，他可以使 Kubernetes 使用Azure Active Directory 安全訪問資源。並使用 Kubernetes原生的配置身份和綁定來匹配 Pod。而無需進行任何代碼修改，算是一個非常棒的解決方案。</p>
 <p>而它的原理，主要是透過 Managed Identity Controller
@@ -376,12 +377,14 @@ az role assignment create --role Reader --assignee DEMO --scope /subscriptions/<
   </a>
     </span></p>
 <h2>後記</h2>
-<p>其實整個過程算簡單，但複雜的是 Managed Identity ( 翻 )，但不管如何，在 Azure 上的資源控管，Managed Identity 就是重要的，而透過 aad-pod-identity 的機制，我們也可以更順利地透過 AAD 和其他相關資源整合，又讓我們往 Azure 前進展一步了！</p>
+<p>其實整個過程算簡單，但很遺憾的，目前類似 Flux、ExternalDNS 都還沒辦法直接與 Add-Pod-Identity 整合 ( Issue 直接被關掉 QQ )，但如果是自己撰寫的程式，想對外連接到 SQL Database 等等，還是一個很方便的做法。</p>
+<p>最後，因 AAD-Pod-Identity 會使用 etc/kubernetes/azure.json，而這組 Service Principal 的權限比較大，這可能會造成，當可以控制 AAD-Pod-Identity 這個 Pod 的時候，就可以控制關於 AKS 的相關資源 ( 雖然小弟測試，sh 已經被拿掉..基本上算是安全的 )。但所以如果希望能將權限分離，可以參考<a href="https://azure.github.io/aad-pod-identity/docs/configure/deploy_aad_pod_dedicated_sp/">官網的這篇</a>，目前小弟還沒實作，未來如果有實作，會在更新。</p>
 <h2>參考資料</h2>
 <ul>
 <li><a href="https://docs.microsoft.com/zh-tw/azure/aks/use-managed-identity">https://docs.microsoft.com/zh-tw/azure/aks/use-managed-identity</a></li>
 <li><a href="https://github.com/Azure/aad-pod-identity/blob/master/hack/role-assignment.sh">https://github.com/Azure/aad-pod-identity/blob/master/hack/role-assignment.sh</a></li>
 <li><a href="https://docs.microsoft.com/zh-tw/azure/aks/use-managed-identity">https://docs.microsoft.com/zh-tw/azure/aks/use-managed-identity</a></li>
+<li><a href="https://itnext.io/using-aad-pod-identity-in-your-azure-kubernetes-clusters-what-to-watch-out-for-73d5d73960f">https://itnext.io/using-aad-pod-identity-in-your-azure-kubernetes-clusters-what-to-watch-out-for-73d5d73960f</a></li>
 </ul></div></div></div></div><footer><div>Sky & Study4.TW</div></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script>
   
   function gaOptout(){document.cookie=disableStr+'=true; expires=Thu, 31 Dec 2099 23:59:59 UTC;path=/',window[disableStr]=!0}var gaProperty='UA-29938905-2',disableStr='ga-disable-'+gaProperty;document.cookie.indexOf(disableStr+'=true')>-1&&(window[disableStr]=!0);
