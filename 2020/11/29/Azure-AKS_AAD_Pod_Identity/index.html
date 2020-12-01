@@ -3,7 +3,7 @@
 13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z" class="icon-module--icon--1ihz7"></path></svg></span></button></span></div></header><div class="content"><div class="post-module--post--28Mq2"><div class="post-module--postContent--1bfnt"><h1 class="post-module--title--3XBo2">Azure - AKS - 使用 AAD Pod Identity 進行 Azure 服務驗證</h1><div class="post-module--meta--3YtjE">29 November 2020<!-- --> <!-- -->— Written by <!-- -->Sky Chang<div class="post-module--tags--3RbqF"><a href="/tag/Azure/"><span class="post-module--tag--16U9p">#<!-- -->Azure</span></a><a href="/tag/Container/"><span class="post-module--tag--16U9p">#<!-- -->Container</span></a><a href="/tag/Kubernetes/"><span class="post-module--tag--16U9p">#<!-- -->Kubernetes</span></a><a href="/tag/AAD/"><span class="post-module--tag--16U9p">#<!-- -->AAD</span></a><a href="/tag/Linux/"><span class="post-module--tag--16U9p">#<!-- -->Linux</span></a><a href="/tag/AKS/"><span class="post-module--tag--16U9p">#<!-- -->AKS</span></a><a href="/tag/Identity/"><span class="post-module--tag--16U9p">#<!-- -->Identity</span></a></div></div><div><h2>前言</h2>
 <p>在 Azure 世界裡面，有非常多的資源可以使用，多到連小弟也數不清了。但無論有多少資源，還是要有權限的概念。所以，當限制資源的存取，其實就很重要。像以前，主要會透過 Service Principal 來定義，而現在，很多會採用 Managed Identity 來處理，甚至在 App Service 或是 VM 的情境，也只要在 Portal 按一下按鈕就解決了。</p>
 <p>但是啊但是，我們的服務現在不是在 VM 層級，而是到了 Container 層級，也就是 Pod 層級，所以必須讓 Pod 能使用 Managed Identity 等機制，也因此產生了這篇文章。</p>
-<p>Note : 目前查了資料，像 Flux、ExternalDNS 都還沒整合 AAD-Pod-Identity，所以如果是期許這些套件能整合，可能要失望了，這邊的使用上，還是偏向自己寫的應用可以輕鬆地串接 Azure 相關服務。另外，請注意，這篇也不會寫到如何用 ASP.NET Core 串接 Managed Identity。</p>
+<p>Note : 目前查了資料，像 Flux 都還沒整合 AAD-Pod-Identity，所以如果是期許這些套件能整合，可能要失望了，這邊的使用上，還是偏向自己寫的應用可以輕鬆地串接 Azure 相關服務。另外，請注意，這篇也不會寫到如何用 ASP.NET Core 串接 Managed Identity。</p>
 <h2>預設的情況</h2>
 <p>首先，我們先來看看，預設 AKS 的 IAM 大概是長怎樣，順便紀錄一下。</p>
 <p>當我們建立 AKS 的時候 ( 假設名稱為 test-aks )，並啟用 Managed Identity 的情況，當然就會在 Managed Identity 產生一筆。</p>
@@ -376,8 +376,132 @@ az role assignment create --role Reader --assignee DEMO --scope /subscriptions/<
       />
   </a>
     </span></p>
+<h2>番外篇 整合 ExternalDNS</h2>
+<p>其實，ExternalDNS 已經實作完，但還沒時間整成文章，而當初會想採用 AAD-Pod-Identity，其實一個目的，就是希望能讓 ExternalDNS 去控制 Azure DNS 的時候，不要走 SP，而改走 MI。</p>
+<p>因為 ExternalDNS 文章還沒出來，所以小弟先塞這邊，未來 ExternalDNS 文章出來，我在移動過去。</p>
+<p>如果想透過  AAD-Pod-Identity 給 ExternalDNS Pod MI，那步驟基本上和前面一樣。</p>
+<p>我們要先產生 MI。</p>
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash"><span class="token comment"># 產生 Managed Identity</span>
+az identity create -g Study4Dev-JE-AKS-Study4Dev-JE-AKSResource -n External-DNS-AKS-Study4Dev-JE
+
+<span class="token comment"># 取得這個 MI 的 ID</span>
+az identity show -g Study4Dev-JE-AKS-Study4Dev-JE-AKSResource -n External-DNS-AKS-Study4Dev-JE --query clientId -otsv
+
+<span class="token comment"># 取得這個 Resource Group 的 ID</span>
+az identity show -g Study4Dev-JE-AKS-Study4Dev-JE-AKSResource -n External-DNS-AKS-Study4Dev-JE --query <span class="token function">id</span> -otsv
+
+<span class="token comment"># 最後，給予此 Managed Identity 讀取節點資源群組的權限</span>
+az role assignment create --role Reader --assignee DEMO --scope /subscriptions/<span class="token variable">${SUBSCRIPTION_ID}</span>/resourceGroups/Study4Dev-JE-AKS-Study4Dev-JE-AKSResource --query <span class="token function">id</span> -otsv</code></pre></div>
+<p>完成後，也別忘記，要給 Azure DNS 那個群組讀取的權限，和 Azure DNS 參與者的權限如下。</p>
+<p>Azure DNS 那個群組讀取的權限。
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/050e413dfc77e810122657c00648e45e/66ff9/2020-12-01-16-53-27.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 47%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAAsSAAALEgHS3X78AAABoElEQVQoz11S2Y7bMAz0cxpfsh1fkmVbcSTHObZJF4vFIsCi//9PU1JJirQPA5KWNRwNGajB4XC+YhgGOOcwjCPyPIfIMmQU0zT1dVEUSJLEg78xXvNnHUzWodcdlFLY7xf0/YC2bVFWFbTuUVFspUTXdZ7UNxPCE5RliYwac81kWmsEX7dvLMuC8/nssVqt7kri+K+CmPIoiv9RwngSM6IowvF4RMDq+AIrYMIoDP2P4uUp4oH0fzwaigfhPM8Ixq3zB1Iq/Lxc8WO9RkR1xKoohnHiY8xKOSbpPWeS5H6WkAAWZa0lD6fJK+rIw9v1AtM0cKqDJd+mqsSuqbGlOG4KmHKDkUH5s56qDVSRIySFPNTg9LbQczUUEfz+eMeeGhyMw2IsZrLh1+x81HmGsW4w0pAGIuuJxMoWlhp2r4SGCOq6pie3uHx8Qi1XSG3Q9gaV1JBEJmiya7oQixxRKsiG2NcZr5LIvD0heb/b7RAcaDI8kK0x+Py6obdHTFsDQ/s4Dr1XvqGLFa1I3bTUvPE5r4yks4Ys4tXilTqdTvgDTufpmAr6dfAAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="2020 12 01 16 53 27"
+        title="2020 12 01 16 53 27"
+        src="/static/050e413dfc77e810122657c00648e45e/78d47/2020-12-01-16-53-27.png"
+        srcset="/static/050e413dfc77e810122657c00648e45e/56d15/2020-12-01-16-53-27.png 200w,
+/static/050e413dfc77e810122657c00648e45e/d9f49/2020-12-01-16-53-27.png 400w,
+/static/050e413dfc77e810122657c00648e45e/78d47/2020-12-01-16-53-27.png 800w,
+/static/050e413dfc77e810122657c00648e45e/64756/2020-12-01-16-53-27.png 1200w,
+/static/050e413dfc77e810122657c00648e45e/42cbc/2020-12-01-16-53-27.png 1600w,
+/static/050e413dfc77e810122657c00648e45e/66ff9/2020-12-01-16-53-27.png 1687w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>Azure DNS 參與者的權限如下。</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/9a54247a55f10e2496169253751a5ec1/66ff9/2020-12-01-16-54-58.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 50%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABdElEQVQoz6WSS2/CMBCEc0NAyZOQd+KEkFcJCg1EqNceOfT//5rpOIG2qoRUtYdPY6/t8e7aitiW2B9e0PUD3t9SHGof+7bD8dihruuRqqpIiaap0XD+3DQQQiCKY3i+jyAIUJQl6rKAEiZblFWNMEqQbRsUeQHfsbE2DKoLS9dHjXnIUFc3VMY1WJo2rmvU1Wo1qtIPr9jtckQ8kPsO8myLQuTYiQx5GKJgFnkUIvU9xI4zsdkg2thIXAcpCTjWaCwrUU79GW3bIuHhJmLqOQ0TQVOBLPBRUVPPg2caiJipJFhbCCyLhi4yGsb2Gk/MULZHSUQK0zSh3tKfyvgqx5Rq6LBpuKZOGDemsUlUtqEo2MOMGVm8zWBQf4Qu0R9ifDdMWJIM/JdPw2PfI2Hj5U2y9L8gK5QvXPLrKEEYweXLzedzLJfLkcViMXKf/4bZbDb+TaXr5Cc+omemkvP5jMvlgmEYxvE9PnH6MZ+Q++Xe6/WKD1o6BZGOmTACAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="2020 12 01 16 54 58"
+        title="2020 12 01 16 54 58"
+        src="/static/9a54247a55f10e2496169253751a5ec1/78d47/2020-12-01-16-54-58.png"
+        srcset="/static/9a54247a55f10e2496169253751a5ec1/56d15/2020-12-01-16-54-58.png 200w,
+/static/9a54247a55f10e2496169253751a5ec1/d9f49/2020-12-01-16-54-58.png 400w,
+/static/9a54247a55f10e2496169253751a5ec1/78d47/2020-12-01-16-54-58.png 800w,
+/static/9a54247a55f10e2496169253751a5ec1/64756/2020-12-01-16-54-58.png 1200w,
+/static/9a54247a55f10e2496169253751a5ec1/42cbc/2020-12-01-16-54-58.png 1600w,
+/static/9a54247a55f10e2496169253751a5ec1/66ff9/2020-12-01-16-54-58.png 1687w"
+        sizes="(max-width: 800px) 100vw, 800px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+      />
+  </a>
+    </span></p>
+<p>然後同樣的，新增 AzureIdentity 和 AzureIdentityBinding。
+( Namespace 請自行決定位置 )</p>
+<div class="gatsby-highlight" data-language="yaml"><pre class="language-yaml"><code class="language-yaml"><span class="token comment"># 使用 AKS-Study4Dev-JE-agentpool MI 來存取 ACR</span>
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> <span class="token string">"aadpodidentity.k8s.io/v1"</span>
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> AzureIdentity
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> external<span class="token punctuation">-</span>dns
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> external<span class="token punctuation">-</span>dns<span class="token punctuation">-</span>access<span class="token punctuation">-</span>azure<span class="token punctuation">-</span>dns<span class="token punctuation">-</span>identity
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token number">0</span>
+  <span class="token key atrule">resourceID</span><span class="token punctuation">:</span> <span class="token string">"/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/Study4Dev-JE-AKS-Study4Dev-JE-AKSResource/providers/Microsoft.ManagedIdentity/userAssignedIdentities/External-DNS-AKS-Study4Dev-JE"</span>
+  <span class="token key atrule">clientID</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span>MI_ClientID<span class="token punctuation">}</span>
+<span class="token punctuation">---</span>
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> <span class="token string">"aadpodidentity.k8s.io/v1"</span>
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> AzureIdentityBinding
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> external<span class="token punctuation">-</span>dns
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> external<span class="token punctuation">-</span>dns<span class="token punctuation">-</span>access<span class="token punctuation">-</span>azure<span class="token punctuation">-</span>dns<span class="token punctuation">-</span>identity<span class="token punctuation">-</span>binding
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">azureIdentity</span><span class="token punctuation">:</span> external<span class="token punctuation">-</span>dns<span class="token punctuation">-</span>access<span class="token punctuation">-</span>azure<span class="token punctuation">-</span>dns<span class="token punctuation">-</span>identity
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span> external<span class="token punctuation">-</span>dns<span class="token punctuation">-</span>access<span class="token punctuation">-</span>azure<span class="token punctuation">-</span>dns<span class="token punctuation">-</span>identity</code></pre></div>
+<p>將 ExternalDNS 加上 Label</p>
+<div class="gatsby-highlight" data-language="yaml"><pre class="language-yaml"><code class="language-yaml"><span class="token punctuation">...</span>
+  <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+    <span class="token key atrule">aadpodidbinding</span><span class="token punctuation">:</span> external<span class="token punctuation">-</span>dns<span class="token punctuation">-</span>access<span class="token punctuation">-</span>azure<span class="token punctuation">-</span>dns<span class="token punctuation">-</span>identity
+<span class="token punctuation">...</span></code></pre></div>
+<p>最後修改 ExternalDNS 需要的 azure.conf</p>
+<div class="gatsby-highlight" data-language="yaml"><pre class="language-yaml"><code class="language-yaml"><span class="token punctuation">{</span>
+  <span class="token key atrule">"tenantId"</span><span class="token punctuation">:</span> <span class="token string">"${tenantId}"</span><span class="token punctuation">,</span>
+  <span class="token key atrule">"subscriptionId"</span><span class="token punctuation">:</span> <span class="token string">"${SUBSCRIPTION_ID}"</span><span class="token punctuation">,</span>
+  <span class="token key atrule">"resourceGroup"</span><span class="token punctuation">:</span> <span class="token string">"${DNS 所在的 RG}"</span><span class="token punctuation">,</span>
+  <span class="token key atrule">"useManagedIdentityExtension"</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+<span class="token punctuation">}</span></code></pre></div>
+<p>就完成了～～～～</p>
+<h2>Troubleshooting</h2>
+<p>這邊附加上，最常用的 Troubleshooting 方式。</p>
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash"><span class="token comment"># 建立 az cli Pod，然後登入進去</span>
+kubectl run azure-cli -it --image<span class="token operator">=</span>mcr.microsoft.com/azure-cli --labels<span class="token operator">=</span>aadpodidbinding<span class="token operator">=</span><span class="token operator">&lt;</span>selector defined <span class="token keyword">in</span> AzureIdentityBinding<span class="token operator">></span> /bin/bash
+
+<span class="token comment"># 透過 az login 查看是否能正常登入</span>
+az login -i --debug</code></pre></div>
 <h2>後記</h2>
-<p>其實整個過程算簡單，但很遺憾的，目前類似 Flux、ExternalDNS 都還沒辦法直接與 Add-Pod-Identity 整合 ( Issue 直接被關掉 QQ )，但如果是自己撰寫的程式，想對外連接到 SQL Database 等等，還是一個很方便的做法。</p>
+<p>其實整個過程算簡單，但很遺憾的，目前類似 Flux、都還沒辦法直接與 Add-Pod-Identity 整合 ( Issue 直接被關掉 QQ )，但如果是自己撰寫的程式，想對外連接到 SQL Database 等等，還是一個很方便的做法。</p>
 <p>最後，因 AAD-Pod-Identity 會使用 etc/kubernetes/azure.json，而這組 Service Principal 的權限比較大，這可能會造成，當可以控制 AAD-Pod-Identity 這個 Pod 的時候，就可以控制關於 AKS 的相關資源 ( 雖然小弟測試，sh 已經被拿掉..基本上算是安全的 )。但所以如果希望能將權限分離，可以參考<a href="https://azure.github.io/aad-pod-identity/docs/configure/deploy_aad_pod_dedicated_sp/">官網的這篇</a>，目前小弟還沒實作，未來如果有實作，會在更新。</p>
 <h2>參考資料</h2>
 <ul>
